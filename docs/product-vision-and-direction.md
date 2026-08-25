@@ -89,6 +89,22 @@ unchanged at the same line numbers reported for six reviews running.
   filenames; `src/automation/artifactAutopush.ts:53` still runs a blanket
   `git("add", "-A", "--", "artifacts")` with no `materials/` exclusion. No
   purge has ever been attempted against this leak.
+- **New this review — a third contributing mechanism, found by direct
+  reproduction, not just code reading:** running `npm run test` in this
+  sandbox generated **29 new `resume-*.pdf`-shaped files** and 32 new
+  `artifacts/applications/*/` directories in the *tracked* `artifacts/` tree
+  as a side effect of fixture-based ATS tests (`chrome-headless-shell`
+  missing meant most of these tests failed, but the fixture harness writes
+  its artifacts to disk before the browser launch fails). These were
+  untracked working-tree files this review discarded (`git checkout --
+  artifacts/ && git clean -fd artifacts/`) rather than committing — but it
+  means **any contributor or CI job that runs the test suite against a
+  checkout with `artifacts/` unignored is a fourth path to this leak**,
+  independent of `ARTIFACT_AUTOPUSH_ENABLED` and independent of a manual
+  `git add`. This sharpens the fix: the missing piece isn't just the
+  autopush exclusion, it's that `artifacts/applications/` (or at minimum
+  `**/materials/`) isn't gitignored at all, so test output and real
+  application runs land in the same tracked tree by construction.
 - **`docs/current-state-and-phase56.md` is still wrong** — line 179 still
   reads "The live discovery path has never produced a job," still
   contradicted by both auto-cycle artifacts and the 08-19 Paylocity live-fill
@@ -229,7 +245,7 @@ Severity reflects blast radius and reversibility, not effort to fix.
 
 | Severity | Repo | Risk | Why it matters |
 | --- | --- | --- | --- |
-| **Critical** | jobright | **Seventh consecutive review finding this unfixed.** `ARTIFACT_AUTOPUSH_ENABLED` plus manual operator commits have pushed the operator's real resume PDFs to this public repo since 2026-08-08: **396 leaked `materials/resume-*.pdf` paths**, unchanged this cycle only because zero commits landed in the repo over the past two days. Both root-cause code locations (`artifactScan.ts:26` regex, `artifactAutopush.ts:53` no-exclusion `git add -A`) are unchanged since first found 08-11. No purge has ever been attempted. | This is the single longest-standing, actively-worsening (whenever the repo is active) item across both repos. The fix is small and has been specified identically for seven review cycles running without being picked up. |
+| **Critical** | jobright | **Seventh consecutive review finding this unfixed, and this review found a fourth contributing path by direct reproduction:** `ARTIFACT_AUTOPUSH_ENABLED` plus manual operator commits have pushed the operator's real resume PDFs to this public repo since 2026-08-08 (396 leaked `materials/resume-*.pdf` paths, unchanged this cycle only because zero commits landed in two days) — and simply running `npm run test` in a checkout with `artifacts/` untracked-but-not-gitignored writes 29 more resume-PDF-shaped files straight into the tracked tree, no autopush or manual commit required. Both original root-cause code locations (`artifactScan.ts:26` regex, `artifactAutopush.ts:53` no-exclusion `git add -A`) are unchanged since first found 08-11. No purge has ever been attempted. | This is the single longest-standing, actively-worsening (whenever the repo is active) item across both repos, and it now has a fourth reproduction path (any test run) beyond the three already documented (autopush, manual commit, feature-dev commit). The real missing fix is a `.gitignore` entry for `artifacts/applications/**/materials/`, not just an autopush exclusion — that closes all four paths at once. |
 | **Critical** | tSearch | `profiles/`/`backup/` real-people LinkedIn PII (name, LinkedIn URL, photo URL, school, degree) is untracked from the current tree but still fully present and fetchable in git history on this public repo — re-verified directly this review (`git cat-file -e 700e2f6:profiles/madanva/profile.json` still resolves). No purge has been attempted since the finding was first raised. | Ninth review in a row confirming this is unchanged: a live public exposure of real third-party people's data, not a hypothetical. `git filter-repo` + force-push + collaborator re-clone is still the concrete, unexecuted unblock. |
 | **High** | jobright | `docs/current-state-and-phase56.md` remains actively contradicted by the repo's own state (still says live discovery "has never produced a job") while genuine live-fill evidence (a real Paylocity session, 08-19) sits undocumented in code comments. Eighth review in a row flagging the discovery-status line specifically. | An operator or future agent trusting these docs would materially misjudge both what's broken (discovery) and what's actually been proven live. The fix is doc edits, not new code. |
 | **High** | jobright | `auto:cycle` + a standing `.env` + a scheduled task remains a genuinely unattended fill-and-submit operating mode with no per-run human click and no time-boxed re-arm gate, unchanged since 08-11. Whether `operator-guide.md` §17b's loop can self-merge its own gated PR under a "standing operator grant" is still unconfirmed either way from commit metadata. | Two open, deliberate product decisions bundled in one surface: whether unattended real-submission automation needs an additional standing-authorization gate, and whether the loop's PR-merge step is human-in-the-loop or self-authorizing. |
