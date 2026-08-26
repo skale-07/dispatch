@@ -257,6 +257,10 @@ describe("runOutreachPipeline (UNIT_CONFIRMED)", () => {
       db,
       refs: [JOB_ID],
       deps: {
+        // The pipeline builds its LLM client eagerly (a keyless run must
+        // refuse loudly before touching any job) — so even this
+        // enrich-only test has to stub it, or the gate needs a real key.
+        makeClient: stubClient,
         enrichJob: async () => {
           throw new Error("AUTH_REQUIRED: JobRight session expired");
         },
