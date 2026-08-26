@@ -5,6 +5,7 @@ import {
   isAnswerableScreenerItem,
   ScreenerAnswerCard,
 } from "./ScreenerAnswerCard";
+import { buildHandoffBrief, isHandoffBriefKind } from "../lib/handoffBrief";
 
 /**
  * Kind-dispatched resolution, mirroring the server's action matrix. The
@@ -136,6 +137,22 @@ export function ReviewActionPanel({
           <a href={wallUrl} target="_blank" rel="noreferrer">
             Open the page to solve it ↗
           </a>
+        </p>
+      ) : null}
+
+      {isHandoffBriefKind(item.kind) ? (
+        <p style={{ margin: "0 0 0.6rem" }}>
+          <button
+            onClick={() => {
+              void navigator.clipboard
+                .writeText(buildHandoffBrief(item))
+                .then(() => setResult("handoff brief copied — paste it to your browser agent"))
+                .catch(() => setError("could not copy — clipboard unavailable"));
+            }}
+            disabled={busy}
+          >
+            Copy brief for a browser agent
+          </button>
         </p>
       ) : null}
 

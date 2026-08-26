@@ -1736,3 +1736,20 @@ possible:
   interstitial), whether the run paused and whether you cleared it. No
   candidate data. The improvement loop uses this to answer "where do we
   actually hit CAPTCHAs" instead of guessing.
+
+## 23. Handing a parked wall to your browser agent
+
+Some parks are fastest to finish by driving the page yourself with a
+browser-embedded agent (e.g. Claude in Chrome) — you're signed in as
+yourself, on your own cookies, and the agent works the live form while
+you watch. On `AUTH_REQUIRED`, `UNSUPPORTED_ATS`, and manual
+required-questions parks, the console's review panel offers **Copy brief
+for a browser agent**: one paste gives the agent the page, the blocker,
+the still-unanswered questions (labels only — never your answers), and
+the house rules — ask before inventing anything, leave demographic /
+self-ID questions alone, report CAPTCHAs instead of attempting them, and
+stop before Submit so you review.
+
+Deliberately absent on `CAPTCHA_REQUIRED`: a challenge is yours to solve,
+not any agent's — that park keeps only "Open the page to solve it" and
+the requeue action (§22).
