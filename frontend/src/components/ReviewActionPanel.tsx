@@ -117,10 +117,27 @@ export function ReviewActionPanel({
     }
   };
 
+  // C2: a wall park is resolved by a human ON the page — hand them the
+  // page. The URL comes from the park's own payload.
+  const wallUrl =
+    (item.kind === "CAPTCHA_REQUIRED" || item.kind === "AUTH_REQUIRED") &&
+    typeof item.payload?.["url"] === "string" &&
+    (item.payload["url"] as string).startsWith("https://")
+      ? (item.payload["url"] as string)
+      : null;
+
   return (
     <div className="stack-sm">
       {error ? <div className="banner danger">{error}</div> : null}
       {result ? <div className="banner ok">{result}</div> : null}
+
+      {wallUrl ? (
+        <p style={{ margin: "0 0 0.6rem" }}>
+          <a href={wallUrl} target="_blank" rel="noreferrer">
+            Open the page to solve it ↗
+          </a>
+        </p>
+      ) : null}
 
       {item.kind === "ESSAY" && essayFields.length > 0 ? (
         <div style={{ display: "grid", gap: "0.5rem", marginBottom: "0.75rem" }}>
