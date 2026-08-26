@@ -15,7 +15,7 @@ import { upsertContact } from "../../src/contacts/repository.js";
 import { listOpenReviewItems } from "../../src/queue/reviewItems.js";
 import type { EmailLlmClient } from "../../src/contacts/emailLlm.js";
 import type { GeneratedEmail } from "../../src/contacts/emailGenerate.js";
-import { NON_ALUM_SUBJECT_PREFIX } from "../../src/contacts/emailGenerate.js";
+import { NON_ALUM_SUBJECT_PREFIX, LINKEDIN_PROFILE_URL } from "../../src/contacts/emailGenerate.js";
 import { personaSchema, type Persona } from "../../src/candidate/personas.js";
 // Import from the isolated subsystem directly — the worker only delegates.
 import { runOutreachTail } from "../../src/outreach/outreachTail.js";
@@ -60,7 +60,7 @@ const testPersona: Persona = personaSchema.parse({
 
 function validOutput(): GeneratedEmail {
   return {
-    subject: `${NON_ALUM_SUBJECT_PREFIX}Acme Robotics / SWE Intern`,
+    subject: `${NON_ALUM_SUBJECT_PREFIX}Acme Robotics SWE Intern`,
     used_alum_subject: false,
     persona_projects_used: [
       "Deterministic Application Pipeline",
@@ -69,18 +69,20 @@ function validOutput(): GeneratedEmail {
     body_text: [
       "Hi Jordan,",
       "",
-      "Hope you're doing well. My name is Shubham Kale, and I'm a rising sophomore at Johns Hopkins studying Applied Math & Statistics and Economics. I'm interested in the SWE Intern role at Acme Robotics and saw your experience as a Software Engineer there, so I wanted to reach out.",
+      "Hope you're doing well. My name is Shubham Kale, and I'm a sophomore at Johns Hopkins studying Applied Math & Statistics and Economics. I recently applied to Acme Robotics's SWE Intern role and saw that you're a Software Engineer at Acme Robotics. I'd really appreciate 15 minutes sometime in the next week to hear about your experience at Acme Robotics and how you think someone with my background should approach the process.",
       "",
-      "A few quick points:",
-      "- I've built Deterministic Application Pipeline, using TypeScript and SQLite, which seems relevant to platform work.",
-      "- I've also worked on Volatility Forecasting Model, focused on statistical evaluation.",
-      "- What stood out to me about Acme Robotics is the robotics platform, especially the control-stack work.",
+      "A few quick points on my background:",
+      "- I own Deterministic Application Pipeline, including TypeScript, SQLite, and Playwright.",
+      "- I also built Volatility Forecasting Model, focused on statistical evaluation.",
       "",
-      "Would really appreciate 15 minutes sometime in the coming weeks to learn more about your work.",
+      "If my background seems relevant, I'd also be very grateful for a referral for the SWE Intern role.",
       "",
       "Best,",
       "Shubham Kale",
-      "github.com/skale-07",
+      LINKEDIN_PROFILE_URL,
+      "Applied Mathematics, Economics, & Public Health",
+      "Johns Hopkins University",
+      "Hodson Trust Scholar",
     ].join("\n"),
   };
 }

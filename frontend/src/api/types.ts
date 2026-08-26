@@ -124,7 +124,8 @@ export type RunKind =
   | "automation"
   | "contacts"
   | "email"
-  | "gmail_draft";
+  | "gmail_draft"
+  | "outreach";
 
 export type RunRecord = {
   id: string;

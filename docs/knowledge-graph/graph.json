@@ -488,25 +488,32 @@
       "id": "outreach",
       "label": "Contacts & outreach tail",
       "layer": "outreach",
-      "purpose": "Post-submit: extract insider contacts, rank, generate a referral email (LLM, deterministically re-validated), create an Outlook draft. Never sends.",
+      "purpose": "Referral outreach, drafts only: (1) apply-yourself pipeline — enqueue a JobRight link, insider-email triage, generate, Gmail draft, without walking apply states; (2) post-submit tail — extract contacts, rank, generate, Outlook draft. Never sends.",
       "paths": [
         "src/contacts",
         "src/outreach"
       ],
       "key_files": {
         "src/contacts/extractContacts.ts": "JobRight insider-connection extraction",
-        "src/contacts/emailGenerate.ts": "LLM email generation + validation; COMPLETED apps still generate (no state rewind)",
-        "src/outreach/outreachTail.ts": "contacts -> email -> draft pipeline tail"
+        "src/contacts/emailGenerate.ts": "LLM email generation + validation; allowed on any apply state; post-submit CONTACTS_EXTRACTED still advances EMAIL_*; QUEUED is never promoted",
+        "src/contacts/insiderTriage.ts": "Insider Connection email lookup (LINKEDIN_ENRICHMENT_ENABLED; never clicks Start Email)",
+        "src/outreach/outreachTail.ts": "post-submit contacts -> email -> Outlook draft",
+        "src/outreach/outreachPipeline.ts": "apply-yourself: enqueue -> enrich -> insider -> generate -> Gmail draft",
+        "src/outreach/gmailDrafts.ts": "Gmail compose + Save & close; Send is a forbidden selector"
       },
       "key_exports": {
         "src/outreach/outreachTail.ts": [
           "runOutreachTail"
+        ],
+        "src/outreach/outreachPipeline.ts": [
+          "runOutreachPipeline"
         ]
       },
       "gates": [
         "EMAIL_GENERATION_ENABLED",
         "OUTLOOK_DRAFTS_ENABLED",
-        "LINKEDIN_ENRICHMENT_ENABLED"
+        "LINKEDIN_ENRICHMENT_ENABLED",
+        "GMAIL_DRAFTS_ENABLED"
       ]
     },
     {
@@ -578,7 +585,7 @@
         "src/console/server.ts": "HTTP server + routes wiring",
         "src/console/flagCeiling.ts": "GATED_FLAG_KEYS + composeChildEnv (ceiling law)",
         "src/console/runManager.ts": "single-active-run child process manager",
-        "src/console/runner.ts": "child entry: kind -> CLI command",
+        "src/console/runner.ts": "child entry: kind -> domain function (pipeline, nav, submit, discover, automation, contacts, email, gmail_draft, outreach)",
         "src/console/runTimeline.ts": "self-contained HTML run timeline artifact"
       },
       "key_exports": {

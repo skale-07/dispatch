@@ -32,6 +32,7 @@ drafts only, enforced by CI-level banned-identifier checks.
 8. [Review queue + uncertain submissions](#8-review)
 9. [Contacts + persona setup](#9-contacts-and-personas)
 10. [Generate the outreach email (LLM)](#10-email-generation)
+    - [Apply-yourself outreach (console)](#apply-yourself-outreach-console)
 11. [Outlook draft (create + verify)](#11-outlook-drafts)
 12. [Dashboard](#12-dashboard)
 13. [Pipeline driver + retry](#13-pipeline)
@@ -438,17 +439,19 @@ It is a spend surface, so it is fail-closed:
 npm run email:generate -- --application <uuid> --persona swe
 ```
 
-What the model gets: your template (`prompts/outreach-email.v2.md` — your
-2026-08-18 version), the persona JSON, the contact, and the job context
-including the posting description (grounds `[team/product/background]`).
-What it cannot do: every rule is deterministically re-checked after
-generation — subject must start `JHU sophomore interested in ` and name the
-company, every project bullet must name a real persona project that appears
-in the body, no referral claims, no school ties for non-alums, no unfilled
-`[bracket]` placeholders, signature + `github.com/skale-07` present, and an
-email-only contact (from `contacts:insider`) must be greeted exactly
-`Hi there,` — a guessed name counts as an invented fact. Any violation
-→ `REJECTED`: row recorded, review item opened, **no draft possible**, exit 3.
+What the model gets: your template (`prompts/outreach-email.v3.md` — your
+2026-08-25 version), the persona JSON, the contact, and the job context
+including the posting description. What it cannot do: every rule is
+deterministically re-checked after generation — subject must start
+`Hopkins sophomore interested in ` and name the company, every project
+bullet must name a real persona project that appears in the body, no claim
+that someone referred you (asking *for* a referral is required), no school
+ties for non-alums, no unfilled `[bracket]` placeholders, signature +
+LinkedIn URL (`https://www.linkedin.com/in/shubham-kale-8ab044288/`) plus
+the three signature lines, and an email-only contact (from
+`contacts:insider`) must be greeted exactly `Hi there,` — a guessed name
+counts as an invented fact. Any violation → `REJECTED`: row recorded,
+review item opened, **no draft possible**, exit 3.
 
 Expected: `validation_status: "VALIDATED"` with the full email printed for
 your inspection. If the application is still in the outreach states it
@@ -474,15 +477,40 @@ npm run gmail:draft     -- --application <uuid> --contact <contact_id> --headed 
 ```
 
 `gmail:draft` opens your signed-in session (CDP debug Chrome preferred,
-saved storage state otherwise), clicks **Compose**, fills To / Subject /
-Body from the VALIDATED generation, and clicks **Save & close** — Gmail
-autosaves the draft. **Send is a forbidden selector and is never clicked;
+saved storage state otherwise), clicks **Compose**, fills To / Subject from
+the VALIDATED generation, inserts the body as HTML so **Shubham Kale** is a
+hyperlink to your LinkedIn, and clicks **Save & close** — Gmail autosaves
+the draft. **Send is a forbidden selector and is never clicked;
 nothing in this repo can dispatch mail.** The run then verifies by opening
 Drafts search (`in:draft to:<address>`) and checking the subject appears;
 the result row lands in `gmail_drafts` (one per application+recipient —
 re-running a verified draft is a no-op). You review and hit Send yourself,
 from your own Gmail. Selector basis is live-`UNVERIFIED` until your first
 headed run.
+
+### Apply-yourself outreach (console)
+
+You apply on JobRight. Dispatch only drafts the emails. One prompted click,
+not an autonomous worker — paste a JobRight link on **Outreach** (primary
+nav) and it enqueues the job, finds insider emails, writes the template,
+and saves Gmail drafts. The application stays `QUEUED` (apply state is
+untouched) and is excluded from auto-apply so an armed session cannot
+submit it.
+
+```powershell
+# .env: LINKEDIN_ENRICHMENT_ENABLED=true, EMAIL_GENERATION_ENABLED=true,
+#       GMAIL_DRAFTS_ENABLED=true, plus an LLM key
+npm run console
+# then: Outreach → paste https://jobright.ai/jobs/info/<id> → Run outreach
+# or:
+npm run outreach -- --jobright https://jobright.ai/jobs/info/<hex> --headed
+```
+
+Debug Chrome must be signed into JobRight
+**and** Gmail (`npm run chrome:debug:jobright`). Nothing sends. Review the
+Drafts folder yourself.
+
+The three buttons on an application's Outreach card remain for retries.
 
 ## 11. Outlook drafts
 
@@ -822,11 +850,12 @@ worked, and submissions in plain words, plus a Stop button. Below it,
 language ("Answer 1 written question — Cohere — a draft is ready for
 you"), each linking straight to the application. Submitted applications
 and a setup checklist (JobRight login, Outlook, applying on/off) fill the
-rest of the page. The sidebar shows only Home / Needs you / Applications
-/ Settings; Overview, Runs, Enqueue, and Fill outcomes — the
+rest of the page. The sidebar shows Home / Needs you / Applications / **Outreach** /
+Settings; Overview, Runs, Enqueue, and Fill outcomes — the
 operator-grade pages, unchanged — live under a collapsed **advanced**
 group. Custom session limits (duration/caps, arm-only) remain on
-Overview's arm card.
+Overview's arm card. **Outreach** is the apply-yourself email pipeline
+(paste a JobRight link; drafts only) — see §10.
 
 ```powershell
 npm run frontend:install     # once

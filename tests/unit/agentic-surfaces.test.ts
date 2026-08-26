@@ -212,5 +212,11 @@ describe("agentic surfaces (UNIT_CONFIRMED)", () => {
     const ranked = rankOutreachContacts(contacts, "Platform Engineering Intern");
     expect(ranked.map((c) => c.name)).toEqual(["B", "A", "D"]);
     expect(scoreContact(contacts[2]!, "x")).toBe(-1);
+    expect(
+      scoreContact(
+        { name: null, email: "e@x.com", title: null, source_category: "email" },
+        "x",
+      ),
+    ).toBeGreaterThan(0);
   });
 });

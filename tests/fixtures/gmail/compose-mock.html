@@ -22,11 +22,28 @@
 <script>
   window.__sendClicked = false;
   window.__drafts = [];
+  // Mirror Gmail Trusted Types: innerHTML assignment on the compose
+  // body throws. Draft fill must use DOM nodes (createElement / textContent).
+  (function () {
+    const el = document.getElementById('body');
+    const desc = Object.getOwnPropertyDescriptor(Element.prototype, 'innerHTML');
+    if (!el || !desc || !desc.get) return;
+    const nativeGet = desc.get;
+    Object.defineProperty(el, 'innerHTML', {
+      configurable: true,
+      enumerable: true,
+      get() { return nativeGet.call(this); },
+      set() {
+        throw new TypeError("Failed to set the 'innerHTML' property on 'Element': This document requires 'TrustedHTML' assignment.");
+      },
+    });
+  })();
   function saveDraft() {
     const d = {
       to: document.getElementById('to').value,
       subject: document.getElementById('subject').value,
       body: document.getElementById('body').innerText,
+      bodyHtml: document.getElementById('body').innerHTML,
     };
     window.__drafts.push(d);
     document.getElementById('composeWin').classList.remove('open');

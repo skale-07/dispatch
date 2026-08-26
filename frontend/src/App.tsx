@@ -9,6 +9,7 @@ import { FillOutcomesPage } from "./pages/FillOutcomesPage";
 import { RunsPage } from "./pages/RunsPage";
 import { RunDetailPage } from "./pages/RunDetailPage";
 import { EnqueuePage } from "./pages/EnqueuePage";
+import { OutreachPage } from "./pages/OutreachPage";
 import { SettingsPage } from "./pages/SettingsPage";
 import { useTheme } from "./hooks/useTheme";
 import { formatCountdown, useArmStatus } from "./hooks/useArmStatus";
@@ -19,16 +20,17 @@ import { DispatchMark } from "./components/DispatchMark";
 import { Icon } from "./components/Icon";
 
 /**
- * Navigation is split by audience. The primary set answers the three
- * questions any user has ("what's happening / what needs me / what's in
- * flight"); everything operator-grade lives behind one collapsible
- * "advanced" group so a non-technical user never has to learn what a
- * "fill outcome" is to use the product.
+ * Navigation is split by audience. The primary set answers what is
+ * happening, what needs me, what is in flight, plus Outreach (apply
+ * yourself; Dispatch only drafts emails). Operator-grade pages live
+ * behind one collapsible "advanced" group so a non-technical user never
+ * has to learn what a "fill outcome" is to use the product.
  */
 const PRIMARY_NAV = [
   { to: "/", label: "Home", end: true },
   { to: "/review", label: "Needs you", end: false },
   { to: "/applications", label: "Applications", end: false },
+  { to: "/outreach", label: "Outreach", end: false },
   { to: "/settings", label: "Settings", end: false },
 ];
 
@@ -146,6 +148,7 @@ export function App(): JSX.Element {
           <Route path="/runs/:id" element={<RunDetailPage />} />
           <Route path="/review" element={<ReviewPage />} />
           <Route path="/enqueue" element={<EnqueuePage />} />
+          <Route path="/outreach" element={<OutreachPage />} />
           <Route path="/fill-outcomes" element={<FillOutcomesPage />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route

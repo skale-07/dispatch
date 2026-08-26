@@ -13,6 +13,10 @@ Failure terminals: `FAILED_RETRYABLE`, `FAILED_FINAL`.
 - SQLite is authoritative; `state.json` is an export.
 - Uncertain submission confirmation creates a `review_items` row and marks the idempotency key `uncertain` — auto-resubmit blocked.
 - Leases prevent two runs from mutating the same application concurrently.
+- **Apply-yourself outreach** (`runOutreachPipeline`, console Outreach page)
+  does not walk `SUBMITTED → CONTACTS_*`. Those jobs stay `QUEUED`;
+  contacts / generated emails / Gmail drafts live in their own tables.
+  The post-submit `CONTACTS_EXTRACTING` chain is unchanged.
 
 ## Uncertain-submission resolution (operator only)
 

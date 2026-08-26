@@ -18,8 +18,10 @@ human in the loop while an operator has ARMED a session. Jobs enter via
 **navigation** (deterministic phases, then a browser-use **agent**), are
 filled and submitted by the **applications** engine through per-vendor
 **ATS adapters** (plus a generic adapter for any https employer form),
-with **verification** handling portal sign-in and emailed codes, and an
-**outreach** tail drafting (never sending) referral emails. Everything
+with **verification** handling portal sign-in and emailed codes, and
+**outreach** drafting (never sending) referral emails — either as a
+post-submit tail or as an apply-yourself pipeline from a JobRight link.
+Everything
 moves through the **queue** state machine in SQLite; **pipeline** steps
 one app, the **automation** worker loops many under an armed budget; the
 **console** and **CLI** are the operator surfaces. Every mutation sits
@@ -87,6 +89,9 @@ DISCOVERED → QUEUED → MATERIALS_GENERATING → RESUME_DOWNLOADED
   → ATS_DETECTION         (detectAtsFromUrl: vendor first, generic last)
   → inspection → fill     (runAtsLiveFill: gate → portal auth → plan → fill → verify → upload)
   → READY_TO_SUBMIT → SUBMITTING → SUBMITTED → outreach tail → COMPLETED
+
+Apply-yourself outreach (console Outreach / `npm run outreach`) does **not**
+use that tail: the application stays `QUEUED`.
 ```
 
 Full edges: `docs/state-machine.md`. Parks: `AUTH_REQUIRED`,
@@ -109,7 +114,7 @@ Armed sessions run sweeps that un-park what has become fillable
 | A screener answered wrong | `src/candidate/screenerMatch.ts` resolution tiers; plan entry `reason` names the basis |
 | Add an ATS vendor | Copy `src/ats/workable/` shape: urlValidation + selectors + v1 + submission; register in `atsBindings.ts` + `urlValidationDispatch.ts`; adapter contract in `src/ats/adapter.ts` |
 | Add a capability flag | `src/config/env.ts` + `flagCeiling.ts` + `fillEnvIsolation.ts` + CLAUDE.md **and** `.cursor/rules/house-rules.mdc` (keep identical) + `.env.example` |
-| Change CLI behavior | Update `docs/operator-guide.md` in the same commit (operator contract) |
+| Change CLI / console behavior | Update `docs/operator-guide.md` in the same commit (operator contract) |
 | What may I never do? | `graph.json` → `invariants`; CLAUDE.md safety section |
 
 ## Trust model (why the gates are where they are)

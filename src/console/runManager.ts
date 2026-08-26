@@ -63,10 +63,12 @@ export type RunKind =
   | "automation"
   // X6 console-first outreach: insider-email triage, per-contact email
   // generation, and Gmail draft creation — each a bounded child run so no
-  // CLI is ever required for the outreach pipeline.
+  // CLI is ever required for the outreach pipeline. `outreach` chains all
+  // three for apply-yourself JobRight links (never fill/submit).
   | "contacts"
   | "email"
-  | "gmail_draft";
+  | "gmail_draft"
+  | "outreach";
 export type RunStatus =
   | "pending"
   | "running"

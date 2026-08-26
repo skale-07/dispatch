@@ -184,5 +184,25 @@ describe("console outreach + extension surface (UNIT_CONFIRMED)", () => {
     });
     expect(noFlag.statusCode).toBe(403);
     expect(noFlag.body).toMatch(/GMAIL_DRAFTS_ENABLED/);
+
+    const outreachNoRefs = await invoke(h, "POST", "/api/runs", {
+      token,
+      body: JSON.stringify({ kind: "outreach", params: {}, flags: {} }),
+    });
+    expect(outreachNoRefs.statusCode).toBe(400);
+    expect(outreachNoRefs.body).toMatch(/params\.refs/);
+
+    const outreachNoFlags = await invoke(h, "POST", "/api/runs", {
+      token,
+      body: JSON.stringify({
+        kind: "outreach",
+        params: { refs: ["6a76229767a1ad0bc53c8e9f"] },
+        flags: {},
+      }),
+    });
+    expect(outreachNoFlags.statusCode).toBe(403);
+    expect(outreachNoFlags.body).toMatch(/LINKEDIN_ENRICHMENT_ENABLED/);
+    expect(outreachNoFlags.body).toMatch(/EMAIL_GENERATION_ENABLED/);
+    expect(outreachNoFlags.body).toMatch(/GMAIL_DRAFTS_ENABLED/);
   });
 });

@@ -20,6 +20,7 @@ import { listContacts, upsertContact } from "../../src/contacts/repository.js";
 import {
   ALUM_SUBJECT_PREFIX,
   NON_ALUM_SUBJECT_PREFIX,
+  LINKEDIN_PROFILE_URL,
   assertEmailGenerationAllowed,
   buildEmailPrompt,
   generateEmailForContact,
@@ -85,8 +86,11 @@ function contextFor(sourceCategory: string): EmailContext {
 
 function validOutput(sourceCategory: string): GeneratedEmail {
   const alum = sourceCategory === "school";
+  const why = alum
+    ? "I recently applied to Acme Robotics's SWE Intern role and saw that you're a JHU alum now working as a Software Engineer at Acme Robotics. I'd really appreciate 15 minutes sometime in the next week to hear about your experience at Acme Robotics and how you think someone with my background should approach the process."
+    : "I recently applied to Acme Robotics's SWE Intern role and saw that you're a Software Engineer at Acme Robotics. I'd really appreciate 15 minutes sometime in the next week to hear about your experience at Acme Robotics and how you think someone with my background should approach the process.";
   return {
-    subject: `${alum ? ALUM_SUBJECT_PREFIX : NON_ALUM_SUBJECT_PREFIX}Acme Robotics / SWE Intern`,
+    subject: `${alum ? ALUM_SUBJECT_PREFIX : NON_ALUM_SUBJECT_PREFIX}Acme Robotics SWE Intern`,
     used_alum_subject: alum,
     persona_projects_used: [
       "Deterministic Application Pipeline",
@@ -95,18 +99,20 @@ function validOutput(sourceCategory: string): GeneratedEmail {
     body_text: [
       "Hi Jordan,",
       "",
-      "Hope you're doing well. My name is Shubham Kale, and I'm a rising sophomore at Johns Hopkins studying Applied Math & Statistics and Economics. I'm interested in the SWE Intern role at Acme Robotics and saw your experience as a Software Engineer there, so I wanted to reach out.",
+      `Hope you're doing well. My name is Shubham Kale, and I'm a sophomore at Johns Hopkins studying Applied Math & Statistics and Economics. ${why}`,
       "",
-      "A few quick points:",
-      "- I've built Deterministic Application Pipeline, using TypeScript and SQLite, which seems relevant to platform work.",
-      "- I've also worked on Volatility Forecasting Model, focused on statistical evaluation.",
-      "- What stood out to me about Acme Robotics is the robotics platform, especially the control-stack work.",
+      "A few quick points on my background:",
+      "- I own Deterministic Application Pipeline, including TypeScript, SQLite, and Playwright.",
+      "- I also built Volatility Forecasting Model, focused on statistical evaluation.",
       "",
-      "Would really appreciate 15 minutes sometime in the coming weeks to learn more about your work.",
+      "If my background seems relevant, I'd also be very grateful for a referral for the SWE Intern role.",
       "",
       "Best,",
       "Shubham Kale",
-      "github.com/skale-07",
+      LINKEDIN_PROFILE_URL,
+      "Applied Mathematics, Economics, & Public Health",
+      "Johns Hopkins University",
+      "Hodson Trust Scholar",
     ].join("\n"),
   };
 }
@@ -214,8 +220,9 @@ describe("contacts persistence + extraction run (UNIT/FIXTURE)", () => {
 describe("outreach template + prompt (UNIT_CONFIRMED)", () => {
   it("loads the real template (placeholder is gone)", () => {
     const t = loadOutreachTemplate();
-    expect(t).toContain("JHU sophomore interested in");
+    expect(t).toContain("Hopkins sophomore interested in");
     expect(t).toContain("Shubham Kale");
+    expect(t).toContain(LINKEDIN_PROFILE_URL);
   });
 
   it("fails closed on a placeholder template", () => {
@@ -236,7 +243,7 @@ describe("outreach template + prompt (UNIT_CONFIRMED)", () => {
       template: loadOutreachTemplate(),
       context: contextFor("beyond"),
     });
-    expect(prompt.system).toContain("Never claim a referral");
+    expect(prompt.system).toContain("Never claim you were referred");
     expect(prompt.system).toContain("Output schema");
     expect(prompt.user).toContain("Jordan Rivera");
     expect(prompt.user).toContain("Volatility Forecasting Model");
@@ -259,7 +266,7 @@ describe("deterministic email validation (UNIT_CONFIRMED)", () => {
     ).toBe(true);
   });
 
-  it("v2: subject prefix is uniform; the alum METADATA flag still must match", () => {
+  it("v3: subject prefix is uniform; the alum METADATA flag still must match", () => {
     // The operator's v2 template uses one subject for every contact, so a
     // school-flavored output against a beyond contact fails only on the
     // used_alum_subject metadata — not on the (identical) prefix.
@@ -271,13 +278,10 @@ describe("deterministic email validation (UNIT_CONFIRMED)", () => {
     expect(r.violations.join(" ")).toMatch(/used_alum_subject/);
   });
 
-  it("v2: leftover [bracket] placeholders and a missing github link reject", () => {
+  it("v3: leftover [bracket] placeholders and a missing LinkedIn URL reject", () => {
     const unfilled = {
       ...validOutput("beyond"),
-      body_text: validOutput("beyond").body_text.replace(
-        "Acme Robotics is the robotics platform",
-        "Acme Robotics is [specific product/team observation]",
-      ),
+      body_text: `${validOutput("beyond").body_text}\n[team/product/background]`,
     };
     const r1 = validateGeneratedEmail({
       output: unfilled,
@@ -288,7 +292,7 @@ describe("deterministic email validation (UNIT_CONFIRMED)", () => {
     const noLink = {
       ...validOutput("beyond"),
       body_text: validOutput("beyond").body_text.replace(
-        "\ngithub.com/skale-07",
+        `\n${LINKEDIN_PROFILE_URL}`,
         "",
       ),
     };
@@ -296,10 +300,10 @@ describe("deterministic email validation (UNIT_CONFIRMED)", () => {
       output: noLink,
       context: contextFor("beyond"),
     });
-    expect(r2.violations.join(" ")).toMatch(/github\.com\/skale-07/);
+    expect(r2.violations.join(" ")).toMatch(/linkedin\.com\/in\/shubham-kale/);
   });
 
-  it("v2: a nameless contact must be greeted 'Hi there,' — no guessed names", () => {
+  it("v3: a nameless contact must be greeted 'Hi there,' — no guessed names", () => {
     const namelessCtx: EmailContext = {
       ...contextFor("email"),
       contact: { ...contextFor("email").contact, name: null },
@@ -368,6 +372,18 @@ describe("deterministic email validation (UNIT_CONFIRMED)", () => {
     expect(
       validateGeneratedEmail({ output: tie, context: contextFor("beyond") })
         .valid,
+    ).toBe(false);
+
+    const inventedAlum = validOutput("beyond");
+    inventedAlum.body_text = inventedAlum.body_text.replace(
+      "you're a Software Engineer at Acme Robotics",
+      "you're a JHU alum now working as a Software Engineer at Acme Robotics",
+    );
+    expect(
+      validateGeneratedEmail({
+        output: inventedAlum,
+        context: contextFor("beyond"),
+      }).valid,
     ).toBe(false);
   });
 });
@@ -454,7 +470,7 @@ describe("generateEmailForContact with stub client (UNIT_CONFIRMED, no network)"
     });
     expect(result.validation_status).toBe("VALIDATED");
     expect(result.model).toBe("stub-model-1");
-    expect(result.subject).toContain("JHU sophomore interested in");
+    expect(result.subject).toContain("Hopkins sophomore interested in");
     expect(result.application_state).toBe("EMAIL_GENERATED");
 
     const row = db
@@ -527,5 +543,20 @@ describe("generateEmailForContact with stub client (UNIT_CONFIRMED, no network)"
     expect(result.validation_status).toBe("VALIDATED");
     expect(result.application_state).toBe("COMPLETED");
     expect(getApplication(db, applicationId)?.state).toBe("COMPLETED");
+  });
+
+  it("QUEUED apps generate without walking into post-submit outreach states", async () => {
+    db.prepare(`UPDATE applications SET state = 'QUEUED' WHERE id = ?`).run(
+      applicationId,
+    );
+    const result = await generateEmailForContact({
+      db,
+      applicationId,
+      contactId,
+      client: new StubClient(validOutput("beyond")),
+    });
+    expect(result.validation_status).toBe("VALIDATED");
+    expect(result.application_state).toBe("QUEUED");
+    expect(getApplication(db, applicationId)?.state).toBe("QUEUED");
   });
 });

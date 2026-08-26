@@ -37,6 +37,14 @@ const KIND_MINIMUMS: Record<RunKind, { flags: GatedFlagKey[]; live_mode: boolean
   contacts: { flags: ["LINKEDIN_ENRICHMENT_ENABLED"], live_mode: false },
   email: { flags: ["EMAIL_GENERATION_ENABLED"], live_mode: false },
   gmail_draft: { flags: ["GMAIL_DRAFTS_ENABLED"], live_mode: false },
+  outreach: {
+    flags: [
+      "LINKEDIN_ENRICHMENT_ENABLED",
+      "EMAIL_GENERATION_ENABLED",
+      "GMAIL_DRAFTS_ENABLED",
+    ],
+    live_mode: false,
+  },
 };
 
 function json(res: ServerResponse, status: number, body: unknown): void {
@@ -144,11 +152,12 @@ export function buildRunRoutes(deps: { runManager: RunManager; db: Db }): Route[
           kind !== "automation" &&
           kind !== "contacts" &&
           kind !== "email" &&
-          kind !== "gmail_draft"
+          kind !== "gmail_draft" &&
+          kind !== "outreach"
         ) {
           json(res, 400, {
             error:
-              "kind must be pipeline | nav | submit | discover | automation | contacts | email | gmail_draft",
+              "kind must be pipeline | nav | submit | discover | automation | contacts | email | gmail_draft | outreach",
           });
           return;
         }
@@ -178,6 +187,20 @@ export function buildRunRoutes(deps: { runManager: RunManager; db: Db }): Route[
         ) {
           json(res, 400, { error: `${kind} requires params.application_id` });
           return;
+        }
+        if (kind === "outreach") {
+          const refs = Array.isArray(params["refs"])
+            ? (params["refs"] as unknown[]).filter(
+                (r): r is string => typeof r === "string" && r.trim().length > 0,
+              )
+            : [];
+          if (refs.length === 0) {
+            json(res, 400, {
+              error: "outreach requires params.refs (JobRight URLs or ids)",
+            });
+            return;
+          }
+          params = { ...params, refs: refs.map((r) => r.trim()) };
         }
 
         // Friendly pre-check: does the ceiling even allow this kind with

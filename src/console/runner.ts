@@ -21,6 +21,7 @@ import {
 } from "../contacts/emailGenerate.js";
 import { makeLlmClient } from "../contacts/emailLlm.js";
 import { createGmailDraft } from "../outreach/gmailDrafts.js";
+import { runOutreachPipeline } from "../outreach/outreachPipeline.js";
 
 /** Outreach loops stay bounded — a run never fans past this many contacts. */
 const MAX_EMAIL_GENERATIONS_PER_RUN = 8;
@@ -40,6 +41,7 @@ const CONFIRM_TIMEOUT_MS = 5 * 60 * 1000;
 
 type RunnerArgs = {
   application_id?: string;
+  refs?: string[];
   max_applications?: number;
   headed?: boolean;
   fixture_html?: string;
@@ -66,14 +68,15 @@ async function main(): Promise<void> {
       kind !== "automation" &&
       kind !== "contacts" &&
       kind !== "email" &&
-      kind !== "gmail_draft") ||
+      kind !== "gmail_draft" &&
+      kind !== "outreach") ||
     argsFlag !== "--args" ||
     !argsPath
   ) {
     emit({
       jaa_frame: "error",
       message:
-        "usage: runner <pipeline|nav|submit|discover|automation|contacts|email|gmail_draft> --args <file>",
+        "usage: runner <pipeline|nav|submit|discover|automation|contacts|email|gmail_draft|outreach> --args <file>",
     });
     process.exit(2);
     return;
@@ -246,6 +249,18 @@ async function main(): Promise<void> {
         drafted: results.filter((r) => r.status === "DRAFTED").length,
         results,
       };
+    } else if (kind === "outreach") {
+      const refs = (args.refs ?? []).filter(
+        (r) => typeof r === "string" && r.trim().length > 0,
+      );
+      if (refs.length === 0) {
+        throw new Error("outreach requires refs (JobRight URLs or ids)");
+      }
+      report = await runOutreachPipeline({
+        db,
+        refs,
+        headless: !args.headed,
+      });
     } else {
       if (!args.application_id) throw new Error("submit requires application_id");
       // Own the automation run explicitly so a one-shot console submit does

@@ -11,15 +11,19 @@ import { loadPersona, type Persona } from "../candidate/personas.js";
 import { getContact, type ContactRow } from "./repository.js";
 import { hasLlmKey, LLM_KEY_HINT, type EmailLlmClient } from "./emailLlm.js";
 
-export const OUTREACH_PROMPT_VERSION = "outreach-email.v2";
+export const OUTREACH_PROMPT_VERSION = "outreach-email.v3";
 /**
- * v2 (operator template 2026-08-18): ONE subject form for every contact —
- * "JHU sophomore interested in [Company / Role]". The two exports remain
- * because callers branch on source_category for the metadata flag, but
- * they now carry the same prefix by design.
+ * v3 (operator template 2026-08-25): ONE subject form for every contact —
+ * "Hopkins sophomore interested in [Company] [short role]". The two
+ * prefix exports remain because callers branch on source_category for
+ * the metadata flag, but they carry the same prefix by design.
  */
-export const ALUM_SUBJECT_PREFIX = "JHU sophomore interested in ";
-export const NON_ALUM_SUBJECT_PREFIX = "JHU sophomore interested in ";
+export const ALUM_SUBJECT_PREFIX = "Hopkins sophomore interested in ";
+export const NON_ALUM_SUBJECT_PREFIX = "Hopkins sophomore interested in ";
+
+/** Signature hyperlink in Gmail drafts; must appear verbatim in body_text. */
+export const LINKEDIN_PROFILE_URL =
+  "https://www.linkedin.com/in/shubham-kale-8ab044288/";
 
 const TEMPLATE_PLACEHOLDER = "PASTE_USER_APPROVED_EMAIL_TEMPLATE_HERE";
 
@@ -51,7 +55,7 @@ export function assertEmailGenerationAllowed(): void {
 }
 
 export function loadOutreachTemplate(
-  templatePath = path.join(process.cwd(), "prompts", "outreach-email.v2.md"),
+  templatePath = path.join(process.cwd(), "prompts", "outreach-email.v3.md"),
 ): string {
   if (!fs.existsSync(templatePath)) {
     throw new TemplateNotConfiguredError(templatePath);
@@ -122,6 +126,9 @@ export type EmailValidationResult = {
 const REFERRAL_CLAIMS =
   /referred by|told (?:me )?to contact|suggested (?:that )?i reach out|was introduced/i;
 const ALUM_CLAIMS = /fellow (?:hopkins|blue jay|jhu)|as a fellow/i;
+const NON_SCHOOL_ALUM_MENTION = /(?:jhu|hopkins|johns hopkins)\s+alum/i;
+const SENDER_IS_ALUM =
+  /\bi(?:'m| am) (?:a |an )?(?:jhu|hopkins|johns hopkins)\s+alum/i;
 
 /**
  * Deterministic post-generation checks. The model's output is never trusted:
@@ -170,7 +177,17 @@ export function validateGeneratedEmail(input: {
   if (REFERRAL_CLAIMS.test(output.body_text)) {
     violations.push("body claims a referral/introduction");
   }
-  if (!isAlum && ALUM_CLAIMS.test(output.body_text)) {
+  if (!/\breferral\b/i.test(output.body_text)) {
+    violations.push("body missing the referral ask");
+  }
+  if (SENDER_IS_ALUM.test(output.body_text)) {
+    violations.push("body claims the sender is an alum");
+  }
+  if (
+    !isAlum &&
+    (ALUM_CLAIMS.test(output.body_text) ||
+      NON_SCHOOL_ALUM_MENTION.test(output.body_text))
+  ) {
     violations.push("body claims a school tie for a non-school contact");
   }
   const firstName = context.contact.name?.split(/\s+/)[0] ?? "";
@@ -185,8 +202,20 @@ export function validateGeneratedEmail(input: {
   if (!output.body_text.includes("Shubham Kale")) {
     violations.push("body missing signature");
   }
-  if (!output.body_text.includes("github.com/skale-07")) {
-    violations.push("body missing the github.com/skale-07 signature link");
+  if (!output.body_text.includes(LINKEDIN_PROFILE_URL)) {
+    violations.push(`body missing the ${LINKEDIN_PROFILE_URL} signature link`);
+  }
+  if (!output.body_text.includes("Applied Mathematics, Economics, & Public Health")) {
+    violations.push("body missing the signature majors line");
+  }
+  if (!output.body_text.includes("Johns Hopkins University")) {
+    violations.push("body missing Johns Hopkins University in the signature");
+  }
+  if (!output.body_text.includes("Hodson Trust Scholar")) {
+    violations.push("body missing Hodson Trust Scholar in the signature");
+  }
+  if (!output.body_text.includes("15 minutes")) {
+    violations.push("body missing the 15-minute ask");
   }
   if (/\[[^\]]{1,60}\]/.test(output.body_text) || /\[[^\]]{1,60}\]/.test(output.subject)) {
     violations.push("unfilled [bracket] placeholder left in the email");
@@ -235,22 +264,11 @@ export async function generateEmailForContact(input: {
 
   const app = getApplication(db, applicationId);
   if (!app) throw new Error(`Unknown application: ${applicationId}`);
-  // COMPLETED is the pipeline's skip when EMAIL_GENERATION_ENABLED was
-  // off ("run email:generate manually"). It is terminal — generate
-  // anyway, do not rewind the state machine.
-  const allowed = new Set([
-    "CONTACTS_EXTRACTED",
-    "EMAIL_GENERATING",
-    "EMAIL_GENERATED",
-    "DRAFT_CREATING",
-    "DRAFT_CREATED",
-    "COMPLETED",
-  ]);
-  if (!allowed.has(app.state)) {
-    throw new Error(
-      `Email generation requires CONTACTS_EXTRACTED+ (got ${app.state})`,
-    );
-  }
+  // Apply-yourself outreach runs on QUEUED (and any other pre-submit
+  // state). Progress lives on contacts / email_generations / gmail_drafts
+  // — never promote those apps into CONTACTS_EXTRACTED / EMAIL_*. The
+  // post-submit path still advances CONTACTS_EXTRACTED → EMAIL_GENERATING
+  // below. COMPLETED stays terminal (pipeline skip when the flag was off).
 
   const contact = getContact(db, input.contactId);
   if (!contact || contact.application_id !== applicationId) {

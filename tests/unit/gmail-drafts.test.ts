@@ -7,7 +7,9 @@ import { withFixtureHtmlPage } from "../../src/browser/fixtureSession.js";
 import {
   createGmailDraft,
   draftEmailOnGmailPage,
+  outreachBodyToGmailHtml,
 } from "../../src/outreach/gmailDrafts.js";
+import { LINKEDIN_PROFILE_URL } from "../../src/contacts/emailGenerate.js";
 import {
   closeDatabase,
   migrate,
@@ -30,26 +32,62 @@ const MOCK = fs.readFileSync(
 describe("gmail draft composition (FIXTURE_CONFIRMED)", () => {
   useIsolatedFillEnv("safe");
 
+  it("wraps the signature name as a LinkedIn hyperlink and drops the duplicate URL line", () => {
+    const html = outreachBodyToGmailHtml(
+      [
+        "Hi there,",
+        "",
+        "Best,",
+        "Shubham Kale",
+        LINKEDIN_PROFILE_URL,
+        "Johns Hopkins University",
+      ].join("\n"),
+    );
+    expect(html).toContain(
+      `<a href="${LINKEDIN_PROFILE_URL}">Shubham Kale</a>`,
+    );
+    expect(html).not.toMatch(/<br>https:\/\/www\.linkedin\.com/);
+    expect(html).toContain("Hi there,");
+    expect(html).toContain("Johns Hopkins University");
+  });
+
   it("composes, saves via Save & close, and NEVER clicks Send", async () => {
     await withFixtureHtmlPage(MOCK, async (page) => {
       const result = await draftEmailOnGmailPage(page, {
         to: "ayang@jumptrading.com",
-        subject: "JHU sophomore interested in Jump Trading / Campus UI SWE",
-        body: "Hi there,\n\nHope you're doing well...\n\nBest,\nShubham Kale\ngithub.com/skale-07",
+        subject: "Hopkins sophomore interested in Jump Trading Campus UI SWE",
+        body: [
+          "Hi there,",
+          "",
+          "Hope you're doing well...",
+          "",
+          "Best,",
+          "Shubham Kale",
+          LINKEDIN_PROFILE_URL,
+          "Hodson Trust Scholar",
+        ].join("\n"),
       });
       expect(result.composed).toBe(true);
 
       const state = await page.evaluate<{
         sendClicked: boolean;
-        drafts: Array<{ to: string; subject: string; body: string }>;
+        drafts: Array<{
+          to: string;
+          subject: string;
+          body: string;
+          bodyHtml: string;
+        }>;
       }>(`({ sendClicked: window.__sendClicked, drafts: window.__drafts })`);
       expect(state.sendClicked).toBe(false);
       expect(state.drafts).toHaveLength(1);
       expect(state.drafts[0]).toMatchObject({
         to: "ayang@jumptrading.com",
-        subject: "JHU sophomore interested in Jump Trading / Campus UI SWE",
+        subject: "Hopkins sophomore interested in Jump Trading Campus UI SWE",
       });
-      expect(state.drafts[0]!.body).toContain("github.com/skale-07");
+      expect(state.drafts[0]!.body).toContain("Shubham Kale");
+      expect(state.drafts[0]!.bodyHtml).toContain(
+        `href="${LINKEDIN_PROFILE_URL}"`,
+      );
     });
   }, 60_000);
 

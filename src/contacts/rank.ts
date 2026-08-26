@@ -39,8 +39,9 @@ export function scoreContact(
   contact: Pick<ContactRow, "name" | "email" | "title" | "source_category">,
   jobRole: string | null | undefined,
 ): number {
-  // Unreachable contacts are unusable whatever their title.
-  if (!contact.name || !contact.email) return -1;
+  // Unreachable contacts are unusable whatever their title. Name is
+  // optional — insider triage often has only an email ("Hi there,").
+  if (!contact.email) return -1;
   let score = 1;
   const title = contact.title ?? "";
   if (RECRUITING.test(title) || RECRUITING.test(contact.source_category ?? "")) {

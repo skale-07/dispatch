@@ -6,6 +6,7 @@ import { logger } from "../logging/logger.js";
 import { PlaywrightServiceSession } from "../auth/serviceSession.js";
 import { cdpReachable } from "../verification/gmailWebProvider.js";
 import { getContact } from "../contacts/repository.js";
+import { LINKEDIN_PROFILE_URL } from "../contacts/emailGenerate.js";
 
 /**
  * Gmail DRAFTS tail (operator directive 2026-08-18): after triage +
@@ -49,6 +50,100 @@ export type GmailDraftFields = {
   body: string;
 };
 
+function escapeHtml(text: string): string {
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function isLinkedInUrlLine(line: string): boolean {
+  const trimmed = line.trim().replace(/\/$/, "");
+  const canonical = LINKEDIN_PROFILE_URL.replace(/\/$/, "");
+  return (
+    trimmed === canonical ||
+    trimmed === canonical.replace(/^https:\/\//, "")
+  );
+}
+
+/** Serializable compose tokens — Gmail blocks innerHTML (Trusted Types). */
+export type GmailComposePart =
+  | { kind: "text"; text: string }
+  | { kind: "br" }
+  | { kind: "link"; href: string; text: string };
+
+type ComposeBodyEl = {
+  focus: () => void;
+  textContent: string;
+  appendChild: (node: unknown) => unknown;
+  ownerDocument: {
+    createElement: (tag: string) => {
+      setAttribute: (name: string, value: string) => void;
+      textContent: string;
+    };
+    createTextNode: (text: string) => unknown;
+  };
+};
+
+/**
+ * Gmail compose is contenteditable HTML. body_text stays plain (validator
+ * reads the LinkedIn URL as a line under the name); the draft wraps the
+ * name as the hyperlink and drops the duplicate URL line.
+ */
+export function outreachBodyToComposeParts(plain: string): GmailComposePart[] {
+  const parts: GmailComposePart[] = [];
+  let emitted = false;
+  for (const line of plain.split(/\r?\n/)) {
+    if (isLinkedInUrlLine(line)) continue;
+    if (emitted) parts.push({ kind: "br" });
+    emitted = true;
+    if (line.trim() === "Shubham Kale") {
+      parts.push({
+        kind: "link",
+        href: LINKEDIN_PROFILE_URL,
+        text: "Shubham Kale",
+      });
+    } else {
+      parts.push({ kind: "text", text: line });
+    }
+  }
+  return parts;
+}
+
+export function outreachBodyToGmailHtml(plain: string): string {
+  return outreachBodyToComposeParts(plain)
+    .map((part) => {
+      if (part.kind === "br") return "<br>";
+      if (part.kind === "link") {
+        return `<a href="${escapeHtml(part.href)}">${escapeHtml(part.text)}</a>`;
+      }
+      return escapeHtml(part.text);
+    })
+    .join("");
+}
+
+/** Build the body with DOM nodes — never innerHTML. */
+function fillComposeBody(el: ComposeBodyEl, parts: GmailComposePart[]): void {
+  el.focus();
+  el.textContent = "";
+  const doc = el.ownerDocument;
+  for (const part of parts) {
+    if (part.kind === "br") {
+      el.appendChild(doc.createElement("br"));
+      continue;
+    }
+    if (part.kind === "link") {
+      const a = doc.createElement("a");
+      a.setAttribute("href", part.href);
+      a.textContent = part.text;
+      el.appendChild(a);
+      continue;
+    }
+    el.appendChild(doc.createTextNode(part.text));
+  }
+}
+
 /**
  * Drive an already-open Gmail(-shaped) page to a saved draft. Pure page
  * choreography — no flags, no DB — so fixtures can prove the click
@@ -82,7 +177,7 @@ export async function draftEmailOnGmailPage(
   await page.locator(s.subject).first().fill(fields.subject);
   const body = page.locator(s.body).first();
   await body.click({ timeout: 5_000 });
-  await body.fill(fields.body);
+  await body.evaluate(fillComposeBody, outreachBodyToComposeParts(fields.body));
 
   // Save & close persists the draft. NEVER the send button.
   await page.locator(s.saveAndClose).first().click({ timeout: 5_000 });

@@ -16,7 +16,8 @@ type Kind =
   | "automation"
   | "contacts"
   | "email"
-  | "gmail_draft";
+  | "gmail_draft"
+  | "outreach";
 
 const KIND_HELP: Record<Kind, string> = {
   pipeline: "Advance applications through the state machine.",
@@ -29,6 +30,8 @@ const KIND_HELP: Record<Kind, string> = {
     "Find insider emails on the JobRight job page (school + beyond panels; spends contact credits).",
   email: "Write outreach emails for this application's contacts (LLM; drafts only).",
   gmail_draft: "Save the written emails as Gmail drafts (never sends).",
+  outreach:
+    "Apply-yourself outreach: paste JobRight links → insider emails → write → Gmail drafts. Does not apply.",
 };
 
 export function RunsPage(): JSX.Element {
@@ -40,6 +43,7 @@ export function RunsPage(): JSX.Element {
   const [applicationId, setApplicationId] = useState("");
   const [maxApplications, setMaxApplications] = useState("1");
   const [maxJobs, setMaxJobs] = useState("10");
+  const [jobrightRefs, setJobrightRefs] = useState("");
   const [headed, setHeaded] = useState(true);
   const [selected, setSelected] = useState<Record<string, boolean>>({});
   const [liveMode, setLiveMode] = useState(false);
@@ -62,6 +66,12 @@ export function RunsPage(): JSX.Element {
         if (submitOptIn) params["submit"] = true;
       }
       if (kind === "discover") params["max_jobs"] = Number(maxJobs) || 10;
+      if (kind === "outreach") {
+        params["refs"] = jobrightRefs
+          .split("\n")
+          .map((r) => r.trim())
+          .filter((r) => r.length > 0 && !r.startsWith("#"));
+      }
       const res = await apiPost<{ run_id: string }>("/api/runs", {
         kind,
         params,
@@ -107,6 +117,7 @@ export function RunsPage(): JSX.Element {
                 <option value="contacts">contacts — find insider emails</option>
                 <option value="email">email — write outreach emails</option>
                 <option value="gmail_draft">gmail_draft — save Gmail drafts</option>
+                <option value="outreach">outreach — apply-yourself email pipeline</option>
               </select>
             </label>
             <p className="faint flush">
@@ -127,6 +138,16 @@ export function RunsPage(): JSX.Element {
                 Scope comes from the armed session (caps, discovery cadence) —
                 nothing to configure here.
               </p>
+            ) : kind === "outreach" ? (
+              <label className="field">
+                JobRight links
+                <textarea
+                  rows={4}
+                  value={jobrightRefs}
+                  onChange={(e) => setJobrightRefs(e.target.value)}
+                  placeholder={"https://jobright.ai/jobs/info/…\n…"}
+                />
+              </label>
             ) : (
               <label className="field">
                 Application ID {kind === "pipeline" ? "(optional)" : "(required)"}

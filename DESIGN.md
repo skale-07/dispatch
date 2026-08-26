@@ -280,9 +280,11 @@ their own wrapper — the page never scrolls sideways.
 
 Navigation is **split by audience, not one entry per page**: a primary set
 answering the three questions any user has (what is happening, what needs
-me, what is in flight) plus a collapsed "advanced" group holding the
-operator-grade pages. A non-technical user should never have to learn what
-a fill outcome is in order to use the product.
+me, what is in flight) plus **Outreach** — a separate apply-yourself
+workflow (paste a JobRight link; drafts only; never fill/submit) — plus a
+collapsed "advanced" group holding the operator-grade pages. A
+non-technical user should never have to learn what a fill outcome is in
+order to use the product.
 
 Below `--breakpoint-compact` (960px) the shell restacks and the sidebar
 becomes a top bar. The navigation stays complete there — collapsing it

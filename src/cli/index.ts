@@ -64,6 +64,7 @@ import {
 import { runContactsExtraction } from "../contacts/extractContacts.js";
 import { runInsiderTriage } from "../contacts/insiderTriage.js";
 import { createGmailDraft } from "../outreach/gmailDrafts.js";
+import { runOutreachPipeline } from "../outreach/outreachPipeline.js";
 import { createOutlookDraft, verifyOutlookDraft } from "../outlook/draftRun.js";
 import { startDashboard } from "../dashboard/server.js";
 import { startConsole } from "../console/server.js";
@@ -173,6 +174,7 @@ Commands:
   jobright:ext-check [--url <ats-url>]               — read-only probe: is the JobRight extension present in the CDP Chrome? (--url adds an on-page DOM probe)
   jobright:ext-capture --url <ats-url>               — headed capture: YOU activate the extension's autofill; writes before/after diff + selector candidates
   gmail:draft --application <uuid> --contact <contact_id> [--headed]   — save the generated email as a Gmail DRAFT (never sends; needs GMAIL_DRAFTS_ENABLED)
+  outreach --jobright <url|id> [--jobright ...] [--headed]   — apply-yourself: enqueue + insider emails + generate + Gmail drafts (never sends)
   email:generate --application <uuid> [--contact <id>] [--persona <id>]
   draft:create --application <uuid> --contact <contact_id> [--headed]
   draft:verify --draft <draft_id> [--headed]
@@ -708,6 +710,35 @@ async function cmdContactsInsider(
       );
       for (const email of report.emails) console.log(email);
     }
+  } finally {
+    closeDatabase(db);
+  }
+}
+
+async function cmdOutreach(
+  flags: Record<string, string | boolean>,
+): Promise<void> {
+  const { refs } = collectEnqueueRefs(process.argv.slice(3));
+  if (refs.length === 0) {
+    console.error(
+      "Usage: outreach --jobright <url|id> [--jobright ...] [--headed]",
+    );
+    console.error(
+      "Requires LINKEDIN_ENRICHMENT_ENABLED, EMAIL_GENERATION_ENABLED, GMAIL_DRAFTS_ENABLED, and an LLM key in .env.",
+    );
+    process.exit(2);
+    return;
+  }
+  const db = openDatabase();
+  try {
+    migrate(db);
+    const report = await runOutreachPipeline({
+      db,
+      refs,
+      headless: flags["headed"] !== true,
+    });
+    console.log(JSON.stringify(report, null, 2));
+    if (report.jobs.some((j) => !j.ok)) process.exitCode = 1;
   } finally {
     closeDatabase(db);
   }
@@ -1926,6 +1957,9 @@ async function main(): Promise<void> {
       return;
     case "contacts:insider":
       await cmdContactsInsider(flags);
+      return;
+    case "outreach":
+      await cmdOutreach(flags);
       return;
     case "jobright:ext-check":
       await cmdExtCheck(flags);
