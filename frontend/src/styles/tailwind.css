@@ -24,6 +24,13 @@
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/utilities.css" layer(utilities);
 
+/* Dispatch dark mode is data-theme (+ the OS preference flipping the
+   tokens) — never a .dark class. Components should style through the
+   bridged token colors, which flip on their own; this variant exists
+   only so a registry component's dark: utility follows the explicit
+   toggle instead of silently binding to a class that never appears. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
 @theme {
   /* No invented colors: remove the entire stock palette... */
   --color-*: initial;
@@ -74,6 +81,35 @@
   --radius-sm: var(--radius-sm);
   --radius-md: var(--radius);
   --radius-lg: var(--radius-lg);
+
+  /* Bklit chart vocabulary (U3). The registry install wanted its own
+     oklch palette here; instead every chart variable below points at
+     the derivations in the :root block at the end of this file, which
+     in turn reference ONLY Dispatch tokens — so charts recolor with the
+     theme like everything else. */
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-chart-background: var(--chart-background);
+  --color-chart-foreground: var(--chart-foreground);
+  --color-chart-foreground-muted: var(--chart-foreground-muted);
+  --color-chart-crosshair: var(--chart-crosshair);
+  --color-chart-grid: var(--chart-grid);
+  --color-chart-tooltip-background: var(--chart-tooltip-background);
+  --color-chart-tooltip-foreground: var(--chart-tooltip-foreground);
+  --color-chart-tooltip-muted: var(--chart-tooltip-muted);
+  --color-chart-marker-background: var(--chart-marker-background);
+  --color-chart-marker-border: var(--chart-marker-border);
+  --color-chart-marker-foreground: var(--chart-marker-foreground);
+  --color-chart-label: var(--chart-label);
+  --color-chart-scale-01: var(--chart-scale-01);
+  --color-chart-scale-02: var(--chart-scale-02);
+  --color-chart-scale-03: var(--chart-scale-03);
+  --color-chart-scale-04: var(--chart-scale-04);
+  --color-chart-scale-05: var(--chart-scale-05);
+  --color-chart-scale-pattern-color: var(--chart-scale-pattern-color);
 }
 
 @layer base {
@@ -87,4 +123,37 @@
     border-style: solid;
     border-color: var(--border);
   }
+}
+
+/* Chart derivations — every value references a Dispatch token, so both
+   themes come for free (the tokens flip; these follow). Categorical
+   series ride the signal palette in a deliberate order; the sequential
+   scale is an accent ramp mixed toward the surface. No new colors. */
+:root {
+  --chart-1: var(--accent);
+  --chart-2: var(--purple);
+  --chart-3: var(--ok);
+  --chart-4: var(--warn);
+  --chart-5: var(--danger);
+  --chart-background: var(--bg-raised);
+  --chart-foreground: var(--text);
+  --chart-foreground-muted: var(--text-dim);
+  --chart-line-primary: var(--chart-1);
+  --chart-line-secondary: var(--chart-2);
+  --chart-crosshair: var(--accent);
+  --chart-grid: var(--border);
+  --chart-brush-border: var(--chart-grid);
+  --chart-tooltip-background: var(--bg-raised);
+  --chart-tooltip-foreground: var(--text);
+  --chart-tooltip-muted: var(--text-dim);
+  --chart-marker-background: var(--bg-raised);
+  --chart-marker-border: var(--border-strong);
+  --chart-marker-foreground: var(--text);
+  --chart-label: var(--text-dim);
+  --chart-scale-01: color-mix(in oklab, var(--accent) 12%, var(--bg-raised));
+  --chart-scale-02: color-mix(in oklab, var(--accent) 30%, var(--bg-raised));
+  --chart-scale-03: color-mix(in oklab, var(--accent) 50%, var(--bg-raised));
+  --chart-scale-04: color-mix(in oklab, var(--accent) 72%, var(--bg-raised));
+  --chart-scale-05: var(--accent);
+  --chart-scale-pattern-color: color-mix(in oklab, var(--accent) 8%, var(--bg-raised));
 }

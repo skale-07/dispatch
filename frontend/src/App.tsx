@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Suspense, lazy, useState } from "react";
 import { Link, NavLink, Route, Routes } from "react-router-dom";
 import { HomePage } from "./pages/HomePage";
 import { OverviewPage } from "./pages/OverviewPage";
@@ -11,6 +11,11 @@ import { RunDetailPage } from "./pages/RunDetailPage";
 import { EnqueuePage } from "./pages/EnqueuePage";
 import { OutreachPage } from "./pages/OutreachPage";
 import { SettingsPage } from "./pages/SettingsPage";
+// Charts (visx + the Bklit components) are the heaviest thing the console
+// ships; the lazy route keeps them out of everyone else's first load.
+const InsightsPage = lazy(() =>
+  import("./pages/InsightsPage").then((m) => ({ default: m.InsightsPage })),
+);
 import { useTheme } from "./hooks/useTheme";
 import { formatCountdown, useArmStatus } from "./hooks/useArmStatus";
 import { usePoll } from "./hooks/usePoll";
@@ -37,6 +42,7 @@ const PRIMARY_NAV = [
 
 const ADVANCED_NAV = [
   { to: "/overview", label: "Overview" },
+  { to: "/insights", label: "Insights" },
   { to: "/runs", label: "Runs" },
   { to: "/enqueue", label: "Enqueue" },
   { to: "/fill-outcomes", label: "Fill outcomes" },
@@ -158,6 +164,14 @@ export function App(): JSX.Element {
           <Route path="/enqueue" element={<EnqueuePage />} />
           <Route path="/outreach" element={<OutreachPage />} />
           <Route path="/fill-outcomes" element={<FillOutcomesPage />} />
+          <Route
+            path="/insights"
+            element={
+              <Suspense fallback={<p className="faint">Loading insights…</p>}>
+                <InsightsPage />
+              </Suspense>
+            }
+          />
           <Route path="/settings" element={<SettingsPage />} />
           <Route
             path="*"
