@@ -18,6 +18,7 @@ import { apiGet } from "./api/client";
 import type { ReviewItemView } from "./api/types";
 import { DispatchMark } from "./components/DispatchMark";
 import { Icon } from "./components/Icon";
+import { AnimatePresence, arriveAndDepart, m } from "./components/Animated";
 
 /**
  * Navigation is split by audience. The primary set answers what is
@@ -128,17 +129,24 @@ export function App(): JSX.Element {
       </aside>
 
       <main className="main" id="main">
-        {arm?.armed ? (
-          <Link
-            to="/"
-            className="armed-banner"
-            title="An unattended session is live"
-          >
-            <Icon name="bolt" size={13} /> Dispatch is applying — {formatCountdown(arm.seconds_remaining)} left ·{" "}
-            {arm.submits_used}/{arm.max_submits} submitted · {arm.apps_started}/
-            {arm.max_apps} worked
-          </Link>
-        ) : null}
+        <AnimatePresence initial={false}>
+          {arm?.armed ? (
+            // Arming/disarming is exactly the state change motion exists
+            // for — the banner slides in when a session goes live and
+            // collapses away when it ends.
+            <m.div key="armed" {...arriveAndDepart}>
+              <Link
+                to="/"
+                className="armed-banner"
+                title="An unattended session is live"
+              >
+                <Icon name="bolt" size={13} /> Dispatch is applying — {formatCountdown(arm.seconds_remaining)} left ·{" "}
+                {arm.submits_used}/{arm.max_submits} submitted · {arm.apps_started}/
+                {arm.max_apps} worked
+              </Link>
+            </m.div>
+          ) : null}
+        </AnimatePresence>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/overview" element={<OverviewPage />} />

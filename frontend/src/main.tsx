@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { App } from "./App";
+import { MotionRoot } from "./components/Animated";
 import { readTokenFromHash } from "./api/client";
 // Self-hosted, bundled by vite — never a CDN link. The console is
 // loopback-only and often offline; a webfont that needs the network would
@@ -17,7 +18,9 @@ readTokenFromHash();
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <MotionRoot>
+        <App />
+      </MotionRoot>
     </BrowserRouter>
   </React.StrictMode>,
 );

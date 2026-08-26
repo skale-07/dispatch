@@ -6,6 +6,7 @@ import { StateBadge } from "../components/StateBadge";
 import { JsonView } from "../components/JsonView";
 import { ReviewActionPanel } from "../components/ReviewActionPanel";
 import { describeReviewItem, jobLabel } from "../lib/plainLanguage";
+import { AnimatePresence, arriveAndDepart, m } from "../components/Animated";
 
 export function ReviewPage(): JSX.Element {
   const { data, error, loading, refresh } = usePoll<ReviewItemView[]>(
@@ -44,9 +45,13 @@ export function ReviewPage(): JSX.Element {
           <h2>
             <StateBadge value={kind} kind="review" /> · {list.length}
           </h2>
+          <AnimatePresence initial={false}>
           {list.map((item) => (
-            <div
+            // Resolving an item is a state change: it collapses out of
+            // the list instead of vanishing between polls.
+            <m.div
               key={item.id}
+              {...arriveAndDepart}
               style={{
                 borderTop: "1px solid var(--border)",
                 paddingTop: "0.75rem",
@@ -81,8 +86,9 @@ export function ReviewPage(): JSX.Element {
                 </div>
               ) : null}
               <ReviewActionPanel item={item} onResolved={refresh} />
-            </div>
+            </m.div>
           ))}
+          </AnimatePresence>
         </div>
       ))}
     </>

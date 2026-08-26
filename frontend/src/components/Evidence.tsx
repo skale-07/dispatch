@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { apiGet } from "../api/client";
 import { Icon } from "./Icon";
 import { Skeleton } from "./Skeleton";
+import { arrive, m } from "./Animated";
 
 /**
  * Dispatch's product is evidence. Every run leaves a receipt screenshot,
@@ -58,7 +59,8 @@ export function ScreenshotEvidence(props: {
     );
   }
   return (
-    <figure className="evidence">
+    // Arrival of the real artifact — the moment the evidence exists.
+    <m.figure className="evidence" {...arrive}>
       <a
         href={artifactUrl(props.path)}
         target="_blank"
@@ -77,7 +79,7 @@ export function ScreenshotEvidence(props: {
         {props.caption}
         {props.when ? <span className="faint"> · {props.when}</span> : null}
       </figcaption>
-    </figure>
+    </m.figure>
   );
 }
 
@@ -220,7 +222,7 @@ export function FillEvidence(props: { relpath: string }): JSX.Element {
   const planned = report.plan_fields ?? [];
 
   return (
-    <div className="evidence-report">
+    <m.div className="evidence-report" {...arrive}>
       <div className="evidence-report-head">
         <span className={`badge ${report.verify?.passed ? "ok" : "warn"}`}>
           <Icon name={report.verify?.passed ? "check" : "alert"} size={12} />
@@ -285,6 +287,6 @@ export function FillEvidence(props: { relpath: string }): JSX.Element {
       ) : null}
 
       {report.schema_diff ? <SchemaCrossCheck diff={report.schema_diff} /> : null}
-    </div>
+    </m.div>
   );
 }

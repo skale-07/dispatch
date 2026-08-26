@@ -188,6 +188,27 @@ describe("design/tokens.json ↔ tokens.css contract (UNIT_CONFIRMED)", () => {
     expect(block).toMatch(/\.shell\s*\{[^}]*flex-direction:\s*column/);
   });
 
+  it("Motion's animation constants mirror the motion tokens (U1)", () => {
+    // frontend/src/components/Animated.tsx is the one seam to the Motion
+    // library; its durations/easing are written as literals (Motion takes
+    // numbers, CSS takes strings), so the mirror is a contract like every
+    // other token pairing in this file.
+    const animated = fs.readFileSync(
+      path.join(process.cwd(), "frontend", "src", "components", "Animated.tsx"),
+      "utf8",
+    );
+    const num = (name: string): number =>
+      Number(animated.match(new RegExp(`${name} = ([0-9.]+)`))?.[1]);
+    const cssMs = (token: string): number =>
+      Number(css.light[token]!.replace("ms", ""));
+    expect(num("DURATION_FAST") * 1000).toBe(cssMs("duration-fast"));
+    expect(num("DURATION_BASE") * 1000).toBe(cssMs("duration-base"));
+    const ease = animated.match(/EASE_OUT[^=]*= \[([^\]]+)\]/)?.[1]
+      ?.split(",")
+      .map((s) => Number(s.trim()));
+    expect(`cubic-bezier(${ease!.join(", ")})`).toBe(css.light["ease-out"]);
+  });
+
   it("brand assets use palette colors only (favicon + every design/*.svg)", () => {
     const designDir = path.join(process.cwd(), "design");
     const assets = [
