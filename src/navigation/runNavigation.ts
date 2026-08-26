@@ -21,6 +21,7 @@ import {
   readExternalApplyHrefs,
 } from "../jobright/navigateToEmployer.js";
 import { navigateViaSidecar } from "../agent/navigate.js";
+import { resolveAgentEngineCommand } from "../agent/engine.js";
 import type {
   AgentNavigateResult,
   AgentNavigateTask,
@@ -704,12 +705,19 @@ export async function runNavigation(
             run_id: report.run_id,
             application_id: applicationId,
             turn: turns + 1,
+            engine: cfg0.agentEngine,
             start_host: turnStartUrl.startsWith("https://")
               ? new URL(turnStartUrl).hostname
               : null,
             corrective: correction !== null,
           },
         });
+        // S-spike: engine selection. An explicit test override wins; else
+        // AGENT_ENGINE picks the sidecar. Both speak the same contract and
+        // face the same validation — the engine changes nothing downstream.
+        const engineOverride =
+          input.agentCommandOverride ??
+          resolveAgentEngineCommand(cfg0.agentEngine);
         const agentResult = await navigateViaSidecar({
           onProgress: onAgentProgress,
           task: {
@@ -728,9 +736,7 @@ export async function runNavigation(
             gmail_available: gmailAvailable,
             ...(resume ? { resume } : {}),
           },
-          ...(input.agentCommandOverride
-            ? { commandOverride: input.agentCommandOverride }
-            : {}),
+          ...(engineOverride ? { commandOverride: engineOverride } : {}),
         });
         turns++;
         totalSteps += agentResult.steps_used;

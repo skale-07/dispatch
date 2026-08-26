@@ -129,6 +129,14 @@ const envSchema = z.object({
   /** CDP endpoint of the operator-started debug Chrome (see chrome:debug:jobright). */
   AGENT_CDP_URL: z.string().default("http://127.0.0.1:9222"),
   /**
+   * S-spike: which sidecar drives agent navigation turns. Plain setting,
+   * not a capability flag — AGENT_FALLBACK_ENABLED still gates whether any
+   * agent runs at all. "stagehand" requires `npm install` inside
+   * agent/stagehand once; see docs/agent-engine-decision.md for the
+   * pre-registered comparison protocol and promotion bar.
+   */
+  AGENT_ENGINE: z.enum(["browser_use", "stagehand"]).default("browser_use"),
+  /**
    * STANDING portal credentials (operator directive 2026-08-12): the one
    * email + password the operator uses for every employer job portal, so
    * signing in is never a per-site chore. Set both and any employer login
@@ -219,6 +227,7 @@ export type AppConfig = {
   atsDiscoveryEnabled: boolean;
   automationEnabled: boolean;
   agentCdpUrl: string;
+  agentEngine: "browser_use" | "stagehand";
   cdpAutolaunchEnabled: boolean;
   verificationMailbox?: "gmail" | "outlook" | undefined;
   portalLoginEmail?: string | undefined;
@@ -304,6 +313,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
     atsDiscoveryEnabled: parsed.ATS_DISCOVERY_ENABLED,
     automationEnabled: parsed.AUTOMATION_ENABLED,
     agentCdpUrl: parsed.AGENT_CDP_URL,
+    agentEngine: parsed.AGENT_ENGINE,
     cdpAutolaunchEnabled: parsed.CDP_AUTOLAUNCH_ENABLED,
     verificationMailbox: parsed.VERIFICATION_MAILBOX,
     portalLoginEmail: parsed.PORTAL_LOGIN_EMAIL,

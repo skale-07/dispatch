@@ -1,0 +1,10 @@
+{
+  "name": "jaa-stagehand-sidecar",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "S-spike navigate sidecar: Stagehand DOM agent speaking the same stdin/stdout contract as the browser_use sidecar, over the same operator-CDP seam. Installed separately on purpose — the main package keeps its three-dependency stance. Selected via AGENT_ENGINE=stagehand; see docs/agent-engine-decision.md.",
+  "dependencies": {
+    "@browserbasehq/stagehand": "^4.0.0"
+  }
+}
