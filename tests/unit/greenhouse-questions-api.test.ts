@@ -5,7 +5,10 @@ import {
   parseGreenhouseBoardRef,
   parseQuestionsPayload,
 } from "../../src/ats/greenhouse/questionsApi.js";
-import { applyLabelOptions } from "../../src/ats/shared/optionHarvest.js";
+import {
+  applyLabelOptions,
+  mergeDeclaredQuestions,
+} from "../../src/ats/shared/optionHarvest.js";
 import type { DiscoveredField } from "../../src/ats/adapter.js";
 
 /**
@@ -168,5 +171,97 @@ describe("applyLabelOptions (UNIT_CONFIRMED)", () => {
   it("leaves fields alone when the board declared nothing", () => {
     const fields = [f("Anything")];
     expect(applyLabelOptions(fields, new Map()).fields).toBe(fields);
+  });
+});
+
+describe("demographic sections never enter (UNIT_CONFIRMED)", () => {
+  it("parses only `questions` — demographic, compliance, and location sections are dropped at the boundary", () => {
+    // The live payload can carry EEOC/demographic sections alongside the
+    // application questions. Those must never reach the planner: the house
+    // rule is that demographic fields fill ONLY from the operator's own
+    // encrypted sensitive profile — never from any schema, never inferred.
+    // This test pins the parse boundary so a future "read more of the
+    // payload" change cannot silently widen it.
+    const payload = {
+      questions: [
+        {
+          label: "How did you hear about us?",
+          required: true,
+          fields: [{ values: [{ label: "LinkedIn" }, { label: "Referral" }] }],
+        },
+      ],
+      location_questions: [
+        {
+          label: "City",
+          required: true,
+          fields: [{ values: [{ label: "Baltimore" }] }],
+        },
+      ],
+      demographic_questions: {
+        header: "Voluntary Self-Identification",
+        questions: [
+          {
+            label: "Gender",
+            required: false,
+            fields: [{ values: [{ label: "Male" }, { label: "Female" }] }],
+          },
+        ],
+      },
+      compliance: [
+        {
+          questions: [
+            {
+              label: "Veteran Status",
+              required: false,
+              fields: [{ values: [{ label: "I am a veteran" }] }],
+            },
+          ],
+        },
+      ],
+    };
+    const parsed = parseQuestionsPayload(payload);
+    expect(parsed).toHaveLength(1);
+    expect(parsed[0]!.label).toBe("How did you hear about us?");
+    const labels = parsed.map((q) => q.label.toLowerCase()).join(" ");
+    expect(labels).not.toContain("gender");
+    expect(labels).not.toContain("veteran");
+  });
+});
+
+describe("mergeDeclaredQuestions (G1, UNIT_CONFIRMED)", () => {
+  const field = (id: string, label: string, options?: string[]): DiscoveredField => ({
+    id,
+    label,
+    type: "select",
+    required: false,
+    ...(options ? { options } : {}),
+  });
+
+  it("returns the liveOptions/answerSpace maps a plan_only run can consume", () => {
+    const byLabel = new Map<string, string[]>([
+      [normalizeQuestionLabel("How did you hear about us?"), ["LinkedIn", "Referral", "Other"]],
+    ]);
+    const merged = mergeDeclaredQuestions(
+      [field("f1", "How did you hear about us?"), field("f2", "Portfolio URL")],
+      byLabel,
+    );
+    expect(merged.matched).toBe(1);
+    expect(merged.options.get("f1")).toEqual(["LinkedIn", "Referral", "Other"]);
+    expect(merged.answerSpace.get("f1")).toBe("closed");
+    // The unmatched free-text field stays out of both maps — its answer
+    // space is unknown, not closed.
+    expect(merged.options.has("f2")).toBe(false);
+    expect(merged.answerSpace.has("f2")).toBe(false);
+  });
+
+  it("keeps a native select's own markup options when the API has no match", () => {
+    const merged = mergeDeclaredQuestions(
+      [field("f1", "Season", ["Summer", "Fall"])],
+      new Map(),
+    );
+    expect(merged.matched).toBe(0);
+    // Markup options are still a closed space the planner may trust.
+    expect(merged.options.get("f1")).toEqual(["Summer", "Fall"]);
+    expect(merged.answerSpace.get("f1")).toBe("closed");
   });
 });

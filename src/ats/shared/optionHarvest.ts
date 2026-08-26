@@ -388,6 +388,40 @@ export function applyLabelOptions(
 }
 
 /**
+ * G1: the board-API merge, shared by both Greenhouse runners and both
+ * modes. Applies declared option lists onto discovered fields and returns
+ * the per-field maps planApplicationFill consumes — so a plan_only run,
+ * which never interacts with the page, still plans against the complete
+ * option lists the board itself publishes. The DOM harvest remains
+ * execute-only; this is one unauthenticated network read.
+ */
+export function mergeDeclaredQuestions(
+  fields: DiscoveredField[],
+  byLabel: Map<string, string[]>,
+): {
+  fields: DiscoveredField[];
+  options: Map<string, string[]>;
+  answerSpace: Map<string, AnswerSpace>;
+  matched: number;
+} {
+  const applied = applyLabelOptions(fields, byLabel);
+  const options = new Map<string, string[]>();
+  const answerSpace = new Map<string, AnswerSpace>();
+  for (const f of applied.fields) {
+    if ((f.options?.length ?? 0) > 0) {
+      options.set(f.id, f.options!);
+      answerSpace.set(f.id, "closed");
+    }
+  }
+  return {
+    fields: applied.fields,
+    options,
+    answerSpace,
+    matched: applied.matched,
+  };
+}
+
+/**
  * Merge harvested options onto the discovered fields. The HTML-derived
  * list wins when it exists (a native `<select>`'s markup is authoritative);
  * the harvest only fills in what the markup could not say.
