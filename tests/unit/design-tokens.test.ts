@@ -198,13 +198,25 @@ describe("design/tokens.json ↔ tokens.css contract (UNIT_CONFIRMED)", () => {
       "utf8",
     );
     expect(tw).toContain("--color-*: initial");
-    const declared = new Set(Object.keys(css.light));
+    // No color is ever BORN in the bridge: every declaration is a var()
+    // reference or a color-mix of them, so a literal hex/oklch/rgb here
+    // would be a second palette starting.
+    expect(tw).not.toMatch(/#[0-9a-fA-F]{3,8}\b|oklch\(|rgb\(/);
+    // Every var() reference resolves — to a token, or to a derivation
+    // declared in this same file (the chart vocabulary), whose own value
+    // is itself covered by these two rules. The chain always ends in
+    // tokens.css.
+    const declared = new Set([
+      ...Object.keys(css.light),
+      ...[...tw.matchAll(/^\s*--([a-z0-9-]+):/gm)].map((m) => m[1]!),
+    ]);
     const refs = [...tw.matchAll(/var\(--([a-z0-9-]+)\)/g)].map((m) => m[1]!);
     expect(refs.length).toBeGreaterThanOrEqual(20);
     for (const ref of refs) {
-      expect(declared.has(ref), `--${ref} referenced by the bridge exists in tokens.css`).toBe(
-        true,
-      );
+      expect(
+        declared.has(ref),
+        `--${ref} referenced by the bridge resolves to a token or an in-file derivation`,
+      ).toBe(true);
     }
   });
 

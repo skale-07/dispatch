@@ -24,6 +24,7 @@ import type { ReviewItemView } from "./api/types";
 import { DispatchMark } from "./components/DispatchMark";
 import { Icon } from "./components/Icon";
 import { AnimatePresence, arriveAndDepart, m } from "./components/Animated";
+import { CommandBar } from "./components/CommandBar";
 
 /**
  * Navigation is split by audience. The primary set answers what is
@@ -80,6 +81,7 @@ export function App(): JSX.Element {
           </span>
           dispatch<span>·console</span>
         </div>
+        <CommandBar />
         <nav aria-label="Primary">
           {PRIMARY_NAV.map((item) => (
             <NavLink

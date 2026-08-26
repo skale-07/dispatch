@@ -11,7 +11,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 const ROOT = path.join(process.cwd(), "src", "components");
-const VENDOR_DIRS = ["charts", "ui"];
+const VENDOR_DIRS = ["charts", "ui", "kokonutui"];
 const PRAGMA =
   "// @ts-nocheck -- vendored registry code (see frontend/scripts/vendor-pragma.mjs)\n";
 
