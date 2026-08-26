@@ -126,6 +126,26 @@ export function parseQuestionsPayload(
 }
 
 /**
+ * G2: one run fetches the same posting's questions at plan time and again
+ * at the pre-submit gate. The payload is static for a posting, so
+ * successful reads memoize for the process lifetime — the gate never pays
+ * a second network round-trip, and a gate-time network blip cannot lose
+ * information the plan already had. Failures are NOT memoized (a plan-time
+ * blip must not blind the gate). Injected fetchImpl (tests) bypasses the
+ * memo entirely. Bounded, not unbounded: oldest entry evicted past the cap.
+ */
+const questionSetMemo = new Map<string, GreenhouseQuestionSet>();
+const MEMO_MAX_ENTRIES = 50;
+
+/** The labels the board itself declares required — [] for null (fail-open). */
+export function requiredQuestionLabels(
+  set: GreenhouseQuestionSet | null,
+): string[] {
+  if (!set) return [];
+  return set.questions.filter((q) => q.required).map((q) => q.label);
+}
+
+/**
  * Fetch the board's declared questions and their option lists. Returns
  * null for a non-Greenhouse URL, a non-200, or any error — every caller
  * treats null as "no extra information" and proceeds.
@@ -137,6 +157,11 @@ export async function fetchGreenhouseQuestions(
   const ref = parseGreenhouseBoardRef(rawUrl);
   if (!ref) return null;
   const endpoint = `${API_BASE}/${encodeURIComponent(ref.board)}/jobs/${encodeURIComponent(ref.jobId)}?questions=true`;
+  const useMemo = fetchImpl === fetch;
+  if (useMemo) {
+    const hit = questionSetMemo.get(endpoint);
+    if (hit) return hit;
+  }
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
   try {
@@ -149,7 +174,20 @@ export async function fetchGreenhouseQuestions(
       if (q.options.length === 0) continue;
       byLabel.set(normalizeQuestionLabel(q.label), q.options);
     }
-    return { board: ref.board, job_id: ref.jobId, questions, byLabel };
+    const set: GreenhouseQuestionSet = {
+      board: ref.board,
+      job_id: ref.jobId,
+      questions,
+      byLabel,
+    };
+    if (useMemo) {
+      if (questionSetMemo.size >= MEMO_MAX_ENTRIES) {
+        const oldest = questionSetMemo.keys().next().value;
+        if (oldest !== undefined) questionSetMemo.delete(oldest);
+      }
+      questionSetMemo.set(endpoint, set);
+    }
+    return set;
   } catch {
     return null;
   } finally {

@@ -4,6 +4,7 @@ import {
   normalizeQuestionLabel,
   parseGreenhouseBoardRef,
   parseQuestionsPayload,
+  requiredQuestionLabels,
 } from "../../src/ats/greenhouse/questionsApi.js";
 import {
   applyLabelOptions,
@@ -100,6 +101,26 @@ describe("greenhouse questions payload (UNIT_CONFIRMED)", () => {
         boom,
       ),
     ).toBeNull();
+  });
+
+  it("requiredQuestionLabels: the required subset, [] on null (G2, UNIT_CONFIRMED)", async () => {
+    const ok = (async () =>
+      new Response(
+        JSON.stringify({
+          questions: [
+            { label: "First Name", required: true, fields: [] },
+            { label: "Portfolio URL", required: false, fields: [] },
+          ],
+        }),
+        { status: 200 },
+      )) as unknown as typeof fetch;
+    const set = await fetchGreenhouseQuestions(
+      "https://boards.greenhouse.io/appian/jobs/8041237",
+      ok,
+    );
+    expect(requiredQuestionLabels(set)).toEqual(["First Name"]);
+    // Fail-open: no API response ⇒ no declared labels, gate unchanged.
+    expect(requiredQuestionLabels(null)).toEqual([]);
   });
 
   it("builds a normalized label index for merging onto DOM fields", async () => {

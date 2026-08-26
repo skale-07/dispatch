@@ -42,7 +42,10 @@ import {
   mergePostingContext,
 } from "./essayAutofill.js";
 import { classifyPage } from "../ats/shared/pageClassify.js";
-import { fetchGreenhouseQuestions } from "../ats/greenhouse/questionsApi.js";
+import {
+  fetchGreenhouseQuestions,
+  requiredQuestionLabels,
+} from "../ats/greenhouse/questionsApi.js";
 import {
   harvestFieldOptions,
   mergeDeclaredQuestions,
@@ -77,6 +80,8 @@ async function attemptSandboxSubmit(args: {
   binding: AtsBinding;
   report: AtsLiveFillReport;
   approvedPlan: ApprovedFillPlan;
+  /** G2: labels the board's own schema declares required (fail-open []). */
+  declaredRequired?: string[];
   assumeYes?: boolean;
   confirmSubmission?: ConfirmSubmission;
 }): Promise<void> {
@@ -105,10 +110,17 @@ async function attemptSandboxSubmit(args: {
 
   assertSubmitAllowed(`atsLiveFill.${binding.id}.submit`);
 
-  const completeness = await scanRequiredCompleteness(page);
+  const completeness = await scanRequiredCompleteness(page, {
+    declaredRequired: args.declaredRequired ?? [],
+  });
   if (completeness.unanswered.length > 0) {
     const names = completeness.unanswered
-      .map((u) => `${u.label} [${u.control}]`)
+      .map(
+        (u) =>
+          `${u.label} [${u.control}${
+            u.source === "board_api" ? ", required per board API" : ""
+          }]`,
+      )
       .join("; ");
     refuse(
       "failed_before_click",
@@ -1120,6 +1132,7 @@ export async function runAtsLiveFill(input: {
           binding,
           report,
           approvedPlan,
+          declaredRequired: requiredQuestionLabels(declared),
           ...(input.assumeYes ? { assumeYes: true } : {}),
           ...(input.confirmSubmission
             ? { confirmSubmission: input.confirmSubmission }

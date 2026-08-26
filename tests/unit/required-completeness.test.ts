@@ -203,6 +203,124 @@ describe("required-completeness scan (FIXTURE_CONFIRMED)", () => {
   }, 30_000);
 });
 
+describe("board-API declared requiredness (G2, FIXTURE_CONFIRMED)", () => {
+  // The live gap this closes: Greenhouse renders screener questions with
+  // no [required], no aria-required, and no trailing asterisk — the DOM
+  // heuristics see them as optional and the click sails into client-side
+  // validation. The board's own API says `required: true`; feeding those
+  // labels in makes the same control a pre-click refusal.
+  const HTML = `
+    <form>
+      <label for="essay">Why do you want to work here?</label>
+      <textarea id="essay" required></textarea>
+      <label for="heard">How did you hear about this opportunity?</label>
+      <select id="heard">
+        <option value="">Select...</option>
+        <option>LinkedIn</option>
+      </select>
+      <label for="site">Personal website</label>
+      <input id="site" value="" />
+      <label for="ok">Are you authorized to work in the US?</label>
+      <select id="ok">
+        <option value="">Select...</option>
+        <option selected>Yes</option>
+      </select>
+    </form>`;
+
+  it("without a declared list the DOM heuristics stand alone — exact pre-G2 behavior", async () => {
+    await withFixtureHtmlPage(HTML, async (page) => {
+      const scan = await scanRequiredCompleteness(page);
+      expect(scan.unanswered.map((u) => u.label)).toEqual([
+        "Why do you want to work here?",
+      ]);
+      expect(scan.unanswered[0]!.source).toBe("dom");
+    });
+  }, 30_000);
+
+  it("a declared-required control the DOM saw as optional blocks, naming the API", async () => {
+    await withFixtureHtmlPage(HTML, async (page) => {
+      const scan = await scanRequiredCompleteness(page, {
+        declaredRequired: [
+          "Why do you want to work here?",
+          "How did you hear about this opportunity?",
+          // Answered on the page — must not be flagged just because the
+          // API declares it required.
+          "Are you authorized to work in the US?",
+        ],
+      });
+      expect(scan.unanswered).toEqual([
+        {
+          label: "Why do you want to work here?",
+          control: "textarea",
+          source: "dom",
+        },
+        {
+          label: "How did you hear about this opportunity?",
+          control: "select",
+          source: "board_api",
+        },
+      ]);
+      // The truly optional unanswered text input stays unflagged.
+      expect(scan.unanswered.map((u) => u.label)).not.toContain("Personal website");
+    });
+  }, 30_000);
+
+  it("matches a DOM label the board truncated (unique prefix, ≥20 chars) and refuses short prefixes", async () => {
+    const html = `
+      <form>
+        <label for="a">Are you currently pursuing a Major in one of the following disciplines: Com</label>
+        <select id="a"><option value="">Select...</option><option>Yes</option></select>
+        <label for="b">Country</label>
+        <select id="b"><option value="">Select...</option><option>US</option></select>
+      </form>`;
+    await withFixtureHtmlPage(html, async (page) => {
+      const scan = await scanRequiredCompleteness(page, {
+        declaredRequired: [
+          "Are you currently pursuing a Major in one of the following disciplines: Computer Science, Computer Engineering?",
+          // Short generic label: exact match only, no prefix creep — a
+          // false requiredness flag is a wrong refusal.
+          "Country of residence",
+        ],
+      });
+      expect(scan.unanswered).toEqual([
+        {
+          label:
+            "Are you currently pursuing a Major in one of the following disciplines: Com",
+          control: "select",
+          source: "board_api",
+        },
+      ]);
+    });
+  }, 30_000);
+
+  it("an unanswered optional Greenhouse-style combobox widget promotes too", async () => {
+    // Greenhouse React-selects reach the widget pass (role=combobox); when
+    // the board omits aria-required AND the asterisk, only the API knows.
+    const html = `
+      <form>
+        <label for="pron">How did you hear about Appian?</label>
+        <div class="select__control">
+          <input id="pron" type="text" role="combobox" aria-haspopup="listbox"
+                 aria-autocomplete="list" value="" />
+        </div>
+      </form>`;
+    await withFixtureHtmlPage(html, async (page) => {
+      const bare = await scanRequiredCompleteness(page);
+      expect(bare.unanswered).toEqual([]);
+      const scan = await scanRequiredCompleteness(page, {
+        declaredRequired: ["How did you hear about Appian?"],
+      });
+      expect(scan.unanswered).toEqual([
+        {
+          label: "How did you hear about Appian?",
+          control: "combobox",
+          source: "board_api",
+        },
+      ]);
+    });
+  }, 30_000);
+});
+
 describe("redaction word-guard (UNIT_CONFIRMED)", () => {
   it("phase_trace survives; demographic keys still redact", () => {
     const out = redactObject({
