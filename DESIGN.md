@@ -171,7 +171,8 @@ font in a component — consume the variable.
 
 ### 2.1 Themes
 
-Dark is the primary theme (operator tool, log-heavy); light is derived.
+Light is the default theme (operator directive 2026-08-21, the Calm
+direction — tokens.css is authoritative); dark stays first-class.
 A manual toggle sets `data-theme` on `<html>`; otherwise the OS decides.
 Every token below has a value in both themes — new tokens must be added to
 both palettes and the light values must hold ≥ 4.5:1 contrast for text.
@@ -253,7 +254,35 @@ global `⚡ ARMED` banner. No surface may downplay an armed session. Danger
 red for ARMED is deliberate: unattended mutation is the highest-stakes
 state the product has, even when everything is going well.
 
-### 2.4 Shape, depth, spacing
+### 2.4 The Tailwind bridge and vendored registry components (U2–U4)
+
+The console also carries Tailwind v4 + the shadcn component convention —
+solely so registry component libraries (Bklit charts, KokonutUI
+patterns) can be consumed without a second design system growing:
+
+- `frontend/src/styles/tailwind.css` is the ONE bridge. The stock
+  Tailwind palette is wiped (`--color-*: initial`); every color a
+  utility or registry component can reach is a `var()` reference into
+  `tokens.css` (shadcn's semantic names map onto our tokens; the chart
+  vocabulary derives from the signal palette via `color-mix`). No color
+  literal may be born in that file —
+  `tests/unit/design-tokens.test.ts` refuses hex/oklch/rgb there and
+  checks every reference resolves.
+- Preflight is deliberately not imported; `base.css` stays unlayered and
+  wins every conflict. Tailwind utilities are for registry components
+  and new composite surfaces — existing components keep their classes.
+- Registry code under `frontend/src/components/{charts,ui,kokonutui}` is
+  VENDOR code: pulled by the shadcn CLI, stamped `@ts-nocheck` by
+  `frontend/scripts/vendor-pragma.mjs` (run it after any `shadcn add`),
+  restyled only where stock classes fight the token system. Interaction
+  designs worth keeping get ported into first-party components (the
+  CommandBar) rather than shipping demo code.
+- Motion (the library) enters only through
+  `frontend/src/components/Animated.tsx`, whose durations/easing mirror
+  the motion tokens (test-enforced). The §4 rule stands: motion on state
+  change or arrival, never decorative.
+
+### 2.5 Shape, depth, spacing
 
 | Token | Value | Use |
 |---|---|---|
@@ -419,6 +448,10 @@ When generating or modifying UI in this repo:
    `docs/validation-levels.md`).
 6. Keep this file, `tokens.css`, and the components consistent — a PR that
    changes one without the others is incomplete.
+7. Registry components (§2.4): pull with the shadcn CLI, run
+   `npm run registry:pragma` (frontend), restyle stock-palette classes to
+   bridged token classes, and never add a color literal to
+   `tailwind.css` — derive from tokens or don't add it.
 
 ---
 

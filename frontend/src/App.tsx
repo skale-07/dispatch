@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Suspense, lazy, useState } from "react";
 import { Link, NavLink, Route, Routes } from "react-router-dom";
 import { HomePage } from "./pages/HomePage";
 import { OverviewPage } from "./pages/OverviewPage";
@@ -11,6 +11,11 @@ import { RunDetailPage } from "./pages/RunDetailPage";
 import { EnqueuePage } from "./pages/EnqueuePage";
 import { OutreachPage } from "./pages/OutreachPage";
 import { SettingsPage } from "./pages/SettingsPage";
+// Charts (visx + the Bklit components) are the heaviest thing the console
+// ships; the lazy route keeps them out of everyone else's first load.
+const InsightsPage = lazy(() =>
+  import("./pages/InsightsPage").then((m) => ({ default: m.InsightsPage })),
+);
 import { useTheme } from "./hooks/useTheme";
 import { formatCountdown, useArmStatus } from "./hooks/useArmStatus";
 import { usePoll } from "./hooks/usePoll";
@@ -18,6 +23,8 @@ import { apiGet } from "./api/client";
 import type { ReviewItemView } from "./api/types";
 import { DispatchMark } from "./components/DispatchMark";
 import { Icon } from "./components/Icon";
+import { AnimatePresence, arriveAndDepart, m } from "./components/Animated";
+import { CommandBar } from "./components/CommandBar";
 
 /**
  * Navigation is split by audience. The primary set answers what is
@@ -36,6 +43,7 @@ const PRIMARY_NAV = [
 
 const ADVANCED_NAV = [
   { to: "/overview", label: "Overview" },
+  { to: "/insights", label: "Insights" },
   { to: "/runs", label: "Runs" },
   { to: "/enqueue", label: "Enqueue" },
   { to: "/fill-outcomes", label: "Fill outcomes" },
@@ -73,6 +81,7 @@ export function App(): JSX.Element {
           </span>
           dispatch<span>·console</span>
         </div>
+        <CommandBar />
         <nav aria-label="Primary">
           {PRIMARY_NAV.map((item) => (
             <NavLink
@@ -128,17 +137,24 @@ export function App(): JSX.Element {
       </aside>
 
       <main className="main" id="main">
-        {arm?.armed ? (
-          <Link
-            to="/"
-            className="armed-banner"
-            title="An unattended session is live"
-          >
-            <Icon name="bolt" size={13} /> Dispatch is applying — {formatCountdown(arm.seconds_remaining)} left ·{" "}
-            {arm.submits_used}/{arm.max_submits} submitted · {arm.apps_started}/
-            {arm.max_apps} worked
-          </Link>
-        ) : null}
+        <AnimatePresence initial={false}>
+          {arm?.armed ? (
+            // Arming/disarming is exactly the state change motion exists
+            // for — the banner slides in when a session goes live and
+            // collapses away when it ends.
+            <m.div key="armed" {...arriveAndDepart}>
+              <Link
+                to="/"
+                className="armed-banner"
+                title="An unattended session is live"
+              >
+                <Icon name="bolt" size={13} /> Dispatch is applying — {formatCountdown(arm.seconds_remaining)} left ·{" "}
+                {arm.submits_used}/{arm.max_submits} submitted · {arm.apps_started}/
+                {arm.max_apps} worked
+              </Link>
+            </m.div>
+          ) : null}
+        </AnimatePresence>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/overview" element={<OverviewPage />} />
@@ -150,6 +166,14 @@ export function App(): JSX.Element {
           <Route path="/enqueue" element={<EnqueuePage />} />
           <Route path="/outreach" element={<OutreachPage />} />
           <Route path="/fill-outcomes" element={<FillOutcomesPage />} />
+          <Route
+            path="/insights"
+            element={
+              <Suspense fallback={<p className="faint">Loading insights…</p>}>
+                <InsightsPage />
+              </Suspense>
+            }
+          />
           <Route path="/settings" element={<SettingsPage />} />
           <Route
             path="*"

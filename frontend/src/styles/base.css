@@ -1120,3 +1120,81 @@ a.evidence-frame:hover {
   display: grid;
   gap: var(--space-3);
 }
+
+/* U4: type-to-jump command bar (interaction design after KokonutUI's
+   action-search-bar, rebuilt on the token system). Lives in the sidebar;
+   the dropdown floats over content. */
+.command-bar {
+  position: relative;
+  margin: 0 0 var(--space-3);
+}
+.command-bar-box {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-raised);
+  padding: 0.3rem 0.55rem;
+  color: var(--text-faint);
+}
+.command-bar-box:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-dim);
+}
+.command-bar-box input {
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: var(--text-xs);
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+}
+.command-bar-list {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: var(--z-modal);
+  margin: 0;
+  padding: 0.25rem;
+  list-style: none;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.command-bar-list button {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  border: 0;
+  background: transparent;
+  border-radius: var(--radius-sm);
+  padding: 0.35rem 0.5rem;
+  font-size: var(--text-xs);
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+}
+.command-bar-list button.active,
+.command-bar-list button:hover {
+  background: var(--bg-hover);
+}
+.command-bar-list .command-label {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.command-bar-list .command-detail {
+  color: var(--text-faint);
+  font-size: var(--text-2xs);
+  white-space: nowrap;
+}

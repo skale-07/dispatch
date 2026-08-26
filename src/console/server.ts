@@ -20,6 +20,7 @@ import {
   listApplicationRowsPaged,
   listReviewItemViews,
 } from "./readModels.js";
+import { buildInsightsView } from "./insights.js";
 import { checkBearerToken, checkHostHeader, generateBootToken } from "./security.js";
 import { buildMutationRoutes } from "./mutations.js";
 import { buildAutomationRoutes } from "./automationRoutes.js";
@@ -128,6 +129,12 @@ export function createConsoleHandler(
       method: "GET",
       pattern: "/api/fill-outcomes",
       handler: ({ res }) => json(res, 200, buildFillOutcomesView(deps.db)),
+    },
+    {
+      method: "GET",
+      pattern: "/api/insights",
+      handler: ({ res }) =>
+        json(res, 200, buildInsightsView(deps.db, deps.artifactsDir)),
     },
     {
       method: "GET",
