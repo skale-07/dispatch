@@ -64,3 +64,15 @@ captcha/phone walls, `needs_input` + `need` for email verification (the
 Node orchestrator services it via the readonly Gmail tool and re-invokes
 with `resume`). Credentials, when provided, arrive on stdin only and ride
 browser-use's `sensitive_data` seam; they must never be printed.
+
+## S-spike: Stagehand engine (`stagehand/`)
+
+`agent/stagehand/navigate.mjs` is a second navigate sidecar speaking the
+same stdin/stdout contract over the same operator-CDP seam, driving
+Stagehand's DOM agent instead of browser-use. Select it with
+`AGENT_ENGINE=stagehand` in `.env` after a one-time
+`cd agent/stagehand && npm install` (its dependency is deliberately not
+in the main package.json). Until installed it fails safe — every task
+returns a contract-valid error naming the missing install. The default
+stays `browser_use`; promotion follows the pre-registered bar in
+`docs/agent-engine-decision.md`.
