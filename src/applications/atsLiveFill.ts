@@ -47,6 +47,10 @@ import {
   requiredQuestionLabels,
 } from "../ats/greenhouse/questionsApi.js";
 import {
+  diffDeclaredVsDom,
+  summarizeSchemaDiff,
+} from "../ats/greenhouse/schemaDiff.js";
+import {
   harvestFieldOptions,
   mergeDeclaredQuestions,
   type AnswerSpace,
@@ -313,6 +317,13 @@ export type AtsLiveFillReport = {
   }>;
   /** Text boxes revealed by choosing "Other", and what went into them. */
   other_specify?: OtherSpecifyOutcome[];
+  /**
+   * G3: reconciliation between the DOM discovery and the board's declared
+   * schema — which declared questions never matched a DOM field, which DOM
+   * fields the schema doesn't declare, and where two real option lists
+   * disagree. Present only when the board API answered.
+   */
+  schema_diff?: import("../ats/greenhouse/schemaDiff.js").SchemaDiff;
   /**
    * Extension-first activation outcome (X2): whether JobRight's extension
    * was triggered, whether the form changed, and which planned answers it
@@ -803,6 +814,11 @@ export async function runAtsLiveFill(input: {
         let apiOptions = new Map<string, string[]>();
         let apiAnswerSpace = new Map<string, AnswerSpace>();
         if (declared) {
+          // G3: reconcile BEFORE the merge overwrites DOM option lists —
+          // the diff's whole value is showing where the two sources
+          // disagreed, which the merged fields can no longer tell.
+          report.schema_diff = diffDeclaredVsDom(planFields, declared);
+          report.notes.push(summarizeSchemaDiff(report.schema_diff));
           const merged = mergeDeclaredQuestions(planFields, declared.byLabel);
           planFields = merged.fields;
           apiOptions = merged.options;

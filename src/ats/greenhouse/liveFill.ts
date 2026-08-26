@@ -24,6 +24,11 @@ import {
 } from "../shared/otherSpecify.js";
 import { inventoryFileInputs } from "../shared/uploadResolve.js";
 import { fetchGreenhouseQuestions } from "./questionsApi.js";
+import {
+  diffDeclaredVsDom,
+  summarizeSchemaDiff,
+  type SchemaDiff,
+} from "./schemaDiff.js";
 import { assertFormFillAllowed } from "../../applications/formFillGuards.js";
 import { redactFillReportForArtifact } from "../../applications/fillReportRedaction.js";
 import { withPublicUrlPage } from "../../browser/fixtureSession.js";
@@ -102,6 +107,8 @@ export type GreenhouseLiveFillReport = ApplicationFillReport & {
   }>;
   /** Text boxes revealed by choosing "Other", and what went into them. */
   other_specify?: OtherSpecifyOutcome[];
+  /** G3: DOM↔declared-schema reconciliation (see schemaDiff.ts). */
+  schema_diff?: SchemaDiff;
 };
 
 /** Approved FILL entries whose read-back verification failed. */
@@ -629,6 +636,9 @@ export async function runGreenhouseLiveFill(input: {
         let apiOptions = new Map<string, string[]>();
         let apiAnswerSpace = new Map<string, AnswerSpace>();
         if (declared) {
+          // G3: reconcile BEFORE the merge overwrites DOM option lists.
+          base.schema_diff = diffDeclaredVsDom(planFields, declared);
+          base.notes.push(summarizeSchemaDiff(base.schema_diff));
           const merged = mergeDeclaredQuestions(planFields, declared.byLabel);
           planFields = merged.fields;
           apiOptions = merged.options;

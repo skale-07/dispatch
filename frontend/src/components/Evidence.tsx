@@ -104,8 +104,71 @@ type FillReport = {
     }>;
     warnings?: string[];
   };
+  schema_diff?: {
+    declared_count?: number;
+    dom_count?: number;
+    matched?: number;
+    api_only?: Array<{ label?: string; required?: boolean }>;
+    dom_only?: string[];
+    option_mismatches?: Array<{
+      label?: string;
+      dom_options?: number;
+      api_options?: number;
+    }>;
+  };
   notes?: string[];
 };
+
+/**
+ * The board publishes its own form schema; Dispatch reads the page. When
+ * the two disagree, that disagreement is the earliest evidence there is —
+ * a question the page hid on a later step, a control discovery missed, a
+ * dropdown whose menu rendered incomplete. Shown as its own block so
+ * "matched cleanly" and "half the schema never lined up" stop looking
+ * identical.
+ */
+function SchemaCrossCheck(props: {
+  diff: NonNullable<FillReport["schema_diff"]>;
+}): JSX.Element {
+  const { diff } = props;
+  const apiOnly = diff.api_only ?? [];
+  const domOnly = diff.dom_only ?? [];
+  const mismatches = diff.option_mismatches ?? [];
+  const clean = apiOnly.length === 0 && domOnly.length === 0 && mismatches.length === 0;
+  return (
+    <div className="evidence-schema">
+      <p className={clean ? "faint" : undefined}>
+        <Icon name={clean ? "check" : "alert"} size={13} /> Board schema
+        cross-check: {diff.matched ?? 0} of {diff.declared_count ?? 0} declared
+        questions matched the page's {diff.dom_count ?? 0} fields
+        {clean ? " — no gaps." : "."}
+      </p>
+      {clean ? null : (
+        <ul className="evidence-warnings">
+          {apiOnly.map((q) => (
+            <li key={`api-${q.label}`}>
+              The board declares “{q.label}”
+              {q.required ? " (required)" : ""} but Dispatch found no matching
+              field on the page.
+            </li>
+          ))}
+          {domOnly.map((label) => (
+            <li key={`dom-${label}`}>
+              The page shows “{label}”, which the board's schema does not
+              declare.
+            </li>
+          ))}
+          {mismatches.map((m) => (
+            <li key={`opt-${m.label}`}>
+              “{m.label}”: the page offered {m.dom_options ?? 0} options; the
+              board declares {m.api_options ?? 0}.
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
 
 /**
  * The fill report, read back field by field: what Dispatch put in each
@@ -220,6 +283,8 @@ export function FillEvidence(props: { relpath: string }): JSX.Element {
           ))}
         </ul>
       ) : null}
+
+      {report.schema_diff ? <SchemaCrossCheck diff={report.schema_diff} /> : null}
     </div>
   );
 }
