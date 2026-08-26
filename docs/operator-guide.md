@@ -852,8 +852,10 @@ language ("Answer 1 written question — Cohere — a draft is ready for
 you"), each linking straight to the application. Submitted applications
 and a setup checklist (JobRight login, Outlook, applying on/off) fill the
 rest of the page. The sidebar shows Home / Needs you / Applications / **Outreach** /
-Settings; Overview, Runs, Enqueue, and Fill outcomes — the
-operator-grade pages, unchanged — live under a collapsed **advanced**
+Settings; Overview, Insights (charts over the run history — fills per
+day, pipeline states, jobs by source, CAPTCHA walls), Runs, Enqueue, and
+Fill outcomes — the
+operator-grade pages — live under a collapsed **advanced**
 group. Custom session limits (duration/caps, arm-only) remain on
 Overview's arm card. **Outreach** is the apply-yourself email pipeline
 (paste a JobRight link; drafts only) — see §10.
