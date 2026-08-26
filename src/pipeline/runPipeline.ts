@@ -268,7 +268,12 @@ function routeNavigationWall(
         applicationId,
         kind: "CAPTCHA_REQUIRED",
         title: "Navigation blocked by CAPTCHA",
-        payload: { nav_run_id: nav.run_id },
+        // C2: carry the page so the console can offer "open and solve" —
+        // a park without the URL costs the operator a manual hunt.
+        payload: {
+          nav_run_id: nav.run_id,
+          url: nav.resolved_url ?? getEmployerApplicationUrl(db, applicationId),
+        },
       });
       return { to: "CAPTCHA_REQUIRED", note: "navigation captcha", stop: "review" };
     }

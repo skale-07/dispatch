@@ -50,6 +50,11 @@ import {
   diffDeclaredVsDom,
   summarizeSchemaDiff,
 } from "../ats/greenhouse/schemaDiff.js";
+import { detectBlockingCaptcha } from "../ats/greenhouse/captchaDetection.js";
+import {
+  buildCaptchaIncident,
+  pauseForHumanCaptcha,
+} from "../ats/shared/captchaPause.js";
 import {
   harvestFieldOptions,
   mergeDeclaredQuestions,
@@ -324,6 +329,8 @@ export type AtsLiveFillReport = {
    * disagree. Present only when the board API answered.
    */
   schema_diff?: import("../ats/greenhouse/schemaDiff.js").SchemaDiff;
+  /** C2: classed record of a blocking-CAPTCHA hit (host + provider, no candidate data). */
+  captcha_incident?: import("../ats/shared/captchaPause.js").CaptchaIncident;
   /**
    * Extension-first activation outcome (X2): whether JobRight's extension
    * was triggered, whether the form changed, and which planned answers it
@@ -547,6 +554,37 @@ export async function runAtsLiveFill(input: {
         report.notes.push(
           `workday page kind at gate: ${classifyWorkdayPage(gate.html)}`,
         );
+      }
+
+      // C2: a blocking CAPTCHA on a HEADED run pauses in place first —
+      // the operator is looking at the challenge; a bounded wait beats a
+      // park + requeue round-trip. Unattended (headless) never pauses.
+      // Every hit is recorded as a classed incident either way.
+      if (!gate.ok && gate.failureCode === "BLOCKING_CAPTCHA") {
+        const fieldCount = discoverFieldsFromHtml(gate.html).length;
+        const detection = detectBlockingCaptcha({
+          finalUrl: gate.finalUrl,
+          html: gate.html,
+          formDetected: fieldCount > 0,
+          fieldCount,
+        });
+        const pause = await pauseForHumanCaptcha(page, {
+          attended: input.headless === false && !input.fixtureHtml,
+        });
+        report.captcha_incident = buildCaptchaIncident({
+          surface: `ats_live_fill:${binding.id}`,
+          url: gate.finalUrl,
+          signals: detection.signals,
+          pause,
+        });
+        report.notes.push(...pause.notes);
+        if (pause.cleared) {
+          gate = await binding.gate(page, input.url, detected.normalizedUrl);
+          landing = applyGateToReport(report, gate);
+          report.notes.push(
+            `page class after captcha clearance: ${landing.page_class}`,
+          );
+        }
       }
 
       // Host / captcha / mismatch are terminal. Everything else recovers

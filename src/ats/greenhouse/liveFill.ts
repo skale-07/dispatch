@@ -29,6 +29,11 @@ import {
   summarizeSchemaDiff,
   type SchemaDiff,
 } from "./schemaDiff.js";
+import {
+  buildCaptchaIncident,
+  pauseForHumanCaptcha,
+  type CaptchaIncident,
+} from "../shared/captchaPause.js";
 import { assertFormFillAllowed } from "../../applications/formFillGuards.js";
 import { redactFillReportForArtifact } from "../../applications/fillReportRedaction.js";
 import { withPublicUrlPage } from "../../browser/fixtureSession.js";
@@ -109,6 +114,8 @@ export type GreenhouseLiveFillReport = ApplicationFillReport & {
   other_specify?: OtherSpecifyOutcome[];
   /** G3: DOM↔declared-schema reconciliation (see schemaDiff.ts). */
   schema_diff?: SchemaDiff;
+  /** C2: classed record of a blocking-CAPTCHA hit (host + provider, no candidate data). */
+  captcha_incident?: CaptchaIncident;
 };
 
 /** Approved FILL entries whose read-back verification failed. */
@@ -595,6 +602,35 @@ export async function runGreenhouseLiveFill(input: {
         base.captcha_detection = verified.captcha;
         base.login_wall_detection = verified.loginWall;
         base.failure_code = verified.failureCode;
+      }
+
+      // C2: a blocking CAPTCHA on a HEADED run pauses in place first — the
+      // operator is looking at the challenge, so a bounded wait beats a
+      // park + requeue round-trip. Headless never pauses. Recorded as a
+      // classed incident (host + provider only) either way.
+      if (!verified.ok && verified.captcha?.detected) {
+        const pause = await pauseForHumanCaptcha(page, {
+          attended: (input.headless ?? false) === false,
+        });
+        base.captcha_incident = buildCaptchaIncident({
+          surface: "greenhouse_live_fill",
+          url: verified.finalUrl,
+          signals: verified.captcha.signals,
+          pause,
+        });
+        base.notes.push(...pause.notes);
+        if (pause.cleared) {
+          verified = await verifyPageBeforeMutation(
+            page,
+            input.url,
+            urlValidation.normalizedUrl,
+          );
+          base.final_url = verified.finalUrl;
+          base.identity_verification = verified.identity;
+          base.captcha_detection = verified.captcha;
+          base.login_wall_detection = verified.loginWall;
+          base.failure_code = verified.failureCode;
+        }
       }
 
       if (!verified.ok) {

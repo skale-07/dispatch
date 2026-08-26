@@ -1713,3 +1713,43 @@ Discovered jobs carry `employer_application_url` from ingestion, so they
 skip the JobRight navigation leg entirely — `run --pipeline` goes straight
 to the form. Boards are swept at most 50 per run, one request per board,
 throttled per host.
+
+## 22. CAPTCHAs — the human-in-the-loop contract
+
+Dispatch never uses CAPTCHA solvers: challenges exist to be answered by a
+person, and defeating them is both against the sites' rules and the wrong
+product. What Dispatch does instead is make YOUR solve as cheap as
+possible:
+
+- **Headed run (you're watching):** when a blocking challenge appears, the
+  run pauses in place for up to 90 seconds — a terminal bell + message
+  names the page. Solve it in the open browser window and the run
+  continues by itself; do nothing and it parks exactly as before.
+- **Headless / unattended run:** unchanged — immediate park
+  (`CAPTCHA_REQUIRED` + review item), never a wait.
+- **Parked items:** the console's review panel now offers "Open the page
+  to solve it ↗" on CAPTCHA and auth walls whose park recorded the URL,
+  then "Captcha solved — requeue". Several at once clear in bulk with
+  `review:bulk --action requeue-wall`.
+- **Telemetry:** every blocking hit is recorded on the fill report as a
+  classed incident — host, provider (recaptcha / hcaptcha / turnstile /
+  interstitial), whether the run paused and whether you cleared it. No
+  candidate data. The improvement loop uses this to answer "where do we
+  actually hit CAPTCHAs" instead of guessing.
+
+## 23. Handing a parked wall to your browser agent
+
+Some parks are fastest to finish by driving the page yourself with a
+browser-embedded agent (e.g. Claude in Chrome) — you're signed in as
+yourself, on your own cookies, and the agent works the live form while
+you watch. On `AUTH_REQUIRED`, `UNSUPPORTED_ATS`, and manual
+required-questions parks, the console's review panel offers **Copy brief
+for a browser agent**: one paste gives the agent the page, the blocker,
+the still-unanswered questions (labels only — never your answers), and
+the house rules — ask before inventing anything, leave demographic /
+self-ID questions alone, report CAPTCHAs instead of attempting them, and
+stop before Submit so you review.
+
+Deliberately absent on `CAPTCHA_REQUIRED`: a challenge is yours to solve,
+not any agent's — that park keeps only "Open the page to solve it" and
+the requeue action (§22).
