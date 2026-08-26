@@ -1,0 +1,90 @@
+/* U2: Tailwind v4, bridged to the Dispatch token system.
+
+   ONE system, not two. Every color a Tailwind utility or a shadcn-style
+   component (KokonutUI, Bklit) can reach resolves to a variable from
+   tokens.css — the bridge below maps Tailwind's theme names onto the
+   existing tokens with var() references, and the default Tailwind color
+   palette is wiped so an off-palette `bg-blue-500` simply does not
+   exist. tests/unit/design-tokens.test.ts asserts every bridge entry
+   points at a real token.
+
+   Deliberately NOT imported: Tailwind's preflight. base.css was written
+   without it, and bare headings/paragraphs across the console rely on
+   browser defaults preflight would zero out. The minimal base layer
+   below carries the two preflight rules component utilities genuinely
+   need (border reset; box-sizing is already global in base.css). All of
+   base.css is unlayered, so it always wins over anything layered here.
+
+   The type scale needs no bridge: tokens.css declares --text-xs/sm/
+   base/lg/xl on :root unlayered, which OVERRIDES the layered Tailwind
+   theme defaults of the same names — text-sm etc. already resolve to
+   the Dispatch scale. */
+
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+@theme {
+  /* No invented colors: remove the entire stock palette... */
+  --color-*: initial;
+}
+
+@theme inline {
+  /* ...and expose ONLY the Dispatch tokens, under both their own names
+     and the shadcn semantic names registry components expect. */
+  --color-bg: var(--bg);
+  --color-bg-raised: var(--bg-raised);
+  --color-bg-inset: var(--bg-inset);
+  --color-bg-hover: var(--bg-hover);
+  --color-border-token: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-text: var(--text);
+  --color-text-dim: var(--text-dim);
+  --color-text-faint: var(--text-faint);
+  --color-ok: var(--ok);
+  --color-ok-dim: var(--ok-dim);
+  --color-warn: var(--warn);
+  --color-warn-dim: var(--warn-dim);
+  --color-purple: var(--purple);
+  --color-purple-dim: var(--purple-dim);
+
+  /* shadcn semantic vocabulary → Dispatch tokens */
+  --color-background: var(--bg);
+  --color-foreground: var(--text);
+  --color-card: var(--bg-raised);
+  --color-card-foreground: var(--text);
+  --color-popover: var(--bg-raised);
+  --color-popover-foreground: var(--text);
+  --color-primary: var(--accent);
+  --color-primary-foreground: var(--bg-raised);
+  --color-secondary: var(--bg-inset);
+  --color-secondary-foreground: var(--text);
+  --color-muted: var(--bg-inset);
+  --color-muted-foreground: var(--text-dim);
+  --color-accent: var(--bg-hover);
+  --color-accent-foreground: var(--text);
+  --color-destructive: var(--danger);
+  --color-destructive-foreground: var(--bg-raised);
+  --color-border: var(--border);
+  --color-input: var(--border);
+  --color-ring: var(--accent);
+  --color-danger: var(--danger);
+  --color-danger-dim: var(--danger-dim);
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius);
+  --radius-lg: var(--radius-lg);
+}
+
+@layer base {
+  /* The one preflight rule utilities cannot work without: border-width
+     utilities assume a solid zero-width default. Loses to every
+     unlayered base.css rule by design. */
+  *,
+  ::before,
+  ::after {
+    border-width: 0;
+    border-style: solid;
+    border-color: var(--border);
+  }
+}

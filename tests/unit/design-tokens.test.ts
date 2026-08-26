@@ -188,6 +188,26 @@ describe("design/tokens.json ↔ tokens.css contract (UNIT_CONFIRMED)", () => {
     expect(block).toMatch(/\.shell\s*\{[^}]*flex-direction:\s*column/);
   });
 
+  it("the Tailwind bridge maps ONLY onto real tokens (U2 — one system, not two)", () => {
+    // frontend/src/styles/tailwind.css exposes Tailwind/shadcn theme
+    // names as var() references into tokens.css. Every reference must
+    // resolve to a declared token, and the stock palette must stay
+    // wiped — an off-palette bg-blue-500 must not exist.
+    const tw = fs.readFileSync(
+      path.join(process.cwd(), "frontend", "src", "styles", "tailwind.css"),
+      "utf8",
+    );
+    expect(tw).toContain("--color-*: initial");
+    const declared = new Set(Object.keys(css.light));
+    const refs = [...tw.matchAll(/var\(--([a-z0-9-]+)\)/g)].map((m) => m[1]!);
+    expect(refs.length).toBeGreaterThanOrEqual(20);
+    for (const ref of refs) {
+      expect(declared.has(ref), `--${ref} referenced by the bridge exists in tokens.css`).toBe(
+        true,
+      );
+    }
+  });
+
   it("Motion's animation constants mirror the motion tokens (U1)", () => {
     // frontend/src/components/Animated.tsx is the one seam to the Motion
     // library; its durations/easing are written as literals (Motion takes

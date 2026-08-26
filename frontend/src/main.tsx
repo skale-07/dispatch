@@ -9,6 +9,9 @@ import { readTokenFromHash } from "./api/client";
 // silently fall back to system-ui, which is exactly the bug this fixes.
 import "@fontsource-variable/inter";
 import "./styles/tokens.css";
+// Tailwind rides in layers and is bridged to the tokens (see the file's
+// header); unlayered base.css always wins where they disagree.
+import "./styles/tailwind.css";
 import "./styles/base.css";
 
 // The boot token arrives once in the URL fragment; stash it and strip it
