@@ -114,6 +114,14 @@ const envSchema = z.object({
   /** Phase 6a': sidecar escalation when the in-process healer fails. Fail closed. */
   AGENT_FALLBACK_ENABLED: boolFromEnv.default(false),
   /**
+   * D-rev: multi-source discovery from the ATSes' own PUBLIC board APIs
+   * (Greenhouse/Lever/Ashby/Workable, unauthenticated GETs) into the local
+   * queue. Read-only against the network, but it creates jobs +
+   * applications autonomously — that queue mutation is why it is a
+   * capability flag. Fail closed.
+   */
+  ATS_DISCOVERY_ENABLED: boolFromEnv.default(false),
+  /**
    * L3 kill switch. The console automation worker (unattended apply while
    * armed) is refused unless this is set — regardless of any arm. Fail closed.
    */
@@ -207,6 +215,8 @@ export type AppConfig = {
   /** Generate essay answers from about-me.md and FILL them. Also unlocked by SCREENER_PREDICT_LLM_ENABLED. */
   essayAutofillEnabled: boolean;
   agentFallbackEnabled: boolean;
+  /** Enqueue from the ATSes' own public board APIs (D-rev). Fail closed. */
+  atsDiscoveryEnabled: boolean;
   automationEnabled: boolean;
   agentCdpUrl: string;
   cdpAutolaunchEnabled: boolean;
@@ -291,6 +301,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
     essayDraftEnabled: parsed.ESSAY_DRAFT_ENABLED,
     essayAutofillEnabled: parsed.ESSAY_AUTOFILL_ENABLED,
     agentFallbackEnabled: parsed.AGENT_FALLBACK_ENABLED,
+    atsDiscoveryEnabled: parsed.ATS_DISCOVERY_ENABLED,
     automationEnabled: parsed.AUTOMATION_ENABLED,
     agentCdpUrl: parsed.AGENT_CDP_URL,
     cdpAutolaunchEnabled: parsed.CDP_AUTOLAUNCH_ENABLED,

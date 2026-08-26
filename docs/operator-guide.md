@@ -614,6 +614,7 @@ contract rather than trusted.
 | `GMAIL_VERIFICATION_ENABLED` | `false` | Gmail verification retrieval during nav — browser mailbox scan primary (no token); REST only if a token exists |
 | `ESSAY_REQUIRED_GATE_ENABLED` | `false` | Hard-stop on heuristic essay detection (`ESSAY_REQUIRED`); off until heuristics are better |
 | `OUTLOOK_VERIFICATION_ENABLED` | `false` | Read-only Outlook mailbox scan for submit verification codes (§17) |
+| `ATS_DISCOVERY_ENABLED` | `false` | Enqueue from public ATS board APIs (`discover:ats`, §21) — creates jobs + applications |
 
 Console-only (not capability flags): `CONSOLE_HOST` (`127.0.0.1`,
 validated) and `CONSOLE_PORT` (`8899`). The console process `.env` is the
@@ -1661,3 +1662,54 @@ npm run ats:fill -- --url http://localhost:4599/navhard  --execute --headed
 npm run ats:fill -- --url http://localhost:4599/fillhard --execute --headed
 npm run ats:fill -- --url http://localhost:4599/portal   --execute --headed
 ```
+
+## 21. Multi-source discovery — `discover:ats`
+
+JobRight is one lens on the market. Every Tier-1 ATS also publishes a
+company's open postings as unauthenticated public JSON — the same data
+their career pages render from. `discover:ats` reads those board APIs
+directly and enqueues matching roles into the normal queue, so the
+pipeline (materials → fill → confirm → submit) picks them up exactly like
+a JobRight job. No browser, no scraping, one GET per board.
+
+Requires `ATS_DISCOVERY_ENABLED=true` in `.env` (it creates jobs +
+applications; fail-closed like every capability).
+
+```
+# One-off sweep of a board you care about:
+npm run cli -- discover:ats --board greenhouse:appian --company Appian --match intern,new grad --limit 10
+
+# Several boards at once (board URLs work too):
+npm run cli -- discover:ats --board greenhouse:appian,lever:ramp,ashby:notion --match intern
+
+# Standing registry (operator-reviewed, lives in private/ — not committed):
+npm run cli -- discover:ats --registry private/discovery/boards.json
+```
+
+`private/discovery/boards.json`:
+
+```json
+{
+  "boards": [
+    { "ref": "greenhouse:appian", "company": "Appian",
+      "include": ["intern", "new grad"], "exclude": ["senior", "staff"] },
+    { "ref": "workable:acme", "company": "Acme" }
+  ]
+}
+```
+
+What it does per board: fetch the board's own API (greenhouse
+`boards-api.greenhouse.io`, lever `api.lever.co`, ashby
+`api.ashbyhq.com/posting-api`, workable `apply.workable.com/api/v1/widget`),
+apply the title filter (`exclude` wins; empty `include` keeps all), then
+enqueue each kept role through the same fingerprint dedupe and legal
+state edges as manual `enqueue`. The board's apply URL must re-validate
+as that same ATS or the row is refused (`rejected_url`). Re-running a
+sweep is idempotent — existing applications are `reused`, jobs with a
+verified or uncertain submission are `blocked`, and a run stops creating
+new applications at `--limit` (default 25), marking the overflow `capped`.
+
+Discovered jobs carry `employer_application_url` from ingestion, so they
+skip the JobRight navigation leg entirely — `run --pipeline` goes straight
+to the form. Boards are swept at most 50 per run, one request per board,
+throttled per host.

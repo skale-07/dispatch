@@ -665,6 +665,34 @@
           "generateVerificationCode"
         ]
       }
+    },
+    {
+      "id": "discovery",
+      "label": "ATS board discovery",
+      "layer": "ingress",
+      "purpose": "D-rev multi-source discovery: enumerate a company's open postings from the ATS's own public board API (Greenhouse/Lever/Ashby/Workable, unauthenticated GETs), title-filter them, and enqueue via the same fingerprint dedupe + legal state edges as manual enqueue. Read-only against the network; queue mutation is behind ATS_DISCOVERY_ENABLED.",
+      "paths": [
+        "src/discovery"
+      ],
+      "key_files": {
+        "src/discovery/atsBoards.ts": "board ref parsing, per-ATS payload narrowing, per-host throttle, title filter",
+        "src/discovery/atsDiscovery.ts": "flag-gated sweep: registry -> fetch -> filter -> upsert + enqueue with caps"
+      },
+      "key_exports": {
+        "src/discovery/atsBoards.ts": [
+          "parseAtsBoardRef",
+          "fetchBoardJobs",
+          "parseBoardPayload",
+          "filterBoardJobs"
+        ],
+        "src/discovery/atsDiscovery.ts": [
+          "runAtsBoardDiscovery",
+          "loadBoardRegistry"
+        ]
+      },
+      "gates": [
+        "ATS_DISCOVERY_ENABLED"
+      ]
     }
   ],
   "edges": [
@@ -871,6 +899,24 @@
       "from": "sandbox",
       "to": "ats",
       "why": "the sandbox is designed to be driven by ats:fill (generic adapter, loopback allowance)"
+    },
+    {
+      "from": "discovery",
+      "to": "jobs",
+      "kind": "calls",
+      "why": "discovered postings become job rows through upsertJobByFingerprint + one-active-per-job dedupe"
+    },
+    {
+      "from": "discovery",
+      "to": "queue",
+      "kind": "calls",
+      "why": "new applications walk DUPLICATE_CHECK -> ELIGIBILITY_CHECK -> QUEUED through the state machine, never ad-hoc writes"
+    },
+    {
+      "from": "cli",
+      "to": "discovery",
+      "kind": "calls",
+      "why": "discover:ats sweeps operator-listed boards (ATS_DISCOVERY_ENABLED)"
     }
   ],
   "flags": {
@@ -896,7 +942,8 @@
     "ESSAY_DRAFT_ENABLED": "essay SUGGESTION into review (human approves)",
     "ESSAY_AUTOFILL_ENABLED": "essays generated from about-me.md fill directly (also unlocked by SCREENER_PREDICT_LLM_ENABLED; validateDraft-checked, recorded on the plan)",
     "ARTIFACT_AUTOPUSH_ENABLED": "git-push run artifacts for the improvement loop",
-    "AUTOMATION_ENABLED": "L3 armed sessions kill switch"
+    "AUTOMATION_ENABLED": "L3 armed sessions kill switch",
+    "ATS_DISCOVERY_ENABLED": "Enqueue from public ATS board APIs (creates jobs + applications). Fail closed."
   },
   "invariants": [
     "Every mutation capability is behind a fail-closed env flag; never defaulted on, never enabled in tests.",
