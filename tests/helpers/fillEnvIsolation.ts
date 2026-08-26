@@ -25,6 +25,9 @@ export const CONTROLLED_FILL_ENV_KEYS = [
   "OUTLOOK_VERIFICATION_ENABLED",
   "ESSAY_REQUIRED_GATE_ENABLED",
   "AUTOMATION_ENABLED",
+  // D-rev: gates board-API discovery enqueue; ambient "true" would let a
+  // test reach the network.
+  "ATS_DISCOVERY_ENABLED",
   // X2: these gate the extension-first fill strategy; an ambient "true"
   // would flip fixture pipelines into the extension path.
   "JOBRIGHT_AUTOFILL_ENABLED",

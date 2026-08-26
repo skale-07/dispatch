@@ -93,6 +93,12 @@ import path from "node:path";
 import { liveCapturesRoot } from "../recorder/workflows.js";
 import { runJobRightDiscovery } from "../jobright/discoveryRun.js";
 import { enqueueJobRightJobs } from "../jobright/enqueueJobs.js";
+import {
+  loadBoardRegistry,
+  runAtsBoardDiscovery,
+  type BoardRegistryEntry,
+} from "../discovery/atsDiscovery.js";
+import { parseAtsBoardRef } from "../discovery/atsBoards.js";
 import { runJobrightResumeDownload } from "../jobright/resumeDownloadRun.js";
 import { registerResumeMaterial } from "../jobright/materialsRegister.js";
 import { runGreenhouseLiveFill } from "../ats/greenhouse/liveFill.js";
@@ -140,6 +146,7 @@ Commands:
   record-jobright [--workflow <name>] [--all] [--derive-fixtures]
   recorder:promote --run <runId> --workflow <name> [--force]
   discover [--fixture] [--max-jobs N] [--probe-detail]
+  discover:ats --board <ats:token>[,...] | --registry <boards.json> [--match a,b] [--drop x,y] [--limit N]   — enqueue from public ATS board APIs (ATS_DISCOVERY_ENABLED)
   enqueue --jobright <url|id> [--jobright ...] [--file path] [--employer-url <ats-apply-url (greenhouse|lever|ashby)>]
   inspect --job <jobright_job_id> [--application <uuid>] [--fixture] [--save-diagnostics]
   ats:inspect --url <ATS_APPLICATION_URL (greenhouse|lever|ashby)> [--headed] [--save-diagnostics]
@@ -470,6 +477,91 @@ Prints application UUID(s) — required for materials:register / submit.`);
     if (report.failed > 0 || report.blocked > 0) {
       process.exitCode = report.enqueued + report.reused > 0 ? 3 : 1;
     }
+  } finally {
+    closeDatabase(db);
+  }
+}
+
+/**
+ * D-rev: enqueue straight from the ATSes' public board APIs.
+ * Gated by ATS_DISCOVERY_ENABLED (it creates jobs + applications).
+ */
+async function cmdDiscoverAts(
+  flags: Record<string, string | boolean>,
+): Promise<void> {
+  const usage = (): never => {
+    console.error(`Usage:
+  discover:ats --board <ats:token>[,<ats:token>...] [--company <name>] [--match a,b] [--drop x,y] [--limit N]
+  discover:ats --registry <path/to/boards.json> [--match a,b] [--drop x,y] [--limit N]
+
+  --board     greenhouse:appian | lever:acme | ashby:notion | workable:acme
+              (a board URL like https://job-boards.greenhouse.io/appian works too)
+  --registry  operator-reviewed JSON: {"boards":[{"ref":"greenhouse:appian","company":"Appian","include":["intern"],"exclude":["senior"]}]}
+  --match     keep only titles containing ANY term (comma-separated)
+  --drop      drop titles containing ANY term (exclude wins)
+  --limit     max NEW applications this run (default 25)
+
+Requires ATS_DISCOVERY_ENABLED=true in .env. Read-only against the network;
+prints the enqueue report as JSON.`);
+    process.exit(2);
+    throw new Error("unreachable");
+  };
+
+  const split = (v: string | boolean | undefined): string[] =>
+    typeof v === "string"
+      ? v
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean)
+      : [];
+
+  const entries: BoardRegistryEntry[] = [];
+  const registryPath = flags["registry"];
+  if (typeof registryPath === "string") {
+    const loaded = loadBoardRegistry(registryPath);
+    for (const e of loaded.errors) console.error(`registry: ${e}`);
+    entries.push(...loaded.entries);
+  }
+  const inlineCompany =
+    typeof flags["company"] === "string" ? flags["company"] : undefined;
+  const inlineRefs = split(flags["board"]);
+  if (inlineRefs.length > 1 && inlineCompany) {
+    console.error(
+      "Refusing --company with multiple --board refs (one name cannot label many employers).",
+    );
+    process.exit(2);
+    return;
+  }
+  for (const raw of inlineRefs) {
+    const ref = parseAtsBoardRef(raw);
+    if (!ref) {
+      console.error(`unparseable board ref: ${raw}`);
+      process.exit(2);
+      return;
+    }
+    entries.push({
+      ref,
+      company: inlineCompany ?? ref.token,
+      include: [],
+      exclude: [],
+    });
+  }
+  if (entries.length === 0) usage();
+
+  const limit = typeof flags["limit"] === "string" ? Number(flags["limit"]) : NaN;
+  const db = openDatabase();
+  try {
+    migrate(db);
+    const report = await runAtsBoardDiscovery({
+      db,
+      entries,
+      globalFilter: { include: split(flags["match"]), exclude: split(flags["drop"]) },
+      ...(Number.isFinite(limit) && limit > 0
+        ? { maxNewApplications: limit }
+        : {}),
+    });
+    console.log(JSON.stringify(report, null, 2));
+    if (report.boards.every((b) => !b.ok)) process.exitCode = 1;
   } finally {
     closeDatabase(db);
   }
@@ -1768,6 +1860,9 @@ async function main(): Promise<void> {
       return;
     case "discover":
       await cmdDiscover(flags);
+      return;
+    case "discover:ats":
+      await cmdDiscoverAts(flags);
       return;
     case "enqueue":
       cmdEnqueue();
