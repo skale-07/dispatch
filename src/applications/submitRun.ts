@@ -10,6 +10,10 @@ import {
 } from "./submitConfirmation.js";
 import { diagnoseDisabledSubmit } from "../ats/shared/submitDiagnostics.js";
 import { scanRequiredCompleteness } from "../ats/shared/requiredCompleteness.js";
+import {
+  fetchGreenhouseQuestions,
+  requiredQuestionLabels,
+} from "../ats/greenhouse/questionsApi.js";
 import type { SubmitClickOptions } from "../ats/adapter.js";
 import { recoverEmailVerification } from "../verification/recoverSubmitVerification.js";
 import {
@@ -604,10 +608,26 @@ export async function runAtsSubmission(input: {
           // (client-side validation bounced it; the run ended UNCERTAIN).
           // Scan the live page and refuse BEFORE the click, naming each
           // unanswered question — no budget spent, precise review item.
-          const completeness = await scanRequiredCompleteness(page);
+          // G2: the board's own schema is a third requiredness source —
+          // Greenhouse publishes `required` per question, and a control the
+          // DOM heuristics saw as optional still blocks the click when the
+          // board says it is required. Read-only, memoized (the plan-time
+          // fetch already paid the round-trip), fail-open: null ⇒ the DOM
+          // heuristics carry the load unchanged.
+          const declaredQuestions = await fetchGreenhouseQuestions(
+            page.url(),
+          ).catch(() => null);
+          const completeness = await scanRequiredCompleteness(page, {
+            declaredRequired: requiredQuestionLabels(declaredQuestions),
+          });
           if (completeness.unanswered.length > 0) {
             const names = completeness.unanswered
-              .map((u) => `${u.label} [${u.control}]`)
+              .map(
+                (u) =>
+                  `${u.label} [${u.control}${
+                    u.source === "board_api" ? ", required per board API" : ""
+                  }]`,
+              )
               .join("; ");
             markSubmissionFailed(
               db,

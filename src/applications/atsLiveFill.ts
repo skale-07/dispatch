@@ -42,10 +42,17 @@ import {
   mergePostingContext,
 } from "./essayAutofill.js";
 import { classifyPage } from "../ats/shared/pageClassify.js";
-import { fetchGreenhouseQuestions } from "../ats/greenhouse/questionsApi.js";
 import {
-  applyLabelOptions,
+  fetchGreenhouseQuestions,
+  requiredQuestionLabels,
+} from "../ats/greenhouse/questionsApi.js";
+import {
+  diffDeclaredVsDom,
+  summarizeSchemaDiff,
+} from "../ats/greenhouse/schemaDiff.js";
+import {
   harvestFieldOptions,
+  mergeDeclaredQuestions,
   type AnswerSpace,
   type OptionHarvestResult,
 } from "../ats/shared/optionHarvest.js";
@@ -77,6 +84,8 @@ async function attemptSandboxSubmit(args: {
   binding: AtsBinding;
   report: AtsLiveFillReport;
   approvedPlan: ApprovedFillPlan;
+  /** G2: labels the board's own schema declares required (fail-open []). */
+  declaredRequired?: string[];
   assumeYes?: boolean;
   confirmSubmission?: ConfirmSubmission;
 }): Promise<void> {
@@ -105,10 +114,17 @@ async function attemptSandboxSubmit(args: {
 
   assertSubmitAllowed(`atsLiveFill.${binding.id}.submit`);
 
-  const completeness = await scanRequiredCompleteness(page);
+  const completeness = await scanRequiredCompleteness(page, {
+    declaredRequired: args.declaredRequired ?? [],
+  });
   if (completeness.unanswered.length > 0) {
     const names = completeness.unanswered
-      .map((u) => `${u.label} [${u.control}]`)
+      .map(
+        (u) =>
+          `${u.label} [${u.control}${
+            u.source === "board_api" ? ", required per board API" : ""
+          }]`,
+      )
       .join("; ");
     refuse(
       "failed_before_click",
@@ -301,6 +317,13 @@ export type AtsLiveFillReport = {
   }>;
   /** Text boxes revealed by choosing "Other", and what went into them. */
   other_specify?: OtherSpecifyOutcome[];
+  /**
+   * G3: reconciliation between the DOM discovery and the board's declared
+   * schema — which declared questions never matched a DOM field, which DOM
+   * fields the schema doesn't declare, and where two real option lists
+   * disagree. Present only when the board API answered.
+   */
+  schema_diff?: import("../ats/greenhouse/schemaDiff.js").SchemaDiff;
   /**
    * Extension-first activation outcome (X2): whether JobRight's extension
    * was triggered, whether the form changed, and which planned answers it
@@ -770,34 +793,56 @@ export async function runAtsLiveFill(input: {
       // list that only offered "Other"). Execute-only — plan_only stays
       // zero-interaction — and read-only w.r.t. values: it opens controls,
       // reads, and escapes without ever committing a choice.
+      // Greenhouse publishes the form's questions and their COMPLETE
+      // option lists as public JSON. One request beats opening eight
+      // comboboxes, and it cannot be truncated by a virtualized menu's
+      // scroll position the way a DOM read can (live: "How did you hear
+      // about Appian?" has 22 options). Fail-open — null means the DOM
+      // harvest carries the whole load, exactly as before. G1: fetched in
+      // BOTH modes — the fetch is a network read, so plan_only's
+      // zero-interaction promise holds; only the DOM harvest below stays
+      // execute-only. Before this, plan_only previews planned every
+      // dropdown blind.
+      const declared = await fetchGreenhouseQuestions(planUrl).catch(() => null);
       let harvest: OptionHarvestResult | null = null;
-      if (input.execute) {
+      let declaredOnly: {
+        options: Map<string, string[]>;
+        answerSpace: Map<string, AnswerSpace>;
+      } | null = null;
+      {
         let planFields = discoverFieldsFromHtml(planHtml);
-        // Greenhouse publishes the form's questions and their COMPLETE
-        // option lists as public JSON. One request beats opening eight
-        // comboboxes, and it cannot be truncated by a virtualized menu's
-        // scroll position the way a DOM read can (live: "How did you hear
-        // about Appian?" has 22 options). Fail-open — null means the DOM
-        // harvest below carries the whole load, exactly as before.
-        const declared = await fetchGreenhouseQuestions(planUrl).catch(() => null);
-        const apiOptions = new Map<string, string[]>();
+        let apiOptions = new Map<string, string[]>();
+        let apiAnswerSpace = new Map<string, AnswerSpace>();
         if (declared) {
-          const applied = applyLabelOptions(planFields, declared.byLabel);
-          planFields = applied.fields;
-          for (const f of planFields) {
-            if ((f.options?.length ?? 0) > 0) apiOptions.set(f.id, f.options!);
-          }
+          // G3: reconcile BEFORE the merge overwrites DOM option lists —
+          // the diff's whole value is showing where the two sources
+          // disagreed, which the merged fields can no longer tell.
+          report.schema_diff = diffDeclaredVsDom(planFields, declared);
+          report.notes.push(summarizeSchemaDiff(report.schema_diff));
+          const merged = mergeDeclaredQuestions(planFields, declared.byLabel);
+          planFields = merged.fields;
+          apiOptions = merged.options;
+          apiAnswerSpace = merged.answerSpace;
           report.notes.push(
-            `board API declared ${declared.questions.length} question(s); matched complete option lists onto ${applied.matched} field(s)`,
+            `board API declared ${declared.questions.length} question(s); matched complete option lists onto ${merged.matched} field(s)${
+              input.execute ? "" : " (plan_only — API options, no DOM harvest)"
+            }`,
           );
         }
-        // Fields the API already answered are not re-opened in the browser —
-        // that is the speed win. The harvest handles only what is left.
-        harvest = await harvestFieldOptions(page, planFields);
-        for (const [id, options] of apiOptions) {
-          harvest.options.set(id, options);
-          harvest.answerSpace.set(id, "closed");
+        if (input.execute) {
+          // Fields the API already answered are not re-opened in the
+          // browser — that is the speed win. The harvest handles only
+          // what is left.
+          harvest = await harvestFieldOptions(page, planFields);
+          for (const [id, options] of apiOptions) {
+            harvest.options.set(id, options);
+            harvest.answerSpace.set(id, "closed");
+          }
+        } else if (apiOptions.size > 0) {
+          declaredOnly = { options: apiOptions, answerSpace: apiAnswerSpace };
         }
+      }
+      if (harvest) {
         report.notes.push(...harvest.notes);
         report.harvested_options = harvest.harvested.map((h) => ({
           field_id: h.field_id,
@@ -826,6 +871,14 @@ export async function runAtsLiveFill(input: {
           ...(input.capture ? { capture: input.capture } : {}),
           ...(harvest ? { liveOptions: harvest.options } : {}),
           ...(harvest ? { answerSpace: harvest.answerSpace } : {}),
+          // plan_only with a board-API response: the API's complete lists
+          // stand in for the harvest, so previews stop planning blind.
+          ...(!harvest && declaredOnly
+            ? {
+                liveOptions: declaredOnly.options,
+                answerSpace: declaredOnly.answerSpace,
+              }
+            : {}),
         });
       if (adapter.id !== binding.id) {
         report.gate.failure_code = "ATS_MISMATCH";
@@ -1095,6 +1148,7 @@ export async function runAtsLiveFill(input: {
           binding,
           report,
           approvedPlan,
+          declaredRequired: requiredQuestionLabels(declared),
           ...(input.assumeYes ? { assumeYes: true } : {}),
           ...(input.confirmSubmission
             ? { confirmSubmission: input.confirmSubmission }

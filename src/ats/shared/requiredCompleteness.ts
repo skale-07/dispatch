@@ -31,6 +31,21 @@ import type { Page } from "playwright";
 export type UnansweredRequired = {
   label: string;
   control: "text" | "textarea" | "select" | "radio_group" | "checkbox" | "combobox";
+  /** What marked it required: the DOM's own attributes/asterisk, or the ATS's published schema. */
+  source?: "dom" | "board_api";
+};
+
+export type CompletenessScanOptions = {
+  /**
+   * Question labels the ATS's own schema (G2: the Greenhouse job-board
+   * API's `required: true`) declares required. A visible unanswered
+   * control whose label matches one of these counts as required even when
+   * the DOM carries no required marker — the schema is authoritative for
+   * its own board. Matching mirrors applyLabelOptions: exact normalized
+   * label, plus unique-prefix for labels ≥20 chars (boards truncate).
+   * Omitted or empty ⇒ DOM heuristics alone, exactly as before.
+   */
+  declaredRequired?: string[];
 };
 
 export type CompletenessScan = {
@@ -39,8 +54,20 @@ export type CompletenessScan = {
   notes: string[];
 };
 
+// Two buckets: \`sure\` is required-per-DOM unanswered (the pre-G2 output,
+// byte-for-byte), \`maybe\` is unanswered controls the DOM saw as OPTIONAL.
+// The Node side promotes a \`maybe\` entry only when the board's own schema
+// declares that question required — the browser never decides that.
 const SCAN_EXPRESSION = `(() => {
   const out = [];
+  const maybe = [];
+  const push = (req, entry) => {
+    if (req) {
+      if (out.length < 20) out.push(entry);
+    } else if (maybe.length < 40) {
+      maybe.push(entry);
+    }
+  };
   const seenGroups = new Set();
 
   const visible = (el) => {
@@ -127,7 +154,6 @@ const SCAN_EXPRESSION = `(() => {
     const type = (el.type || "").toLowerCase();
     if (type === "hidden" || type === "file" || type === "submit" || type === "button") continue;
     if (isComboboxControl(el)) continue;
-    if (!isRequired(el)) continue;
 
     if (type === "radio") {
       const name = el.name || "";
@@ -137,30 +163,32 @@ const SCAN_EXPRESSION = `(() => {
       const group = name
         ? Array.from(document.querySelectorAll('input[type="radio"][name="' + CSS.escape(name) + '"]'))
         : [el];
+      const groupRequired = group.some((r) => isRequired(r));
       const anyChecked = group.some((r) => r.checked);
       const anyVisible = group.some((r) => visible(r));
       if (!anyChecked && anyVisible) {
         const fs = el.closest("fieldset");
         const legend = fs ? fs.querySelector("legend") : null;
-        out.push({
+        push(groupRequired, {
           label: clean(legend ? legend.textContent : labelFor(el)) || "(radio group)",
           control: "radio_group",
         });
       }
       continue;
     }
+    const required = isRequired(el);
     if (!visible(el)) continue;
     if (type === "checkbox") {
-      if (!el.checked) out.push({ label: labelFor(el), control: "checkbox" });
+      if (!el.checked) push(required, { label: labelFor(el), control: "checkbox" });
       continue;
     }
     if (el.tagName === "SELECT") {
       const placeholderish = el.selectedIndex <= 0 && (!el.value || el.value === "");
-      if (placeholderish) out.push({ label: labelFor(el), control: "select" });
+      if (placeholderish) push(required, { label: labelFor(el), control: "select" });
       continue;
     }
     if (((el.value || "") + "").trim() === "") {
-      out.push({
+      push(required, {
         label: labelFor(el),
         control: el.tagName === "TEXTAREA" ? "textarea" : "text",
       });
@@ -195,7 +223,7 @@ const SCAN_EXPRESSION = `(() => {
   for (const el of Array.from(widgets)) {
     if (!visible(el)) continue;
     const label = widgetLabel(el);
-    if (!widgetRequired(el, label)) continue;
+    const required = widgetRequired(el, label);
     if (el.getAttribute("role") === "radiogroup") {
       const checked = el.querySelector('[role="radio"][aria-checked="true"]');
       const nativeChecked = el.querySelector("input:checked");
@@ -203,38 +231,78 @@ const SCAN_EXPRESSION = `(() => {
       if (!checked && !nativeChecked && !pressed) {
         if (!seenGroups.has(label)) {
           seenGroups.add(label);
-          out.push({ label: label, control: "radio_group" });
+          push(required, { label: label, control: "radio_group" });
         }
       }
     } else {
       const trimmed = committedComboboxValue(el);
       if (trimmed === "" || placeholderish(trimmed)) {
-        out.push({ label: label, control: "combobox" });
+        push(required, { label: label, control: "combobox" });
       }
     }
   }
-  return out.slice(0, 20);
+  return { sure: out, maybe: maybe };
 })()`;
+
+/** Same normalization applyLabelOptions uses, so schema labels line up. */
+const normalizeForMatch = (s: string): string =>
+  s
+    .replace(/[*✱]\s*$/u, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9 ]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+
+function buildDeclaredMatcher(
+  declaredRequired: string[],
+): (label: string) => boolean {
+  const keys = declaredRequired.map(normalizeForMatch).filter((k) => k.length > 0);
+  const exact = new Set(keys);
+  return (label: string): boolean => {
+    const key = normalizeForMatch(label);
+    if (key.length === 0) return false;
+    if (exact.has(key)) return true;
+    // Boards truncate long labels in the DOM; a long key that is the
+    // unambiguous prefix (either direction) of exactly one declared label
+    // matches. An ambiguous prefix refuses — same rule as applyLabelOptions.
+    if (key.length >= 20) {
+      const hits = keys.filter((k) => k.startsWith(key) || key.startsWith(k));
+      if (hits.length === 1) return true;
+    }
+    return false;
+  };
+}
 
 export async function scanRequiredCompleteness(
   page: Page,
+  opts?: CompletenessScanOptions,
 ): Promise<CompletenessScan> {
   try {
-    const unanswered = (await page.evaluate(SCAN_EXPRESSION)) as Array<{
-      label: string;
-      control: UnansweredRequired["control"];
-    }>;
+    const raw = (await page.evaluate(SCAN_EXPRESSION)) as {
+      sure: Array<{ label: string; control: UnansweredRequired["control"] }>;
+      maybe: Array<{ label: string; control: UnansweredRequired["control"] }>;
+    };
+    const matchesDeclared = buildDeclaredMatcher(opts?.declaredRequired ?? []);
+    // DOM-required first so on a label collision the DOM verdict wins.
+    const merged: UnansweredRequired[] = [
+      ...raw.sure.map((u) => ({ ...u, source: "dom" as const })),
+      ...raw.maybe
+        .filter((u) => matchesDeclared(u.label))
+        .map((u) => ({ ...u, source: "board_api" as const })),
+    ];
     const seen = new Set<string>();
-    const deduped = unanswered.filter((u) => {
-      const k = u.label
-        .replace(/[*✱]\s*$/u, "")
-        .replace(/\s+/g, " ")
-        .trim()
-        .toLowerCase();
-      if (!k || seen.has(k)) return false;
-      seen.add(k);
-      return true;
-    });
+    const deduped = merged
+      .filter((u) => {
+        const k = u.label
+          .replace(/[*✱]\s*$/u, "")
+          .replace(/\s+/g, " ")
+          .trim()
+          .toLowerCase();
+        if (!k || seen.has(k)) return false;
+        seen.add(k);
+        return true;
+      })
+      .slice(0, 20);
     return { scanned: true, unanswered: deduped, notes: [] };
   } catch (err) {
     return {

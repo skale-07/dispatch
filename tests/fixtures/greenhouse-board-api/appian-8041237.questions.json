@@ -1,0 +1,146 @@
+{
+  "__comment": "Shaped on the live Greenhouse job-board API payload for boards-api.greenhouse.io/v1/boards/appian/jobs/8041237?questions=true (fetched 2026-08-14, run aef17b3e). Question labels, requiredness, and section layout mirror the live response; the 22-option source list is abbreviated in wording but not in count. The demographic_questions and compliance sections are present to pin the parse boundary: they must never reach the planner.",
+  "id": 8041237,
+  "title": "Solution Engineer Intern",
+  "questions": [
+    {
+      "label": "First Name",
+      "required": true,
+      "fields": [{ "type": "input_text", "values": [] }]
+    },
+    {
+      "label": "Last Name",
+      "required": true,
+      "fields": [{ "type": "input_text", "values": [] }]
+    },
+    {
+      "label": "Email",
+      "required": true,
+      "fields": [{ "type": "input_text", "values": [] }]
+    },
+    {
+      "label": "Resume/CV",
+      "required": true,
+      "fields": [{ "type": "input_file", "values": [] }]
+    },
+    {
+      "label": "Are you currently a member of any university organizations, such as clubs or societies, relevant to this role?",
+      "required": true,
+      "fields": [
+        {
+          "type": "multi_value_single_select",
+          "values": [
+            { "label": "Yes", "value": 1 },
+            { "label": "No", "value": 0 }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Are you currently pursuing a Major in one of the following disciplines: Computer Science, Computer Engineering?",
+      "required": true,
+      "fields": [
+        {
+          "type": "multi_value_single_select",
+          "values": [
+            { "label": "Yes", "value": 1 },
+            { "label": "No", "value": 0 }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "How did you hear about Appian?",
+      "required": true,
+      "fields": [
+        {
+          "type": "multi_value_single_select",
+          "values": [
+            { "label": "LinkedIn", "value": 1 },
+            { "label": "Indeed", "value": 2 },
+            { "label": "Glassdoor", "value": 3 },
+            { "label": "Handshake", "value": 4 },
+            { "label": "JobRight", "value": 5 },
+            { "label": "University career fair", "value": 6 },
+            { "label": "Campus event", "value": 7 },
+            { "label": "Employee referral", "value": 8 },
+            { "label": "Friend or family", "value": 9 },
+            { "label": "Appian website", "value": 10 },
+            { "label": "Appian recruiter", "value": 11 },
+            { "label": "Twitter/X", "value": 12 },
+            { "label": "Facebook", "value": 13 },
+            { "label": "Instagram", "value": 14 },
+            { "label": "YouTube", "value": 15 },
+            { "label": "Podcast", "value": 16 },
+            { "label": "News article", "value": 17 },
+            { "label": "Hackathon", "value": 18 },
+            { "label": "Conference", "value": 19 },
+            { "label": "Student organization", "value": 20 },
+            { "label": "Professor or advisor", "value": 21 },
+            { "label": "Other", "value": 22 }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Will you now or in the future require sponsorship for employment visa status?",
+      "required": true,
+      "fields": [
+        {
+          "type": "multi_value_single_select",
+          "values": [
+            { "label": "Yes", "value": 1 },
+            { "label": "No", "value": 0 }
+          ]
+        }
+      ]
+    }
+  ],
+  "location_questions": [
+    {
+      "label": "City",
+      "required": true,
+      "fields": [{ "type": "input_text", "values": [] }]
+    }
+  ],
+  "demographic_questions": {
+    "header": "Voluntary Self-Identification",
+    "questions": [
+      {
+        "label": "Gender",
+        "required": false,
+        "fields": [
+          {
+            "type": "multi_value_single_select",
+            "values": [
+              { "label": "Male", "value": 1 },
+              { "label": "Female", "value": 2 },
+              { "label": "Decline To Self Identify", "value": 3 }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "compliance": [
+    {
+      "type": "eeoc",
+      "questions": [
+        {
+          "label": "Veteran Status",
+          "required": false,
+          "fields": [
+            {
+              "type": "multi_value_single_select",
+              "values": [
+                { "label": "I am not a protected veteran", "value": 1 },
+                { "label": "I identify as one or more of the classifications of a protected veteran", "value": 2 },
+                { "label": "I don't wish to answer", "value": 3 }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -13,7 +13,7 @@ import {
 } from "../../applications/applicationFiller.js";
 import { discoverFieldsFromHtml } from "../../applications/fieldDiscovery.js";
 import {
-  applyLabelOptions,
+  mergeDeclaredQuestions,
   harvestFieldOptions,
   type AnswerSpace,
   type OptionHarvestResult,
@@ -24,6 +24,11 @@ import {
 } from "../shared/otherSpecify.js";
 import { inventoryFileInputs } from "../shared/uploadResolve.js";
 import { fetchGreenhouseQuestions } from "./questionsApi.js";
+import {
+  diffDeclaredVsDom,
+  summarizeSchemaDiff,
+  type SchemaDiff,
+} from "./schemaDiff.js";
 import { assertFormFillAllowed } from "../../applications/formFillGuards.js";
 import { redactFillReportForArtifact } from "../../applications/fillReportRedaction.js";
 import { withPublicUrlPage } from "../../browser/fixtureSession.js";
@@ -102,6 +107,8 @@ export type GreenhouseLiveFillReport = ApplicationFillReport & {
   }>;
   /** Text boxes revealed by choosing "Other", and what went into them. */
   other_specify?: OtherSpecifyOutcome[];
+  /** G3: DOM↔declared-schema reconciliation (see schemaDiff.ts). */
+  schema_diff?: SchemaDiff;
 };
 
 /** Approved FILL entries whose read-back verification failed. */
@@ -613,37 +620,53 @@ export async function runGreenhouseLiveFill(input: {
       // parked, and the report carried no harvested_options at all —
       // because this runner still planned HTML-only. Board API first (one
       // request, complete lists), then the DOM harvest for what's left.
+      // G1: the board-API fetch runs in BOTH modes — it is a network
+      // read, so plan_only's zero-interaction promise holds. Only the DOM
+      // harvest stays execute-only.
+      const declared = await fetchGreenhouseQuestions(verified.finalUrl).catch(
+        () => null,
+      );
       let harvest: OptionHarvestResult | null = null;
-      if (input.execute) {
+      let declaredOnly: {
+        options: Map<string, string[]>;
+        answerSpace: Map<string, AnswerSpace>;
+      } | null = null;
+      {
         let planFields = discoverFieldsFromHtml(verified.html);
-        const declared = await fetchGreenhouseQuestions(verified.finalUrl).catch(
-          () => null,
-        );
-        const apiOptions = new Map<string, string[]>();
+        let apiOptions = new Map<string, string[]>();
+        let apiAnswerSpace = new Map<string, AnswerSpace>();
         if (declared) {
-          const applied = applyLabelOptions(planFields, declared.byLabel);
-          planFields = applied.fields;
-          for (const f of planFields) {
-            if ((f.options?.length ?? 0) > 0) apiOptions.set(f.id, f.options!);
-          }
+          // G3: reconcile BEFORE the merge overwrites DOM option lists.
+          base.schema_diff = diffDeclaredVsDom(planFields, declared);
+          base.notes.push(summarizeSchemaDiff(base.schema_diff));
+          const merged = mergeDeclaredQuestions(planFields, declared.byLabel);
+          planFields = merged.fields;
+          apiOptions = merged.options;
+          apiAnswerSpace = merged.answerSpace;
           base.notes.push(
-            `board API declared ${declared.questions.length} question(s); matched complete option lists onto ${applied.matched} field(s)`,
+            `board API declared ${declared.questions.length} question(s); matched complete option lists onto ${merged.matched} field(s)${
+              input.execute ? "" : " (plan_only — API options, no DOM harvest)"
+            }`,
           );
         }
-        harvest = await harvestFieldOptions(page, planFields);
-        base.notes.push(...harvest.notes);
-        for (const [id, options] of apiOptions) {
-          harvest.options.set(id, options);
-          harvest.answerSpace.set(id, "closed");
+        if (input.execute) {
+          harvest = await harvestFieldOptions(page, planFields);
+          base.notes.push(...harvest.notes);
+          for (const [id, options] of apiOptions) {
+            harvest.options.set(id, options);
+            harvest.answerSpace.set(id, "closed");
+          }
+          base.harvested_options = harvest.harvested.map((h) => ({
+            field_id: h.field_id,
+            label: h.label,
+            answer_space: h.answer_space,
+            option_count: h.options.length,
+            options: h.options.slice(0, 25),
+            other_option: h.other_option,
+          }));
+        } else if (apiOptions.size > 0) {
+          declaredOnly = { options: apiOptions, answerSpace: apiAnswerSpace };
         }
-        base.harvested_options = harvest.harvested.map((h) => ({
-          field_id: h.field_id,
-          label: h.label,
-          answer_space: h.answer_space,
-          option_count: h.options.length,
-          options: h.options.slice(0, 25),
-          other_option: h.other_option,
-        }));
       }
       const { adapter, plan, approvedPlan, fields: plannedFields, otherFallbacks } =
         await planApplicationFill({
@@ -653,6 +676,12 @@ export async function runGreenhouseLiveFill(input: {
           ...(input.capture ? { capture: input.capture } : {}),
           ...(harvest ? { liveOptions: harvest.options } : {}),
           ...(harvest ? { answerSpace: harvest.answerSpace } : {}),
+          ...(!harvest && declaredOnly
+            ? {
+                liveOptions: declaredOnly.options,
+                answerSpace: declaredOnly.answerSpace,
+              }
+            : {}),
         });
       base.plan = plan;
       base.approved_plan = approvedPlan;
