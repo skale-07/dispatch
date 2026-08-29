@@ -36,6 +36,20 @@ const COLLISION_HTML = `<!DOCTYPE html><html><body>
     I understand that this position requires me to work on-site.</label>
 </body></html>`;
 
+/** Databricks export-control shape (issue #10): a fieldset of labeled
+ * checkboxes where the planned answer is one option's label text. */
+const EXPORT_CONTROL_HTML = `<!DOCTYPE html><html><body>
+  <fieldset>
+    <legend>Export control status</legend>
+    <label for="ec_opt_cuba">Individual granted permanent residency in a country other than Cuba, Iran, North Korea, or Syria</label>
+    <input type="checkbox" id="ec_opt_cuba" />
+    <label for="ec_opt_us">Individual granted permanent residency in the United States</label>
+    <input type="checkbox" id="ec_opt_us" />
+    <label for="ec_opt_other">None of the above</label>
+    <input type="checkbox" id="ec_opt_other" />
+  </fieldset>
+</body></html>`;
+
 // The fill loop only executes APPROVED entries — build that shape directly.
 const entry = (over: Record<string, unknown>) =>
   ({
@@ -94,6 +108,55 @@ describe("label collision (FIXTURE_CONFIRMED)", () => {
       // Checked box verifies as a match for expected "Yes".
       const verify = await greenhouseVerifyFromPlan(page, [e], meta);
       expect(verify.fields[0]?.match).toBe(true);
+    });
+  }, 45_000);
+
+  it("an option-labeled answer on a checkbox group checks the MATCHING box, not `true`", async () => {
+    // Issue #21/#10 (2026-08-29): "United States" on an export-control
+    // checkbox group was blind-checked (`true`) on whatever box the entry
+    // targeted; verify then compared text to boolean and parked the app.
+    await withFixtureHtmlPage(EXPORT_CONTROL_HTML, async (page) => {
+      const e = entry({
+        field_id: "ec_opt_cuba",
+        label: "Export control status",
+        type: "checkbox",
+        value: "Individual granted permanent residency in the United States",
+        canonical_field: "screener:custom:export_control",
+      });
+      const meta = new Map<string, FieldMeta>([
+        ["ec_opt_cuba", { type: "checkbox", inputId: "ec_opt_cuba" }],
+      ]);
+      const fill = await greenhouseFillFromPlan(page, [e], meta);
+      expect(fill.errors).toEqual([]);
+      // The MATCHING option is checked — not the targeted first box.
+      expect(await page.locator("#ec_opt_us").isChecked()).toBe(true);
+      expect(await page.locator("#ec_opt_cuba").isChecked()).toBe(false);
+      // Verify compares label text to label text and passes.
+      const verify = await greenhouseVerifyFromPlan(page, [e], meta);
+      expect(verify.fields[0]?.match).toBe(true);
+      expect(verify.fields[0]?.observed).not.toBe(true);
+    });
+  }, 45_000);
+
+  it("an answer matching NO group option refuses with a named error, nothing checked", async () => {
+    await withFixtureHtmlPage(EXPORT_CONTROL_HTML, async (page) => {
+      const e = entry({
+        field_id: "ec_opt_cuba",
+        label: "Export control status",
+        type: "checkbox",
+        value: "An answer that matches nothing on this form",
+        canonical_field: "screener:custom:export_control",
+      });
+      const meta = new Map<string, FieldMeta>([
+        ["ec_opt_cuba", { type: "checkbox", inputId: "ec_opt_cuba" }],
+      ]);
+      const fill = await greenhouseFillFromPlan(page, [e], meta);
+      expect(fill.errors.join(" ")).toMatch(/no option matching/);
+      expect(await page.locator("#ec_opt_us").isChecked()).toBe(false);
+      expect(await page.locator("#ec_opt_cuba").isChecked()).toBe(false);
+      // Verify reports empty observed, no match — parks with the truth.
+      const verify = await greenhouseVerifyFromPlan(page, [e], meta);
+      expect(verify.fields[0]?.match).toBe(false);
     });
   }, 45_000);
 

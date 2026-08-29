@@ -63,6 +63,7 @@ export type FieldFillMeta = {
     | "combobox"
     | "native_select"
     | "button_group"
+    | "checkbox_group"
     | "file"
     | "unknown";
   selected_option?: string | null;

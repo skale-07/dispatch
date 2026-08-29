@@ -77,6 +77,68 @@ export function locatorForField(
   return byLabel.first();
 }
 
+/**
+ * Consent-style values mean "set THIS checkbox's state"; anything else on a
+ * checkbox control is an option label that must match a group member
+ * (issue #21/#10 — blind-checking turned "United States" into `true`).
+ */
+function isCheckboxBooleanValue(value: unknown): boolean {
+  if (typeof value === "boolean") return true;
+  const s = String(value).trim().toLowerCase();
+  return ["true", "false", "yes", "no", "on", "off", "1", "0"].includes(s);
+}
+
+/**
+ * Labeled options around a checkbox control. Scope is conservative:
+ * the nearest fieldset / role=group only — a whole-form scan could hand
+ * an unrelated same-text checkbox to the fill. No group ⇒ just the
+ * control itself (its own label may still match the planned text).
+ */
+async function collectCheckboxGroupOptions(
+  loc: Locator,
+): Promise<Array<{ id: string; label: string; checked: boolean }>> {
+  return loc.evaluate(
+    (el: {
+      closest: (sel: string) => {
+        querySelectorAll: (sel: string) => ArrayLike<unknown>;
+      } | null;
+      ownerDocument: {
+        querySelector: (s: string) => { textContent?: string | null } | null;
+      };
+    }) => {
+      const doc = el.ownerDocument;
+      const scope =
+        el.closest("fieldset") ?? el.closest('[role="group"]') ?? null;
+      const boxes = scope
+        ? (Array.from(
+            scope.querySelectorAll('input[type="checkbox"]'),
+          ) as Array<{
+            id?: string;
+            parentElement?: { textContent?: string | null } | null;
+            checked?: boolean;
+          }>)
+        : [el as unknown as {
+            id?: string;
+            parentElement?: { textContent?: string | null } | null;
+            checked?: boolean;
+          }];
+      return boxes.map((b) => {
+        let label = "";
+        if (b.id) {
+          const lab = doc.querySelector(`label[for="${b.id}"]`);
+          if (lab?.textContent) label = lab.textContent;
+        }
+        if (!label) label = b.parentElement?.textContent ?? "";
+        return {
+          id: b.id ?? "",
+          label: label.replace(/\s+/g, " ").trim(),
+          checked: Boolean(b.checked),
+        };
+      });
+    },
+  );
+}
+
 async function setSelectByValueOrLabel(
   locator: Locator,
   value: unknown,
@@ -616,14 +678,56 @@ export async function greenhouseFillFromPlan(
           }
         }
       } else if (type === "checkbox") {
-        const on = Boolean(entry.value) && entry.value !== "No";
-        if (on) await loc.check();
-        else await loc.uncheck();
-        field_meta.push({
-          field_id: entry.field_id,
-          canonical_field: entry.canonical_field,
-          control_kind: "text",
-        });
+        if (isCheckboxBooleanValue(entry.value)) {
+          // Consent-style: the plan speaks about THIS box's state.
+          const s = String(entry.value).trim().toLowerCase();
+          const on =
+            typeof entry.value === "boolean"
+              ? entry.value
+              : !["false", "no", "off", "0"].includes(s);
+          if (on) await loc.check();
+          else await loc.uncheck();
+          field_meta.push({
+            field_id: entry.field_id,
+            canonical_field: entry.canonical_field,
+            control_kind: "text",
+          });
+        } else {
+          // Option-labeled answer on a checkbox control (issue #21/#10:
+          // export-control "United States", veteran "I am not a veteran"
+          // were blind-checked as `true`). Pick the group member whose
+          // label matches the planned text; no match ⇒ named refusal,
+          // never a blind check.
+          const options = await collectCheckboxGroupOptions(loc);
+          const pick = pickOptionLabel(
+            options.map((o) => o.label),
+            String(entry.value),
+          );
+          const target = pick.ok
+            ? options.find((o) => o.label === pick.label)
+            : undefined;
+          if (!target || !target.id) {
+            throw new Error(
+              `checkbox group has no option matching "${entry.value}"` +
+                (options.length > 0
+                  ? ` (options: ${options
+                      .map((o) => o.label)
+                      .slice(0, 8)
+                      .join(", ")})`
+                  : " (no labeled group found around the control)"),
+            );
+          }
+          const escapedId = target.id
+            .replace(/\\/g, "\\\\")
+            .replace(/"/g, '\\"');
+          await page.locator(`[id="${escapedId}"]`).check();
+          field_meta.push({
+            field_id: entry.field_id,
+            canonical_field: entry.canonical_field,
+            control_kind: "checkbox_group",
+            selected_option: target.label,
+          });
+        }
       } else if (type === "radio") {
         const name = meta?.name;
         const group = name
@@ -793,7 +897,21 @@ export async function greenhouseReadFieldValue(
   }
   const type = await loc.getAttribute("type");
   if (type === "checkbox") {
-    return loc.isChecked();
+    if (isCheckboxBooleanValue(entry.value)) {
+      return loc.isChecked();
+    }
+    // Option-labeled expectation: report the checked group member's label
+    // (radio-style {value,label}) so verify compares text to text, never
+    // text to `true` (issue #21).
+    const options = await collectCheckboxGroupOptions(loc);
+    const checked = options.filter((o) => o.checked);
+    if (checked.length === 0) return { value: "", label: "" };
+    const expectedText = String(entry.value);
+    const hit =
+      checked.find(
+        (o) => o.label.toLowerCase() === expectedText.toLowerCase(),
+      ) ?? checked[0]!;
+    return { value: hit.label, label: hit.label };
   }
   if (type === "radio") {
     const name = await loc.getAttribute("name");
