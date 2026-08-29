@@ -30,3 +30,10 @@ patterns get a "progressive overload" sandbox test one level above the failure.
   AGENT_FALLBACK stays true — navigation's agent leg needs it, it is not the
   extension fill path). Session A relaunched as arm d2d4104f
   (240 min, 60 apps, 40 submits, ends ~01:05); session B (~110 min) follows.
+- 21:25 operator additions: portal login + Gmail/Outlook verification confirmed
+  already configured; contact info (phone 480-589-7636, jh.edu email) already in
+  public-profile.json; sensitive profile encrypted via candidate:encrypt-sensitive
+  (draft deleted — EEO fills now come from the DPAPI store). Per-job deadline
+  tightened 5 min → 3 min. Caps removed per operator: session A relaunching as
+  --max-apps/--max-submits 100000, duration 240 (arm clamp), ends ~01:30;
+  session B covers the remainder to ~02:55.
