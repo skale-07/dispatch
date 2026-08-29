@@ -1,0 +1,358 @@
+{
+  "started_at": "2026-08-29T22:11:42.982Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\jake_swe.pdf)",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "b4b3b035-14a0-4f1d-95f1-990037526876",
+    "armed_until": "2026-08-30T02:11:43.005Z",
+    "seconds_remaining": 14400,
+    "max_submits": 100000,
+    "submits_used": 0,
+    "max_apps": 100000,
+    "apps_started": 0,
+    "discover_max": 10,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": {
+    "arm_run_id": "b4b3b035-14a0-4f1d-95f1-990037526876",
+    "apps_started": 57,
+    "submits_used": 5,
+    "stopped_reason": "queue_drained",
+    "discover_runs": 13,
+    "emails_generated": 0,
+    "drafts_saved": 0,
+    "essay_drafts_generated": 2,
+    "screener_predictions_generated": 0,
+    "notes": [
+      "nav audit: 0 wrong-employer URL(s) cleared for re-navigation, 1 parked for review",
+      "discover: 8 inspected, 0 eligible, 7 already known, 0 filtered out, 1 already submitted",
+      "discover: 8 inspected, 1 eligible, 6 already known, 0 filtered out, 1 already submitted",
+      "discover: 8 inspected, 1 eligible, 7 already known, 0 filtered out, 1 already submitted",
+      "discover: 8 inspected, 3 eligible, 7 already known, 0 filtered out, 0 already submitted",
+      "discover: 8 inspected, 2 eligible, 7 already known, 0 filtered out, 1 already submitted",
+      "app 18a31cd4-da22-41ea-bfcc-04ea7521c716 error (pipeline_error): Debug Chrome at http://127.0.0.1:9222 is unresponsive (port answers but the CDP session won't attach). Close ALL Chrome windows, re-run chrome:debug:jobright, and retry. [browserType.connectOverCDP: T",
+      "CDP restart 1/3: debug Chrome relaunched and reachable — continuing session",
+      "app 61da340e-9c91-440b-bc62-94c02a1e8ff0 error (pipeline_error): page.content: Unable to retrieve content because the page is navigating and changing the content.",
+      "discover: 8 inspected, 0 eligible, 7 already known, 0 filtered out, 1 already submitted",
+      "app 7d6c2811-5b58-4364-bff0-655e26e9d28c error (pipeline_error): page.content: Unable to retrieve content because the page is navigating and changing the content.",
+      "app 9a30b836-b571-4d65-a416-731da7efe6bf error (pipeline_error): page.goto: Timeout 60000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"https://joinbytedance.com/search/7668212952030841093\", waiting until \"domcontentloaded\"\u001b[22m\n",
+      "app b3e645ce-78af-4acf-af27-e57f563a8c1c error (pipeline_error): Debug Chrome at http://127.0.0.1:9222 is unresponsive (port answers but the CDP session won't attach). Close ALL Chrome windows, re-run chrome:debug:jobright, and retry. [browserType.connectOverCDP: T",
+      "CDP restart 2/3: debug Chrome relaunched and reachable — continuing session",
+      "discover: 8 inspected, 0 eligible, 7 already known, 0 filtered out, 1 already submitted",
+      "app b4619451-03ea-4592-8e13-3a9966c4b411 error (pipeline_error): Debug Chrome at http://127.0.0.1:9222 is unresponsive (port answers but the CDP session won't attach). Close ALL Chrome windows, re-run chrome:debug:jobright, and retry. [browserType.connectOverCDP: T",
+      "CDP restart 3/3: debug Chrome relaunched and reachable — continuing session",
+      "app d9c79368-751a-413a-aeb5-57ea13a215cf error (pipeline_error): Debug Chrome at http://127.0.0.1:9222 is unresponsive (port answers but the CDP session won't attach). Close ALL Chrome windows, re-run chrome:debug:jobright, and retry. [browserType.connectOverCDP: T",
+      "discover: 8 inspected, 0 eligible, 7 already known, 0 filtered out, 1 already submitted",
+      "app 091945b8-0ed6-4d23-8e34-97848b647841 error (pipeline_error): Debug Chrome at http://127.0.0.1:9222 is unresponsive (port answers but the CDP session won't attach). Close ALL Chrome windows, re-run chrome:debug:jobright, and retry. [browserType.connectOverCDP: T",
+      "app 4e47f9ae-fee5-4209-b8c6-b33397b4f126 error (pipeline_error): Debug Chrome at http://127.0.0.1:9222 is unresponsive (port answers but the CDP session won't attach). Close ALL Chrome windows, re-run chrome:debug:jobright, and retry. [browserType.connectOverCDP: T",
+      "app 1f683c60-c595-4870-91e4-983aa8d95524 error (pipeline_error): Debug Chrome at http://127.0.0.1:9222 is unresponsive (port answers but the CDP session won't attach). Close ALL Chrome windows, re-run chrome:debug:jobright, and retry. [browserType.connectOverCDP: T",
+      "app 83751e38-5e8d-4acf-b4fd-ab9aa3be3131 error (pipeline_error): Debug Chrome at http://127.0.0.1:9222 is unresponsive (port answers but the CDP session won't attach). Close ALL Chrome windows, re-run chrome:debug:jobright, and retry. [browserType.connectOverCDP: T",
+      "discover: 8 inspected, 0 eligible, 7 already known, 0 filtered out, 1 already submitted",
+      "app b395935f-d492-4cee-9650-6028a5140196 error (pipeline_error): Debug Chrome at http://127.0.0.1:9222 is unresponsive (port answers but the CDP session won't attach). Close ALL Chrome windows, re-run chrome:debug:jobright, and retry. [browserType.connectOverCDP: T",
+      "app 4c67c3b5-8d4f-4222-836c-46678ed5a636 error (pipeline_error): Debug Chrome at http://127.0.0.1:9222 is unresponsive (port answers but the CDP session won't attach). Close ALL Chrome windows, re-run chrome:debug:jobright, and retry. [browserType.connectOverCDP: T",
+      "app 6cb39783-29d9-452d-b9f5-0d69b1e58a03 error (pipeline_error): Debug Chrome at http://127.0.0.1:9222 is unresponsive (port answers but the CDP session won't attach). Close ALL Chrome windows, re-run chrome:debug:jobright, and retry. [browserType.connectOverCDP: T",
+      "discover: 8 inspected, 0 eligible, 7 already known, 0 filtered out, 1 already submitted",
+      "app a2395dff-769e-46b3-8927-867492ff6acc error (pipeline_error): Debug Chrome at http://127.0.0.1:9222 is unresponsive (port answers but the CDP session won't attach). Close ALL Chrome windows, re-run chrome:debug:jobright, and retry. [browserType.connectOverCDP: T",
+      "app f02750f5-a350-4911-8f87-a3f8c50d1599 error (pipeline_error): Debug Chrome at http://127.0.0.1:9222 is unresponsive (port answers but the CDP session won't attach). Close ALL Chrome windows, re-run chrome:debug:jobright, and retry. [browserType.connectOverCDP: T",
+      "app 0bdd1810-2ea2-4d15-ab37-5527d9e61f04 error (pipeline_error): Debug Chrome at http://127.0.0.1:9222 is unresponsive (port answers but the CDP session won't attach). Close ALL Chrome windows, re-run chrome:debug:jobright, and retry. [browserType.connectOverCDP: T",
+      "app 955b210b-e92f-4761-8dc2-d893d2831bd4 error (pipeline_error): Debug Chrome at http://127.0.0.1:9222 is unresponsive (port answers but the CDP session won't attach). Close ALL Chrome windows, re-run chrome:debug:jobright, and retry. [browserType.connectOverCDP: T",
+      "discover: 8 inspected, 0 eligible, 7 already known, 0 filtered out, 1 already submitted",
+      "app b1baf935-d978-48de-8742-325006c2a663 error (pipeline_error): Debug Chrome at http://127.0.0.1:9222 is unresponsive (port answers but the CDP session won't attach). Close ALL Chrome windows, re-run chrome:debug:jobright, and retry. [browserType.connectOverCDP: T",
+      "app dc907d8d-9c0d-4c2f-83c8-da1b7c7e8d54 error (pipeline_error): Debug Chrome at http://127.0.0.1:9222 is unresponsive (port answers but the CDP session won't attach). Close ALL Chrome windows, re-run chrome:debug:jobright, and retry. [browserType.connectOverCDP: T",
+      "app b88dc050-500c-4349-b9e7-18c3928fe08e error (pipeline_error): Debug Chrome at http://127.0.0.1:9222 is unresponsive (port answers but the CDP session won't attach). Close ALL Chrome windows, re-run chrome:debug:jobright, and retry. [browserType.connectOverCDP: T",
+      "app 976529cb-22a7-42cb-81ae-42fbf55407c6 error (pipeline_error): Debug Chrome at http://127.0.0.1:9222 is unresponsive (port answers but the CDP session won't attach). Close ALL Chrome windows, re-run chrome:debug:jobright, and retry. [browserType.connectOverCDP: T",
+      "app cef4cad3-a0d2-4085-b109-916bcd81aad1 error (pipeline_error): Debug Chrome at http://127.0.0.1:9222 is unresponsive (port answers but the CDP session won't attach). Close ALL Chrome windows, re-run chrome:debug:jobright, and retry. [browserType.connectOverCDP: T",
+      "discover: 8 inspected, 0 eligible, 7 already known, 0 filtered out, 1 already submitted",
+      "app 11cb81ce-5c14-480c-ae0f-76d5ca2461e3 error (pipeline_error): Debug Chrome at http://127.0.0.1:9222 is unresponsive (port answers but the CDP session won't attach). Close ALL Chrome windows, re-run chrome:debug:jobright, and retry. [browserType.connectOverCDP: T",
+      "app 68b11783-bb57-452e-9af1-885a8338ddee error (pipeline_error): Debug Chrome at http://127.0.0.1:9222 is unresponsive (port answers but the CDP session won't attach). Close ALL Chrome windows, re-run chrome:debug:jobright, and retry. [browserType.connectOverCDP: T",
+      "discover: 8 inspected, 0 eligible, 7 already known, 0 filtered out, 1 already submitted",
+      "essay drafts e7a6ccd6-a6e4-408a-b994-7627f7f1bd41: 1/1 drafted (UNVERIFIED, in review)",
+      "essay drafts 94d38672-6832-4008-9a8a-686d2b924ac1: 1/1 drafted (UNVERIFIED, in review)",
+      "artifact autopush: 184 file(s) pushed to master as a3729a1"
+    ],
+    "per_app": [
+      {
+        "application_id": "9a6bdf11-be07-4c35-b452-8b40d6fc5821",
+        "end_state": "FAILED_RETRYABLE",
+        "stopped": "gate",
+        "stop_reason": "submission not verified: FAILED_BEFORE_CLICK — Refusing to click submit: field verification or upload did not pass",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "2270889b-886a-44bf-a011-2ac8a5f59867",
+        "end_state": "FAILED_RETRYABLE",
+        "stopped": "gate",
+        "stop_reason": "submission not verified: FAILED_BEFORE_CLICK — Refusing to click submit: field verification or upload did not pass",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "cd03f7c6-2789-41be-94b8-54187b582241",
+        "end_state": "FAILED_RETRYABLE",
+        "stopped": "gate",
+        "stop_reason": "submission not verified: FAILED_BEFORE_CLICK — Refusing to click submit: field verification or upload did not pass",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "1856af1b-e097-4d87-a00c-fd95691bfec7",
+        "end_state": "FAILED_RETRYABLE",
+        "stopped": "gate",
+        "stop_reason": "submission not verified: FAILED_BEFORE_CLICK — Refusing to click submit: field verification or upload did not pass",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "e7a6ccd6-a6e4-408a-b994-7627f7f1bd41",
+        "end_state": "FAILED_RETRYABLE",
+        "stopped": "gate",
+        "stop_reason": "submission not verified: FAILED_BEFORE_CLICK — Refusing to click submit: 5 required question(s) unanswered — Do you have an active offer deadline or another recruiting-process deadline we should be aware of? If yes, please share  [textarea]; January to June (6 months) [checkbox]; May to July (10 weeks) [checkbox]; June to August (10 weeks) [checkbox]; None of these options work for me [checkbox]",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "94d38672-6832-4008-9a8a-686d2b924ac1",
+        "end_state": "FAILED_RETRYABLE",
+        "stopped": "gate",
+        "stop_reason": "submission not verified: FAILED_BEFORE_CLICK — Refusing to click submit: 3 required question(s) unanswered — Do you have an active offer deadline or another recruiting-process deadline we should be aware of? If yes, please share  [textarea]; Winter (January - April) [checkbox]; Summer (May - September) [checkbox]",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "6b21b179-1080-4dfa-a985-d4d2a6b2d269",
+        "end_state": "FAILED_RETRYABLE",
+        "stopped": "gate",
+        "stop_reason": "submission not verified: FAILED_BEFORE_CLICK — Refusing to click submit: field verification or upload did not pass",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "1e72fd9d-cba4-41fc-8f9d-f2c7f82f93e9",
+        "end_state": "FAILED_RETRYABLE",
+        "stopped": "gate",
+        "stop_reason": "submission not verified: FAILED_BEFORE_CLICK — Refusing to click submit: field verification or upload did not pass",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "c364893b-9f69-49bf-b0f4-b5b98400b471",
+        "end_state": "FAILED_RETRYABLE",
+        "stopped": "gate",
+        "stop_reason": "submission not verified: FAILED_BEFORE_CLICK — Refusing to click submit: field verification or upload did not pass",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "3cc5c912-b2b9-4f2b-a195-d78212ca8f01",
+        "end_state": "FAILED_RETRYABLE",
+        "stopped": "gate",
+        "stop_reason": "submission not verified: FAILED_BEFORE_CLICK — Refusing to click submit: field verification or upload did not pass",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "ea4ddb58-f291-4fb2-8630-8f85ffb60b2d",
+        "end_state": "FAILED_RETRYABLE",
+        "stopped": "gate",
+        "stop_reason": "submission not verified: FAILED_BEFORE_CLICK — Refusing to click submit: field verification or upload did not pass",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "1c0ec0bd-d3e7-4690-8db5-a71ffba2e939",
+        "end_state": "FAILED_RETRYABLE",
+        "stopped": "gate",
+        "stop_reason": "submission not verified: FAILED_BEFORE_CLICK — Refusing to click submit: field verification or upload did not pass",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "23d64c04-6f39-4124-80ea-ca583779b0f9",
+        "end_state": "NATIVE_AUTOFILL_RUNNING",
+        "stopped": "gate",
+        "stop_reason": "ashby live fill refused: BLOCKING_CAPTCHA",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "d607b204-6ef4-45cd-94b6-fdc6d718ba50",
+        "end_state": "FAILED_RETRYABLE",
+        "stopped": "gate",
+        "stop_reason": "submission not verified: FAILED_BEFORE_CLICK — Page failed identity gate (BLOCKING_CAPTCHA): blocking CAPTCHA detected: challenge_iframe_rendered,recaptcha_widget_container,readable_application_form_present",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "5902f351-002f-4cca-b444-310354f8db81",
+        "end_state": "SUBMISSION_VERIFICATION_FAILED",
+        "stopped": "review",
+        "stop_reason": "submission not verified: UNCERTAIN — Submission not confirmed within 15000ms (page classified: unknown)",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "312aad81-5ccb-4788-b457-d37937b502b5",
+        "end_state": "SUBMISSION_VERIFICATION_FAILED",
+        "stopped": "review",
+        "stop_reason": "submission not verified: UNCERTAIN — Submission not confirmed within 15000ms (page classified: unknown)",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "0607aaab-02b2-456f-b643-9abcec3d0aaf",
+        "end_state": "SUBMISSION_VERIFICATION_FAILED",
+        "stopped": "review",
+        "stop_reason": "submission not verified: UNCERTAIN — Submission not confirmed within 15000ms (page classified: unknown)",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "529d6511-7522-43fb-a0c5-31c176928692",
+        "end_state": "FAILED_RETRYABLE",
+        "stopped": "gate",
+        "stop_reason": "submission not verified: FAILED_BEFORE_CLICK — Refusing to click submit: field verification or upload did not pass",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "f3dc93f4-148b-4e75-8e33-a0dd91d44410",
+        "end_state": "SUBMISSION_VERIFICATION_FAILED",
+        "stopped": "review",
+        "stop_reason": "submission not verified: UNCERTAIN — Submission not confirmed within 15000ms (page classified: unknown)",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "f0f76566-65b8-4281-bd4e-9155b398424f",
+        "end_state": "SUBMISSION_VERIFICATION_FAILED",
+        "stopped": "review",
+        "stop_reason": "submission not verified: UNCERTAIN — Submission not confirmed within 15000ms (page classified: unknown)",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "77b0cef9-1dfe-441f-bd6f-19c0e138eab7",
+        "end_state": "NATIVE_AUTOFILL_RUNNING",
+        "stopped": "gate",
+        "stop_reason": "fill refused: stored URL is for \"zy7whatrsu\", not Cleveland Research Company",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "b3d005ae-bf72-45c4-86ab-8d2acfeae671",
+        "end_state": "NATIVE_AUTOFILL_RUNNING",
+        "stopped": "gate",
+        "stop_reason": "workday live fill refused: AUTH_REQUIRED",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "33588303-a376-406a-b78c-5791eab67123",
+        "end_state": "NATIVE_AUTOFILL_RUNNING",
+        "stopped": "gate",
+        "stop_reason": "generic live fill refused: FORM_NOT_REACHED",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "0082b074-0687-4d90-9788-3675f1c42165",
+        "end_state": "NATIVE_AUTOFILL_RUNNING",
+        "stopped": "gate",
+        "stop_reason": "generic live fill refused: FORM_NOT_REACHED",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "d0d57599-6897-4563-a48f-a877d9bc3e50",
+        "end_state": "NATIVE_AUTOFILL_RUNNING",
+        "stopped": "gate",
+        "stop_reason": "greenhouse live fill refused: FORM_NOT_FOUND",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "4a03b318-e984-47bf-97d3-872c9df0ed82",
+        "end_state": "NATIVE_AUTOFILL_RUNNING",
+        "stopped": "gate",
+        "stop_reason": "workday live fill refused: NO_APPLICATION_FORM",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "d59e4a75-c3de-4a70-a2ab-c1a1e1927e60",
+        "end_state": "NATIVE_AUTOFILL_RUNNING",
+        "stopped": "gate",
+        "stop_reason": "generic live fill refused: FORM_NOT_REACHED",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "6c2f73fd-a2f8-48a9-b54c-625b6d3aa29c",
+        "end_state": "NATIVE_AUTOFILL_RUNNING",
+        "stopped": "gate",
+        "stop_reason": "workday live fill refused: AUTH_REQUIRED",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "a9559335-815a-485a-85cb-6f63767d3ef4",
+        "end_state": "NATIVE_AUTOFILL_RUNNING",
+        "stopped": "gate",
+        "stop_reason": "generic live fill refused: FORM_NOT_REACHED",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "b32a3624-ecfb-4825-a76e-b824b2a6d6d1",
+        "end_state": "NATIVE_AUTOFILL_RUNNING",
+        "stopped": "gate",
+        "stop_reason": "generic live fill refused: UNKNOWN_LANDING",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "d7059081-47f4-4107-8753-15448fbc0196",
+        "end_state": "NATIVE_AUTOFILL_RUNNING",
+        "stopped": "gate",
+        "stop_reason": "generic live fill refused: UNKNOWN_LANDING",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "eac348f8-43d6-4c25-9112-5919bcf638db",
+        "end_state": "NATIVE_AUTOFILL_RUNNING",
+        "stopped": "gate",
+        "stop_reason": "fill refused: stored URL is for \"tgnewui\", not MicroVention-Terumo",
+        "submitted": false,
+        "outreach": null
+      }
+    ],
+    "nav_audit": {
+      "checked": 128,
+      "repaired": 0,
+      "parked": 1
+    },
+    "artifact_autopush": {
+      "pushed": true,
+      "commit": "a3729a1",
+      "files_staged": 184
+    }
+  },
+  "outcome": "completed",
+  "notes": []
+}
