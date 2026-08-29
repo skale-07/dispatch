@@ -184,6 +184,26 @@ patterns get a "progressive overload" sandbox test one level above the failure.
   automatically. jh.edu codes arrive via the Outlook provider
   (OUTLOOK_VERIFICATION_ENABLED, session authenticated).
 
+### 18. Samsara: greenhouse URL serves a company-hosted embed → submit identity gate refuses — OPEN (needs operator review)
+- **Evidence:** 7 samsara apps fully filled + verified (READY_TO_SUBMIT), then
+  "ATS mismatch: URL validated as greenhouse but the page detected as
+  generic". boards.greenhouse.io/samsara/... renders samsara's own embed.
+- **Proposed fix (NOT applied — submit gating is a never-weaken invariant):**
+  teach the page-identity DETECTION to recognize a first-party greenhouse
+  embed (grnhse_app container / gh_jid iframe with the SAME board token+job
+  id) as greenhouse. Detection accuracy, not gate relaxation — but it changes
+  what passes the gate, so it needs your review before shipping.
+
+### 19. Cloudflare: conditional follow-up questions shift the DOM under the fill — OPEN
+- **Evidence:** app 7cc468eb — predictor PLANNED correct answers (enrolled:
+  Yes, graduation: June 2029, degree: Undergrad) but all landed "(empty)" and
+  "Undergrad" landed in the city field (cross-fill). Cloudflare reveals
+  follow-ups as prior answers commit; field targeting drifts.
+- **Direction:** re-resolve controls after each conditional commit, or
+  two-pass fill (commit conditionals first, re-inspect, fill the revealed
+  set). Progressive-overload sandbox: fixture form where answering Q1
+  inserts Q2 into the DOM.
+
 ## Session notes
 - 20:50 stopped prior cycle mid-session (8 apps started, 10 submits left) to
   swap in updated resume (jake_swe.pdf) per operator; relaunched with 3-hour caps.
