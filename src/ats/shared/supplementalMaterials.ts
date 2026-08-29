@@ -111,7 +111,71 @@ export async function attachSupplementalMaterials(
     }
   }
   if (result.attached.length === 0) {
-    result.notes.push("no empty transcript-labeled file input found");
+    // Click-created dropzone (Appian 2026-08-29: "Please upload a copy of
+    // an unofficial undergraduate transcript" renders Attach/Dropbox/Drive
+    // buttons and NO input[type=file] until Attach is clicked). Intercept
+    // the filechooser on a transcript-section Attach trigger.
+    const viaChooser = await attachTranscriptViaChooser(page, transcriptPath);
+    if (viaChooser) {
+      result.attached.push(viaChooser);
+    } else {
+      result.notes.push("no empty transcript-labeled file input found");
+    }
   }
   return result;
+}
+
+async function attachTranscriptViaChooser(
+  page: Page,
+  transcriptPath: string,
+): Promise<SupplementalAttachment | null> {
+  const main = page.mainFrame();
+  for (const frame of [main, ...page.frames().filter((f) => f !== main)]) {
+    const triggers = frame.locator('button, [role="button"], label');
+    const n = Math.min(await triggers.count().catch(() => 0), 80);
+    for (let i = 0; i < n; i++) {
+      const t = triggers.nth(i);
+      const text = ((await t.innerText().catch(() => "")) ?? "").trim();
+      if (!text || text.length > 40) continue;
+      if (!/^(attach|upload|browse|select file|choose file)$/i.test(text)) {
+        continue;
+      }
+      const sectionText = await t
+        .evaluate(
+          (el: {
+            closest: (sel: string) => { textContent?: string | null } | null;
+          }) =>
+            el.closest("section, fieldset, div")?.textContent?.slice(0, 300) ??
+            "",
+        )
+        .catch(() => "");
+      if (!/transcript/i.test(sectionText)) continue;
+      if (/resume|\bcv\b|cover[\s_-]*letter/i.test(sectionText)) continue;
+      if (!(await t.isVisible().catch(() => false))) continue;
+      assertFormFillAllowed("supplemental.transcript");
+      try {
+        const [chooser] = await Promise.all([
+          page.waitForEvent("filechooser", { timeout: 5_000 }),
+          t.click({ timeout: 5_000 }),
+        ]);
+        await chooser.setFiles(transcriptPath);
+      } catch {
+        continue;
+      }
+      // Read-back: the section (or page) should acknowledge the filename.
+      await page.waitForTimeout(600);
+      const filename = path.basename(transcriptPath);
+      const stem = filename.replace(/\.[^.]+$/, "");
+      const bodyText = await page.locator("body").innerText().catch(() => "");
+      const verified =
+        bodyText.includes(filename) ||
+        (stem.length >= 8 && bodyText.includes(stem.slice(0, 20)));
+      return {
+        kind: "transcript",
+        label: "transcript (filechooser fallback)",
+        verified,
+      };
+    }
+  }
+  return null;
 }

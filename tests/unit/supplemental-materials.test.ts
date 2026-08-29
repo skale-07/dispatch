@@ -62,6 +62,43 @@ describe("supplemental materials attach (FIXTURE_CONFIRMED)", () => {
     });
   }, 45_000);
 
+  it("click-created transcript dropzone attaches via the filechooser fallback", async () => {
+    // Appian 2026-08-29: Attach/Dropbox/Drive buttons, no input[type=file]
+    // until Attach is clicked — the section-scoped trigger must be picked
+    // (never the resume section's Attach) and the chip verifies.
+    const html = `
+      <form>
+        <div>
+          <h4>Resume/CV</h4>
+          <button id="res-attach" type="button">Attach</button>
+        </div>
+        <div>
+          <p>Please upload a copy of an unofficial undergraduate transcript</p>
+          <button id="tr-attach" type="button">Attach</button>
+          <span id="tr-chip"></span>
+        </div>
+      </form>
+      <script>
+        document.getElementById("tr-attach").addEventListener("click", () => {
+          const i = document.createElement("input");
+          i.type = "file"; i.style.display = "none";
+          i.addEventListener("change", () => {
+            document.getElementById("tr-chip").textContent = i.files[0].name;
+            i.remove();
+          });
+          document.body.appendChild(i); i.click();
+        });
+      </script>`;
+    await withFixtureHtmlPage(html, async (page) => {
+      const r = await attachSupplementalMaterials(page, {
+        transcriptPath: tmpTranscript,
+      });
+      expect(r.attached).toHaveLength(1);
+      expect(r.attached[0]!.verified).toBe(true);
+      expect(await page.locator("#tr-chip").innerText()).toContain(".pdf");
+    });
+  }, 45_000);
+
   it("no transcript on disk ⇒ nothing touched, note says so", async () => {
     await withFixtureHtmlPage(APPIAN_SHAPE, async (page) => {
       const r = await attachSupplementalMaterials(page, {

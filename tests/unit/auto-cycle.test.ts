@@ -2,7 +2,13 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { randomUUID } from "node:crypto";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+
+// Every test here executes at least one full runAutoCycle; the 5s default
+// flaked repeatedly in full-suite runs whenever a LIVE automation session
+// + debug Chrome shared this machine (overnight 2026-08-29 — timeouts,
+// never assertions; all pass standalone). File-wide 30s.
+vi.setConfig({ testTimeout: 30_000 });
 import {
   closeDatabase,
   migrate,
