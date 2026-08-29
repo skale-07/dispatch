@@ -1,0 +1,65 @@
+{
+  "outcome": "FAILED_BEFORE_CLICK",
+  "application_id": "8d9daaa9-a7c0-4930-ade2-0aa5ef929923",
+  "submission_id": "dc14d0a5-7a44-4106-8e74-63457664a3dc",
+  "attempt": 1,
+  "receipt": null,
+  "review_item_id": null,
+  "reason": "Refusing to click submit: field verification or upload did not pass",
+  "artifact_path": null,
+  "operator_brief": {
+    "title": "Submit blocked — greenhouse app 8d9daaa9-a7c0-4930-ade2-0aa5ef929923",
+    "summary": "3 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:address.country",
+        "question": "Please select the country where you currently reside.",
+        "field_id": "question_63069773",
+        "canonical_field": "address.country",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"United States\"; page shows \"(empty)\"",
+        "expected": "United States",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "how_to_answer": [
+          "Type the intended value on the form (planned: United States). If a places/autocomplete list appears, select a matching suggestion; plain city text is enough when no list opens.",
+          "System expected \"United States\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → address.country",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"address.country\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "fill_error:question_63069773: combobox option not committed: opened via control click; filt",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "question_63069773: combobox option not committed: opened via control click; filter yielded no/unmatched options; re-collected unfiltered (residue cleared); no option matches \"United States\" (options: Australia | Belgium | Brazil | Canada | Egypt | France | Germany | India | …)",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:question_63069774: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - wai",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "question_63069774: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[id=\"question_63069774\"]').first()\u001b[22m\n\u001b[2m    - locator resolved to <input value=\"\" type=\"text\" maxlength=\"255\" aria-invalid=\"false\" aria-required=\"true\" id=\"question_63069774\" aria-errormessage=\"question_63069774-error\" class=\"input input--outside-label input__single-line\" aria-label=\"Please indicate the city where you currently reside.\" aria-describedby=\"question_63069774-description question_63069774-error question_63069774-help\"/>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div tabindex=\"-1\" role=\"option\" aria-disabled=\"false\" aria-selected=\"false\" id=\"react-select-question_63069773-option-1\" class=\"select__option remix-css-1g7w7gi-option\">Belgium</div> from <div class=\"field-wrapper\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not stable\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    9 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div tabindex=\"-1\" role=\"option\" aria-disabled=\"false\" aria-selected=\"false\" id=\"react-select-question_63069773-option-1\" class=\"select__option remix-css-1g7w7gi-option\">Belgium</div> from <div class=\"field-wrapper\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      }
+    ],
+    "ok_count": 26,
+    "fail_count": 3
+  }
+}

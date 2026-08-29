@@ -78,6 +78,37 @@ patterns get a "progressive overload" sandbox test one level above the failure.
   them up naturally. No action needed; noting the pattern (each operator-
   requested mid-session restart strands in-flight rows until the next arm).
 
+### 6b. Bare-city fix insufficient live — places lists carry hidden namesakes — FIXED c67d48c
+- **Evidence:** session 1b93205e (fixed code confirmed by commit/start times)
+  still refused candidate-location on 4 Databricks + re-run Figma apps with the
+  identical 5-row display. The refusal reason caps at 5 rows (`sub.slice(0,5)`)
+  — the live lists almost certainly hold a 6th+ namesake city (e.g. Baltimore,
+  Ireland) which the bare-city rule correctly refuses. Probe confirms the
+  displayed 5-row list resolves fine in-tree.
+- **Fix:** comboboxExpected now composes "City, State, Country" from the
+  operator profile for address.city combobox fills → multi-part exact-comma
+  matcher names one row regardless of namesakes (04db417 also adds the total
+  candidate count to ambiguity refusals so the display cap can't hide evidence
+  again). 55/55 fill tests green.
+- **Follow-up:** 4 Databricks/impact apps → FIELD_VERIFICATION,
+  3 FAILED_RETRYABLE retried; fresh session launched 22:57 with this code.
+
+### 9. Ashby (Notion): plan fields absent from DOM at fill time — OPEN
+- **Evidence:** apps 0e7cc173/6c6adcad — 9+ "control not found on the page"
+  (f_43, UUID ids, _systemfield_eeoc_*) with labels like "Pick date...".
+  Inspection saw controls the fill page doesn't render (progressive sections /
+  paged form suspected).
+- **Next:** compare ashby inspection artifact vs fill-time DOM on next wake;
+  likely needs section-expansion or per-page fill in the ashby adapter.
+
+### 10. Export-control question fills `true` instead of the country option — OPEN
+- **Evidence:** apps eeb4d446/f5003802/a6c6ab06: "Individual granted permanent
+  residency in a country other than Cuba, Iran, North Korea, or Syria" —
+  expected "United States", observed "true" (a checkbox got checked; the
+  planned answer is an option label). Control-kind mapping bug, listed twice
+  per brief (duplicate verify rows).
+- **Next:** inspect the field control kind in the Databricks fill meta.
+
 ## Session notes
 - 20:50 stopped prior cycle mid-session (8 apps started, 10 submits left) to
   swap in updated resume (jake_swe.pdf) per operator; relaunched with 3-hour caps.

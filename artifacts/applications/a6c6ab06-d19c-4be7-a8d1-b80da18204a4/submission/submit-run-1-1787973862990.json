@@ -1,0 +1,100 @@
+{
+  "outcome": "FAILED_BEFORE_CLICK",
+  "application_id": "a6c6ab06-d19c-4be7-a8d1-b80da18204a4",
+  "submission_id": "2023a584-4edf-4955-9700-03507338695d",
+  "attempt": 1,
+  "receipt": null,
+  "review_item_id": null,
+  "reason": "Refusing to click submit: field verification or upload did not pass",
+  "artifact_path": null,
+  "operator_brief": {
+    "title": "Submit blocked — greenhouse app a6c6ab06-d19c-4be7-a8d1-b80da18204a4",
+    "summary": "5 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:screener:custom:expected_graduation_date",
+        "question": "What is your graduation date?",
+        "field_id": "question_37893690002",
+        "canonical_field": "screener:custom:expected_graduation_date",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Spring/Summer 2029\"; page shows \"(empty)\"",
+        "expected": "Spring/Summer 2029",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "how_to_answer": [
+          "Type the intended value on the form (planned: Spring/Summer 2029). If a places/autocomplete list appears, select a matching suggestion; plain city text is enough when no list opens.",
+          "System expected \"Spring/Summer 2029\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:expected_graduation_date)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:expected_graduation_date\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:gpa",
+        "question": "What is your GPA?",
+        "field_id": "question_37911665002",
+        "canonical_field": "gpa",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"3.7\"; page shows \"(empty)\"",
+        "expected": 3.7,
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "how_to_answer": [
+          "Type the intended value on the form (planned: 3.7). If a places/autocomplete list appears, select a matching suggestion; plain city text is enough when no list opens.",
+          "System expected \"3.7\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: gpa)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"gpa\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:address.country",
+        "question": "Individual granted permanent residency in a country other than Cuba, Iran, North Korea, or Syria",
+        "field_id": "question_37893699002[]_252052650002",
+        "canonical_field": "address.country",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"United States\"; page shows \"true\"",
+        "expected": "United States",
+        "observed": true,
+        "how_to_answer": [
+          "DOM shows \"true\" but plan expected \"United States\". Correct the value on the form or fix profile/aliases so the plan matches the real answer.",
+          "Profile source: private/candidate/public-profile.json → address.country",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"address.country\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:address.country",
+        "question": "Individual granted permanent residency in a country other than Cuba, Iran, North Korea, or Syria",
+        "field_id": "question_37893699002[]_252052650002",
+        "canonical_field": "address.country",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"United States\"; page shows \"true\"",
+        "expected": "United States",
+        "observed": true,
+        "how_to_answer": [
+          "DOM shows \"true\" but plan expected \"United States\". Correct the value on the form or fix profile/aliases so the plan matches the real answer.",
+          "Profile source: private/candidate/public-profile.json → address.country",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"address.country\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "fill_error:question_37911665002: combobox option not committed: opened via control click; f",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "question_37911665002: combobox option not committed: opened via control click; filter yielded no/unmatched options; re-collected unfiltered (residue cleared); no option matches \"3.7\" (options: 2.4 or below | 2.5 - 2.7 (out of 4.0) | 2.8 - 3.0 (out of 4.0) | 3.1 - 3.3 (out of 4.0) | 3.4 - 3.5 (out of 4.0) | 3.6 or above (out of 4.0) | 80% or above (Canadian Institutions) | 70-79% (Canadian Institutions) | …)",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      }
+    ],
+    "ok_count": 24,
+    "fail_count": 5
+  }
+}
