@@ -36,6 +36,34 @@ describe("reachGreenhouseApplicationForm (FIXTURE_CONFIRMED)", () => {
     });
   }, 45_000);
 
+  it("a PASSING gate on identity-free chrome still runs the Apply recovery (samsara shell)", async () => {
+    // Live 2026-08-29: samsara's ?gh_jid= landing carried form markers and
+    // two footer "Select region" pickers — the gate passed, the fill
+    // "verified" the pickers, and READY_TO_SUBMIT was junk until the
+    // upload guard refused. A passing gate without applicant-identity
+    // fields must be treated as a posting shell.
+    const html = `<!DOCTYPE html><html><body>
+      <div id="application_form">
+        <h1>Software Engineer I (New Grad)</h1>
+        <label>Region<select id="v-0-0-0-3-68" name="select-region"><option>US</option></select></label>
+        <label>Language<select id="v-0-0-0-3-148" name="select-region"><option>EN</option></select></label>
+        <button id="apply">Apply Now</button>
+      </div>
+      <div id="real"></div>
+      <script>
+        document.getElementById('apply').addEventListener('click', () => {
+          document.getElementById('real').innerHTML = ${JSON.stringify(FORM_HTML)};
+        });
+      </script>
+    </body></html>`;
+    await withFixtureHtmlPage(html, async (page) => {
+      const r = await reachGreenhouseApplicationForm(page, REQUESTED, REQUESTED);
+      expect(r.notes.join(" ")).toMatch(/no applicant-identity fields/);
+      expect(r.gate.ok).toBe(true);
+      expect(r.gate.html).toMatch(/first_name/);
+    });
+  }, 45_000);
+
   it("does not click Apply when the landing is already a Greenhouse form", async () => {
     const html = `<!DOCTYPE html><html><body>${FORM_HTML}</body></html>`;
     await withFixtureHtmlPage(html, async (page) => {

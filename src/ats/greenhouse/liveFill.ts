@@ -298,6 +298,29 @@ export type GreenhouseMutationGate = Awaited<
  * then Apply on a posting/unknown shell. Returns the page to continue on
  * (a popup, if Apply opened one). Does not click Submit.
  */
+/**
+ * A gate result that must NOT be filled as-is: either it failed on a
+ * missing form, or it PASSED on page chrome. Live 2026-08-29 (samsara
+ * ?gh_jid= landing): the gate passed with 2 fields — the site footer's
+ * "Select region" pickers — the fill "verified" those and READY_TO_SUBMIT
+ * carried junk until the upload guard refused. A greenhouse application
+ * form always carries applicant-identity fields; a passing gate without
+ * them is a posting shell that still needs Apply + iframe hop.
+ */
+export function gateLooksLikePostingShell(gate: {
+  ok: boolean;
+  failureCode?: string | null;
+  html: string;
+}): boolean {
+  if (!gate.ok) {
+    return (
+      gate.failureCode === "FORM_NOT_FOUND" ||
+      gate.failureCode === "ZERO_FIELDS"
+    );
+  }
+  return !hasApplicationIdentityFields(discoverFieldsFromHtml(gate.html));
+}
+
 export async function reachGreenhouseApplicationForm(
   page: Page,
   requestedUrl: string,
@@ -326,11 +349,12 @@ export async function reachGreenhouseApplicationForm(
     await settleGreenhouseLanding(working);
     gate = await verifyPageBeforeMutation(working, requestedUrl, normalizedUrl);
   }
-  if (
-    !gate.ok &&
-    (gate.failureCode === "FORM_NOT_FOUND" ||
-      gate.failureCode === "ZERO_FIELDS")
-  ) {
+  if (gate.ok && gateLooksLikePostingShell(gate)) {
+    notes.push(
+      "gate passed but the page has no applicant-identity fields — treating as posting shell (samsara-type chrome), running Apply + hop recovery",
+    );
+  }
+  if (gateLooksLikePostingShell(gate)) {
     const advance = await advancePastPosting({
       page: working,
       html: gate.html,
@@ -349,11 +373,7 @@ export async function reachGreenhouseApplicationForm(
         normalizedUrl,
       );
     }
-    if (
-      !gate.ok &&
-      (gate.failureCode === "FORM_NOT_FOUND" ||
-        gate.failureCode === "ZERO_FIELDS")
-    ) {
+    if (gateLooksLikePostingShell(gate)) {
       await settleGreenhouseLanding(working);
       if (await hopEmbeddedForm(working, notes)) {
         await settleGreenhouseLanding(working);
