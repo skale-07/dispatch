@@ -8,6 +8,11 @@ Canonical application states live in SQLite (`applications.state`). Every transi
 
 Failure terminals: `FAILED_RETRYABLE`, `FAILED_FINAL`.
 
+Late ineligibility: `APPLICATION_OPENING → FILTERED_OUT` — navigation can
+learn mid-opening that the posting is closed (JobRight "closed" wall). A dead
+posting is ineligible, not a failure; this edge keeps it out of every future
+selection sweep without a thrown invalid-transition error.
+
 ## Rules
 
 - SQLite is authoritative; `state.json` is an export.

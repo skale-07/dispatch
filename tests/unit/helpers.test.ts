@@ -100,6 +100,8 @@ describe("state helpers", () => {
     expect(canTransition("NATIVE_AUTOFILL_RUNNING", "APPLICATION_OPENING")).toBe(
       true,
     );
+    // Issue #16 (2026-08-29): nav learns the posting is closed mid-opening.
+    expect(canTransition("APPLICATION_OPENING", "FILTERED_OUT")).toBe(true);
     expect(canTransition("SUBMITTED", "DISCOVERED")).toBe(false);
   });
 });

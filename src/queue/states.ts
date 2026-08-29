@@ -87,6 +87,11 @@ const ALLOWED: Partial<Record<ApplicationState, readonly ApplicationState[]>> = 
     "AUTH_REQUIRED",
     "CAPTCHA_REQUIRED",
     "UNSUPPORTED_ATS",
+    // Navigation can learn mid-opening that the posting is closed (JobRight
+    // "closed" wall). A dead posting is INELIGIBLE, not a failure — without
+    // this edge the transition threw and dropped the shared nav session
+    // (overnight 2026-08-29, issue #16: 5 pipeline_errors in one session).
+    "FILTERED_OUT",
     "FAILED_RETRYABLE",
     "FAILED_FINAL",
   ],
