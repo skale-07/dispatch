@@ -1,49 +1,1434 @@
 {
   "mode": "executed",
   "ats": "greenhouse",
-  "url": "https://job-boards.greenhouse.io/datadog/jobs/8052095",
+  "url": "https://job-boards.greenhouse.io/appian/jobs/8041237",
   "plan": {
-    "answers": {},
-    "entries": [],
-    "fillable_count": 0,
-    "skipped_count": 0,
+    "answers": {
+      "legal_name.first": "Shubham",
+      "legal_name.last": "Kale",
+      "email": "s***@jh.edu",
+      "address.country": "United States",
+      "phone": "***-***-7636",
+      "address.city": "Baltimore",
+      "degree": "Bachelor of Science",
+      "gpa": 3.7,
+      "screener:custom:predicted:question_67916068": "Spring 2029",
+      "screener:custom:predicted:question_67916069": "Yes",
+      "screener:custom:predicted:question_67916070": "Yes",
+      "screener:custom:predicted:question_67916071": "Yes",
+      "screener:custom:predicted:question_67916072": "No",
+      "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+      "screener:custom:predicted:question_67916074": "I'm interested in Appian because the core problem there is process automation inside real institutional workflows, which is the kind of work I keep coming back to. I built a Playwright-based job-application agent in TypeScript where every application moves through an explicit state machine (DISCOVERED to ELIGIBILITY_CHECK to QUEUED to INSPECT to FILL to READY_TO_SUBMIT to SUBMITTED), with SQLite as the single source of truth because browser automation becomes dangerous when application state can diverge across processes. Every mutating capability sits behind fail-closed flags, and free-text and demographic fields are architecturally prevented from being auto-filled and instead route to human review. That project taught me that the hard part of automation is not what a system can do but where it should stop and hand judgment back to a person, which is exactly the tension a workflow platform has to get right for enterprise customers. I've also built systems where the output has to be trusted by someone downstream, not just be technically correct. At Summer Atlantic Capital I own major parts of an anomaly-detection service, including the event-ingestion pipeline, a versioned FastAPI microservice, and a retrieval-augmented explanation layer, because an alert system that floods analysts creates a second problem rather than solving the first. At Intelehealth I designed an evaluation framework comparing AI-generated clinical outputs against a 4,169-case standard using stratified sampling to surface systematic failure modes. The part I would want to work on at Appian is where automation, AI, and human decision points meet inside a workflow that a real organization depends on, and I'd want to own a substantial piece of that system rather than isolated tickets.",
+      "screener:how_heard": "LinkedIn",
+      "address.line1": "3510 N Charles St",
+      "work_authorization": "[REDACTED_SPONSORSHIP]",
+      "screener:requires_sponsorship": "[REDACTED_SPONSORSHIP]"
+    },
+    "entries": [
+      {
+        "field_id": "first_name",
+        "label": "First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "fill",
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "last_name",
+        "label": "Last Name",
+        "type": "text",
+        "canonical_field": "legal_name.last",
+        "action": "fill",
+        "value": "Kale",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "preferred_name",
+        "label": "Preferred First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "fill",
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "email",
+        "label": "Email",
+        "type": "text",
+        "canonical_field": "email",
+        "action": "fill",
+        "value": "s***@jh.edu",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "country",
+        "label": "Country",
+        "type": "text",
+        "canonical_field": "address.country",
+        "action": "fill",
+        "value": "United States +1",
+        "reason": "Mapped from public profile; placed onto \"United States +1\""
+      },
+      {
+        "field_id": "f_5",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "fill",
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "phone",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "fill",
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "candidate-location",
+        "label": "Location (City)",
+        "type": "text",
+        "canonical_field": "address.city",
+        "action": "fill",
+        "value": "Baltimore",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "f_8",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "fill",
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "resume",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "skip_file",
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "school--0",
+        "label": "School",
+        "type": "text",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "f_11",
+        "label": "field_11",
+        "type": "text",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "degree--0",
+        "label": "Degree",
+        "type": "text",
+        "canonical_field": "degree",
+        "action": "fill",
+        "value": "Bachelor's Degree",
+        "reason": "Mapped from public profile; placed onto \"Bachelor's Degree\""
+      },
+      {
+        "field_id": "f_13",
+        "label": "field_13",
+        "type": "text",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_67916066",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "skip_file",
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "question_67916067",
+        "label": "What is your current cumulative GPA on a 4.0 scale?",
+        "type": "text",
+        "canonical_field": "gpa",
+        "action": "fill",
+        "value": "3.7 or Higher",
+        "reason": "Mapped from public profile; placed onto \"3.7 or Higher\""
+      },
+      {
+        "field_id": "f_16",
+        "label": "field_16",
+        "type": "text",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_67916068",
+        "label": "Please select your expected graduation month and year for your current studies, or if you have already graduated, indicate the month and year you completed your most recent studies.",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_67916068",
+        "action": "fill",
+        "value": "Spring 2029",
+        "reason": "Predicted from operator context (llm_predict): Profile lists graduation May 2029, which falls in the Spring 2029 option."
+      },
+      {
+        "field_id": "f_18",
+        "label": "field_18",
+        "type": "text",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_67916069",
+        "label": "Have you ever held, or do you currently hold, any leadership roles through employment, volunteer work, or university organizations such as clubs or societies?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_67916069",
+        "action": "fill",
+        "value": "Yes",
+        "reason": "Predicted from operator context (llm_predict): He co-founded Open Health Intelligence, leads ClarityAtlas technically, and recruited and led a cross-functional team at SnapSort."
+      },
+      {
+        "field_id": "f_20",
+        "label": "field_20",
+        "type": "text",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_67916070",
+        "label": "Have you completed at least one internship, apprenticeship, or comparable work experience in the field you are applying for?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_67916070",
+        "action": "fill",
+        "value": "Yes",
+        "reason": "Predicted from operator context (llm_predict): Learned answer confirms prior internship experience, consistent with roles at Intelehealth and Summer Atlantic Capital."
+      },
+      {
+        "field_id": "f_22",
+        "label": "field_22",
+        "type": "text",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_67916071",
+        "label": "Are you currently a member of any university organizations, such as clubs or societies?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_67916071",
+        "action": "fill",
+        "value": "Yes",
+        "reason": "Predicted from operator context (llm_predict): He participates in Hopkins programs including the Pava Spark Accelerator and NSF I-Corps and is active in campus ventures."
+      },
+      {
+        "field_id": "f_24",
+        "label": "field_24",
+        "type": "text",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_67916072",
+        "label": "Are you currently pursuing a Major in one of the following disciplines: Computer Science or Computer Engineering",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_67916072",
+        "action": "fill",
+        "value": "No",
+        "reason": "Predicted from operator context (llm_predict): His majors are Applied Mathematics & Statistics and Economics, not Computer Science or Computer Engineering."
+      },
+      {
+        "field_id": "f_26",
+        "label": "field_26",
+        "type": "text",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_67916073",
+        "label": "LinkedIn Profile",
+        "type": "text",
+        "canonical_field": "linkedin_url",
+        "action": "fill",
+        "value": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_67916074",
+        "label": "Why are you interested in this specific role at Appian?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_67916074",
+        "action": "fill",
+        "value": "I'm interested in Appian because the core problem there is process automation inside real institutional workflows, which is the kind of work I keep coming back to. I built a Playwright-based job-application agent in TypeScript where every application moves through an explicit state machine (DISCOVERED to ELIGIBILITY_CHECK to QUEUED to INSPECT to FILL to READY_TO_SUBMIT to SUBMITTED), with SQLite as the single source of truth because browser automation becomes dangerous when application state can diverge across processes. Every mutating capability sits behind fail-closed flags, and free-text and demographic fields are architecturally prevented from being auto-filled and instead route to human review. That project taught me that the hard part of automation is not what a system can do but where it should stop and hand judgment back to a person, which is exactly the tension a workflow platform has to get right for enterprise customers. I've also built systems where the output has to be trusted by someone downstream, not just be technically correct. At Summer Atlantic Capital I own major parts of an anomaly-detection service, including the event-ingestion pipeline, a versioned FastAPI microservice, and a retrieval-augmented explanation layer, because an alert system that floods analysts creates a second problem rather than solving the first. At Intelehealth I designed an evaluation framework comparing AI-generated clinical outputs against a 4,169-case standard using stratified sampling to surface systematic failure modes. The part I would want to work on at Appian is where automation, AI, and human decision points meet inside a workflow that a real organization depends on, and I'd want to own a substantial piece of that system rather than isolated tickets.",
+        "reason": "Predicted from operator context (llm_predict): Ties his deterministic browser-automation agent, anomaly-detection service, and LLM evaluation work to Appian's process automation and workflow focus, written in his stated voice."
+      },
+      {
+        "field_id": "question_67916075",
+        "label": "How did you hear about Appian?",
+        "type": "text",
+        "canonical_field": "screener:how_heard",
+        "action": "fill",
+        "value": "LinkedIn",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "f_30",
+        "label": "field_30",
+        "type": "text",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_67916076",
+        "label": "Primary Mailing Address",
+        "type": "text",
+        "canonical_field": "address.line1",
+        "action": "fill",
+        "value": "3510 N Charles St",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_67916077",
+        "label": "Are you currently authorized to work in the city/country where this position is located?&nbsp;",
+        "type": "text",
+        "canonical_field": "work_authorization",
+        "action": "fill",
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "f_33",
+        "label": "field_33",
+        "type": "text",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_67916078",
+        "label": "If yes, will you now or in the future require Appian to file a petition or application for employment-based visa status on your behalf to begin or continue employment with our company? (Please note that if you are in F-1 OPT/STEM OPT, H-1B, H-4 EAD, L-2 EAD, or other EAD conferring status such as DACA, TPS, humanitarian parole, U4U, family-based adjustment of status pending, etc. you must answer YES to this question).",
+        "type": "text",
+        "canonical_field": "screener:requires_sponsorship",
+        "action": "fill",
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Screener bank answer (profile_derived)"
+      },
+      {
+        "field_id": "f_35",
+        "label": "field_35",
+        "type": "text",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "gender",
+        "label": "Gender",
+        "type": "text",
+        "canonical_field": "gender",
+        "action": "skip_demographics",
+        "value": null,
+        "reason": "Demographics deferred to sensitive-profile policy path"
+      },
+      {
+        "field_id": "hispanic_ethnicity",
+        "label": "Are you Hispanic/Latino?",
+        "type": "text",
+        "canonical_field": "hispanic_latino",
+        "action": "skip_demographics",
+        "value": null,
+        "reason": "Demographics deferred to sensitive-profile policy path"
+      },
+      {
+        "field_id": "veteran_status",
+        "label": "Veteran Status",
+        "type": "text",
+        "canonical_field": "veteran_status",
+        "action": "skip_demographics",
+        "value": null,
+        "reason": "Demographics deferred to sensitive-profile policy path"
+      },
+      {
+        "field_id": "disability_status",
+        "label": "Disability Status",
+        "type": "text",
+        "canonical_field": "disability_status",
+        "action": "skip_demographics",
+        "value": null,
+        "reason": "Demographics deferred to sensitive-profile policy path"
+      }
+    ],
+    "fillable_count": 22,
+    "skipped_count": 18,
     "review_required_count": 0
   },
   "submit_attempted": false,
   "notes": [
     "session: handoff (caller-owned page, not closed here)",
-    "posting page (no fields, Apply CTA present) but no Apply control found — not filling the posting; no visible apply-ish controls",
-    "no hopable iframe after landing miss — frames: main https://careers.datadoghq.com/detail/8052095/?gh_jid=8052095",
-    "No Greenhouse application form was found on the page."
+    "schema diff: 19/19 declared question(s) matched onto 40 DOM field(s); 2 declared-only (2 required); 21 DOM-only",
+    "board API declared 19 question(s); matched complete option lists onto 9 field(s)",
+    "option harvest: \"Location (City)\" is a combobox but offered no readable options",
+    "option harvest: scraped real options for 7/16 control(s) before planning",
+    "frozen after fill→verify→upload — no further field mutation; submit never called"
   ],
-  "validation_level": "UNVERIFIED",
-  "final_url": "https://careers.datadoghq.com/detail/8052095/?gh_jid=8052095",
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "final_url": "https://job-boards.greenhouse.io/appian/jobs/8041237",
   "identity_verification": {
-    "requestedUrl": "https://job-boards.greenhouse.io/datadog/jobs/8052095",
-    "finalUrl": "https://careers.datadoghq.com/detail/8052095/?gh_jid=8052095",
-    "requestedJobId": "8052095",
-    "observedJobId": "8052095",
-    "company": null,
-    "role": "Software Engineering Intern (Winter) | Datadog Careers",
-    "formDetected": false,
-    "fieldCount": 0,
+    "requestedUrl": "https://job-boards.greenhouse.io/appian/jobs/8041237",
+    "finalUrl": "https://job-boards.greenhouse.io/appian/jobs/8041237",
+    "requestedJobId": "8041237",
+    "observedJobId": "8041237",
+    "company": "appian",
+    "role": "Job Application for Software Engineering Intern at Appian Corporation",
+    "formDetected": true,
+    "fieldCount": 40,
     "warnings": [],
-    "passed": false,
-    "failureCode": "FORM_NOT_FOUND",
-    "failureReason": "No Greenhouse application form was found on the page."
+    "passed": true,
+    "failureCode": null,
+    "failureReason": null
   },
   "captcha_detection": {
     "detected": false,
     "confidence": "LOW",
     "signals": [],
-    "dormantMarkers": []
+    "dormantMarkers": [
+      "recaptcha_api_script_loaded",
+      "generic_captcha_word_only"
+    ]
   },
   "login_wall_detection": {
     "detected": false,
     "confidence": "LOW",
     "signals": []
   },
-  "failure_code": "FORM_NOT_FOUND",
-  "mutation_attempted": false,
-  "written_at": "2026-08-29T18:16:43.771Z"
+  "failure_code": null,
+  "mutation_attempted": true,
+  "schema_diff": {
+    "board": "appian",
+    "job_id": "8041237",
+    "declared_count": 19,
+    "dom_count": 40,
+    "matched": 19,
+    "api_only": [
+      {
+        "label": "Resume/CV",
+        "required": true
+      },
+      {
+        "label": "Please upload a copy of an unofficial undergraduate transcript.",
+        "required": true
+      }
+    ],
+    "dom_only": [
+      "Country",
+      "Location (City)",
+      "Attach",
+      "School",
+      "field_11",
+      "Degree",
+      "field_13",
+      "Attach",
+      "field_16",
+      "field_18",
+      "field_20",
+      "field_22",
+      "field_24",
+      "field_26",
+      "field_30",
+      "field_33",
+      "field_35",
+      "Gender",
+      "Are you Hispanic/Latino?",
+      "Veteran Status",
+      "Disability Status"
+    ],
+    "option_mismatches": []
+  },
+  "harvested_options": [
+    {
+      "field_id": "country",
+      "label": "Country",
+      "answer_space": "closed",
+      "option_count": 244,
+      "options": [
+        "United States +1",
+        "Afghanistan +93",
+        "Åland Islands +358",
+        "Albania +355",
+        "Algeria +213",
+        "American Samoa +1",
+        "Andorra +376",
+        "Angola +244",
+        "Anguilla +1",
+        "Antigua & Barbuda +1",
+        "Argentina +54",
+        "Armenia +374",
+        "Aruba +297",
+        "Ascension Island +247",
+        "Australia +61",
+        "Austria +43",
+        "Azerbaijan +994",
+        "Bahamas +1",
+        "Bahrain +973",
+        "Bangladesh +880",
+        "Barbados +1",
+        "Belarus +375",
+        "Belgium +32",
+        "Belize +501",
+        "Benin +229"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "school--0",
+      "label": "School",
+      "answer_space": "closed",
+      "option_count": 100,
+      "options": [
+        "Aalborg University",
+        "Aalto University",
+        "Aaniiih Nakoda College",
+        "Aarhus University",
+        "Abertay University",
+        "Aberystwyth University",
+        "Abilene Christian University",
+        "Abo Akademi University",
+        "Abraham Baldwin Agricultural College",
+        "Abraham Lincoln University",
+        "Abu Dhabi University",
+        "Academy College",
+        "Academy of Art University",
+        "Acadia University",
+        "Acharya Nagarjuna University",
+        "Activate Work Inc.",
+        "Acupuncture and Integrative Medicine College - Berkeley",
+        "Acupuncture and Massage College",
+        "Adams State University",
+        "Adelphi University",
+        "Adrian College",
+        "Adventist University of Health Sciences",
+        "Agnes Scott College",
+        "AIB College of Business",
+        "Aiken Technical College"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "degree--0",
+      "label": "Degree",
+      "answer_space": "closed",
+      "option_count": 22,
+      "options": [
+        "Accelerated Master's",
+        "Advanced Certificate",
+        "Associates",
+        "Associate's Degree",
+        "Bachelors",
+        "Bachelor's Degree",
+        "Certificate",
+        "Community / Technical College",
+        "Doctorate",
+        "Doctor of Medicine (M.D.)",
+        "Doctor of Philosophy (Ph.D.)",
+        "Engineer's Degree",
+        "High School",
+        "Juris Doctor (J.D.)",
+        "Master of Business Administration (M.B.A.)",
+        "Masters",
+        "Master's Degree",
+        "Master's of Business Administration",
+        "Non-Degree Seeking",
+        "Other",
+        "Postdoctoral Studies",
+        "Technical Diploma"
+      ],
+      "other_option": "Other"
+    },
+    {
+      "field_id": "gender",
+      "label": "Gender",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "Male",
+        "Female",
+        "Decline To Self Identify"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "hispanic_ethnicity",
+      "label": "Are you Hispanic/Latino?",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "Yes",
+        "No",
+        "Decline To Self Identify"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "veteran_status",
+      "label": "Veteran Status",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "I am not a protected veteran",
+        "I identify as one or more of the classifications of a protected veteran",
+        "I don't wish to answer"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "disability_status",
+      "label": "Disability Status",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "Yes, I have a disability, or have had one in the past",
+        "No, I do not have a disability and have not had one in the past",
+        "I do not want to answer"
+      ],
+      "other_option": null
+    }
+  ],
+  "approved_plan": {
+    "entries": [
+      {
+        "field_id": "first_name",
+        "label": "First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "FILL",
+        "approved": true,
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "last_name",
+        "label": "Last Name",
+        "type": "text",
+        "canonical_field": "legal_name.last",
+        "action": "FILL",
+        "approved": true,
+        "value": "Kale",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "preferred_name",
+        "label": "Preferred First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "FILL",
+        "approved": true,
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "email",
+        "label": "Email",
+        "type": "text",
+        "canonical_field": "email",
+        "action": "FILL",
+        "approved": true,
+        "value": "s***@jh.edu",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "country",
+        "label": "Country",
+        "type": "text",
+        "canonical_field": "address.country",
+        "action": "FILL",
+        "approved": true,
+        "value": "United States +1",
+        "reason": "Mapped from public profile; placed onto \"United States +1\""
+      },
+      {
+        "field_id": "f_5",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "FILL",
+        "approved": true,
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "phone",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "FILL",
+        "approved": true,
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "candidate-location",
+        "label": "Location (City)",
+        "type": "text",
+        "canonical_field": "address.city",
+        "action": "FILL",
+        "approved": true,
+        "value": "Baltimore",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "f_8",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "FILL",
+        "approved": true,
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "resume",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "school--0",
+        "label": "School",
+        "type": "text",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "f_11",
+        "label": "field_11",
+        "type": "text",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "degree--0",
+        "label": "Degree",
+        "type": "text",
+        "canonical_field": "degree",
+        "action": "FILL",
+        "approved": true,
+        "value": "Bachelor's Degree",
+        "reason": "Mapped from public profile; placed onto \"Bachelor's Degree\""
+      },
+      {
+        "field_id": "f_13",
+        "label": "field_13",
+        "type": "text",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_67916066",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "question_67916067",
+        "label": "What is your current cumulative GPA on a 4.0 scale?",
+        "type": "text",
+        "canonical_field": "gpa",
+        "action": "FILL",
+        "approved": true,
+        "value": "3.7 or Higher",
+        "reason": "Mapped from public profile; placed onto \"3.7 or Higher\""
+      },
+      {
+        "field_id": "f_16",
+        "label": "field_16",
+        "type": "text",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_67916068",
+        "label": "Please select your expected graduation month and year for your current studies, or if you have already graduated, indicate the month and year you completed your most recent studies.",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_67916068",
+        "action": "FILL",
+        "approved": true,
+        "value": "Spring 2029",
+        "reason": "Predicted from operator context (llm_predict): Profile lists graduation May 2029, which falls in the Spring 2029 option."
+      },
+      {
+        "field_id": "f_18",
+        "label": "field_18",
+        "type": "text",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_67916069",
+        "label": "Have you ever held, or do you currently hold, any leadership roles through employment, volunteer work, or university organizations such as clubs or societies?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_67916069",
+        "action": "FILL",
+        "approved": true,
+        "value": "Yes",
+        "reason": "Predicted from operator context (llm_predict): He co-founded Open Health Intelligence, leads ClarityAtlas technically, and recruited and led a cross-functional team at SnapSort."
+      },
+      {
+        "field_id": "f_20",
+        "label": "field_20",
+        "type": "text",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_67916070",
+        "label": "Have you completed at least one internship, apprenticeship, or comparable work experience in the field you are applying for?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_67916070",
+        "action": "FILL",
+        "approved": true,
+        "value": "Yes",
+        "reason": "Predicted from operator context (llm_predict): Learned answer confirms prior internship experience, consistent with roles at Intelehealth and Summer Atlantic Capital."
+      },
+      {
+        "field_id": "f_22",
+        "label": "field_22",
+        "type": "text",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_67916071",
+        "label": "Are you currently a member of any university organizations, such as clubs or societies?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_67916071",
+        "action": "FILL",
+        "approved": true,
+        "value": "Yes",
+        "reason": "Predicted from operator context (llm_predict): He participates in Hopkins programs including the Pava Spark Accelerator and NSF I-Corps and is active in campus ventures."
+      },
+      {
+        "field_id": "f_24",
+        "label": "field_24",
+        "type": "text",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_67916072",
+        "label": "Are you currently pursuing a Major in one of the following disciplines: Computer Science or Computer Engineering",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_67916072",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Predicted from operator context (llm_predict): His majors are Applied Mathematics & Statistics and Economics, not Computer Science or Computer Engineering."
+      },
+      {
+        "field_id": "f_26",
+        "label": "field_26",
+        "type": "text",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_67916073",
+        "label": "LinkedIn Profile",
+        "type": "text",
+        "canonical_field": "linkedin_url",
+        "action": "FILL",
+        "approved": true,
+        "value": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_67916074",
+        "label": "Why are you interested in this specific role at Appian?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_67916074",
+        "action": "FILL",
+        "approved": true,
+        "value": "I'm interested in Appian because the core problem there is process automation inside real institutional workflows, which is the kind of work I keep coming back to. I built a Playwright-based job-application agent in TypeScript where every application moves through an explicit state machine (DISCOVERED to ELIGIBILITY_CHECK to QUEUED to INSPECT to FILL to READY_TO_SUBMIT to SUBMITTED), with SQLite as the single source of truth because browser automation becomes dangerous when application state can diverge across processes. Every mutating capability sits behind fail-closed flags, and free-text and demographic fields are architecturally prevented from being auto-filled and instead route to human review. That project taught me that the hard part of automation is not what a system can do but where it should stop and hand judgment back to a person, which is exactly the tension a workflow platform has to get right for enterprise customers. I've also built systems where the output has to be trusted by someone downstream, not just be technically correct. At Summer Atlantic Capital I own major parts of an anomaly-detection service, including the event-ingestion pipeline, a versioned FastAPI microservice, and a retrieval-augmented explanation layer, because an alert system that floods analysts creates a second problem rather than solving the first. At Intelehealth I designed an evaluation framework comparing AI-generated clinical outputs against a 4,169-case standard using stratified sampling to surface systematic failure modes. The part I would want to work on at Appian is where automation, AI, and human decision points meet inside a workflow that a real organization depends on, and I'd want to own a substantial piece of that system rather than isolated tickets.",
+        "reason": "Predicted from operator context (llm_predict): Ties his deterministic browser-automation agent, anomaly-detection service, and LLM evaluation work to Appian's process automation and workflow focus, written in his stated voice."
+      },
+      {
+        "field_id": "question_67916075",
+        "label": "How did you hear about Appian?",
+        "type": "text",
+        "canonical_field": "screener:how_heard",
+        "action": "FILL",
+        "approved": true,
+        "value": "LinkedIn",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "f_30",
+        "label": "field_30",
+        "type": "text",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_67916076",
+        "label": "Primary Mailing Address",
+        "type": "text",
+        "canonical_field": "address.line1",
+        "action": "FILL",
+        "approved": true,
+        "value": "3510 N Charles St",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_67916077",
+        "label": "Are you currently authorized to work in the city/country where this position is located?&nbsp;",
+        "type": "text",
+        "canonical_field": "work_authorization",
+        "action": "FILL",
+        "approved": true,
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "f_33",
+        "label": "field_33",
+        "type": "text",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_67916078",
+        "label": "If yes, will you now or in the future require Appian to file a petition or application for employment-based visa status on your behalf to begin or continue employment with our company? (Please note that if you are in F-1 OPT/STEM OPT, H-1B, H-4 EAD, L-2 EAD, or other EAD conferring status such as DACA, TPS, humanitarian parole, U4U, family-based adjustment of status pending, etc. you must answer YES to this question).",
+        "type": "text",
+        "canonical_field": "screener:requires_sponsorship",
+        "action": "FILL",
+        "approved": true,
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Screener bank answer (profile_derived)"
+      },
+      {
+        "field_id": "f_35",
+        "label": "field_35",
+        "type": "text",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "gender",
+        "label": "Gender",
+        "type": "text",
+        "canonical_field": "gender",
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "Demographics deferred to sensitive-profile policy path"
+      },
+      {
+        "field_id": "hispanic_ethnicity",
+        "label": "Are you Hispanic/Latino?",
+        "type": "text",
+        "canonical_field": "hispanic_latino",
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "Demographics deferred to sensitive-profile policy path"
+      },
+      {
+        "field_id": "veteran_status",
+        "label": "Veteran Status",
+        "type": "text",
+        "canonical_field": "veteran_status",
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "Demographics deferred to sensitive-profile policy path"
+      },
+      {
+        "field_id": "disability_status",
+        "label": "Disability Status",
+        "type": "text",
+        "canonical_field": "disability_status",
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "Demographics deferred to sensitive-profile policy path"
+      }
+    ],
+    "answers": {
+      "legal_name.first": "Shubham",
+      "legal_name.last": "Kale",
+      "email": "s***@jh.edu",
+      "address.country": "United States +1",
+      "phone": "***-***-7636",
+      "address.city": "Baltimore",
+      "degree": "Bachelor's Degree",
+      "gpa": "3.7 or Higher",
+      "screener:custom:predicted:question_67916068": "Spring 2029",
+      "screener:custom:predicted:question_67916069": "Yes",
+      "screener:custom:predicted:question_67916070": "Yes",
+      "screener:custom:predicted:question_67916071": "Yes",
+      "screener:custom:predicted:question_67916072": "No",
+      "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+      "screener:custom:predicted:question_67916074": "I'm interested in Appian because the core problem there is process automation inside real institutional workflows, which is the kind of work I keep coming back to. I built a Playwright-based job-application agent in TypeScript where every application moves through an explicit state machine (DISCOVERED to ELIGIBILITY_CHECK to QUEUED to INSPECT to FILL to READY_TO_SUBMIT to SUBMITTED), with SQLite as the single source of truth because browser automation becomes dangerous when application state can diverge across processes. Every mutating capability sits behind fail-closed flags, and free-text and demographic fields are architecturally prevented from being auto-filled and instead route to human review. That project taught me that the hard part of automation is not what a system can do but where it should stop and hand judgment back to a person, which is exactly the tension a workflow platform has to get right for enterprise customers. I've also built systems where the output has to be trusted by someone downstream, not just be technically correct. At Summer Atlantic Capital I own major parts of an anomaly-detection service, including the event-ingestion pipeline, a versioned FastAPI microservice, and a retrieval-augmented explanation layer, because an alert system that floods analysts creates a second problem rather than solving the first. At Intelehealth I designed an evaluation framework comparing AI-generated clinical outputs against a 4,169-case standard using stratified sampling to surface systematic failure modes. The part I would want to work on at Appian is where automation, AI, and human decision points meet inside a workflow that a real organization depends on, and I'd want to own a substantial piece of that system rather than isolated tickets.",
+      "screener:how_heard": "LinkedIn",
+      "address.line1": "3510 N Charles St",
+      "work_authorization": "[REDACTED_SPONSORSHIP]",
+      "screener:requires_sponsorship": "[REDACTED_SPONSORSHIP]"
+    },
+    "fillable_count": 22,
+    "skipped_count": 18,
+    "review_required_count": 0
+  },
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "legal_name.last",
+      "legal_name.first",
+      "email",
+      "address.country",
+      "phone",
+      "phone",
+      "address.city",
+      "phone",
+      "degree",
+      "gpa",
+      "screener:custom:predicted:question_67916068",
+      "screener:custom:predicted:question_67916069",
+      "screener:custom:predicted:question_67916070",
+      "screener:custom:predicted:question_67916071",
+      "screener:custom:predicted:question_67916072",
+      "linkedin_url",
+      "screener:custom:predicted:question_67916074",
+      "screener:how_heard",
+      "address.line1",
+      "work_authorization",
+      "screener:requires_sponsorship"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "first_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "last_name",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "preferred_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "country",
+        "canonical_field": "address.country",
+        "control_kind": "combobox",
+        "selected_option": "+1",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"United States +1\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "f_5",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "phone",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "candidate-location",
+        "canonical_field": "address.city",
+        "control_kind": "combobox",
+        "selected_option": "Baltimore, Maryland, United States",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "filter \"Baltimore\" then picked \"Baltimore, Maryland, United States\" (exact)"
+        ]
+      },
+      {
+        "field_id": "f_8",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "degree--0",
+        "canonical_field": "degree",
+        "control_kind": "combobox",
+        "selected_option": "Bachelor's Degree",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Bachelor's Degree\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_67916067",
+        "canonical_field": "gpa",
+        "control_kind": "combobox",
+        "selected_option": "3.7 or Higher",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"3.7 or Higher\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_67916068",
+        "canonical_field": "screener:custom:predicted:question_67916068",
+        "control_kind": "combobox",
+        "selected_option": "Spring 2029",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Spring 2029\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_67916069",
+        "canonical_field": "screener:custom:predicted:question_67916069",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_67916070",
+        "canonical_field": "screener:custom:predicted:question_67916070",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_67916071",
+        "canonical_field": "screener:custom:predicted:question_67916071",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_67916072",
+        "canonical_field": "screener:custom:predicted:question_67916072",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_67916073",
+        "canonical_field": "linkedin_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_67916074",
+        "canonical_field": "screener:custom:predicted:question_67916074",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_67916075",
+        "canonical_field": "screener:how_heard",
+        "control_kind": "combobox",
+        "selected_option": "LinkedIn",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"LinkedIn\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_67916076",
+        "canonical_field": "address.line1",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_67916077",
+        "canonical_field": "work_authorization",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_67916078",
+        "canonical_field": "screener:requires_sponsorship",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.last",
+        "expected": "Kale",
+        "observed": "Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@jh.edu",
+        "observed": "s***@jh.edu",
+        "match": true
+      },
+      {
+        "canonical_field": "address.country",
+        "expected": "United States +1",
+        "observed": {
+          "value": "+1",
+          "label": "+1"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "address.city",
+        "expected": "Baltimore",
+        "observed": {
+          "value": "Baltimore, Maryland, United States",
+          "label": "Baltimore, Maryland, United States"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "degree",
+        "expected": "Bachelor's Degree",
+        "observed": {
+          "value": "Bachelor's Degree",
+          "label": "Bachelor's Degree"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "gpa",
+        "expected": "3.7 or Higher",
+        "observed": {
+          "value": "3.7 or Higher",
+          "label": "3.7 or Higher"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_67916068",
+        "expected": "Spring 2029",
+        "observed": {
+          "value": "Spring 2029",
+          "label": "Spring 2029"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_67916069",
+        "expected": "Yes",
+        "observed": {
+          "value": "Yes",
+          "label": "Yes"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_67916070",
+        "expected": "Yes",
+        "observed": {
+          "value": "Yes",
+          "label": "Yes"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_67916071",
+        "expected": "Yes",
+        "observed": {
+          "value": "Yes",
+          "label": "Yes"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_67916072",
+        "expected": "No",
+        "observed": {
+          "value": "No",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_67916074",
+        "expected": "I'm interested in Appian because the core problem there is process automation inside real institutional workflows, which is the kind of work I keep coming back to. I built a Playwright-based job-application agent in TypeScript where every application moves through an explicit state machine (DISCOVERED to ELIGIBILITY_CHECK to QUEUED to INSPECT to FILL to READY_TO_SUBMIT to SUBMITTED), with SQLite as the single source of truth because browser automation becomes dangerous when application state can diverge across processes. Every mutating capability sits behind fail-closed flags, and free-text and demographic fields are architecturally prevented from being auto-filled and instead route to human review. That project taught me that the hard part of automation is not what a system can do but where it should stop and hand judgment back to a person, which is exactly the tension a workflow platform has to get right for enterprise customers. I've also built systems where the output has to be trusted by someone downstream, not just be technically correct. At Summer Atlantic Capital I own major parts of an anomaly-detection service, including the event-ingestion pipeline, a versioned FastAPI microservice, and a retrieval-augmented explanation layer, because an alert system that floods analysts creates a second problem rather than solving the first. At Intelehealth I designed an evaluation framework comparing AI-generated clinical outputs against a 4,169-case standard using stratified sampling to surface systematic failure modes. The part I would want to work on at Appian is where automation, AI, and human decision points meet inside a workflow that a real organization depends on, and I'd want to own a substantial piece of that system rather than isolated tickets.",
+        "observed": "I'm interested in Appian because the core problem there is process automation inside real institutional workflows, which is the kind of work I keep coming back to. I built a Playwright-based job-application agent in TypeScript where every application move",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:how_heard",
+        "expected": "LinkedIn",
+        "observed": {
+          "value": "LinkedIn",
+          "label": "LinkedIn"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "address.line1",
+        "expected": "3510 N Charles St",
+        "observed": "3510 N Charles St",
+        "match": true
+      },
+      {
+        "canonical_field": "work_authorization",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:requires_sponsorship",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "written_at": "2026-08-29T18:29:08.056Z"
 }

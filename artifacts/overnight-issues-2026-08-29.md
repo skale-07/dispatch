@@ -126,6 +126,27 @@ FIELD_VERIFICATION.
   question observed "Yes" (cross-fill) — mapping hijack variant beyond
   bd30947, needs the samsara question bank/alias review next session.
 
+### 26. Queue clog: 15/22 QUEUED apps picker-blocked by open MANUAL review items
+- Sessions "drained" in minutes while IBM/Citadel/Schwab/Notion apps sat
+  QUEUED — each held an open MANUAL item (duplicate-posting parks,
+  "Answer needed" prompts from prior attempts, nav-budget). Applied the
+  operator-guide remedy: review:bulk --action dismiss --kind MANUAL
+  --apply (51 items). UNCERTAIN_SUBMISSION and AMBIGUOUS_FIELD items
+  untouched. "Answer needed" prompts re-create on the next attempt if the
+  predictor still can't answer them.
+
+### 27. auto-cycle test flake root-caused: 5s timeouts under load — FIXED 195c339
+- Verbose full run showed timeouts (not assertions) on the two tests that
+  execute 2–3 full runAutoCycle cycles, while a live session + Chrome
+  shared the machine. 30s explicit timeouts added.
+
+### Operator-scope action: samsara SWE re-enqueue (re-discovery convention)
+- 4d570a70/f8ffaa10/07b452d7 hit attempt caps (FAILED_FINAL) with every
+  attempt burned on infra bugs fixed tonight (posting-shell reach, submit
+  control, upload). Fresh rows created for the same jobs via legal edges
+  (terminal rows don't block dedupe): 529d6511 (SWE I New Grad), 2270889b
+  (SWE Intern London), cd03f7c6 (SWE Intern SF) — all QUEUED.
+
 ### Operator-scope action: 4 samsara ADR apps abandoned
 - bc3adad0/cc70554a (ADR Intern Atlanta/Phoenix), 68485479/9ee5373a
   (ADR II New Grad Atlanta/Phoenix) → FAILED_FINAL route INELIGIBLE via the

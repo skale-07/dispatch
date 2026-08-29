@@ -1,0 +1,49 @@
+{
+  "run_id": "nav-05bd4bbd-4eda-4ee7-8ff7-0b7db70da905",
+  "application_id": "091945b8-0ed6-4d23-8e34-97848b647841",
+  "jobright_job_id": "6a9215bbd18f75674827b64a",
+  "method": "apply_click_popup",
+  "resolved_url": "https://career-schwab.icims.com/jobs/126227/technology-2027-intern---data-engineering/job",
+  "resolved_ats": "generic",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no congruent apply href (11 external links)",
+      "evidence": "career-schwab.icims.com, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, www.schwab.com"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "resolved via popup",
+      "evidence": "career-schwab.icims.com"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "phase A: anchor reads as \"technology2027interndataengineering\" (URL names \"technology2027interndataengineering\" (path), which shares nothing with company \"Charles Schwab\") — not preferred, deferring to the Apply click",
+    "phase A: 9 external host(s) seen: career-schwab.icims.com, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, www.schwab.com, cointelegraph.com, globalfintechseries.com, www.tradingview.com",
+    "Apply control: autofill CTA (tier 0)",
+    "jobright interstitial: clicked \"Apply Without Customizing\"",
+    "popup settled off about:blank after the interstitial",
+    "popup captured on attempt 1",
+    "phase B: captured URL reads as \"technology2027interndataengineering\" (URL names \"technology2027interndataengineering\" (path), which shares nothing with company \"Charles Schwab\") — kept, provenance is the Apply click",
+    "congruence: URL names \"technology2027interndataengineering\", not \"Charles Schwab\" (URL names \"technology2027interndataengineering\" (path), which shares nothing with company \"Charles Schwab\") — recorded, not refused"
+  ],
+  "congruence": {
+    "verdict": "mismatch",
+    "slug": "technology2027interndataengineering",
+    "detail": "URL names \"technology2027interndataengineering\" (path), which shares nothing with company \"Charles Schwab\"",
+    "expected_company": "Charles Schwab",
+    "url": "https://career-schwab.icims.com/jobs/126227/technology-2027-intern---data-engineering/job?jr_id=6a9215bbd18f75674827b64a"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-08-29T18:24:41.914Z"
+}
