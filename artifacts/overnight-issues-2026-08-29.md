@@ -189,6 +189,24 @@ FIELD_VERIFICATION.
   pass. Until fixed, each session re-parks these — dismissal needed per
   cycle (supervisor handles it).
 
+### 30. Session 18:51Z (44 apps): 2 more clicks, both bounced on the Appian transcript DROPZONE
+- f0f76566 (Appian SWE Intern, new row) + f3dc93f4 (InfoSec Intern):
+  fully filled with the personal Gmail, EEO + screeners answered — but
+  Appian's transcript widget is a click-created dropzone (Attach/Dropbox/
+  Drive, NO input[type=file] in DOM), invisible to both the auto-attach
+  and the new required-file completeness check; click bounced, parked
+  UNCERTAIN. ⚠ Operator: receipts show still-on-form with a required
+  error — resolve via `review:resolve --outcome not-submitted --requeue`
+  (never auto-resolved).
+- **Fix:** attachSupplementalMaterials now has a filechooser fallback —
+  section-scoped Attach trigger in a transcript-labeled section, chip
+  read-back, resume/cover sections excluded. Fixture: Appian-shaped
+  dropzone with competing resume Attach button.
+- Operator scope directive applied: SWE + DS + AI all in (no role filter
+  existed — IBM DS roles were closed postings, verified in nav trace).
+  Standing registry private/discovery/boards.json created (15 boards);
+  first sweep enqueued 32 apps; 13 hardware/ops strays abandoned.
+
 ### Operator-scope action: 4 samsara ADR apps abandoned
 - bc3adad0/cc70554a (ADR Intern Atlanta/Phoenix), 68485479/9ee5373a
   (ADR II New Grad Atlanta/Phoenix) → FAILED_FINAL route INELIGIBLE via the
