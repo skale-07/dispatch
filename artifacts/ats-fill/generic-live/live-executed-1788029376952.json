@@ -1,0 +1,162 @@
+{
+  "ats": "generic",
+  "url": "https://hp.eightfold.ai/careers?start=0&pid=44208711",
+  "requested_url": "https://hp.eightfold.ai/careers?start=0&pid=44208711",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://hp.eightfold.ai/careers?start=0&pid=44208711",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 2,
+    "skipped_count": 2,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "position-query-search-search",
+      "label": "Search for job title or keywords",
+      "type": "text",
+      "canonical_field": "screener:custom:predicted:position-query-search-search",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): Free-text job-board search field; candidate is an undergraduate seeking software engineering/ML internship roles."
+    },
+    {
+      "field_id": "position-location-search-search",
+      "label": "Search for location",
+      "type": "text",
+      "canonical_field": "address.city",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f_2",
+      "label": "Get personalized job recommendations",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "f_3",
+      "label": "field_3",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\generic-live\\form-snapshot-1788029376908.html",
+  "fill": {
+    "filled": [],
+    "skipped": [],
+    "errors": [
+      "position-query-search-search: control not found on the page (label \"Search for job title or keywords\") — failing fast instead of waiting 30s",
+      "position-location-search-search: control not found on the page (label \"Search for location\") — failing fast instead of waiting 30s"
+    ],
+    "field_meta": []
+  },
+  "verify": {
+    "passed": false,
+    "fields": [
+      {
+        "canonical_field": "screener:custom:predicted:position-query-search-search",
+        "expected": "Software Engineer Intern",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "address.city",
+        "expected": "Baltimore, Maryland, USA",
+        "observed": null,
+        "match": false
+      }
+    ],
+    "uploads": [],
+    "warnings": [
+      "verify screener:custom:predicted:position-query-search-search: control not found on the page (label \"Search for job title or keywords\") — failing fast instead of waiting 30s",
+      "verify address.city: control not found on the page (label \"Search for location\") — failing fast instead of waiting 30s"
+    ]
+  },
+  "uploads": null,
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: form (4 fillable field(s))",
+    "popups dismissed: close (aria-label)",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "operator_brief": {
+    "title": "Live fill — generic https://hp.eightfold.ai/careers?start=0&pid=44208711",
+    "summary": "4 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:screener:custom:predicted:position-query-search-search",
+        "question": "Search for job title or keywords",
+        "field_id": "position-query-search-search",
+        "canonical_field": "screener:custom:predicted:position-query-search-search",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Software Engineer Intern\"; page shows \"(empty)\"",
+        "expected": "Software Engineer Intern",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"Software Engineer Intern\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:predicted:position-query-search-search)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:predicted:position-query-search-search\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:address.city",
+        "question": "Search for location",
+        "field_id": "position-location-search-search",
+        "canonical_field": "address.city",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Baltimore, Maryland, USA\"; page shows \"(empty)\"",
+        "expected": "Baltimore, Maryland, USA",
+        "observed": null,
+        "how_to_answer": [
+          "Type the intended value on the form (planned: Baltimore, Maryland, USA). If a places/autocomplete list appears, select a matching suggestion; plain city text is enough when no list opens.",
+          "System expected \"Baltimore, Maryland, USA\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → address.city",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"address.city\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "fill_error:position-query-search-search: control not found on the page (label \"Search for j",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "position-query-search-search: control not found on the page (label \"Search for job title or keywords\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:position-location-search-search: control not found on the page (label \"Search fo",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "position-location-search-search: control not found on the page (label \"Search for location\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      }
+    ],
+    "ok_count": 0,
+    "fail_count": 4
+  },
+  "written_at": "2026-08-29T18:49:36.969Z"
+}

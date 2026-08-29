@@ -147,6 +147,38 @@ FIELD_VERIFICATION.
   (terminal rows don't block dedupe): 529d6511 (SWE I New Grad), 2270889b
   (SWE Intern London), cd03f7c6 (SWE Intern SF) — all QUEUED.
 
+### Operator directive (live, ~14:40 local): personal Gmail is the main application email
+- public-profile.json email: skale1@jh.edu → skale072007@gmail.com (all
+  future fills). jh.edu now only fills fields that ask for a school/
+  university/.edu email — added `school_email` custom bank entry with 10
+  label variants. PORTAL_LOGIN_EMAIL was already the personal Gmail.
+- Session 6 stopped mid-run for the change; relaunched as session 7.
+- **GAP (needs operator):** Gmail token missing (`gmail:check`). Codes and
+  confirmations sent to the personal Gmail are unreadable until
+  `npm run gmail:auth` is run once for skale072007@gmail.com. Outlook
+  (jh.edu) verification stays active for anything still sent there.
+- Apps already submitted with jh.edu keep notifying jh.edu — not
+  retroactively changeable.
+
+### 28. FIRST 3 SUBMIT CLICKS (orphan session 26a41892, 18:22–18:30Z) — all parked UNCERTAIN, three distinct walls
+- 5902f351 TransMarket SWE Intern: form fully verified on receipt; emailed
+  8-char code wall to skale1@jh.edu; recovery failed because the OUTLOOK
+  SESSION EXPIRED (login.microsoftonline.com redirect) — needs
+  `npm run login:outlook`, then review:resolve/requeue.
+- 0607aaab Xaira AI Scientist Intern: filled incl. 3 essay answers + EEO
+  self-ID; blocked on REQUIRED COVER LETTER (no generation/attach path —
+  feature gap).
+- 52578119 Appian SWE Intern: filled (already with the personal Gmail);
+  blocked on REQUIRED TRANSCRIPT upload — private/candidate/transcript.pdf
+  exists, wiring it next.
+- **Cross-cutting bug:** the pre-click completeness scan missed required
+  FILE fields (cover letter, transcript) — two clicks burned on walls that
+  were knowable before the click. Fix: completeness must treat a required,
+  empty file input as unanswered.
+- Note: TaskStop on a session kills only the shell wrapper on Windows —
+  the node worker survived as an orphan (how these clicks happened while
+  "stopped"). Supervisor now kills node PIDs + disarms explicitly.
+
 ### Operator-scope action: 4 samsara ADR apps abandoned
 - bc3adad0/cc70554a (ADR Intern Atlanta/Phoenix), 68485479/9ee5373a
   (ADR II New Grad Atlanta/Phoenix) → FAILED_FINAL route INELIGIBLE via the
