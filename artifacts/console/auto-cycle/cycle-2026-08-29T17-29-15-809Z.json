@@ -1,0 +1,210 @@
+{
+  "started_at": "2026-08-29T17:29:15.809Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\jake_swe.pdf)",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "f8446222-be04-47d8-a733-e357c5fb3328",
+    "armed_until": "2026-08-29T21:29:15.830Z",
+    "seconds_remaining": 14400,
+    "max_submits": 100000,
+    "submits_used": 0,
+    "max_apps": 100000,
+    "apps_started": 0,
+    "discover_max": 10,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": {
+    "arm_run_id": "f8446222-be04-47d8-a733-e357c5fb3328",
+    "apps_started": 19,
+    "submits_used": 0,
+    "stopped_reason": "queue_drained",
+    "discover_runs": 5,
+    "emails_generated": 0,
+    "drafts_saved": 0,
+    "essay_drafts_generated": 0,
+    "screener_predictions_generated": 0,
+    "notes": [
+      "nav audit: 0 wrong-employer URL(s) cleared for re-navigation, 6 parked for review",
+      "discover: 8 inspected, 1 eligible, 8 already known, 0 filtered out, 0 already submitted",
+      "discover: 8 inspected, 1 eligible, 8 already known, 0 filtered out, 0 already submitted",
+      "shared nav session dropped after error on 7d6c2811-5b58-4364-bff0-655e26e9d28c: page.content: Unable to retrieve content because the page is navigating and changing the content.",
+      "app 7d6c2811-5b58-4364-bff0-655e26e9d28c error (pipeline_error): page.content: Unable to retrieve content because the page is navigating and changing the content.",
+      "discover: 8 inspected, 1 eligible, 8 already known, 0 filtered out, 0 already submitted",
+      "discover: 8 inspected, 1 eligible, 8 already known, 0 filtered out, 0 already submitted",
+      "discover: 8 inspected, 1 eligible, 8 already known, 0 filtered out, 0 already submitted",
+      "artifact autopush: 281 file(s) pushed to master as 05c2ac0"
+    ],
+    "per_app": [
+      {
+        "application_id": "432c3422-e4a7-4352-a0cf-33980abd21f7",
+        "end_state": "FAILED_RETRYABLE",
+        "stopped": "gate",
+        "stop_reason": "submission not verified: FAILED_BEFORE_CLICK — Refusing to click submit: field verification or upload did not pass",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "0e11b16a-1a55-4a9e-850a-22113fd8d80a",
+        "end_state": "FAILED_RETRYABLE",
+        "stopped": "gate",
+        "stop_reason": "submission not verified: FAILED_BEFORE_CLICK — Refusing to click submit: field verification or upload did not pass",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "aef93073-d15b-4ab1-923a-d4afb87d4d25",
+        "end_state": "FAILED_RETRYABLE",
+        "stopped": "gate",
+        "stop_reason": "submission not verified: FAILED_BEFORE_CLICK — Refusing to click submit: field verification or upload did not pass",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "8863c005-3c36-46ab-acd0-56811138bb81",
+        "end_state": "FAILED_RETRYABLE",
+        "stopped": "gate",
+        "stop_reason": "submission not verified: FAILED_BEFORE_CLICK — Refusing to click submit: field verification or upload did not pass",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "d58ebc42-52e3-4745-8f4a-2ff2d94860b4",
+        "end_state": "FAILED_RETRYABLE",
+        "stopped": "gate",
+        "stop_reason": "submission not verified: FAILED_BEFORE_CLICK — Refusing to click submit: field verification or upload did not pass",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "895e4c5d-3da0-48da-ad80-e072e0e515ca",
+        "end_state": "FAILED_RETRYABLE",
+        "stopped": "gate",
+        "stop_reason": "submission not verified: FAILED_BEFORE_CLICK — Refusing to click submit: field verification or upload did not pass",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "4d570a70-e377-409f-a5c3-553fd9b7d785",
+        "end_state": "FAILED_RETRYABLE",
+        "stopped": "gate",
+        "stop_reason": "submission not verified: FAILED_BEFORE_CLICK — Refusing to click submit: field verification or upload did not pass",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "f8ffaa10-9670-421d-8b97-cf359976ce11",
+        "end_state": "FAILED_RETRYABLE",
+        "stopped": "gate",
+        "stop_reason": "submission not verified: FAILED_BEFORE_CLICK — Refusing to click submit: field verification or upload did not pass",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "07b452d7-1ac5-4a90-aed6-1fdbf23e2673",
+        "end_state": "FAILED_RETRYABLE",
+        "stopped": "gate",
+        "stop_reason": "submission not verified: FAILED_BEFORE_CLICK — Refusing to click submit: field verification or upload did not pass",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "0082b074-0687-4d90-9788-3675f1c42165",
+        "end_state": "NATIVE_AUTOFILL_RUNNING",
+        "stopped": "gate",
+        "stop_reason": "generic live fill refused: FORM_NOT_REACHED",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "9a30b836-b571-4d65-a416-731da7efe6bf",
+        "end_state": "NATIVE_AUTOFILL_RUNNING",
+        "stopped": "gate",
+        "stop_reason": "generic live fill refused: UNKNOWN_LANDING",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "d0d57599-6897-4563-a48f-a877d9bc3e50",
+        "end_state": "NATIVE_AUTOFILL_RUNNING",
+        "stopped": "gate",
+        "stop_reason": "greenhouse live fill refused: FORM_NOT_FOUND",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "4a03b318-e984-47bf-97d3-872c9df0ed82",
+        "end_state": "NATIVE_AUTOFILL_RUNNING",
+        "stopped": "gate",
+        "stop_reason": "workday live fill refused: NO_APPLICATION_FORM",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "d59e4a75-c3de-4a70-a2ab-c1a1e1927e60",
+        "end_state": "NATIVE_AUTOFILL_RUNNING",
+        "stopped": "gate",
+        "stop_reason": "generic live fill refused: FORM_NOT_REACHED",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "6c2f73fd-a2f8-48a9-b54c-625b6d3aa29c",
+        "end_state": "NATIVE_AUTOFILL_RUNNING",
+        "stopped": "gate",
+        "stop_reason": "workday live fill refused: NO_APPLICATION_FORM",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "a9559335-815a-485a-85cb-6f63767d3ef4",
+        "end_state": "NATIVE_AUTOFILL_RUNNING",
+        "stopped": "gate",
+        "stop_reason": "generic live fill refused: FORM_NOT_REACHED",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "e6dc611e-85e0-4d45-9e57-a9a459497f93",
+        "end_state": "NATIVE_AUTOFILL_RUNNING",
+        "stopped": "gate",
+        "stop_reason": "generic live fill refused: FORM_NOT_REACHED",
+        "submitted": false,
+        "outreach": null
+      },
+      {
+        "application_id": "b32a3624-ecfb-4825-a76e-b824b2a6d6d1",
+        "end_state": "NATIVE_AUTOFILL_RUNNING",
+        "stopped": "gate",
+        "stop_reason": "generic live fill refused: UNKNOWN_LANDING",
+        "submitted": false,
+        "outreach": null
+      }
+    ],
+    "nav_audit": {
+      "checked": 90,
+      "repaired": 0,
+      "parked": 6
+    },
+    "artifact_autopush": {
+      "pushed": true,
+      "commit": "05c2ac0",
+      "files_staged": 281
+    }
+  },
+  "outcome": "completed",
+  "notes": []
+}
