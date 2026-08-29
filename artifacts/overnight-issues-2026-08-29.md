@@ -111,6 +111,21 @@ FIELD_VERIFICATION.
   filechooser-dropzone fallback (earlier tonight) stays — it guards the
   distinct custom-widget shape.
 
+### 25. Session 17:58Z — posting-shell fix CONFIRMED live; two new samsara walls, one fixed
+- Fills now land on the real embed form (briefs show real questions: work
+  authorization, personal-data consent, zip, salary-range). f8ffaa10
+  (London) passed fill+verify+upload entirely and failed ONLY on
+  "submit control not found" → FIXED: frame-aware submit search + typeless
+  "Submit application" text fallback (selectors registry
+  submitTextFallback; 2 fixture tests incl. iframe srcdoc).
+- **Still open on 4d570a70/07b452d7 (next targets):**
+  (a) react-select Yes/No comboboxes "filter yielded no/unmatched
+  options" (question_68338892/94, 68220142/44);
+  (b) plan mis-mapping: "[Compensation] Do you accept the listed salary
+  range" planned "Online Job Board" (a how_heard answer), zip-code
+  question observed "Yes" (cross-fill) — mapping hijack variant beyond
+  bd30947, needs the samsara question bank/alias review next session.
+
 ### Operator-scope action: 4 samsara ADR apps abandoned
 - bc3adad0/cc70554a (ADR Intern Atlanta/Phoenix), 68485479/9ee5373a
   (ADR II New Grad Atlanta/Phoenix) → FAILED_FINAL route INELIGIBLE via the
