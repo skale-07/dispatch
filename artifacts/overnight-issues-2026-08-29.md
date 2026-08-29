@@ -207,6 +207,23 @@ FIELD_VERIFICATION.
   Standing registry private/discovery/boards.json created (15 boards);
   first sweep enqueued 32 apps; 13 hardware/ops strays abandoned.
 
+### 31. MILESTONE — samsara SWE I New Grad (529d6511) submit CLICKED end-to-end (session 20:14Z)
+- Full chain worked: posting-shell hop → embed fill → upload → submit
+  control → click. Post-click page navigated back to the posting, no
+  confirmation text → parked UNCERTAIN (operator-resolution; confirmation
+  email, if any, went to skale072007@gmail.com — unreadable until
+  gmail:auth). Receipt PNG in artifacts.
+- **#25 root-caused via live repro (task #5):** the "combobox not
+  committed" failures are NOT widget bugs — samsara's "Processing of
+  Personal Data" menu has exactly one option, "Acknowledge/Confirm"; the
+  plan said "Yes" and the matcher correctly refused. FIXED: sole consent
+  option + affirmative planned value = synonym pick (fail-closed
+  otherwise; 3 fixture tests incl. two refusal cases). The zip="Yes"
+  cross-fill mechanism FIXED with an active-element guard before filter
+  typing (typing no longer lands in neighboring fields). The
+  "salary-range ← Online Job Board" row is a verify/brief pairing
+  artifact — the cached label mappings are sane (checked).
+
 ### Operator-scope action: 4 samsara ADR apps abandoned
 - bc3adad0/cc70554a (ADR Intern Atlanta/Phoenix), 68485479/9ee5373a
   (ADR II New Grad Atlanta/Phoenix) → FAILED_FINAL route INELIGIBLE via the
