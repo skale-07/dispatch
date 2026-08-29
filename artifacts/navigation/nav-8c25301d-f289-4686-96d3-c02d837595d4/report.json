@@ -1,0 +1,49 @@
+{
+  "run_id": "nav-8c25301d-f289-4686-96d3-c02d837595d4",
+  "application_id": "4c67c3b5-8d4f-4222-836c-46678ed5a636",
+  "jobright_job_id": "6a59eafa856af468ab005b0b",
+  "method": "apply_click_popup",
+  "resolved_url": "https://internal-careers-rivian.icims.com/jobs/27405/software-engineering-intern---applications%2c-infotainment-%26-mobile---summer-2026/job",
+  "resolved_ats": "generic",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no congruent apply href (10 external links)",
+      "evidence": "internal-careers-rivian.icims.com, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, www.rechargenews.com"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "resolved via popup",
+      "evidence": "internal-careers-rivian.icims.com"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "phase A: anchor reads as \"softwareengineeringinternapplications2cinfotainment26mobilesummer2026\" (URL names \"softwareengineeringinternapplications2cinfotainment26mobilesummer2026\" (path), which shares nothing with company \"Rivian\") — not preferred, deferring to the Apply click",
+    "phase A: 8 external host(s) seen: internal-careers-rivian.icims.com, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, www.rechargenews.com, fortune.com, www.webwire.com",
+    "Apply control: autofill CTA (tier 0)",
+    "jobright interstitial: clicked \"Apply Without Customizing\"",
+    "popup settled off about:blank after the interstitial",
+    "popup captured on attempt 1",
+    "phase B: captured URL reads as \"softwareengineeringinternapplications2cinfotainment26mobilesummer2026\" (URL names \"softwareengineeringinternapplications2cinfotainment26mobilesummer2026\" (path), which shares nothing with company \"Rivian\") — kept, provenance is the Apply click",
+    "congruence: URL names \"softwareengineeringinternapplications2cinfotainment26mobilesummer2026\", not \"Rivian\" (URL names \"softwareengineeringinternapplications2cinfotainment26mobilesummer2026\" (path), which shares nothing with company \"Rivian\") — recorded, not refused"
+  ],
+  "congruence": {
+    "verdict": "mismatch",
+    "slug": "[REDACTED]",
+    "detail": "URL names \"softwareengineeringinternapplications2cinfotainment26mobilesummer2026\" (path), which shares nothing with company \"Rivian\"",
+    "expected_company": "Rivian",
+    "url": "https://internal-careers-rivian.icims.com/jobs/27405/software-engineering-intern---applications%2c-infotainment-%26-mobile---summer-2026/job?jr_id=6a59eafa856af468ab005b0b"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-08-29T16:44:18.389Z"
+}
