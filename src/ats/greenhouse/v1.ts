@@ -87,10 +87,23 @@ export class GreenhouseAdapterV1 implements ApplicationAdapter {
     if (/boards\.greenhouse\.io|greenhouse\.io|grnh\.se/i.test(input.url)) {
       score += 0.6;
       evidence.push("greenhouse URL host");
+    } else if (/[?&]gh_jid=\d+/i.test(input.url)) {
+      // First-party embed: boards.greenhouse.io/<board>/jobs/<id> can 302 to
+      // the company's own careers page carrying Greenhouse's embed param
+      // (live 2026-08-29: samsara.com/company/careers/roles/<id>?gh_jid=<id>).
+      // gh_jid is Greenhouse's own parameter; the submit gate separately
+      // enforces job-id identity (extractGreenhouseJobIdFromUrl reads gh_jid),
+      // so recognizing the vendor here is detection accuracy, not gate change.
+      score += 0.5;
+      evidence.push("greenhouse embed gh_jid param");
     }
     if (/id=["']application_form["']|new_job_application|data-greenhouse/i.test(input.html)) {
       score += 0.3;
       evidence.push("greenhouse form markers");
+    }
+    if (/grnhse_app|boards\.greenhouse\.io\/embed\/job_app/i.test(input.html)) {
+      score += 0.3;
+      evidence.push("greenhouse embed markers");
     }
     if (/powered by greenhouse|greenhouse job board/i.test(input.html)) {
       score += 0.2;

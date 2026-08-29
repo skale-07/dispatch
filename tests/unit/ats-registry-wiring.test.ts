@@ -49,6 +49,48 @@ describe("ATS registry wiring (W1, UNIT_CONFIRMED)", () => {
     expect(detection.atsId).toBe("generic");
   });
 
+  it("first-party greenhouse embed (company host + gh_jid) routes to greenhouse", async () => {
+    // Issue #18 (2026-08-29): boards.greenhouse.io/samsara/jobs/<id> 302s to
+    // samsara.com/...?gh_jid=<id>; submit-time re-detection read "generic"
+    // and the ATS-mismatch check refused 7 READY_TO_SUBMIT apps.
+    const { adapter, detection } = await detectAts({
+      url: "https://www.samsara.com/company/careers/roles/8097345?gh_jid=8097345",
+      html: `<html><body>
+        <div id="grnhse_app"></div>
+        <form action="#"><input name="first_name" /><input name="last_name" /></form>
+      </body></html>`,
+    });
+    expect(adapter.id).toBe("greenhouse");
+    expect(detection.confidence).toBeGreaterThanOrEqual(0.5);
+    expect(detection.evidence).toContain("greenhouse embed gh_jid param");
+  });
+
+  it("gh_jid param alone (no embed markers) still routes to greenhouse", async () => {
+    const { adapter } = await detectAts({
+      url: "https://careers.example.com/detail/123?gh_jid=123",
+      html: `<html><body><form><input name="first_name" /></form></body></html>`,
+    });
+    expect(adapter.id).toBe("greenhouse");
+  });
+
+  it("company careers page without gh_jid or embed markers stays generic", async () => {
+    const { adapter } = await detectAts({
+      url: "https://www.samsara.com/company/careers/roles/8097345",
+      html: `<html><body><form><input name="first_name" /><input name="last_name" /></form></body></html>`,
+    });
+    expect(adapter.id).toBe("generic");
+  });
+
+  it("embed markers without gh_jid do not reach the greenhouse threshold alone", async () => {
+    // 0.3 embed evidence < 0.5 — a page merely referencing the embed script
+    // is not claimed without the vendor URL or param (conservative side).
+    const { adapter } = await detectAts({
+      url: "https://www.example.com/careers",
+      html: `<html><body><div id="grnhse_app"></div></body></html>`,
+    });
+    expect(adapter.id).toBe("generic");
+  });
+
   it("routes the lever fixture to the lever adapter", async () => {
     const { adapter, detection } = await detectAts(loadAtsFixture("lever"));
     expect(adapter.id).toBe("lever");
