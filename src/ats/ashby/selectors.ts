@@ -32,6 +32,29 @@ export const ashbySelectorsV1 = {
     pressed:
       "[aria-pressed='true'], [aria-checked='true'], [data-selected='true']",
   },
+  /**
+   * 2026-08-28 live variant (session 1b93205e, snapshot
+   * artifacts/ats-fill/ashby-live/form-snapshot-1787970843854.html): each
+   * question sits in a wrapper carrying data-field-path=<field id> and
+   * data-field-entry-id=<entry uuid>_<field id>. The question's
+   * <label for=<field id>> targets an id no control carries, so label-based
+   * lookup can never resolve these — the wrapper attribute is the only
+   * stable handle.
+   */
+  fieldWrapper: {
+    pathAttr: "data-field-path",
+    entryAttr: "data-field-entry-id",
+  },
+  /**
+   * Same variant's radio/checkbox groups: a <fieldset> (no role=radiogroup)
+   * whose options are NATIVE inputs, each labelled by its own sibling
+   * <label for=<option input id>>.
+   */
+  inputGroup: {
+    fieldset:
+      "fieldset.ashby-application-form-input-radio-group, fieldset.ashby-application-form-input-checkbox-group",
+    optionInput: "input[type='radio'], input[type='checkbox']",
+  },
   combobox: {
     /** Portal-rendered — search page-wide and filter to visible. */
     listbox: "[role='listbox']",

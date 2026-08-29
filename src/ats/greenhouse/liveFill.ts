@@ -58,6 +58,7 @@ import {
   advancePastPosting,
   findApplyControl,
 } from "../shared/postingAdvance.js";
+import { pageContentWithRetry } from "../../browser/pageContent.js";
 import { verifyFinalNavigation } from "./finalNavigation.js";
 import {
   detectClosedJobSignals,
@@ -166,7 +167,7 @@ export async function verifyPageBeforeMutation(
 }> {
   const finalUrl = page.url();
   const title = (await page.title().catch(() => "")) || "";
-  const html = await page.content();
+  const html = await pageContentWithRetry(page);
 
   const nav = verifyFinalNavigation({
     requestedUrl: normalizedUrl ?? requestedUrl,
@@ -238,7 +239,7 @@ const LANDING_POLL_MS = 400;
 async function settleGreenhouseLanding(page: Page): Promise<void> {
   const deadline = Date.now() + LANDING_SETTLE_MS;
   while (Date.now() < deadline) {
-    const html = await page.content();
+    const html = await pageContentWithRetry(page);
     const landing = classifyPage({ html, url: page.url() });
     if (
       landing.page_class === "form" ||
@@ -257,7 +258,7 @@ async function hopEmbeddedForm(
   page: Page,
   notes: string[],
 ): Promise<boolean> {
-  const topFields = discoverFieldsFromHtml(await page.content());
+  const topFields = discoverFieldsFromHtml(await pageContentWithRetry(page));
   // Listing chrome (search boxes) used to abort the hop because "fields > 0".
   // Only a real applicant-identity form is already the destination.
   if (hasApplicationIdentityFields(topFields)) return false;

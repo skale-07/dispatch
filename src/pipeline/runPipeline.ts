@@ -1,4 +1,5 @@
 import fs from "node:fs";
+import { pageContentWithRetry } from "../browser/pageContent.js";
 import { getConfig } from "../config/index.js";
 import { logger } from "../logging/logger.js";
 import type { Db } from "../storage/db/client.js";
@@ -437,7 +438,7 @@ async function fetchEmployerPageHtml(
     if (handoff) {
       await handoff.goto(url, { waitUntil: "domcontentloaded", timeout: 60_000 });
       return {
-        html: await handoff.content(),
+        html: await pageContentWithRetry(handoff),
         finalUrl: handoff.url(),
         title: await handoff.title().catch(() => ""),
       };
@@ -445,7 +446,7 @@ async function fetchEmployerPageHtml(
     return withPublicUrlPage(
       url,
       async (page) => ({
-        html: await page.content(),
+        html: await pageContentWithRetry(page),
         finalUrl: page.url(),
         title: await page.title().catch(() => ""),
       }),
@@ -1380,7 +1381,23 @@ async function step(
           ctx.heldSubmitSession.current = null;
         }
         if (filled.gateFailure) {
-          return { to: null, note: filled.gateFailure, stop: "gate" };
+          // Session 1b93205e left 6 apps in NATIVE_AUTOFILL_RUNNING after
+          // live-fill gate refusals (FORM_NOT_REACHED/FORM_NOT_FOUND/…) —
+          // the worker re-picks running states, so a deterministic refusal
+          // looped instead of parking. A refused gate is a failed attempt:
+          // park retryable so the requeue path (re-navigation included)
+          // owns the next try.
+          transitionApplication(db, {
+            applicationId: app.id,
+            nextState: "FAILED_RETRYABLE",
+            reason: `pipeline: ${filled.gateFailure}`,
+            runId,
+          });
+          return {
+            to: "FAILED_RETRYABLE",
+            note: filled.gateFailure,
+            stop: "gate",
+          };
         }
         verifyPassed = filled.verifyPassed;
         detail = filled.detail;

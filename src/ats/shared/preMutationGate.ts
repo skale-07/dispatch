@@ -3,6 +3,7 @@ import { detectBlockingCaptcha } from "../greenhouse/captchaDetection.js";
 import { detectLoginWall } from "../greenhouse/loginWallDetection.js";
 import { discoverFieldsFromHtml } from "../../applications/fieldDiscovery.js";
 import { classifyPage } from "./pageClassify.js";
+import { pageContentWithRetry } from "../../browser/pageContent.js";
 
 /**
  * Generic pre-mutation page gate for ATSes without an identity-verification
@@ -36,10 +37,10 @@ export async function waitForRenderedContent(
   intervalMs = 500,
 ): Promise<string> {
   const deadline = Date.now() + timeoutMs;
-  let html = await page.content();
+  let html = await pageContentWithRetry(page);
   while (!marker.test(html) && Date.now() < deadline) {
     await page.waitForTimeout(intervalMs);
-    html = await page.content();
+    html = await pageContentWithRetry(page);
   }
   return html;
 }
@@ -59,7 +60,7 @@ export async function verifyPageBeforeMutationGeneric(
     renderTimeoutMs?: number;
   },
 ): Promise<GenericPreMutationGateResult> {
-  const htmlImmediate = await page.content();
+  const htmlImmediate = await pageContentWithRetry(page);
   // A listing page will never grow a <form> if we wait. Burning the SPA
   // render timeout here is what made /portal look like a hang before the
   // run refused NO_APPLICATION_FORM. Skip the wait when the first paint

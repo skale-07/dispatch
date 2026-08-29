@@ -63,6 +63,8 @@ export type FieldFillMeta = {
     | "combobox"
     | "native_select"
     | "button_group"
+    /** Plain control resolved via its data-field wrapper (Ashby 2026-08). */
+    | "wrapper_text"
     | "file"
     | "unknown";
   selected_option?: string | null;

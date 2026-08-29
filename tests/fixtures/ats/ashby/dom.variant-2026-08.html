@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+  <!--
+    Synthetic fixture pinning the 2026-08 live Ashby form variant (shape
+    captured in artifacts/ats-fill/ashby-live/form-snapshot-1787970843854.html,
+    session 1b93205e; values here are invented). The failure signature this
+    pins: each question's <label for=FIELD_ID> targets an id NO control
+    carries, so label-based lookup resolves nothing — the only stable handles
+    are the wrapper's data-field-path / data-field-entry-id attributes.
+    Options are NATIVE radio/checkbox inputs labelled per-option.
+  -->
+  <body>
+    <form>
+      <div
+        data-field-path="11111111-aaaa-bbbb-cccc-000000000001"
+        data-field-entry-id="deadbeef-0000-1111-2222-333344445555_11111111-aaaa-bbbb-cccc-000000000001"
+      >
+        <fieldset class="_container_1258i_28 _fieldEntry_1e3gg_28 ashby-application-form-input-radio-group">
+          <label
+            class="_heading_f7cvd_52 _required_f7cvd_91 ashby-application-form-question-title"
+            for="11111111-aaaa-bbbb-cccc-000000000001"
+            >Will you now or at any time in the future require sponsorship for
+            employment visa status (e.g. H1B, OPT)?</label
+          >
+          <div class="_option_1258i_34 ashby-application-form-input-radio-group-option">
+            <span class="_container_132c8_28" data-disabled="false">
+              <span class="_circle_132c8_77"></span>
+              <input
+                type="radio"
+                id="deadbeef-sponsorship-radio-0"
+                name="deadbeef_sponsorship"
+                class="ashby-application-form-input-radio-group-option-radio"
+              />
+            </span>
+            <label
+              for="deadbeef-sponsorship-radio-0"
+              class="_label_1258i_42 ashby-application-form-input-radio-group-option-label"
+              >Yes</label
+            >
+          </div>
+          <div class="_option_1258i_34 ashby-application-form-input-radio-group-option">
+            <span class="_container_132c8_28" data-disabled="false">
+              <span class="_circle_132c8_77"></span>
+              <input
+                type="radio"
+                id="deadbeef-sponsorship-radio-1"
+                name="deadbeef_sponsorship"
+                class="ashby-application-form-input-radio-group-option-radio"
+              />
+            </span>
+            <label
+              for="deadbeef-sponsorship-radio-1"
+              class="_label_1258i_42 ashby-application-form-input-radio-group-option-label"
+              >No</label
+            >
+          </div>
+        </fieldset>
+      </div>
+
+      <div
+        data-field-path="22222222-aaaa-bbbb-cccc-000000000002"
+        data-field-entry-id="deadbeef-0000-1111-2222-333344445555_22222222-aaaa-bbbb-cccc-000000000002"
+      >
+        <fieldset class="_container_1258i_28 _fieldEntry_1e3gg_28 ashby-application-form-input-checkbox-group">
+          <label
+            class="_heading_f7cvd_52 ashby-application-form-question-title"
+            for="22222222-aaaa-bbbb-cccc-000000000002"
+            >How did you hear about this opportunity? (select all that
+            apply)</label
+          >
+          <div class="_option_1258i_34 ashby-application-form-input-checkbox-group-option">
+            <span class="_container_132c8_28" data-disabled="false">
+              <input
+                type="checkbox"
+                id="deadbeef-howheard-check-0"
+                name="deadbeef_howheard_0"
+                class="ashby-application-form-input-checkbox-group-option-checkbox"
+              />
+            </span>
+            <label
+              for="deadbeef-howheard-check-0"
+              class="_label_1258i_42 ashby-application-form-input-checkbox-group-option-label"
+              >LinkedIn</label
+            >
+          </div>
+          <div class="_option_1258i_34 ashby-application-form-input-checkbox-group-option">
+            <span class="_container_132c8_28" data-disabled="false">
+              <input
+                type="checkbox"
+                id="deadbeef-howheard-check-1"
+                name="deadbeef_howheard_1"
+                class="ashby-application-form-input-checkbox-group-option-checkbox"
+              />
+            </span>
+            <label
+              for="deadbeef-howheard-check-1"
+              class="_label_1258i_42 ashby-application-form-input-checkbox-group-option-label"
+              >Company website</label
+            >
+          </div>
+        </fieldset>
+      </div>
+
+      <div
+        data-field-entry-id="deadbeef-0000-1111-2222-333344445555_33333333-aaaa-bbbb-cccc-000000000003"
+      >
+        <label
+          class="_heading_f7cvd_52 _required_f7cvd_91 ashby-application-form-question-title"
+          for="33333333-aaaa-bbbb-cccc-000000000003"
+          >Graduation Date</label
+        >
+        <div class="react-datepicker-wrapper">
+          <div class="react-datepicker__input-container">
+            <input
+              type="text"
+              placeholder="Pick date..."
+              class="_input_gc9ve_28 _greedy_gc9ve_61 ashby-application-form-input-date"
+              required=""
+              value=""
+            />
+          </div>
+        </div>
+      </div>
+    </form>
+  </body>
+</html>

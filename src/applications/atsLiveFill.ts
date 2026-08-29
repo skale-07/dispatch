@@ -61,6 +61,7 @@ import {
   type AnswerSpace,
   type OptionHarvestResult,
 } from "../ats/shared/optionHarvest.js";
+import { pageContentWithRetry } from "../browser/pageContent.js";
 import {
   fillOtherSpecify,
   type OtherSpecifyOutcome,
@@ -670,7 +671,7 @@ export async function runAtsLiveFill(input: {
           // Gate HTML is the posting/login we arrived on. Plan AFTER
           // sign-in. Do not treat POSTING_MISMATCH as fatal — apply URL
           // paths often diverge from the normalized posting.
-          planHtml = await page.content();
+          planHtml = await pageContentWithRetry(page);
           planUrl = page.url();
           if (binding.id === "workday") {
             const kind = classifyWorkdayPage(planHtml);
@@ -819,7 +820,7 @@ export async function runAtsLiveFill(input: {
             ...activation.notes,
           );
           if (activation.activated) {
-            planHtml = await page.content();
+            planHtml = await pageContentWithRetry(page);
           }
         }
       }

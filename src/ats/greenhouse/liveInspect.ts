@@ -36,6 +36,7 @@ import {
   buildProposedFillPlan,
   type ProposedFillPlan,
 } from "./proposedFillPlan.js";
+import { pageContentWithRetry } from "../../browser/pageContent.js";
 
 export type GreenhouseInspectionValidationLevel =
   | "LIVE_READ_ONLY_CONFIRMED"
@@ -210,7 +211,7 @@ async function collectPageSignals(page: Page): Promise<{
 }> {
   const finalUrl = page.url();
   const title = (await page.title().catch(() => "")) || "";
-  const html = await page.content();
+  const html = await pageContentWithRetry(page);
   const formDetected =
     (await page.locator(greenhouseSelectorsV1.form).count().catch(() => 0)) >
       0 || /id=["']application_form["']|new_job_application/i.test(html);
@@ -427,7 +428,7 @@ export async function inspectGreenhouseApplication(options: {
         const title =
           (await page.title().catch(() => "")) ||
           (options.url.match(/jobs\/(\d+)/)?.[0] ?? "Greenhouse fixture");
-        const html = await page.content();
+        const html = await pageContentWithRetry(page);
         const formDetected =
           (await page
             .locator(greenhouseSelectorsV1.form)
