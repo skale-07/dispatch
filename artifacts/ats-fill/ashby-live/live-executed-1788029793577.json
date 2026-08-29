@@ -1,0 +1,317 @@
+{
+  "ats": "ashby",
+  "url": "https://jobs.ashbyhq.com/hypercubic/ab7a23f9-7280-4443-b442-2813dc39d490/application",
+  "requested_url": "https://jobs.ashbyhq.com/hypercubic/ab7a23f9-7280-4443-b442-2813dc39d490/application",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://jobs.ashbyhq.com/hypercubic/ab7a23f9-7280-4443-b442-2813dc39d490/application",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 8,
+    "skipped_count": 2,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "f_0",
+      "label": "Department",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "_systemfield_name",
+      "label": "Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Single full-name field: composed legal_name.first + legal_name.last (both safe factual canonicals)"
+    },
+    {
+      "field_id": "_systemfield_email",
+      "label": "Email",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "_systemfield_resume",
+      "label": "Resume",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "f6a903bc-bcf7-4cd1-a648-574aea0a1b3c",
+      "label": "LinkedIn Profile",
+      "type": "text",
+      "canonical_field": "linkedin_url",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "4908543f-615f-4b38-8224-3439be0f135d",
+      "label": "Phone Number",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f_6",
+      "label": "Start typing...",
+      "type": "text",
+      "canonical_field": "screener:custom:location_autocomplete",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "f_7",
+      "label": "Pick date...",
+      "type": "text",
+      "canonical_field": "screener:custom:available_start_date",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "2235ac79-38b1-485a-9138-b1c6478f3cdd",
+      "label": "Additional Information",
+      "type": "textarea",
+      "canonical_field": "essay:generated:2235ac79-38b1-485a-9138-b1c6478f3cdd",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "2b19c26f-2dec-401c-9b15-76e1511912d7",
+      "label": "What is your current US work authorization?",
+      "type": "select",
+      "canonical_field": "work_authorization",
+      "action": "FILL",
+      "reason": "Mapped from public profile; value \"Yes\" not on the control's list — using the form's own \"Other (please share more details below)\""
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\ashby-live\\form-snapshot-1788029610140.html",
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "email",
+      "linkedin_url",
+      "phone",
+      "essay:generated:2235ac79-38b1-485a-9138-b1c6478f3cdd"
+    ],
+    "skipped": [],
+    "errors": [
+      "f_6: control not found on the page (label \"Start typing...\") — failing fast instead of waiting 30s",
+      "f_7: control not found on the page (label \"Pick date...\") — failing fast instead of waiting 30s",
+      "2b19c26f-2dec-401c-9b15-76e1511912d7: control not found on the page (label \"What is your current US work authorization?\") — failing fast instead of waiting 30s"
+    ],
+    "field_meta": [
+      {
+        "field_id": "_systemfield_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "_systemfield_email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "f6a903bc-bcf7-4cd1-a648-574aea0a1b3c",
+        "canonical_field": "linkedin_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "4908543f-615f-4b38-8224-3439be0f135d",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "2235ac79-38b1-485a-9138-b1c6478f3cdd",
+        "canonical_field": "essay:generated:2235ac79-38b1-485a-9138-b1c6478f3cdd",
+        "control_kind": "text"
+      }
+    ]
+  },
+  "verify": {
+    "passed": false,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham Kale",
+        "observed": "Shubham Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:location_autocomplete",
+        "expected": "Baltimore, Maryland, United States",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "screener:custom:available_start_date",
+        "expected": "2026-06-01",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "essay:generated:2235ac79-38b1-485a-9138-b1c6478f3cdd",
+        "expected": "Two things I built are probably the most useful signal of how I think. The first is a Playwright job-application agent in TypeScript that I designed to be deterministic and operator-controlled rather than autonomous, because one wrong action can submit a real application or fabricate an answer. Every application moves through an explicit state machine, SQLite is the single source of truth so state cannot diverge across processes, and mutating capabilities sit behind fail-closed flags that never default on. Free-text essays and demographic fields are architecturally prevented from being auto-filled and always generate a human-review item. I am filling this box out by hand for that reason.\n\nThe second is ClarityAtlas, an iOS health app I built end to end in Swift and SwiftUI with Supabase, including a passive sleep-estimation system using HealthKit and Core Motion signals so users would not need a wearable. We shipped it into a live Hopkins pilot with 30+ users.\n\nI want to work somewhere I own substantial pieces of a system rather than isolated tickets, and where taste about what a system should not do counts as much as what it can.",
+        "observed": "Two things I built are probably the most useful signal of how I think. The first is a Playwright job-application agent in TypeScript that I designed to be deterministic and operator-controlled rather than autonomous, because one wrong action can submit a real application or fabricate an answer. Every application moves through an explicit state machine, SQLite is the single source of truth so state cannot diverge across processes, and mutating capabilities sit behind fail-closed flags that never default on. Free-text essays and demographic fields are architecturally prevented from being auto-filled and always generate a human-review item. I am filling this box out by hand for that reason.\n\nThe second is ClarityAtlas, an iOS health app I built end to end in Swift and SwiftUI with Supabase, including a passive sleep-estimation system using HealthKit and Core Motion signals so users would not need a wearable. We shipped it into a live Hopkins pilot with 30+ users.\n\nI want to work somewhere I own substantial pieces of a system rather than isolated tickets, and where taste about what a system should not do counts as much as what it can.",
+        "match": true
+      },
+      {
+        "canonical_field": "work_authorization",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": null,
+        "match": false
+      }
+    ],
+    "uploads": [],
+    "warnings": [
+      "verify screener:custom:location_autocomplete: control not found on the page (label \"Start typing...\") — failing fast instead of waiting 30s",
+      "verify screener:custom:available_start_date: control not found on the page (label \"Pick date...\") — failing fast instead of waiting 30s",
+      "verify work_authorization: control not found on the page (label \"What is your current US work authorization?\") — failing fast instead of waiting 30s"
+    ]
+  },
+  "uploads": null,
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: form (10 fillable field(s))",
+    "other-specify: chose \"Other\" and no text box appeared — nothing further to answer",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "other_specify": [
+    {
+      "field_id": "2b19c26f-2dec-401c-9b15-76e1511912d7",
+      "label": "What is your current US work authorization?",
+      "revealed_field_id": null,
+      "filled": false,
+      "note": "chose \"Other\" and no text box appeared — nothing further to answer"
+    }
+  ],
+  "operator_brief": {
+    "title": "Live fill — ashby https://jobs.ashbyhq.com/hypercubic/ab7a23f9-7280-4443-b442-2813dc39d490/application",
+    "summary": "6 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:screener:custom:location_autocomplete",
+        "question": "Start typing...",
+        "field_id": "f_6",
+        "canonical_field": "screener:custom:location_autocomplete",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Baltimore, Maryland, United States\"; page shows \"(empty)\"",
+        "expected": "Baltimore, Maryland, United States",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"Baltimore, Maryland, United States\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:location_autocomplete)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:location_autocomplete\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:custom:available_start_date",
+        "question": "Pick date...",
+        "field_id": "f_7",
+        "canonical_field": "screener:custom:available_start_date",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"2026-06-01\"; page shows \"(empty)\"",
+        "expected": "2026-06-01",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"2026-06-01\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:available_start_date)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:available_start_date\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:work_authorization",
+        "question": "What is your current US work authorization?",
+        "field_id": "2b19c26f-2dec-401c-9b15-76e1511912d7",
+        "canonical_field": "work_authorization",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Other (please share more details below)\"; page shows \"(empty)\"",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"Other (please share more details below)\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → work_authorization",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"work_authorization\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "fill_error:f_6: control not found on the page (label \"Start typing...\") — failing fast inst",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "f_6: control not found on the page (label \"Start typing...\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:f_7: control not found on the page (label \"Pick date...\") — failing fast instead",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "f_7: control not found on the page (label \"Pick date...\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:2b19c26f-2dec-401c-9b15-76e1511912d7: control not found on the page (label \"What",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "2b19c26f-2dec-401c-9b15-76e1511912d7: control not found on the page (label \"What is your current US work authorization?\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      }
+    ],
+    "ok_count": 5,
+    "fail_count": 6
+  },
+  "written_at": "2026-08-29T18:56:33.640Z"
+}

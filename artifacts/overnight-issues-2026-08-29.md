@@ -179,6 +179,16 @@ FIELD_VERIFICATION.
   the node worker survived as an orphan (how these clicks happened while
   "stopped"). Supervisor now kills node PIDs + disarms explicitly.
 
+### 29. Nav-audit duplicate detector counts TERMINAL rows — re-parks legal re-discoveries — OPEN
+- The 3 samsara re-enqueues (and notion e4f01130) immediately got new
+  "Duplicate posting" MANUAL parks: the audit's URL-duplicate check treats
+  a FAILED_FINAL row as an active holder, defeating the documented
+  re-discovery convention (terminal rows don't block a new row). Dismissed
+  the items again (23 MANUAL total); fix direction: exclude
+  COMPLETED/FAILED_FINAL/FILTERED_OUT holders in the audit's duplicate
+  pass. Until fixed, each session re-parks these — dismissal needed per
+  cycle (supervisor handles it).
+
 ### Operator-scope action: 4 samsara ADR apps abandoned
 - bc3adad0/cc70554a (ADR Intern Atlanta/Phoenix), 68485479/9ee5373a
   (ADR II New Grad Atlanta/Phoenix) → FAILED_FINAL route INELIGIBLE via the
