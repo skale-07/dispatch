@@ -22,3 +22,11 @@ patterns get a "progressive overload" sandbox test one level above the failure.
 ## Session notes
 - 20:50 stopped prior cycle mid-session (8 apps started, 10 submits left) to
   swap in updated resume (jake_swe.pdf) per operator; relaunched with 3-hour caps.
+- 21:00 operator extended run 3h → 6h (target end ~02:55).
+- 21:04 operator directive: prefer the deterministic fill tool + LLM essay
+  generate/predict over the JobRight extension. Flipped
+  JOBRIGHT_AUTOFILL_ENABLED=false (NATIVE_AUTOFILL, SCREENER_LLM_MATCH,
+  SCREENER_PREDICT_LLM, ESSAY_DRAFT, ESSAY_AUTOFILL stay true;
+  AGENT_FALLBACK stays true — navigation's agent leg needs it, it is not the
+  extension fill path). Session A relaunched as arm d2d4104f
+  (240 min, 60 apps, 40 submits, ends ~01:05); session B (~110 min) follows.
