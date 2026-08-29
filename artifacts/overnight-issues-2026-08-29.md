@@ -95,6 +95,22 @@ FIELD_VERIFICATION.
   refuses. Progressive-overload fixture dropzone-upload.html (click-created
   input, resume vs cover triggers) + negative no-trigger test. 8/8 phase5.
 
+### 24. ROOT CAUSE of the samsara wall (supersedes the #1-dropzone read): gate passed on page CHROME
+- **Probes (read-only, live samsara page):** the ?gh_jid= landing's main
+  document contains exactly 2 controls — footer "Select region" pickers
+  (v-0-0-0-3-68 / v-0-0-0-3-148, the very ids in the failed briefs). The
+  REAL form (49 controls incl. 2 file inputs) lives in a
+  job-boards.greenhouse.io/embed/job_app iframe that only loads after the
+  Apply Now click. The mutation gate PASSED on the chrome (form markers +
+  2 fields), so the fill "verified" the region pickers, READY_TO_SUBMIT
+  was junk, and only the upload guard ("Saw 0 input[type=file]") refused.
+- **Fix:** gateLooksLikePostingShell — a passing gate whose page has no
+  applicant-identity fields is treated as a posting shell; the existing
+  Apply+hop recovery now runs for it (both retry rungs). Fixture: passing
+  gate on identity-free chrome with Apply-revealed real form. The
+  filechooser-dropzone fallback (earlier tonight) stays — it guards the
+  distinct custom-widget shape.
+
 ### Operator-scope action: 4 samsara ADR apps abandoned
 - bc3adad0/cc70554a (ADR Intern Atlanta/Phoenix), 68485479/9ee5373a
   (ADR II New Grad Atlanta/Phoenix) → FAILED_FINAL route INELIGIBLE via the
