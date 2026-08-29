@@ -179,6 +179,77 @@ describe("Phase 5 Greenhouse fill", () => {
     }
   });
 
+  it("dropzone embed with no file input uploads via the filechooser fallback", async () => {
+    // Issue #1 / samsara ?gh_jid= embed (2026-08-29): zero input[type=file]
+    // on the page; the dropzone creates one on click. The fallback must pick
+    // the RESUME trigger (not cover letter) and verify via the chip.
+    applyFixtureFillEnv();
+    const page = await browser.newPage();
+    try {
+      const html = fs.readFileSync(
+        path.join(
+          process.cwd(),
+          "tests",
+          "fixtures",
+          "ats",
+          "greenhouse",
+          "dropzone-upload.html",
+        ),
+        "utf8",
+      );
+      await page.setContent(html);
+      const sampleResume = path.join(
+        process.cwd(),
+        "tests",
+        "fixtures",
+        "ats",
+        "greenhouse",
+        "sample-resume.pdf",
+      );
+      if (!fs.existsSync(sampleResume)) {
+        fs.writeFileSync(
+          sampleResume,
+          "%PDF-1.1\n1 0 obj<<>>endobj\ntrailer<<>>\n%%EOF\n",
+        );
+      }
+      const upload = await greenhouseUploadFile(page, "resume", sampleResume);
+      expect(upload.verified).toBe(true);
+      expect(upload.evidence).toContain("filechooser fallback");
+      // The resume chip carries the filename; the cover chip stays empty.
+      expect(await page.locator("#resume-chip").innerText()).toContain(
+        "sample-resume.pdf",
+      );
+      expect(await page.locator("#cover-chip").innerText()).toBe("");
+    } finally {
+      await page.close();
+      applySafeFillEnv();
+    }
+  });
+
+  it("no upload trigger and no file input stays a verified=false refusal", async () => {
+    applyFixtureFillEnv();
+    const page = await browser.newPage();
+    try {
+      await page.setContent(
+        `<html><body><div id="application_form"><button type="button">Continue</button></div></body></html>`,
+      );
+      const sampleResume = path.join(
+        process.cwd(),
+        "tests",
+        "fixtures",
+        "ats",
+        "greenhouse",
+        "sample-resume.pdf",
+      );
+      const upload = await greenhouseUploadFile(page, "resume", sampleResume);
+      expect(upload.verified).toBe(false);
+      expect(upload.evidence).toMatch(/file input not found/);
+    } finally {
+      await page.close();
+      applySafeFillEnv();
+    }
+  });
+
   it("refuses execute when FORM_FILL_ENABLED is false", () => {
     applySafeFillEnv();
     expect(() => assertFormFillAllowed("test")).toThrow(/FORM_FILL_ENABLED/);

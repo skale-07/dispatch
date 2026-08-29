@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<!-- Progressive-overload fixture (issue #1 / samsara embed, 2026-08-29):
+     a first-party greenhouse embed whose resume upload is a dropzone with
+     NO input[type=file] in the DOM. The input is created on click — the
+     shape that defeated setInputFiles on the live samsara ?gh_jid= page. -->
+<html>
+  <body>
+    <div id="application_form">
+      <section>
+        <h3>Resume/CV</h3>
+        <button id="resume-attach" type="button">Attach Resume/CV</button>
+        <div id="resume-chip"></div>
+      </section>
+      <section>
+        <h3>Cover Letter</h3>
+        <button id="cover-attach" type="button">Attach Cover Letter</button>
+        <div id="cover-chip"></div>
+      </section>
+    </div>
+    <script>
+      function wire(buttonId, chipId) {
+        document.getElementById(buttonId).addEventListener("click", () => {
+          const input = document.createElement("input");
+          input.type = "file";
+          input.style.display = "none";
+          input.addEventListener("change", () => {
+            document.getElementById(chipId).textContent =
+              input.files && input.files[0] ? input.files[0].name : "";
+            input.remove();
+          });
+          document.body.appendChild(input);
+          input.click();
+        });
+      }
+      wire("resume-attach", "resume-chip");
+      wire("cover-attach", "cover-chip");
+    </script>
+  </body>
+</html>

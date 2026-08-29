@@ -1031,7 +1031,19 @@ export async function greenhouseUploadFile(
     await page.keyboard.press("Escape").catch(() => undefined);
     await page.waitForTimeout(100);
 
-    const input = await resolveGreenhouseFileInput(page, kind);
+    let input: Locator;
+    try {
+      input = await resolveGreenhouseFileInput(page, kind);
+    } catch (resolveErr) {
+      // First-party embeds (live 2026-08-29: samsara.com ?gh_jid= page)
+      // render a dropzone with NO input[type=file] anywhere — the input is
+      // created on click. Playwright's filechooser event intercepts that
+      // click without any OS dialog; the chip read-back below still decides
+      // verified, so a miss stays fail-closed.
+      const viaChooser = await uploadViaFileChooser(page, kind, abs);
+      if (viaChooser) return viaChooser;
+      throw resolveErr;
+    }
     // Hidden / visually-hidden is intentional — do not click "Attach" (OS dialog).
     await input.setInputFiles(abs, { timeout: 15_000 });
 
@@ -1108,6 +1120,85 @@ export async function greenhouseUploadFile(
       evidence: err instanceof Error ? err.message : String(err),
     };
   }
+}
+
+/**
+ * Dropzone fallback: click an upload trigger while intercepting the
+ * filechooser event (no OS dialog under Playwright). Trigger choice is
+ * evidence-based: its own text must look like an upload control AND its
+ * text/section must name this kind — except a page with exactly one
+ * trigger and kind=resume, the single-upload form shape. Returns null
+ * when no defensible trigger exists (caller rethrows the resolve error).
+ */
+async function uploadViaFileChooser(
+  page: Page,
+  kind: "resume" | "cover_letter",
+  absPath: string,
+): Promise<UploadVerification | null> {
+  const filename = path.basename(absPath);
+  const sizeBytes = fs.statSync(absPath).size;
+  const kindRe =
+    kind === "resume" ? /resume|\bcv\b|curriculum/i : /cover\s*letter|cover/i;
+  const triggerRe =
+    /attach|upload|browse|(select|choose|add)\s+(a\s+)?file|drop\s+(your\s+)?(file|resume|cv)/i;
+
+  const candidates = page.locator('button, [role="button"], label, a');
+  const total = Math.min(await candidates.count().catch(() => 0), 60);
+  const matches: Array<{ loc: Locator; kindMatch: boolean }> = [];
+  for (let i = 0; i < total; i++) {
+    const c = candidates.nth(i);
+    const text = ((await c.innerText().catch(() => "")) ?? "").trim();
+    if (!text || text.length > 80) continue;
+    if (!triggerRe.test(text) && !kindRe.test(text)) continue;
+    if (!(await c.isVisible().catch(() => false))) continue;
+    const sectionText = await c
+      .evaluate(
+        (el: {
+          closest(sel: string): { textContent: string | null } | null;
+        }) =>
+          el.closest("section, fieldset, [class]")?.textContent?.slice(0, 300) ??
+          "",
+      )
+      .catch(() => "");
+    matches.push({ loc: c, kindMatch: kindRe.test(`${text} ${sectionText}`) });
+  }
+  const kindMatched = matches.filter((m) => m.kindMatch);
+  let trigger: Locator | null = null;
+  if (kindMatched.length > 0) trigger = kindMatched[0]!.loc;
+  else if (matches.length === 1 && kind === "resume") trigger = matches[0]!.loc;
+  if (!trigger) return null;
+
+  try {
+    const [chooser] = await Promise.all([
+      page.waitForEvent("filechooser", { timeout: 5_000 }),
+      trigger.click({ timeout: 5_000 }),
+    ]);
+    await chooser.setFiles(absPath);
+  } catch {
+    return null;
+  }
+
+  // Deterministic read-back: the page must acknowledge the file (chip /
+  // filename text). No acknowledgment ⇒ verified=false, submit refuses.
+  await page.waitForTimeout(600);
+  const stem = filename.replace(/\.[^.]+$/, "");
+  const bodyText = await page.locator("body").innerText().catch(() => "");
+  const chipVisible =
+    bodyText.includes(filename) ||
+    (stem.length >= 12 && bodyText.includes(stem.slice(0, 24)));
+  logger.info(`greenhouse upload: ${kind} via filechooser fallback`, {
+    service: "greenhouse",
+    action: "upload",
+    metadata: { verified: chipVisible, chip_visible: chipVisible },
+  });
+  return {
+    field: kind,
+    path: absPath,
+    filename,
+    size_bytes: sizeBytes,
+    verified: chipVisible,
+    evidence: `filechooser fallback (no input[type=file] on page); chip=${chipVisible}`,
+  };
 }
 
 export async function greenhouseResetForm(page: Page): Promise<FormResetResult> {
