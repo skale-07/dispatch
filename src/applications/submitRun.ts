@@ -758,6 +758,73 @@ export async function runAtsSubmission(input: {
             report.reason = receipt.confirmation_text;
             return persist(report);
           } catch (err) {
+            // Post-click emailed-code wall (live 2026-08-29, Greenhouse
+            // "security code": the click leaves the FORM on-page waiting for
+            // an 8-char code mailed to the candidate — the confirmation
+            // classifier reads "unknown" and two real submissions parked
+            // UNCERTAIN). When the inconclusive page names a code wall and a
+            // mailbox provider is enabled, make exactly ONE recovery pass:
+            // fetch the code, type it, re-click the same gated submit, and
+            // re-verify. Anything short of a verified receipt falls through
+            // to the unchanged UNCERTAIN path.
+            if (
+              err instanceof SubmissionUncertainError &&
+              !submitTelemetry.recoveryUsed
+            ) {
+              const fetchCode =
+                input.fetchVerificationCode ?? resolveVerificationCodeProvider();
+              if (fetchCode) {
+                const diagnosis = await diagnoseDisabledSubmit(page).catch(
+                  () => null,
+                );
+                if (diagnosis?.verification.detected) {
+                  logger.info(
+                    "post-click emailed-code wall — attempting verification-code recovery",
+                    {
+                      service: "submission",
+                      action: "post_click_code_recovery",
+                      application_id: applicationId,
+                      metadata: { summary: diagnosis.summary },
+                    },
+                  );
+                  const recovery = await recoverEmailVerification(
+                    page,
+                    diagnosis,
+                    {
+                      fetchCode,
+                      submitSelector: binding.submitSelector,
+                      requestedAt: runStartedAt,
+                    },
+                  );
+                  if (recovery.entered) {
+                    const retry = await binding.submit(page, clickGate);
+                    submitTelemetry.recoveryUsed = true;
+                    if (retry.clicked) {
+                      try {
+                        const receipt = await binding.verifySubmission(page, {
+                          screenshotPath,
+                        });
+                        markSubmissionVerified(db, pending.id, receipt);
+                        completeIdempotencyKey(db, idemKey, pending.id);
+                        transitionApplication(db, {
+                          applicationId,
+                          nextState: "SUBMITTED",
+                          reason: "receipt verified after emailed-code recovery",
+                          runId,
+                          artifacts: [receipt.screenshot_path],
+                        });
+                        report.outcome = "SUBMITTED_VERIFIED";
+                        report.receipt = receipt;
+                        report.reason = receipt.confirmation_text;
+                        return persist(report);
+                      } catch {
+                        // Still inconclusive — fall through to UNCERTAIN.
+                      }
+                    }
+                  }
+                }
+              }
+            }
             const evidence =
               err instanceof SubmissionUncertainError
                 ? err.evidence

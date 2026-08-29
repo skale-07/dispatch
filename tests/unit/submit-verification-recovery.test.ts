@@ -238,6 +238,50 @@ describe("email verification recovery (FIXTURE_CONFIRMED)", () => {
   );
 
   it(
+    "types an 8-char code across split maxlength=1 boxes (live 2026-08-29 Greenhouse security code)",
+    async () => {
+      // Post-click wall that parked two real submissions UNCERTAIN: the form
+      // stays on-page with "A verification code was sent to …" and 8
+      // one-char inputs. fill() on one box strands the rest — the widget
+      // needs keystrokes with auto-advance.
+      const boxes = Array.from(
+        { length: 8 },
+        (_, i) =>
+          `<input maxlength="1" id="sec_${i}" name="security_code_${i}" ${i === 0 ? 'autocomplete="one-time-code"' : ""} />`,
+      ).join("");
+      const html = `<html><body>
+        <p>A verification code was sent to you@example.edu. To submit your application, enter the 8-character code to confirm you're a human.</p>
+        <div id="code-boxes">${boxes}</div>
+        <button id="submit_app">Submit application</button>
+        <script>
+          const inputs = Array.from(document.querySelectorAll('#code-boxes input'));
+          inputs.forEach((el, i) => el.addEventListener('input', () => {
+            if (el.value && i < inputs.length - 1) inputs[i + 1].focus();
+          }));
+        </script>
+      </body></html>`;
+      await withFixtureHtmlPage(html, async (page) => {
+        const d = await diagnoseDisabledSubmit(page);
+        expect(d.verification.detected).toBe(true);
+        const recovery = await recoverEmailVerification(page, d, {
+          fetchCode: async () => ({ code: "ABCD1234", source: "test" }),
+          submitSelector: "#submit_app",
+          requestedAt: new Date().toISOString(),
+          enableTimeoutMs: 3_000,
+        });
+        expect(recovery.entered).toBe(true);
+        expect(recovery.notes.join(" ")).toContain("split boxes");
+        const values = await page.$$eval(
+          "#code-boxes input",
+          (els) => els.map((e) => (e as { value: string }).value),
+        );
+        expect(values.join("")).toBe("ABCD1234");
+      });
+    },
+    45_000,
+  );
+
+  it(
     "readCodeFromMailboxPage scans an Outlook-shaped inbox and skips decoys",
     async () => {
       const inbox = `<html><body>

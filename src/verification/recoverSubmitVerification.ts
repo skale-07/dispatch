@@ -42,10 +42,20 @@ export async function recoverEmailVerification(
     notes.push("verification input disappeared before the code could be entered");
     return { entered: false, submitEnabled: false, notes };
   }
-  await input.fill(fetched.code);
-  // Some forms validate on blur/keyup — nudge both.
-  await input.press("Tab").catch(() => undefined);
-  notes.push("verification code entered");
+  const maxLen = await input.getAttribute("maxlength").catch(() => null);
+  if (maxLen === "1") {
+    // Split-box widget (live 2026-08-29, Greenhouse security code: 8
+    // one-char inputs). fill() on one box strands the other 7; focusing
+    // the first box and TYPING lets the widget auto-advance per keystroke.
+    await input.click({ timeout: 5_000 });
+    await page.keyboard.type(fetched.code, { delay: 60 });
+    notes.push("verification code typed across split boxes");
+  } else {
+    await input.fill(fetched.code);
+    // Some forms validate on blur/keyup — nudge both.
+    await input.press("Tab").catch(() => undefined);
+    notes.push("verification code entered");
+  }
   logger.info("submit verification code entered", {
     service: "verification",
     action: "code_entered",
