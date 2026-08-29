@@ -88,6 +88,14 @@ export function applySafeFillEnv(): void {
 
 /** Fixture-execute defaults for Phase 5 fill tests. SUBMIT stays off. */
 export function applyFixtureFillEnv(): void {
+  // Same ambient-leak rule as applySafeFillEnv: the operator's standing
+  // .env (ESSAY_AUTOFILL_ENABLED etc.) must not reach fixture fills —
+  // live 2026-08-29 the essay LLM answered a fixture textarea and broke
+  // the "no textarea approved" invariant. Tests that exercise a gated
+  // layer enable its flag explicitly via applyControlledFillEnv.
+  for (const key of CONTROLLED_FILL_ENV_KEYS) {
+    delete process.env[key];
+  }
   applyControlledFillEnv({
     FORM_FILL_ENABLED: "true",
     DRY_RUN: "false",
