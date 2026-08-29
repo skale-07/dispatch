@@ -109,6 +109,42 @@ patterns get a "progressive overload" sandbox test one level above the failure.
   per brief (duplicate verify rows).
 - **Next:** inspect the field control kind in the Databricks fill meta.
 
+### 11. FIRST SUBMIT CLICK of the night — post-click page unrecognized (312aad81, Figma)
+- **Evidence:** session 517b8089 submits_used=1; app 312aad81 clicked submit
+  (all field verification passed under the location fix), then "UNCERTAIN —
+  Submission not confirmed within 15000ms (page classified: unknown)" →
+  SUBMISSION_VERIFICATION_FAILED (review). receipt-attempt PNG in artifacts.
+- **Action:** verify:mailbox scan running; if a Figma confirmation email
+  exists, resolve submitted via review:resolve. Also: the post-click page
+  classifier needs a Figma/greenhouse confirmation pattern — sandbox
+  candidate if it recurs.
+
+### 12. FIELD_VERIFICATION resume across sessions re-verifies a fresh (empty) page — OPEN
+- **Evidence:** requeued apps went FIELD_VERIFICATION → READY_TO_SUBMIT →
+  FAILED_BEFORE_CLICK "field verification or upload did not pass" / "5
+  required question(s) unanswered": the fills from the PRIOR session's browser
+  are gone, and the resume path re-verifies without re-filling.
+- **Operator workaround (used):** npm run retry → full re-run from QUEUED.
+- **Fix direction:** FIELD_VERIFICATION handler should detect an unfilled
+  form (0 verified fields) and fall back to the fill stage instead of
+  refusing.
+
+### 13. Debug Chrome CDP instability burned 12+ apps this session — OPEN (operational)
+- **Evidence:** repeated "Debug Chrome at 127.0.0.1:9222 is unresponsive (port
+  answers but CDP session won't attach)"; 3 in-session restarts; queue drained
+  mostly on this. Likely residue of tonight's many session kills.
+- **Action:** kill all Chrome before next launch; CDP_AUTOLAUNCH respawns a
+  fresh profile Chrome.
+
+### 14. Databricks required availability checkboxes + offer-deadline textarea (46efd55b) — OPEN
+- **Evidence:** pre-click scan (correctly) refused: "January to June (6
+  months)/May to July (10 weeks)/June to August (10 weeks)/None of these"
+  checkboxes + optional-deadline textarea unanswered. Screener bank has no
+  availability entries; predictor didn't fill checkbox groups.
+- **Note:** essay layer DID draft 1 suggestion for this app (in review).
+  These are operator-preference answers (which internship window works) —
+  queued for the operator's bank, not auto-invented.
+
 ## Session notes
 - 20:50 stopped prior cycle mid-session (8 apps started, 10 submits left) to
   swap in updated resume (jake_swe.pdf) per operator; relaunched with 3-hour caps.

@@ -1,0 +1,57 @@
+{
+  "run_id": "nav-55acab51-035a-4efa-8c83-c9e70425487b",
+  "application_id": "196c31a4-3cc7-485c-95cd-de296097d586",
+  "jobright_job_id": "6a8f4d8ea10ee661e24d7862",
+  "method": "agent",
+  "resolved_url": "https://jobs.ashbyhq.com/kognitos/a3c5bd4c-f6fb-4eb0-b943-e0e1a1d878c5/application",
+  "resolved_ats": "ashby",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no congruent apply href (11 external links)",
+      "evidence": "jobs.ashbyhq.com, www.linkedin.com, x.com, www.crunchbase.com, www.kognitos.com, www.globenewswire.com"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "unresolved by deterministic phases"
+    },
+    {
+      "phase": "C_agent",
+      "outcome": "resolved (turn 1, employer unverified)",
+      "evidence": "jobs.ashbyhq.com"
+    }
+  ],
+  "agent": {
+    "turns_used": 1,
+    "steps_used": 2,
+    "domains_visited": [
+      "jobs.ashbyhq.com"
+    ]
+  },
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "phase A: 7 external host(s) seen: jobs.ashbyhq.com, www.linkedin.com, x.com, www.crunchbase.com, www.kognitos.com, www.globenewswire.com, www.businesswire.com",
+    "no standard Apply control found (exact and broad name tiers both empty)",
+    "agent allowed_domains widened with job-page hosts: jobs.ashbyhq.com, www.kognitos.com, www.globenewswire.com, www.businesswire.com",
+    "agent goal seeded with 4 candidate link(s) from the job page",
+    "agent[1]: elapsed 46s, steps 2",
+    "employer congruence unverifiable (company name is a placeholder — identity not checkable) — recorded"
+  ],
+  "congruence": {
+    "verdict": "unknown",
+    "slug": "kognitos",
+    "detail": "company name is a placeholder — identity not checkable",
+    "expected_company": "Unknown company (manual enqueue)",
+    "url": "https://jobs.ashbyhq.com/kognitos/a3c5bd4c-f6fb-4eb0-b943-e0e1a1d878c5/application?utm_source=jobright&jr_i=554a7f6"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-08-29T03:44:58.949Z"
+}

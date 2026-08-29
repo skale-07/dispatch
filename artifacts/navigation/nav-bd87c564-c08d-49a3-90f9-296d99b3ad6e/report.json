@@ -1,0 +1,49 @@
+{
+  "run_id": "nav-bd87c564-c08d-49a3-90f9-296d99b3ad6e",
+  "application_id": "4e47f9ae-fee5-4209-b8c6-b33397b4f126",
+  "jobright_job_id": "6a91b2d5a27a2d3c98489521",
+  "method": "apply_click_popup",
+  "resolved_url": "https://btcpa.rec.pro.ukg.net/BEN1022BTLL/JobBoard/702a70c1-c1f7-4971-8626-bb99571a35a2/OpportunityDetail?opportunityId=4d519358-fb57-46be-8018-838c26e1bf4a",
+  "resolved_ats": "generic",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no congruent apply href (11 external links)",
+      "evidence": "gusea1p01.rec.pro.ukg.net, www.linkedin.com, x.com, www.crunchbase.com, www.btcpa.com, www.prnewswire.com"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "resolved via popup",
+      "evidence": "btcpa.rec.pro.ukg.net"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "phase A: anchor reads as \"ben1022btll\" (URL names \"ben1022btll\" (path), which shares nothing with company \"Barbacane, Thornton & Company\") — not preferred, deferring to the Apply click",
+    "phase A: 6 external host(s) seen: gusea1p01.rec.pro.ukg.net, www.linkedin.com, x.com, www.crunchbase.com, www.btcpa.com, www.prnewswire.com",
+    "Apply control: autofill CTA (tier 0)",
+    "jobright interstitial: clicked \"Apply Without Customizing\"",
+    "popup settled off about:blank after the interstitial",
+    "popup captured on attempt 1",
+    "phase B: captured URL reads as \"ben1022btll\" (URL names \"ben1022btll\" (path), which shares nothing with company \"Barbacane, Thornton & Company\") — kept, provenance is the Apply click",
+    "congruence: URL names \"ben1022btll\", not \"Barbacane, Thornton & Company\" (URL names \"ben1022btll\" (path), which shares nothing with company \"Barbacane, Thornton & Company\") — recorded, not refused"
+  ],
+  "congruence": {
+    "verdict": "mismatch",
+    "slug": "ben1022btll",
+    "detail": "URL names \"ben1022btll\" (path), which shares nothing with company \"Barbacane, Thornton & Company\"",
+    "expected_company": "Barbacane, Thornton & Company",
+    "url": "https://btcpa.rec.pro.ukg.net/BEN1022BTLL/JobBoard/702a70c1-c1f7-4971-8626-bb99571a35a2/OpportunityDetail?opportunityId=4d519358-fb57-46be-8018-838c26e1bf4a&jr_id=6a91b2d5a27a2d3c98489521"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-08-29T04:00:41.358Z"
+}

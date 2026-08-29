@@ -1,0 +1,49 @@
+{
+  "run_id": "nav-5f95cf77-850b-4a31-a520-ea9d7b3ba2e9",
+  "application_id": "83751e38-5e8d-4acf-b4fd-ab9aa3be3131",
+  "jobright_job_id": "6a52a273d007ee02d95f85e7",
+  "method": "apply_click_popup",
+  "resolved_url": "https://internal-careers-rivian.icims.com/jobs/27486/software-engineering-intern%2c-connected-systems---summer-2026/job",
+  "resolved_ats": "generic",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no congruent apply href (10 external links)",
+      "evidence": "internal-careers-rivian.icims.com, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, techcrunch.com"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "resolved via popup",
+      "evidence": "internal-careers-rivian.icims.com"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "phase A: anchor reads as \"softwareengineeringintern2cconnectedsystemssummer2026\" (URL names \"softwareengineeringintern2cconnectedsystemssummer2026\" (path), which shares nothing with company \"Rivian\") — not preferred, deferring to the Apply click",
+    "phase A: 7 external host(s) seen: internal-careers-rivian.icims.com, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, techcrunch.com, www.marketscreener.com",
+    "Apply control: autofill CTA (tier 0)",
+    "jobright interstitial: clicked \"Apply Without Customizing\"",
+    "popup settled off about:blank after the interstitial",
+    "popup captured on attempt 1",
+    "phase B: captured URL reads as \"softwareengineeringintern2cconnectedsystemssummer2026\" (URL names \"softwareengineeringintern2cconnectedsystemssummer2026\" (path), which shares nothing with company \"Rivian\") — kept, provenance is the Apply click",
+    "congruence: URL names \"softwareengineeringintern2cconnectedsystemssummer2026\", not \"Rivian\" (URL names \"softwareengineeringintern2cconnectedsystemssummer2026\" (path), which shares nothing with company \"Rivian\") — recorded, not refused"
+  ],
+  "congruence": {
+    "verdict": "mismatch",
+    "slug": "[REDACTED]",
+    "detail": "URL names \"softwareengineeringintern2cconnectedsystemssummer2026\" (path), which shares nothing with company \"Rivian\"",
+    "expected_company": "Rivian",
+    "url": "https://internal-careers-rivian.icims.com/jobs/27486/software-engineering-intern%2c-connected-systems---summer-2026/job?jr_id=6a52a273d007ee02d95f85e7"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-08-29T04:03:03.619Z"
+}

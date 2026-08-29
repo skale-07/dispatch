@@ -1,0 +1,119 @@
+{
+  "outcome": "FAILED_BEFORE_CLICK",
+  "application_id": "420e19f5-0fd5-424c-9d9a-b2f502ce2523",
+  "submission_id": "2dc2d29c-05cd-4001-a757-5a632b9d1d9f",
+  "attempt": 2,
+  "receipt": null,
+  "review_item_id": null,
+  "reason": "Refusing to click submit: field verification or upload did not pass",
+  "artifact_path": null,
+  "operator_brief": {
+    "title": "Submit blocked — greenhouse app 420e19f5-0fd5-424c-9d9a-b2f502ce2523",
+    "summary": "6 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:school",
+        "question": "Please indicate what length of internship you are interested in. Please note, 6 month internship requests will only be considered if it is a requirement from your University for academic credit purposes.",
+        "field_id": "question_68401365",
+        "canonical_field": "school",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Johns Hopkins University\"; page shows \"Bachelor of Science\"",
+        "expected": "Johns Hopkins University",
+        "observed": "Bachelor of Science",
+        "how_to_answer": [
+          "Type the intended value on the form (planned: Johns Hopkins University). If a places/autocomplete list appears, select a matching suggestion; plain city text is enough when no list opens.",
+          "DOM shows \"Bachelor of Science\" but plan expected \"Johns Hopkins University\". Correct the value on the form or fix profile/aliases so the plan matches the real answer.",
+          "Profile source: private/candidate/public-profile.json (key: school)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"school\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:school",
+        "question": "Please indicate what length of internship you are interested in. Please note, 6 month internship requests will only be considered if it is a requirement from your University for academic credit purposes.",
+        "field_id": "question_68401365",
+        "canonical_field": "school",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Johns Hopkins University\"; page shows \"(empty)\"",
+        "expected": "Johns Hopkins University",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "how_to_answer": [
+          "Type the intended value on the form (planned: Johns Hopkins University). If a places/autocomplete list appears, select a matching suggestion; plain city text is enough when no list opens.",
+          "System expected \"Johns Hopkins University\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: school)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"school\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:degree",
+        "question": "Are you currently enrolled in a degree programme, or did you complete a degree within the last 12 months?",
+        "field_id": "question_68747387",
+        "canonical_field": "degree",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Bachelor of Science\"; page shows \"(empty)\"",
+        "expected": "Bachelor of Science",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "how_to_answer": [
+          "Type the intended value on the form (planned: Bachelor of Science). If a places/autocomplete list appears, select a matching suggestion; plain city text is enough when no list opens.",
+          "System expected \"Bachelor of Science\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: degree)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"degree\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:custom:brighthire_recording_consent",
+        "question": "To ensure we can focus fully on our conversation, we use BrightHire to record and transcribe interviews. This helps us get to know you better without the distraction of note-taking. We also use BrightHire to help us analyze interview notes and for internal Stripe interview quality training and assurance purposes. After the recruitment process ends, recordings may be shared internally for recruiter and interviewer training to help us improve our interview processes. Please confirm if you consent to BrightHire being enabled for this interview and for your personal data to be collected and processed for the purposes mentioned above, by responding below",
+        "field_id": "question_68401369",
+        "canonical_field": "screener:custom:brighthire_recording_consent",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Yes\"; page shows \"(empty)\"",
+        "expected": "Yes",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "how_to_answer": [
+          "Type the intended value on the form (planned: Yes). If a places/autocomplete list appears, select a matching suggestion; plain city text is enough when no list opens.",
+          "System expected \"Yes\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:brighthire_recording_consent)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:brighthire_recording_consent\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "fill_error:question_68401365: combobox option not committed: opened via control click; filt",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "question_68401365: combobox option not committed: opened via control click; filter yielded no/unmatched options; re-collected unfiltered (residue cleared); no option matches \"Johns Hopkins University\" (options: 12 or 16 weeks | 6 months)",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:question_68747387: combobox option not committed: opened via control click; filt",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "question_68747387: combobox option not committed: opened via control click; filter yielded no/unmatched options; re-collected unfiltered (residue cleared); no option matches \"Bachelor of Science\" (options: Yes — I am currently enrolled in a degree programme | Yes — I completed a degree within the last 12 months | Yes - I completed a degree more than 12 months ago but I have less than a years relevant work experience | No)",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      }
+    ],
+    "ok_count": 20,
+    "fail_count": 6
+  }
+}

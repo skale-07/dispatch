@@ -1,0 +1,47 @@
+{
+  "run_id": "nav-3e6db27e-e5c8-449c-a263-259ea8b1d3fe",
+  "application_id": "e6dc611e-85e0-4d45-9e57-a9a459497f93",
+  "jobright_job_id": "6a9257509864261ccd2a0979",
+  "method": "apply_click_popup",
+  "resolved_url": "https://hp.eightfold.ai/careers?start=0&pid=44208711",
+  "resolved_ats": "generic",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no congruent apply href (10 external links)",
+      "evidence": "hp.eightfold.ai, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, www.livemint.com"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "resolved via popup",
+      "evidence": "hp.eightfold.ai"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "phase A: 8 external host(s) seen: hp.eightfold.ai, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, www.livemint.com, www.fool.com, www.toledoblade.com",
+    "Apply control: autofill CTA (tier 0)",
+    "jobright interstitial: clicked \"Apply Without Customizing\"",
+    "popup settled off about:blank after the interstitial",
+    "popup captured on attempt 1",
+    "employer congruence unverifiable (no employer name decodable from URL (host and path are generic)) — recorded"
+  ],
+  "congruence": {
+    "verdict": "unknown",
+    "slug": null,
+    "detail": "no employer name decodable from URL (host and path are generic)",
+    "expected_company": "HP",
+    "url": "https://hp.eightfold.ai/careers?jr_id=6a9257509864261ccd2a0979&start=0&pid=44208711"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-08-29T04:02:26.008Z"
+}
