@@ -140,13 +140,27 @@ async function attachTranscriptViaChooser(
       if (!/^(attach|upload|browse|select file|choose file)$/i.test(text)) {
         continue;
       }
+      // closest("div") is usually the Attach/Dropbox/Drive button ROW
+      // (live Appian receipt 2026-08-29: its text never says "transcript").
+      // Walk ancestors until one carries real question text.
       const sectionText = await t
         .evaluate(
           (el: {
-            closest: (sel: string) => { textContent?: string | null } | null;
-          }) =>
-            el.closest("section, fieldset, div")?.textContent?.slice(0, 300) ??
-            "",
+            parentElement: { textContent?: string | null; parentElement: unknown } | null;
+          }) => {
+            let node = el.parentElement as {
+              textContent?: string | null;
+              parentElement: unknown;
+            } | null;
+            for (let depth = 0; depth < 6 && node; depth++) {
+              const text = (node.textContent ?? "").replace(/\s+/g, " ").trim();
+              if (/transcript|resume|\bcv\b|cover\s*letter/i.test(text)) {
+                return text.slice(0, 300);
+              }
+              node = node.parentElement as typeof node;
+            }
+            return "";
+          },
         )
         .catch(() => "");
       if (!/transcript/i.test(sectionText)) continue;

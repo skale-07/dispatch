@@ -74,7 +74,11 @@ describe("supplemental materials attach (FIXTURE_CONFIRMED)", () => {
         </div>
         <div>
           <p>Please upload a copy of an unofficial undergraduate transcript</p>
-          <button id="tr-attach" type="button">Attach</button>
+          <div class="button-row"><!-- live Appian: triggers sit in their own row div -->
+            <button id="tr-attach" type="button">Attach</button>
+            <button type="button">Dropbox</button>
+            <button type="button">Google Drive</button>
+          </div>
           <span id="tr-chip"></span>
         </div>
       </form>
