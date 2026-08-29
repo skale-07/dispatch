@@ -464,10 +464,33 @@ function isApprovedExecutable(
 }
 
 /** Bare profile year against a seasonal combobox needs the month. */
-function comboboxExpected(
+export function comboboxExpected(
   canonical: string | null,
   value: unknown,
+  profileForTest?: { address?: { state?: string; country?: string } },
 ): unknown {
+  if (canonical === "address.city") {
+    // Places typeaheads need state context to name ONE city. Live
+    // 2026-08-28 (Databricks ×4): plan "Baltimore" alone stayed ambiguous
+    // across doubled rows / New Baltimore / Baltimore Highlands (and any
+    // international namesake past the note's 5-entry cap). The profile owns
+    // state+country — compose the comma shape the multi-part location
+    // matcher resolves by exact parts. Verify already accepts either shape
+    // for address.city (locationsMatch both directions).
+    const city = String(value ?? "").trim();
+    if (!city || city.includes(",")) return value;
+    try {
+      const addr = profileForTest?.address ?? loadPublicProfile().address;
+      const state = addr?.state?.trim();
+      const country = addr?.country?.trim();
+      if (state) {
+        return [city, state, ...(country ? [country] : [])].join(", ");
+      }
+    } catch {
+      return value;
+    }
+    return value;
+  }
   if (canonical !== "graduation_year") return value;
   const raw = String(value ?? "").trim();
   if (!/^(20\d{2}|19\d{2})$/.test(raw)) return value;

@@ -10,6 +10,7 @@ import {
   readComboboxValue,
 } from "../../src/ats/greenhouse/comboboxFill.js";
 import {
+  comboboxExpected,
   greenhouseFillFromPlan,
   greenhouseVerifyFromPlan,
   type FieldMeta,
@@ -389,6 +390,40 @@ describe("pickOptionLabel (UNIT_CONFIRMED)", () => {
       label: "Fall 2029",
       via: "unique_substring",
     });
+  });
+});
+
+// Live 2026-08-28 (Databricks ×4): a places list can hold namesake cities
+// past the ambiguity note's 5-entry display cap, so the bare plan city must
+// gain the profile's state+country BEFORE matching — exact comma-part match
+// then names one row regardless of how many namesakes the list carries.
+describe("comboboxExpected (UNIT_CONFIRMED)", () => {
+  const profile = { address: { state: "Maryland", country: "United States" } };
+
+  it("composes city, state, country for a bare address.city", () => {
+    expect(comboboxExpected("address.city", "Baltimore", profile)).toBe(
+      "Baltimore, Maryland, United States",
+    );
+    expect(
+      comboboxExpected("address.city", "Baltimore", {
+        address: { state: "Maryland" },
+      }),
+    ).toBe("Baltimore, Maryland");
+  });
+
+  it("leaves comma-shaped, empty, and stateless values untouched", () => {
+    expect(
+      comboboxExpected("address.city", "Baltimore, Maryland, USA", profile),
+    ).toBe("Baltimore, Maryland, USA");
+    expect(comboboxExpected("address.city", "", profile)).toBe("");
+    expect(comboboxExpected("address.city", "Baltimore", { address: {} })).toBe(
+      "Baltimore",
+    );
+  });
+
+  it("does not touch other canonical fields", () => {
+    expect(comboboxExpected("email", "x@y.z", profile)).toBe("x@y.z");
+    expect(comboboxExpected(null, "Baltimore", profile)).toBe("Baltimore");
   });
 });
 
