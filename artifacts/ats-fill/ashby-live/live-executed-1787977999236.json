@@ -1,0 +1,298 @@
+{
+  "ats": "ashby",
+  "url": "https://jobs.ashbyhq.com/exa/a9e01521-66f1-481b-89da-ec01d4620f16/application",
+  "requested_url": "https://jobs.ashbyhq.com/exa/a9e01521-66f1-481b-89da-ec01d4620f16/application",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://jobs.ashbyhq.com/exa/a9e01521-66f1-481b-89da-ec01d4620f16/application",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 11,
+    "skipped_count": 3,
+    "review_required_count": 1
+  },
+  "plan_fields": [
+    {
+      "field_id": "f_0",
+      "label": "Compensation",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "_systemfield_name",
+      "label": "Full Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Single full-name field: composed legal_name.first + legal_name.last (both safe factual canonicals)"
+    },
+    {
+      "field_id": "_systemfield_email",
+      "label": "Email",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "_systemfield_resume",
+      "label": "Resume",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "fcde060d-48c3-4176-a76e-d3d85384a4ad",
+      "label": "Earliest month you'd be able to join",
+      "type": "text",
+      "canonical_field": "screener:start_availability",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "7a0791af-44c8-451e-9ccd-765f55dc08d2",
+      "label": "LinkedIn",
+      "type": "text",
+      "canonical_field": "linkedin_url",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "081b5ade-f335-4cb3-b502-cbb733f99bd2",
+      "label": "Github",
+      "type": "text",
+      "canonical_field": "github_url",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "7246f79a-2fe9-4840-9841-d6353f33cb3e",
+      "label": "Other Links",
+      "type": "text",
+      "canonical_field": "screener:portfolio_url",
+      "action": "SKIP",
+      "reason": "portfolio_url empty in bank — optional, skipped"
+    },
+    {
+      "field_id": "e55328b1-8f93-4735-a27e-faff496a8f96",
+      "label": "Do you require Visa sponsorship to work in your selected location? If so, which one? And when does your Visa expire?",
+      "type": "text",
+      "canonical_field": "requires_sponsorship",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "dcbd2153-e1b7-41a0-96ae-f26d15795897",
+      "label": "Why are you interested in working at Exa? (can be short)",
+      "type": "textarea",
+      "canonical_field": "essay:generated:dcbd2153-e1b7-41a0-96ae-f26d15795897",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "0ba2f093-e932-4b0d-ba4c-2140c5e32d90",
+      "label": "What's something you worked on that you were proud of?",
+      "type": "textarea",
+      "canonical_field": "essay:generated:0ba2f093-e932-4b0d-ba4c-2140c5e32d90",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "9b21de87-2804-4279-ad92-d6649a69a4e9",
+      "label": "What motivates you?",
+      "type": "textarea",
+      "canonical_field": "essay:generated:9b21de87-2804-4279-ad92-d6649a69a4e9",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "bddddac6-b0a4-4995-a134-184b0699e853",
+      "label": "How did you hear about Exa?",
+      "type": "text",
+      "canonical_field": "screener:how_heard",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "08c314b0-f54f-48ce-8fc7-59dadf039d21",
+      "label": "Are you applying to work on something specific at Exa? (1 sentence, leave blank if you're open to anything)",
+      "type": "text",
+      "canonical_field": "screener:custom:exa_specific_team_interest",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "3a52e1c2-0c99-4088-a823-7533ee818bb1",
+      "label": "Are you based in San Francisco or open to relocating?",
+      "type": "select",
+      "canonical_field": "screener:willing_to_relocate",
+      "action": "REVIEW_REQUIRED",
+      "reason": "willing_to_relocate: bank answer \"Yes\" matches none of the 2 page options — review"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\ashby-live\\form-snapshot-1787977997769.html",
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "email",
+      "screener:start_availability",
+      "linkedin_url",
+      "github_url",
+      "requires_sponsorship",
+      "essay:generated:dcbd2153-e1b7-41a0-96ae-f26d15795897",
+      "essay:generated:0ba2f093-e932-4b0d-ba4c-2140c5e32d90",
+      "essay:generated:9b21de87-2804-4279-ad92-d6649a69a4e9",
+      "screener:how_heard",
+      "screener:custom:exa_specific_team_interest"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "_systemfield_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "_systemfield_email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "fcde060d-48c3-4176-a76e-d3d85384a4ad",
+        "canonical_field": "screener:start_availability",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "7a0791af-44c8-451e-9ccd-765f55dc08d2",
+        "canonical_field": "linkedin_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "081b5ade-f335-4cb3-b502-cbb733f99bd2",
+        "canonical_field": "github_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "e55328b1-8f93-4735-a27e-faff496a8f96",
+        "canonical_field": "requires_sponsorship",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "dcbd2153-e1b7-41a0-96ae-f26d15795897",
+        "canonical_field": "essay:generated:dcbd2153-e1b7-41a0-96ae-f26d15795897",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "0ba2f093-e932-4b0d-ba4c-2140c5e32d90",
+        "canonical_field": "essay:generated:0ba2f093-e932-4b0d-ba4c-2140c5e32d90",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "9b21de87-2804-4279-ad92-d6649a69a4e9",
+        "canonical_field": "essay:generated:9b21de87-2804-4279-ad92-d6649a69a4e9",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "bddddac6-b0a4-4995-a134-184b0699e853",
+        "canonical_field": "screener:how_heard",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "08c314b0-f54f-48ce-8fc7-59dadf039d21",
+        "canonical_field": "screener:custom:exa_specific_team_interest",
+        "control_kind": "text"
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham Kale",
+        "observed": "Shubham Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@jh.edu",
+        "observed": "s***@jh.edu",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:start_availability",
+        "expected": "Flexible — aligned to the posted term",
+        "observed": "Flexible — aligned to the posted term",
+        "match": true
+      },
+      {
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "match": true
+      },
+      {
+        "canonical_field": "github_url",
+        "expected": "https://github.com/skale-07",
+        "observed": "https://github.com/skale-07",
+        "match": true
+      },
+      {
+        "canonical_field": "requires_sponsorship",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:dcbd2153-e1b7-41a0-96ae-f26d15795897",
+        "expected": "Most of what I've built ends up being a retrieval problem in disguise. For tSearch, I built a talent-discovery system that starts from seed candidates, expands through public GitHub and Substack collaboration graphs, scores heuristically, and only then runs rubric-driven LLM assessment. The hardest part was not the model. It was finding the right evidence in the first place, and keeping discovery separate from judgment so the LLM couldn't quietly paper over bad identity resolution. Search over the open web was consistently the weakest link.\n\nSo a company whose entire thesis is building real infrastructure for that, crawling the whole web, training embedding models over it, and building vector databases fast enough to serve it, is the part of the stack I actually want to work on. I also care about a question Exa sits close to: as AI makes generation cheap, judgment and evidence retrieval become the bottleneck. I spent the past year researching how institutions evaluate uncertain scientific work, and better search is a real part of that answer. I'd rather own a hard piece of infrastructure than ship demos.",
+        "observed": "Most of what I've built ends up being a retrieval problem in disguise. For tSearch, I built a talent-discovery system that starts from seed candidates, expands through public GitHub and Substack collaboration graphs, scores heuristically, and only then runs rubric-driven LLM assessment. The hardest part was not the model. It was finding the right evidence in the first place, and keeping discovery separate from judgment so the LLM couldn't quietly paper over bad identity resolution. Search over the open web was consistently the weakest link.\n\nSo a company whose entire thesis is building real infrastructure for that, crawling the whole web, training embedding models over it, and building vector databases fast enough to serve it, is the part of the stack I actually want to work on. I also care about a question Exa sits close to: as AI makes generation cheap, judgment and evidence retrieval become the bottleneck. I spent the past year researching how institutions evaluate uncertain scientific work, and better search is a real part of that answer. I'd rather own a hard piece of infrastructure than ship demos.",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:0ba2f093-e932-4b0d-ba4c-2140c5e32d90",
+        "expected": "I built tSearch, a talent-discovery system based on the idea that someone's public work is a better signal of ability than their school or employer. It starts from named seed candidates and expands through public collaboration and publishing graphs like GitHub and Substack, then runs identity resolution, graph expansion, heuristic scoring, persistence, LLM assessment, and a recruiter digest. It's mostly TypeScript and Node with Playwright, Express, Vite, and OpenAI.\n\nThe part I'm proud of is the design decisions rather than the crawl. I kept discovery and assessment separate so the LLM judges can't silently correct an identity-resolution mistake or re-run discovery, and I didn't collapse the heuristic discovery score into the LLM assessment score. I also made missing evidence not count as negative evidence: if the system can't find enough public work to judge a dimension, it returns insufficient evidence instead of a low score. The judging is rubric-driven, with separate judges running in parallel and then synthesizing an evidence-cited assessment. I built the MVP fast and later talked through product direction with Cory Levy of Z Fellows.",
+        "observed": "I built tSearch, a talent-discovery system based on the idea that someone's public work is a better signal of ability than their school or employer. It starts from named seed candidates and expands through public collaboration and publishing graphs like GitHub and Substack, then runs identity resolution, graph expansion, heuristic scoring, persistence, LLM assessment, and a recruiter digest. It's mostly TypeScript and Node with Playwright, Express, Vite, and OpenAI.\n\nThe part I'm proud of is the design decisions rather than the crawl. I kept discovery and assessment separate so the LLM judges can't silently correct an identity-resolution mistake or re-run discovery, and I didn't collapse the heuristic discovery score into the LLM assessment score. I also made missing evidence not count as negative evidence: if the system can't find enough public work to judge a dimension, it returns insufficient evidence instead of a low score. The judging is rubric-driven, with separate judges running in parallel and then synthesizing an evidence-cited assessment. I built the MVP fast and later talked through product direction with Cory Levy of Z Fellows.",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:9b21de87-2804-4279-ad92-d6649a69a4e9",
+        "expected": "What keeps me building is a problem I've actually run into, and then getting the system in front of real users so I find out where I was wrong. I built ClarityAtlas end to end in Swift and SwiftUI, including a passive sleep-estimation system using HealthKit and Core Motion signals so users wouldn't need a wearable, and shipped it into a live Hopkins pilot with 30+ users. Getting there meant recruiting users, pitching, and explaining repeatedly why the thing should exist, which turned out to matter as much as the code.\n\nThe other thing that motivates me is retrieval and evaluation. At Intelehealth I designed an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case clinical standard, and that convinced me generation is cheap while deciding whether an answer should be trusted is the hard part. That's why search interests me now: at Exa's scale, crawling the web, training embedding models, and building a vector database, the whole problem is surfacing the right evidence rather than just producing plausible text. I want to own a real piece of a system like that.",
+        "observed": "What keeps me building is a problem I've actually run into, and then getting the system in front of real users so I find out where I was wrong. I built ClarityAtlas end to end in Swift and SwiftUI, including a passive sleep-estimation system using HealthKit and Core Motion signals so users wouldn't need a wearable, and shipped it into a live Hopkins pilot with 30+ users. Getting there meant recruiting users, pitching, and explaining repeatedly why the thing should exist, which turned out to matter as much as the code.\n\nThe other thing that motivates me is retrieval and evaluation. At Intelehealth I designed an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case clinical standard, and that convinced me generation is cheap while deciding whether an answer should be trusted is the hard part. That's why search interests me now: at Exa's scale, crawling the web, training embedding models, and building a vector database, the whole problem is surfacing the right evidence rather than just producing plausible text. I want to own a real piece of a system like that.",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:how_heard",
+        "expected": "LinkedIn",
+        "observed": "LinkedIn",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:exa_specific_team_interest",
+        "expected": "I'd most want to work on search quality and retrieval ranking, including how results get evaluated, since my work on LLM output evaluation against a 4,169-case clinical benchmark and on a learning-to-rank layer for anomaly alerts both came down to judging whether a system's output should be trusted.",
+        "observed": "I'd most want to work on search quality and retrieval ranking, including how results get evaluated, since my work on LLM output evaluation against a 4,169-case clinical benchmark and on a learning-to-rank layer for anomaly alerts both came down to judging whether a system's output should be trusted.",
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": null,
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: form (15 fillable field(s))",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "written_at": "2026-08-29T04:33:19.252Z"
+}

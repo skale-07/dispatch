@@ -168,6 +168,22 @@ patterns get a "progressive overload" sandbox test one level above the failure.
 - Nav stored garbage employer URLs for 3 apps; the identity gate refused the
   fill (correct behavior). Nav URL-resolution quality issue; morning triage.
 
+### 11b. Post-click wall identified: Greenhouse emailed security code — FIXED de2f2f1
+- **Evidence:** receipt screenshot for 8d9daaa9 (Stripe): form fully filled
+  (location commit CONFIRMED on-page, essays in, resume attached), submit
+  clicked, page waiting on "A verification code was sent to skale1@jh.edu —
+  enter the 8-character code" with 8 one-char boxes + reCAPTCHA badge.
+  Classifier read "unknown" → both real submissions (312aad81, 8d9daaa9)
+  parked UNCERTAIN.
+- **Fix:** post-click inconclusive + detected code wall → one recovery pass
+  (mailbox code fetch → split-box typing → re-click → re-verify). The
+  existing recovery only ran on a pre-click DISABLED button. 11/11 suite
+  green incl. new split-box fixture; e2e pins at-most-one recovery per run.
+- **Note:** 312aad81/8d9daaa9 stay operator-resolution (uncertain
+  submissions are never auto-resolved) — but future apps clear this wall
+  automatically. jh.edu codes arrive via the Outlook provider
+  (OUTLOOK_VERIFICATION_ENABLED, session authenticated).
+
 ## Session notes
 - 20:50 stopped prior cycle mid-session (8 apps started, 10 submits left) to
   swap in updated resume (jake_swe.pdf) per operator; relaunched with 3-hour caps.
