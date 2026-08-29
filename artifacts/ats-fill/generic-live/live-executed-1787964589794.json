@@ -1,0 +1,257 @@
+{
+  "ats": "generic",
+  "url": "https://caci.eightfold.ai/careers/apply?pid=1443153179399",
+  "requested_url": "https://caci.eightfold.ai/careers/apply?pid=1443153179399",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://caci.eightfold.ai/careers/apply?pid=1443153179399",
+    "page_class": "confirmation"
+  },
+  "plan_summary": {
+    "fillable_count": 7,
+    "skipped_count": 3,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "f_0",
+      "label": "Resume",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "Contact_Information_firstname",
+      "label": "First Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "Contact_Information_lastname",
+      "label": "Last Name",
+      "type": "text",
+      "canonical_field": "legal_name.last",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "Contact_Information_email",
+      "label": "Email",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "input-4",
+      "label": "Country code",
+      "type": "text",
+      "canonical_field": "screener:custom:predicted:input-4",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): Candidate lives in Baltimore, Maryland, United States, so the US country code applies."
+    },
+    {
+      "field_id": "Contact_Information_phone",
+      "label": "Phone Number",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "Verify_Phone_Details_Q_PHONE_NUMBER",
+      "label": "Phone Number",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "Verify_Phone_Details_Q_PHONE_EXTENSION",
+      "label": "Phone Extension",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "Terms_and_Conditions_Terms_Acceptance-Yes-0",
+      "label": "Yes",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "kyheley",
+      "label": "Save my answers for future applications",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\generic-live\\form-snapshot-1787964585548.html",
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "legal_name.last",
+      "email",
+      "screener:custom:predicted:input-4",
+      "phone",
+      "phone",
+      "phone"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "Contact_Information_firstname",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "Contact_Information_lastname",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "Contact_Information_email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "input-4",
+        "canonical_field": "screener:custom:predicted:input-4",
+        "control_kind": "combobox",
+        "selected_option": "🇺🇸 (+1) United States of America",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"🇺🇸 (+1) United States of America\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "Contact_Information_phone",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "Verify_Phone_Details_Q_PHONE_NUMBER",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "Verify_Phone_Details_Q_PHONE_EXTENSION",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.last",
+        "expected": "Kale",
+        "observed": "Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@jh.edu",
+        "observed": "s***@jh.edu",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:input-4",
+        "expected": "🇺🇸 (+1) United States of America",
+        "observed": {
+          "value": "🇺🇸 (+1) United States of America",
+          "label": "🇺🇸 (+1) United States of America"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": null,
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: confirmation (confirmation markers matched)",
+    "option harvest: scraped real options for 1/7 control(s) before planning",
+    "form-advance: visible submit after page 1 — leaving it for the gated submit path",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [
+    {
+      "field_id": "input-4",
+      "label": "Country code",
+      "answer_space": "closed",
+      "option_count": 254,
+      "options": [
+        "🇦🇩 (+376) Andorra",
+        "🇦🇪 (+971) United Arab Emirates",
+        "🇦🇫 (+93) Afghanistan",
+        "🇦🇬 (+1 268) Antigua and Barbuda",
+        "🇦🇮 (+1 264) Anguilla",
+        "🇦🇱 (+355) Albania",
+        "🇦🇲 (+374) Armenia",
+        "🇦🇴 (+244) Angola",
+        "🇦🇶 (+672) Antarctica",
+        "🇦🇷 (+54) Argentina",
+        "🇦🇸 (+1 684) American Samoa",
+        "🇦🇹 (+43) Austria",
+        "🇦🇺 (+61) Australia",
+        "🇦🇼 (+297) Aruba",
+        "🇦🇽 (+358) Åland Islands",
+        "🇦🇿 (+994) Azerbaijan",
+        "🇧🇦 (+387) Bosnia and Herzegovina",
+        "🇧🇧 (+1 246) Barbados",
+        "🇧🇩 (+880) Bangladesh",
+        "🇧🇪 (+32) Belgium",
+        "🇧🇫 (+226) Burkina Faso",
+        "🇧🇬 (+359) Bulgaria",
+        "🇧🇭 (+973) Bahrain",
+        "🇧🇮 (+257) Burundi",
+        "🇧🇯 (+229) Benin"
+      ],
+      "other_option": null
+    }
+  ],
+  "wizard_pages": [],
+  "written_at": "2026-08-29T00:49:49.821Z"
+}
