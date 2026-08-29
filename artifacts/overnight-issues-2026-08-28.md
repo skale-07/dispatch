@@ -145,6 +145,29 @@ patterns get a "progressive overload" sandbox test one level above the failure.
   These are operator-preference answers (which internship window works) —
   queued for the operator's bank, not auto-invented.
 
+### 15. Alias mapper hijacked screener questions with single-word aliases — FIXED bd30947
+- **Evidence:** Stripe 420e19f5 submit-run briefs: "University" mapped the
+  internship-length question to `school` (fill typed "Johns Hopkins
+  University" into a length dropdown → no option matches), "Degree" mapped
+  the enrolled-in-degree-programme question. Pre-click verify correctly
+  refused both attempts — root cause of the repeated "field verification or
+  upload did not pass".
+- **Fix:** substring alias match now requires a multi-word intent phrase or
+  a label-like target (len ≤ max(30, 3×phrase)). 104/104 across 9 suites.
+
+### 16. Invalid state transition APPLICATION_OPENING → FILTERED_OUT (nav) — OPEN
+- **Evidence:** 6 apps pipeline_error'd in session 8408bda3, each dropping
+  the shared nav session. The nav layer tries to filter an app that is
+  already mid-OPENING; the state machine (correctly) refuses; the error is
+  unhandled.
+- **Fix direction:** nav should transition via a legal edge (or skip the
+  filter once opening started). Not fixed tonight — needs state-machine map
+  review.
+
+### 17. Stored-URL mismatch gate refusals (ben1022btll / ultipro / Rivian slug) — OPEN
+- Nav stored garbage employer URLs for 3 apps; the identity gate refused the
+  fill (correct behavior). Nav URL-resolution quality issue; morning triage.
+
 ## Session notes
 - 20:50 stopped prior cycle mid-session (8 apps started, 10 submits left) to
   swap in updated resume (jake_swe.pdf) per operator; relaunched with 3-hour caps.
