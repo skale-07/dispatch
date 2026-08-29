@@ -204,6 +204,54 @@ patterns get a "progressive overload" sandbox test one level above the failure.
   set). Progressive-overload sandbox: fixture form where answering Q1
   inserts Q2 into the DOM.
 
+## FINAL REPORT — night of 2026-08-28 → 29 (loop closed ~01:50)
+
+**Sessions:** 7 armed sessions (20:56 → 01:45), 100+ app attempts across the
+queue; every session ended queue_drained (caps removed per operator).
+
+**Submissions:** 2 real submit clicks, both parked UNCERTAIN behind
+Greenhouse's emailed 8-char security-code wall (discovered + fixed tonight,
+de2f2f1 — future apps recover automatically):
+- 312aad81 — Figma "IT Engineer, Internal AI Infrastructure" (receipt PNG in
+  artifacts/applications/312aad81…/submission/)
+- 8d9daaa9 — Stripe (receipt PNG shows the fully-filled form at the code
+  wall)
+**⚠ Operator: check skale1@jh.edu for Figma/Stripe confirmation emails or the
+boards' status pages, then `npm run review:resolve -- --id <item> --outcome
+submitted` (or not-submitted --requeue). Nothing automatic resolves these.**
+
+**Code shipped (6 commits, each gated typecheck+tests+forbidden+secrets):**
+- 66062b1 discover:ats — gh_jid URL canonicalization + word-boundary match
+- e217af9 greenhouse combobox — bare-city places rows + duplicate dedupe
+- c67d48c greenhouse fill — compose City, State, Country for address.city
+- 04db417 combobox — total candidate count in ambiguity refusals
+- bd30947 field mapping — single-word aliases can't hijack screener questions
+- de2f2f1 submit — post-click emailed-code recovery + split-box OTP typing
+
+**Pipeline improvements proven live:** location combobox commits on-page
+(receipt screenshot), essays autofill, screener predictions plan correctly,
+27 fresh direct-to-form jobs enqueued from 20 ATS boards (JobRight
+recommendations were exhausted at 8/day).
+
+**Morning worklist (ordered):**
+1. Confirm the 2 uncertain submissions (above) — likely the night's 2 wins.
+2. Seed the screener bank (these blocked 3 more near-submits): Stripe/
+   Databricks availability windows ("May to July (10 weeks)" etc.),
+   internship length, BrightHire recording consent, offer-deadline answer,
+   "Full legal name" (review item 282c1cc5).
+3. Review proposed fix for #18 (samsara embed vs submit identity gate —
+   7 apps sit READY_TO_SUBMIT behind it; I did not touch the gate).
+4. Clear 2 CAPTCHA walls: `npm run review:bulk -- --action requeue-wall --apply`.
+5. Dismiss non-SWE discovery strays (ADR/ABM/EIAM intern roles).
+6. Deeper work queued: #19 Cloudflare conditional forms (two-pass fill),
+   #9 ashby control-not-found, #16 nav illegal transition, #12
+   FIELD_VERIFICATION fresh-page resume, #2 JobRight-leftover form-reach.
+
+**End-state counts:** 22 QUEUED (mostly non-SWE strays + late discoveries),
+7 READY_TO_SUBMIT (samsara, gate-blocked), 21 AMBIGUOUS_FIELD, 12
+FAILED_RETRYABLE, 4 SUBMISSION_VERIFICATION_FAILED (2 = tonight's clicks),
+64 FAILED_FINAL (pre-existing), 16 NATIVE_AUTOFILL_RUNNING (residue).
+
 ## Session notes
 - 20:50 stopped prior cycle mid-session (8 apps started, 10 submits left) to
   swap in updated resume (jake_swe.pdf) per operator; relaunched with 3-hour caps.
