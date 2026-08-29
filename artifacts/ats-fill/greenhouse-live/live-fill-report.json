@@ -1,49 +1,1858 @@
 {
   "mode": "executed",
   "ats": "greenhouse",
-  "url": "https://job-boards.greenhouse.io/datadog/jobs/8052095",
+  "url": "https://boards.greenhouse.io/databricks/jobs/8732364002",
   "plan": {
-    "answers": {},
-    "entries": [],
-    "fillable_count": 0,
-    "skipped_count": 0,
+    "answers": {
+      "legal_name.first": "Shubham",
+      "legal_name.last": "Kale",
+      "email": "s***@jh.edu",
+      "address.country": "United States",
+      "phone": "***-***-7636",
+      "address.city": "Baltimore",
+      "degree": "Bachelor of Science",
+      "graduation_month": "May",
+      "graduation_year": "2029",
+      "screener:custom:expected_graduation_date": "Later than Summer 2028",
+      "screener:custom:gpa_range": "3.6 or above (out of 4.0)",
+      "screener:availability_full_time": "Yes",
+      "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+      "how_heard": "LinkedIn",
+      "work_authorization": "[REDACTED_SPONSORSHIP]",
+      "screener:requires_sponsorship": "[REDACTED_SPONSORSHIP]",
+      "screener:previously_applied_or_worked": "No",
+      "relocation": "Yes",
+      "gender": "Male",
+      "hispanic_latino": "No",
+      "veteran_status": "I am not a veteran",
+      "disability_status": "No"
+    },
+    "entries": [
+      {
+        "field_id": "first_name",
+        "label": "First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "fill",
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "last_name",
+        "label": "Last Name",
+        "type": "text",
+        "canonical_field": "legal_name.last",
+        "action": "fill",
+        "value": "Kale",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "preferred_name",
+        "label": "Preferred First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "fill",
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "email",
+        "label": "Email",
+        "type": "text",
+        "canonical_field": "email",
+        "action": "fill",
+        "value": "s***@jh.edu",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "country",
+        "label": "Country",
+        "type": "text",
+        "canonical_field": "address.country",
+        "action": "fill",
+        "value": "United States +1",
+        "reason": "Mapped from public profile; placed onto \"United States +1\""
+      },
+      {
+        "field_id": "f_5",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "fill",
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "iti-0__search-input",
+        "label": "Search",
+        "type": "unknown",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "phone",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "fill",
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "candidate-location",
+        "label": "Location (City)",
+        "type": "text",
+        "canonical_field": "address.city",
+        "action": "fill",
+        "value": "Baltimore",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "f_9",
+        "label": "field_9",
+        "type": "text",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "resume",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "skip_file",
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "school--0",
+        "label": "School",
+        "type": "text",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "f_12",
+        "label": "field_12",
+        "type": "text",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "degree--0",
+        "label": "Degree",
+        "type": "text",
+        "canonical_field": "degree",
+        "action": "fill",
+        "value": "Bachelor's Degree",
+        "reason": "Mapped from public profile; placed onto \"Bachelor's Degree\""
+      },
+      {
+        "field_id": "f_14",
+        "label": "field_14",
+        "type": "text",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "end-month--0",
+        "label": "End date month",
+        "type": "text",
+        "canonical_field": "graduation_month",
+        "action": "fill",
+        "value": "May",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "f_16",
+        "label": "field_16",
+        "type": "text",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "end-year--0",
+        "label": "End date year",
+        "type": "text",
+        "canonical_field": "graduation_year",
+        "action": "fill",
+        "value": "2029",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_37893689002",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "skip_file",
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "question_37911664002",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "skip_file",
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "question_37893690002",
+        "label": "What is your graduation date?",
+        "type": "text",
+        "canonical_field": "screener:custom:expected_graduation_date",
+        "action": "fill",
+        "value": "Later than Summer 2028",
+        "reason": "Screener bank answer (llm_option)"
+      },
+      {
+        "field_id": "f_21",
+        "label": "field_21",
+        "type": "text",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_37911665002",
+        "label": "What is your GPA?",
+        "type": "text",
+        "canonical_field": "screener:custom:gpa_range",
+        "action": "fill",
+        "value": "3.6 or above (out of 4.0)",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "f_23",
+        "label": "field_23",
+        "type": "text",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_37911666002[]_252118409002",
+        "label": "Mountain View, CA",
+        "type": "checkbox",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_37911666002[]_252118410002",
+        "label": "San Francisco, CA",
+        "type": "checkbox",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_37911666002[]_252118411002",
+        "label": "Bellevue, WA",
+        "type": "checkbox",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_37911666002[]_252118412002",
+        "label": "Vancouver, Canada",
+        "type": "checkbox",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_37929335002",
+        "label": "Are you able to work full-time (40 hours) in-person at one of our 3 eligible offices during January-April?",
+        "type": "text",
+        "canonical_field": "screener:availability_full_time",
+        "action": "fill",
+        "value": "Yes",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "f_29",
+        "label": "field_29",
+        "type": "text",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_37893692002",
+        "label": "LinkedIn Profile",
+        "type": "text",
+        "canonical_field": "linkedin_url",
+        "action": "fill",
+        "value": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_37893693002",
+        "label": "Website",
+        "type": "text",
+        "canonical_field": "personal_website",
+        "action": "skip_empty",
+        "value": null,
+        "reason": "Profile value empty for personal_website"
+      },
+      {
+        "field_id": "question_37893694002",
+        "label": "How did you hear about this job?",
+        "type": "text",
+        "canonical_field": "how_heard",
+        "action": "fill",
+        "value": "LinkedIn Job Posting",
+        "reason": "Mapped from public profile; placed onto \"LinkedIn Job Posting\""
+      },
+      {
+        "field_id": "f_33",
+        "label": "field_33",
+        "type": "text",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_37893695002",
+        "label": "Are you legally authorized to work in the country in which you are applying?",
+        "type": "text",
+        "canonical_field": "work_authorization",
+        "action": "fill",
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "f_35",
+        "label": "field_35",
+        "type": "text",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_37893696002",
+        "label": "Do you now or will you in the future need sponsorship for employment visa status in the country in which you are applying?",
+        "type": "text",
+        "canonical_field": "screener:requires_sponsorship",
+        "action": "fill",
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Screener bank answer (profile_derived)"
+      },
+      {
+        "field_id": "f_37",
+        "label": "field_37",
+        "type": "text",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_37893697002",
+        "label": "Do you currently or have you previously worked for Databricks in the past?",
+        "type": "text",
+        "canonical_field": "screener:previously_applied_or_worked",
+        "action": "fill",
+        "value": "No",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "f_39",
+        "label": "field_39",
+        "type": "text",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_37893698002[]_252052640002",
+        "label": "Citizen or permanent resident of Cuba, Iran, North Korea, or Syria",
+        "type": "checkbox",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_37893698002[]_252052641002",
+        "label": "Ordinarily a resident of Cuba, Iran, North Korea, Syria or the Crimea, Donetsk, Luhansk, Zaporizhzhia, or Kherson regions of Ukraine",
+        "type": "checkbox",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_37893698002[]_252052642002",
+        "label": "Ordinarily a resident of Russia or Belarus and not willing to relocate for a Databricks role",
+        "type": "checkbox",
+        "canonical_field": "relocation",
+        "action": "fill",
+        "value": "Yes",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_37893698002[]_252052643002",
+        "label": "None of the above",
+        "type": "checkbox",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_37893699002[]_252052644002",
+        "label": "U.S. citizen",
+        "type": "checkbox",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_37893699002[]_252052645002",
+        "label": "U.S. non-citizen national",
+        "type": "checkbox",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_37893699002[]_252052646002",
+        "label": "U.S. permanent resident (Green Card holder)",
+        "type": "checkbox",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_37893699002[]_252052647002",
+        "label": "Individual granted asylum in the U.S.",
+        "type": "checkbox",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_37893699002[]_252052648002",
+        "label": "Individual granted refugee status in the U.S.",
+        "type": "checkbox",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_37893699002[]_252052649002",
+        "label": "Individual granted citizenship in a country other than Cuba, Iran, North Korea, or Syria",
+        "type": "checkbox",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_37893699002[]_252052650002",
+        "label": "Individual granted permanent residency in a country other than Cuba, Iran, North Korea, or Syria",
+        "type": "checkbox",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_37893699002[]_252052651002",
+        "label": "None of these apply to me",
+        "type": "checkbox",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_37893699002[]_252052652002",
+        "label": "Not applicable (i.e., I selected “none of the above” for the prior question)",
+        "type": "checkbox",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "gender",
+        "label": "Gender",
+        "type": "text",
+        "canonical_field": "gender",
+        "action": "fill",
+        "value": "Male",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "hispanic_ethnicity",
+        "label": "Are you Hispanic/Latino?",
+        "type": "text",
+        "canonical_field": "hispanic_latino",
+        "action": "fill",
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "veteran_status",
+        "label": "Veteran Status",
+        "type": "text",
+        "canonical_field": "veteran_status",
+        "action": "fill",
+        "value": "I am not a veteran",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "disability_status",
+        "label": "Disability Status",
+        "type": "text",
+        "canonical_field": "disability_status",
+        "action": "fill",
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      }
+    ],
+    "fillable_count": 24,
+    "skipped_count": 33,
     "review_required_count": 0
   },
   "submit_attempted": false,
   "notes": [
     "session: handoff (caller-owned page, not closed here)",
-    "posting page (no fields, Apply CTA present) but no Apply control found — not filling the posting; no visible apply-ish controls",
-    "no hopable iframe after landing miss — frames: main https://careers.datadoghq.com/detail/8052095/?gh_jid=8052095",
-    "No Greenhouse application form was found on the page."
+    "landed on a posting (no fields, Apply CTA present); clicking Apply via role=button \"Apply now\"",
+    "Apply landed on: posting (no fields, Apply CTA present)",
+    "landed on a posting (no fields, Apply CTA present); clicking Apply via role=button \"Apply now\"",
+    "Apply landed on: posting (no fields, Apply CTA present)",
+    "still on a posting after 2 Apply click(s) — giving up rather than filling the listing page",
+    "application form found in an iframe (56 fields) — hopping to https://job-boards.greenhouse.io/embed/job_app?for=databricks&validityToken=QUO1f_7Qemp38RDJ_j3WRqgCxh9i4WbxoknMcezE1kPF0xq3xCUTOlQnjqSmuri3v65OGmejBbO6wMqlnZAvTbfevv8iYefstUKd9owez4DtkfCW85uY-6BdbG-m5eH5D8TCINeNEFRyXZIEwPt1-NgP0LGRllUg6m_G_BOo8k05XDLcXF5juMbYItEuIMrO6WzBqbh_nHv9virNeNPWo4LfFxhCrLCxED2eFBYuI-igBe1lyCjoOLljqQ0fRUOmZGh3nIYL3NpPzKuvXxD2soW_icn_XDOCEPEifFknQH69hUOW1Gkd5t76qdmR6rd_1V9TVw91hYUOEVjGjXlp2A%3D%3D&token=8732364002",
+    "schema diff: 15/20 declared question(s) matched onto 57 DOM field(s); 6 declared-only (6 required); 30 DOM-only",
+    "board API declared 20 question(s); matched complete option lists onto 7 field(s)",
+    "option harvest: \"Location (City)\" is a combobox but offered no readable options",
+    "option harvest: scraped real options for 8/17 control(s) before planning",
+    "frozen after fill→verify→upload — no further field mutation; submit never called"
   ],
-  "validation_level": "UNVERIFIED",
-  "final_url": "https://careers.datadoghq.com/detail/8052095/?gh_jid=8052095",
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "final_url": "https://job-boards.greenhouse.io/embed/job_app?for=databricks&validityToken=QUO1f_7Qemp38RDJ_j3WRqgCxh9i4WbxoknMcezE1kPF0xq3xCUTOlQnjqSmuri3v65OGmejBbO6wMqlnZAvTbfevv8iYefstUKd9owez4DtkfCW85uY-6BdbG-m5eH5D8TCINeNEFRyXZIEwPt1-NgP0LGRllUg6m_G_BOo8k05XDLcXF5juMbYItEuIMrO6WzBqbh_nHv9virNeNPWo4LfFxhCrLCxED2eFBYuI-igBe1lyCjoOLljqQ0fRUOmZGh3nIYL3NpPzKuvXxD2soW_icn_XDOCEPEifFknQH69hUOW1Gkd5t76qdmR6rd_1V9TVw91hYUOEVjGjXlp2A%3D%3D&token=8732364002",
   "identity_verification": {
-    "requestedUrl": "https://job-boards.greenhouse.io/datadog/jobs/8052095",
-    "finalUrl": "https://careers.datadoghq.com/detail/8052095/?gh_jid=8052095",
-    "requestedJobId": "8052095",
-    "observedJobId": "8052095",
-    "company": null,
-    "role": "Software Engineering Intern (Winter) | Datadog Careers",
-    "formDetected": false,
-    "fieldCount": 0,
-    "warnings": [],
-    "passed": false,
-    "failureCode": "FORM_NOT_FOUND",
-    "failureReason": "No Greenhouse application form was found on the page."
+    "requestedUrl": "https://boards.greenhouse.io/databricks/jobs/8732364002",
+    "finalUrl": "https://job-boards.greenhouse.io/embed/job_app?for=databricks&validityToken=QUO1f_7Qemp38RDJ_j3WRqgCxh9i4WbxoknMcezE1kPF0xq3xCUTOlQnjqSmuri3v65OGmejBbO6wMqlnZAvTbfevv8iYefstUKd9owez4DtkfCW85uY-6BdbG-m5eH5D8TCINeNEFRyXZIEwPt1-NgP0LGRllUg6m_G_BOo8k05XDLcXF5juMbYItEuIMrO6WzBqbh_nHv9virNeNPWo4LfFxhCrLCxED2eFBYuI-igBe1lyCjoOLljqQ0fRUOmZGh3nIYL3NpPzKuvXxD2soW_icn_XDOCEPEifFknQH69hUOW1Gkd5t76qdmR6rd_1V9TVw91hYUOEVjGjXlp2A%3D%3D&token=8732364002",
+    "requestedJobId": "8732364002",
+    "observedJobId": "8732364002",
+    "company": "databricks",
+    "role": "Job Application for Software Engineering Intern (2027 Start) - Winter at Databricks",
+    "formDetected": true,
+    "fieldCount": 57,
+    "warnings": [
+      "login_wall_low: auth_provider_marker"
+    ],
+    "passed": true,
+    "failureCode": null,
+    "failureReason": null
   },
   "captcha_detection": {
     "detected": false,
     "confidence": "LOW",
     "signals": [],
-    "dormantMarkers": []
+    "dormantMarkers": [
+      "recaptcha_api_script_loaded",
+      "generic_captcha_word_only"
+    ]
   },
   "login_wall_detection": {
     "detected": false,
     "confidence": "LOW",
-    "signals": []
+    "signals": [
+      "auth_provider_marker"
+    ]
   },
-  "failure_code": "FORM_NOT_FOUND",
-  "mutation_attempted": false,
-  "written_at": "2026-08-29T04:35:06.924Z"
+  "failure_code": null,
+  "mutation_attempted": true,
+  "schema_diff": {
+    "board": "databricks",
+    "job_id": "8732364002",
+    "declared_count": 20,
+    "dom_count": 57,
+    "matched": 15,
+    "api_only": [
+      {
+        "label": "Resume/CV",
+        "required": true
+      },
+      {
+        "label": "Please provide a recent transcript",
+        "required": true
+      },
+      {
+        "label": "Please provide a recent transcript of your graduate studies (if applicable)",
+        "required": true
+      },
+      {
+        "label": "Please choose the single location that you're the most interested in, and we will discuss more with you as you move through the process.",
+        "required": true
+      },
+      {
+        "label": "Please confirm whether any of the below applies to you.  Select all that apply.\n\nNote: This information will only be used to ensure compliance with U.S. sanctions and export controls.",
+        "required": true
+      },
+      {
+        "label": "If you selected a response to the prior question other than “none of the above,” please confirm whether any of the following also applies to you.  Select all that apply.",
+        "required": true
+      }
+    ],
+    "dom_only": [
+      "Country",
+      "Search",
+      "Location (City)",
+      "field_9",
+      "Attach",
+      "School",
+      "field_12",
+      "Degree",
+      "field_14",
+      "End date month",
+      "field_16",
+      "End date year",
+      "Attach",
+      "Attach",
+      "field_21",
+      "field_23",
+      "Mountain View, CA",
+      "San Francisco, CA",
+      "Bellevue, WA",
+      "Vancouver, Canada",
+      "field_29",
+      "field_33",
+      "field_35",
+      "field_37",
+      "field_39",
+      "Citizen or permanent resident of Cuba, Iran, North Korea, or Syria",
+      "Ordinarily a resident of Cuba, Iran, North Korea, Syria or the Crimea, Donetsk, Luhansk, Zaporizhzhia, or Kherson regions of Ukraine",
+      "Ordinarily a resident of Russia or Belarus and not willing to relocate for a Databricks role",
+      "None of the above",
+      "U.S. citizen"
+    ],
+    "option_mismatches": []
+  },
+  "harvested_options": [
+    {
+      "field_id": "country",
+      "label": "Country",
+      "answer_space": "closed",
+      "option_count": 244,
+      "options": [
+        "United States +1",
+        "Afghanistan +93",
+        "Åland Islands +358",
+        "Albania +355",
+        "Algeria +213",
+        "American Samoa +1",
+        "Andorra +376",
+        "Angola +244",
+        "Anguilla +1",
+        "Antigua & Barbuda +1",
+        "Argentina +54",
+        "Armenia +374",
+        "Aruba +297",
+        "Ascension Island +247",
+        "Australia +61",
+        "Austria +43",
+        "Azerbaijan +994",
+        "Bahamas +1",
+        "Bahrain +973",
+        "Bangladesh +880",
+        "Barbados +1",
+        "Belarus +375",
+        "Belgium +32",
+        "Belize +501",
+        "Benin +229"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "school--0",
+      "label": "School",
+      "answer_space": "closed",
+      "option_count": 100,
+      "options": [
+        "Aalborg University",
+        "Aalto University",
+        "Aarhus University",
+        "Abertay University",
+        "Aberystwyth University",
+        "Abilene Christian University",
+        "Abo Akademi University",
+        "Abraham Baldwin Agricultural College",
+        "Abu Dhabi University",
+        "Academy of Art University",
+        "Acadia University",
+        "Acharya Nagarjuna University",
+        "Acupuncture and Integrative Medicine College - Berkeley",
+        "Adams State University",
+        "Adelphi University",
+        "Adrian College",
+        "Adventist University of Health Sciences",
+        "Agnes Scott College",
+        "AIB College of Business",
+        "Ain Shams University",
+        "Airlangga University",
+        "Ajou University",
+        "Alabama A&M University",
+        "Alabama State University",
+        "Alaska Pacific University"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "degree--0",
+      "label": "Degree",
+      "answer_space": "closed",
+      "option_count": 10,
+      "options": [
+        "Associate's Degree",
+        "Bachelor's Degree",
+        "Doctor of Medicine (M.D.)",
+        "Doctor of Philosophy (Ph.D.)",
+        "Engineer's Degree",
+        "High School",
+        "Juris Doctor (J.D.)",
+        "Master of Business Administration (M.B.A.)",
+        "Master's Degree",
+        "Other"
+      ],
+      "other_option": "Other"
+    },
+    {
+      "field_id": "end-month--0",
+      "label": "End date month",
+      "answer_space": "closed",
+      "option_count": 12,
+      "options": [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "gender",
+      "label": "Gender",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "Male",
+        "Female",
+        "Decline To Self Identify"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "hispanic_ethnicity",
+      "label": "Are you Hispanic/Latino?",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "Yes",
+        "No",
+        "Decline To Self Identify"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "veteran_status",
+      "label": "Veteran Status",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "I am not a protected veteran",
+        "I identify as one or more of the classifications of a protected veteran",
+        "I don't wish to answer"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "disability_status",
+      "label": "Disability Status",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "Yes, I have a disability, or have had one in the past",
+        "No, I do not have a disability and have not had one in the past",
+        "I do not want to answer"
+      ],
+      "other_option": null
+    }
+  ],
+  "approved_plan": {
+    "entries": [
+      {
+        "field_id": "first_name",
+        "label": "First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "FILL",
+        "approved": true,
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "last_name",
+        "label": "Last Name",
+        "type": "text",
+        "canonical_field": "legal_name.last",
+        "action": "FILL",
+        "approved": true,
+        "value": "Kale",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "preferred_name",
+        "label": "Preferred First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "FILL",
+        "approved": true,
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "email",
+        "label": "Email",
+        "type": "text",
+        "canonical_field": "email",
+        "action": "FILL",
+        "approved": true,
+        "value": "s***@jh.edu",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "country",
+        "label": "Country",
+        "type": "text",
+        "canonical_field": "address.country",
+        "action": "FILL",
+        "approved": true,
+        "value": "United States +1",
+        "reason": "Mapped from public profile; placed onto \"United States +1\""
+      },
+      {
+        "field_id": "f_5",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "FILL",
+        "approved": true,
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "iti-0__search-input",
+        "label": "Search",
+        "type": "unknown",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "phone",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "FILL",
+        "approved": true,
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "candidate-location",
+        "label": "Location (City)",
+        "type": "text",
+        "canonical_field": "address.city",
+        "action": "FILL",
+        "approved": true,
+        "value": "Baltimore",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "f_9",
+        "label": "field_9",
+        "type": "text",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "resume",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "school--0",
+        "label": "School",
+        "type": "text",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "f_12",
+        "label": "field_12",
+        "type": "text",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "degree--0",
+        "label": "Degree",
+        "type": "text",
+        "canonical_field": "degree",
+        "action": "FILL",
+        "approved": true,
+        "value": "Bachelor's Degree",
+        "reason": "Mapped from public profile; placed onto \"Bachelor's Degree\""
+      },
+      {
+        "field_id": "f_14",
+        "label": "field_14",
+        "type": "text",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "end-month--0",
+        "label": "End date month",
+        "type": "text",
+        "canonical_field": "graduation_month",
+        "action": "FILL",
+        "approved": true,
+        "value": "May",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "f_16",
+        "label": "field_16",
+        "type": "text",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "end-year--0",
+        "label": "End date year",
+        "type": "text",
+        "canonical_field": "graduation_year",
+        "action": "FILL",
+        "approved": true,
+        "value": "2029",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_37893689002",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "question_37911664002",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "question_37893690002",
+        "label": "What is your graduation date?",
+        "type": "text",
+        "canonical_field": "screener:custom:expected_graduation_date",
+        "action": "FILL",
+        "approved": true,
+        "value": "Later than Summer 2028",
+        "reason": "Screener bank answer (llm_option)"
+      },
+      {
+        "field_id": "f_21",
+        "label": "field_21",
+        "type": "text",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_37911665002",
+        "label": "What is your GPA?",
+        "type": "text",
+        "canonical_field": "screener:custom:gpa_range",
+        "action": "FILL",
+        "approved": true,
+        "value": "3.6 or above (out of 4.0)",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "f_23",
+        "label": "field_23",
+        "type": "text",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_37911666002[]_252118409002",
+        "label": "Mountain View, CA",
+        "type": "checkbox",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_37911666002[]_252118410002",
+        "label": "San Francisco, CA",
+        "type": "checkbox",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_37911666002[]_252118411002",
+        "label": "Bellevue, WA",
+        "type": "checkbox",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_37911666002[]_252118412002",
+        "label": "Vancouver, Canada",
+        "type": "checkbox",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_37929335002",
+        "label": "Are you able to work full-time (40 hours) in-person at one of our 3 eligible offices during January-April?",
+        "type": "text",
+        "canonical_field": "screener:availability_full_time",
+        "action": "FILL",
+        "approved": true,
+        "value": "Yes",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "f_29",
+        "label": "field_29",
+        "type": "text",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_37893692002",
+        "label": "LinkedIn Profile",
+        "type": "text",
+        "canonical_field": "linkedin_url",
+        "action": "FILL",
+        "approved": true,
+        "value": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_37893693002",
+        "label": "Website",
+        "type": "text",
+        "canonical_field": "personal_website",
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "Profile value empty for personal_website"
+      },
+      {
+        "field_id": "question_37893694002",
+        "label": "How did you hear about this job?",
+        "type": "text",
+        "canonical_field": "how_heard",
+        "action": "FILL",
+        "approved": true,
+        "value": "LinkedIn Job Posting",
+        "reason": "Mapped from public profile; placed onto \"LinkedIn Job Posting\""
+      },
+      {
+        "field_id": "f_33",
+        "label": "field_33",
+        "type": "text",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_37893695002",
+        "label": "Are you legally authorized to work in the country in which you are applying?",
+        "type": "text",
+        "canonical_field": "work_authorization",
+        "action": "FILL",
+        "approved": true,
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "f_35",
+        "label": "field_35",
+        "type": "text",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_37893696002",
+        "label": "Do you now or will you in the future need sponsorship for employment visa status in the country in which you are applying?",
+        "type": "text",
+        "canonical_field": "screener:requires_sponsorship",
+        "action": "FILL",
+        "approved": true,
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Screener bank answer (profile_derived)"
+      },
+      {
+        "field_id": "f_37",
+        "label": "field_37",
+        "type": "text",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_37893697002",
+        "label": "Do you currently or have you previously worked for Databricks in the past?",
+        "type": "text",
+        "canonical_field": "screener:previously_applied_or_worked",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "f_39",
+        "label": "field_39",
+        "type": "text",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_37893698002[]_252052640002",
+        "label": "Citizen or permanent resident of Cuba, Iran, North Korea, or Syria",
+        "type": "checkbox",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_37893698002[]_252052641002",
+        "label": "Ordinarily a resident of Cuba, Iran, North Korea, Syria or the Crimea, Donetsk, Luhansk, Zaporizhzhia, or Kherson regions of Ukraine",
+        "type": "checkbox",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_37893698002[]_252052642002",
+        "label": "Ordinarily a resident of Russia or Belarus and not willing to relocate for a Databricks role",
+        "type": "checkbox",
+        "canonical_field": "relocation",
+        "action": "FILL",
+        "approved": true,
+        "value": "Yes",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_37893698002[]_252052643002",
+        "label": "None of the above",
+        "type": "checkbox",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_37893699002[]_252052644002",
+        "label": "U.S. citizen",
+        "type": "checkbox",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_37893699002[]_252052645002",
+        "label": "U.S. non-citizen national",
+        "type": "checkbox",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_37893699002[]_252052646002",
+        "label": "U.S. permanent resident (Green Card holder)",
+        "type": "checkbox",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_37893699002[]_252052647002",
+        "label": "Individual granted asylum in the U.S.",
+        "type": "checkbox",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_37893699002[]_252052648002",
+        "label": "Individual granted refugee status in the U.S.",
+        "type": "checkbox",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_37893699002[]_252052649002",
+        "label": "Individual granted citizenship in a country other than Cuba, Iran, North Korea, or Syria",
+        "type": "checkbox",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_37893699002[]_252052650002",
+        "label": "Individual granted permanent residency in a country other than Cuba, Iran, North Korea, or Syria",
+        "type": "checkbox",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_37893699002[]_252052651002",
+        "label": "None of these apply to me",
+        "type": "checkbox",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_37893699002[]_252052652002",
+        "label": "Not applicable (i.e., I selected “none of the above” for the prior question)",
+        "type": "checkbox",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "gender",
+        "label": "Gender",
+        "type": "text",
+        "canonical_field": "gender",
+        "action": "FILL",
+        "approved": true,
+        "value": "Male",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "hispanic_ethnicity",
+        "label": "Are you Hispanic/Latino?",
+        "type": "text",
+        "canonical_field": "hispanic_latino",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "veteran_status",
+        "label": "Veteran Status",
+        "type": "text",
+        "canonical_field": "veteran_status",
+        "action": "FILL",
+        "approved": true,
+        "value": "I am not a veteran",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "disability_status",
+        "label": "Disability Status",
+        "type": "text",
+        "canonical_field": "disability_status",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      }
+    ],
+    "answers": {
+      "legal_name.first": "Shubham",
+      "legal_name.last": "Kale",
+      "email": "s***@jh.edu",
+      "address.country": "United States +1",
+      "phone": "***-***-7636",
+      "address.city": "Baltimore",
+      "degree": "Bachelor's Degree",
+      "graduation_month": "May",
+      "graduation_year": "2029",
+      "screener:custom:expected_graduation_date": "Later than Summer 2028",
+      "screener:custom:gpa_range": "3.6 or above (out of 4.0)",
+      "screener:availability_full_time": "Yes",
+      "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+      "how_heard": "LinkedIn Job Posting",
+      "work_authorization": "[REDACTED_SPONSORSHIP]",
+      "screener:requires_sponsorship": "[REDACTED_SPONSORSHIP]",
+      "screener:previously_applied_or_worked": "No",
+      "relocation": "Yes",
+      "gender": "Male",
+      "hispanic_latino": "No",
+      "veteran_status": "I am not a veteran",
+      "disability_status": "No"
+    },
+    "fillable_count": 24,
+    "skipped_count": 33,
+    "review_required_count": 0
+  },
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "legal_name.last",
+      "legal_name.first",
+      "email",
+      "address.country",
+      "phone",
+      "phone",
+      "address.city",
+      "degree",
+      "graduation_month",
+      "graduation_year",
+      "screener:custom:expected_graduation_date",
+      "screener:custom:gpa_range",
+      "screener:availability_full_time",
+      "linkedin_url",
+      "how_heard",
+      "work_authorization",
+      "screener:requires_sponsorship",
+      "screener:previously_applied_or_worked",
+      "relocation",
+      "gender",
+      "hispanic_latino",
+      "veteran_status",
+      "disability_status"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "first_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "last_name",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "preferred_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "country",
+        "canonical_field": "address.country",
+        "control_kind": "combobox",
+        "selected_option": "+1",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"United States +1\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "f_5",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "phone",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "candidate-location",
+        "canonical_field": "address.city",
+        "control_kind": "combobox",
+        "selected_option": "Baltimore, Maryland, United States",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "filter \"Baltimore\" then picked \"Baltimore, Maryland, United States\" (exact)"
+        ]
+      },
+      {
+        "field_id": "degree--0",
+        "canonical_field": "degree",
+        "control_kind": "combobox",
+        "selected_option": "Bachelor's Degree",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Bachelor's Degree\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "end-month--0",
+        "canonical_field": "graduation_month",
+        "control_kind": "combobox",
+        "selected_option": "May",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"May\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "end-year--0",
+        "canonical_field": "graduation_year",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_37893690002",
+        "canonical_field": "screener:custom:expected_graduation_date",
+        "control_kind": "combobox",
+        "selected_option": "Later than Summer 2028",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Later than Summer 2028\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_37911665002",
+        "canonical_field": "screener:custom:gpa_range",
+        "control_kind": "combobox",
+        "selected_option": "3.6 or above (out of 4.0)",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"3.6 or above (out of 4.0)\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_37929335002",
+        "canonical_field": "screener:availability_full_time",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_37893692002",
+        "canonical_field": "linkedin_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_37893694002",
+        "canonical_field": "how_heard",
+        "control_kind": "combobox",
+        "selected_option": "LinkedIn Job Posting",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"LinkedIn Job Posting\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_37893695002",
+        "canonical_field": "work_authorization",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_37893696002",
+        "canonical_field": "screener:requires_sponsorship",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_37893697002",
+        "canonical_field": "screener:previously_applied_or_worked",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_37893698002[]_252052642002",
+        "canonical_field": "relocation",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "gender",
+        "canonical_field": "gender",
+        "control_kind": "combobox",
+        "selected_option": "Male",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Male\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "hispanic_ethnicity",
+        "canonical_field": "hispanic_latino",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "veteran_status",
+        "canonical_field": "veteran_status",
+        "control_kind": "combobox",
+        "selected_option": "I am not a protected veteran",
+        "match_via": "synonym",
+        "notes": [
+          "opened via control click",
+          "picked \"I am not a protected veteran\" (synonym) from open list"
+        ]
+      },
+      {
+        "field_id": "disability_status",
+        "canonical_field": "disability_status",
+        "control_kind": "combobox",
+        "selected_option": "No, I do not have a disability and have not had one in the past",
+        "match_via": "synonym",
+        "notes": [
+          "opened via control click",
+          "picked \"No, I do not have a disability and have not had one in the past\" (synonym) from open list"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.last",
+        "expected": "Kale",
+        "observed": "Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@jh.edu",
+        "observed": "s***@jh.edu",
+        "match": true
+      },
+      {
+        "canonical_field": "address.country",
+        "expected": "United States +1",
+        "observed": {
+          "value": "+1",
+          "label": "+1"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "address.city",
+        "expected": "Baltimore",
+        "observed": {
+          "value": "Baltimore, Maryland, United States",
+          "label": "Baltimore, Maryland, United States"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "degree",
+        "expected": "Bachelor's Degree",
+        "observed": {
+          "value": "Bachelor's Degree",
+          "label": "Bachelor's Degree"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "graduation_month",
+        "expected": "May",
+        "observed": {
+          "value": "May",
+          "label": "May"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "graduation_year",
+        "expected": "2029",
+        "observed": "2029",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:expected_graduation_date",
+        "expected": "Later than Summer 2028",
+        "observed": {
+          "value": "Later than Summer 2028",
+          "label": "Later than Summer 2028"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:gpa_range",
+        "expected": "3.6 or above (out of 4.0)",
+        "observed": {
+          "value": "3.6 or above (out of 4.0)",
+          "label": "3.6 or above (out of 4.0)"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:availability_full_time",
+        "expected": "Yes",
+        "observed": {
+          "value": "Yes",
+          "label": "Yes"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "match": true
+      },
+      {
+        "canonical_field": "how_heard",
+        "expected": "LinkedIn Job Posting",
+        "observed": {
+          "value": "LinkedIn Job Posting",
+          "label": "LinkedIn Job Posting"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "work_authorization",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:requires_sponsorship",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:previously_applied_or_worked",
+        "expected": "No",
+        "observed": {
+          "value": "No",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "relocation",
+        "expected": "Yes",
+        "observed": true,
+        "match": true
+      },
+      {
+        "canonical_field": "gender",
+        "expected": "Male",
+        "observed": {
+          "value": "Male",
+          "label": "Male"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "hispanic_latino",
+        "expected": "No",
+        "observed": {
+          "value": "No",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "veteran_status",
+        "expected": "I am not a veteran",
+        "observed": {
+          "value": "I am not a protected veteran",
+          "label": "I am not a protected veteran"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "disability_status",
+        "expected": "No",
+        "observed": {
+          "value": "No, I do not have a disability and have not had one in the past",
+          "label": "No, I do not have a disability and have not had one in the past"
+        },
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "written_at": "2026-08-29T05:25:35.936Z"
 }
