@@ -438,6 +438,42 @@ describe("custom-bank question reuse (UNIT_CONFIRMED)", () => {
     ).toBeNull();
   });
 
+  it("a poisoned how_heard entry cannot claim salary/compensation questions", () => {
+    // Live 2026-08-29: a first-write slip attached "Salary Range" to
+    // how_heard_source ("Online Job Board"); paraphrase-attach then made
+    // the full compensation question an EXACT label and every salary
+    // question inherited the how-heard answer. The topic fence must ignore
+    // the entry even when the poisoned label matches byte-for-byte.
+    const poisoned: ScreenerAnswerBank = {
+      version: 1,
+      answers: {},
+      custom: {
+        how_heard_source: {
+          answer: "Online Job Board",
+          labels: [
+            "Salary Range",
+            "[Compensation] Do you accept the listed salary range for this position?",
+          ],
+          promoted_at: "",
+        },
+      },
+    };
+    expect(
+      findCustomScreenerMatch(
+        "[Compensation] Do you accept the listed salary range for this position?",
+        poisoned,
+      ),
+    ).toBeNull();
+    expect(findCustomScreenerMatch("Salary Range", poisoned)).toBeNull();
+    // A genuine how-heard question still reaches the entry.
+    expect(
+      findCustomScreenerMatch(
+        "Where have you learned about Samsara? Select all that apply",
+        poisoned,
+      ),
+    ).toBeNull(); // label overlap too low here — entry has only salary labels
+  });
+
   it("sends only overlapping learned pairs to the model, not the whole bank", () => {
     const animal = learnedCustomAnswersFor(bank, [
       "Unicorns or llamas — which is your favorite animal?",

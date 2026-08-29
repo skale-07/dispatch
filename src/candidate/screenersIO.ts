@@ -5,7 +5,10 @@ import {
   parseScreenerBank,
   type ScreenerAnswerBank,
 } from "./screeners.js";
-import { findCustomScreenerMatch } from "./screenerMatch.js";
+import {
+  findCustomScreenerMatch,
+  screenerKeyLabelIncompatible,
+} from "./screenerMatch.js";
 
 export function screenerBankPaths(): {
   bankPath: string;
@@ -43,6 +46,14 @@ export function addCustomScreenerAnswer(input: {
   label: string;
 }): { path: string; key: string } {
   const { bankPath } = screenerBankPaths();
+  if (screenerKeyLabelIncompatible(input.key, input.label)) {
+    // Topic fence (2026-08-29 how_heard_source/"Salary Range" poisoning):
+    // refuse to attach an off-topic label — the compounding store must not
+    // learn a pairing the matcher would then treat as exact forever.
+    throw new Error(
+      `refusing to attach label "${input.label.slice(0, 60)}" to key "${input.key}" — topic incompatible`,
+    );
+  }
   const existing = tryLoadScreenerBank();
   const bank: ScreenerAnswerBank =
     existing ?? { version: 1, answers: {}, custom: {} };
@@ -69,6 +80,9 @@ export function rememberPredictedScreenerAnswer(input: {
   label: string;
 }): { path: string; key: string; wrote: boolean } {
   const { bankPath } = screenerBankPaths();
+  if (screenerKeyLabelIncompatible(input.key, input.label)) {
+    return { path: bankPath, key: input.key, wrote: false };
+  }
   const existing = tryLoadScreenerBank();
   const hit = existing ? findCustomScreenerMatch(input.label, existing) : null;
   if (hit && existing) {
@@ -88,6 +102,7 @@ export function rememberPredictedScreenerAnswer(input: {
 
 /** Record a paraphrase on an existing custom entry so the next hit is exact. */
 export function attachCustomScreenerLabel(key: string, label: string): void {
+  if (screenerKeyLabelIncompatible(key, label)) return;
   const existing = tryLoadScreenerBank();
   const prior = existing?.custom[key];
   if (!prior) return;

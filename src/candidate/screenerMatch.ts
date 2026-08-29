@@ -366,6 +366,28 @@ export const CUSTOM_REUSE_MIN_SCORE = 0.75;
 /** Include the pair in the predict payload; still ask the model. */
 export const CUSTOM_CONTEXT_MIN_SCORE = 0.5;
 
+/**
+ * Key↔label topic incompatibilities. Live 2026-08-29: a first-write slip
+ * bound "Salary Range" to how_heard_source ("Online Job Board"); the
+ * paraphrase-attach loop then made the full "[Compensation] Do you accept
+ * the listed salary range…" label an EXACT member of that entry, and every
+ * later salary question inherited the how-heard answer. A topic fence
+ * breaks both the initial write and the reuse.
+ */
+export function screenerKeyLabelIncompatible(
+  key: string,
+  label: string,
+): boolean {
+  const n = normalizeScreenerLabel(label);
+  if (/how_heard|hear|learned_about/.test(key)) {
+    return /salary|compensation|pay (range|rate)|accept the listed/.test(n);
+  }
+  if (/salary|compensation/.test(key)) {
+    return /hear about|learned about|how did you (hear|find)/.test(n);
+  }
+  return false;
+}
+
 export function findCustomScreenerMatch(
   label: string,
   bank: ScreenerAnswerBank,
@@ -376,6 +398,7 @@ export function findCustomScreenerMatch(
   let best: CustomScreenerMatch | null = null;
   let runnerUp = 0;
   for (const [key, e] of Object.entries(bank.custom)) {
+    if (screenerKeyLabelIncompatible(key, label)) continue;
     let entryBest = 0;
     let exact = false;
     for (const stored of e.labels) {
