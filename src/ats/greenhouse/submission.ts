@@ -63,9 +63,33 @@ export async function greenhouseSubmit(
 ): Promise<SubmissionAttempt> {
   assertSubmitAllowed("greenhouse.submit");
   const notes: string[] = [];
-  const control = page.locator(greenhouseSelectorsV1.submit).first();
+  // Main frame + CSS selector first; then the same ladder across child
+  // frames (first-party embeds keep the form in a greenhouse iframe) and
+  // the explicit "Submit application" text fallback (typeless <button>).
+  // Live 2026-08-29 samsara: verified form, "submit control not found".
+  let control = page.locator(greenhouseSelectorsV1.submit).first();
   if ((await control.count()) === 0) {
-    return { clicked: false, notes: ["submit control not found"] };
+    const main = page.mainFrame();
+    const frames = [main, ...page.frames().filter((f) => f !== main)];
+    let found = null;
+    for (const frame of frames) {
+      for (const sel of [
+        greenhouseSelectorsV1.submit,
+        greenhouseSelectorsV1.submitTextFallback,
+      ]) {
+        const cand = frame.locator(sel).first();
+        if ((await cand.count().catch(() => 0)) > 0) {
+          found = cand;
+          break;
+        }
+      }
+      if (found) break;
+    }
+    if (!found) {
+      return { clicked: false, notes: ["submit control not found"] };
+    }
+    notes.push("submit control found via frame/text fallback");
+    control = found;
   }
   if (await control.isDisabled().catch(() => false)) {
     return { clicked: false, notes: ["submit control disabled"] };

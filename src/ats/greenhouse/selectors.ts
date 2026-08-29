@@ -15,6 +15,15 @@ export const greenhouseSelectorsV1 = {
   coverLetter:
     "input[type='file']#cover_letter, #cover_letter, input[type='file'][id*='cover' i], input[type='file'][name*='cover' i]",
   submit: "input[type='submit'], button[type='submit']",
+  /**
+   * job-boards embeds sometimes render the submit as a typeless <button>
+   * (implicit type=submit) — and first-party embeds keep the whole form in
+   * a child iframe. Text fallback used only after the CSS selector misses
+   * (live 2026-08-29: samsara "submit control not found" on a verified,
+   * fully-filled form).
+   */
+  submitTextFallback:
+    "button:has-text('Submit application'), input[type='button'][value*='Submit application' i]",
   loginMarkers: /sign in|log in|create an account|create account/i,
   /** HTML-side form presence (no browser). Mirrors the `form` CSS selector. */
   formMarkers: /id=["']application_form["']|new_job_application/i,

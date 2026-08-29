@@ -94,4 +94,31 @@ describe("submit click-commit gate (FIXTURE_CONFIRMED)", () => {
       expect(clicked).toBeNull();
     });
   }, 30_000);
+
+  it("greenhouse finds a typeless 'Submit application' button via the text fallback", async () => {
+    // Live 2026-08-29 samsara embed: verified form, submit refused with
+    // "submit control not found" — the button carried no type=submit.
+    submitEnv();
+    const html = `<form><input name="first_name" /><button onclick="document.body.dataset.clicked='yes'; event.preventDefault();">Submit application</button></form>`;
+    await withFixtureHtmlPage(html, async (page) => {
+      const attempt = await greenhouseSubmit(page);
+      expect(attempt.clicked).toBe(true);
+      expect(await page.locator("body").getAttribute("data-clicked")).toBe(
+        "yes",
+      );
+    });
+  }, 30_000);
+
+  it("greenhouse finds the submit control inside a child iframe", async () => {
+    submitEnv();
+    const inner =
+      `<form><input name='first_name'/><button type='submit' onclick='document.body.dataset.clicked="yes"; event.preventDefault();'>Submit application</button></form>`;
+    const html = `<div id="grnhse_app"><iframe srcdoc="${inner.replace(/"/g, "&quot;")}"></iframe></div>`;
+    await withFixtureHtmlPage(html, async (page) => {
+      await page.waitForLoadState("domcontentloaded");
+      const attempt = await greenhouseSubmit(page);
+      expect(attempt.clicked).toBe(true);
+      expect(attempt.notes.join(" ")).toMatch(/frame\/text fallback/);
+    });
+  }, 30_000);
 });
