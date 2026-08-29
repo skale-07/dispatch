@@ -102,6 +102,42 @@ describe("pickOptionLabel (UNIT_CONFIRMED)", () => {
     expect(pickOptionLabel(junk, "Baltimore, Maryland, USA").ok).toBe(false);
   });
 
+  // Live failure (Figma greenhouse, 2026-08-28, apps 312aad81/9a6bdf11):
+  // the plan holds the bare city ("Baltimore"); the places list doubled the
+  // true row and offered prefix/suffix towns. The ambiguity refusal blocked
+  // two otherwise-complete fills (17 and 21 fields verified) from submit.
+  it("bare-city expected resolves a doubled places row by first comma part", () => {
+    const places = [
+      "Baltimore, Maryland, United States",
+      "Baltimore, Maryland, United States",
+      "New Baltimore, Michigan, United States",
+      "New Baltimore, Virginia, United States",
+      "Baltimore Highlands, Maryland, United States",
+    ];
+    expect(pickOptionLabel(places, "Baltimore")).toMatchObject({
+      ok: true,
+      label: "Baltimore, Maryland, United States",
+      via: "synonym",
+    });
+    // Two DIFFERENT cities sharing the name stay refused — the expected
+    // value carries no state to tell them apart.
+    expect(
+      pickOptionLabel(
+        ["Baltimore, Maryland, United States", "Baltimore, County Cork, Ireland"],
+        "Baltimore",
+      ).ok,
+    ).toBe(false);
+  });
+
+  it("identical duplicated labels are one choice, not an ambiguity", () => {
+    expect(
+      pickOptionLabel(
+        ["Summer 2027 Intern", "Summer 2027 Intern"],
+        "Summer 2027",
+      ),
+    ).toMatchObject({ ok: true, label: "Summer 2027 Intern" });
+  });
+
   it("maps US state names to USPS abbreviations and back", () => {
     const codes = ["AL", "CA", "MD", "NY", "VA"];
     expect(pickOptionLabel(codes, "Maryland")).toMatchObject({
@@ -494,6 +530,55 @@ describe("combobox interaction on fixture (FIXTURE_CONFIRMED)", () => {
       expect(result.committed).toBe(true);
       expect(result.selectedLabel).toBe("MD");
       expect(await page.locator("#state-display").innerText()).toBe("MD");
+    });
+  }, 30_000);
+
+  it("commits the doubled places row for a bare-city plan value (FIXTURE_CONFIRMED, live 2026-08-28)", async () => {
+    // Greenhouse candidate-location shape that blocked two Figma fills:
+    // the places dropdown lists the true row twice plus prefix/suffix towns.
+    const html = `<!DOCTYPE html><html><body>
+      <div class="select__control" aria-haspopup="listbox" aria-owns="location-dropdown-list">
+        <div class="select__single-value" id="location-display"></div>
+        <input id="candidate-location" aria-autocomplete="list" />
+        <div class="select__dropdown-icon" aria-label="expand">v</div>
+      </div>
+      <div id="location-dropdown-list" hidden></div>
+      <script>
+        const list = document.getElementById("location-dropdown-list");
+        const display = document.getElementById("location-display");
+        const expand = document.querySelector('[aria-label="expand"]');
+        const rows = [
+          "Baltimore, Maryland, United States",
+          "Baltimore, Maryland, United States",
+          "New Baltimore, Michigan, United States",
+          "New Baltimore, Virginia, United States",
+          "Baltimore Highlands, Maryland, United States",
+        ];
+        const open = () => {
+          list.hidden = false;
+          list.innerHTML = rows.map((s) => "<div>" + s + "</div>").join("");
+        };
+        expand.addEventListener("click", open);
+        list.addEventListener("click", (e) => {
+          const t = e.target && e.target.textContent.trim();
+          if (!t) return;
+          display.textContent = t;
+          list.hidden = true;
+          list.innerHTML = "";
+        });
+      </script>
+    </body></html>`;
+    await withFixtureHtmlPage(html, async (page) => {
+      const result = await fillComboboxControl(
+        page,
+        page.locator("#candidate-location"),
+        "Baltimore",
+      );
+      expect(result.committed).toBe(true);
+      expect(result.selectedLabel).toBe("Baltimore, Maryland, United States");
+      expect(await page.locator("#location-display").innerText()).toBe(
+        "Baltimore, Maryland, United States",
+      );
     });
   }, 30_000);
 

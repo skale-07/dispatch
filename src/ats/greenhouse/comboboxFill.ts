@@ -315,6 +315,25 @@ export function pickLocationOption(
   expected: string,
 ): OptionPick | null {
   const expParts = locationParts(expected);
+  if (expParts.length === 1) {
+    // Live 2026-08-28 (Figma greenhouse candidate-location): the plan holds
+    // the bare city ("Baltimore"); the places list offers "Baltimore,
+    // Maryland, United States" (listed twice), "New Baltimore, Michigan…",
+    // "Baltimore Highlands, Maryland…". Exact first-comma-part match drops
+    // the prefix/suffix towns, and identical-label dedupe collapses the
+    // doubled row to one choice. Two DIFFERENT cities sharing the name
+    // (Baltimore, Ireland) still refuse — that needs state context the
+    // expected value does not carry.
+    const hits = options.filter((o) => {
+      const parts = locationParts(o);
+      return parts.length >= 2 && parts[0] === expParts[0];
+    });
+    const distinct = new Set(hits.map((o) => normalize(o)));
+    if (distinct.size === 1 && hits[0] !== undefined) {
+      return { ok: true, label: hits[0], via: "synonym" };
+    }
+    return null;
+  }
   if (expParts.length < 2) return null;
   const hits = options.filter((o) => {
     const parts = locationParts(o);
@@ -665,6 +684,14 @@ export function pickOptionLabel(options: string[], expected: string): OptionPick
   });
   if (sub.length === 1 && sub[0] !== undefined) {
     return { ok: true, label: sub[0], via: "unique_substring" };
+  }
+  // Boards can list the same label twice (live: doubled places rows);
+  // identical strings are one choice, not an ambiguity.
+  if (sub.length > 1 && sub[0] !== undefined) {
+    const distinct = new Set(sub.map((o) => normalize(o)));
+    if (distinct.size === 1) {
+      return { ok: true, label: sub[0], via: "unique_substring" };
+    }
   }
   const seasonal = pickSeasonalYearOption(options, exp);
   if (seasonal) return seasonal;
