@@ -1,0 +1,308 @@
+{
+  "outcome": "FAILED_BEFORE_CLICK",
+  "application_id": "2c61029b-e118-4dbf-93a1-6a6bf7b699ff",
+  "submission_id": "8ebbde4c-8a19-4daf-9c09-5a86bebdcac0",
+  "attempt": 1,
+  "receipt": null,
+  "review_item_id": null,
+  "reason": "Refusing to click submit: field verification or upload did not pass",
+  "artifact_path": null,
+  "operator_brief": {
+    "title": "Submit blocked — ashby app 2c61029b-e118-4dbf-93a1-6a6bf7b699ff",
+    "summary": "20 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:screener:custom:available_start_date",
+        "question": "Pick date...",
+        "field_id": "f_49",
+        "canonical_field": "screener:custom:available_start_date",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"2026-06-01\"; page shows \"(empty)\"",
+        "expected": "2026-06-01",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"2026-06-01\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:available_start_date)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:available_start_date\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:requires_sponsorship",
+        "question": "Will you now or at any time in the future require sponsorship for employment visa status (e.g. H1B, OPT)?",
+        "field_id": "8c5fe320-bbac-4094-b92f-c67fe0636176",
+        "canonical_field": "requires_sponsorship",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Other\"; page shows \"(empty)\"",
+        "expected": "Other",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"Other\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → requires_sponsorship",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"requires_sponsorship\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:requires_sponsorship",
+        "question": "Will you now or at any time in the future require sponsorship for employment visa status (e.g. H1B, OPT)?",
+        "field_id": "8c5fe320-bbac-4094-b92f-c67fe0636176",
+        "canonical_field": "requires_sponsorship",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Other\"; page shows \"(empty)\"",
+        "expected": "Other",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"Other\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → requires_sponsorship",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"requires_sponsorship\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:how_heard",
+        "question": "How did you hear about this opportunity? (select all that apply)",
+        "field_id": "39f16850-ea19-4a96-af1c-263f083a39d9",
+        "canonical_field": "screener:how_heard",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"LinkedIn\"; page shows \"(empty)\"",
+        "expected": "LinkedIn",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"LinkedIn\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:how_heard)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:how_heard\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:custom:prior_internship_count",
+        "question": "How many prior internships have you had?",
+        "field_id": "a9e25c22-b51b-4103-b18e-4dc24d1ce19a",
+        "canonical_field": "screener:custom:prior_internship_count",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"3+\"; page shows \"(empty)\"",
+        "expected": "3+",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"3+\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:prior_internship_count)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:prior_internship_count\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:custom:engineering_role_interest",
+        "question": "What type of engineering role are you interested in?",
+        "field_id": "5f7757f0-b2ee-41b2-b9d0-0212461ed5a2",
+        "canonical_field": "screener:custom:engineering_role_interest",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"AI\"; page shows \"(empty)\"",
+        "expected": "AI",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"AI\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:engineering_role_interest)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:engineering_role_interest\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:degree",
+        "question": "Degree Type",
+        "field_id": "1e43231b-b1da-460c-be3b-ddc12d02fe6f",
+        "canonical_field": "degree",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Undergraduate/Bachelors\"; page shows \"(empty)\"",
+        "expected": "Undergraduate/Bachelors",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"Undergraduate/Bachelors\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: degree)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"degree\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:gender",
+        "question": "Gender",
+        "field_id": "_systemfield_eeoc_gender",
+        "canonical_field": "gender",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Male\"; page shows \"(empty)\"",
+        "expected": "Male",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"Male\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: gender)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"gender\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:race_ethnicity",
+        "question": "Race",
+        "field_id": "_systemfield_eeoc_race",
+        "canonical_field": "race_ethnicity",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Asian\"; page shows \"(empty)\"",
+        "expected": "Asian",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"Asian\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: race_ethnicity)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"race_ethnicity\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:veteran_status",
+        "question": "Veteran Status",
+        "field_id": "_systemfield_eeoc_veteran_status",
+        "canonical_field": "veteran_status",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"I am not a veteran\"; page shows \"(empty)\"",
+        "expected": "I am not a veteran",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"I am not a veteran\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: veteran_status)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"veteran_status\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "fill_error:f_49: control not found on the page (label \"Pick date...\") — failing fast instea",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "f_49: control not found on the page (label \"Pick date...\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:2dd78cc0-401a-4ea3-a148-5f1f5b9478b3: control not found on the page (label \"For ",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "2dd78cc0-401a-4ea3-a148-5f1f5b9478b3: control not found on the page (label \"For this specific internship, will you require any of the be\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:8c5fe320-bbac-4094-b92f-c67fe0636176: control not found on the page (label \"Will",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "8c5fe320-bbac-4094-b92f-c67fe0636176: control not found on the page (label \"Will you now or at any time in the future require sponsorshi\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:39f16850-ea19-4a96-af1c-263f083a39d9: control not found on the page (label \"How ",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "39f16850-ea19-4a96-af1c-263f083a39d9: control not found on the page (label \"How did you hear about this opportunity? (select all that ap\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:a9e25c22-b51b-4103-b18e-4dc24d1ce19a: control not found on the page (label \"How ",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "a9e25c22-b51b-4103-b18e-4dc24d1ce19a: control not found on the page (label \"How many prior internships have you had?\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:5f7757f0-b2ee-41b2-b9d0-0212461ed5a2: control not found on the page (label \"What",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "5f7757f0-b2ee-41b2-b9d0-0212461ed5a2: control not found on the page (label \"What type of engineering role are you interested in?\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:1e43231b-b1da-460c-be3b-ddc12d02fe6f: control not found on the page (label \"Degr",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "1e43231b-b1da-460c-be3b-ddc12d02fe6f: control not found on the page (label \"Degree Type\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:_systemfield_eeoc_gender: control not found on the page (label \"Gender\") — faili",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "_systemfield_eeoc_gender: control not found on the page (label \"Gender\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:_systemfield_eeoc_race: control not found on the page (label \"Race\") — failing f",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "_systemfield_eeoc_race: control not found on the page (label \"Race\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:_systemfield_eeoc_veteran_status: control not found on the page (label \"Veteran ",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "_systemfield_eeoc_veteran_status: control not found on the page (label \"Veteran Status\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      }
+    ],
+    "ok_count": 9,
+    "fail_count": 20
+  }
+}

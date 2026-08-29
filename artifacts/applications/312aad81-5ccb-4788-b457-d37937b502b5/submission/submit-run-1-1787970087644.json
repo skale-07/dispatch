@@ -1,0 +1,51 @@
+{
+  "outcome": "FAILED_BEFORE_CLICK",
+  "application_id": "312aad81-5ccb-4788-b457-d37937b502b5",
+  "submission_id": "7cf8190d-9313-4a9c-80ed-5aeabb33717c",
+  "attempt": 1,
+  "receipt": null,
+  "review_item_id": null,
+  "reason": "Refusing to click submit: field verification or upload did not pass",
+  "artifact_path": null,
+  "operator_brief": {
+    "title": "Submit blocked — greenhouse app 312aad81-5ccb-4788-b457-d37937b502b5",
+    "summary": "2 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:address.city",
+        "question": "Location (City)",
+        "field_id": "candidate-location",
+        "canonical_field": "address.city",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Baltimore\"; page shows \"(empty)\"",
+        "expected": "Baltimore",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "how_to_answer": [
+          "Type the intended value on the form (planned: Baltimore). If a places/autocomplete list appears, select a matching suggestion; plain city text is enough when no list opens.",
+          "System expected \"Baltimore\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → address.city",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"address.city\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "fill_error:candidate-location: combobox option not committed: opened via control click; fil",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "candidate-location: combobox option not committed: opened via control click; filter yielded no/unmatched options; re-collected unfiltered (residue cleared); ambiguous match for \"Baltimore\": Baltimore, Maryland, United States | Baltimore, Maryland, United States | New Baltimore, Michigan, United States | New Baltimore, Virginia, United States | Baltimore Highlands, Maryland, United States",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      }
+    ],
+    "ok_count": 19,
+    "fail_count": 2
+  }
+}
