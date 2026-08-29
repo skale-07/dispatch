@@ -4,6 +4,6 @@ Question: Do you have an active offer deadline or another recruiting-process dea
 
 ---
 
-No. I don't have an active offer deadline or another recruiting-process deadline that would force a decision on a compressed timeline. If that changes while this process is underway, I'll tell you as soon as I know so you have time to plan rather than finding out at the last minute.
+No, I don't have an active offer deadline or another recruiting process forcing a decision date right now. If that changes while I'm in your process, I'll let your recruiting team know as soon as I do, with the specific date rather than a vague heads up, so you have time to work with it.
 
-For scheduling context: I'm an undergraduate at Johns Hopkins, class of 2029, studying Applied Mathematics & Statistics and Economics, so I'm available for the summer term. I'm currently working on the machine-learning core of an anomaly-detection system at Summer Atlantic Capital / SAC Nexus, but that's ongoing project work, not a competing offer with a clock on it. I'm flexible on interview scheduling and can move quickly on whatever timeline works for your team.
+The only fixed constraint on my side is my academic calendar. I'm an undergraduate at Johns Hopkins studying Applied Mathematics and Statistics and Economics, class of 2029, so my summer availability follows the university schedule. Outside of that, I'm flexible on interview timing, including on short notice, and I'm glad to move through the steps as quickly as is useful for you.

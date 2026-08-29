@@ -224,6 +224,23 @@ FIELD_VERIFICATION.
   "salary-range ← Online Job Board" row is a verify/brief pairing
   artifact — the cached label mappings are sane (checked).
 
+### 32. Custom bank POISONING found and fenced (the real #25b) — how_heard_source claimed salary questions
+- Ground truth from fill_field_outcomes: the samsara salary-range entry
+  carried canonical `screener:custom:how_heard_source` and the bank entry's
+  ONLY labels were "Salary Range" + the full compensation question — a bad
+  first write locked in by the paraphrase-attach loop (each match attaches
+  the new label, making the next match exact). Answer "Online Job Board"
+  then followed salary questions everywhere; the fill correctly refused
+  ([Yes|No] menu), parking the app each time.
+- **Fixes:** poisoned entry deleted from screeners.json (rest of the bank
+  audited — healthy); `screenerKeyLabelIncompatible` topic fence applied
+  at match time, at predict-persist, at paraphrase-attach (silent skip)
+  and at operator promote (named error). Test pins the poisoned-bank case.
+- Also this round: "Processing of Personal Data" now FILLS correctly
+  (bank consent answer picked from open list) — remaining mismatch was
+  verify-side synonym blindness, resolved by the same consent pick being
+  recorded verbatim.
+
 ### Operator-scope action: 4 samsara ADR apps abandoned
 - bc3adad0/cc70554a (ADR Intern Atlanta/Phoenix), 68485479/9ee5373a
   (ADR II New Grad Atlanta/Phoenix) → FAILED_FINAL route INELIGIBLE via the

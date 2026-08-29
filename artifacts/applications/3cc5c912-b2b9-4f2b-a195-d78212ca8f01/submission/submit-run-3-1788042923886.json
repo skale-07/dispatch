@@ -1,0 +1,160 @@
+{
+  "outcome": "FAILED_BEFORE_CLICK",
+  "application_id": "3cc5c912-b2b9-4f2b-a195-d78212ca8f01",
+  "submission_id": "57ecf815-f68a-438f-bb9c-885402330014",
+  "attempt": 3,
+  "receipt": null,
+  "review_item_id": null,
+  "reason": "Refusing to click submit: field verification or upload did not pass",
+  "artifact_path": null,
+  "operator_brief": {
+    "title": "Submit blocked — greenhouse app 3cc5c912-b2b9-4f2b-a195-d78212ca8f01",
+    "summary": "8 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:screener:custom:enrolled_returning_to_school",
+        "question": "Are you currently enrolled in a university or program and will return to the program upon completion of internship?",
+        "field_id": "question_68511278",
+        "canonical_field": "screener:custom:enrolled_returning_to_school",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Yes\"; page shows \"(empty)\"",
+        "expected": "Yes",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "how_to_answer": [
+          "Type the intended value on the form (planned: Yes). If a places/autocomplete list appears, select a matching suggestion; plain city text is enough when no list opens.",
+          "System expected \"Yes\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:enrolled_returning_to_school)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:enrolled_returning_to_school\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:custom:expected_graduation_date",
+        "question": "If you are currently enrolled in a university or program, when do you expect to graduate or complete your program? (Select the closest date.)",
+        "field_id": "question_68511279",
+        "canonical_field": "screener:custom:expected_graduation_date",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"June 2029\"; page shows \"(empty)\"",
+        "expected": "June 2029",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "how_to_answer": [
+          "Type the intended value on the form (planned: June 2029). If a places/autocomplete list appears, select a matching suggestion; plain city text is enough when no list opens.",
+          "System expected \"June 2029\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:expected_graduation_date)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:expected_graduation_date\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:education_level",
+        "question": "If you are enrolled in university, what degree are you currently pursuing?",
+        "field_id": "question_68511280",
+        "canonical_field": "screener:education_level",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Undergrad\"; page shows \"(empty)\"",
+        "expected": "Undergrad",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "how_to_answer": [
+          "Type the intended value on the form (planned: Undergrad). If a places/autocomplete list appears, select a matching suggestion; plain city text is enough when no list opens.",
+          "System expected \"Undergrad\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:education_level)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:education_level\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:start_availability",
+        "question": "A successful internship may lead to consideration for a full-time opportunity. If you were to receive a full-time offer, when would you be available to start?",
+        "field_id": "question_68511281",
+        "canonical_field": "screener:start_availability",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Flexible — aligned to the posted term\"; page shows \"(empty)\"",
+        "expected": "Flexible — aligned to the posted term",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "how_to_answer": [
+          "System expected \"Flexible — aligned to the posted term\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:start_availability)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:start_availability\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:availability_full_time",
+        "question": "Are you available for a 12-week full-time (40 hours per week) internship between September - December 2026?",
+        "field_id": "question_68511301",
+        "canonical_field": "screener:availability_full_time",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Yes\"; page shows \"(empty)\"",
+        "expected": "Yes",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "how_to_answer": [
+          "Type the intended value on the form (planned: Yes). If a places/autocomplete list appears, select a matching suggestion; plain city text is enough when no list opens.",
+          "System expected \"Yes\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:availability_full_time)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:availability_full_time\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:willing_to_relocate",
+        "question": "Are you able to work in our London office 3–5 days a week?",
+        "field_id": "question_68511302",
+        "canonical_field": "screener:willing_to_relocate",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Yes\"; page shows \"(empty)\"",
+        "expected": "Yes",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "how_to_answer": [
+          "Type the intended value on the form (planned: Yes). If a places/autocomplete list appears, select a matching suggestion; plain city text is enough when no list opens.",
+          "System expected \"Yes\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:willing_to_relocate)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:willing_to_relocate\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:essay:generated:question_68511284",
+        "question": "Why are you interested in Cloudflare's Software Engineering Internship? What products or features are you interested in building?",
+        "field_id": "question_68511284",
+        "canonical_field": "essay:generated:question_68511284",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Most of what I build ends up being about safety boundaries in automated systems, which is why Cloudflare's network layer interests me. When I built a Playwright-based job-application agent in TypeScript, the hard part was not making the browser do things, it was deciding where automation should stop. I used SQLite as the single source of truth because state divergence across processes makes browser automation dangerous, put every mutating capability behind fail-closed flags like SUBMIT_ENABLED that never default on, and architecturally prevented free-text and demographic fields from being auto-filled. I also built a validation ladder from unit-confirmed to live-mutation-confirmed so a capability is never called working just because it passed against a fixture. That is the same instinct behind infrastructure that sits in front of millions of sites: failure modes are the product.\n\nI would want to work on developer-facing edge compute and the tooling around it, or on abuse and anomaly detection. I currently build the ML core of an anomaly-detection system, including temporal sequence modeling over event streams and a learning-to-rank layer, because an alert system that fires too often creates a second problem rather than solving the first.\"; page shows \"Undergrad\"",
+        "expected": "Most of what I build ends up being about safety boundaries in automated systems, which is why Cloudflare's network layer interests me. When I built a Playwright-based job-application agent in TypeScript, the hard part was not making the browser do things, it was deciding where automation should stop. I used SQLite as the single source of truth because state divergence across processes makes browser automation dangerous, put every mutating capability behind fail-closed flags like SUBMIT_ENABLED that never default on, and architecturally prevented free-text and demographic fields from being auto-filled. I also built a validation ladder from unit-confirmed to live-mutation-confirmed so a capability is never called working just because it passed against a fixture. That is the same instinct behind infrastructure that sits in front of millions of sites: failure modes are the product.\n\nI would want to work on developer-facing edge compute and the tooling around it, or on abuse and anomaly detection. I currently build the ML core of an anomaly-detection system, including temporal sequence modeling over event streams and a learning-to-rank layer, because an alert system that fires too often creates a second problem rather than solving the first.",
+        "observed": "Undergrad",
+        "how_to_answer": [
+          "DOM shows \"Undergrad\" but plan expected \"Most of what I build ends up being about safety boundaries in automated systems, which is why Cloudflare's network layer interests me. When I built a Playwright-based job-application agent in TypeScript, the hard part was not making the browser do things, it was deciding where automation should stop. I used SQLite as the single source of truth because state divergence across processes makes browser automation dangerous, put every mutating capability behind fail-closed flags like SUBMIT_ENABLED that never default on, and architecturally prevented free-text and demographic fields from being auto-filled. I also built a validation ladder from unit-confirmed to live-mutation-confirmed so a capability is never called working just because it passed against a fixture. That is the same instinct behind infrastructure that sits in front of millions of sites: failure modes are the product.\n\nI would want to work on developer-facing edge compute and the tooling around it, or on abuse and anomaly detection. I currently build the ML core of an anomaly-detection system, including temporal sequence modeling over event streams and a learning-to-rank layer, because an alert system that fires too often creates a second problem rather than solving the first.\". Correct the value on the form or fix profile/aliases so the plan matches the real answer.",
+          "Profile source: private/candidate/public-profile.json (key: essay:generated:question_68511284)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"essay:generated:question_68511284\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "fill_error:question_68511280: combobox option not committed: opened via control click; filt",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "question_68511280: combobox option not committed: opened via control click; filter yielded no/unmatched options; re-collected unfiltered (residue cleared); no option matches \"Undergrad\" (options: Bachelor's | Master's | MBA | PhD | Other (Associate’s, Bootcamp, etc) | N/A)",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      }
+    ],
+    "ok_count": 16,
+    "fail_count": 8
+  }
+}

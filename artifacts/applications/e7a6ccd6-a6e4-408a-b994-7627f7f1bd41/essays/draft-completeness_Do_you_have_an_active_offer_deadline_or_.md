@@ -4,8 +4,6 @@ Question: Do you have an active offer deadline or another recruiting-process dea
 
 ---
 
-No. I do not have an active offer deadline or a competing recruiting-process deadline that would constrain your timeline. If that changes at any point in the process, I will tell you as soon as I know, rather than waiting until it becomes a problem.
+I don't have an active offer deadline or a competing recruiting process with a date attached right now. If that changes while I'm in your process, I'll tell your recruiting team as soon as I know rather than surfacing it at the last minute.
 
-For context on my availability: I am an undergraduate at Johns Hopkins studying Applied Mathematics and Statistics and Economics, class of 2029. Outside of coursework I currently work on the machine-learning core of an anomaly-detection and alert-prioritization system at Summer Atlantic Capital, where I own parts of the event-ingestion pipeline and the FastAPI detection service. That work is flexible enough that it would not delay interviews or a start date.
-
-I can schedule interviews on short notice, including on the same day if that helps, and I am happy to work around whatever sequencing your team prefers.
+On my side, the main scheduling constraint is coursework at Johns Hopkins, where I'm an undergraduate in Applied Mathematics and Statistics and Economics, class of 2029, plus ongoing work on the machine-learning core of the anomaly-detection system at Summer Atlantic Capital and the ClarityAtlas pilot at Hopkins. None of that blocks interviews. I can be flexible on timing for calls or technical rounds, including evenings, and I'm happy to move quickly if you need a compressed schedule.

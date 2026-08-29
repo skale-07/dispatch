@@ -1,0 +1,48 @@
+{
+  "run_id": "nav-424d66d8-bdb2-459c-8618-65071753da84",
+  "application_id": "77b0cef9-1dfe-441f-bd6f-19c0e138eab7",
+  "jobright_job_id": "6a6b262d32f9300c3a3dd4be",
+  "method": "apply_click_popup",
+  "resolved_url": "https://clevelandresearch.applytojob.com/apply/zy7WHaTRsu/Hedge-Fund-Sales-Consultant-Intern-Summer-2027",
+  "resolved_ats": "generic",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no congruent apply href (11 external links)",
+      "evidence": "clevelandresearch.applytojob.com, www.linkedin.com, www.crunchbase.com, www.clevelandresearch.com, thefly.com"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "resolved via popup",
+      "evidence": "clevelandresearch.applytojob.com"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "ephemeral",
+  "notes": [
+    "phase A: anchor reads as \"zy7whatrsu\" (URL names \"zy7whatrsu\" (path), which shares nothing with company \"Cleveland Research Company\") — not preferred, deferring to the Apply click",
+    "phase A: 5 external host(s) seen: clevelandresearch.applytojob.com, www.linkedin.com, www.crunchbase.com, www.clevelandresearch.com, thefly.com",
+    "Apply control: autofill CTA (tier 0)",
+    "jobright interstitial: clicked \"Apply Without Customizing\"",
+    "popup captured on attempt 1",
+    "phase B: captured URL reads as \"zy7whatrsu\" (URL names \"zy7whatrsu\" (path), which shares nothing with company \"Cleveland Research Company\") — kept, provenance is the Apply click",
+    "congruence: URL names \"zy7whatrsu\", not \"Cleveland Research Company\" (URL names \"zy7whatrsu\" (path), which shares nothing with company \"Cleveland Research Company\") — recorded, not refused"
+  ],
+  "congruence": {
+    "verdict": "mismatch",
+    "slug": "zy7whatrsu",
+    "detail": "URL names \"zy7whatrsu\" (path), which shares nothing with company \"Cleveland Research Company\"",
+    "expected_company": "Cleveland Research Company",
+    "url": "https://clevelandresearch.applytojob.com/apply/zy7WHaTRsu/Hedge-Fund-Sales-Consultant-Intern-Summer-2027?jr_id=6a6b262d32f9300c3a3dd4be"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-08-29T23:08:19.497Z"
+}
