@@ -133,6 +133,15 @@ export function auditEmployerUrls(db: Db): NavAuditReport {
 
     // Duplicate detection among congruent URLs: oldest application keeps
     // the posting; newer ones park for a dismissal decision.
+    // FAILED_FINAL / FILTERED_OUT rows never claim a URL — the re-discovery
+    // convention allows a fresh application for a terminally-failed job,
+    // and their claims re-parked legal re-enqueues every session
+    // (2026-08-29: samsara rows parked by their own dead predecessors).
+    // COMPLETED keeps claiming: a submitted job must still block a
+    // duplicate application.
+    if (row.state === "FAILED_FINAL" || row.state === "FILTERED_OUT") {
+      continue;
+    }
     const key = row.employer_url.replace(/[?#].*$/, "").replace(/\/+$/, "");
     const holder = urlHolders.get(key);
     if (holder === undefined) {

@@ -390,6 +390,30 @@ describe("employer-URL audit + duplicate detection (UNIT_CONFIRMED)", () => {
     expect(items.some((i) => i.application_id === first)).toBe(false);
   });
 
+  it("a FAILED_FINAL predecessor does not park a legal re-enqueue for the same URL", () => {
+    // Re-discovery convention (2026-08-29): samsara re-enqueues were
+    // re-parked every session by their own dead predecessors' URL claims.
+    const url = "https://jobs.lever.co/metr/52fca070-da6a-441e-b1d1-8184c51b52e6/apply";
+    const dead = seedApp("METR", url);
+    db.prepare(`UPDATE applications SET state = 'FAILED_FINAL' WHERE id = ?`).run(dead);
+    const fresh = seedApp("METR", url);
+    const report = auditEmployerUrls(db);
+    expect(report.duplicates_parked).toBe(0);
+    expect(listOpenReviewItems(db).some((i) => i.application_id === fresh)).toBe(false);
+  });
+
+  it("a COMPLETED predecessor still parks a duplicate for the same URL", () => {
+    const url = "https://jobs.lever.co/metr/62fca070-da6a-441e-b1d1-8184c51b52e7/apply";
+    const done = seedApp("METR", url);
+    db.prepare(`UPDATE applications SET state = 'COMPLETED' WHERE id = ?`).run(done);
+    const dup = seedApp("METR", url);
+    const report = auditEmployerUrls(db);
+    expect(report.duplicates_parked).toBe(1);
+    expect(
+      listOpenReviewItems(db).find((i) => i.application_id === dup)?.title,
+    ).toMatch(/Duplicate posting/);
+  });
+
   it("audit never auto-repairs past submit — it parks for a human", () => {
     const appId = seedApp(
       "Postman",
