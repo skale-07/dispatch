@@ -80,6 +80,7 @@ import {
   printOperatorFieldBrief,
   type OperatorFieldBrief,
 } from "./operatorFieldBrief.js";
+import { attachSupplementalMaterials } from "../ats/shared/supplementalMaterials.js";
 
 export type SubmissionRunOutcome =
   | "SUBMITTED_VERIFIED"
@@ -535,6 +536,24 @@ export async function runAtsSubmission(input: {
             await greenhouseFillEssays(page, essayEntries, fieldMeta, db);
           }
           const upload = await adapter.uploadResume(page, resume.path);
+          // Known operator materials beyond the resume (transcript) — live
+          // 2026-08-29 Appian: the click bounced off a required transcript
+          // upload while private/candidate/transcript.pdf sat on disk.
+          const supplemental = await attachSupplementalMaterials(page);
+          if (
+            supplemental.attached.length > 0 ||
+            supplemental.notes.length > 0
+          ) {
+            logger.info("supplemental materials pass", {
+              service: "submit",
+              action: "supplemental_materials",
+              application_id: applicationId,
+              metadata: {
+                attached: supplemental.attached,
+                notes: supplemental.notes,
+              },
+            });
+          }
           let verify = await adapter.verify(page, approvedPlan.answers);
           if (
             input.reuseFilledPage &&

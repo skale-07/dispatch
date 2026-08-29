@@ -10,6 +10,54 @@ import { redactObject } from "../../src/logging/redaction.js";
  * every required-but-unanswered control BEFORE any click. FIXTURE_CONFIRMED.
  */
 describe("required-completeness scan (FIXTURE_CONFIRMED)", () => {
+  it("catches required EMPTY file inputs (transcript / cover letter), never resume", async () => {
+    // 2026-08-29: 2 of the first 3 clicks bounced off required uploads the
+    // scan skipped (type=file was excluded wholesale). Resume/CV inputs
+    // stay excluded — the dedicated upload guard owns them and boards
+    // clear input.files after chip-style success.
+    const html = `
+      <form>
+        <label for="tr">Please upload a copy of an unofficial undergraduate transcript</label>
+        <input type="file" id="tr" required style="display:none" />
+        <label for="cl">Cover Letter</label>
+        <input type="file" id="cl" required style="display:none" />
+        <label for="resume">Resume/CV</label>
+        <input type="file" id="resume" required style="display:none" />
+        <label for="opt">Portfolio (optional)</label>
+        <input type="file" id="opt" style="display:none" />
+      </form>`;
+    await withFixtureHtmlPage(html, async (page) => {
+      const scan = await scanRequiredCompleteness(page);
+      expect(scan.scanned).toBe(true);
+      const files = scan.unanswered.filter((u) => u.control === "file");
+      const labels = files.map((u) => u.label);
+      expect(labels).toContain(
+        "Please upload a copy of an unofficial undergraduate transcript",
+      );
+      expect(labels).toContain("Cover Letter");
+      expect(labels).not.toContain("Resume/CV");
+      // The optional portfolio is not DOM-required — absent from `sure`.
+      expect(labels).not.toContain("Portfolio (optional)");
+    });
+  }, 45_000);
+
+  it("a required file input WITH a file selected is answered", async () => {
+    const html = `
+      <form>
+        <label for="tr">Transcript</label>
+        <input type="file" id="tr" required />
+      </form>`;
+    await withFixtureHtmlPage(html, async (page) => {
+      await page.setInputFiles("#tr", {
+        name: "t.pdf",
+        mimeType: "application/pdf",
+        buffer: Buffer.from("%PDF-1.1"),
+      });
+      const scan = await scanRequiredCompleteness(page);
+      expect(scan.unanswered.filter((u) => u.control === "file")).toEqual([]);
+    });
+  }, 45_000);
+
   it("catches the Cohere shape: untouched required radios, select, and essay", async () => {
     const html = `
       <form>

@@ -30,7 +30,14 @@ import type { Page } from "playwright";
 
 export type UnansweredRequired = {
   label: string;
-  control: "text" | "textarea" | "select" | "radio_group" | "checkbox" | "combobox";
+  control:
+    | "text"
+    | "textarea"
+    | "select"
+    | "radio_group"
+    | "checkbox"
+    | "combobox"
+    | "file";
   /** What marked it required: the DOM's own attributes/asterisk, or the ATS's published schema. */
   source?: "dom" | "board_api";
 };
@@ -152,7 +159,22 @@ const SCAN_EXPRESSION = `(() => {
 
   for (const el of Array.from(document.querySelectorAll("input, textarea, select"))) {
     const type = (el.type || "").toLowerCase();
-    if (type === "hidden" || type === "file" || type === "submit" || type === "button") continue;
+    if (type === "hidden" || type === "submit" || type === "button") continue;
+    if (type === "file") {
+      // Required uploads (cover letter, transcript) burned 2 of the first
+      // 3 clicks on 2026-08-29 — the click bounced off a visible "is
+      // required" error the scan never saw. Resume/CV inputs stay excluded:
+      // the dedicated upload guard owns them, and boards clear input.files
+      // after a successful chip-style upload (a false "unanswered" here
+      // would refuse verified submits). File inputs skip the visibility
+      // check — upload widgets hide them by design.
+      const idname = ((el.id || "") + " " + (el.name || "")).toLowerCase();
+      if (/resume|\\bcv\\b/.test(idname)) continue;
+      if ((el.files ? el.files.length : 0) === 0) {
+        push(isRequired(el), { label: labelFor(el), control: "file" });
+      }
+      continue;
+    }
     if (isComboboxControl(el)) continue;
 
     if (type === "radio") {
