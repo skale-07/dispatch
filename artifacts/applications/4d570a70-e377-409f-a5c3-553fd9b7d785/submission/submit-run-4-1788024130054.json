@@ -1,0 +1,47 @@
+{
+  "outcome": "FAILED_BEFORE_CLICK",
+  "application_id": "4d570a70-e377-409f-a5c3-553fd9b7d785",
+  "submission_id": "4923351c-e1da-48ed-aef5-d4a7e82c7c01",
+  "attempt": 4,
+  "receipt": null,
+  "review_item_id": null,
+  "reason": "Refusing to click submit: field verification or upload did not pass",
+  "artifact_path": null,
+  "operator_brief": {
+    "title": "Submit blocked — greenhouse app 4d570a70-e377-409f-a5c3-553fd9b7d785",
+    "summary": "2 item(s) need attention",
+    "items": [
+      {
+        "id": "fill_error:v-0-0-0-3-68: locator.selectOption: Timeout 2000ms exceeded.\nCall log:\n\u001b[2m  - w",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "v-0-0-0-3-68: locator.selectOption: Timeout 2000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[id=\"v-0-0-0-3-68\"]').first()\u001b[22m\n\u001b[2m    - locator resolved to <select id=\"v-0-0-0-3-68\" data-v-55e1b5a5=\"\" name=\"select-region\" aria-label=\"Select region\" class=\"text-white bg-transparent transition-colors duration-100 h-full w-fit appearance-none bg-transparent pr-[18px]\">…</select>\u001b[22m\n\u001b[2m  - attempting select option action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying select option action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying select option action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    4 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying select option action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "upload:resume",
+        "question": "Upload: resume",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "upload_failed",
+        "problem": "Greenhouse resume file input not found (waited for attached). Saw 0 input[type=file]: []",
+        "expected": "resume-6b5f8e75.pdf",
+        "observed": null,
+        "how_to_answer": [
+          "Resume is system-owned: materials:register + adapter.uploadResume on submit/fill — not a free-text profile field.",
+          "If this is ats:fill without --resume, pass --resume <pdf> or use application submit (uses registered material).",
+          "Evidence: Greenhouse resume file input not found (waited for attached). Saw 0 input[type=file]: []"
+        ]
+      }
+    ],
+    "ok_count": 2,
+    "fail_count": 2
+  }
+}

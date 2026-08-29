@@ -1,0 +1,88 @@
+{
+  "mode": "plan_only",
+  "ats": "greenhouse",
+  "url": "https://boards.greenhouse.io/acme/jobs/4000001",
+  "plan": {
+    "answers": {
+      "legal_name.first": "Shubham"
+    },
+    "entries": [
+      {
+        "field_id": "first_name",
+        "label": "First name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "fill",
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "why",
+        "label": "Why do you want to work at Acme?",
+        "type": "textarea",
+        "canonical_field": null,
+        "action": "skip_essay",
+        "value": null,
+        "reason": "Essay generation produced no answer"
+      },
+      {
+        "field_id": "extra",
+        "label": "Tell us about a project you are proud of",
+        "type": "textarea",
+        "canonical_field": "essay:generated:extra",
+        "action": "fill",
+        "value": "The project I'm proudest of is ClarityAtlas, an iOS health product I co-founded Open Health Intelligence to build and serve as technical lead for. I built it end to end in Swift and SwiftUI with a Supabase backend. The hardest technical piece was estimating sleep without requiring a wearable, so I built a passive sleep-estimation system from phone-interaction and motion signals using HealthKit and Core Motion inputs like step count, gait speed, and movement patterns. I also built the backend matching services, including a \"Sleep Twins\" system that compares users on standardized behavioral features with a weighted distance. The product thesis was that people should be able to see relationships between their own behavior, sleep, and movement rather than stare at isolated metrics.\n\nWe shipped it into a live pilot at Hopkins with 30+ users, got into the Pava Spark Accelerator and NSF I-Corps, and received a non-binding investment indication of around $75,000 for roughly 7-8% equity, which we chose not to pursue immediately because we wanted the right long-term partners. What I took from it is that building the thing is maybe half the work. Recruiting users, talking to stakeholders, and repeatedly explaining why it should exist mattered just as much.",
+        "reason": "Essay generated from the operator's about-me context"
+      }
+    ],
+    "fillable_count": 2,
+    "skipped_count": 1,
+    "review_required_count": 0
+  },
+  "approved_plan": {
+    "entries": [
+      {
+        "field_id": "first_name",
+        "label": "First name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "FILL",
+        "approved": true,
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "why",
+        "label": "Why do you want to work at Acme?",
+        "type": "textarea",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "Essay generation produced no answer"
+      },
+      {
+        "field_id": "extra",
+        "label": "Tell us about a project you are proud of",
+        "type": "textarea",
+        "canonical_field": "essay:generated:extra",
+        "action": "FILL",
+        "approved": true,
+        "value": "The project I'm proudest of is ClarityAtlas, an iOS health product I co-founded Open Health Intelligence to build and serve as technical lead for. I built it end to end in Swift and SwiftUI with a Supabase backend. The hardest technical piece was estimating sleep without requiring a wearable, so I built a passive sleep-estimation system from phone-interaction and motion signals using HealthKit and Core Motion inputs like step count, gait speed, and movement patterns. I also built the backend matching services, including a \"Sleep Twins\" system that compares users on standardized behavioral features with a weighted distance. The product thesis was that people should be able to see relationships between their own behavior, sleep, and movement rather than stare at isolated metrics.\n\nWe shipped it into a live pilot at Hopkins with 30+ users, got into the Pava Spark Accelerator and NSF I-Corps, and received a non-binding investment indication of around $75,000 for roughly 7-8% equity, which we chose not to pursue immediately because we wanted the right long-term partners. What I took from it is that building the thing is maybe half the work. Recruiting users, talking to stakeholders, and repeatedly explaining why it should exist mattered just as much.",
+        "reason": "Essay generated from the operator's about-me context"
+      }
+    ],
+    "answers": {
+      "legal_name.first": "Shubham",
+      "essay:generated:extra": "The project I'm proudest of is ClarityAtlas, an iOS health product I co-founded Open Health Intelligence to build and serve as technical lead for. I built it end to end in Swift and SwiftUI with a Supabase backend. The hardest technical piece was estimating sleep without requiring a wearable, so I built a passive sleep-estimation system from phone-interaction and motion signals using HealthKit and Core Motion inputs like step count, gait speed, and movement patterns. I also built the backend matching services, including a \"Sleep Twins\" system that compares users on standardized behavioral features with a weighted distance. The product thesis was that people should be able to see relationships between their own behavior, sleep, and movement rather than stare at isolated metrics.\n\nWe shipped it into a live pilot at Hopkins with 30+ users, got into the Pava Spark Accelerator and NSF I-Corps, and received a non-binding investment indication of around $75,000 for roughly 7-8% equity, which we chose not to pursue immediately because we wanted the right long-term partners. What I took from it is that building the thing is maybe half the work. Recruiting users, talking to stakeholders, and repeatedly explaining why it should exist mattered just as much."
+    },
+    "fillable_count": 2,
+    "skipped_count": 1,
+    "review_required_count": 0
+  },
+  "submit_attempted": false,
+  "notes": [
+    "plan_only — set --execute with FORM_FILL_ENABLED=true and DRY_RUN=false to mutate"
+  ],
+  "written_at": "2026-08-29T17:00:42.390Z"
+}
