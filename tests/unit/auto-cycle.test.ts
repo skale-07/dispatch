@@ -252,7 +252,10 @@ describe("auto-cycle (UNIT_CONFIRMED)", () => {
       },
     );
     expect(okR.preflight.agent_leg).toBe("available");
-  });
+    // 30s: this test runs three full cycles; the 5s default flaked twice
+    // under full-suite load with a live automation session + Chrome on the
+    // same machine (overnight 2026-08-29, timeouts not assertions).
+  }, 30_000);
 
   it("autolaunches the debug Chrome when CDP is dead and the operator opted in", async () => {
     armEnv();
@@ -352,7 +355,8 @@ describe("auto-cycle (UNIT_CONFIRMED)", () => {
     expect(refused.outcome).toBe("refused");
     expect(pushes.length).toBe(2);
     expect(pushes[1]!.armRunId).toBe("auto-cycle");
-  });
+    // 30s: two full cycles; see the agent-leg test's timeout note.
+  }, 30_000);
 
   it("no autopush flag ⇒ the cycle report stays local (pusher never called)", async () => {
     armEnv(); // ARTIFACT_AUTOPUSH_ENABLED not set — fail closed
