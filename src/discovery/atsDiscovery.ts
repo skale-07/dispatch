@@ -225,6 +225,24 @@ export async function runAtsBoardDiscovery(input: {
   return report;
 }
 
+/**
+ * The Greenhouse embed id from a company-hosted apply URL's ?gh_jid=<id>
+ * (also seen URL-encoded inside a wrapper param). Null when absent or
+ * non-numeric — absence is what separates a legitimate embed URL from an
+ * anomalous payload, which stays refused.
+ */
+function readGreenhouseEmbedJid(applyUrl: string): string | null {
+  let url: URL;
+  try {
+    url = new URL(applyUrl);
+  } catch {
+    return null;
+  }
+  const jid = url.searchParams.get("gh_jid");
+  if (jid && /^\d+$/.test(jid.trim())) return jid.trim();
+  return null;
+}
+
 function enqueueBoardJob(
   db: Db,
   entry: BoardRegistryEntry,
@@ -248,7 +266,27 @@ function enqueueBoardJob(
   // Greenhouse. The generic adapter would accept any https URL, which is
   // right for operator-vouched links but wrong here — a board payload
   // whose URL doesn't match its own ATS is a real anomaly, refused loudly.
-  const detected = detectAtsFromUrl(applyUrl);
+  //
+  // One shape is legitimate, not an anomaly: Greenhouse boards whose
+  // absolute_url is the company's own careers page with a ?gh_jid=<id>
+  // embed param (stripe.com/jobs/search?gh_jid=…). The gh_jid IS the
+  // Greenhouse posting id, so the vendor-hosted form is derivable from
+  // operator-listed token + that id. We navigate ONLY to the derived
+  // boards.greenhouse.io URL — never to the company-hosted one — and only
+  // when the embedded id is consistent with the payload's own posting id.
+  let detected = detectAtsFromUrl(applyUrl);
+  if (detected.ats !== entry.ref.ats && entry.ref.ats === "greenhouse") {
+    const ghJid = readGreenhouseEmbedJid(applyUrl);
+    if (ghJid && (extra.external_id === null || ghJid === extra.external_id)) {
+      const canonical = `https://boards.greenhouse.io/${encodeURIComponent(
+        entry.ref.token,
+      )}/jobs/${encodeURIComponent(ghJid)}`;
+      const redetected = detectAtsFromUrl(canonical);
+      if (redetected.ats === "greenhouse") {
+        detected = redetected;
+      }
+    }
+  }
   if (detected.ats !== entry.ref.ats) {
     return {
       ...base,

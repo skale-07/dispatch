@@ -229,6 +229,34 @@ describe("filterBoardJobs (UNIT_CONFIRMED)", () => {
       }).kept,
     ).toEqual([]);
   });
+
+  it("matches on word boundaries — intern is not Internal (live 2026-08-28)", () => {
+    const jobs = [
+      job("Internal Audit Data Analytics Lead"),
+      job("International Accounting Lead"),
+      job("Software Engineer, Intern (Summer)"),
+      job("Intern - Data Platform"),
+      job("Software Engineering Internship"),
+    ];
+    const out = filterBoardJobs(jobs, { include: ["intern"], exclude: [] });
+    expect(out.kept.map((j) => j.title)).toEqual([
+      "Software Engineer, Intern (Summer)",
+      "Intern - Data Platform",
+    ]);
+    // Strict boundaries both ends: "internship" is its own term.
+    expect(
+      filterBoardJobs(jobs, { include: ["internship"], exclude: [] }).kept.map(
+        (j) => j.title,
+      ),
+    ).toEqual(["Software Engineering Internship"]);
+    // Exclude uses the same boundary rule.
+    expect(
+      filterBoardJobs([job("Senior Engineer"), job("Seniority Model Analyst")], {
+        include: [],
+        exclude: ["senior"],
+      }).kept.map((j) => j.title),
+    ).toEqual(["Seniority Model Analyst"]);
+  });
 });
 
 describe("loadBoardRegistry (UNIT_CONFIRMED)", () => {
@@ -426,6 +454,68 @@ describe("runAtsBoardDiscovery (UNIT_CONFIRMED)", () => {
     expect(report.enqueued).toBe(0);
     expect(report.applications[0]?.outcome).toBe("rejected_url");
     expect(db.prepare(`SELECT COUNT(*) c FROM jobs`).get()).toMatchObject({ c: 0 });
+  });
+
+  it("canonicalizes company-hosted greenhouse embeds via gh_jid (live 2026-08-28: stripe/databricks)", async () => {
+    applyControlledFillEnv({ ATS_DISCOVERY_ENABLED: "true" });
+    const boardJob = (over: { external_id: string | null; url: string; title: string }) => ({
+      ats: "greenhouse" as const,
+      board: "appian",
+      external_id: over.external_id,
+      title: over.title,
+      location: null,
+      department: null,
+      apply_url: over.url,
+      posted_at: null,
+    });
+    const report = await runAtsBoardDiscovery({
+      db,
+      entries: [entry()],
+      deps: {
+        fetchBoard: async (ref) => ({
+          ref,
+          ok: true,
+          error: null,
+          jobs: [
+            boardJob({
+              external_id: "8031833",
+              title: "Software Engineer, Intern",
+              url: "https://stripe.example/jobs/search?gh_jid=8031833",
+            }),
+            boardJob({
+              // gh_jid disagreeing with the payload's own id stays refused.
+              external_id: "999",
+              title: "Mismatched",
+              url: "https://stripe.example/jobs/search?gh_jid=123",
+            }),
+            boardJob({
+              // No gh_jid — the original anomaly path, still refused.
+              external_id: "777",
+              title: "Anomalous",
+              url: "https://stripe.example/jobs/search",
+            }),
+          ],
+        }),
+      },
+    });
+    expect(report.enqueued).toBe(1);
+    expect(report.applications.map((a) => a.outcome)).toEqual([
+      "enqueued",
+      "rejected_url",
+      "rejected_url",
+    ]);
+    const app = report.applications[0]!;
+    const jobRow = db
+      .prepare(
+        `SELECT j.raw_json FROM jobs j JOIN applications a ON a.job_id = j.id
+         WHERE a.id = ?`,
+      )
+      .get(app.application_id) as { raw_json: string };
+    const raw = JSON.parse(jobRow.raw_json) as Record<string, unknown>;
+    // The pipeline navigates to the vendor-hosted form, never the company page.
+    expect(String(raw["employer_application_url"])).toContain(
+      "greenhouse.io/appian/jobs/8031833",
+    );
   });
 
   it("a failed board is reported and the sweep continues", async () => {

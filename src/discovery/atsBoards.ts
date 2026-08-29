@@ -307,9 +307,20 @@ export function filterBoardJobs(
   const exc = filter.exclude.map((s) => s.trim().toLowerCase()).filter(Boolean);
   const kept = jobs.filter((j) => {
     const t = j.title.toLowerCase();
-    if (exc.some((e) => t.includes(e))) return false;
+    if (exc.some((e) => titleHasTerm(t, e))) return false;
     if (inc.length === 0) return true;
-    return inc.some((i) => t.includes(i));
+    return inc.some((i) => titleHasTerm(t, i));
   });
   return { kept, dropped: jobs.length - kept.length };
+}
+
+/**
+ * Word-boundary term match: "intern" must not catch "Internal Audit Lead"
+ * or "International Accounting". Boundaries are strict on both ends, so
+ * "internship" needs its own term — an operator lists both, rather than
+ * substring matching silently flooding the queue with wrong roles.
+ */
+function titleHasTerm(lowerTitle: string, lowerTerm: string): boolean {
+  const escaped = lowerTerm.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return new RegExp(`(?<![a-z0-9])${escaped}(?![a-z0-9])`).test(lowerTitle);
 }
