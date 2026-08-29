@@ -696,9 +696,11 @@ export function pickOptionLabel(options: string[], expected: string): OptionPick
   const seasonal = pickSeasonalYearOption(options, exp);
   if (seasonal) return seasonal;
   if (sub.length > 1) {
+    // Name the TOTAL candidate count — live 2026-08-28 the 5-entry display
+    // hid the namesake row that actually caused the refusal, twice.
     return {
       ok: false,
-      reason: `ambiguous match for "${exp}": ${sub.slice(0, 5).join(" | ")}`,
+      reason: `ambiguous match for "${exp}" (${sub.length} candidates): ${sub.slice(0, 5).join(" | ")}${sub.length > 5 ? " | …" : ""}`,
     };
   }
 
