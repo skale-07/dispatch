@@ -33,6 +33,21 @@ export function matchCanonicalField(
         // Exact label win — pad so short exact "Gender" beats a looser long include.
         score = 10_000 + p.length;
       } else if (normalized.includes(p)) {
+        // Live 2026-08-29 (Stripe 420e19f5): bare "University" mapped the
+        // 190-char "length of internship … requirement from your University
+        // for academic credit" question to `school`, and "Degree" mapped
+        // "Are you currently enrolled in a degree programme…" — the fill
+        // then typed profile values into screener dropdowns. A short
+        // single-word alias may only claim a LABEL, not a sentence; only
+        // multi-word phrases ("require sponsorship") carry enough intent
+        // to match inside a long question.
+        const phraseIsQuestionLike = p.includes(" ") && p.length >= 12;
+        if (
+          !phraseIsQuestionLike &&
+          normalized.length > Math.max(30, 3 * p.length)
+        ) {
+          continue;
+        }
         score = 100 + p.length;
       } else if (p.includes(normalized) && normalized.length >= 4) {
         score = 50 + normalized.length;
