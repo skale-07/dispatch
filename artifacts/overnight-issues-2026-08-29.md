@@ -72,6 +72,29 @@ FIELD_VERIFICATION.
 - **Fix:** applyFixtureFillEnv now deletes all controlled keys before
   enabling its three. 11/11 essay suite green, 2.9s (was 22s).
 
+### 23. Session 17:04Z (24 apps, 0 submits, drained ~10 min) — both earlier fixes CONFIRMED live, next wall exposed
+- **#16 confirmed:** 5 closed postings ended FILTERED_OUT cleanly (4a60f1c4,
+  88ece651, 13e97030, d4ef545f, a334c5eb) — zero nav-session drops from
+  that path (one unrelated page.content race on 7d6c2811 remains).
+- **#18 confirmed:** all 3 samsara SWE apps passed the ATS-identity check
+  (no more "detected as generic"). New refusal: "field verification or
+  upload did not pass" — brief shows (a) resume upload "Saw 0
+  input[type=file]" (samsara embed uses a click-created dropzone input —
+  issue #1's shape) and (b) one selectOption timeout on a custom widget
+  (v-0-0-0-3-68). Cloudflare retryables refused the same way via #19.
+- **All three samsara SWE apps now FAILED_RETRYABLE** — next session
+  re-runs them fill→submit in one pass once requeued.
+
+### #1 FIXED (dropzone upload) — filechooser fallback when no input[type=file] exists
+- greenhouseUploadFile: when resolveGreenhouseFileInput finds zero file
+  inputs in any frame, click the resume-context upload trigger while
+  intercepting Playwright's filechooser event (no OS dialog) and set the
+  file on the chooser. Trigger selection is evidence-based (upload-ish
+  text + kind keywords in text/section; single-trigger resume exception);
+  verified only on chip/filename read-back — no acknowledgment ⇒ still
+  refuses. Progressive-overload fixture dropzone-upload.html (click-created
+  input, resume vs cover triggers) + negative no-trigger test. 8/8 phase5.
+
 ### Operator-scope action: 4 samsara ADR apps abandoned
 - bc3adad0/cc70554a (ADR Intern Atlanta/Phoenix), 68485479/9ee5373a
   (ADR II New Grad Atlanta/Phoenix) → FAILED_FINAL route INELIGIBLE via the

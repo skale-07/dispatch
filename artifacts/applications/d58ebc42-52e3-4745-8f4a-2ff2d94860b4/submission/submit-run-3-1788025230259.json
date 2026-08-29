@@ -1,0 +1,69 @@
+{
+  "outcome": "FAILED_BEFORE_CLICK",
+  "application_id": "d58ebc42-52e3-4745-8f4a-2ff2d94860b4",
+  "submission_id": "bb914b77-51e8-46ff-bbd3-a4e2eed2395c",
+  "attempt": 3,
+  "receipt": null,
+  "review_item_id": null,
+  "reason": "Refusing to click submit: field verification or upload did not pass",
+  "artifact_path": null,
+  "operator_brief": {
+    "title": "Submit blocked — greenhouse app d58ebc42-52e3-4745-8f4a-2ff2d94860b4",
+    "summary": "3 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:screener:education_level",
+        "question": "If you are enrolled in university, what degree are you currently pursuing?",
+        "field_id": "question_68511145",
+        "canonical_field": "screener:education_level",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Undergrad\"; page shows \"MBA\"",
+        "expected": "Undergrad",
+        "observed": {
+          "value": "MBA",
+          "label": "MBA"
+        },
+        "how_to_answer": [
+          "Type the intended value on the form (planned: Undergrad). If a places/autocomplete list appears, select a matching suggestion; plain city text is enough when no list opens.",
+          "DOM shows \"MBA\" but plan expected \"Undergrad\". Correct the value on the form or fix profile/aliases so the plan matches the real answer.",
+          "Profile source: private/candidate/public-profile.json (key: screener:education_level)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:education_level\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:start_availability",
+        "question": "A successful internship may lead to consideration for a full-time opportunity. If you were to receive a full-time offer, when would you be available to start?",
+        "field_id": "question_68511146",
+        "canonical_field": "screener:start_availability",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Flexible — aligned to the posted term\"; page shows \"(empty)\"",
+        "expected": "Flexible — aligned to the posted term",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "how_to_answer": [
+          "System expected \"Flexible — aligned to the posted term\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:start_availability)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:start_availability\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "fill_error:question_68511145: combobox option not committed: opened via control click; filt",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "question_68511145: combobox option not committed: opened via control click; filter yielded no/unmatched options; re-collected unfiltered (residue cleared); no option matches \"Undergrad\" (options: Bachelor's | Master's | MBA | PhD | Other (Associate’s, Bootcamp, etc) | N/A)",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      }
+    ],
+    "ok_count": 22,
+    "fail_count": 3
+  }
+}

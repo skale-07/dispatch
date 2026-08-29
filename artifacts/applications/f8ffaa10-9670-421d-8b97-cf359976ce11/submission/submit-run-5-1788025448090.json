@@ -1,0 +1,33 @@
+{
+  "outcome": "FAILED_BEFORE_CLICK",
+  "application_id": "f8ffaa10-9670-421d-8b97-cf359976ce11",
+  "submission_id": "3bca7e1b-2969-44ba-8326-8d0feffcef02",
+  "attempt": 5,
+  "receipt": null,
+  "review_item_id": null,
+  "reason": "Refusing to click submit: field verification or upload did not pass",
+  "artifact_path": null,
+  "operator_brief": {
+    "title": "Submit blocked — greenhouse app f8ffaa10-9670-421d-8b97-cf359976ce11",
+    "summary": "1 item(s) need attention",
+    "items": [
+      {
+        "id": "upload:resume",
+        "question": "Upload: resume",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "upload_failed",
+        "problem": "Greenhouse resume file input not found (waited for attached). Saw 0 input[type=file]: []",
+        "expected": "resume-6b5f8e75.pdf",
+        "observed": null,
+        "how_to_answer": [
+          "Resume is system-owned: materials:register + adapter.uploadResume on submit/fill — not a free-text profile field.",
+          "If this is ats:fill without --resume, pass --resume <pdf> or use application submit (uses registered material).",
+          "Evidence: Greenhouse resume file input not found (waited for attached). Saw 0 input[type=file]: []"
+        ]
+      }
+    ],
+    "ok_count": 2,
+    "fail_count": 1
+  }
+}
