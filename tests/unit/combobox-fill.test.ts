@@ -526,6 +526,53 @@ describe("combobox interaction on fixture (FIXTURE_CONFIRMED)", () => {
     });
   }, 30_000);
 
+  const consentFixture = (option: string) => `<!DOCTYPE html><html><body>
+      <div aria-haspopup="listbox" aria-owns="consent-list" class="pcty-input-select-full-container">
+        <div id="consent-display" class="input-select-input-single-value">Select...</div>
+        <input id="consent" aria-autocomplete="list" />
+        <div aria-label="expand">v</div>
+      </div>
+      <div id="consent-list" role="listbox" hidden></div>
+      <script>
+        const input = document.getElementById("consent");
+        const list = document.getElementById("consent-list");
+        const display = document.getElementById("consent-display");
+        const open = () => { list.hidden = false; list.innerHTML = '<div role="option">${option}</div>'; };
+        input.addEventListener("click", open);
+        document.querySelector('[aria-label="expand"]').addEventListener("click", open);
+        list.addEventListener("click", (e) => {
+          display.textContent = e.target.textContent.trim();
+          list.hidden = true; list.innerHTML = "";
+        });
+      </script>
+    </body></html>`;
+
+  it("sole consent option accepts an affirmative plan value (samsara Acknowledge/Confirm)", async () => {
+    // Live 2026-08-29: "Processing of Personal Data" plans "Yes"; the menu's
+    // only option is "Acknowledge/Confirm". Affirmative → sole consent
+    // option is a synonym pick, not authorship.
+    await withFixtureHtmlPage(consentFixture("Acknowledge/Confirm"), async (page) => {
+      const result = await fillComboboxControl(page, page.locator("#consent"), "Yes");
+      expect(result.committed).toBe(true);
+      expect(result.selectedLabel).toBe("Acknowledge/Confirm");
+      expect(result.pickVia).toBe("synonym");
+    });
+  }, 30_000);
+
+  it("sole consent option still refuses a NON-affirmative plan value", async () => {
+    await withFixtureHtmlPage(consentFixture("Acknowledge/Confirm"), async (page) => {
+      const result = await fillComboboxControl(page, page.locator("#consent"), "No");
+      expect(result.committed).toBe(false);
+    });
+  }, 30_000);
+
+  it("a sole NON-consent option refuses an affirmative plan value", async () => {
+    await withFixtureHtmlPage(consentFixture("Blue"), async (page) => {
+      const result = await fillComboboxControl(page, page.locator("#consent"), "Yes");
+      expect(result.committed).toBe(false);
+    });
+  }, 30_000);
+
   it("picks MD from a Paylocity-style state list when the plan says Maryland (FIXTURE_CONFIRMED)", async () => {
     const html = `<!DOCTYPE html><html><body>
       <div class="pcty-input-select-full-container" id="state-select-wrapper"

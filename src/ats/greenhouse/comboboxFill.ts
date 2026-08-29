@@ -1272,6 +1272,22 @@ export async function fillComboboxControl(
         el.focus();
         el.value = "";
       }).catch(() => undefined);
+      // Keyboard input goes to the ACTIVE element — if focus slipped off
+      // the combobox (menu re-render, unmount), typing would land in a
+      // neighboring field. Live 2026-08-29 samsara: the zip-code input
+      // read "Yes" after a combobox miss. Skip typing when focus is gone.
+      const focused = await loc
+        .evaluate(
+          (el: { ownerDocument: { activeElement: unknown } }) =>
+            el.ownerDocument.activeElement === el,
+        )
+        .catch(() => false);
+      if (!focused) {
+        notes.push(
+          `filter "${typeText}" skipped: combobox lost focus (typing would hit a neighboring field)`,
+        );
+        continue;
+      }
       // keyboard.type reaches React onZero-size combobox inputs more reliably than fill().
       await page.keyboard.type(typeText, { delay: 25 });
       options = [];
@@ -1346,19 +1362,40 @@ export async function fillComboboxControl(
     notes.push("control not typeable; using unfiltered options");
   }
 
-  const pick = pickOptionLabel(options, expectedText);
+  let pick = pickOptionLabel(options, expectedText);
   const optionsSample = options.slice(0, 20);
   if (!pick.ok) {
-    notes.push(pick.reason);
-    await page.keyboard.press("Escape").catch(() => undefined);
-    await loc.fill("").catch(() => undefined);
-    return {
-      committed: false,
-      selectedLabel: null,
-      notes,
-      optionsSample,
-      pickVia: null,
-    };
+    // Consent widgets: a single option like "Acknowledge/Confirm" with an
+    // affirmative planned answer ("Yes"). Live 2026-08-29 samsara
+    // "Processing of Personal Data" — the plan can't know the option text
+    // (menus render only on open), and picking the SOLE consent option for
+    // an affirmative answer is a synonym, not authorship. Anything else
+    // still refuses.
+    const consentSole =
+      options.length === 1 &&
+      /acknowledge|confirm|agree|accept|i understand|consent/i.test(
+        options[0]!,
+      ) &&
+      /^(yes|true|acknowledge[d]?|agree[d]?|accept(ed)?|i (agree|accept|acknowledge|consent))$/i.test(
+        expectedText.trim(),
+      );
+    if (consentSole) {
+      notes.push(
+        `sole consent option "${options[0]}" accepted for affirmative "${expectedText}" (synonym)`,
+      );
+      pick = { ok: true, label: options[0]!, via: "synonym" };
+    } else {
+      notes.push(pick.reason);
+      await page.keyboard.press("Escape").catch(() => undefined);
+      await loc.fill("").catch(() => undefined);
+      return {
+        committed: false,
+        selectedLabel: null,
+        notes,
+        optionsSample,
+        pickVia: null,
+      };
+    }
   }
 
   // Prefer role=option exact text when Playwright can resolve it; fall back to
