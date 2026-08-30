@@ -333,6 +333,18 @@ async function pollGmailOnLiveContext(
       }
       await tab.waitForTimeout(10_000);
     }
+    // Empty-handed exits were invisible (run 7): say what the tab saw so a
+    // signed-out profile / wrong account / stale inbox is diagnosable.
+    const finalUrl = tab.url().slice(0, 120);
+    const rowCount = await tab
+      .locator("tr.zA")
+      .count()
+      .catch(() => -1);
+    logger.warn("gmail live-context scan found no fresh code", {
+      service: "gmail",
+      action: "verification_code_web_empty",
+      metadata: { final_url: finalUrl, inbox_rows: rowCount },
+    });
     return null;
   } catch (err) {
     logger.warn("gmail live-context mailbox scan failed", {
