@@ -59,3 +59,39 @@ logged only its pre-flight before dying.)_
   budget enforced at pipeline step boundaries via the cooperative skip seam
   (operator directive: 3 min/job, then diagnose). Session note
   `deadline <id>: Ns > Ms budget — stopped in <STATE>`.
+- Commit 7681d2a. Housekeeping: 12 MANUAL parks dismissed per the guide's
+  per-cycle convention (#29 still open: 3 were agent_unavailable = this CDP
+  wall, 1 the notion duplicate re-park); 4 ancient RUNNING `submit`-stage
+  rows (Aug 7–14, empty metadata) are not arm rows and are harmless.
+
+### 35. RECURRING (3×, all Ashby) — submit gate refused `BLOCKING_CAPTCHA` on an INVISIBLE reCAPTCHA — FIXED + progressive-overload set
+- **Evidence:** submit_attempts for 23d64c04 Quadrillion (×2, 00:06Z and
+  03:16Z) and d607b204 Composio (04:03Z), all `jobs.ashbyhq.com`, all
+  `FAILED_BEFORE_CLICK` with signals
+  `challenge_iframe_rendered,recaptcha_widget_container,readable_application_form_present`
+  — the fill had just been "rehearsal verified" on the same page, and
+  the app went READY_TO_SUBMIT → FAILED_RETRYABLE, burning attempts
+  (Composio now a3 = cap).
+- **Live read-only probe (CDP, Composio page):** one anchor iframe
+  `recaptcha/api2/anchor…` 256×60 sitting inside `.grecaptcha-badge`
+  with computed `visibility: hidden`; the bframe placeholder has
+  `src=""` + `display:none`; NO `.g-recaptcha` element; 10 readable
+  fields. I.e. invisible reCAPTCHA v2 that executes on submit — dormant.
+  Static scoring: anchor iframe +3, and `recaptcha_widget_container` +3
+  because `\bg-recaptcha\b` also matches `class="g-recaptcha-response"`
+  (the hidden response textarea every invisible reCAPTCHA ships); −2 for
+  the readable form = 4 = HIGH.
+- **Fix (captchaDetection.ts):** an anchor iframe with `size=invisible`
+  on its src OR a `grecaptcha-badge` wrapper on the page is a dormant
+  marker (`invisible_recaptcha_anchor`), not a challenge; widget-class
+  regexes now require the exact token (`(?![\w-])`); an explicit
+  `<div class="g-recaptcha" data-size="invisible">` is dormant
+  (`invisible_recaptcha_widget`). bframe/hCaptcha/Turnstile frames,
+  checkbox-v2 anchors, and interstitials score exactly as before.
+- **Progressive-overload fixture** `tests/fixtures/ats/ashby/
+  captcha-invisible-recaptcha.html` (live shape) + 5 tests: live shape,
+  badge-less `size=invisible`, explicit invisible widget in both
+  attribute orders, and two negative controls that MUST still block
+  (checkbox v2 with a visible widget; an open bframe with no readable
+  form). Both Ashby apps requeued (named `retry --app` override) as the
+  first live check of this fix.

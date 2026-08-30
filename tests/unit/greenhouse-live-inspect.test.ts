@@ -459,6 +459,86 @@ describe("Greenhouse blocking-CAPTCHA detection (UNIT_CONFIRMED)", () => {
     expect(r.detected).toBe(true);
     expect(r.confidence).toBe("HIGH");
   });
+
+  // Progressive-overload set (issue #35, 2026-08-30): three Ashby submit-gate
+  // refusals on "challenge_iframe_rendered,recaptcha_widget_container" for an
+  // INVISIBLE reCAPTCHA v2 whose anchor is hidden inside the badge wrapper.
+  describe("invisible reCAPTCHA v2 (Ashby shape) is dormant", () => {
+    const ashbyFixture = path.join(
+      process.cwd(),
+      "tests",
+      "fixtures",
+      "ats",
+      "ashby",
+      "captcha-invisible-recaptcha.html",
+    );
+    const ashbyHtml = () => fs.readFileSync(ashbyFixture, "utf8");
+    const detect = (html: string, form = true) =>
+      detectBlockingCaptcha({
+        finalUrl: "https://jobs.ashbyhq.com/example/00000000-0000-0000-0000-000000000000/application",
+        html,
+        title: "Fullstack Engineering Internship @ Example Co",
+        formDetected: form,
+        fieldCount: form ? 10 : 0,
+      });
+
+    it("live Ashby shape: hidden anchor in the badge + bframe placeholder + readable form ⇒ not blocking", () => {
+      const r = detect(ashbyHtml());
+      expect(r.detected).toBe(false);
+      expect(r.signals).not.toContain("challenge_iframe_rendered");
+      expect(r.signals).not.toContain("recaptcha_widget_container");
+      expect(r.dormantMarkers).toContain("invisible_recaptcha_anchor");
+      expect(r.dormantMarkers).toContain("recaptcha_v3_badge");
+    });
+
+    it("harder: badge stylesheet absent, only size=invisible on the anchor src ⇒ still dormant", () => {
+      const html = ashbyHtml().replace(/grecaptcha-badge/g, "captcha-wrap");
+      const r = detect(html);
+      expect(r.detected).toBe(false);
+      expect(r.dormantMarkers).toContain("invisible_recaptcha_anchor");
+      expect(r.signals).not.toContain("challenge_iframe_rendered");
+    });
+
+    it("harder: explicit <div class=\"g-recaptcha\" data-size=\"invisible\"> widget is dormant, either attribute order", () => {
+      const a = ashbyHtml().replace(
+        "<button",
+        '<div class="g-recaptcha" data-size="invisible" data-callback="onSubmit"></div><button',
+      );
+      const b = ashbyHtml().replace(
+        "<button",
+        '<div data-size="invisible" class="g-recaptcha"></div><button',
+      );
+      for (const html of [a, b]) {
+        const r = detect(html);
+        expect(r.detected).toBe(false);
+        expect(r.dormantMarkers).toContain("invisible_recaptcha_widget");
+        expect(r.signals).not.toContain("recaptcha_widget_container");
+      }
+    });
+
+    it("negative control: a checkbox v2 (anchor with no invisible tell + visible g-recaptcha widget) still blocks", () => {
+      const html = ashbyHtml()
+        .replace(/grecaptcha-badge/g, "captcha-wrap")
+        .replace("&amp;size=invisible", "&amp;size=normal")
+        .replace("<button", '<div class="g-recaptcha" data-sitekey="SANITIZED"></div><button');
+      const r = detect(html);
+      expect(r.detected).toBe(true);
+      expect(r.signals).toContain("challenge_iframe_rendered");
+      expect(r.signals).toContain("recaptcha_widget_container");
+      expect(r.dormantMarkers).not.toContain("invisible_recaptcha_anchor");
+    });
+
+    it("negative control: an OPEN challenge frame (bframe src set) with no readable form behind it is HIGH", () => {
+      const html = ashbyHtml().replace(
+        'src=""',
+        'src="https://www.recaptcha.net/recaptcha/api2/bframe?hl=en&amp;v=SANITIZED&amp;k=SANITIZED_SITEKEY"',
+      );
+      const r = detect(html, false);
+      expect(r.detected).toBe(true);
+      expect(r.signals).toContain("challenge_iframe_rendered");
+      expect(r.signals).toContain("no_readable_form_behind_challenge");
+    });
+  });
 });
 
 describe("Greenhouse proposed fill plan (UNIT_CONFIRMED)", () => {

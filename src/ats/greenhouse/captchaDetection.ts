@@ -30,14 +30,39 @@ const INTERSTITIAL_TITLE =
 const CHALLENGE_IFRAME =
   /<iframe[^>]+src=["'][^"']*(?:recaptcha\/api2\/(?:bframe|anchor)|hcaptcha\.com\/captcha|challenges\.cloudflare\.com)[^"']*["']/i;
 
+/**
+ * Invisible reCAPTCHA v2 (Ashby, live 2026-08-30: jobs.ashbyhq.com/composio
+ * and /quadrillion-labs — 3 submit-gate refusals): the anchor iframe is
+ * rendered at page load INSIDE the `grecaptcha-badge` wrapper with
+ * `visibility:hidden`, the widget executes on submit, no challenge is open,
+ * and the whole form is readable. That anchor is dormant, not blocking.
+ * Two static tells: `size=invisible` on the anchor src, or the badge
+ * wrapper being present on the page. A `bframe` (the challenge popup)
+ * still counts; so does an anchor with neither tell (checkbox v2).
+ */
+const RECAPTCHA_ANCHOR_IFRAME =
+  /<iframe[^>]+src=["'][^"']*recaptcha\/api2\/anchor[^"']*["']/i;
+const RECAPTCHA_INVISIBLE_ANCHOR_IFRAME =
+  /<iframe[^>]+src=["'][^"']*recaptcha\/api2\/anchor[^"']*size=invisible[^"']*["']/i;
+const OTHER_CHALLENGE_IFRAME =
+  /<iframe[^>]+src=["'][^"']*(?:recaptcha\/api2\/bframe|hcaptcha\.com\/captcha|challenges\.cloudflare\.com)[^"']*["']/i;
+/** `<div class="g-recaptcha" data-size="invisible">` — never a visible widget. */
+const RECAPTCHA_WIDGET_INVISIBLE =
+  /<[^>]+class=["'][^"']*\bg-recaptcha(?![\w-])[^"']*["'][^>]*data-size=["']invisible["']|<[^>]+data-size=["']invisible["'][^>]*class=["'][^"']*\bg-recaptcha(?![\w-])[^"']*["']/i;
+
 /** Text that instructs a human to solve something before continuing. */
 const HUMAN_PROMPT =
   /verify (?:you are|you're) (?:a )?human|i'?m not a robot|complete the (?:security check|captcha)|unusual traffic from your computer|please complete the captcha|prove you are human/i;
 
-/** Widget containers that are rendered into the DOM. */
-const RECAPTCHA_WIDGET = /class=["'][^"']*\bg-recaptcha\b[^"']*["']/i;
-const HCAPTCHA_WIDGET = /class=["'][^"']*\bh-captcha\b[^"']*["']/i;
-const TURNSTILE_WIDGET = /class=["'][^"']*\bcf-turnstile\b[^"']*["']/i;
+/**
+ * Widget containers that are rendered into the DOM. The class must be the
+ * exact token: `\b` alone also matched `g-recaptcha-response` (the hidden
+ * response textarea every invisible reCAPTCHA ships) — that was the second
+ * half of the Ashby false positive.
+ */
+const RECAPTCHA_WIDGET = /class=["'][^"']*\bg-recaptcha(?![\w-])[^"']*["']/i;
+const HCAPTCHA_WIDGET = /class=["'][^"']*\bh-captcha(?![\w-])[^"']*["']/i;
+const TURNSTILE_WIDGET = /class=["'][^"']*\bcf-turnstile(?![\w-])[^"']*["']/i;
 
 /** Dormant markers — presence alone proves nothing. */
 const RECAPTCHA_API_SCRIPT =
@@ -76,7 +101,13 @@ export function detectBlockingCaptcha(input: {
     score += 4;
     signals.push("interstitial_challenge_title");
   }
-  if (CHALLENGE_IFRAME.test(html)) {
+  const invisibleAnchor =
+    RECAPTCHA_ANCHOR_IFRAME.test(html) &&
+    (RECAPTCHA_INVISIBLE_ANCHOR_IFRAME.test(html) || RECAPTCHA_V3_BADGE.test(html));
+  if (invisibleAnchor) {
+    dormantMarkers.push("invisible_recaptcha_anchor");
+  }
+  if (CHALLENGE_IFRAME.test(html) && (OTHER_CHALLENGE_IFRAME.test(html) || !invisibleAnchor)) {
     score += 3;
     signals.push("challenge_iframe_rendered");
   }
@@ -85,8 +116,12 @@ export function detectBlockingCaptcha(input: {
     signals.push("human_verification_prompt");
   }
   if (RECAPTCHA_WIDGET.test(html)) {
-    score += 3;
-    signals.push("recaptcha_widget_container");
+    if (RECAPTCHA_WIDGET_INVISIBLE.test(html)) {
+      dormantMarkers.push("invisible_recaptcha_widget");
+    } else {
+      score += 3;
+      signals.push("recaptcha_widget_container");
+    }
   }
   if (HCAPTCHA_WIDGET.test(html)) {
     score += 3;

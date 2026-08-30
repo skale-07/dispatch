@@ -1,0 +1,51 @@
+<!doctype html>
+<!--
+  Progressive-overload fixture (issue #35, 2026-08-30): Ashby application page
+  shaped exactly like the live probe of jobs.ashbyhq.com/composio/.../application
+  (LIVE_READ_ONLY_CONFIRMED): an invisible reCAPTCHA v2 anchor iframe rendered
+  at page load inside the visibility:hidden grecaptcha-badge wrapper, a bframe
+  placeholder with an empty src, a v3-style badge stylesheet, and a fully
+  readable 10-field application form. No challenge is open. Nothing blocks.
+  Sanitized: no real sitekeys, names, or emails.
+-->
+<html lang="en">
+<head>
+  <title>Fullstack Engineering Internship @ Example Co</title>
+  <style>
+    .grecaptcha-badge { visibility: hidden; }
+  </style>
+  <script src="https://www.recaptcha.net/recaptcha/api.js?render=explicit" async defer></script>
+</head>
+<body>
+  <div class="ashby-application-form">
+    <form id="application-form">
+      <label for="name">Name</label><input id="name" name="name" type="text" />
+      <label for="email">Email</label><input id="email" name="email" type="email" />
+      <label for="phone">Phone</label><input id="phone" name="phone" type="tel" />
+      <label for="resume">Resume</label><input id="resume" name="resume" type="file" />
+      <label for="linkedin">LinkedIn</label><input id="linkedin" name="linkedin" type="url" />
+      <label for="github">GitHub</label><input id="github" name="github" type="url" />
+      <label for="location">Location</label><input id="location" name="location" type="text" />
+      <label for="auth">Are you authorized to work in the US?</label>
+      <select id="auth" name="auth"><option>Yes</option><option>No</option></select>
+      <label for="start">Earliest start date</label><input id="start" name="start" type="text" />
+      <label for="why">Why Example Co?</label><textarea id="why" name="why"></textarea>
+      <button type="submit">Submit Application</button>
+    </form>
+  </div>
+  <div class="grecaptcha-badge" data-style="bottomright" style="width: 256px; height: 60px; position: fixed; bottom: 14px; right: -186px; visibility: hidden;">
+    <div class="grecaptcha-logo">
+      <iframe title="reCAPTCHA" width="256" height="60" role="presentation" name="a-abc123"
+        src="https://www.recaptcha.net/recaptcha/api2/anchor?ar=1&amp;k=SANITIZED_SITEKEY&amp;co=aHR0cHM6Ly9qb2JzLmV4YW1wbGUuY29tOjQ0Mw..&amp;hl=en&amp;v=SANITIZED&amp;size=invisible&amp;cb=abc"></iframe>
+    </div>
+    <div class="grecaptcha-error"></div>
+    <textarea id="g-recaptcha-response" name="g-recaptcha-response" class="g-recaptcha-response" style="display: none;"></textarea>
+  </div>
+  <div style="background-color: #fff; border: 1px solid #ccc; box-shadow: 2px 2px 3px rgba(0,0,0,0.2); position: absolute; transition: visibility 0s linear 0.3s, opacity 0.3s linear; opacity: 0; visibility: hidden; display: none;">
+    <div style="width: 100%; height: 100%; position: fixed; top: 0; left: 0; z-index: 2000000000; background-color: #fff; opacity: 0.5;"></div>
+    <div style="margin: 0 auto; top: 0; left: 0; right: 0; position: absolute; border: 1px solid #ccc; z-index: 2000000000; background-color: #fff;">
+      <iframe title="recaptcha challenge expires in two minutes" name="c-abc123" frameborder="0" scrolling="no" sandbox="allow-forms allow-popups allow-same-origin allow-scripts" src="" style="width: 100%; height: 100%; display: none;"></iframe>
+    </div>
+  </div>
+</body>
+</html>
