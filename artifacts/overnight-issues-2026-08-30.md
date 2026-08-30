@@ -490,4 +490,14 @@ logged only its pre-flight before dying.)_
   submit path uses, so the chip check finds it); the submit path uploads
   before its fill too and re-verifies after. Late upload only when the
   file input appears after the fill. Validation: existing Greenhouse
-  fixture suites (FIXTURE) + the next live Greenhouse job.
+  fixture suites (FIXTURE) + the next live Greenhouse job. Commit 731c568.
+
+### Job #10 — 70aaa82a — 13:48 local: CDP wedge (#13) recurred mid-day — and the #34 restart CLEARED it (LIVE_MUTATION_CONFIRMED)
+- "port answers but the CDP session won't attach" at APPLICATION_OPENING
+  (~3.5h after the morning restart). Worker: `CDP restart 1/3: debug
+  Chrome relaunched and attach-verified — continuing session`; new Chrome
+  13:49:19, attach probe 48 ms afterwards. The app errored on the wall
+  itself (state unchanged, no attempt burned) and the 1-app cycle ended;
+  it is picked first on the next cycle. Recurrence cadence noted: twice
+  today; cause still unknown (many attach/detach cycles per job is the
+  leading suspect).
