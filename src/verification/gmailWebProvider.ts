@@ -299,11 +299,67 @@ async function pollGmailWeb(
   }
 }
 
+/**
+ * Read Gmail on the SAME browser the submit flow already holds: a new tab
+ * in the live page's context is the operator's signed-in profile without a
+ * second CDP attach (which fails while the pipeline owns the session).
+ * The tab is closed either way; the wall page itself is never touched.
+ */
+async function pollGmailOnLiveContext(
+  browserPage: import("playwright").Page,
+  requestedAt: string,
+  accept: "code" | "code_or_link",
+): Promise<MailboxVerificationHit | null> {
+  const cfg = getConfig();
+  if (!cfg.gmailVerificationEnabled) return null;
+  let tab: import("playwright").Page | null = null;
+  try {
+    tab = await browserPage.context().newPage();
+    const floor = freshnessFloor({ requestedAt, accept });
+    for (let poll = 0; poll < 6; poll++) {
+      await tab.goto(GMAIL_URL, { waitUntil: "domcontentloaded", timeout: 60_000 });
+      const ranked = await rankGmailInboxHits(tab, {
+        requestedAt,
+        accept,
+        requireProvenFresh: true,
+      });
+      if (ranked && isProvenFresh(ranked.timestamp, floor)) {
+        logger.info(`verification ${ranked.hit.kind} found in gmail (live context)`, {
+          service: "gmail",
+          action: "verification_code_web",
+          metadata: { poll, kind: ranked.hit.kind, session: "live_context" },
+        });
+        return ranked.hit;
+      }
+      await tab.waitForTimeout(10_000);
+    }
+    return null;
+  } catch (err) {
+    logger.warn("gmail live-context mailbox scan failed", {
+      service: "gmail",
+      action: "verification_code_web_error",
+      metadata: {
+        session: "live_context",
+        reason: err instanceof Error ? err.message.slice(0, 200) : String(err),
+      },
+    });
+    return null;
+  } finally {
+    await tab?.close().catch(() => undefined);
+  }
+}
+
 export function gmailWebCodeProvider(options?: {
   headless?: boolean;
 }): FetchVerificationCode {
   const headless = options?.headless ?? true;
-  return async ({ requestedAt }) => {
+  return async ({ requestedAt, browserPage }) => {
+    if (browserPage) {
+      const live = await pollGmailOnLiveContext(browserPage, requestedAt, "code");
+      if (live?.kind === "code") {
+        return { code: live.value, source: "gmail-web-live" };
+      }
+    }
     const hit = await pollGmailWeb(requestedAt, "code", headless);
     return hit?.kind === "code" ? { code: hit.value, source: "gmail-web" } : null;
   };

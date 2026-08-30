@@ -30,6 +30,9 @@ export async function recoverEmailVerification(
   const fetched = await options.fetchCode({
     requestedAt: options.requestedAt,
     emailHint: diagnosis.verification.email_hint,
+    // Same browser, new tab: the operator's signed-in profile without a
+    // second CDP attach (which fails while this flow holds the session).
+    browserPage: page,
   });
   if (!fetched) {
     notes.push("no verification code found in the mailbox within the poll cap");

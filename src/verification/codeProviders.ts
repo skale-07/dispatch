@@ -25,6 +25,13 @@ import { mailboxProviderOrder } from "./emailVerification.js";
 export type FetchVerificationCode = (input: {
   requestedAt: string;
   emailHint: string | null;
+  /**
+   * The submit flow's live page. Its browser context is the operator's
+   * signed-in profile (CDP Chrome) — mailbox reads reuse it instead of a
+   * second CDP attach, which fails while the pipeline holds the session
+   * (live 2026-08-30: "port answers but the CDP session won't attach").
+   */
+  browserPage?: import("playwright").Page;
 }) => Promise<{ code: string; source: string } | null>;
 
 /** Try fetchers in order; the first code wins, all-dry returns null. */
