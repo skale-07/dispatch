@@ -506,3 +506,24 @@ logged only its pre-flight before dying.)_
 - Correct `duplicate_url` refusal via the JobRight Apply popup; the
   holder is NATIVE_AUTOFILL_RUNNING (not terminal), so #29 does not
   apply. Twin abandoned via the state machine with the holder named.
+
+### Job #12 — 6cb05b18 Old Mission (Greenhouse embed on the JobRight page) — 13:51 local, 195s, NOT submitted (navigation budget)
+- Phase A found only `boards.greenhouse.io/embed/job_app?token=<id>`
+  (no `?for=` board) → "failed strict validation" → no Apply control →
+  agent phase exhausted its budget. Third occurrence of this exact
+  shape tonight (Zipline 83s, Neuralink 54s — those the agent eventually
+  solved; here it did not). Pattern → next fix: resolve a token-only
+  Greenhouse embed anchor deterministically (see #50). (The agent's
+  "could not attach" note here was the heuristic misreading its own
+  wall-clock timeout; CDP attached in 59 ms right after.)
+
+### 50. JobRight's token-only Greenhouse embed anchors → one read-only GET resolves the board — FIXED
+- Live probes: `boards.greenhouse.io/embed/job_app?token=7796180003`
+  returns 200 with the full application form and
+  `<form action="/embed/job_app?for=oldmissioncapital&token=…">`; the
+  boards API confirms the board. Phase A now rewrites token-only embed
+  anchors to the canonical `?for=<board>&token=<id>` (which the strict
+  validator accepts) before ranking candidates — no agent, no guessing
+  (null on fetch failure / no board in the page). Tests: live anchor +
+  page shape, canonical/foreign URLs untouched, single GET, failure
+  paths. Live check: Old Mission requeued.

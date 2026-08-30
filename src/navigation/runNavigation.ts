@@ -44,6 +44,7 @@ import { detectAtsFromUrl } from "../ats/shared/urlValidationDispatch.js";
 import { recordNavigationAttempt } from "../storage/navSubmitOutcomes.js";
 import { codeVersion } from "../storage/codeVersion.js";
 import { evaluateAgentHostPolicy } from "./hostPolicy.js";
+import { resolveTokenOnlyGreenhouseEmbed } from "./greenhouseEmbedResolve.js";
 import {
   employerSiblingHosts,
   explainAtsAnchorMisses,
@@ -402,6 +403,17 @@ export async function runNavigation(
     // Mismatch is still a reject (aggregator pages mix employers).
     // Unknown waits for Phase B — Apply click is stronger provenance.
     const hrefs = await readExternalApplyHrefs(page);
+    // Token-only Greenhouse embed anchors (JobRight's shape) become the
+    // canonical ?for=<board>&token=<id> URL via one read-only GET — the
+    // validator below accepts that; the raw anchor it would reject, and the
+    // agent would then spend its budget (night19 #50).
+    for (let i = 0; i < hrefs.length; i++) {
+      const resolved = await resolveTokenOnlyGreenhouseEmbed(hrefs[i]!).catch(() => null);
+      if (resolved) {
+        report.notes.push(resolved.note);
+        hrefs[i] = resolved.url;
+      }
+    }
     const candidates = selectCandidateApplyLinks(hrefs, hrefs.length);
     let phaseAHref: string | null = null;
     // A JobRight page carries several employers' links (press, LinkedIn,
