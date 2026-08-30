@@ -501,3 +501,8 @@ logged only its pre-flight before dying.)_
   it is picked first on the next cycle. Recurrence cadence noted: twice
   today; cause still unknown (many attach/detach cycles per job is the
   leading suspect).
+
+### Job #11 — f32f22f4 ByteDance Self-Built Engineer Intern (CDN) — 13:50 local, 10s — duplicate of d7059081 (live holder) → abandoned
+- Correct `duplicate_url` refusal via the JobRight Apply popup; the
+  holder is NATIVE_AUTOFILL_RUNNING (not terminal), so #29 does not
+  apply. Twin abandoned via the state machine with the holder named.
