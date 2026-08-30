@@ -60,12 +60,12 @@
 </style></head>
 <body><div class="wrap">
 <h1>Dispatch run timeline</h1>
-<p class="sub">Generated 2026-08-30T17:49:32.233Z · 40 navigation run(s) · read-only view of artifacts/</p>
-<div class="stats"><span class="stat"><b>17</b> resolved</span><span class="stat"><b>8</b> budget</span><span class="stat"><b>7</b> auth</span><span class="stat"><b>4</b> closed</span><span class="stat"><b>4</b> submit_risk</span></div>
+<p class="sub">Generated 2026-08-30T17:50:49.605Z · 40 navigation run(s) · read-only view of artifacts/</p>
+<div class="stats"><span class="stat"><b>17</b> resolved</span><span class="stat"><b>8</b> budget</span><span class="stat"><b>7</b> auth</span><span class="stat"><b>4</b> closed</span><span class="stat"><b>3</b> submit_risk</span><span class="stat"><b>1</b> duplicate_url</span></div>
 <section class="cycle">
   <h2>Latest cycle</h2>
   <dl>
-    <div><dt>Started</dt><dd>2026-08-30T17:48:15.341Z</dd></div>
+    <div><dt>Started</dt><dd>2026-08-30T17:50:16.126Z</dd></div>
     <div><dt>Outcome</dt><dd>completed</dd></div>
     <div><dt>Agent leg</dt><dd>available</dd></div>
     <div><dt>Default resume</dt><dd>ready (C:\dev\jobright-application-agent\private\candidate\resumes\jake_swe.pdf)</dd></div>
@@ -73,9 +73,24 @@
     <div><dt>Submits used</dt><dd>0</dd></div>
     <div><dt>Stopped</dt><dd>apps_cap</dd></div>
   </dl>
-  <h3>Session notes</h3><ul class="notes"><li>nav audit: 0 wrong-employer URL(s) cleared for re-navigation, 1 parked for review</li><li>discover: 8 inspected, 8 eligible, 1 already known, 0 filtered out, 0 already submitted</li><li>app 70aaa82a-b0a8-44cc-bba1-8e5f79fbcd15 error (pipeline_error): Debug Chrome at http://127.0.0.1:9222 is unresponsive (port answers but the CDP session won't attach). Close ALL Chrome windows, re-run chrome:debug:jobright, and retry. [browserType.connectOverCDP: T</li><li>CDP restart 1/3: debug Chrome relaunched and attach-verified — continuing session</li><li>artifact autopush: 430 file(s) pushed to master as b0627dc</li></ul>
+  <h3>Session notes</h3><ul class="notes"><li>nav audit: 0 wrong-employer URL(s) cleared for re-navigation, 1 parked for review</li><li>discover: 8 inspected, 2 eligible, 8 already known, 0 filtered out, 0 already submitted</li><li>artifact autopush: 3 file(s) pushed to master as 7682a92</li></ul>
 </section>
 <h2>Applications</h2>
+<details class="app bad">
+  <summary>
+    <span class="id">f32f22f4</span>
+    <span class="co">ByteDance</span>
+    <span class="badge">wall: duplicate_url</span>
+    
+    
+    
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no congruent apply href (10 external links)<span class="ev">joinbytedance.com, www.linkedin.com, x.com, www.crunchbase.com, www.glassdoor.com, www.inquirer.com</span></li><li><b>B_apply_click</b> — resolved via popup<span class="ev">joinbytedance.com</span></li></ol>
+    <h4>Notes</h4><ul class="notes"><li>phase A: 8 external host(s) seen: joinbytedance.com, www.linkedin.com, x.com, www.crunchbase.com, www.glassdoor.com, www.inquirer.com, law.asia, tribune.com.pk</li><li>Apply control: autofill CTA (tier 0)</li><li>jobright interstitial: clicked &quot;Apply Without Customizing&quot;</li><li>popup settled off about:blank after the interstitial</li><li>popup captured on attempt 1</li><li>employer URL already held by 1 other application(s): d7059081 (ByteDance — Self-Built Engineer Intern (CDN Platform) - 2027 Summer, NATIVE_AUTOFILL_RUNNING)</li></ul>
+    
+  </div>
+</details>
 <details class="app muted">
   <summary>
     <span class="id">07bc937c</span>
@@ -658,21 +673,6 @@
   <div class="body">
     <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — error</li></ol>
     <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent phase failed: Unexpected token 'o', &quot;not json at all&quot; is not valid JSON</li></ul>
-    
-  </div>
-</details>
-<details class="app bad">
-  <summary>
-    <span class="id">e42237a2</span>
-    <span class="co">—</span>
-    <span class="badge">wall: submit_risk</span>
-    
-    
-    <span class="chip">agent 1t/3s</span>
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — wall: submit_risk (turn 1)</li></ol>
-    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent[1] reason: agent stopped: submit_risk</li></ul>
     
   </div>
 </details>
