@@ -190,6 +190,39 @@ describe("disabled-submit diagnostics (FIXTURE_CONFIRMED)", () => {
   );
 
   it(
+    "detects the bare split-box wall (TransMarket 2026-08-30: 8 maxlength=1 cells, no attributes)",
+    async () => {
+      const wall = `<html><body><form>
+        <p>A verification code was sent to skale072007@gmail.com. To submit your application, enter the 8-character code to confirm you're a human.</p>
+        <div>Security code</div>
+        <div>
+          ${Array.from({ length: 8 }, () => '<input maxlength="1" style="width:24px">').join("")}
+        </div>
+        <button type="submit" disabled>Submit application</button>
+      </form></body></html>`;
+      await withFixtureHtmlPage(wall, async (page) => {
+        const d = await diagnoseDisabledSubmit(page);
+        expect(d.verification.detected).toBe(true);
+        expect(d.verification.input_selector).toBe('input[maxlength="1"]');
+        expect(d.verification.email_hint).toBe("skale072007@gmail.com");
+        expect(d.summary).toMatch(/split-box widget \(8 cells\)/);
+      });
+
+      // 1–2 single-char cells (e.g. MFA-style initials) never qualify.
+      const few = `<html><body><form>
+        <p>A verification code was sent to x@y.com.</p>
+        <input maxlength="1"><input maxlength="1">
+        <button type="submit" disabled>Submit</button>
+      </form></body></html>`;
+      await withFixtureHtmlPage(few, async (page) => {
+        const d = await diagnoseDisabledSubmit(page);
+        expect(d.verification.detected).toBe(false);
+      });
+    },
+    45_000,
+  );
+
+  it(
     "a plain form (no verification wording) diagnoses without false positives",
     async () => {
       const plain = fs.readFileSync(

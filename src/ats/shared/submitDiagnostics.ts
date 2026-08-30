@@ -135,6 +135,21 @@ export async function diagnoseDisabledSubmit(
           .filter((w) => !strong.some((s) => s.id === w.id && s.name === w.name));
         const codeInputs = [...strong, ...weak];
 
+        // Split-box widget: 6–12 visible single-char inputs (live
+        // 2026-08-30, TransMarket/job-boards "Security code": 8 bare
+        // <input maxlength="1"> cells with no code-ish attributes at all —
+        // invisible to both selector tiers above; 5 clicks parked
+        // UNCERTAIN with the code sitting in the mailbox).
+        const singles = all('input[maxlength="1"]').filter(visible);
+        const splitBox =
+          singles.length >= 6 && singles.length <= 12
+            ? {
+                id: singles[0]!.id || null,
+                name: singles[0]!.name || null,
+                count: singles.length,
+              }
+            : null;
+
         const requiredInvalid = all(
           "input[required], select[required], textarea[required]",
         )
@@ -164,6 +179,7 @@ export async function diagnoseDisabledSubmit(
 
         return {
           codeInputs,
+          splitBox,
           requiredInvalid,
           errorNodes,
           bodyText: (doc.body?.innerText ?? "").slice(0, 20000),
@@ -179,6 +195,7 @@ export async function diagnoseDisabledSubmit(
         strong: boolean;
         context: string;
       }>,
+      splitBox: null as { id: string | null; name: string | null; count: number } | null,
       requiredInvalid: [] as Array<{ label: string; name: string; type: string }>,
       errorNodes: [] as string[],
       bodyText: "",
@@ -193,8 +210,11 @@ export async function diagnoseDisabledSubmit(
     scan.codeInputs.find((c) => c.strong) ??
     scan.codeInputs.find((c) => !NOT_A_CODE.test(c.context));
   // A code input plus verification wording is high confidence; wording
-  // alone (input not yet matched) still gets named in the summary.
-  const detected = Boolean(first) && Boolean(textMatch);
+  // alone (input not yet matched) still gets named in the summary. A
+  // split-box group (bare maxlength=1 cells) counts as the input when the
+  // wording is present — the recovery layer already types across boxes.
+  const splitBoxHit = !first && scan.splitBox && Boolean(textMatch);
+  const detected = (Boolean(first) || Boolean(splitBoxHit)) && Boolean(textMatch);
   let inputSelector: string | null = null;
   if (first) {
     if (first.id) inputSelector = `#${first.id.replace(/([^\w-])/g, "\\$1")}`;
@@ -202,6 +222,12 @@ export async function diagnoseDisabledSubmit(
     else if (first.autocomplete === "one-time-code") {
       inputSelector = 'input[autocomplete="one-time-code"]';
     }
+  } else if (splitBoxHit && scan.splitBox) {
+    inputSelector = scan.splitBox.id
+      ? `#${scan.splitBox.id.replace(/([^\w-])/g, "\\$1")}`
+      : scan.splitBox.name
+        ? `input[name="${scan.splitBox.name}"]`
+        : 'input[maxlength="1"]';
   }
   const emailMatch = scan.bodyText.match(EMAIL_HINT);
   // Sentence-final addresses come back with the period attached.
@@ -211,7 +237,11 @@ export async function diagnoseDisabledSubmit(
   const parts: string[] = [];
   if (detected) {
     parts.push(
-      `email verification code required${emailHint ? ` (sent to ${emailHint})` : ""}`,
+      `email verification code required${emailHint ? ` (sent to ${emailHint})` : ""}${
+        splitBoxHit && scan.splitBox
+          ? ` — split-box widget (${scan.splitBox.count} cells)`
+          : ""
+      }`,
     );
   } else if (textMatch) {
     parts.push(`verification wording present ("${textMatch[0]}") but no code input matched`);
