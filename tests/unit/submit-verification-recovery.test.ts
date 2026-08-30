@@ -242,6 +242,28 @@ describe("disabled-submit diagnostics (FIXTURE_CONFIRMED)", () => {
   );
 
   it(
+    "detects a split-box wall inside a SHADOW ROOT (raw DOM scan sees nothing)",
+    async () => {
+      const html = `<html><body>
+        <div id="host"></div>
+        <script>
+          const root = document.getElementById("host").attachShadow({ mode: "open" });
+          root.innerHTML = '<p>A verification code was sent to skale072007@gmail.com. Security code</p>' +
+            Array.from({ length: 8 }, () => '<input maxlength="1" style="width:24px">').join("") +
+            '<button type="submit" disabled>Submit application</button>';
+        </script>
+      </body></html>`;
+      await withFixtureHtmlPage(html, async (page) => {
+        const d = await diagnoseDisabledSubmit(page);
+        expect(d.verification.detected).toBe(true);
+        expect(d.verification.input_selector).toBe('input[maxlength="1"]');
+        expect(d.verification.email_hint).toBe("skale072007@gmail.com");
+      });
+    },
+    45_000,
+  );
+
+  it(
     "a plain form (no verification wording) diagnoses without false positives",
     async () => {
       const plain = fs.readFileSync(

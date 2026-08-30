@@ -84,15 +84,46 @@ export async function diagnoseDisabledSubmit(
       };
     }
   }
-  return buildDiagnosis(
-    merged ?? {
-      codeInputs: [],
-      splitBox: null,
-      requiredInvalid: [],
-      errorNodes: [],
-      bodyText: "",
-    },
-  );
+  merged = merged ?? {
+    codeInputs: [],
+    splitBox: null,
+    requiredInvalid: [],
+    errorNodes: [],
+    bodyText: "",
+  };
+
+  // Shadow-DOM fallback (live 2026-08-30 TransMarket: the wall renders in
+  // a shadow root — the screenshot shows it, raw querySelector/innerText
+  // see NOTHING). Playwright locators pierce shadow roots; when the raw
+  // scan came up empty, probe with locators per frame.
+  if (!merged.splitBox && merged.codeInputs.length === 0) {
+    for (const frame of frames) {
+      try {
+        const cells = frame.locator('input[maxlength="1"]');
+        const n = await cells.count();
+        if (n >= 6 && n <= 12) {
+          const firstCell = cells.first();
+          merged.splitBox = {
+            id: (await firstCell.getAttribute("id")) || null,
+            name: (await firstCell.getAttribute("name")) || null,
+            count: n,
+          };
+        }
+        if (!VERIFICATION_TEXT.test(merged.bodyText)) {
+          const wallEl = frame.getByText(VERIFICATION_TEXT).first();
+          if ((await wallEl.count()) > 0) {
+            const text = ((await wallEl.textContent()) ?? "").slice(0, 2_000);
+            merged.bodyText = `${merged.bodyText}\n${text}`.slice(0, 120_000);
+          }
+        }
+        if (merged.splitBox && VERIFICATION_TEXT.test(merged.bodyText)) break;
+      } catch {
+        // frame detached mid-probe — keep whatever we have
+      }
+    }
+  }
+
+  return buildDiagnosis(merged);
 }
 
 async function scanFrame(page: Pick<Page, "evaluate">) {
