@@ -60,22 +60,502 @@
 </style></head>
 <body><div class="wrap">
 <h1>Dispatch run timeline</h1>
-<p class="sub">Generated 2026-08-30T20:33:09.513Z · 40 navigation run(s) · read-only view of artifacts/</p>
-<div class="stats"><span class="stat"><b>18</b> resolved</span><span class="stat"><b>8</b> budget</span><span class="stat"><b>7</b> auth</span><span class="stat"><b>4</b> closed</span><span class="stat"><b>3</b> submit_risk</span></div>
+<p class="sub">Generated 2026-08-30T21:10:09.573Z · 40 navigation run(s) · read-only view of artifacts/</p>
+<div class="stats"><span class="stat"><b>18</b> resolved</span><span class="stat"><b>8</b> budget</span><span class="stat"><b>7</b> auth</span><span class="stat"><b>4</b> submit_risk</span><span class="stat"><b>3</b> closed</span></div>
 <section class="cycle">
   <h2>Latest cycle</h2>
   <dl>
-    <div><dt>Started</dt><dd>2026-08-30T20:32:12.310Z</dd></div>
-    <div><dt>Outcome</dt><dd>completed</dd></div>
-    <div><dt>Agent leg</dt><dd>available</dd></div>
+    <div><dt>Started</dt><dd>2026-08-30T21:10:08.373Z</dd></div>
+    <div><dt>Outcome</dt><dd>skipped_already_armed</dd></div>
+    <div><dt>Agent leg</dt><dd>UNAVAILABLE — AGENT_FALLBACK_ENABLED is off; nav phase C will be skipped for every app</dd></div>
     <div><dt>Default resume</dt><dd>ready (C:\dev\jobright-application-agent\private\candidate\resumes\jake_swe.pdf)</dd></div>
-    <div><dt>Apps started</dt><dd>1</dd></div>
-    <div><dt>Submits used</dt><dd>0</dd></div>
-    <div><dt>Stopped</dt><dd>apps_cap</dd></div>
+    <div><dt>Apps started</dt><dd>—</dd></div>
+    <div><dt>Submits used</dt><dd>—</dd></div>
+    <div><dt>Stopped</dt><dd>—</dd></div>
   </dl>
-  <h3>Session notes</h3><ul class="notes"><li>nav audit: 0 wrong-employer URL(s) cleared for re-navigation, 1 parked for review</li><li>discover: 8 inspected, 2 eligible, 4 already known, 0 filtered out, 2 already submitted</li><li>artifact autopush: 441 file(s) pushed to master as 717212a</li></ul>
+  
 </section>
 <h2>Applications</h2>
+<details class="app ok">
+  <summary>
+    <span class="id">8621d2fe</span>
+    <span class="co">Acme</span>
+    <span class="badge">resolved</span>
+    <span class="chip">agent</span>
+    <span class="chip">generic</span>
+    <span class="chip">agent 1t/3s</span>
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — resolved (turn 1, employer match)<span class="ev">careers.acme.com</span></li></ol>
+    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent[1]: cred_available:false</li><li>agent[1]: leaked:none</li></ul>
+    <h4>Hosts visited</h4><p class="hosts">careers.acme.com</p>
+  </div>
+</details>
+<details class="app ok">
+  <summary>
+    <span class="id">b511d2d3</span>
+    <span class="co">Acme</span>
+    <span class="badge">resolved</span>
+    <span class="chip">agent</span>
+    <span class="chip">ashby</span>
+    <span class="chip">agent 2t/6s</span>
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>D_gmail</b> — verification code retrieved</li><li><b>C_agent</b> — resolved (turn 2, employer match)<span class="ev">jobs.ashbyhq.com</span></li></ol>
+    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent[2]: continuation ok</li></ul>
+    <h4>Hosts visited</h4><p class="hosts">jobs.ashbyhq.com</p>
+  </div>
+</details>
+<details class="app warn">
+  <summary>
+    <span class="id">0b0a081e</span>
+    <span class="co">—</span>
+    <span class="badge">wall: auth</span>
+    
+    
+    <span class="chip">agent 1t/4s</span>
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — needs_input WITHOUT verification evidence on the page — mailbox not consulted, human review</li></ol>
+    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>verification need rejected: agent's page evidence shows no verification prompt</li></ul>
+    <h4>Hosts visited</h4><p class="hosts">jobs.ashbyhq.com</p>
+  </div>
+</details>
+<details class="app bad">
+  <summary>
+    <span class="id">6bc6dc7f</span>
+    <span class="co">—</span>
+    <span class="badge">wall: budget</span>
+    
+    
+    <span class="chip">agent 1t/5s</span>
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — wall: budget (turn 1)</li></ol>
+    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent[1]: reached form</li><li>agent[1]: final_url rejected: host evil.example.com is outside allowed domains</li><li>agent[1] reason: sidecar final_url rejected: host evil.example.com is outside allowed domains</li></ul>
+    <h4>Hosts visited</h4><p class="hosts">jobright.ai → jobs.lever.co</p>
+  </div>
+</details>
+<details class="app bad">
+  <summary>
+    <span class="id">4c6c9051</span>
+    <span class="co">—</span>
+    <span class="badge">wall: budget</span>
+    
+    
+    
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — error</li></ol>
+    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent phase failed: Unexpected token 'o', &quot;not json at all&quot; is not valid JSON</li></ul>
+    
+  </div>
+</details>
+<details class="app bad">
+  <summary>
+    <span class="id">92b62861</span>
+    <span class="co">—</span>
+    <span class="badge">wall: submit_risk</span>
+    
+    
+    <span class="chip">agent 1t/3s</span>
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — wall: submit_risk (turn 1)</li></ol>
+    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent[1] reason: agent stopped: submit_risk</li></ul>
+    
+  </div>
+</details>
+<details class="app warn">
+  <summary>
+    <span class="id">dc4f54d8</span>
+    <span class="co">—</span>
+    <span class="badge">wall: auth</span>
+    
+    
+    <span class="chip">agent 1t/8s</span>
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — needs_input WITHOUT verification evidence on the page — mailbox not consulted, human review</li></ol>
+    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>verification need rejected: agent's page evidence shows no verification prompt</li></ul>
+    <h4>Hosts visited</h4><p class="hosts">jobs.ashbyhq.com</p>
+  </div>
+</details>
+<details class="app ok">
+  <summary>
+    <span class="id">9c5727fc</span>
+    <span class="co">Acme</span>
+    <span class="badge">resolved</span>
+    <span class="chip">apply_click_popup</span>
+    <span class="chip">generic</span>
+    
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — resolved via popup<span class="ev">careers.acme.com</span></li></ol>
+    <h4>Notes</h4><ul class="notes"><li>popup captured on attempt 1</li><li>phase B: landing shows a sign-in wall — stored anyway; fill owns portal auth</li></ul>
+    
+  </div>
+</details>
+<details class="app ok">
+  <summary>
+    <span class="id">f636f01a</span>
+    <span class="co">Acme</span>
+    <span class="badge">resolved</span>
+    <span class="chip">agent</span>
+    <span class="chip">lever</span>
+    <span class="chip">agent 1t/5s</span>
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — resolved (turn 1, employer unverified)<span class="ev">jobs.lever.co</span></li></ol>
+    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent[1]: reached form</li><li>agent[1]: URL reads as &quot;othercorp&quot; (slug &quot;othercorp&quot; shares nothing with company &quot;Acme&quot;) — kept</li><li>congruence: URL names &quot;othercorp&quot;, not &quot;Acme&quot; (slug &quot;othercorp&quot; shares nothing with company &quot;Acme&quot;) — recorded, not refused</li></ul>
+    <h4>Hosts visited</h4><p class="hosts">jobright.ai → jobs.lever.co</p>
+  </div>
+</details>
+<details class="app ok">
+  <summary>
+    <span class="id">9ccee306</span>
+    <span class="co">Acme</span>
+    <span class="badge">resolved</span>
+    <span class="chip">agent</span>
+    <span class="chip">lever</span>
+    <span class="chip">agent 1t/5s</span>
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — resolved (turn 1, employer match)<span class="ev">jobs.lever.co</span></li></ol>
+    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent[1]: reached form</li></ul>
+    <h4>Hosts visited</h4><p class="hosts">jobright.ai → jobs.lever.co</p>
+  </div>
+</details>
+<details class="app muted">
+  <summary>
+    <span class="id">fae04fe3</span>
+    <span class="co">—</span>
+    <span class="badge">wall: closed</span>
+    
+    
+    
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>open</b> — posting is CLOSED on JobRight — navigation abandoned</li></ol>
+    <h4>Notes</h4><ul class="notes"><li>jobright banner says this job has closed; no Apply path exists</li></ul>
+    
+  </div>
+</details>
+<details class="app ok">
+  <summary>
+    <span class="id">6a5bf40d</span>
+    <span class="co">Acme</span>
+    <span class="badge">resolved</span>
+    <span class="chip">agent</span>
+    <span class="chip">generic</span>
+    <span class="chip">agent 1t/3s</span>
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — resolved (turn 1, employer match)<span class="ev">careers.acme.com</span></li></ol>
+    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent[1]: cred_available:false</li><li>agent[1]: leaked:none</li></ul>
+    <h4>Hosts visited</h4><p class="hosts">careers.acme.com</p>
+  </div>
+</details>
+<details class="app ok">
+  <summary>
+    <span class="id">4c1c897a</span>
+    <span class="co">Acme</span>
+    <span class="badge">resolved</span>
+    <span class="chip">agent</span>
+    <span class="chip">ashby</span>
+    <span class="chip">agent 2t/6s</span>
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>D_gmail</b> — verification code retrieved</li><li><b>C_agent</b> — resolved (turn 2, employer match)<span class="ev">jobs.ashbyhq.com</span></li></ol>
+    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent[2]: continuation ok</li></ul>
+    <h4>Hosts visited</h4><p class="hosts">jobs.ashbyhq.com</p>
+  </div>
+</details>
+<details class="app warn">
+  <summary>
+    <span class="id">df91966f</span>
+    <span class="co">—</span>
+    <span class="badge">wall: auth</span>
+    
+    
+    <span class="chip">agent 1t/4s</span>
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — needs_input WITHOUT verification evidence on the page — mailbox not consulted, human review</li></ol>
+    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>verification need rejected: agent's page evidence shows no verification prompt</li></ul>
+    <h4>Hosts visited</h4><p class="hosts">jobs.ashbyhq.com</p>
+  </div>
+</details>
+<details class="app bad">
+  <summary>
+    <span class="id">c79a5bd7</span>
+    <span class="co">—</span>
+    <span class="badge">wall: budget</span>
+    
+    
+    <span class="chip">agent 1t/5s</span>
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — wall: budget (turn 1)</li></ol>
+    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent[1]: reached form</li><li>agent[1]: final_url rejected: host evil.example.com is outside allowed domains</li><li>agent[1] reason: sidecar final_url rejected: host evil.example.com is outside allowed domains</li></ul>
+    <h4>Hosts visited</h4><p class="hosts">jobright.ai → jobs.lever.co</p>
+  </div>
+</details>
+<details class="app bad">
+  <summary>
+    <span class="id">0f2730d1</span>
+    <span class="co">—</span>
+    <span class="badge">wall: budget</span>
+    
+    
+    
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — error</li></ol>
+    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent phase failed: Unexpected token 'o', &quot;not json at all&quot; is not valid JSON</li></ul>
+    
+  </div>
+</details>
+<details class="app bad">
+  <summary>
+    <span class="id">0cd8193c</span>
+    <span class="co">—</span>
+    <span class="badge">wall: submit_risk</span>
+    
+    
+    <span class="chip">agent 1t/3s</span>
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — wall: submit_risk (turn 1)</li></ol>
+    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent[1] reason: agent stopped: submit_risk</li></ul>
+    
+  </div>
+</details>
+<details class="app warn">
+  <summary>
+    <span class="id">845adabf</span>
+    <span class="co">—</span>
+    <span class="badge">wall: auth</span>
+    
+    
+    <span class="chip">agent 1t/8s</span>
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — needs_input WITHOUT verification evidence on the page — mailbox not consulted, human review</li></ol>
+    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>verification need rejected: agent's page evidence shows no verification prompt</li></ul>
+    <h4>Hosts visited</h4><p class="hosts">jobs.ashbyhq.com</p>
+  </div>
+</details>
+<details class="app ok">
+  <summary>
+    <span class="id">3d116eb4</span>
+    <span class="co">Acme</span>
+    <span class="badge">resolved</span>
+    <span class="chip">apply_click_popup</span>
+    <span class="chip">generic</span>
+    
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — resolved via popup<span class="ev">careers.acme.com</span></li></ol>
+    <h4>Notes</h4><ul class="notes"><li>popup captured on attempt 1</li><li>phase B: landing shows a sign-in wall — stored anyway; fill owns portal auth</li></ul>
+    
+  </div>
+</details>
+<details class="app ok">
+  <summary>
+    <span class="id">fbc7e769</span>
+    <span class="co">Acme</span>
+    <span class="badge">resolved</span>
+    <span class="chip">agent</span>
+    <span class="chip">lever</span>
+    <span class="chip">agent 1t/5s</span>
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — resolved (turn 1, employer unverified)<span class="ev">jobs.lever.co</span></li></ol>
+    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent[1]: reached form</li><li>agent[1]: URL reads as &quot;othercorp&quot; (slug &quot;othercorp&quot; shares nothing with company &quot;Acme&quot;) — kept</li><li>congruence: URL names &quot;othercorp&quot;, not &quot;Acme&quot; (slug &quot;othercorp&quot; shares nothing with company &quot;Acme&quot;) — recorded, not refused</li></ul>
+    <h4>Hosts visited</h4><p class="hosts">jobright.ai → jobs.lever.co</p>
+  </div>
+</details>
+<details class="app ok">
+  <summary>
+    <span class="id">ae2cc761</span>
+    <span class="co">Acme</span>
+    <span class="badge">resolved</span>
+    <span class="chip">agent</span>
+    <span class="chip">lever</span>
+    <span class="chip">agent 1t/5s</span>
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — resolved (turn 1, employer match)<span class="ev">jobs.lever.co</span></li></ol>
+    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent[1]: reached form</li></ul>
+    <h4>Hosts visited</h4><p class="hosts">jobright.ai → jobs.lever.co</p>
+  </div>
+</details>
+<details class="app muted">
+  <summary>
+    <span class="id">833a9a13</span>
+    <span class="co">—</span>
+    <span class="badge">wall: closed</span>
+    
+    
+    
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>open</b> — posting is CLOSED on JobRight — navigation abandoned</li></ol>
+    <h4>Notes</h4><ul class="notes"><li>jobright banner says this job has closed; no Apply path exists</li></ul>
+    
+  </div>
+</details>
+<details class="app ok">
+  <summary>
+    <span class="id">f5e4ea90</span>
+    <span class="co">Acme</span>
+    <span class="badge">resolved</span>
+    <span class="chip">agent</span>
+    <span class="chip">generic</span>
+    <span class="chip">agent 1t/3s</span>
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — resolved (turn 1, employer match)<span class="ev">careers.acme.com</span></li></ol>
+    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent[1]: cred_available:false</li><li>agent[1]: leaked:none</li></ul>
+    <h4>Hosts visited</h4><p class="hosts">careers.acme.com</p>
+  </div>
+</details>
+<details class="app ok">
+  <summary>
+    <span class="id">0c21b0e6</span>
+    <span class="co">Acme</span>
+    <span class="badge">resolved</span>
+    <span class="chip">agent</span>
+    <span class="chip">ashby</span>
+    <span class="chip">agent 2t/6s</span>
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>D_gmail</b> — verification code retrieved</li><li><b>C_agent</b> — resolved (turn 2, employer match)<span class="ev">jobs.ashbyhq.com</span></li></ol>
+    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent[2]: continuation ok</li></ul>
+    <h4>Hosts visited</h4><p class="hosts">jobs.ashbyhq.com</p>
+  </div>
+</details>
+<details class="app warn">
+  <summary>
+    <span class="id">5df7c58d</span>
+    <span class="co">—</span>
+    <span class="badge">wall: auth</span>
+    
+    
+    <span class="chip">agent 1t/4s</span>
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — needs_input WITHOUT verification evidence on the page — mailbox not consulted, human review</li></ol>
+    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>verification need rejected: agent's page evidence shows no verification prompt</li></ul>
+    <h4>Hosts visited</h4><p class="hosts">jobs.ashbyhq.com</p>
+  </div>
+</details>
+<details class="app bad">
+  <summary>
+    <span class="id">02d74a09</span>
+    <span class="co">—</span>
+    <span class="badge">wall: budget</span>
+    
+    
+    <span class="chip">agent 1t/5s</span>
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — wall: budget (turn 1)</li></ol>
+    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent[1]: reached form</li><li>agent[1]: final_url rejected: host evil.example.com is outside allowed domains</li><li>agent[1] reason: sidecar final_url rejected: host evil.example.com is outside allowed domains</li></ul>
+    <h4>Hosts visited</h4><p class="hosts">jobright.ai → jobs.lever.co</p>
+  </div>
+</details>
+<details class="app bad">
+  <summary>
+    <span class="id">70ef9eb6</span>
+    <span class="co">—</span>
+    <span class="badge">wall: budget</span>
+    
+    
+    
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — error</li></ol>
+    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent phase failed: Unexpected token 'o', &quot;not json at all&quot; is not valid JSON</li></ul>
+    
+  </div>
+</details>
+<details class="app bad">
+  <summary>
+    <span class="id">feadfc66</span>
+    <span class="co">—</span>
+    <span class="badge">wall: submit_risk</span>
+    
+    
+    <span class="chip">agent 1t/3s</span>
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — wall: submit_risk (turn 1)</li></ol>
+    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent[1] reason: agent stopped: submit_risk</li></ul>
+    
+  </div>
+</details>
+<details class="app warn">
+  <summary>
+    <span class="id">f8f3c881</span>
+    <span class="co">—</span>
+    <span class="badge">wall: auth</span>
+    
+    
+    <span class="chip">agent 1t/8s</span>
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — needs_input WITHOUT verification evidence on the page — mailbox not consulted, human review</li></ol>
+    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>verification need rejected: agent's page evidence shows no verification prompt</li></ul>
+    <h4>Hosts visited</h4><p class="hosts">jobs.ashbyhq.com</p>
+  </div>
+</details>
+<details class="app ok">
+  <summary>
+    <span class="id">d6a48331</span>
+    <span class="co">Acme</span>
+    <span class="badge">resolved</span>
+    <span class="chip">apply_click_popup</span>
+    <span class="chip">generic</span>
+    
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — resolved via popup<span class="ev">careers.acme.com</span></li></ol>
+    <h4>Notes</h4><ul class="notes"><li>popup captured on attempt 1</li><li>phase B: landing shows a sign-in wall — stored anyway; fill owns portal auth</li></ul>
+    
+  </div>
+</details>
+<details class="app ok">
+  <summary>
+    <span class="id">b6b45180</span>
+    <span class="co">Acme</span>
+    <span class="badge">resolved</span>
+    <span class="chip">agent</span>
+    <span class="chip">lever</span>
+    <span class="chip">agent 1t/5s</span>
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — resolved (turn 1, employer unverified)<span class="ev">jobs.lever.co</span></li></ol>
+    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent[1]: reached form</li><li>agent[1]: URL reads as &quot;othercorp&quot; (slug &quot;othercorp&quot; shares nothing with company &quot;Acme&quot;) — kept</li><li>congruence: URL names &quot;othercorp&quot;, not &quot;Acme&quot; (slug &quot;othercorp&quot; shares nothing with company &quot;Acme&quot;) — recorded, not refused</li></ul>
+    <h4>Hosts visited</h4><p class="hosts">jobright.ai → jobs.lever.co</p>
+  </div>
+</details>
+<details class="app ok">
+  <summary>
+    <span class="id">59c1503e</span>
+    <span class="co">Acme</span>
+    <span class="badge">resolved</span>
+    <span class="chip">agent</span>
+    <span class="chip">lever</span>
+    <span class="chip">agent 1t/5s</span>
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — resolved (turn 1, employer match)<span class="ev">jobs.lever.co</span></li></ol>
+    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent[1]: reached form</li></ul>
+    <h4>Hosts visited</h4><p class="hosts">jobright.ai → jobs.lever.co</p>
+  </div>
+</details>
 <details class="app ok">
   <summary>
     <span class="id">fda27acb</span>
@@ -193,486 +673,6 @@
   <div class="body">
     <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>open</b> — posting is CLOSED on JobRight — navigation abandoned</li></ol>
     <h4>Notes</h4><ul class="notes"><li>jobright banner says this job has closed; no Apply path exists</li></ul>
-    
-  </div>
-</details>
-<details class="app warn">
-  <summary>
-    <span class="id">77635aec</span>
-    <span class="co">—</span>
-    <span class="badge">wall: auth</span>
-    
-    
-    <span class="chip">agent 1t/8s</span>
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — needs_input WITHOUT verification evidence on the page — mailbox not consulted, human review</li></ol>
-    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>verification need rejected: agent's page evidence shows no verification prompt</li></ul>
-    <h4>Hosts visited</h4><p class="hosts">jobs.ashbyhq.com</p>
-  </div>
-</details>
-<details class="app ok">
-  <summary>
-    <span class="id">e474c725</span>
-    <span class="co">Acme</span>
-    <span class="badge">resolved</span>
-    <span class="chip">apply_click_popup</span>
-    <span class="chip">generic</span>
-    
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — resolved via popup<span class="ev">careers.acme.com</span></li></ol>
-    <h4>Notes</h4><ul class="notes"><li>popup captured on attempt 1</li><li>phase B: landing shows a sign-in wall — stored anyway; fill owns portal auth</li></ul>
-    
-  </div>
-</details>
-<details class="app ok">
-  <summary>
-    <span class="id">9c63a4e6</span>
-    <span class="co">Acme</span>
-    <span class="badge">resolved</span>
-    <span class="chip">agent</span>
-    <span class="chip">lever</span>
-    <span class="chip">agent 1t/5s</span>
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — resolved (turn 1, employer unverified)<span class="ev">jobs.lever.co</span></li></ol>
-    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent[1]: reached form</li><li>agent[1]: URL reads as &quot;othercorp&quot; (slug &quot;othercorp&quot; shares nothing with company &quot;Acme&quot;) — kept</li><li>congruence: URL names &quot;othercorp&quot;, not &quot;Acme&quot; (slug &quot;othercorp&quot; shares nothing with company &quot;Acme&quot;) — recorded, not refused</li></ul>
-    <h4>Hosts visited</h4><p class="hosts">jobright.ai → jobs.lever.co</p>
-  </div>
-</details>
-<details class="app ok">
-  <summary>
-    <span class="id">8c8f5225</span>
-    <span class="co">Acme</span>
-    <span class="badge">resolved</span>
-    <span class="chip">agent</span>
-    <span class="chip">lever</span>
-    <span class="chip">agent 1t/5s</span>
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — resolved (turn 1, employer match)<span class="ev">jobs.lever.co</span></li></ol>
-    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent[1]: reached form</li></ul>
-    <h4>Hosts visited</h4><p class="hosts">jobright.ai → jobs.lever.co</p>
-  </div>
-</details>
-<details class="app muted">
-  <summary>
-    <span class="id">ac140147</span>
-    <span class="co">—</span>
-    <span class="badge">wall: closed</span>
-    
-    
-    
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>open</b> — posting is CLOSED on JobRight — navigation abandoned</li></ol>
-    <h4>Notes</h4><ul class="notes"><li>jobright banner says this job has closed; no Apply path exists</li></ul>
-    
-  </div>
-</details>
-<details class="app ok">
-  <summary>
-    <span class="id">9fcc361e</span>
-    <span class="co">Acme</span>
-    <span class="badge">resolved</span>
-    <span class="chip">agent</span>
-    <span class="chip">generic</span>
-    <span class="chip">agent 1t/3s</span>
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — resolved (turn 1, employer match)<span class="ev">careers.acme.com</span></li></ol>
-    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent[1]: cred_available:false</li><li>agent[1]: leaked:none</li></ul>
-    <h4>Hosts visited</h4><p class="hosts">careers.acme.com</p>
-  </div>
-</details>
-<details class="app ok">
-  <summary>
-    <span class="id">2cf247c3</span>
-    <span class="co">Acme</span>
-    <span class="badge">resolved</span>
-    <span class="chip">agent</span>
-    <span class="chip">ashby</span>
-    <span class="chip">agent 2t/6s</span>
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>D_gmail</b> — verification code retrieved</li><li><b>C_agent</b> — resolved (turn 2, employer match)<span class="ev">jobs.ashbyhq.com</span></li></ol>
-    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent[2]: continuation ok</li></ul>
-    <h4>Hosts visited</h4><p class="hosts">jobs.ashbyhq.com</p>
-  </div>
-</details>
-<details class="app warn">
-  <summary>
-    <span class="id">872a2fe1</span>
-    <span class="co">—</span>
-    <span class="badge">wall: auth</span>
-    
-    
-    <span class="chip">agent 1t/4s</span>
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — needs_input WITHOUT verification evidence on the page — mailbox not consulted, human review</li></ol>
-    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>verification need rejected: agent's page evidence shows no verification prompt</li></ul>
-    <h4>Hosts visited</h4><p class="hosts">jobs.ashbyhq.com</p>
-  </div>
-</details>
-<details class="app bad">
-  <summary>
-    <span class="id">56083929</span>
-    <span class="co">—</span>
-    <span class="badge">wall: budget</span>
-    
-    
-    <span class="chip">agent 1t/5s</span>
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — wall: budget (turn 1)</li></ol>
-    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent[1]: reached form</li><li>agent[1]: final_url rejected: host evil.example.com is outside allowed domains</li><li>agent[1] reason: sidecar final_url rejected: host evil.example.com is outside allowed domains</li></ul>
-    <h4>Hosts visited</h4><p class="hosts">jobright.ai → jobs.lever.co</p>
-  </div>
-</details>
-<details class="app bad">
-  <summary>
-    <span class="id">dd3fa413</span>
-    <span class="co">—</span>
-    <span class="badge">wall: budget</span>
-    
-    
-    
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — error</li></ol>
-    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent phase failed: Unexpected token 'o', &quot;not json at all&quot; is not valid JSON</li></ul>
-    
-  </div>
-</details>
-<details class="app bad">
-  <summary>
-    <span class="id">b4a87e12</span>
-    <span class="co">—</span>
-    <span class="badge">wall: submit_risk</span>
-    
-    
-    <span class="chip">agent 1t/3s</span>
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — wall: submit_risk (turn 1)</li></ol>
-    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent[1] reason: agent stopped: submit_risk</li></ul>
-    
-  </div>
-</details>
-<details class="app warn">
-  <summary>
-    <span class="id">5251ae65</span>
-    <span class="co">—</span>
-    <span class="badge">wall: auth</span>
-    
-    
-    <span class="chip">agent 1t/8s</span>
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — needs_input WITHOUT verification evidence on the page — mailbox not consulted, human review</li></ol>
-    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>verification need rejected: agent's page evidence shows no verification prompt</li></ul>
-    <h4>Hosts visited</h4><p class="hosts">jobs.ashbyhq.com</p>
-  </div>
-</details>
-<details class="app ok">
-  <summary>
-    <span class="id">3b68406f</span>
-    <span class="co">Acme</span>
-    <span class="badge">resolved</span>
-    <span class="chip">apply_click_popup</span>
-    <span class="chip">generic</span>
-    
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — resolved via popup<span class="ev">careers.acme.com</span></li></ol>
-    <h4>Notes</h4><ul class="notes"><li>popup captured on attempt 1</li><li>phase B: landing shows a sign-in wall — stored anyway; fill owns portal auth</li></ul>
-    
-  </div>
-</details>
-<details class="app ok">
-  <summary>
-    <span class="id">7c5c64d8</span>
-    <span class="co">Acme</span>
-    <span class="badge">resolved</span>
-    <span class="chip">agent</span>
-    <span class="chip">lever</span>
-    <span class="chip">agent 1t/5s</span>
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — resolved (turn 1, employer unverified)<span class="ev">jobs.lever.co</span></li></ol>
-    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent[1]: reached form</li><li>agent[1]: URL reads as &quot;othercorp&quot; (slug &quot;othercorp&quot; shares nothing with company &quot;Acme&quot;) — kept</li><li>congruence: URL names &quot;othercorp&quot;, not &quot;Acme&quot; (slug &quot;othercorp&quot; shares nothing with company &quot;Acme&quot;) — recorded, not refused</li></ul>
-    <h4>Hosts visited</h4><p class="hosts">jobright.ai → jobs.lever.co</p>
-  </div>
-</details>
-<details class="app ok">
-  <summary>
-    <span class="id">46b17d72</span>
-    <span class="co">Acme</span>
-    <span class="badge">resolved</span>
-    <span class="chip">agent</span>
-    <span class="chip">lever</span>
-    <span class="chip">agent 1t/5s</span>
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — resolved (turn 1, employer match)<span class="ev">jobs.lever.co</span></li></ol>
-    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent[1]: reached form</li></ul>
-    <h4>Hosts visited</h4><p class="hosts">jobright.ai → jobs.lever.co</p>
-  </div>
-</details>
-<details class="app muted">
-  <summary>
-    <span class="id">96761128</span>
-    <span class="co">—</span>
-    <span class="badge">wall: closed</span>
-    
-    
-    
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>open</b> — posting is CLOSED on JobRight — navigation abandoned</li></ol>
-    <h4>Notes</h4><ul class="notes"><li>jobright banner says this job has closed; no Apply path exists</li></ul>
-    
-  </div>
-</details>
-<details class="app ok">
-  <summary>
-    <span class="id">a5c94f81</span>
-    <span class="co">Acme</span>
-    <span class="badge">resolved</span>
-    <span class="chip">agent</span>
-    <span class="chip">generic</span>
-    <span class="chip">agent 1t/3s</span>
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — resolved (turn 1, employer match)<span class="ev">careers.acme.com</span></li></ol>
-    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent[1]: cred_available:false</li><li>agent[1]: leaked:none</li></ul>
-    <h4>Hosts visited</h4><p class="hosts">careers.acme.com</p>
-  </div>
-</details>
-<details class="app ok">
-  <summary>
-    <span class="id">c4fd549d</span>
-    <span class="co">Acme</span>
-    <span class="badge">resolved</span>
-    <span class="chip">agent</span>
-    <span class="chip">ashby</span>
-    <span class="chip">agent 2t/6s</span>
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>D_gmail</b> — verification code retrieved</li><li><b>C_agent</b> — resolved (turn 2, employer match)<span class="ev">jobs.ashbyhq.com</span></li></ol>
-    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent[2]: continuation ok</li></ul>
-    <h4>Hosts visited</h4><p class="hosts">jobs.ashbyhq.com</p>
-  </div>
-</details>
-<details class="app warn">
-  <summary>
-    <span class="id">dd5a60bc</span>
-    <span class="co">—</span>
-    <span class="badge">wall: auth</span>
-    
-    
-    <span class="chip">agent 1t/4s</span>
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — needs_input WITHOUT verification evidence on the page — mailbox not consulted, human review</li></ol>
-    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>verification need rejected: agent's page evidence shows no verification prompt</li></ul>
-    <h4>Hosts visited</h4><p class="hosts">jobs.ashbyhq.com</p>
-  </div>
-</details>
-<details class="app bad">
-  <summary>
-    <span class="id">b92f4bed</span>
-    <span class="co">—</span>
-    <span class="badge">wall: budget</span>
-    
-    
-    <span class="chip">agent 1t/5s</span>
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — wall: budget (turn 1)</li></ol>
-    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent[1]: reached form</li><li>agent[1]: final_url rejected: host evil.example.com is outside allowed domains</li><li>agent[1] reason: sidecar final_url rejected: host evil.example.com is outside allowed domains</li></ul>
-    <h4>Hosts visited</h4><p class="hosts">jobright.ai → jobs.lever.co</p>
-  </div>
-</details>
-<details class="app bad">
-  <summary>
-    <span class="id">3bc82bd2</span>
-    <span class="co">—</span>
-    <span class="badge">wall: budget</span>
-    
-    
-    
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — error</li></ol>
-    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent phase failed: Unexpected token 'o', &quot;not json at all&quot; is not valid JSON</li></ul>
-    
-  </div>
-</details>
-<details class="app bad">
-  <summary>
-    <span class="id">36bafc82</span>
-    <span class="co">—</span>
-    <span class="badge">wall: submit_risk</span>
-    
-    
-    <span class="chip">agent 1t/3s</span>
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — wall: submit_risk (turn 1)</li></ol>
-    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent[1] reason: agent stopped: submit_risk</li></ul>
-    
-  </div>
-</details>
-<details class="app warn">
-  <summary>
-    <span class="id">84a7195e</span>
-    <span class="co">—</span>
-    <span class="badge">wall: auth</span>
-    
-    
-    <span class="chip">agent 1t/8s</span>
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — needs_input WITHOUT verification evidence on the page — mailbox not consulted, human review</li></ol>
-    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>verification need rejected: agent's page evidence shows no verification prompt</li></ul>
-    <h4>Hosts visited</h4><p class="hosts">jobs.ashbyhq.com</p>
-  </div>
-</details>
-<details class="app ok">
-  <summary>
-    <span class="id">2eb0ec14</span>
-    <span class="co">Acme</span>
-    <span class="badge">resolved</span>
-    <span class="chip">apply_click_popup</span>
-    <span class="chip">generic</span>
-    
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — resolved via popup<span class="ev">careers.acme.com</span></li></ol>
-    <h4>Notes</h4><ul class="notes"><li>popup captured on attempt 1</li><li>phase B: landing shows a sign-in wall — stored anyway; fill owns portal auth</li></ul>
-    
-  </div>
-</details>
-<details class="app ok">
-  <summary>
-    <span class="id">092a7336</span>
-    <span class="co">Acme</span>
-    <span class="badge">resolved</span>
-    <span class="chip">agent</span>
-    <span class="chip">lever</span>
-    <span class="chip">agent 1t/5s</span>
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — resolved (turn 1, employer unverified)<span class="ev">jobs.lever.co</span></li></ol>
-    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent[1]: reached form</li><li>agent[1]: URL reads as &quot;othercorp&quot; (slug &quot;othercorp&quot; shares nothing with company &quot;Acme&quot;) — kept</li><li>congruence: URL names &quot;othercorp&quot;, not &quot;Acme&quot; (slug &quot;othercorp&quot; shares nothing with company &quot;Acme&quot;) — recorded, not refused</li></ul>
-    <h4>Hosts visited</h4><p class="hosts">jobright.ai → jobs.lever.co</p>
-  </div>
-</details>
-<details class="app ok">
-  <summary>
-    <span class="id">cf798d5d</span>
-    <span class="co">Acme</span>
-    <span class="badge">resolved</span>
-    <span class="chip">agent</span>
-    <span class="chip">lever</span>
-    <span class="chip">agent 1t/5s</span>
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — resolved (turn 1, employer match)<span class="ev">jobs.lever.co</span></li></ol>
-    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent[1]: reached form</li></ul>
-    <h4>Hosts visited</h4><p class="hosts">jobright.ai → jobs.lever.co</p>
-  </div>
-</details>
-<details class="app muted">
-  <summary>
-    <span class="id">46011b33</span>
-    <span class="co">—</span>
-    <span class="badge">wall: closed</span>
-    
-    
-    
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>open</b> — posting is CLOSED on JobRight — navigation abandoned</li></ol>
-    <h4>Notes</h4><ul class="notes"><li>jobright banner says this job has closed; no Apply path exists</li></ul>
-    
-  </div>
-</details>
-<details class="app ok">
-  <summary>
-    <span class="id">884c4cc6</span>
-    <span class="co">Acme</span>
-    <span class="badge">resolved</span>
-    <span class="chip">agent</span>
-    <span class="chip">generic</span>
-    <span class="chip">agent 1t/3s</span>
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — resolved (turn 1, employer match)<span class="ev">careers.acme.com</span></li></ol>
-    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent[1]: cred_available:false</li><li>agent[1]: leaked:none</li></ul>
-    <h4>Hosts visited</h4><p class="hosts">careers.acme.com</p>
-  </div>
-</details>
-<details class="app ok">
-  <summary>
-    <span class="id">abcedc49</span>
-    <span class="co">Acme</span>
-    <span class="badge">resolved</span>
-    <span class="chip">agent</span>
-    <span class="chip">ashby</span>
-    <span class="chip">agent 2t/6s</span>
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>D_gmail</b> — verification code retrieved</li><li><b>C_agent</b> — resolved (turn 2, employer match)<span class="ev">jobs.ashbyhq.com</span></li></ol>
-    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent[2]: continuation ok</li></ul>
-    <h4>Hosts visited</h4><p class="hosts">jobs.ashbyhq.com</p>
-  </div>
-</details>
-<details class="app warn">
-  <summary>
-    <span class="id">7f799250</span>
-    <span class="co">—</span>
-    <span class="badge">wall: auth</span>
-    
-    
-    <span class="chip">agent 1t/4s</span>
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — needs_input WITHOUT verification evidence on the page — mailbox not consulted, human review</li></ol>
-    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>verification need rejected: agent's page evidence shows no verification prompt</li></ul>
-    <h4>Hosts visited</h4><p class="hosts">jobs.ashbyhq.com</p>
-  </div>
-</details>
-<details class="app bad">
-  <summary>
-    <span class="id">49f90826</span>
-    <span class="co">—</span>
-    <span class="badge">wall: budget</span>
-    
-    
-    <span class="chip">agent 1t/5s</span>
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — wall: budget (turn 1)</li></ol>
-    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent[1]: reached form</li><li>agent[1]: final_url rejected: host evil.example.com is outside allowed domains</li><li>agent[1] reason: sidecar final_url rejected: host evil.example.com is outside allowed domains</li></ul>
-    <h4>Hosts visited</h4><p class="hosts">jobright.ai → jobs.lever.co</p>
-  </div>
-</details>
-<details class="app bad">
-  <summary>
-    <span class="id">34b65813</span>
-    <span class="co">—</span>
-    <span class="badge">wall: budget</span>
-    
-    
-    
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — error</li></ol>
-    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent phase failed: Unexpected token 'o', &quot;not json at all&quot; is not valid JSON</li></ul>
     
   </div>
 </details>

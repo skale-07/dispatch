@@ -833,3 +833,27 @@ Pre-flight state (16:00 local):
   level harder (display:none members, decoy BEFORE the real input,
   painted consent box, mismatch-parks case) — 4/4 + 86 regression tests
   across the fill suites green. FIXTURE_CONFIRMED; live #22d next.
+
+### Jobs #22d/#22e — TIAA — 17:12-17:13 local — the next wall is the SUBMIT path
+- #22d: refused instantly on the open AMBIGUOUS_FIELD review item (by
+  design). Requeued via requeueAmbiguousField → FIELD_VERIFICATION.
+- #22e: FIELD_VERIFICATION → READY_TO_SUBMIT (checks passed on stored
+  state; the #61 fixes were NOT live-exercised — no re-fill ran), then
+  the submit runner opened the stored `/search/job/…` POSTING URL cold
+  and the identity gate refused: NO_APPLICATION_FORM ("form markers
+  matched but no fillable fields — posting page"). Correct fail-closed
+  behavior; the gap is structural.
+
+### 62. OPEN — Workday submit path has no wizard REACH (fill path's auth+Apply walk is not shared with submit)
+- Evidence: #22e submit-run FAILED_BEFORE_CLICK at the pre-mutation gate
+  on the posting URL. The fill path reaches the wizard via portalAuth
+  (Apply → Apply Manually → SSO email → sign-in/create) + wizard walk;
+  submitRun navigates the raw employer URL and expects a form. Without
+  this, NO Workday app can ever submit — the blocker between "wizard
+  fills live" (proven tonight) and "Workday submits".
+- Direction: submitRun (or the workday adapter's submit prep) needs the
+  same reach seam: when binding is workday and the landing classifies
+  posting/auth, run portalAuth (signs into the NOW-EXISTING account) +
+  wizard walk to the review page, then completeness-gate + click. Est
+  1-2h; scheduled between cycles tonight. TIAA parked meanwhile (5
+  attempts consumed — moving the loop on per budget discipline).

@@ -1,0 +1,53 @@
+{
+  "run_id": "nav-6f23aad3-1a43-4cfd-92d4-946f4dc06d1f",
+  "application_id": "59c1503e-80c6-4690-bd3a-a090aa74f87f",
+  "jobright_job_id": "6af43e5a03d6744561b8c94b",
+  "method": "agent",
+  "resolved_url": "https://jobs.lever.co/acme/a1b2c3d4-e5f6-7890-abcd-ef1234567890/apply",
+  "resolved_ats": "lever",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no external anchors"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "unresolved by deterministic phases"
+    },
+    {
+      "phase": "C_agent",
+      "outcome": "resolved (turn 1, employer match)",
+      "evidence": "jobs.lever.co"
+    }
+  ],
+  "agent": {
+    "turns_used": 1,
+    "steps_used": 5,
+    "domains_visited": [
+      "jobright.ai",
+      "jobs.lever.co"
+    ]
+  },
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "no standard Apply control found (exact and broad name tiers both empty)",
+    "agent[1]: reached form"
+  ],
+  "congruence": {
+    "verdict": "match",
+    "slug": "acme",
+    "detail": "token \"acme\" ~ slug \"acme\"",
+    "expected_company": "Acme",
+    "url": "https://jobs.lever.co/acme/a1b2c3d4-e5f6-7890-abcd-ef1234567890/apply"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-08-30T20:41:48.646Z"
+}
