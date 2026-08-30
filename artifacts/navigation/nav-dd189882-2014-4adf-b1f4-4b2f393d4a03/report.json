@@ -1,0 +1,42 @@
+{
+  "run_id": "nav-dd189882-2014-4adf-b1f4-4b2f393d4a03",
+  "application_id": "7a14fde5-ddc0-454c-8a17-da50551c8fcf",
+  "jobright_job_id": "6a47e8aa105e174f948dead7",
+  "method": "apply_click_popup",
+  "resolved_url": "https://careers.acme.com/login",
+  "resolved_ats": "generic",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no external anchors"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "resolved via popup",
+      "evidence": "careers.acme.com"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "ephemeral",
+  "notes": [
+    "popup captured on attempt 1",
+    "phase B: landing shows a sign-in wall — stored anyway; fill owns portal auth"
+  ],
+  "congruence": {
+    "verdict": "match",
+    "slug": "acme",
+    "detail": "token \"acme\" ~ slug \"acme\" (from URL host)",
+    "expected_company": "Acme",
+    "url": "https://careers.acme.com/login"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-08-30T17:12:09.246Z"
+}

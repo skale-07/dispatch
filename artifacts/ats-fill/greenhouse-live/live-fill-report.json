@@ -1,7 +1,7 @@
 {
   "mode": "executed",
   "ats": "greenhouse",
-  "url": "https://boards.greenhouse.io/neuralink/jobs/5469298003",
+  "url": "https://job-boards.greenhouse.io/dvtrading/jobs/4719119005",
   "plan": {
     "answers": {
       "legal_name.first": "Shubham",
@@ -9,17 +9,20 @@
       "email": "s***@gmail.com",
       "address.country": "United States",
       "phone": "***-***-7636",
-      "screener:custom:prior_internship_experience": "Yes",
-      "screener:custom:graduation_year": "2029",
+      "degree": "Bachelor of Science",
+      "major": "Applied Math & Stats",
+      "start_month": "August",
+      "start_year": "2025",
+      "graduation_month": "May",
+      "graduation_year": "2029",
       "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+      "screener:custom:predicted:question_8969945005": "Johns Hopkins University",
+      "screener:custom:predicted:question_8969948005": "No",
+      "screener:custom:country_of_residence": "United States of America",
+      "screener:custom:predicted:question_8969952005": "Maryland",
       "work_authorization": "[REDACTED_SPONSORSHIP]",
-      "screener:requires_sponsorship": "[REDACTED_SPONSORSHIP]",
-      "screener:custom:onsite_requirement_acknowledged": "Yes",
-      "screener:willing_to_relocate": "Yes",
-      "screener:custom:internship_season": "Winter 2027 (January - April)",
-      "screener:start_availability": "Flexible — aligned to the posted term",
-      "how_heard": "LinkedIn",
-      "screener:custom:prior_experience_details": "I currently work on applied machine learning at Summer Atlantic Capital / SAC Nexus, where I build the ML core of an anomaly-detection and alert-prioritization system, including the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, and a retrieval-augmented explanation layer. Before that I worked with Intelehealth on AI and data systems for rural telemedicine, including a resource-availability scoring pipeline across 32 villages and an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case clinical standard.",
+      "screener:how_heard": "LinkedIn",
+      "screener:custom:predicted:question_8969959005": "Yes, I have read and agree to DV Trading's Privacy Policy.",
       "gender": "Male",
       "hispanic_latino": "No",
       "veteran_status": "I am not a veteran",
@@ -45,6 +48,15 @@
         "reason": "Mapped from public profile"
       },
       {
+        "field_id": "preferred_name",
+        "label": "Preferred First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "fill",
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
         "field_id": "email",
         "label": "Email",
         "type": "text",
@@ -61,15 +73,6 @@
         "action": "fill",
         "value": "United States +1",
         "reason": "Mapped from public profile; placed onto \"United States +1\""
-      },
-      {
-        "field_id": "iti-0__search-input",
-        "label": "Search",
-        "type": "unknown",
-        "canonical_field": null,
-        "action": "skip_unmapped",
-        "value": null,
-        "reason": "No answer-alias mapping"
       },
       {
         "field_id": "phone",
@@ -99,52 +102,70 @@
         "reason": "File uploads handled via uploadResume/uploadCoverLetter"
       },
       {
-        "field_id": "question_16876421003",
-        "label": "We look for evidence of exceptional ability. Please provide us with 3-4 examples highlighting your exceptional ability, using quantitative metrics to display the impact on a product/project related to the requirements of the position you are applying for. Each bullet should be very concise— no longer than 3-4 sentences each and should capture the problem, solution, and result. We recommend starting with an action word (designed, led, built, promoted, launched, created, etc.) and be sure to include technical detail. This is your moment to WOW us! NOTE: Answering this question fully is the most important part of our interview process. First example:",
-        "type": "textarea",
-        "canonical_field": "essay:generated:question_16876421003",
-        "action": "fill",
-        "value": "Built the machine learning core and supporting infrastructure for an anomaly-detection and alert-prioritization system at Summer Atlantic Capital / SAC Nexus, where the real problem was not detection accuracy but alert volume: a system that flags everything just moves the workload onto human analysts. I own the repository and CI scaffold, the event-ingestion pipeline, and a versioned FastAPI microservice exposing the public detection API, so model changes ship behind stable, versioned endpoints instead of breaking downstream consumers. On top of that I built temporal sequence models over event streams using RNN and Transformer-style approaches for anomaly scoring, plus a learning-to-rank layer that orders alerts by priority rather than dumping them undifferentiated. I then added a retrieval-augmented LLM explanation layer so each surfaced anomaly comes with a traceable explanation an analyst can actually act on, and treated failure modes and documentation as part of the deliverable rather than an afterthought.",
-        "reason": "Essay generated from the operator's about-me context"
-      },
-      {
-        "field_id": "question_16876422003",
-        "label": "Second example:",
-        "type": "textarea",
-        "canonical_field": "essay:generated:question_16876422003",
-        "action": "fill",
-        "value": "A second one is a job-application agent I built for myself in TypeScript and Node, using Playwright for browser interaction. The problem was that job hunting is mostly repetitive browser work: opening ATS pages, refilling the same information, tracking state, following up. The catch is that a fully autonomous browser agent is dangerous here, because one wrong click submits a real application or fills a legal or demographic field incorrectly.\n\nSo I built it as a deterministic, operator-controlled system instead. Every application moves through an explicit state machine (DISCOVERED to ELIGIBILITY_CHECK to QUEUED to INSPECT to FILL to READY_TO_SUBMIT to SUBMITTED), with SQLite as the single source of truth, because state diverging across processes is what makes automation unsafe. Every mutating capability sits behind fail-closed flags like SUBMIT_ENABLED that never default on and are never on in tests. Free-text and demographic fields are architecturally prevented from autofilling and always generate a human-review item. I also added a validation ladder, from unit-confirmed up to live-mutation-confirmed, so nothing counts as working just because a fixture passed. Greenhouse is fully supported; Workday and iCIMS are detected and deliberately skipped rather than handled unreliably.",
-        "reason": "Essay generated from the operator's about-me context"
-      },
-      {
-        "field_id": "question_16876423003",
-        "label": "Third example:",
-        "type": "textarea",
-        "canonical_field": "essay:generated:question_16876423003",
-        "action": "fill",
-        "value": "At Summer Atlantic Capital / SAC Nexus, I build the machine-learning core of an anomaly-detection and alert-prioritization system, and I own a lot of the infrastructure around it: the repository and CI scaffold, the event-ingestion pipeline, a versioned FastAPI microservice, and the public detection API. The modeling side uses temporal sequence models over event streams, RNN and Transformer-style approaches, anomaly scoring, and a learning-to-rank layer for ordering alerts. I also built an LLM explanation layer with retrieval-augmented generation so the outputs are readable to a human analyst rather than just a score.\n\nWhat shaped the design was realizing that raw detection quality was not the binding constraint. A detector that fires constantly just hands the analyst a second problem, so prioritization, explanation quality, versioning, and documenting failure modes ended up mattering as much as model metrics. That is also why I versioned the service early: downstream users need to know exactly which detector produced an alert.",
-        "reason": "Essay generated from the operator's about-me context"
-      },
-      {
-        "field_id": "question_16876424003",
-        "label": "Do you have prior internship or co-op experience?",
+        "field_id": "school--0",
+        "label": "School",
         "type": "text",
-        "canonical_field": "screener:custom:prior_internship_experience",
-        "action": "fill",
-        "value": "Yes",
-        "reason": "Screener bank answer (exact_option)"
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
       },
       {
-        "field_id": "question_16876425003",
-        "label": "What year will you graduate?",
+        "field_id": "degree--0",
+        "label": "Degree",
         "type": "text",
-        "canonical_field": "screener:custom:graduation_year",
+        "canonical_field": "degree",
+        "action": "fill",
+        "value": "Bachelor's Degree",
+        "reason": "Mapped from public profile; placed onto \"Bachelor's Degree\""
+      },
+      {
+        "field_id": "discipline--0",
+        "label": "Discipline",
+        "type": "text",
+        "canonical_field": "major",
+        "action": "fill",
+        "value": "Mathematics",
+        "reason": "Mapped from public profile; placed onto \"Mathematics\""
+      },
+      {
+        "field_id": "start-month--0",
+        "label": "Start date month",
+        "type": "text",
+        "canonical_field": "start_month",
+        "action": "fill",
+        "value": "August",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "start-year--0",
+        "label": "Start date year",
+        "type": "text",
+        "canonical_field": "start_year",
+        "action": "fill",
+        "value": "2025",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "end-month--0",
+        "label": "End date month",
+        "type": "text",
+        "canonical_field": "graduation_month",
+        "action": "fill",
+        "value": "May",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "end-year--0",
+        "label": "End date year",
+        "type": "text",
+        "canonical_field": "graduation_year",
         "action": "fill",
         "value": "2029",
-        "reason": "Screener bank answer (exact_option)"
+        "reason": "Mapped from public profile"
       },
       {
-        "field_id": "question_16876426003",
+        "field_id": "question_8969944005",
         "label": "LinkedIn Profile",
         "type": "text",
         "canonical_field": "linkedin_url",
@@ -153,17 +174,107 @@
         "reason": "Mapped from public profile"
       },
       {
-        "field_id": "question_16876427003",
-        "label": "Additional Link",
+        "field_id": "question_8969945005",
+        "label": "Please re-confirm the university you currently attend",
         "type": "text",
-        "canonical_field": "screener:portfolio_url",
-        "action": "skip_empty",
-        "value": null,
-        "reason": "portfolio_url empty in bank — optional, skipped"
+        "canonical_field": "screener:custom:predicted:question_8969945005",
+        "action": "fill",
+        "value": "Johns Hopkins University",
+        "reason": "Predicted from operator context (llm_predict): Profile facts list Johns Hopkins University as the candidate's school."
       },
       {
-        "field_id": "question_16876428003",
-        "label": "Preferred Pronouns",
+        "field_id": "question_8969946005",
+        "label": "Please re-confirm your expected graduation date",
+        "type": "text",
+        "canonical_field": "graduation_year",
+        "action": "fill",
+        "value": "After January 2029",
+        "reason": "Mapped from public profile; placed onto \"After January 2029\""
+      },
+      {
+        "field_id": "question_8969947005[]",
+        "label": "Undergrad Discipline(s)",
+        "type": "checkbox",
+        "canonical_field": "major",
+        "action": "fill",
+        "value": "Mathematics",
+        "reason": "Mapped from public profile; placed onto \"Mathematics\""
+      },
+      {
+        "field_id": "question_8969948005",
+        "label": "Do you have relevant internship experience at a proprietary trading firm?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_8969948005",
+        "action": "fill",
+        "value": "No",
+        "reason": "Predicted from operator context (llm_predict): Experience is in ML, health tech, and startups; no proprietary trading firm roles listed."
+      },
+      {
+        "field_id": "question_8969949005",
+        "label": "If yes, select your most recent proprietary trading firm experience",
+        "type": "text",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "Predict produced no usable answer"
+      },
+      {
+        "field_id": "question_8969950005",
+        "label": "If other, please specify",
+        "type": "text",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "Predict produced no usable answer"
+      },
+      {
+        "field_id": "question_8969951005",
+        "label": "What country do you currently reside in?",
+        "type": "text",
+        "canonical_field": "screener:custom:country_of_residence",
+        "action": "fill",
+        "value": "United States of America",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_8969952005",
+        "label": "If applicable, which US state do you reside in?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_8969952005",
+        "action": "fill",
+        "value": "Maryland",
+        "reason": "Predicted from operator context (llm_predict): Profile facts list Baltimore, Maryland as the candidate's location."
+      },
+      {
+        "field_id": "question_8969953005",
+        "label": "Are you legally authorized to work in the country where this role is based?",
+        "type": "text",
+        "canonical_field": "work_authorization",
+        "action": "fill",
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile; placed onto \"Yes, I am authorized to work in this country for any employer\""
+      },
+      {
+        "field_id": "question_8969954005",
+        "label": "Will you now or in the future require employer sponsorship for work authorization in this country? If you will be working under a student visa for this role, please select \"Yes.\"",
+        "type": "text",
+        "canonical_field": "work_authorization",
+        "action": "fill",
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile; placed onto \"Yes, I will require sponsorship now or in the future to work in this country\""
+      },
+      {
+        "field_id": "question_8969955005",
+        "label": "If yes, please provide your visa type and expiration date.",
+        "type": "text",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "Predict produced no usable answer"
+      },
+      {
+        "field_id": "question_8969956005",
+        "label": "What are your preferred pronouns?",
         "type": "text",
         "canonical_field": null,
         "action": "skip_demographics",
@@ -171,76 +282,31 @@
         "reason": "Demographics deferred to sensitive-profile policy path"
       },
       {
-        "field_id": "question_16876429003[]",
-        "label": "Are you currently authorized to work in the United States?",
-        "type": "checkbox",
-        "canonical_field": "work_authorization",
-        "action": "fill",
-        "value": "[REDACTED_SPONSORSHIP]",
-        "reason": "Mapped from public profile"
-      },
-      {
-        "field_id": "question_16876430003",
-        "label": "Will you, at any point, require employer sponsorship to work in the United States?",
+        "field_id": "question_8969957005",
+        "label": "How did you hear about DV Trading?",
         "type": "text",
-        "canonical_field": "screener:requires_sponsorship",
-        "action": "fill",
-        "value": "[REDACTED_SPONSORSHIP]",
-        "reason": "Screener bank answer (profile_derived)"
-      },
-      {
-        "field_id": "question_16876431003[]",
-        "label": "I understand that this position requires me to work on-site.",
-        "type": "checkbox",
-        "canonical_field": "screener:custom:onsite_requirement_acknowledged",
-        "action": "fill",
-        "value": "Yes",
-        "reason": "Screener bank answer (exact_option)"
-      },
-      {
-        "field_id": "question_16876432003",
-        "label": "At this time we do not offer relocation assistance to interns. If hired, are you able to relocate on your own if you are not based locally?",
-        "type": "text",
-        "canonical_field": "screener:willing_to_relocate",
-        "action": "fill",
-        "value": "Yes",
-        "reason": "Screener bank answer (synonym_option)"
-      },
-      {
-        "field_id": "question_16876433003",
-        "label": "What intern season are you interested in?",
-        "type": "text",
-        "canonical_field": "screener:custom:internship_season",
-        "action": "fill",
-        "value": "Winter 2027 (January - April)",
-        "reason": "Screener bank answer (exact_option)"
-      },
-      {
-        "field_id": "question_16876434003",
-        "label": "Ideal start date in office",
-        "type": "text",
-        "canonical_field": "screener:start_availability",
-        "action": "fill",
-        "value": "Flexible — aligned to the posted term",
-        "reason": "Screener bank answer (free_text)"
-      },
-      {
-        "field_id": "question_16876435003[]",
-        "label": "How did you hear about us?",
-        "type": "checkbox",
-        "canonical_field": "how_heard",
+        "canonical_field": "screener:how_heard",
         "action": "fill",
         "value": "LinkedIn",
-        "reason": "Mapped from public profile"
+        "reason": "Screener bank answer (exact_option)"
       },
       {
-        "field_id": "question_16876436003",
-        "label": "Please specify",
+        "field_id": "question_8969958005",
+        "label": "If other, please explain",
         "type": "text",
-        "canonical_field": "screener:custom:prior_experience_details",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "Predict produced no usable answer"
+      },
+      {
+        "field_id": "question_8969959005",
+        "label": "Terms &amp; Conditions",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_8969959005",
         "action": "fill",
-        "value": "I currently work on applied machine learning at Summer Atlantic Capital / SAC Nexus, where I build the ML core of an anomaly-detection and alert-prioritization system, including the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, and a retrieval-augmented explanation layer. Before that I worked with Intelehealth on AI and data systems for rural telemedicine, including a resource-availability scoring pipeline across 32 villages and an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case clinical standard.",
-        "reason": "Screener bank answer (free_text)"
+        "value": "Yes, I have read and agree to DV Trading's Privacy Policy.",
+        "reason": "Predicted from operator context (llm_predict): Single required acknowledgement option must be selected to submit."
       },
       {
         "field_id": "gender",
@@ -279,32 +345,30 @@
         "reason": "Mapped from sensitive profile (operator-supplied)"
       }
     ],
-    "fillable_count": 23,
-    "skipped_count": 5,
+    "fillable_count": 27,
+    "skipped_count": 8,
     "review_required_count": 0
   },
   "submit_attempted": false,
   "notes": [
     "session: handoff (caller-owned page, not closed here)",
-    "schema diff: 20/22 declared question(s) matched onto 28 DOM field(s); 2 declared-only (1 required); 8 DOM-only",
-    "board API declared 22 question(s); matched complete option lists onto 8 field(s)",
-    "option harvest: scraped real options for 5/14 control(s) before planning",
+    "schema diff: 20/23 declared question(s) matched onto 35 DOM field(s); 3 declared-only (2 required); 15 DOM-only",
+    "board API declared 23 question(s); matched complete option lists onto 11 field(s)",
+    "option harvest: scraped real options for 11/22 control(s) before planning",
     "frozen after fill→verify→upload — no further field mutation; submit never called"
   ],
   "validation_level": "LIVE_MUTATION_CONFIRMED",
-  "final_url": "https://job-boards.greenhouse.io/neuralink/jobs/5469298003",
+  "final_url": "https://job-boards.greenhouse.io/dvtrading/jobs/4719119005",
   "identity_verification": {
-    "requestedUrl": "https://boards.greenhouse.io/neuralink/jobs/5469298003",
-    "finalUrl": "https://job-boards.greenhouse.io/neuralink/jobs/5469298003",
-    "requestedJobId": "5469298003",
-    "observedJobId": "5469298003",
-    "company": "neuralink",
-    "role": "Job Application for Software Engineer Intern, Infrastructure at Neuralink",
+    "requestedUrl": "https://job-boards.greenhouse.io/dvtrading/jobs/4719119005",
+    "finalUrl": "https://job-boards.greenhouse.io/dvtrading/jobs/4719119005",
+    "requestedJobId": "4719119005",
+    "observedJobId": "4719119005",
+    "company": "dvtrading",
+    "role": "Job Application for Software Engineer Intern - Summer 2027 (DV Commodities) at DV Trading",
     "formDetected": true,
-    "fieldCount": 28,
-    "warnings": [
-      "login_wall_low: auth_provider_marker"
-    ],
+    "fieldCount": 35,
+    "warnings": [],
     "passed": true,
     "failureCode": null,
     "failureReason": null
@@ -313,22 +377,23 @@
     "detected": false,
     "confidence": "LOW",
     "signals": [],
-    "dormantMarkers": []
+    "dormantMarkers": [
+      "recaptcha_api_script_loaded",
+      "generic_captcha_word_only"
+    ]
   },
   "login_wall_detection": {
     "detected": false,
     "confidence": "LOW",
-    "signals": [
-      "auth_provider_marker"
-    ]
+    "signals": []
   },
   "failure_code": null,
   "mutation_attempted": true,
   "schema_diff": {
-    "board": "neuralink",
-    "job_id": "5469298003",
-    "declared_count": 22,
-    "dom_count": 28,
+    "board": "dvtrading",
+    "job_id": "4719119005",
+    "declared_count": 23,
+    "dom_count": 35,
     "matched": 20,
     "api_only": [
       {
@@ -338,13 +403,24 @@
       {
         "label": "Cover Letter",
         "required": false
+      },
+      {
+        "label": "Terms & Conditions",
+        "required": true
       }
     ],
     "dom_only": [
       "Country",
-      "Search",
       "Attach",
       "Attach",
+      "School",
+      "Degree",
+      "Discipline",
+      "Start date month",
+      "Start date year",
+      "End date month",
+      "End date year",
+      "Terms &amp; Conditions",
       "Gender",
       "Are you Hispanic/Latino?",
       "Veteran Status",
@@ -384,6 +460,145 @@
         "Belgium +32",
         "Belize +501",
         "Benin +229"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "school--0",
+      "label": "School",
+      "answer_space": "closed",
+      "option_count": 100,
+      "options": [
+        "Aalborg University",
+        "Aalto University",
+        "Aarhus University",
+        "Abertay University",
+        "Aberystwyth University",
+        "Abilene Christian University",
+        "Abo Akademi University",
+        "Abraham Baldwin Agricultural College",
+        "Abu Dhabi University",
+        "Academy of Art University",
+        "Acadia University",
+        "Acharya Nagarjuna University",
+        "Acupuncture and Integrative Medicine College - Berkeley",
+        "Adams State University",
+        "Adelphi University",
+        "Adrian College",
+        "Adventist University of Health Sciences",
+        "Agnes Scott College",
+        "AIB College of Business",
+        "Ain Shams University",
+        "Airlangga University",
+        "Ajou University",
+        "Alabama A&M University",
+        "Alabama State University",
+        "Alaska Pacific University"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "degree--0",
+      "label": "Degree",
+      "answer_space": "closed",
+      "option_count": 10,
+      "options": [
+        "Associate's Degree",
+        "Bachelor's Degree",
+        "Doctor of Medicine (M.D.)",
+        "Doctor of Philosophy (Ph.D.)",
+        "Engineer's Degree",
+        "High School",
+        "Juris Doctor (J.D.)",
+        "Master of Business Administration (M.B.A.)",
+        "Master's Degree",
+        "Other"
+      ],
+      "other_option": "Other"
+    },
+    {
+      "field_id": "discipline--0",
+      "label": "Discipline",
+      "answer_space": "closed",
+      "option_count": 72,
+      "options": [
+        "Accounting",
+        "African Studies",
+        "Agriculture",
+        "Anthropology",
+        "Applied Health Services",
+        "Architecture",
+        "Art",
+        "Asian Studies",
+        "Biology",
+        "Business",
+        "Business Administration",
+        "Chemistry",
+        "Classical Languages",
+        "Communications & Film",
+        "Computer Science",
+        "Dentistry",
+        "Developing Nations",
+        "Discipline Unknown",
+        "Earth Sciences",
+        "Economics",
+        "Education",
+        "Electronics",
+        "Engineering",
+        "English Studies",
+        "Environmental Studies"
+      ],
+      "other_option": "Other"
+    },
+    {
+      "field_id": "start-month--0",
+      "label": "Start date month",
+      "answer_space": "closed",
+      "option_count": 12,
+      "options": [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "end-month--0",
+      "label": "End date month",
+      "answer_space": "closed",
+      "option_count": 12,
+      "options": [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "question_8969959005",
+      "label": "Terms &amp; Conditions",
+      "answer_space": "closed",
+      "option_count": 1,
+      "options": [
+        "Yes, I have read and agree to DV Trading's Privacy Policy."
       ],
       "other_option": null
     },
@@ -459,6 +674,16 @@
         "reason": "Mapped from public profile"
       },
       {
+        "field_id": "preferred_name",
+        "label": "Preferred First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "FILL",
+        "approved": true,
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
         "field_id": "email",
         "label": "Email",
         "type": "text",
@@ -477,16 +702,6 @@
         "approved": true,
         "value": "United States +1",
         "reason": "Mapped from public profile; placed onto \"United States +1\""
-      },
-      {
-        "field_id": "iti-0__search-input",
-        "label": "Search",
-        "type": "unknown",
-        "canonical_field": null,
-        "action": "SKIP",
-        "approved": false,
-        "value": null,
-        "reason": "No answer-alias mapping"
       },
       {
         "field_id": "phone",
@@ -519,57 +734,77 @@
         "reason": "File uploads handled via uploadResume/uploadCoverLetter"
       },
       {
-        "field_id": "question_16876421003",
-        "label": "We look for evidence of exceptional ability. Please provide us with 3-4 examples highlighting your exceptional ability, using quantitative metrics to display the impact on a product/project related to the requirements of the position you are applying for. Each bullet should be very concise— no longer than 3-4 sentences each and should capture the problem, solution, and result. We recommend starting with an action word (designed, led, built, promoted, launched, created, etc.) and be sure to include technical detail. This is your moment to WOW us! NOTE: Answering this question fully is the most important part of our interview process. First example:",
-        "type": "textarea",
-        "canonical_field": "essay:generated:question_16876421003",
-        "action": "FILL",
-        "approved": true,
-        "value": "Built the machine learning core and supporting infrastructure for an anomaly-detection and alert-prioritization system at Summer Atlantic Capital / SAC Nexus, where the real problem was not detection accuracy but alert volume: a system that flags everything just moves the workload onto human analysts. I own the repository and CI scaffold, the event-ingestion pipeline, and a versioned FastAPI microservice exposing the public detection API, so model changes ship behind stable, versioned endpoints instead of breaking downstream consumers. On top of that I built temporal sequence models over event streams using RNN and Transformer-style approaches for anomaly scoring, plus a learning-to-rank layer that orders alerts by priority rather than dumping them undifferentiated. I then added a retrieval-augmented LLM explanation layer so each surfaced anomaly comes with a traceable explanation an analyst can actually act on, and treated failure modes and documentation as part of the deliverable rather than an afterthought.",
-        "reason": "Essay generated from the operator's about-me context"
-      },
-      {
-        "field_id": "question_16876422003",
-        "label": "Second example:",
-        "type": "textarea",
-        "canonical_field": "essay:generated:question_16876422003",
-        "action": "FILL",
-        "approved": true,
-        "value": "A second one is a job-application agent I built for myself in TypeScript and Node, using Playwright for browser interaction. The problem was that job hunting is mostly repetitive browser work: opening ATS pages, refilling the same information, tracking state, following up. The catch is that a fully autonomous browser agent is dangerous here, because one wrong click submits a real application or fills a legal or demographic field incorrectly.\n\nSo I built it as a deterministic, operator-controlled system instead. Every application moves through an explicit state machine (DISCOVERED to ELIGIBILITY_CHECK to QUEUED to INSPECT to FILL to READY_TO_SUBMIT to SUBMITTED), with SQLite as the single source of truth, because state diverging across processes is what makes automation unsafe. Every mutating capability sits behind fail-closed flags like SUBMIT_ENABLED that never default on and are never on in tests. Free-text and demographic fields are architecturally prevented from autofilling and always generate a human-review item. I also added a validation ladder, from unit-confirmed up to live-mutation-confirmed, so nothing counts as working just because a fixture passed. Greenhouse is fully supported; Workday and iCIMS are detected and deliberately skipped rather than handled unreliably.",
-        "reason": "Essay generated from the operator's about-me context"
-      },
-      {
-        "field_id": "question_16876423003",
-        "label": "Third example:",
-        "type": "textarea",
-        "canonical_field": "essay:generated:question_16876423003",
-        "action": "FILL",
-        "approved": true,
-        "value": "At Summer Atlantic Capital / SAC Nexus, I build the machine-learning core of an anomaly-detection and alert-prioritization system, and I own a lot of the infrastructure around it: the repository and CI scaffold, the event-ingestion pipeline, a versioned FastAPI microservice, and the public detection API. The modeling side uses temporal sequence models over event streams, RNN and Transformer-style approaches, anomaly scoring, and a learning-to-rank layer for ordering alerts. I also built an LLM explanation layer with retrieval-augmented generation so the outputs are readable to a human analyst rather than just a score.\n\nWhat shaped the design was realizing that raw detection quality was not the binding constraint. A detector that fires constantly just hands the analyst a second problem, so prioritization, explanation quality, versioning, and documenting failure modes ended up mattering as much as model metrics. That is also why I versioned the service early: downstream users need to know exactly which detector produced an alert.",
-        "reason": "Essay generated from the operator's about-me context"
-      },
-      {
-        "field_id": "question_16876424003",
-        "label": "Do you have prior internship or co-op experience?",
+        "field_id": "school--0",
+        "label": "School",
         "type": "text",
-        "canonical_field": "screener:custom:prior_internship_experience",
-        "action": "FILL",
-        "approved": true,
-        "value": "Yes",
-        "reason": "Screener bank answer (exact_option)"
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
       },
       {
-        "field_id": "question_16876425003",
-        "label": "What year will you graduate?",
+        "field_id": "degree--0",
+        "label": "Degree",
         "type": "text",
-        "canonical_field": "screener:custom:graduation_year",
+        "canonical_field": "degree",
+        "action": "FILL",
+        "approved": true,
+        "value": "Bachelor's Degree",
+        "reason": "Mapped from public profile; placed onto \"Bachelor's Degree\""
+      },
+      {
+        "field_id": "discipline--0",
+        "label": "Discipline",
+        "type": "text",
+        "canonical_field": "major",
+        "action": "FILL",
+        "approved": true,
+        "value": "Mathematics",
+        "reason": "Mapped from public profile; placed onto \"Mathematics\""
+      },
+      {
+        "field_id": "start-month--0",
+        "label": "Start date month",
+        "type": "text",
+        "canonical_field": "start_month",
+        "action": "FILL",
+        "approved": true,
+        "value": "August",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "start-year--0",
+        "label": "Start date year",
+        "type": "text",
+        "canonical_field": "start_year",
+        "action": "FILL",
+        "approved": true,
+        "value": "2025",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "end-month--0",
+        "label": "End date month",
+        "type": "text",
+        "canonical_field": "graduation_month",
+        "action": "FILL",
+        "approved": true,
+        "value": "May",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "end-year--0",
+        "label": "End date year",
+        "type": "text",
+        "canonical_field": "graduation_year",
         "action": "FILL",
         "approved": true,
         "value": "2029",
-        "reason": "Screener bank answer (exact_option)"
+        "reason": "Mapped from public profile"
       },
       {
-        "field_id": "question_16876426003",
+        "field_id": "question_8969944005",
         "label": "LinkedIn Profile",
         "type": "text",
         "canonical_field": "linkedin_url",
@@ -579,18 +814,118 @@
         "reason": "Mapped from public profile"
       },
       {
-        "field_id": "question_16876427003",
-        "label": "Additional Link",
+        "field_id": "question_8969945005",
+        "label": "Please re-confirm the university you currently attend",
         "type": "text",
-        "canonical_field": "screener:portfolio_url",
+        "canonical_field": "screener:custom:predicted:question_8969945005",
+        "action": "FILL",
+        "approved": true,
+        "value": "Johns Hopkins University",
+        "reason": "Predicted from operator context (llm_predict): Profile facts list Johns Hopkins University as the candidate's school."
+      },
+      {
+        "field_id": "question_8969946005",
+        "label": "Please re-confirm your expected graduation date",
+        "type": "text",
+        "canonical_field": "graduation_year",
+        "action": "FILL",
+        "approved": true,
+        "value": "After January 2029",
+        "reason": "Mapped from public profile; placed onto \"After January 2029\""
+      },
+      {
+        "field_id": "question_8969947005[]",
+        "label": "Undergrad Discipline(s)",
+        "type": "checkbox",
+        "canonical_field": "major",
+        "action": "FILL",
+        "approved": true,
+        "value": "Mathematics",
+        "reason": "Mapped from public profile; placed onto \"Mathematics\""
+      },
+      {
+        "field_id": "question_8969948005",
+        "label": "Do you have relevant internship experience at a proprietary trading firm?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_8969948005",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Predicted from operator context (llm_predict): Experience is in ML, health tech, and startups; no proprietary trading firm roles listed."
+      },
+      {
+        "field_id": "question_8969949005",
+        "label": "If yes, select your most recent proprietary trading firm experience",
+        "type": "text",
+        "canonical_field": null,
         "action": "SKIP",
         "approved": false,
         "value": null,
-        "reason": "portfolio_url empty in bank — optional, skipped"
+        "reason": "Predict produced no usable answer"
       },
       {
-        "field_id": "question_16876428003",
-        "label": "Preferred Pronouns",
+        "field_id": "question_8969950005",
+        "label": "If other, please specify",
+        "type": "text",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "Predict produced no usable answer"
+      },
+      {
+        "field_id": "question_8969951005",
+        "label": "What country do you currently reside in?",
+        "type": "text",
+        "canonical_field": "screener:custom:country_of_residence",
+        "action": "FILL",
+        "approved": true,
+        "value": "United States of America",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_8969952005",
+        "label": "If applicable, which US state do you reside in?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_8969952005",
+        "action": "FILL",
+        "approved": true,
+        "value": "Maryland",
+        "reason": "Predicted from operator context (llm_predict): Profile facts list Baltimore, Maryland as the candidate's location."
+      },
+      {
+        "field_id": "question_8969953005",
+        "label": "Are you legally authorized to work in the country where this role is based?",
+        "type": "text",
+        "canonical_field": "work_authorization",
+        "action": "FILL",
+        "approved": true,
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile; placed onto \"Yes, I am authorized to work in this country for any employer\""
+      },
+      {
+        "field_id": "question_8969954005",
+        "label": "Will you now or in the future require employer sponsorship for work authorization in this country? If you will be working under a student visa for this role, please select \"Yes.\"",
+        "type": "text",
+        "canonical_field": "work_authorization",
+        "action": "FILL",
+        "approved": true,
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile; placed onto \"Yes, I will require sponsorship now or in the future to work in this country\""
+      },
+      {
+        "field_id": "question_8969955005",
+        "label": "If yes, please provide your visa type and expiration date.",
+        "type": "text",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "Predict produced no usable answer"
+      },
+      {
+        "field_id": "question_8969956005",
+        "label": "What are your preferred pronouns?",
         "type": "text",
         "canonical_field": null,
         "action": "SKIP",
@@ -599,84 +934,34 @@
         "reason": "Demographics deferred to sensitive-profile policy path"
       },
       {
-        "field_id": "question_16876429003[]",
-        "label": "Are you currently authorized to work in the United States?",
-        "type": "checkbox",
-        "canonical_field": "work_authorization",
-        "action": "FILL",
-        "approved": true,
-        "value": "[REDACTED_SPONSORSHIP]",
-        "reason": "Mapped from public profile"
-      },
-      {
-        "field_id": "question_16876430003",
-        "label": "Will you, at any point, require employer sponsorship to work in the United States?",
+        "field_id": "question_8969957005",
+        "label": "How did you hear about DV Trading?",
         "type": "text",
-        "canonical_field": "screener:requires_sponsorship",
-        "action": "FILL",
-        "approved": true,
-        "value": "[REDACTED_SPONSORSHIP]",
-        "reason": "Screener bank answer (profile_derived)"
-      },
-      {
-        "field_id": "question_16876431003[]",
-        "label": "I understand that this position requires me to work on-site.",
-        "type": "checkbox",
-        "canonical_field": "screener:custom:onsite_requirement_acknowledged",
-        "action": "FILL",
-        "approved": true,
-        "value": "Yes",
-        "reason": "Screener bank answer (exact_option)"
-      },
-      {
-        "field_id": "question_16876432003",
-        "label": "At this time we do not offer relocation assistance to interns. If hired, are you able to relocate on your own if you are not based locally?",
-        "type": "text",
-        "canonical_field": "screener:willing_to_relocate",
-        "action": "FILL",
-        "approved": true,
-        "value": "Yes",
-        "reason": "Screener bank answer (synonym_option)"
-      },
-      {
-        "field_id": "question_16876433003",
-        "label": "What intern season are you interested in?",
-        "type": "text",
-        "canonical_field": "screener:custom:internship_season",
-        "action": "FILL",
-        "approved": true,
-        "value": "Winter 2027 (January - April)",
-        "reason": "Screener bank answer (exact_option)"
-      },
-      {
-        "field_id": "question_16876434003",
-        "label": "Ideal start date in office",
-        "type": "text",
-        "canonical_field": "screener:start_availability",
-        "action": "FILL",
-        "approved": true,
-        "value": "Flexible — aligned to the posted term",
-        "reason": "Screener bank answer (free_text)"
-      },
-      {
-        "field_id": "question_16876435003[]",
-        "label": "How did you hear about us?",
-        "type": "checkbox",
-        "canonical_field": "how_heard",
+        "canonical_field": "screener:how_heard",
         "action": "FILL",
         "approved": true,
         "value": "LinkedIn",
-        "reason": "Mapped from public profile"
+        "reason": "Screener bank answer (exact_option)"
       },
       {
-        "field_id": "question_16876436003",
-        "label": "Please specify",
+        "field_id": "question_8969958005",
+        "label": "If other, please explain",
         "type": "text",
-        "canonical_field": "screener:custom:prior_experience_details",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "Predict produced no usable answer"
+      },
+      {
+        "field_id": "question_8969959005",
+        "label": "Terms &amp; Conditions",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_8969959005",
         "action": "FILL",
         "approved": true,
-        "value": "I currently work on applied machine learning at Summer Atlantic Capital / SAC Nexus, where I build the ML core of an anomaly-detection and alert-prioritization system, including the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, and a retrieval-augmented explanation layer. Before that I worked with Intelehealth on AI and data systems for rural telemedicine, including a resource-availability scoring pipeline across 32 villages and an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case clinical standard.",
-        "reason": "Screener bank answer (free_text)"
+        "value": "Yes, I have read and agree to DV Trading's Privacy Policy.",
+        "reason": "Predicted from operator context (llm_predict): Single required acknowledgement option must be selected to submit."
       },
       {
         "field_id": "gender",
@@ -725,50 +1010,54 @@
       "email": "s***@gmail.com",
       "address.country": "United States +1",
       "phone": "***-***-7636",
-      "essay:generated:question_16876421003": "Built the machine learning core and supporting infrastructure for an anomaly-detection and alert-prioritization system at Summer Atlantic Capital / SAC Nexus, where the real problem was not detection accuracy but alert volume: a system that flags everything just moves the workload onto human analysts. I own the repository and CI scaffold, the event-ingestion pipeline, and a versioned FastAPI microservice exposing the public detection API, so model changes ship behind stable, versioned endpoints instead of breaking downstream consumers. On top of that I built temporal sequence models over event streams using RNN and Transformer-style approaches for anomaly scoring, plus a learning-to-rank layer that orders alerts by priority rather than dumping them undifferentiated. I then added a retrieval-augmented LLM explanation layer so each surfaced anomaly comes with a traceable explanation an analyst can actually act on, and treated failure modes and documentation as part of the deliverable rather than an afterthought.",
-      "essay:generated:question_16876422003": "A second one is a job-application agent I built for myself in TypeScript and Node, using Playwright for browser interaction. The problem was that job hunting is mostly repetitive browser work: opening ATS pages, refilling the same information, tracking state, following up. The catch is that a fully autonomous browser agent is dangerous here, because one wrong click submits a real application or fills a legal or demographic field incorrectly.\n\nSo I built it as a deterministic, operator-controlled system instead. Every application moves through an explicit state machine (DISCOVERED to ELIGIBILITY_CHECK to QUEUED to INSPECT to FILL to READY_TO_SUBMIT to SUBMITTED), with SQLite as the single source of truth, because state diverging across processes is what makes automation unsafe. Every mutating capability sits behind fail-closed flags like SUBMIT_ENABLED that never default on and are never on in tests. Free-text and demographic fields are architecturally prevented from autofilling and always generate a human-review item. I also added a validation ladder, from unit-confirmed up to live-mutation-confirmed, so nothing counts as working just because a fixture passed. Greenhouse is fully supported; Workday and iCIMS are detected and deliberately skipped rather than handled unreliably.",
-      "essay:generated:question_16876423003": "At Summer Atlantic Capital / SAC Nexus, I build the machine-learning core of an anomaly-detection and alert-prioritization system, and I own a lot of the infrastructure around it: the repository and CI scaffold, the event-ingestion pipeline, a versioned FastAPI microservice, and the public detection API. The modeling side uses temporal sequence models over event streams, RNN and Transformer-style approaches, anomaly scoring, and a learning-to-rank layer for ordering alerts. I also built an LLM explanation layer with retrieval-augmented generation so the outputs are readable to a human analyst rather than just a score.\n\nWhat shaped the design was realizing that raw detection quality was not the binding constraint. A detector that fires constantly just hands the analyst a second problem, so prioritization, explanation quality, versioning, and documenting failure modes ended up mattering as much as model metrics. That is also why I versioned the service early: downstream users need to know exactly which detector produced an alert.",
-      "screener:custom:prior_internship_experience": "Yes",
-      "screener:custom:graduation_year": "2029",
+      "degree": "Bachelor's Degree",
+      "major": "Mathematics",
+      "start_month": "August",
+      "start_year": "2025",
+      "graduation_month": "May",
+      "graduation_year": "After January 2029",
       "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+      "screener:custom:predicted:question_8969945005": "Johns Hopkins University",
+      "screener:custom:predicted:question_8969948005": "No",
+      "screener:custom:country_of_residence": "United States of America",
+      "screener:custom:predicted:question_8969952005": "Maryland",
       "work_authorization": "[REDACTED_SPONSORSHIP]",
-      "screener:requires_sponsorship": "[REDACTED_SPONSORSHIP]",
-      "screener:custom:onsite_requirement_acknowledged": "Yes",
-      "screener:willing_to_relocate": "Yes",
-      "screener:custom:internship_season": "Winter 2027 (January - April)",
-      "screener:start_availability": "Flexible — aligned to the posted term",
-      "how_heard": "LinkedIn",
-      "screener:custom:prior_experience_details": "I currently work on applied machine learning at Summer Atlantic Capital / SAC Nexus, where I build the ML core of an anomaly-detection and alert-prioritization system, including the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, and a retrieval-augmented explanation layer. Before that I worked with Intelehealth on AI and data systems for rural telemedicine, including a resource-availability scoring pipeline across 32 villages and an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case clinical standard.",
+      "screener:how_heard": "LinkedIn",
+      "screener:custom:predicted:question_8969959005": "Yes, I have read and agree to DV Trading's Privacy Policy.",
       "gender": "Male",
       "hispanic_latino": "No",
       "veteran_status": "I am not a veteran",
       "disability_status": "No"
     },
-    "fillable_count": 23,
-    "skipped_count": 5,
+    "fillable_count": 27,
+    "skipped_count": 8,
     "review_required_count": 0
   },
   "fill": {
     "filled": [
       "legal_name.first",
       "legal_name.last",
+      "legal_name.first",
       "email",
       "address.country",
       "phone",
-      "essay:generated:question_16876421003",
-      "essay:generated:question_16876422003",
-      "essay:generated:question_16876423003",
-      "screener:custom:prior_internship_experience",
-      "screener:custom:graduation_year",
+      "degree",
+      "major",
+      "start_month",
+      "start_year",
+      "graduation_month",
+      "graduation_year",
       "linkedin_url",
+      "screener:custom:predicted:question_8969945005",
+      "graduation_year",
+      "major",
+      "screener:custom:predicted:question_8969948005",
+      "screener:custom:country_of_residence",
+      "screener:custom:predicted:question_8969952005",
       "work_authorization",
-      "screener:requires_sponsorship",
-      "screener:custom:onsite_requirement_acknowledged",
-      "screener:willing_to_relocate",
-      "screener:custom:internship_season",
-      "screener:start_availability",
-      "how_heard",
-      "screener:custom:prior_experience_details",
+      "work_authorization",
+      "screener:how_heard",
+      "screener:custom:predicted:question_8969959005",
       "gender",
       "hispanic_latino",
       "veteran_status",
@@ -785,6 +1074,11 @@
       {
         "field_id": "last_name",
         "canonical_field": "legal_name.last",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "preferred_name",
+        "canonical_field": "legal_name.first",
         "control_kind": "text"
       },
       {
@@ -809,56 +1103,95 @@
         "control_kind": "text"
       },
       {
-        "field_id": "question_16876421003",
-        "canonical_field": "essay:generated:question_16876421003",
-        "control_kind": "text"
-      },
-      {
-        "field_id": "question_16876422003",
-        "canonical_field": "essay:generated:question_16876422003",
-        "control_kind": "text"
-      },
-      {
-        "field_id": "question_16876423003",
-        "canonical_field": "essay:generated:question_16876423003",
-        "control_kind": "text"
-      },
-      {
-        "field_id": "question_16876424003",
-        "canonical_field": "screener:custom:prior_internship_experience",
+        "field_id": "degree--0",
+        "canonical_field": "degree",
         "control_kind": "combobox",
-        "selected_option": "Yes",
+        "selected_option": "Bachelor's Degree",
         "match_via": "exact",
         "notes": [
           "opened via control click",
-          "picked \"Yes\" (exact) from open list"
+          "picked \"Bachelor's Degree\" (exact) from open list"
         ]
       },
       {
-        "field_id": "question_16876425003",
-        "canonical_field": "screener:custom:graduation_year",
+        "field_id": "discipline--0",
+        "canonical_field": "major",
         "control_kind": "combobox",
-        "selected_option": "2029",
+        "selected_option": "Mathematics",
+        "match_via": "synonym",
+        "notes": [
+          "opened via control click",
+          "picked \"Mathematics\" (synonym) from open list"
+        ]
+      },
+      {
+        "field_id": "start-month--0",
+        "canonical_field": "start_month",
+        "control_kind": "combobox",
+        "selected_option": "August",
         "match_via": "exact",
         "notes": [
           "opened via control click",
-          "picked \"2029\" (exact) from open list"
+          "picked \"August\" (exact) from open list"
         ]
       },
       {
-        "field_id": "question_16876426003",
+        "field_id": "start-year--0",
+        "canonical_field": "start_year",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "end-month--0",
+        "canonical_field": "graduation_month",
+        "control_kind": "combobox",
+        "selected_option": "May",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"May\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "end-year--0",
+        "canonical_field": "graduation_year",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_8969944005",
         "canonical_field": "linkedin_url",
         "control_kind": "text"
       },
       {
-        "field_id": "question_16876429003[]",
-        "canonical_field": "work_authorization",
-        "control_kind": "checkbox_group",
-        "selected_option": "Yes"
+        "field_id": "question_8969945005",
+        "canonical_field": "screener:custom:predicted:question_8969945005",
+        "control_kind": "combobox",
+        "selected_option": "Johns Hopkins University",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Johns Hopkins University\" (exact) from open list"
+        ]
       },
       {
-        "field_id": "question_16876430003",
-        "canonical_field": "screener:requires_sponsorship",
+        "field_id": "question_8969946005",
+        "canonical_field": "graduation_year",
+        "control_kind": "combobox",
+        "selected_option": "After January 2029",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"After January 2029\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_8969947005[]",
+        "canonical_field": "major",
+        "control_kind": "checkbox_group",
+        "selected_option": "Mathematics"
+      },
+      {
+        "field_id": "question_8969948005",
+        "canonical_field": "screener:custom:predicted:question_8969948005",
         "control_kind": "combobox",
         "selected_option": "No",
         "match_via": "exact",
@@ -868,47 +1201,70 @@
         ]
       },
       {
-        "field_id": "question_16876431003[]",
-        "canonical_field": "screener:custom:onsite_requirement_acknowledged",
-        "control_kind": "text"
-      },
-      {
-        "field_id": "question_16876432003",
-        "canonical_field": "screener:willing_to_relocate",
+        "field_id": "question_8969951005",
+        "canonical_field": "screener:custom:country_of_residence",
         "control_kind": "combobox",
-        "selected_option": "Yes",
+        "selected_option": "United States of America",
         "match_via": "exact",
         "notes": [
           "opened via control click",
-          "picked \"Yes\" (exact) from open list"
+          "picked \"United States of America\" (exact) from open list"
         ]
       },
       {
-        "field_id": "question_16876433003",
-        "canonical_field": "screener:custom:internship_season",
+        "field_id": "question_8969952005",
+        "canonical_field": "screener:custom:predicted:question_8969952005",
         "control_kind": "combobox",
-        "selected_option": "Winter 2027 (January - April)",
+        "selected_option": "Maryland",
         "match_via": "exact",
         "notes": [
           "opened via control click",
-          "picked \"Winter 2027 (January - April)\" (exact) from open list"
+          "picked \"Maryland\" (exact) from open list"
         ]
       },
       {
-        "field_id": "question_16876434003",
-        "canonical_field": "screener:start_availability",
-        "control_kind": "text"
+        "field_id": "question_8969953005",
+        "canonical_field": "work_authorization",
+        "control_kind": "combobox",
+        "selected_option": "Yes, I am authorized to work in this country for any employer",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes, I am authorized to work in this country for any employer\" (exact) from open list"
+        ]
       },
       {
-        "field_id": "question_16876435003[]",
-        "canonical_field": "how_heard",
-        "control_kind": "checkbox_group",
-        "selected_option": "LinkedIn"
+        "field_id": "question_8969954005",
+        "canonical_field": "work_authorization",
+        "control_kind": "combobox",
+        "selected_option": "Yes, I will require sponsorship now or in the future to work in this country",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes, I will require sponsorship now or in the future to work in this country\" (exact) from open list"
+        ]
       },
       {
-        "field_id": "question_16876436003",
-        "canonical_field": "screener:custom:prior_experience_details",
-        "control_kind": "text"
+        "field_id": "question_8969957005",
+        "canonical_field": "screener:how_heard",
+        "control_kind": "combobox",
+        "selected_option": "LinkedIn",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"LinkedIn\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_8969959005",
+        "canonical_field": "screener:custom:predicted:question_8969959005",
+        "control_kind": "combobox",
+        "selected_option": "Yes, I have read and agree to DV Trading's Privacy Policy.",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes, I have read and agree to DV Trading's Privacy Policy.\" (exact) from open list"
+        ]
       },
       {
         "field_id": "gender",
@@ -972,6 +1328,12 @@
         "match": true
       },
       {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
         "canonical_field": "email",
         "expected": "s***@gmail.com",
         "observed": "s***@gmail.com",
@@ -993,39 +1355,51 @@
         "match": true
       },
       {
-        "canonical_field": "essay:generated:question_16876421003",
-        "expected": "Built the machine learning core and supporting infrastructure for an anomaly-detection and alert-prioritization system at Summer Atlantic Capital / SAC Nexus, where the real problem was not detection accuracy but alert volume: a system that flags everything just moves the workload onto human analysts. I own the repository and CI scaffold, the event-ingestion pipeline, and a versioned FastAPI microservice exposing the public detection API, so model changes ship behind stable, versioned endpoints instead of breaking downstream consumers. On top of that I built temporal sequence models over event streams using RNN and Transformer-style approaches for anomaly scoring, plus a learning-to-rank layer that orders alerts by priority rather than dumping them undifferentiated. I then added a retrieval-augmented LLM explanation layer so each surfaced anomaly comes with a traceable explanation an analyst can actually act on, and treated failure modes and documentation as part of the deliverable rather than an afterthought.",
-        "observed": "Built the machine learning core and supporting infrastructure for an anomaly-detection and alert-prioritization system at Summer Atlantic Capital / SAC Nexus, where the real problem was not detection accuracy but alert volume: a system that flags everything just moves the workload onto human analysts. I own the repository and CI scaffold, the event-ingestion pipeline, and a versioned FastAPI microservice exposing the public detection API, so model changes ship behind stable, versioned endpoints instead of breaking downstream consumers. On top of that I built temporal sequence models over event streams using RNN and Transformer-style approaches for anomaly scoring, plus a learning-to-rank layer that orders alerts by priority rather than dumping them undifferentiated. I then added a retrieval-augmented LLM explanation layer so each surfaced anomaly comes with a traceable explanation an analyst can actually act on, and treated failure modes and documentation as part of the deliverable rather than an afterthought.",
-        "match": true
-      },
-      {
-        "canonical_field": "essay:generated:question_16876422003",
-        "expected": "A second one is a job-application agent I built for myself in TypeScript and Node, using Playwright for browser interaction. The problem was that job hunting is mostly repetitive browser work: opening ATS pages, refilling the same information, tracking state, following up. The catch is that a fully autonomous browser agent is dangerous here, because one wrong click submits a real application or fills a legal or demographic field incorrectly.\n\nSo I built it as a deterministic, operator-controlled system instead. Every application moves through an explicit state machine (DISCOVERED to ELIGIBILITY_CHECK to QUEUED to INSPECT to FILL to READY_TO_SUBMIT to SUBMITTED), with SQLite as the single source of truth, because state diverging across processes is what makes automation unsafe. Every mutating capability sits behind fail-closed flags like SUBMIT_ENABLED that never default on and are never on in tests. Free-text and demographic fields are architecturally prevented from autofilling and always generate a human-review item. I also added a validation ladder, from unit-confirmed up to live-mutation-confirmed, so nothing counts as working just because a fixture passed. Greenhouse is fully supported; Workday and iCIMS are detected and deliberately skipped rather than handled unreliably.",
-        "observed": "A second one is a job-application agent I built for myself in TypeScript and Node, using Playwright for browser interaction. The problem was that job hunting is mostly repetitive browser work: opening ATS pages, refilling the same information, tracking state, following up. The catch is that a fully autonomous browser agent is dangerous here, because one wrong click submits a real application or fills a legal or demographic field incorrectly.\n\nSo I built it as a deterministic, operator-controlled system instead. Every application moves through an explicit state machine (DISCOVERED to ELIGIBILITY_CHECK to QUEUED to INSPECT to FILL to READY_TO_SUBMIT to SUBMITTED), with SQLite as the single source of truth, because state diverging across processes is what makes automation unsafe. Every mutating capability sits behind fail-closed flags like SUBMIT_ENABLED that never default on and are never on in tests. Free-text and demographic fields are architecturally prevented from autofilling and always generate a human-review item. I also added a validation ladder, from unit-confirmed up to live-mutation-confirmed, so nothing counts as working just because a fixture passed. Greenhouse is fully supported; Workday and iCIMS are detected and deliberately skipped rather than handled unreliably.",
-        "match": true
-      },
-      {
-        "canonical_field": "essay:generated:question_16876423003",
-        "expected": "At Summer Atlantic Capital / SAC Nexus, I build the machine-learning core of an anomaly-detection and alert-prioritization system, and I own a lot of the infrastructure around it: the repository and CI scaffold, the event-ingestion pipeline, a versioned FastAPI microservice, and the public detection API. The modeling side uses temporal sequence models over event streams, RNN and Transformer-style approaches, anomaly scoring, and a learning-to-rank layer for ordering alerts. I also built an LLM explanation layer with retrieval-augmented generation so the outputs are readable to a human analyst rather than just a score.\n\nWhat shaped the design was realizing that raw detection quality was not the binding constraint. A detector that fires constantly just hands the analyst a second problem, so prioritization, explanation quality, versioning, and documenting failure modes ended up mattering as much as model metrics. That is also why I versioned the service early: downstream users need to know exactly which detector produced an alert.",
-        "observed": "At Summer Atlantic Capital / SAC Nexus, I build the machine-learning core of an anomaly-detection and alert-prioritization system, and I own a lot of the infrastructure around it: the repository and CI scaffold, the event-ingestion pipeline, a versioned FastAPI microservice, and the public detection API. The modeling side uses temporal sequence models over event streams, RNN and Transformer-style approaches, anomaly scoring, and a learning-to-rank layer for ordering alerts. I also built an LLM explanation layer with retrieval-augmented generation so the outputs are readable to a human analyst rather than just a score.\n\nWhat shaped the design was realizing that raw detection quality was not the binding constraint. A detector that fires constantly just hands the analyst a second problem, so prioritization, explanation quality, versioning, and documenting failure modes ended up mattering as much as model metrics. That is also why I versioned the service early: downstream users need to know exactly which detector produced an alert.",
-        "match": true
-      },
-      {
-        "canonical_field": "screener:custom:prior_internship_experience",
-        "expected": "Yes",
+        "canonical_field": "degree",
+        "expected": "Bachelor's Degree",
         "observed": {
-          "value": "Yes",
-          "label": "Yes"
+          "value": "Bachelor's Degree",
+          "label": "Bachelor's Degree"
         },
         "match": true
       },
       {
-        "canonical_field": "screener:custom:graduation_year",
+        "canonical_field": "major",
+        "expected": "Mathematics",
+        "observed": {
+          "value": "Mathematics",
+          "label": "Mathematics"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "start_month",
+        "expected": "August",
+        "observed": {
+          "value": "August",
+          "label": "August"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "start_year",
+        "expected": "2025",
+        "observed": "2025",
+        "match": true
+      },
+      {
+        "canonical_field": "graduation_month",
+        "expected": "May",
+        "observed": {
+          "value": "May",
+          "label": "May"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "graduation_year",
         "expected": "2029",
-        "observed": {
-          "value": "2029",
-          "label": "2029"
-        },
+        "observed": "2029",
         "match": true
       },
       {
@@ -1035,49 +1409,73 @@
         "match": true
       },
       {
+        "canonical_field": "screener:custom:predicted:question_8969945005",
+        "expected": "Johns Hopkins University",
+        "observed": {
+          "value": "Johns Hopkins University",
+          "label": "Johns Hopkins University"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "graduation_year",
+        "expected": "After January 2029",
+        "observed": {
+          "value": "After January 2029",
+          "label": "After January 2029"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "major",
+        "expected": "Mathematics",
+        "observed": {
+          "value": "Mathematics",
+          "label": "Mathematics"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_8969948005",
+        "expected": "No",
+        "observed": {
+          "value": "No",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:country_of_residence",
+        "expected": "United States of America",
+        "observed": {
+          "value": "United States of America",
+          "label": "United States of America"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_8969952005",
+        "expected": "Maryland",
+        "observed": {
+          "value": "Maryland",
+          "label": "Maryland"
+        },
+        "match": true
+      },
+      {
         "canonical_field": "work_authorization",
         "expected": "[REDACTED_SPONSORSHIP]",
         "observed": "[REDACTED_SPONSORSHIP]",
         "match": true
       },
       {
-        "canonical_field": "screener:requires_sponsorship",
+        "canonical_field": "work_authorization",
         "expected": "[REDACTED_SPONSORSHIP]",
         "observed": "[REDACTED_SPONSORSHIP]",
         "match": true
       },
       {
-        "canonical_field": "screener:custom:onsite_requirement_acknowledged",
-        "expected": "Yes",
-        "observed": true,
-        "match": true
-      },
-      {
-        "canonical_field": "screener:willing_to_relocate",
-        "expected": "Yes",
-        "observed": {
-          "value": "Yes",
-          "label": "Yes"
-        },
-        "match": true
-      },
-      {
-        "canonical_field": "screener:custom:internship_season",
-        "expected": "Winter 2027 (January - April)",
-        "observed": {
-          "value": "Winter 2027 (January - April)",
-          "label": "Winter 2027 (January - April)"
-        },
-        "match": true
-      },
-      {
-        "canonical_field": "screener:start_availability",
-        "expected": "Flexible — aligned to the posted term",
-        "observed": "Flexible — aligned to the posted term",
-        "match": true
-      },
-      {
-        "canonical_field": "how_heard",
+        "canonical_field": "screener:how_heard",
         "expected": "LinkedIn",
         "observed": {
           "value": "LinkedIn",
@@ -1086,9 +1484,12 @@
         "match": true
       },
       {
-        "canonical_field": "screener:custom:prior_experience_details",
-        "expected": "I currently work on applied machine learning at Summer Atlantic Capital / SAC Nexus, where I build the ML core of an anomaly-detection and alert-prioritization system, including the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, and a retrieval-augmented explanation layer. Before that I worked with Intelehealth on AI and data systems for rural telemedicine, including a resource-availability scoring pipeline across 32 villages and an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case clinical standard.",
-        "observed": "I currently work on applied machine learning at Summer Atlantic Capital / SAC Nexus, where I build the ML core of an anomaly-detection and alert-prioritization system, including the event-ingestion pipeline, a versioned FastAPI detection service, temporal",
+        "canonical_field": "screener:custom:predicted:question_8969959005",
+        "expected": "Yes, I have read and agree to DV Trading's Privacy Policy.",
+        "observed": {
+          "value": "Yes, I have read and agree to DV Trading's Privacy Policy.",
+          "label": "Yes, I have read and agree to DV Trading's Privacy Policy."
+        },
         "match": true
       },
       {
@@ -1131,5 +1532,5 @@
     "uploads": [],
     "warnings": []
   },
-  "written_at": "2026-08-30T16:27:10.832Z"
+  "written_at": "2026-08-30T17:16:20.556Z"
 }
