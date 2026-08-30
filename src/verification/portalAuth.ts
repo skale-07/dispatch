@@ -529,6 +529,38 @@ export async function authenticateAtsPortal(
     }
   }
 
+  // SILENT sign-in (TIAA live 2026-08-30 #60b): the Sign In click answered
+  // NOTHING within the response wait — no error banner, no navigation, the
+  // form just stood — so the credentials_rejected escalation never fired
+  // and the run parked "wall remains (sign_in_form)". On first contact
+  // with a tenant the missing ACCOUNT is the common cause (huntington and
+  // bah both needed create). Take the page's own Create Account route
+  // ONCE: creating against an existing account fails with an inline error,
+  // so the asymmetry is safe, and the attempt cap bounds the walk.
+  if (
+    !escalated &&
+    !state.formGone &&
+    state.diag.classification === "sign_in_form" &&
+    !state.diag.errorText &&
+    state.diag.createAccountRoute
+  ) {
+    const route = state.diag.createAccountRoute;
+    const scopeNow = await authScope(page);
+    const control =
+      (await firstVisible(scopeNow, sel.createAccountLink)) ??
+      (await visibleNamed(scopeNow, new RegExp(`^${escapeRe(route)}$`, "i"))) ??
+      (await visibleNamed(page, new RegExp(`^${escapeRe(route)}$`, "i")));
+    if (control && !(await isFormSubmitControl(control))) {
+      await control.click({ timeout: 5_000 }).catch(() => undefined);
+      await settlePage(page, settle, 1_000);
+      notes.push(
+        `portal auth: sign-in answered nothing — taking the page's "${route}" route to create the account`,
+      );
+      escalated = true;
+      state = await attempt("create");
+    }
+  }
+
   const codeResult = await settleEmailedCodeWall({ username, escalated });
   if (codeResult) return codeResult;
 

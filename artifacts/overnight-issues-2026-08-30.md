@@ -781,3 +781,27 @@ Pre-flight state (16:00 local):
   Apply → Apply Manually → chooser → email → sign-in (third-party click
   traps assert no provider button is ever touched) + pageKind case.
   22/22 in the two files (FIXTURE_CONFIRMED). Live re-run after gate.
+
+### Job #22b — TIAA re-run with the SSO fix — 16:46 local, ~40s — half the wall fell
+- LIVE_CONFIRMED: "SSO chooser — clicked Sign in with email" → "email
+  sign-in form rendered" → standing creds filled → Sign In clicked. Then:
+  `wall remains (sign_in_form)` — the click answered NOTHING within the
+  bounded response wait (no error banner, no navigation), so the
+  credentials_rejected → create escalation never fired. Refusal changed
+  NO_APPLICATION_FORM → AUTH_REQUIRED.
+- Pixel check (operator directive — screenshot read, private/
+  tiaa-signin-form.png): clean sign-in form, NO visible captcha, no error,
+  and "Don't have an account yet? Create Account" on screen. Invisible
+  `noCaptchaWrapper`/`click_filter` + `beecatcher` honeypot input present
+  in DOM (fill touches only email/password selectors — honeypot safe).
+
+### 60b. Silent sign-in ⇒ take the page's own Create Account route once — FIXED
+- New escalation in portalAuth: sign_in attempt ends with the form
+  standing, classification `sign_in_form`, NO error text, and a
+  `createAccountRoute` on the page ⇒ click the create link ONCE and run
+  the create attempt (asymmetry safe: creating an existing account fails
+  with an inline error; attempt caps bound the walk). First contact with
+  a tenant usually needs CREATE (huntington #8e, bah #16 both did).
+- Fixture test: silent Sign In handler + Create Account flip →
+  account_created, escalated_to_create, no secrets in notes. 17/17 in
+  portal-auth.test.ts (FIXTURE_CONFIRMED). Live #22c after gate.

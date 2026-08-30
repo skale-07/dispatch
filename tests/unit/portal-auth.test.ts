@@ -477,6 +477,60 @@ describe("workday portal auth (FIXTURE_CONFIRMED)", () => {
     }
   }, 30_000);
 
+  it("SILENT sign-in escalates once via the page's Create Account route (TIAA night20 #60b, FIXTURE_CONFIRMED)", async () => {
+    // Live tiaa.wd1 2026-08-30: Sign In answered NOTHING — no error text,
+    // no navigation — and the run parked "wall remains (sign_in_form)"
+    // with a "Don't have an account yet? Create Account" link on screen.
+    const SILENT_HTML = `<!DOCTYPE html><html><body>
+      <div id="stage">
+        <h2>Sign In</h2>
+        <input data-automation-id="email" type="email" />
+        <input data-automation-id="password" type="password" />
+        <button data-automation-id="signInSubmitButton" type="button">Sign In</button>
+        <p>Don't have an account yet? <button data-automation-id="createAccountLink" type="button">Create Account</button></p>
+      </div>
+      <script>
+        // Sign In deliberately does NOTHING (the silent tenant).
+        document.querySelector('[data-automation-id=createAccountLink]')
+          .addEventListener('click', () => {
+            document.getElementById('stage').innerHTML =
+              '<h2>Create Account</h2>' +
+              '<input data-automation-id="email" type="email" />' +
+              '<input data-automation-id="password" type="password" />' +
+              '<input data-automation-id="verifyPassword" type="password" />' +
+              '<button data-automation-id="createAccountSubmitButton" type="button">Create Account</button>';
+            document.querySelector('[data-automation-id=createAccountSubmitButton]')
+              .addEventListener('click', () => {
+                document.body.innerHTML = '<p>My Information</p>';
+              });
+          });
+      </script></body></html>`;
+    applyControlledFillEnv({ NAVIGATION_ENABLED: "true" });
+    const prevEmail = process.env.PORTAL_LOGIN_EMAIL;
+    const prevPassword = process.env.PORTAL_LOGIN_PASSWORD;
+    process.env.PORTAL_LOGIN_EMAIL = "candidate@fixture.test";
+    process.env.PORTAL_LOGIN_PASSWORD = "StandingPass1!";
+    resetConfigCache();
+    try {
+      await onWorkdayPage(SILENT_HTML, async (page) => {
+        const r = await authenticateAtsPortal(page, { settleMs: 0 });
+        expect(r.notes.join(" ")).toMatch(
+          /sign-in answered nothing — taking the page's "Create Account" route/,
+        );
+        expect(r.status).toBe("account_created");
+        expect(r.escalated_to_create).toBe(true);
+        expect(r.notes.join(" ")).not.toContain("StandingPass1!");
+      });
+    } finally {
+      if (prevEmail === undefined) delete process.env.PORTAL_LOGIN_EMAIL;
+      else process.env.PORTAL_LOGIN_EMAIL = prevEmail;
+      if (prevPassword === undefined) delete process.env.PORTAL_LOGIN_PASSWORD;
+      else process.env.PORTAL_LOGIN_PASSWORD = prevPassword;
+      applySafeFillEnv();
+      resetConfigCache();
+    }
+  }, 30_000);
+
   /**
    * The fixture above reveals each stage SYNCHRONOUSLY on click, which is
    * why it passed while the live run failed. Live 2026-08-14 (Crowe):
