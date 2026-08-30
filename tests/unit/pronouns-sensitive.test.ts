@@ -10,6 +10,15 @@ import { SENSITIVE_FILL_CANONICALS } from "../../src/applications/approvedFillPl
  * to look up and the click was blocked. Pronouns are operator-supplied only
  * (sensitive profile) — never predicted, never defaulted. UNIT_CONFIRMED.
  */
+describe("phone extension is never the phone number (night19 #54)", () => {
+  it.each(["Phone Extension", "Phone Ext.", "Telephone extension", "Ext"])("%s → unmapped", (label) => {
+    expect(matchCanonicalField({ id: "q", label, type: "text", required: false }, { phone: ["Phone", "Phone Number"] })).toBeNull();
+  });
+  it("plain phone labels still map", () => {
+    expect(matchCanonicalField({ id: "q", label: "Phone Number", type: "text", required: false }, { phone: ["Phone", "Phone Number"] })).toBe("phone");
+  });
+});
+
 describe("pronouns as a sensitive-profile canonical", () => {
   it.each([
     "What are your preferred pronouns?",

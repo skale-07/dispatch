@@ -22,6 +22,12 @@ export function matchCanonicalField(
   const normalized = normalizeFieldLabel(field.label);
   const nameHint = (field.name ?? "").toLowerCase();
 
+  // "Phone Extension" is not the phone number (live Workday huntington
+  // 2026-08-30: the profile's number was typed into the extension box).
+  if (/\b(extension|ext)\b/.test(normalized) && /\b(phone|tel|telephone)\b/.test(normalized)) {
+    return null;
+  }
+
   let best: { canonical: string; score: number } | null = null;
 
   for (const [canonical, phrases] of Object.entries(aliases)) {

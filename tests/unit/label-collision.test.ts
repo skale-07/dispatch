@@ -160,6 +160,30 @@ describe("label collision (FIXTURE_CONFIRMED)", () => {
     });
   }, 45_000);
 
+  it("a <label for> that points at a WRAPPER div fills the control inside it (live Workday shape, night19 #54)", async () => {
+    const WRAPPER_HTML = `<!DOCTYPE html><html><body>
+      <label for="address-wrap">Address</label>
+      <div id="address-wrap" data-automation-id="addressLine1">
+        <input id="addr_input" type="text" />
+      </div>
+      <label for="prev-wrap">Have you previously worked for Huntington National Bank?</label>
+      <div id="prev-wrap" data-automation-id="prevEmployee">
+        <select id="prev_select"><option value="">Select One</option><option>Yes</option><option>No</option></select>
+      </div>
+    </body></html>`;
+    await withFixtureHtmlPage(WRAPPER_HTML, async (page) => {
+      const addr = entry({ field_id: "addr", label: "Address", type: "text", value: "4805551234", canonical_field: "phone" });
+      const prev = entry({ field_id: "prev", label: "Have you previously worked for Huntington National Bank?", type: "select", value: "No", canonical_field: "screener:previously_applied_or_worked" });
+      const meta = new Map<string, FieldMeta>([["addr", { type: "text" }], ["prev", { type: "select" }]]);
+      const fill = await greenhouseFillFromPlan(page, [addr, prev], meta);
+      expect(fill.errors).toEqual([]);
+      expect(await page.locator("#addr_input").inputValue()).toBe("4805551234");
+      expect(await page.locator("#prev_select").inputValue()).toBe("No");
+      const verify = await greenhouseVerifyFromPlan(page, [addr, prev], meta);
+      expect(verify.fields.every((f) => f.match)).toBe(true);
+    });
+  }, 45_000);
+
   it("locatorForField without a type keeps today's behavior (first label match)", async () => {
     await withFixtureHtmlPage(COLLISION_HTML, async (page) => {
       const loc = locatorForField(page, { field_id: "li", label: "LinkedIn" });

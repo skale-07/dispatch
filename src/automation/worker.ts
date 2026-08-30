@@ -20,7 +20,7 @@ import {
   reviveUnsupportedAtsApplications,
 } from "./navRequeue.js";
 import { clearSkipRequest, isSkipRequested } from "./skipRequests.js";
-import { restartCdpChrome } from "./cdpChrome.js";
+import { probeCdpAttach, restartCdpChrome } from "./cdpChrome.js";
 import { auditEmployerUrls } from "../navigation/auditEmployerUrls.js";
 import { probeCdpEndpoint, type NavSession } from "../navigation/runNavigation.js";
 import { PlaywrightServiceSession } from "../auth/serviceSession.js";
@@ -159,6 +159,8 @@ export type AutomationSessionInput = {
   discoveryRunner?: DiscoveryRunner;
   /** Test seam: is the nav agent leg (flag + CDP Chrome) available? */
   agentLegProbe?: () => Promise<boolean>;
+  /** Test seam: preflight REAL CDP attach check (HTTP probes lie on a wedged Chrome). */
+  cdpAttachProbe?: () => Promise<boolean>;
   /** Test seam: replaces the mid-session debug-Chrome restart. */
   cdpRestarter?: () => Promise<{ reachable: boolean; notes: string[] }>;
   /** Test seams for the post-submit outreach tail (drafts only, never send). */
@@ -369,6 +371,8 @@ export async function runAutomationSession(
   // by an agent-less session get ONE requeue when this session has the
   // agent leg (session edc4d38f drained an "empty" queue past seven of
   // them). Fail-open; the once-per-app marker makes loops impossible.
+  let cdpRestarts = 0;
+  let cdpDead = false;
   let agentLegUp = false;
   try {
     agentLegUp = await (input.agentLegProbe ??
@@ -376,6 +380,28 @@ export async function runAutomationSession(
         const cfg = getConfig();
         return cfg.agentFallbackEnabled && (await probeCdpEndpoint(cfg.agentCdpUrl));
       }))();
+    // The HTTP probe lies about a wedged Chrome (night19: 4 wedges, each
+    // one burned the session's first app before the in-loop restart ran).
+    // Verify a REAL attach up front and repair before any app is picked.
+    if (agentLegUp) {
+      const attached = await (input.cdpAttachProbe ??
+        (() => probeCdpAttach(getConfig().agentCdpUrl)))();
+      if (!attached) {
+        cdpRestarts += 1;
+        const restart = await (input.cdpRestarter ?? restartCdpChrome)().catch(
+          (e) => ({ reachable: false, notes: [String(e).slice(0, 160)] }),
+        );
+        report.notes.push(
+          restart.reachable
+            ? `preflight: CDP attach failed — debug Chrome restarted and attach-verified before the first app (${cdpRestarts}/${MAX_CDP_RESTARTS_PER_SESSION})`
+            : `preflight: CDP attach failed and the restart did not recover: ${restart.notes.join("; ").slice(0, 160)}`,
+        );
+        if (!restart.reachable) {
+          agentLegUp = false;
+          cdpDead = true;
+        }
+      }
+    }
     if (agentLegUp) {
       const rq = requeueNavStarvedApplications(db);
       if (rq.requeued > 0) {
@@ -410,8 +436,6 @@ export async function runAutomationSession(
 
   await tryDiscover();
   let appsSinceDiscover = 0;
-  let cdpRestarts = 0;
-  let cdpDead = false;
   // Each app is attempted at most once per session (see pickNextApplication).
   const seen = new Set<string>();
   /** Verified-submit apps whose referral tail runs after the loop (batch). */

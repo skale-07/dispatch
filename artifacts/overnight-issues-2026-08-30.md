@@ -629,4 +629,13 @@ logged only its pre-flight before dying.)_
   preserved) — Workday's `<label for>` targets a container div.
   "Phone Extension"/"Ext" never maps to `phone`. Tests: wrapper-div text
   + select fill/verify (fixture), 4 extension labels unmapped, plain
-  phone still maps.
+  phone still maps. (Playwright's getByLabel does not associate a
+  `<label for>` with a non-form element at all — an explicit
+  label→@for→id→inner-control XPath fallback was needed.)
+
+### Job #15 — 621ec215 — 14:51 local: CDP wedge (#13) for the 4th time today, restart cleared it again
+- The wedge recurs right after a direct `run --pipeline` process detaches
+  from the debug Chrome; the next attach (the cycle's navigation) times
+  out. `CDP restart 1/3 … attach-verified`, but the 1-app cycle was spent
+  on the error. Next: attach-verify (real CDP connect) in the session
+  preflight and restart BEFORE the first app (#55).

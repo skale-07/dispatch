@@ -302,6 +302,31 @@ describe("L3 automation worker (FIXTURE_CONFIRMED)", () => {
     60_000,
   );
 
+  it(
+    "preflight: a wedged CDP attach is repaired BEFORE the first app (night19 #55)",
+    async () => {
+      seedQueuedApp();
+      let restarts = 0;
+      const report = await runAutomationSession({
+        db,
+        armRunId: arm(5, 25),
+        fixtureHtmlPath: GREENHOUSE_FIXTURE,
+        sleep: noSleep,
+        agentLegProbe: async () => true,
+        cdpAttachProbe: async () => false,
+        cdpRestarter: async () => {
+          restarts += 1;
+          return { reachable: true, notes: [] };
+        },
+      });
+      expect(restarts).toBe(1);
+      expect(report.notes.join(" ")).toMatch(/preflight: CDP attach failed — debug Chrome restarted/);
+      // The queued app still ran normally after the repair.
+      expect(report.apps_started).toBe(1);
+    },
+    60_000,
+  );
+
   const CDP_WALL =
     "Debug Chrome at http://127.0.0.1:9222 is unresponsive (port answers but the CDP session won't attach). Close ALL Chrome windows, re-run chrome:debug:jobright, and retry.";
 

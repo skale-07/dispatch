@@ -64,17 +64,47 @@ export function locatorForField(
     return page.locator(`[name="${entry.name.replace(/"/g, '\\"')}"]`).first();
   }
   const byLabel = page.getByLabel(entry.label, { exact: false });
+  // Workday (live huntington 2026-08-30 #54): <label for> points at a
+  // WRAPPER div (data-automation-id container), so getByLabel resolves to
+  // an element Playwright cannot fill ("Element is not an <input>…").
+  // Accept the labelled element when it IS a control, else descend to the
+  // first real control inside it.
+  const CONTROL = 'input:not([type="hidden"]), textarea, select, [contenteditable="true"]';
+  const labelledControl = byLabel.and(page.locator(CONTROL));
+  const innerControl = byLabel.locator(CONTROL);
   if (type === "checkbox" || type === "radio") {
+    const boxes = 'input[type="checkbox"], input[type="radio"]';
     return byLabel
-      .and(page.locator('input[type="checkbox"], input[type="radio"]'))
+      .and(page.locator(boxes))
+      .or(byLabel.locator(boxes))
       .first();
   }
   if (type !== undefined && type !== "select") {
-    return byLabel
-      .and(page.locator(':not(input[type="checkbox"]):not(input[type="radio"])'))
+    const notBox = ':not(input[type="checkbox"]):not(input[type="radio"])';
+    return labelledControl
+      .and(page.locator(notBox))
+      .or(innerControl.and(page.locator(notBox)))
+      .or(labelForDescend(page, entry.label, CONTROL_XPATH).and(page.locator(notBox)))
       .first();
   }
-  return byLabel.first();
+  return labelledControl.or(innerControl).or(byLabel).or(labelForDescend(page, entry.label, CONTROL_XPATH)).first();
+}
+
+const CONTROL_XPATH =
+  '/descendant::*[self::input[not(@type="hidden")] or self::textarea or self::select or @contenteditable="true"][1]';
+
+/**
+ * Playwright's getByLabel only associates a <label for> with FORM controls;
+ * when `for` targets a wrapper div (Workday) nothing is found at all. Walk
+ * it explicitly: label text → @for → element with that id → first control
+ * inside. Literal label text, quoted safely for XPath.
+ */
+function labelForDescend(page: Page, label: string, controlXpath: string): Locator {
+  const text = label.replace(/\s+/g, " ").trim().slice(0, 120);
+  const lit = text.includes('"') ? `'${text.replace(/'/g, "")}'` : `"${text}"`;
+  return page.locator(
+    `xpath=(//*[@id = //label[contains(normalize-space(.), ${lit})]/@for])[1]${controlXpath}`,
+  );
 }
 
 /**
