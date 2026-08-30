@@ -526,4 +526,13 @@ logged only its pre-flight before dying.)_
   validator accepts) before ranking candidates — no agent, no guessing
   (null on fetch failure / no board in the page). Tests: live anchor +
   page shape, canonical/foreign URLs untouched, single GET, failure
-  paths. Live check: Old Mission requeued.
+  paths. Commit 7a4a358.
+
+### Job #12b — Old Mission SWE 2027 Internship — 14:04 local, NOT submitted; #49 + #50 CONFIRMED live
+- Phase A resolved the embed anchor deterministically (no agent turn);
+  resume uploaded BEFORE the fill; submit path logged "resume already
+  attached — skipping re-upload (input_mounted:false)"; fill + verify
+  passed. Completeness gate: 1 required "SAT/ACT Score*" [text]
+  unanswered. ⚠ Operator: add an `sat_act_score` answer to the screener
+  bank (or the profile) and `retry --app 6cb05b18`; the system will not
+  invent a test score. Row FAILED_RETRYABLE (attempt 1).
