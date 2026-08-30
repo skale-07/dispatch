@@ -1,7 +1,7 @@
 {
   "mode": "executed",
   "ats": "greenhouse",
-  "url": "https://boards.greenhouse.io/oldmissioncapital/jobs/7796180003",
+  "url": "https://job-boards.greenhouse.io/dvtrading/jobs/4719119005",
   "plan": {
     "answers": {
       "legal_name.first": "Shubham",
@@ -11,14 +11,26 @@
       "phone": "***-***-7636",
       "degree": "Bachelor of Science",
       "major": "Applied Math & Stats",
+      "start_month": "August",
       "start_year": "2025",
+      "graduation_month": "May",
       "graduation_year": "2029",
       "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+      "screener:custom:university_confirm": "Johns Hopkins University",
+      "screener:custom:prop_trading_experience": "No",
+      "screener:custom:other_specify": "N/A",
+      "screener:custom:country_of_residence": "United States of America",
+      "screener:custom:us_state_of_residence": "Maryland",
+      "work_authorization": "[REDACTED_SPONSORSHIP]",
+      "screener:custom:visa_type_expiration": "N/A",
+      "pronouns": "He/Him",
       "screener:how_heard": "LinkedIn",
-      "screener:custom:sat_act_score": "ACT: 35",
-      "gpa": 3.7,
-      "screener:work_authorization": "[REDACTED_SPONSORSHIP]",
-      "work_authorization": "[REDACTED_SPONSORSHIP]"
+      "screener:custom:other_explain": "N/A",
+      "screener:custom:terms_and_conditions": "Yes, I have read and agree to DV Trading's Privacy Policy.",
+      "gender": "Male",
+      "hispanic_latino": "No",
+      "veteran_status": "I am not a veteran",
+      "disability_status": "No"
     },
     "entries": [
       {
@@ -40,6 +52,15 @@
         "reason": "Mapped from public profile"
       },
       {
+        "field_id": "preferred_name",
+        "label": "Preferred First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "fill",
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
         "field_id": "email",
         "label": "Email",
         "type": "text",
@@ -56,6 +77,15 @@
         "action": "fill",
         "value": "United States +1",
         "reason": "Mapped from public profile; placed onto \"United States +1\""
+      },
+      {
+        "field_id": "iti-0__search-input",
+        "label": "Search",
+        "type": "unknown",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
       },
       {
         "field_id": "phone",
@@ -112,12 +142,30 @@
         "reason": "Mapped from public profile; placed onto \"Mathematics\""
       },
       {
+        "field_id": "start-month--0",
+        "label": "Start date month",
+        "type": "text",
+        "canonical_field": "start_month",
+        "action": "fill",
+        "value": "August",
+        "reason": "Mapped from public profile"
+      },
+      {
         "field_id": "start-year--0",
         "label": "Start date year",
         "type": "text",
         "canonical_field": "start_year",
         "action": "fill",
         "value": "2025",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "end-month--0",
+        "label": "End date month",
+        "type": "text",
+        "canonical_field": "graduation_month",
+        "action": "fill",
+        "value": "May",
         "reason": "Mapped from public profile"
       },
       {
@@ -130,7 +178,7 @@
         "reason": "Mapped from public profile"
       },
       {
-        "field_id": "question_31304701003",
+        "field_id": "question_8969944005",
         "label": "LinkedIn Profile",
         "type": "text",
         "canonical_field": "linkedin_url",
@@ -139,8 +187,116 @@
         "reason": "Mapped from public profile"
       },
       {
-        "field_id": "question_31304702003[]",
-        "label": "How did you hear about Old Mission?",
+        "field_id": "question_8969945005",
+        "label": "Please re-confirm the university you currently attend",
+        "type": "text",
+        "canonical_field": "screener:custom:university_confirm",
+        "action": "fill",
+        "value": "Johns Hopkins University",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_8969946005",
+        "label": "Please re-confirm your expected graduation date",
+        "type": "text",
+        "canonical_field": "graduation_year",
+        "action": "fill",
+        "value": "After January 2029",
+        "reason": "Mapped from public profile; placed onto \"After January 2029\""
+      },
+      {
+        "field_id": "question_8969947005[]",
+        "label": "Undergrad Discipline(s)",
+        "type": "checkbox",
+        "canonical_field": "major",
+        "action": "fill",
+        "value": "Mathematics",
+        "reason": "Mapped from public profile; placed onto \"Mathematics\""
+      },
+      {
+        "field_id": "question_8969948005",
+        "label": "Do you have relevant internship experience at a proprietary trading firm?",
+        "type": "text",
+        "canonical_field": "screener:custom:prop_trading_experience",
+        "action": "fill",
+        "value": "No",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_8969949005",
+        "label": "If yes, select your most recent proprietary trading firm experience",
+        "type": "text",
+        "canonical_field": null,
+        "action": "skip_empty",
+        "value": null,
+        "reason": "conditional follow-up skipped — parent answer is No"
+      },
+      {
+        "field_id": "question_8969950005",
+        "label": "If other, please specify",
+        "type": "text",
+        "canonical_field": "screener:custom:other_specify",
+        "action": "fill",
+        "value": "N/A",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "question_8969951005",
+        "label": "What country do you currently reside in?",
+        "type": "text",
+        "canonical_field": "screener:custom:country_of_residence",
+        "action": "fill",
+        "value": "United States of America",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_8969952005",
+        "label": "If applicable, which US state do you reside in?",
+        "type": "text",
+        "canonical_field": "screener:custom:us_state_of_residence",
+        "action": "fill",
+        "value": "Maryland",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_8969953005",
+        "label": "Are you legally authorized to work in the country where this role is based?",
+        "type": "text",
+        "canonical_field": "work_authorization",
+        "action": "fill",
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile; placed onto \"Yes, I am authorized to work in this country for any employer\""
+      },
+      {
+        "field_id": "question_8969954005",
+        "label": "Will you now or in the future require employer sponsorship for work authorization in this country? If you will be working under a student visa for this role, please select \"Yes.\"",
+        "type": "text",
+        "canonical_field": "work_authorization",
+        "action": "fill",
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile; placed onto \"Yes, I will require sponsorship now or in the future to work in this country\""
+      },
+      {
+        "field_id": "question_8969955005",
+        "label": "If yes, please provide your visa type and expiration date.",
+        "type": "text",
+        "canonical_field": "screener:custom:visa_type_expiration",
+        "action": "fill",
+        "value": "N/A",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "question_8969956005",
+        "label": "What are your preferred pronouns?",
+        "type": "text",
+        "canonical_field": "pronouns",
+        "action": "fill",
+        "value": "He/Him",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "question_8969957005",
+        "label": "How did you hear about DV Trading?",
         "type": "text",
         "canonical_field": "screener:how_heard",
         "action": "fill",
@@ -148,76 +304,87 @@
         "reason": "Screener bank answer (exact_option)"
       },
       {
-        "field_id": "question_31304703003",
-        "label": "SAT/ACT Score",
+        "field_id": "question_8969958005",
+        "label": "If other, please explain",
         "type": "text",
-        "canonical_field": "screener:custom:sat_act_score",
+        "canonical_field": "screener:custom:other_explain",
         "action": "fill",
-        "value": "ACT: 35",
+        "value": "N/A",
         "reason": "Screener bank answer (free_text)"
       },
       {
-        "field_id": "question_31304704003",
-        "label": "What is your current GPA?",
+        "field_id": "question_8969959005",
+        "label": "Terms &amp; Conditions",
         "type": "text",
-        "canonical_field": "gpa",
+        "canonical_field": "screener:custom:terms_and_conditions",
         "action": "fill",
-        "value": 3.7,
-        "reason": "Mapped from public profile"
+        "value": "Yes, I have read and agree to DV Trading's Privacy Policy.",
+        "reason": "Screener bank answer (exact_option)"
       },
       {
-        "field_id": "question_31304705003",
-        "label": "Enter your .EDU email address. Assessments will only be sent to your school email. Please update the email field above to match your .EDU address.",
+        "field_id": "gender",
+        "label": "Gender",
         "type": "text",
-        "canonical_field": "email",
+        "canonical_field": "gender",
         "action": "fill",
-        "value": "s***@gmail.com",
-        "reason": "Mapped from public profile"
+        "value": "Male",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
       },
       {
-        "field_id": "question_31304706003",
-        "label": "Are you currently eligible to work in the United States of America?",
+        "field_id": "hispanic_ethnicity",
+        "label": "Are you Hispanic/Latino?",
         "type": "text",
-        "canonical_field": "screener:work_authorization",
+        "canonical_field": "hispanic_latino",
         "action": "fill",
-        "value": "[REDACTED_SPONSORSHIP]",
-        "reason": "Screener bank answer (profile_derived)"
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
       },
       {
-        "field_id": "question_31304707003",
-        "label": "Do you now or in the future require visa sponsorship/work authorization to continue working in the United States?",
+        "field_id": "veteran_status",
+        "label": "Veteran Status",
         "type": "text",
-        "canonical_field": "work_authorization",
+        "canonical_field": "veteran_status",
         "action": "fill",
-        "value": "[REDACTED_SPONSORSHIP]",
-        "reason": "Mapped from public profile"
+        "value": "I am not a veteran",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "disability_status",
+        "label": "Disability Status",
+        "type": "text",
+        "canonical_field": "disability_status",
+        "action": "fill",
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
       }
     ],
-    "fillable_count": 16,
-    "skipped_count": 3,
+    "fillable_count": 31,
+    "skipped_count": 5,
     "review_required_count": 0
   },
   "submit_attempted": false,
   "notes": [
     "session: handoff (caller-owned page, not closed here)",
-    "application form found in an iframe (19 fields) — hopping to https://job-boards.greenhouse.io/embed/job_app?for=oldmissioncapital&validityToken=A1fBKkPHLTLuNq7NHwCsNiu3lK5aH7aVMI_Qxs2_9fSLQlr99_SYx5NpAWU68O69ohIEH9d6NNzaAIaL3y1DXgOUTdRQJWMBrN0lrHtifSSmXjAlaLgtUFnDtFNRsjeG2KrbZdS6oHqirXFGEJ7ObdnaXxPXzXJ-4LbZ_8avkeh-Ma6wLx-mEfIpGGinrHBVntdgPaq_iQteFxIwzjZCPFOt6S_FQV1LxXcKW0Hco_dEnIK9XCngoR4j43jCc3wjBydB5yHMOqeDlyjIUrhUrhB9ppVFPS2Uco5AJvNUrFVEUKFWGa1xz_mzMTWj6TjW1gXEYXb0lI-oEKwpgoEfPw%3D%3D&token=7796180003",
-    "schema diff: 11/13 declared question(s) matched onto 19 DOM field(s); 2 declared-only (1 required); 8 DOM-only",
-    "board API declared 13 question(s); matched complete option lists onto 3 field(s)",
-    "option harvest: scraped real options for 4/14 control(s) before planning",
+    "schema diff: 20/23 declared question(s) matched onto 36 DOM field(s); 3 declared-only (2 required); 16 DOM-only",
+    "board API declared 23 question(s); matched complete option lists onto 11 field(s)",
+    "option harvest: scraped real options for 11/22 control(s) before planning",
+    "other-specify: \"Other\" revealed \"Please identify your race\" — answered with the real value",
     "frozen after fill→verify→upload — no further field mutation; submit never called"
   ],
   "validation_level": "LIVE_MUTATION_CONFIRMED",
-  "final_url": "https://job-boards.greenhouse.io/embed/job_app?for=oldmissioncapital&validityToken=A1fBKkPHLTLuNq7NHwCsNiu3lK5aH7aVMI_Qxs2_9fSLQlr99_SYx5NpAWU68O69ohIEH9d6NNzaAIaL3y1DXgOUTdRQJWMBrN0lrHtifSSmXjAlaLgtUFnDtFNRsjeG2KrbZdS6oHqirXFGEJ7ObdnaXxPXzXJ-4LbZ_8avkeh-Ma6wLx-mEfIpGGinrHBVntdgPaq_iQteFxIwzjZCPFOt6S_FQV1LxXcKW0Hco_dEnIK9XCngoR4j43jCc3wjBydB5yHMOqeDlyjIUrhUrhB9ppVFPS2Uco5AJvNUrFVEUKFWGa1xz_mzMTWj6TjW1gXEYXb0lI-oEKwpgoEfPw%3D%3D&token=7796180003",
+  "final_url": "https://job-boards.greenhouse.io/dvtrading/jobs/4719119005",
   "identity_verification": {
-    "requestedUrl": "https://boards.greenhouse.io/oldmissioncapital/jobs/7796180003",
-    "finalUrl": "https://job-boards.greenhouse.io/embed/job_app?for=oldmissioncapital&validityToken=A1fBKkPHLTLuNq7NHwCsNiu3lK5aH7aVMI_Qxs2_9fSLQlr99_SYx5NpAWU68O69ohIEH9d6NNzaAIaL3y1DXgOUTdRQJWMBrN0lrHtifSSmXjAlaLgtUFnDtFNRsjeG2KrbZdS6oHqirXFGEJ7ObdnaXxPXzXJ-4LbZ_8avkeh-Ma6wLx-mEfIpGGinrHBVntdgPaq_iQteFxIwzjZCPFOt6S_FQV1LxXcKW0Hco_dEnIK9XCngoR4j43jCc3wjBydB5yHMOqeDlyjIUrhUrhB9ppVFPS2Uco5AJvNUrFVEUKFWGa1xz_mzMTWj6TjW1gXEYXb0lI-oEKwpgoEfPw%3D%3D&token=7796180003",
-    "requestedJobId": "7796180003",
-    "observedJobId": "7796180003",
-    "company": "oldmissioncapital",
-    "role": "Job Application for Software Engineer – 2027 Internship Program (June Start) at Old Mission",
+    "requestedUrl": "https://job-boards.greenhouse.io/dvtrading/jobs/4719119005",
+    "finalUrl": "https://job-boards.greenhouse.io/dvtrading/jobs/4719119005",
+    "requestedJobId": "4719119005",
+    "observedJobId": "4719119005",
+    "company": "dvtrading",
+    "role": "Job Application for Software Engineer Intern - Summer 2027 (DV Commodities) at DV Trading",
     "formDetected": true,
-    "fieldCount": 19,
-    "warnings": [],
+    "fieldCount": 36,
+    "warnings": [
+      "login_wall_low: auth_provider_marker"
+    ],
     "passed": true,
     "failureCode": null,
     "failureReason": null
@@ -227,22 +394,25 @@
     "confidence": "LOW",
     "signals": [],
     "dormantMarkers": [
+      "recaptcha_api_script_loaded",
       "generic_captcha_word_only"
     ]
   },
   "login_wall_detection": {
     "detected": false,
     "confidence": "LOW",
-    "signals": []
+    "signals": [
+      "auth_provider_marker"
+    ]
   },
   "failure_code": null,
   "mutation_attempted": true,
   "schema_diff": {
-    "board": "oldmissioncapital",
-    "job_id": "7796180003",
-    "declared_count": 13,
-    "dom_count": 19,
-    "matched": 11,
+    "board": "dvtrading",
+    "job_id": "4719119005",
+    "declared_count": 23,
+    "dom_count": 36,
+    "matched": 20,
     "api_only": [
       {
         "label": "Resume/CV",
@@ -251,17 +421,29 @@
       {
         "label": "Cover Letter",
         "required": false
+      },
+      {
+        "label": "Terms & Conditions",
+        "required": true
       }
     ],
     "dom_only": [
       "Country",
+      "Search",
       "Attach",
       "Attach",
       "School",
       "Degree",
       "Discipline",
+      "Start date month",
       "Start date year",
-      "End date year"
+      "End date month",
+      "End date year",
+      "Terms &amp; Conditions",
+      "Gender",
+      "Are you Hispanic/Latino?",
+      "Veteran Status",
+      "Disability Status"
     ],
     "option_mismatches": []
   },
@@ -386,6 +568,106 @@
         "Environmental Studies"
       ],
       "other_option": "Other"
+    },
+    {
+      "field_id": "start-month--0",
+      "label": "Start date month",
+      "answer_space": "closed",
+      "option_count": 12,
+      "options": [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "end-month--0",
+      "label": "End date month",
+      "answer_space": "closed",
+      "option_count": 12,
+      "options": [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "question_8969959005",
+      "label": "Terms &amp; Conditions",
+      "answer_space": "closed",
+      "option_count": 1,
+      "options": [
+        "Yes, I have read and agree to DV Trading's Privacy Policy."
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "gender",
+      "label": "Gender",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "Male",
+        "Female",
+        "Decline To Self Identify"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "hispanic_ethnicity",
+      "label": "Are you Hispanic/Latino?",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "Yes",
+        "No",
+        "Decline To Self Identify"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "veteran_status",
+      "label": "Veteran Status",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "I am not a protected veteran",
+        "I identify as one or more of the classifications of a protected veteran",
+        "I don't wish to answer"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "disability_status",
+      "label": "Disability Status",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "Yes, I have a disability, or have had one in the past",
+        "No, I do not have a disability and have not had one in the past",
+        "I do not want to answer"
+      ],
+      "other_option": null
     }
   ],
   "approved_plan": {
@@ -411,6 +693,16 @@
         "reason": "Mapped from public profile"
       },
       {
+        "field_id": "preferred_name",
+        "label": "Preferred First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "FILL",
+        "approved": true,
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
         "field_id": "email",
         "label": "Email",
         "type": "text",
@@ -429,6 +721,16 @@
         "approved": true,
         "value": "United States +1",
         "reason": "Mapped from public profile; placed onto \"United States +1\""
+      },
+      {
+        "field_id": "iti-0__search-input",
+        "label": "Search",
+        "type": "unknown",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
       },
       {
         "field_id": "phone",
@@ -491,6 +793,16 @@
         "reason": "Mapped from public profile; placed onto \"Mathematics\""
       },
       {
+        "field_id": "start-month--0",
+        "label": "Start date month",
+        "type": "text",
+        "canonical_field": "start_month",
+        "action": "FILL",
+        "approved": true,
+        "value": "August",
+        "reason": "Mapped from public profile"
+      },
+      {
         "field_id": "start-year--0",
         "label": "Start date year",
         "type": "text",
@@ -498,6 +810,16 @@
         "action": "FILL",
         "approved": true,
         "value": "2025",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "end-month--0",
+        "label": "End date month",
+        "type": "text",
+        "canonical_field": "graduation_month",
+        "action": "FILL",
+        "approved": true,
+        "value": "May",
         "reason": "Mapped from public profile"
       },
       {
@@ -511,7 +833,7 @@
         "reason": "Mapped from public profile"
       },
       {
-        "field_id": "question_31304701003",
+        "field_id": "question_8969944005",
         "label": "LinkedIn Profile",
         "type": "text",
         "canonical_field": "linkedin_url",
@@ -521,8 +843,128 @@
         "reason": "Mapped from public profile"
       },
       {
-        "field_id": "question_31304702003[]",
-        "label": "How did you hear about Old Mission?",
+        "field_id": "question_8969945005",
+        "label": "Please re-confirm the university you currently attend",
+        "type": "text",
+        "canonical_field": "screener:custom:university_confirm",
+        "action": "FILL",
+        "approved": true,
+        "value": "Johns Hopkins University",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_8969946005",
+        "label": "Please re-confirm your expected graduation date",
+        "type": "text",
+        "canonical_field": "graduation_year",
+        "action": "FILL",
+        "approved": true,
+        "value": "After January 2029",
+        "reason": "Mapped from public profile; placed onto \"After January 2029\""
+      },
+      {
+        "field_id": "question_8969947005[]",
+        "label": "Undergrad Discipline(s)",
+        "type": "checkbox",
+        "canonical_field": "major",
+        "action": "FILL",
+        "approved": true,
+        "value": "Mathematics",
+        "reason": "Mapped from public profile; placed onto \"Mathematics\""
+      },
+      {
+        "field_id": "question_8969948005",
+        "label": "Do you have relevant internship experience at a proprietary trading firm?",
+        "type": "text",
+        "canonical_field": "screener:custom:prop_trading_experience",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_8969949005",
+        "label": "If yes, select your most recent proprietary trading firm experience",
+        "type": "text",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "conditional follow-up skipped — parent answer is No"
+      },
+      {
+        "field_id": "question_8969950005",
+        "label": "If other, please specify",
+        "type": "text",
+        "canonical_field": "screener:custom:other_specify",
+        "action": "FILL",
+        "approved": true,
+        "value": "N/A",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "question_8969951005",
+        "label": "What country do you currently reside in?",
+        "type": "text",
+        "canonical_field": "screener:custom:country_of_residence",
+        "action": "FILL",
+        "approved": true,
+        "value": "United States of America",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_8969952005",
+        "label": "If applicable, which US state do you reside in?",
+        "type": "text",
+        "canonical_field": "screener:custom:us_state_of_residence",
+        "action": "FILL",
+        "approved": true,
+        "value": "Maryland",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_8969953005",
+        "label": "Are you legally authorized to work in the country where this role is based?",
+        "type": "text",
+        "canonical_field": "work_authorization",
+        "action": "FILL",
+        "approved": true,
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile; placed onto \"Yes, I am authorized to work in this country for any employer\""
+      },
+      {
+        "field_id": "question_8969954005",
+        "label": "Will you now or in the future require employer sponsorship for work authorization in this country? If you will be working under a student visa for this role, please select \"Yes.\"",
+        "type": "text",
+        "canonical_field": "work_authorization",
+        "action": "FILL",
+        "approved": true,
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile; placed onto \"Yes, I will require sponsorship now or in the future to work in this country\""
+      },
+      {
+        "field_id": "question_8969955005",
+        "label": "If yes, please provide your visa type and expiration date.",
+        "type": "text",
+        "canonical_field": "screener:custom:visa_type_expiration",
+        "action": "FILL",
+        "approved": true,
+        "value": "N/A",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "question_8969956005",
+        "label": "What are your preferred pronouns?",
+        "type": "text",
+        "canonical_field": "pronouns",
+        "action": "FILL",
+        "approved": true,
+        "value": "He/Him",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "question_8969957005",
+        "label": "How did you hear about DV Trading?",
         "type": "text",
         "canonical_field": "screener:how_heard",
         "action": "FILL",
@@ -531,54 +973,64 @@
         "reason": "Screener bank answer (exact_option)"
       },
       {
-        "field_id": "question_31304703003",
-        "label": "SAT/ACT Score",
+        "field_id": "question_8969958005",
+        "label": "If other, please explain",
         "type": "text",
-        "canonical_field": "screener:custom:sat_act_score",
+        "canonical_field": "screener:custom:other_explain",
         "action": "FILL",
         "approved": true,
-        "value": "ACT: 35",
+        "value": "N/A",
         "reason": "Screener bank answer (free_text)"
       },
       {
-        "field_id": "question_31304704003",
-        "label": "What is your current GPA?",
+        "field_id": "question_8969959005",
+        "label": "Terms &amp; Conditions",
         "type": "text",
-        "canonical_field": "gpa",
+        "canonical_field": "screener:custom:terms_and_conditions",
         "action": "FILL",
         "approved": true,
-        "value": 3.7,
-        "reason": "Mapped from public profile"
+        "value": "Yes, I have read and agree to DV Trading's Privacy Policy.",
+        "reason": "Screener bank answer (exact_option)"
       },
       {
-        "field_id": "question_31304705003",
-        "label": "Enter your .EDU email address. Assessments will only be sent to your school email. Please update the email field above to match your .EDU address.",
+        "field_id": "gender",
+        "label": "Gender",
         "type": "text",
-        "canonical_field": "email",
+        "canonical_field": "gender",
         "action": "FILL",
         "approved": true,
-        "value": "s***@gmail.com",
-        "reason": "Mapped from public profile"
+        "value": "Male",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
       },
       {
-        "field_id": "question_31304706003",
-        "label": "Are you currently eligible to work in the United States of America?",
+        "field_id": "hispanic_ethnicity",
+        "label": "Are you Hispanic/Latino?",
         "type": "text",
-        "canonical_field": "screener:work_authorization",
+        "canonical_field": "hispanic_latino",
         "action": "FILL",
         "approved": true,
-        "value": "[REDACTED_SPONSORSHIP]",
-        "reason": "Screener bank answer (profile_derived)"
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
       },
       {
-        "field_id": "question_31304707003",
-        "label": "Do you now or in the future require visa sponsorship/work authorization to continue working in the United States?",
+        "field_id": "veteran_status",
+        "label": "Veteran Status",
         "type": "text",
-        "canonical_field": "work_authorization",
+        "canonical_field": "veteran_status",
         "action": "FILL",
         "approved": true,
-        "value": "[REDACTED_SPONSORSHIP]",
-        "reason": "Mapped from public profile"
+        "value": "I am not a veteran",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "disability_status",
+        "label": "Disability Status",
+        "type": "text",
+        "canonical_field": "disability_status",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
       }
     ],
     "answers": {
@@ -589,40 +1041,68 @@
       "phone": "***-***-7636",
       "degree": "Bachelor's Degree",
       "major": "Mathematics",
+      "start_month": "August",
       "start_year": "2025",
-      "graduation_year": "2029",
+      "graduation_month": "May",
+      "graduation_year": "After January 2029",
       "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+      "screener:custom:university_confirm": "Johns Hopkins University",
+      "screener:custom:prop_trading_experience": "No",
+      "screener:custom:other_specify": "N/A",
+      "screener:custom:country_of_residence": "United States of America",
+      "screener:custom:us_state_of_residence": "Maryland",
+      "work_authorization": "[REDACTED_SPONSORSHIP]",
+      "screener:custom:visa_type_expiration": "N/A",
+      "pronouns": "He/Him",
       "screener:how_heard": "LinkedIn",
-      "screener:custom:sat_act_score": "ACT: 35",
-      "gpa": 3.7,
-      "screener:work_authorization": "[REDACTED_SPONSORSHIP]",
-      "work_authorization": "[REDACTED_SPONSORSHIP]"
+      "screener:custom:other_explain": "N/A",
+      "screener:custom:terms_and_conditions": "Yes, I have read and agree to DV Trading's Privacy Policy.",
+      "gender": "Male",
+      "hispanic_latino": "No",
+      "veteran_status": "I am not a veteran",
+      "disability_status": "No"
     },
-    "fillable_count": 16,
-    "skipped_count": 3,
+    "fillable_count": 31,
+    "skipped_count": 5,
     "review_required_count": 0
   },
   "fill": {
     "filled": [
       "legal_name.first",
       "legal_name.last",
+      "legal_name.first",
       "email",
       "address.country",
       "phone",
       "degree",
       "major",
+      "start_month",
       "start_year",
+      "graduation_month",
       "graduation_year",
       "linkedin_url",
+      "graduation_year",
+      "major",
+      "screener:custom:prop_trading_experience",
+      "screener:custom:other_specify",
+      "screener:custom:country_of_residence",
+      "screener:custom:us_state_of_residence",
+      "work_authorization",
+      "work_authorization",
+      "screener:custom:visa_type_expiration",
+      "pronouns",
       "screener:how_heard",
-      "screener:custom:sat_act_score",
-      "gpa",
-      "email",
-      "screener:work_authorization",
-      "work_authorization"
+      "screener:custom:other_explain",
+      "screener:custom:terms_and_conditions",
+      "gender",
+      "hispanic_latino",
+      "veteran_status",
+      "disability_status"
     ],
     "skipped": [],
-    "errors": [],
+    "errors": [
+      "question_8969945005: combobox option not committed: opened via control click; picked \"Johns Hopkins University\" (exact) from open list; commit not confirmed: display shows \"University of Texas Austin\""
+    ],
     "field_meta": [
       {
         "field_id": "first_name",
@@ -632,6 +1112,11 @@
       {
         "field_id": "last_name",
         "canonical_field": "legal_name.last",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "preferred_name",
+        "canonical_field": "legal_name.first",
         "control_kind": "text"
       },
       {
@@ -678,9 +1163,31 @@
         ]
       },
       {
+        "field_id": "start-month--0",
+        "canonical_field": "start_month",
+        "control_kind": "combobox",
+        "selected_option": "August",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"August\" (exact) from open list"
+        ]
+      },
+      {
         "field_id": "start-year--0",
         "canonical_field": "start_year",
         "control_kind": "text"
+      },
+      {
+        "field_id": "end-month--0",
+        "canonical_field": "graduation_month",
+        "control_kind": "combobox",
+        "selected_option": "May",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"May\" (exact) from open list"
+        ]
       },
       {
         "field_id": "end-year--0",
@@ -688,12 +1195,117 @@
         "control_kind": "text"
       },
       {
-        "field_id": "question_31304701003",
+        "field_id": "question_8969944005",
         "canonical_field": "linkedin_url",
         "control_kind": "text"
       },
       {
-        "field_id": "question_31304702003[]",
+        "field_id": "question_8969945005",
+        "canonical_field": "screener:custom:university_confirm",
+        "control_kind": "combobox",
+        "selected_option": null,
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Johns Hopkins University\" (exact) from open list",
+          "commit not confirmed: display shows \"University of Texas Austin\""
+        ]
+      },
+      {
+        "field_id": "question_8969946005",
+        "canonical_field": "graduation_year",
+        "control_kind": "combobox",
+        "selected_option": "After January 2029",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"After January 2029\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_8969947005[]",
+        "canonical_field": "major",
+        "control_kind": "checkbox_group",
+        "selected_option": "Mathematics"
+      },
+      {
+        "field_id": "question_8969948005",
+        "canonical_field": "screener:custom:prop_trading_experience",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_8969950005",
+        "canonical_field": "screener:custom:other_specify",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_8969951005",
+        "canonical_field": "screener:custom:country_of_residence",
+        "control_kind": "combobox",
+        "selected_option": "United States of America",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"United States of America\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_8969952005",
+        "canonical_field": "screener:custom:us_state_of_residence",
+        "control_kind": "combobox",
+        "selected_option": "Maryland",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Maryland\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_8969953005",
+        "canonical_field": "work_authorization",
+        "control_kind": "combobox",
+        "selected_option": "Yes, I am authorized to work in this country for any employer",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes, I am authorized to work in this country for any employer\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_8969954005",
+        "canonical_field": "work_authorization",
+        "control_kind": "combobox",
+        "selected_option": "Yes, I will require sponsorship now or in the future to work in this country",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes, I will require sponsorship now or in the future to work in this country\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_8969955005",
+        "canonical_field": "screener:custom:visa_type_expiration",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_8969956005",
+        "canonical_field": "pronouns",
+        "control_kind": "combobox",
+        "selected_option": "He/Him",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"He/Him\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_8969957005",
         "canonical_field": "screener:how_heard",
         "control_kind": "combobox",
         "selected_option": "LinkedIn",
@@ -704,44 +1316,76 @@
         ]
       },
       {
-        "field_id": "question_31304703003",
-        "canonical_field": "screener:custom:sat_act_score",
+        "field_id": "question_8969958005",
+        "canonical_field": "screener:custom:other_explain",
         "control_kind": "text"
       },
       {
-        "field_id": "question_31304704003",
-        "canonical_field": "gpa",
-        "control_kind": "text"
-      },
-      {
-        "field_id": "question_31304705003",
-        "canonical_field": "email",
-        "control_kind": "text"
-      },
-      {
-        "field_id": "question_31304706003",
-        "canonical_field": "screener:work_authorization",
+        "field_id": "question_8969959005",
+        "canonical_field": "screener:custom:terms_and_conditions",
         "control_kind": "combobox",
-        "selected_option": "Yes",
+        "selected_option": "Yes, I have read and agree to DV Trading's Privacy Policy.",
         "match_via": "exact",
         "notes": [
           "opened via control click",
-          "picked \"Yes\" (exact) from open list"
+          "picked \"Yes, I have read and agree to DV Trading's Privacy Policy.\" (exact) from open list"
         ]
       },
       {
-        "field_id": "question_31304707003",
-        "canonical_field": "work_authorization",
+        "field_id": "gender",
+        "canonical_field": "gender",
         "control_kind": "combobox",
-        "selected_option": "Yes",
+        "selected_option": "Male",
         "match_via": "exact",
         "notes": [
           "opened via control click",
-          "picked \"Yes\" (exact) from open list"
+          "picked \"Male\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "hispanic_ethnicity",
+        "canonical_field": "hispanic_latino",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "veteran_status",
+        "canonical_field": "veteran_status",
+        "control_kind": "combobox",
+        "selected_option": "I am not a protected veteran",
+        "match_via": "synonym",
+        "notes": [
+          "opened via control click",
+          "picked \"I am not a protected veteran\" (synonym) from open list"
+        ]
+      },
+      {
+        "field_id": "disability_status",
+        "canonical_field": "disability_status",
+        "control_kind": "combobox",
+        "selected_option": "No, I do not have a disability and have not had one in the past",
+        "match_via": "synonym",
+        "notes": [
+          "opened via control click",
+          "picked \"No, I do not have a disability and have not had one in the past\" (synonym) from open list"
         ]
       }
     ]
   },
+  "other_specify": [
+    {
+      "field_id": "question_8969949005",
+      "label": "If yes, select your most recent proprietary trading firm experience",
+      "revealed_field_id": "race",
+      "filled": true,
+      "note": "\"Other\" revealed \"Please identify your race\" — answered with the real value"
+    }
+  ],
   "verify": {
     "passed": true,
     "fields": [
@@ -755,6 +1399,12 @@
         "canonical_field": "legal_name.last",
         "expected": "Kale",
         "observed": "Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
         "match": true
       },
       {
@@ -797,9 +1447,27 @@
         "match": true
       },
       {
+        "canonical_field": "start_month",
+        "expected": "August",
+        "observed": {
+          "value": "August",
+          "label": "August"
+        },
+        "match": true
+      },
+      {
         "canonical_field": "start_year",
         "expected": "2025",
         "observed": "2025",
+        "match": true
+      },
+      {
+        "canonical_field": "graduation_month",
+        "expected": "May",
+        "observed": {
+          "value": "May",
+          "label": "May"
+        },
         "match": true
       },
       {
@@ -815,6 +1483,93 @@
         "match": true
       },
       {
+        "canonical_field": "screener:custom:university_confirm",
+        "expected": "Johns Hopkins University",
+        "observed": {
+          "value": "University of Texas Austin",
+          "label": "University of Texas Austin"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "graduation_year",
+        "expected": "After January 2029",
+        "observed": {
+          "value": "After January 2029",
+          "label": "After January 2029"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "major",
+        "expected": "Mathematics",
+        "observed": {
+          "value": "Mathematics",
+          "label": "Mathematics"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:prop_trading_experience",
+        "expected": "No",
+        "observed": {
+          "value": "No",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:other_specify",
+        "expected": "N/A",
+        "observed": "N/A",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:country_of_residence",
+        "expected": "United States of America",
+        "observed": {
+          "value": "United States of America",
+          "label": "United States of America"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:us_state_of_residence",
+        "expected": "Maryland",
+        "observed": {
+          "value": "Maryland",
+          "label": "Maryland"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "work_authorization",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "work_authorization",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:visa_type_expiration",
+        "expected": "N/A",
+        "observed": "N/A",
+        "match": true
+      },
+      {
+        "canonical_field": "pronouns",
+        "expected": "He/Him",
+        "observed": {
+          "value": "He/Him",
+          "label": "He/Him"
+        },
+        "match": true
+      },
+      {
         "canonical_field": "screener:how_heard",
         "expected": "LinkedIn",
         "observed": {
@@ -824,33 +1579,54 @@
         "match": true
       },
       {
-        "canonical_field": "screener:custom:sat_act_score",
-        "expected": "ACT: 35",
-        "observed": "ACT: 35",
+        "canonical_field": "screener:custom:other_explain",
+        "expected": "N/A",
+        "observed": "N/A",
         "match": true
       },
       {
-        "canonical_field": "gpa",
-        "expected": 3.7,
-        "observed": "3.7",
+        "canonical_field": "screener:custom:terms_and_conditions",
+        "expected": "Yes, I have read and agree to DV Trading's Privacy Policy.",
+        "observed": {
+          "value": "Yes, I have read and agree to DV Trading's Privacy Policy.",
+          "label": "Yes, I have read and agree to DV Trading's Privacy Policy."
+        },
         "match": true
       },
       {
-        "canonical_field": "email",
-        "expected": "s***@gmail.com",
-        "observed": "s***@gmail.com",
+        "canonical_field": "gender",
+        "expected": "Male",
+        "observed": {
+          "value": "Male",
+          "label": "Male"
+        },
         "match": true
       },
       {
-        "canonical_field": "screener:work_authorization",
-        "expected": "[REDACTED_SPONSORSHIP]",
-        "observed": "[REDACTED_SPONSORSHIP]",
+        "canonical_field": "hispanic_latino",
+        "expected": "No",
+        "observed": {
+          "value": "No",
+          "label": "No"
+        },
         "match": true
       },
       {
-        "canonical_field": "work_authorization",
-        "expected": "[REDACTED_SPONSORSHIP]",
-        "observed": "[REDACTED_SPONSORSHIP]",
+        "canonical_field": "veteran_status",
+        "expected": "I am not a veteran",
+        "observed": {
+          "value": "I am not a protected veteran",
+          "label": "I am not a protected veteran"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "disability_status",
+        "expected": "No",
+        "observed": {
+          "value": "No, I do not have a disability and have not had one in the past",
+          "label": "No, I do not have a disability and have not had one in the past"
+        },
         "match": true
       }
     ],
@@ -867,5 +1643,5 @@
       "evidence": "input files: []; stillAttached=false; chip=true"
     }
   ],
-  "written_at": "2026-08-30T18:10:16.719Z"
+  "written_at": "2026-08-30T18:48:47.048Z"
 }

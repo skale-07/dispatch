@@ -604,4 +604,29 @@ logged only its pre-flight before dying.)_
   a verification-code input, or a changed classification — then decide.
   Tests keep settle 0 (synchronous). Live check: Huntington #8e (should
   now escalate to Create Account with the compliant password, then the
-  emailed verification code via Gmail).
+  emailed verification code via Gmail). Commit (this entry's fix).
+
+### ✅ Job #8e — Huntington — 14:40 local — FIRST LIVE WORKDAY WALK: account created, wizard filled (5 pages) — parked AMBIGUOUS_FIELD
+- sign-in rejected → "opened Create Account" → `create: form cleared`
+  (account created with the new password; no emailed-code wall shown)
+  → "workday page kind after auth: wizard" → wizard walked 5 pages,
+  8/11 fields each → live fill executed (LIVE_MUTATION_CONFIRMED for
+  portal-auth + wizard walk). Verify failed on 3 fields → AMBIGUOUS_FIELD.
+- **The 3 misses (next issue #54):** `getByLabel('Have you previously
+  worked for Huntington…')`, `('Address')`, `('Phone')` each resolved to a
+  Workday wrapper element ("Element is not an <input>… does not have a
+  role") — Workday's `<label for>` points at a container div, so the fill
+  must descend to the inner control. And "Phone Extension" was planned
+  with the phone NUMBER (mapping hijack: extension ≠ phone).
+
+### ✅ Job #9d — 2d517c7a DV Trading SWE Intern Summer 2027 — 14:49 local — SUBMITTED_VERIFIED → COMPLETED (third submit of the night)
+- With pronouns on file: upload-first, 22 controls verified, completeness
+  clean, click, receipt, tail completed.
+
+### 54. Workday wizard fill: wrapper-div labels + "Phone Extension" hijack — FIXED
+- `locatorForField`: a labelled element that is not a control descends to
+  the first input/textarea/select/contenteditable inside it (type filter
+  preserved) — Workday's `<label for>` targets a container div.
+  "Phone Extension"/"Ext" never maps to `phone`. Tests: wrapper-div text
+  + select fill/verify (fixture), 4 extension labels unmapped, plain
+  phone still maps.
