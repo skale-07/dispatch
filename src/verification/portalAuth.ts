@@ -9,6 +9,7 @@ import {
   EMAIL_INPUT_SELECTOR,
   authScope,
   diagnoseLoginWall,
+  passwordPolicyGaps,
   summarizeLoginWall,
   type LoginWallDiagnosis,
 } from "./loginWallDiagnosis.js";
@@ -408,6 +409,24 @@ export async function authenticateAtsPortal(
       notes.push(`portal auth: no ${kind} submit control found`);
       return { diag: await diagnoseLoginWall(page), formGone: false };
     }
+    if (kind === "create") {
+      // Read the portal's stated password rules BEFORE typing anything:
+      // a non-compliant standing password makes Workday's Create Account
+      // a silent no-op (live 2026-08-30, huntington.wd12). Park with the
+      // exact gap; the operator sets a compliant per-host password
+      // (accounts:set) or changes PORTAL_LOGIN_PASSWORD.
+      const rulesText = await (root === page
+        ? page.innerText("body", { timeout: 3_000 })
+        : (root as Locator).innerText({ timeout: 3_000 })
+      ).catch(() => "");
+      const gaps = passwordPolicyGaps(rulesText, password);
+      if (gaps.length > 0) {
+        notes.push(
+          `portal auth create: standing password fails this portal's password policy (missing: ${gaps.join(", ")}) — not submitting; set a compliant per-host password with accounts:set --host ${host} or change PORTAL_LOGIN_PASSWORD`,
+        );
+        return { diag: await diagnoseLoginWall(page), formGone: false };
+      }
+    }
     const form = await formOf(submit);
     const emailField = form
       ? form.locator(EMAIL_INPUT_SELECTOR).first()
@@ -462,7 +481,14 @@ export async function authenticateAtsPortal(
       escalated = true;
       state = await attempt("create");
     } else if (route) {
-      const control = await visibleNamed(page, new RegExp(`^${escapeRe(route)}$`, "i"));
+      // Prefer the vendor's own view-switch link INSIDE the auth scope
+      // (Workday: createAccountLink in the Sign In dialog). A page-wide
+      // name match found the create form's submit BEHIND the modal.
+      const scopeNow = await authScope(page);
+      const control =
+        (await firstVisible(scopeNow, sel.createAccountLink)) ??
+        (await visibleNamed(scopeNow, new RegExp(`^${escapeRe(route)}$`, "i"))) ??
+        (await visibleNamed(page, new RegExp(`^${escapeRe(route)}$`, "i")));
       if (control && !(await isFormSubmitControl(control))) {
         await control.click({ timeout: 5_000 }).catch(() => undefined);
         await settlePage(page, settle, 1_000);

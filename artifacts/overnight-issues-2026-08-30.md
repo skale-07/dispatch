@@ -410,4 +410,28 @@ logged only its pre-flight before dying.)_
   Tests: live rejection ⇒ credentials_rejected + create route found;
   two lock sentences ⇒ account_locked; beecatcher label wording is not
   an error. Next live run should escalate: Create Account with the same
-  standing email+password (guide §Employer-portal logins).
+  standing email+password (guide §Employer-portal logins). Commit ec35237.
+
+### Job #8c — Huntington — 13:01 local: sign-in rejected → Create Account opened and filled → "wall remains (create_account_form)"
+- Escalation now runs. Live probe of the create step: email, both
+  passwords, agreement checkbox filled; Create Account clicked (visible
+  click_filter) → NOTHING changes after 8s, no error text.
+
+### 47. ⚠ OPERATOR — the standing PORTAL_LOGIN_PASSWORD cannot create Workday accounts (policy) — guard added, password unchanged
+- Workday's Create Account page states: numeric + ≥8 chars + special +
+  lowercase + uppercase. The standing password is 39 chars with NO digit
+  and NO lowercase letter → Workday's client-side validation swallows the
+  click silently. This blocks every Workday tenant where no account
+  exists yet (Huntington, Vanguard, Intel… — only interdigital.wd5 has a
+  stored per-host account). **Fix is yours:** either set a compliant
+  per-host password (`npm run cli -- accounts:set --host <tenant> --email
+  skale072007@gmail.com --password "<compliant>"`) or change
+  `PORTAL_LOGIN_PASSWORD` to one with a digit and a lowercase letter
+  (it stays the one login used everywhere).
+- **Code (#47):** `passwordPolicyGaps` reads the page's stated rules and
+  the create attempt refuses BEFORE typing when the password fails them,
+  with the exact missing classes in the note ("missing: numeric
+  character, lowercase character") instead of "wall remains". Tests:
+  live rule text ×3 (gaps / compliant / short), page with no rules never
+  blocks, fixture create page with a non-compliant password is never
+  submitted.

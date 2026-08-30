@@ -623,7 +623,6 @@ describe("workday sign-in DIALOG over the create-account form — live huntingto
    * honeypot input sits next to both forms.
    */
   const HUNTINGTON_HTML = `<!DOCTYPE html><html><body>
-    <p id="err"></p>
     <div data-automation-id="createAccountContent">
       <h3>Create Account</h3>
       <form data-automation-id="signInFormo" id="create">
@@ -644,6 +643,7 @@ describe("workday sign-in DIALOG over the create-account form — live huntingto
     <div role="dialog" aria-modal="true" data-automation-id="popUpDialog" style="position:fixed;top:0;left:0;right:0;bottom:0;background:#fff">
       <div data-automation-id="signInContent">
         <h3 id="authViewTitle">Sign In</h3>
+        <div id="err" data-automation-id="errorMessage"></div>
         <form data-automation-id="signInFormo" id="signin">
           <label for="s-email"><span>Email Address<abbr>*</abbr></span></label>
           <input type="text" data-automation-id="email" id="s-email" autocomplete="email" />
@@ -717,6 +717,36 @@ describe("workday sign-in DIALOG over the create-account form — live huntingto
         expect(r.escalated_to_create).toBe(false);
         expect(await page.locator("input[name='first_name']").count()).toBe(1);
         expect(r.notes.join(" ")).not.toMatch(/wrong form|Robot detected/);
+      });
+    } finally {
+      applySafeFillEnv();
+    }
+  }, 30_000);
+
+  it("create-account: a standing password that fails the page's stated policy is never submitted; the note names the gap", async () => {
+    // Live 2026-08-30: Workday's Create Account silently ignores a
+    // non-compliant password. The fixture's create handler would flag
+    // "wrong form" if anything were submitted.
+    // Live sequence: no account at this tenant → sign-in rejected → the
+    // dialog's "Create Account" link swaps to the create form (rules listed).
+    const CREATE_ONLY = HUNTINGTON_HTML.replace(
+      "var accounts = { 'candidate@fixture.test': 'StandingPass1!' };",
+      "var accounts = {}; document.querySelector('[data-automation-id=createAccountLink]').addEventListener('click', function () { document.querySelector('[role=dialog]').style.display = 'none'; });",
+    ).replace(
+      "<h3>Create Account</h3>",
+      "<h3>Create Account</h3><p>Password Requirements: A numeric character A minimum of 8 characters A special character A lowercase character An uppercase character</p>",
+    );
+    applyControlledFillEnv({ NAVIGATION_ENABLED: "true" });
+    process.env.PORTAL_LOGIN_EMAIL = "candidate@fixture.test";
+    process.env.PORTAL_LOGIN_PASSWORD = "ALL-CAPS-NO-DIGITS!";
+    resetConfigCache();
+    try {
+      await onWorkdayPage(CREATE_ONLY, async (page) => {
+        const r = await authenticateAtsPortal(page, { settleMs: 0 });
+        expect(r.notes.join(" | ")).toMatch(/fails this portal's password policy \(missing: numeric character, lowercase character\)/);
+        expect(r.notes.join(" ")).not.toMatch(/wrong form/);
+        expect(r.status).toBe("wall_remains");
+        expect(await page.locator("#c-pw").inputValue()).toBe("");
       });
     } finally {
       applySafeFillEnv();

@@ -26,6 +26,27 @@ const SIGN_IN = (extra: string) => `<!DOCTYPE html><html><body>
   <input data-automation-id="beecatcher" name="website" type="text" />
 </body></html>`;
 
+describe("password policy read from the page (UNIT_CONFIRMED)", async () => {
+  const { passwordPolicyGaps } = await import("../../src/verification/loginWallDiagnosis.js");
+  const WORKDAY_RULES = `Create Account Password Requirements: A numeric character A minimum of 8 characters A special character A lowercase character An uppercase character An alphabetic character Email Address* Password*`;
+
+  it("names every missing class for the live shape (no digit, no lowercase)", () => {
+    expect(passwordPolicyGaps(WORKDAY_RULES, "CORRECT-HORSE-BATTERY-STAPLE-MOUNTAIN-TOP!")).toEqual([
+      "numeric character",
+      "lowercase character",
+    ]);
+  });
+
+  it("a compliant password has no gaps; a short one reports the minimum", () => {
+    expect(passwordPolicyGaps(WORKDAY_RULES, "Standing-Pass1!")).toEqual([]);
+    expect(passwordPolicyGaps(WORKDAY_RULES, "Ab1!")).toEqual(["minimum of 8 characters"]);
+  });
+
+  it("a page that states no rules never blocks", () => {
+    expect(passwordPolicyGaps("Sign in to continue. Email Address Password", "ALLCAPS")).toEqual([]);
+  });
+});
+
 describe("workday sign-in errors (FIXTURE_CONFIRMED)", () => {
   useIsolatedFillEnv("safe");
 

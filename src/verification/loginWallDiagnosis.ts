@@ -69,6 +69,32 @@ const ERROR_CONTAINER_SELECTOR =
   "[data-automation-id='errorMessage'], [data-automation-id='alertMessage'], [role='alert']";
 
 /**
+ * Which of the portal's stated password rules the candidate password does
+ * NOT satisfy. Live huntington.wd12 (2026-08-30): the Create Account page
+ * lists "A numeric character / A minimum of 8 characters / A special
+ * character / A lowercase character / An uppercase character"; the
+ * standing PORTAL_LOGIN_PASSWORD had no digit and no lowercase letter, and
+ * Workday's Create Account click silently did nothing — no error text,
+ * form unchanged — for three runs. Read the rules, check before clicking,
+ * and park with the exact gap instead of "wall remains". Pure; a page that
+ * states no rules yields no gaps.
+ */
+export function passwordPolicyGaps(pageText: string, password: string): string[] {
+  const t = pageText.replace(/\s+/g, " ");
+  const gaps: string[] = [];
+  const rule = (re: RegExp) => re.test(t);
+  if (rule(/\b(?:a )?(?:numeric|number|digit)s?\b/i) && !/\d/.test(password)) gaps.push("numeric character");
+  if (rule(/\blower ?case\b/i) && !/[a-z]/.test(password)) gaps.push("lowercase character");
+  if (rule(/\bupper ?case\b/i) && !/[A-Z]/.test(password)) gaps.push("uppercase character");
+  if (rule(/\b(?:special character|symbol)s?\b/i) && !/[^A-Za-z0-9]/.test(password)) gaps.push("special character");
+  const min = t.match(/(?:minimum of|at least|min(?:imum)?\.?)\s*(\d{1,2})\s*characters?/i);
+  if (min && password.length < Number(min[1])) gaps.push(`minimum of ${min[1]} characters`);
+  const max = t.match(/(?:maximum of|at most|no more than)\s*(\d{2,3})\s*characters?/i);
+  if (max && password.length > Number(max[1])) gaps.push(`maximum of ${max[1]} characters`);
+  return gaps;
+}
+
+/**
  * Every way a portal names its email/username input. Live Workday
  * (huntington.wd12, 2026-08-30): `<input type="text" autocomplete="email"
  * data-automation-id="email">` — no type=email, no name/id with "email" —
