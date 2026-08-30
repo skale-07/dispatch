@@ -1,0 +1,156 @@
+{
+  "outcome": "FAILED_BEFORE_CLICK",
+  "application_id": "1e213072-a614-41a9-9e9f-c8206965333e",
+  "submission_id": "d944d8ab-8c29-4b20-bcad-f39be9e9ec85",
+  "attempt": 2,
+  "receipt": null,
+  "review_item_id": null,
+  "reason": "Refusing to click submit: field verification or upload did not pass",
+  "artifact_path": null,
+  "operator_brief": {
+    "title": "Submit blocked — greenhouse app 1e213072-a614-41a9-9e9f-c8206965333e",
+    "summary": "8 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:screener:custom:graduation_year",
+        "question": "What year will you graduate?",
+        "field_id": "question_16876425003",
+        "canonical_field": "screener:custom:graduation_year",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"2029\"; page shows \"(empty)\"",
+        "expected": "2029",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "how_to_answer": [
+          "Type the intended value on the form (planned: 2029). If a places/autocomplete list appears, select a matching suggestion; plain city text is enough when no list opens.",
+          "System expected \"2029\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:graduation_year)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:graduation_year\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:requires_sponsorship",
+        "question": "Will you, at any point, require employer sponsorship to work in the United States?",
+        "field_id": "question_16876430003",
+        "canonical_field": "screener:requires_sponsorship",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"No\"; page shows \"(empty)\"",
+        "expected": "No",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "how_to_answer": [
+          "Type the intended value on the form (planned: No). If a places/autocomplete list appears, select a matching suggestion; plain city text is enough when no list opens.",
+          "System expected \"No\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:requires_sponsorship)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:requires_sponsorship\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:willing_to_relocate",
+        "question": "At this time we do not offer relocation assistance to interns. If hired, are you able to relocate on your own if you are not based locally?",
+        "field_id": "question_16876432003",
+        "canonical_field": "screener:willing_to_relocate",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Yes\"; page shows \"(empty)\"",
+        "expected": "Yes",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "how_to_answer": [
+          "Type the intended value on the form (planned: Yes). If a places/autocomplete list appears, select a matching suggestion; plain city text is enough when no list opens.",
+          "System expected \"Yes\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:willing_to_relocate)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:willing_to_relocate\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:willing_to_relocate:f_25",
+        "question": "I understand that this position requires me to work on-site.",
+        "field_id": "f_25",
+        "canonical_field": "screener:willing_to_relocate:f_25",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Yes\"; page shows \"(empty)\"",
+        "expected": "Yes",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"Yes\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:willing_to_relocate:f_25)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:willing_to_relocate:f_25\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:custom:internship_length_preference",
+        "question": "What intern season are you interested in?",
+        "field_id": "question_16876433003",
+        "canonical_field": "screener:custom:internship_length_preference",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"12 or 16 weeks\"; page shows \"(empty)\"",
+        "expected": "12 or 16 weeks",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "how_to_answer": [
+          "Type the intended value on the form (planned: 12 or 16 weeks). If a places/autocomplete list appears, select a matching suggestion; plain city text is enough when no list opens.",
+          "System expected \"12 or 16 weeks\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:internship_length_preference)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:internship_length_preference\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:hispanic_latino",
+        "question": "Are you Hispanic/Latino?",
+        "field_id": "hispanic_ethnicity",
+        "canonical_field": "hispanic_latino",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"No\"; page shows \"(empty)\"",
+        "expected": "No",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "how_to_answer": [
+          "Type the intended value on the form (planned: No). If a places/autocomplete list appears, select a matching suggestion; plain city text is enough when no list opens.",
+          "System expected \"No\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: hispanic_latino)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"hispanic_latino\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "fill_error:f_25: control not found on the page (label \"I understand that this position requ",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "f_25: control not found on the page (label \"I understand that this position requires me to work on-site.\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:question_16876433003: combobox option not committed: opened via control click; f",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "question_16876433003: combobox option not committed: opened via control click; filter yielded no/unmatched options; re-collected unfiltered (residue cleared); no option matches \"12 or 16 weeks\" (options: Fall 2026 (September - December) | Winter 2027 (January - April))",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      }
+    ],
+    "ok_count": 19,
+    "fail_count": 8
+  }
+}

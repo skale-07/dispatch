@@ -1,57 +1,310 @@
 {
   "mode": "executed",
   "ats": "greenhouse",
-  "url": "https://job-boards.greenhouse.io/flyzipline/jobs/7980874003",
+  "url": "https://boards.greenhouse.io/neuralink/jobs/5469298003",
   "plan": {
     "answers": {
-      "screener:custom:search_roles_query_2": "Software Engineer Intern",
-      "screener:custom:search_roles_query_2:f_1": "Software Engineer Intern"
+      "legal_name.first": "Shubham",
+      "legal_name.last": "Kale",
+      "email": "s***@gmail.com",
+      "address.country": "United States",
+      "phone": "***-***-7636",
+      "screener:custom:prior_internship_experience": "Yes",
+      "screener:custom:graduation_year": "2029",
+      "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+      "work_authorization": "[REDACTED_SPONSORSHIP]",
+      "screener:requires_sponsorship": "[REDACTED_SPONSORSHIP]",
+      "screener:custom:onsite_requirement_acknowledged": "Yes",
+      "screener:willing_to_relocate": "Yes",
+      "screener:custom:internship_season": "Winter 2027 (January - April)",
+      "screener:start_availability": "Flexible — aligned to the posted term",
+      "how_heard": "LinkedIn",
+      "screener:custom:prior_experience_details": "I currently work on applied machine learning at Summer Atlantic Capital / SAC Nexus, where I build the ML core of an anomaly-detection and alert-prioritization system, including the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, and a retrieval-augmented explanation layer. Before that I worked with Intelehealth on AI and data systems for rural telemedicine, including a resource-availability scoring pipeline across 32 villages and an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case clinical standard.",
+      "gender": "Male",
+      "hispanic_latino": "No",
+      "veteran_status": "I am not a veteran",
+      "disability_status": "No"
     },
     "entries": [
       {
-        "field_id": "f_0",
-        "label": "Search roles",
-        "type": "unknown",
-        "canonical_field": "screener:custom:search_roles_query_2",
+        "field_id": "first_name",
+        "label": "First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
         "action": "fill",
-        "value": "Software Engineer Intern",
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "last_name",
+        "label": "Last Name",
+        "type": "text",
+        "canonical_field": "legal_name.last",
+        "action": "fill",
+        "value": "Kale",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "email",
+        "label": "Email",
+        "type": "text",
+        "canonical_field": "email",
+        "action": "fill",
+        "value": "s***@gmail.com",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "country",
+        "label": "Country",
+        "type": "text",
+        "canonical_field": "address.country",
+        "action": "fill",
+        "value": "United States +1",
+        "reason": "Mapped from public profile; placed onto \"United States +1\""
+      },
+      {
+        "field_id": "iti-0__search-input",
+        "label": "Search",
+        "type": "unknown",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "phone",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "fill",
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "resume",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "skip_file",
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "cover_letter",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "skip_file",
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "question_16876421003",
+        "label": "We look for evidence of exceptional ability. Please provide us with 3-4 examples highlighting your exceptional ability, using quantitative metrics to display the impact on a product/project related to the requirements of the position you are applying for. Each bullet should be very concise— no longer than 3-4 sentences each and should capture the problem, solution, and result. We recommend starting with an action word (designed, led, built, promoted, launched, created, etc.) and be sure to include technical detail. This is your moment to WOW us! NOTE: Answering this question fully is the most important part of our interview process. First example:",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_16876421003",
+        "action": "fill",
+        "value": "Built the machine learning core and supporting infrastructure for an anomaly-detection and alert-prioritization system at Summer Atlantic Capital / SAC Nexus, where the real problem was not detection accuracy but alert volume: a system that flags everything just moves the workload onto human analysts. I own the repository and CI scaffold, the event-ingestion pipeline, and a versioned FastAPI microservice exposing the public detection API, so model changes ship behind stable, versioned endpoints instead of breaking downstream consumers. On top of that I built temporal sequence models over event streams using RNN and Transformer-style approaches for anomaly scoring, plus a learning-to-rank layer that orders alerts by priority rather than dumping them undifferentiated. I then added a retrieval-augmented LLM explanation layer so each surfaced anomaly comes with a traceable explanation an analyst can actually act on, and treated failure modes and documentation as part of the deliverable rather than an afterthought.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_16876422003",
+        "label": "Second example:",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_16876422003",
+        "action": "fill",
+        "value": "A second one is a job-application agent I built for myself in TypeScript and Node, using Playwright for browser interaction. The problem was that job hunting is mostly repetitive browser work: opening ATS pages, refilling the same information, tracking state, following up. The catch is that a fully autonomous browser agent is dangerous here, because one wrong click submits a real application or fills a legal or demographic field incorrectly.\n\nSo I built it as a deterministic, operator-controlled system instead. Every application moves through an explicit state machine (DISCOVERED to ELIGIBILITY_CHECK to QUEUED to INSPECT to FILL to READY_TO_SUBMIT to SUBMITTED), with SQLite as the single source of truth, because state diverging across processes is what makes automation unsafe. Every mutating capability sits behind fail-closed flags like SUBMIT_ENABLED that never default on and are never on in tests. Free-text and demographic fields are architecturally prevented from autofilling and always generate a human-review item. I also added a validation ladder, from unit-confirmed up to live-mutation-confirmed, so nothing counts as working just because a fixture passed. Greenhouse is fully supported; Workday and iCIMS are detected and deliberately skipped rather than handled unreliably.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_16876423003",
+        "label": "Third example:",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_16876423003",
+        "action": "fill",
+        "value": "At Summer Atlantic Capital / SAC Nexus, I build the machine-learning core of an anomaly-detection and alert-prioritization system, and I own a lot of the infrastructure around it: the repository and CI scaffold, the event-ingestion pipeline, a versioned FastAPI microservice, and the public detection API. The modeling side uses temporal sequence models over event streams, RNN and Transformer-style approaches, anomaly scoring, and a learning-to-rank layer for ordering alerts. I also built an LLM explanation layer with retrieval-augmented generation so the outputs are readable to a human analyst rather than just a score.\n\nWhat shaped the design was realizing that raw detection quality was not the binding constraint. A detector that fires constantly just hands the analyst a second problem, so prioritization, explanation quality, versioning, and documenting failure modes ended up mattering as much as model metrics. That is also why I versioned the service early: downstream users need to know exactly which detector produced an alert.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_16876424003",
+        "label": "Do you have prior internship or co-op experience?",
+        "type": "text",
+        "canonical_field": "screener:custom:prior_internship_experience",
+        "action": "fill",
+        "value": "Yes",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_16876425003",
+        "label": "What year will you graduate?",
+        "type": "text",
+        "canonical_field": "screener:custom:graduation_year",
+        "action": "fill",
+        "value": "2029",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_16876426003",
+        "label": "LinkedIn Profile",
+        "type": "text",
+        "canonical_field": "linkedin_url",
+        "action": "fill",
+        "value": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_16876427003",
+        "label": "Additional Link",
+        "type": "text",
+        "canonical_field": "screener:portfolio_url",
+        "action": "skip_empty",
+        "value": null,
+        "reason": "portfolio_url empty in bank — optional, skipped"
+      },
+      {
+        "field_id": "question_16876428003",
+        "label": "Preferred Pronouns",
+        "type": "text",
+        "canonical_field": null,
+        "action": "skip_demographics",
+        "value": null,
+        "reason": "Demographics deferred to sensitive-profile policy path"
+      },
+      {
+        "field_id": "question_16876429003[]",
+        "label": "Are you currently authorized to work in the United States?",
+        "type": "checkbox",
+        "canonical_field": "work_authorization",
+        "action": "fill",
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_16876430003",
+        "label": "Will you, at any point, require employer sponsorship to work in the United States?",
+        "type": "text",
+        "canonical_field": "screener:requires_sponsorship",
+        "action": "fill",
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Screener bank answer (profile_derived)"
+      },
+      {
+        "field_id": "question_16876431003[]",
+        "label": "I understand that this position requires me to work on-site.",
+        "type": "checkbox",
+        "canonical_field": "screener:custom:onsite_requirement_acknowledged",
+        "action": "fill",
+        "value": "Yes",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_16876432003",
+        "label": "At this time we do not offer relocation assistance to interns. If hired, are you able to relocate on your own if you are not based locally?",
+        "type": "text",
+        "canonical_field": "screener:willing_to_relocate",
+        "action": "fill",
+        "value": "Yes",
+        "reason": "Screener bank answer (synonym_option)"
+      },
+      {
+        "field_id": "question_16876433003",
+        "label": "What intern season are you interested in?",
+        "type": "text",
+        "canonical_field": "screener:custom:internship_season",
+        "action": "fill",
+        "value": "Winter 2027 (January - April)",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_16876434003",
+        "label": "Ideal start date in office",
+        "type": "text",
+        "canonical_field": "screener:start_availability",
+        "action": "fill",
+        "value": "Flexible — aligned to the posted term",
         "reason": "Screener bank answer (free_text)"
       },
       {
-        "field_id": "f_1",
-        "label": "Search roles",
-        "type": "unknown",
-        "canonical_field": "screener:custom:search_roles_query_2:f_1",
+        "field_id": "question_16876435003[]",
+        "label": "How did you hear about us?",
+        "type": "checkbox",
+        "canonical_field": "how_heard",
         "action": "fill",
-        "value": "Software Engineer Intern",
+        "value": "LinkedIn",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_16876436003",
+        "label": "Please specify",
+        "type": "text",
+        "canonical_field": "screener:custom:prior_experience_details",
+        "action": "fill",
+        "value": "I currently work on applied machine learning at Summer Atlantic Capital / SAC Nexus, where I build the ML core of an anomaly-detection and alert-prioritization system, including the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, and a retrieval-augmented explanation layer. Before that I worked with Intelehealth on AI and data systems for rural telemedicine, including a resource-availability scoring pipeline across 32 villages and an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case clinical standard.",
         "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "gender",
+        "label": "Gender",
+        "type": "text",
+        "canonical_field": "gender",
+        "action": "fill",
+        "value": "Male",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "hispanic_ethnicity",
+        "label": "Are you Hispanic/Latino?",
+        "type": "text",
+        "canonical_field": "hispanic_latino",
+        "action": "fill",
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "veteran_status",
+        "label": "Veteran Status",
+        "type": "text",
+        "canonical_field": "veteran_status",
+        "action": "fill",
+        "value": "I am not a veteran",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "disability_status",
+        "label": "Disability Status",
+        "type": "text",
+        "canonical_field": "disability_status",
+        "action": "fill",
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
       }
     ],
-    "fillable_count": 2,
-    "skipped_count": 0,
+    "fillable_count": 23,
+    "skipped_count": 5,
     "review_required_count": 0
   },
   "submit_attempted": false,
   "notes": [
     "session: handoff (caller-owned page, not closed here)",
-    "gate passed but the page has no applicant-identity fields — treating as posting shell (samsara-type chrome), running Apply + hop recovery",
-    "no hopable iframe after landing miss — frames: main https://www.zipline.com/open-roles?gh_jid=7980874003",
-    "popups dismissed: close (aria-label)",
-    "heal pass: recovered 0/2; final verify passed: false (sidecar consulted)",
+    "schema diff: 20/22 declared question(s) matched onto 28 DOM field(s); 2 declared-only (1 required); 8 DOM-only",
+    "board API declared 22 question(s); matched complete option lists onto 8 field(s)",
+    "option harvest: scraped real options for 5/14 control(s) before planning",
     "frozen after fill→verify→upload — no further field mutation; submit never called"
   ],
-  "validation_level": "UNVERIFIED",
-  "final_url": "https://www.zipline.com/open-roles?gh_jid=7980874003",
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "final_url": "https://job-boards.greenhouse.io/neuralink/jobs/5469298003",
   "identity_verification": {
-    "requestedUrl": "https://job-boards.greenhouse.io/flyzipline/jobs/7980874003",
-    "finalUrl": "https://www.zipline.com/open-roles?gh_jid=7980874003",
-    "requestedJobId": "7980874003",
-    "observedJobId": "7980874003",
-    "company": null,
-    "role": "Open Roles at Zipline | Join Our Team",
+    "requestedUrl": "https://boards.greenhouse.io/neuralink/jobs/5469298003",
+    "finalUrl": "https://job-boards.greenhouse.io/neuralink/jobs/5469298003",
+    "requestedJobId": "5469298003",
+    "observedJobId": "5469298003",
+    "company": "neuralink",
+    "role": "Job Application for Software Engineer Intern, Infrastructure at Neuralink",
     "formDetected": true,
-    "fieldCount": 2,
-    "warnings": [],
+    "fieldCount": 28,
+    "warnings": [
+      "login_wall_low: auth_provider_marker"
+    ],
     "passed": true,
     "failureCode": null,
     "failureReason": null
@@ -65,169 +318,818 @@
   "login_wall_detection": {
     "detected": false,
     "confidence": "LOW",
-    "signals": []
+    "signals": [
+      "auth_provider_marker"
+    ]
   },
   "failure_code": null,
   "mutation_attempted": true,
-  "harvested_options": [],
+  "schema_diff": {
+    "board": "neuralink",
+    "job_id": "5469298003",
+    "declared_count": 22,
+    "dom_count": 28,
+    "matched": 20,
+    "api_only": [
+      {
+        "label": "Resume/CV",
+        "required": true
+      },
+      {
+        "label": "Cover Letter",
+        "required": false
+      }
+    ],
+    "dom_only": [
+      "Country",
+      "Search",
+      "Attach",
+      "Attach",
+      "Gender",
+      "Are you Hispanic/Latino?",
+      "Veteran Status",
+      "Disability Status"
+    ],
+    "option_mismatches": []
+  },
+  "harvested_options": [
+    {
+      "field_id": "country",
+      "label": "Country",
+      "answer_space": "closed",
+      "option_count": 244,
+      "options": [
+        "United States +1",
+        "Afghanistan +93",
+        "Åland Islands +358",
+        "Albania +355",
+        "Algeria +213",
+        "American Samoa +1",
+        "Andorra +376",
+        "Angola +244",
+        "Anguilla +1",
+        "Antigua & Barbuda +1",
+        "Argentina +54",
+        "Armenia +374",
+        "Aruba +297",
+        "Ascension Island +247",
+        "Australia +61",
+        "Austria +43",
+        "Azerbaijan +994",
+        "Bahamas +1",
+        "Bahrain +973",
+        "Bangladesh +880",
+        "Barbados +1",
+        "Belarus +375",
+        "Belgium +32",
+        "Belize +501",
+        "Benin +229"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "gender",
+      "label": "Gender",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "Male",
+        "Female",
+        "Decline To Self Identify"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "hispanic_ethnicity",
+      "label": "Are you Hispanic/Latino?",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "Yes",
+        "No",
+        "Decline To Self Identify"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "veteran_status",
+      "label": "Veteran Status",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "I am not a protected veteran",
+        "I identify as one or more of the classifications of a protected veteran",
+        "I don't wish to answer"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "disability_status",
+      "label": "Disability Status",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "Yes, I have a disability, or have had one in the past",
+        "No, I do not have a disability and have not had one in the past",
+        "I do not want to answer"
+      ],
+      "other_option": null
+    }
+  ],
   "approved_plan": {
     "entries": [
       {
-        "field_id": "f_0",
-        "label": "Search roles",
-        "type": "unknown",
-        "canonical_field": "screener:custom:search_roles_query_2",
+        "field_id": "first_name",
+        "label": "First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
         "action": "FILL",
         "approved": true,
-        "value": "Software Engineer Intern",
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "last_name",
+        "label": "Last Name",
+        "type": "text",
+        "canonical_field": "legal_name.last",
+        "action": "FILL",
+        "approved": true,
+        "value": "Kale",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "email",
+        "label": "Email",
+        "type": "text",
+        "canonical_field": "email",
+        "action": "FILL",
+        "approved": true,
+        "value": "s***@gmail.com",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "country",
+        "label": "Country",
+        "type": "text",
+        "canonical_field": "address.country",
+        "action": "FILL",
+        "approved": true,
+        "value": "United States +1",
+        "reason": "Mapped from public profile; placed onto \"United States +1\""
+      },
+      {
+        "field_id": "iti-0__search-input",
+        "label": "Search",
+        "type": "unknown",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "phone",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "FILL",
+        "approved": true,
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "resume",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "cover_letter",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "question_16876421003",
+        "label": "We look for evidence of exceptional ability. Please provide us with 3-4 examples highlighting your exceptional ability, using quantitative metrics to display the impact on a product/project related to the requirements of the position you are applying for. Each bullet should be very concise— no longer than 3-4 sentences each and should capture the problem, solution, and result. We recommend starting with an action word (designed, led, built, promoted, launched, created, etc.) and be sure to include technical detail. This is your moment to WOW us! NOTE: Answering this question fully is the most important part of our interview process. First example:",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_16876421003",
+        "action": "FILL",
+        "approved": true,
+        "value": "Built the machine learning core and supporting infrastructure for an anomaly-detection and alert-prioritization system at Summer Atlantic Capital / SAC Nexus, where the real problem was not detection accuracy but alert volume: a system that flags everything just moves the workload onto human analysts. I own the repository and CI scaffold, the event-ingestion pipeline, and a versioned FastAPI microservice exposing the public detection API, so model changes ship behind stable, versioned endpoints instead of breaking downstream consumers. On top of that I built temporal sequence models over event streams using RNN and Transformer-style approaches for anomaly scoring, plus a learning-to-rank layer that orders alerts by priority rather than dumping them undifferentiated. I then added a retrieval-augmented LLM explanation layer so each surfaced anomaly comes with a traceable explanation an analyst can actually act on, and treated failure modes and documentation as part of the deliverable rather than an afterthought.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_16876422003",
+        "label": "Second example:",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_16876422003",
+        "action": "FILL",
+        "approved": true,
+        "value": "A second one is a job-application agent I built for myself in TypeScript and Node, using Playwright for browser interaction. The problem was that job hunting is mostly repetitive browser work: opening ATS pages, refilling the same information, tracking state, following up. The catch is that a fully autonomous browser agent is dangerous here, because one wrong click submits a real application or fills a legal or demographic field incorrectly.\n\nSo I built it as a deterministic, operator-controlled system instead. Every application moves through an explicit state machine (DISCOVERED to ELIGIBILITY_CHECK to QUEUED to INSPECT to FILL to READY_TO_SUBMIT to SUBMITTED), with SQLite as the single source of truth, because state diverging across processes is what makes automation unsafe. Every mutating capability sits behind fail-closed flags like SUBMIT_ENABLED that never default on and are never on in tests. Free-text and demographic fields are architecturally prevented from autofilling and always generate a human-review item. I also added a validation ladder, from unit-confirmed up to live-mutation-confirmed, so nothing counts as working just because a fixture passed. Greenhouse is fully supported; Workday and iCIMS are detected and deliberately skipped rather than handled unreliably.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_16876423003",
+        "label": "Third example:",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_16876423003",
+        "action": "FILL",
+        "approved": true,
+        "value": "At Summer Atlantic Capital / SAC Nexus, I build the machine-learning core of an anomaly-detection and alert-prioritization system, and I own a lot of the infrastructure around it: the repository and CI scaffold, the event-ingestion pipeline, a versioned FastAPI microservice, and the public detection API. The modeling side uses temporal sequence models over event streams, RNN and Transformer-style approaches, anomaly scoring, and a learning-to-rank layer for ordering alerts. I also built an LLM explanation layer with retrieval-augmented generation so the outputs are readable to a human analyst rather than just a score.\n\nWhat shaped the design was realizing that raw detection quality was not the binding constraint. A detector that fires constantly just hands the analyst a second problem, so prioritization, explanation quality, versioning, and documenting failure modes ended up mattering as much as model metrics. That is also why I versioned the service early: downstream users need to know exactly which detector produced an alert.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_16876424003",
+        "label": "Do you have prior internship or co-op experience?",
+        "type": "text",
+        "canonical_field": "screener:custom:prior_internship_experience",
+        "action": "FILL",
+        "approved": true,
+        "value": "Yes",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_16876425003",
+        "label": "What year will you graduate?",
+        "type": "text",
+        "canonical_field": "screener:custom:graduation_year",
+        "action": "FILL",
+        "approved": true,
+        "value": "2029",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_16876426003",
+        "label": "LinkedIn Profile",
+        "type": "text",
+        "canonical_field": "linkedin_url",
+        "action": "FILL",
+        "approved": true,
+        "value": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_16876427003",
+        "label": "Additional Link",
+        "type": "text",
+        "canonical_field": "screener:portfolio_url",
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "portfolio_url empty in bank — optional, skipped"
+      },
+      {
+        "field_id": "question_16876428003",
+        "label": "Preferred Pronouns",
+        "type": "text",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "Demographics deferred to sensitive-profile policy path"
+      },
+      {
+        "field_id": "question_16876429003[]",
+        "label": "Are you currently authorized to work in the United States?",
+        "type": "checkbox",
+        "canonical_field": "work_authorization",
+        "action": "FILL",
+        "approved": true,
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_16876430003",
+        "label": "Will you, at any point, require employer sponsorship to work in the United States?",
+        "type": "text",
+        "canonical_field": "screener:requires_sponsorship",
+        "action": "FILL",
+        "approved": true,
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Screener bank answer (profile_derived)"
+      },
+      {
+        "field_id": "question_16876431003[]",
+        "label": "I understand that this position requires me to work on-site.",
+        "type": "checkbox",
+        "canonical_field": "screener:custom:onsite_requirement_acknowledged",
+        "action": "FILL",
+        "approved": true,
+        "value": "Yes",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_16876432003",
+        "label": "At this time we do not offer relocation assistance to interns. If hired, are you able to relocate on your own if you are not based locally?",
+        "type": "text",
+        "canonical_field": "screener:willing_to_relocate",
+        "action": "FILL",
+        "approved": true,
+        "value": "Yes",
+        "reason": "Screener bank answer (synonym_option)"
+      },
+      {
+        "field_id": "question_16876433003",
+        "label": "What intern season are you interested in?",
+        "type": "text",
+        "canonical_field": "screener:custom:internship_season",
+        "action": "FILL",
+        "approved": true,
+        "value": "Winter 2027 (January - April)",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_16876434003",
+        "label": "Ideal start date in office",
+        "type": "text",
+        "canonical_field": "screener:start_availability",
+        "action": "FILL",
+        "approved": true,
+        "value": "Flexible — aligned to the posted term",
         "reason": "Screener bank answer (free_text)"
       },
       {
-        "field_id": "f_1",
-        "label": "Search roles",
-        "type": "unknown",
-        "canonical_field": "screener:custom:search_roles_query_2:f_1",
+        "field_id": "question_16876435003[]",
+        "label": "How did you hear about us?",
+        "type": "checkbox",
+        "canonical_field": "how_heard",
         "action": "FILL",
         "approved": true,
-        "value": "Software Engineer Intern",
+        "value": "LinkedIn",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_16876436003",
+        "label": "Please specify",
+        "type": "text",
+        "canonical_field": "screener:custom:prior_experience_details",
+        "action": "FILL",
+        "approved": true,
+        "value": "I currently work on applied machine learning at Summer Atlantic Capital / SAC Nexus, where I build the ML core of an anomaly-detection and alert-prioritization system, including the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, and a retrieval-augmented explanation layer. Before that I worked with Intelehealth on AI and data systems for rural telemedicine, including a resource-availability scoring pipeline across 32 villages and an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case clinical standard.",
         "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "gender",
+        "label": "Gender",
+        "type": "text",
+        "canonical_field": "gender",
+        "action": "FILL",
+        "approved": true,
+        "value": "Male",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "hispanic_ethnicity",
+        "label": "Are you Hispanic/Latino?",
+        "type": "text",
+        "canonical_field": "hispanic_latino",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "veteran_status",
+        "label": "Veteran Status",
+        "type": "text",
+        "canonical_field": "veteran_status",
+        "action": "FILL",
+        "approved": true,
+        "value": "I am not a veteran",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "disability_status",
+        "label": "Disability Status",
+        "type": "text",
+        "canonical_field": "disability_status",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
       }
     ],
     "answers": {
-      "screener:custom:search_roles_query_2": "Software Engineer Intern",
-      "screener:custom:search_roles_query_2:f_1": "Software Engineer Intern"
+      "legal_name.first": "Shubham",
+      "legal_name.last": "Kale",
+      "email": "s***@gmail.com",
+      "address.country": "United States +1",
+      "phone": "***-***-7636",
+      "essay:generated:question_16876421003": "Built the machine learning core and supporting infrastructure for an anomaly-detection and alert-prioritization system at Summer Atlantic Capital / SAC Nexus, where the real problem was not detection accuracy but alert volume: a system that flags everything just moves the workload onto human analysts. I own the repository and CI scaffold, the event-ingestion pipeline, and a versioned FastAPI microservice exposing the public detection API, so model changes ship behind stable, versioned endpoints instead of breaking downstream consumers. On top of that I built temporal sequence models over event streams using RNN and Transformer-style approaches for anomaly scoring, plus a learning-to-rank layer that orders alerts by priority rather than dumping them undifferentiated. I then added a retrieval-augmented LLM explanation layer so each surfaced anomaly comes with a traceable explanation an analyst can actually act on, and treated failure modes and documentation as part of the deliverable rather than an afterthought.",
+      "essay:generated:question_16876422003": "A second one is a job-application agent I built for myself in TypeScript and Node, using Playwright for browser interaction. The problem was that job hunting is mostly repetitive browser work: opening ATS pages, refilling the same information, tracking state, following up. The catch is that a fully autonomous browser agent is dangerous here, because one wrong click submits a real application or fills a legal or demographic field incorrectly.\n\nSo I built it as a deterministic, operator-controlled system instead. Every application moves through an explicit state machine (DISCOVERED to ELIGIBILITY_CHECK to QUEUED to INSPECT to FILL to READY_TO_SUBMIT to SUBMITTED), with SQLite as the single source of truth, because state diverging across processes is what makes automation unsafe. Every mutating capability sits behind fail-closed flags like SUBMIT_ENABLED that never default on and are never on in tests. Free-text and demographic fields are architecturally prevented from autofilling and always generate a human-review item. I also added a validation ladder, from unit-confirmed up to live-mutation-confirmed, so nothing counts as working just because a fixture passed. Greenhouse is fully supported; Workday and iCIMS are detected and deliberately skipped rather than handled unreliably.",
+      "essay:generated:question_16876423003": "At Summer Atlantic Capital / SAC Nexus, I build the machine-learning core of an anomaly-detection and alert-prioritization system, and I own a lot of the infrastructure around it: the repository and CI scaffold, the event-ingestion pipeline, a versioned FastAPI microservice, and the public detection API. The modeling side uses temporal sequence models over event streams, RNN and Transformer-style approaches, anomaly scoring, and a learning-to-rank layer for ordering alerts. I also built an LLM explanation layer with retrieval-augmented generation so the outputs are readable to a human analyst rather than just a score.\n\nWhat shaped the design was realizing that raw detection quality was not the binding constraint. A detector that fires constantly just hands the analyst a second problem, so prioritization, explanation quality, versioning, and documenting failure modes ended up mattering as much as model metrics. That is also why I versioned the service early: downstream users need to know exactly which detector produced an alert.",
+      "screener:custom:prior_internship_experience": "Yes",
+      "screener:custom:graduation_year": "2029",
+      "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+      "work_authorization": "[REDACTED_SPONSORSHIP]",
+      "screener:requires_sponsorship": "[REDACTED_SPONSORSHIP]",
+      "screener:custom:onsite_requirement_acknowledged": "Yes",
+      "screener:willing_to_relocate": "Yes",
+      "screener:custom:internship_season": "Winter 2027 (January - April)",
+      "screener:start_availability": "Flexible — aligned to the posted term",
+      "how_heard": "LinkedIn",
+      "screener:custom:prior_experience_details": "I currently work on applied machine learning at Summer Atlantic Capital / SAC Nexus, where I build the ML core of an anomaly-detection and alert-prioritization system, including the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, and a retrieval-augmented explanation layer. Before that I worked with Intelehealth on AI and data systems for rural telemedicine, including a resource-availability scoring pipeline across 32 villages and an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case clinical standard.",
+      "gender": "Male",
+      "hispanic_latino": "No",
+      "veteran_status": "I am not a veteran",
+      "disability_status": "No"
     },
-    "fillable_count": 2,
-    "skipped_count": 0,
+    "fillable_count": 23,
+    "skipped_count": 5,
     "review_required_count": 0
   },
   "fill": {
-    "filled": [],
-    "skipped": [],
-    "errors": [
-      "f_0: control not found on the page (label \"Search roles\") — failing fast instead of waiting 30s",
-      "f_1: control not found on the page (label \"Search roles\") — failing fast instead of waiting 30s"
+    "filled": [
+      "legal_name.first",
+      "legal_name.last",
+      "email",
+      "address.country",
+      "phone",
+      "essay:generated:question_16876421003",
+      "essay:generated:question_16876422003",
+      "essay:generated:question_16876423003",
+      "screener:custom:prior_internship_experience",
+      "screener:custom:graduation_year",
+      "linkedin_url",
+      "work_authorization",
+      "screener:requires_sponsorship",
+      "screener:custom:onsite_requirement_acknowledged",
+      "screener:willing_to_relocate",
+      "screener:custom:internship_season",
+      "screener:start_availability",
+      "how_heard",
+      "screener:custom:prior_experience_details",
+      "gender",
+      "hispanic_latino",
+      "veteran_status",
+      "disability_status"
     ],
-    "field_meta": []
-  },
-  "verify": {
-    "passed": false,
-    "fields": [
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
       {
-        "canonical_field": "screener:custom:search_roles_query_2",
-        "expected": "Software Engineer Intern",
-        "observed": null,
-        "match": false
+        "field_id": "first_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
       },
       {
-        "canonical_field": "screener:custom:search_roles_query_2:f_1",
-        "expected": "Software Engineer Intern",
-        "observed": null,
-        "match": false
+        "field_id": "last_name",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "country",
+        "canonical_field": "address.country",
+        "control_kind": "combobox",
+        "selected_option": "+1",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"United States +1\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "phone",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_16876421003",
+        "canonical_field": "essay:generated:question_16876421003",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_16876422003",
+        "canonical_field": "essay:generated:question_16876422003",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_16876423003",
+        "canonical_field": "essay:generated:question_16876423003",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_16876424003",
+        "canonical_field": "screener:custom:prior_internship_experience",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_16876425003",
+        "canonical_field": "screener:custom:graduation_year",
+        "control_kind": "combobox",
+        "selected_option": "2029",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"2029\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_16876426003",
+        "canonical_field": "linkedin_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_16876429003[]",
+        "canonical_field": "work_authorization",
+        "control_kind": "checkbox_group",
+        "selected_option": "Yes"
+      },
+      {
+        "field_id": "question_16876430003",
+        "canonical_field": "screener:requires_sponsorship",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_16876431003[]",
+        "canonical_field": "screener:custom:onsite_requirement_acknowledged",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_16876432003",
+        "canonical_field": "screener:willing_to_relocate",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_16876433003",
+        "canonical_field": "screener:custom:internship_season",
+        "control_kind": "combobox",
+        "selected_option": "Winter 2027 (January - April)",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Winter 2027 (January - April)\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_16876434003",
+        "canonical_field": "screener:start_availability",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_16876435003[]",
+        "canonical_field": "how_heard",
+        "control_kind": "checkbox_group",
+        "selected_option": "LinkedIn"
+      },
+      {
+        "field_id": "question_16876436003",
+        "canonical_field": "screener:custom:prior_experience_details",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "gender",
+        "canonical_field": "gender",
+        "control_kind": "combobox",
+        "selected_option": "Male",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Male\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "hispanic_ethnicity",
+        "canonical_field": "hispanic_latino",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "veteran_status",
+        "canonical_field": "veteran_status",
+        "control_kind": "combobox",
+        "selected_option": "I am not a protected veteran",
+        "match_via": "synonym",
+        "notes": [
+          "opened via control click",
+          "picked \"I am not a protected veteran\" (synonym) from open list"
+        ]
+      },
+      {
+        "field_id": "disability_status",
+        "canonical_field": "disability_status",
+        "control_kind": "combobox",
+        "selected_option": "No, I do not have a disability and have not had one in the past",
+        "match_via": "synonym",
+        "notes": [
+          "opened via control click",
+          "picked \"No, I do not have a disability and have not had one in the past\" (synonym) from open list"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.last",
+        "expected": "Kale",
+        "observed": "Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "address.country",
+        "expected": "United States +1",
+        "observed": {
+          "value": "+1",
+          "label": "+1"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:question_16876421003",
+        "expected": "Built the machine learning core and supporting infrastructure for an anomaly-detection and alert-prioritization system at Summer Atlantic Capital / SAC Nexus, where the real problem was not detection accuracy but alert volume: a system that flags everything just moves the workload onto human analysts. I own the repository and CI scaffold, the event-ingestion pipeline, and a versioned FastAPI microservice exposing the public detection API, so model changes ship behind stable, versioned endpoints instead of breaking downstream consumers. On top of that I built temporal sequence models over event streams using RNN and Transformer-style approaches for anomaly scoring, plus a learning-to-rank layer that orders alerts by priority rather than dumping them undifferentiated. I then added a retrieval-augmented LLM explanation layer so each surfaced anomaly comes with a traceable explanation an analyst can actually act on, and treated failure modes and documentation as part of the deliverable rather than an afterthought.",
+        "observed": "Built the machine learning core and supporting infrastructure for an anomaly-detection and alert-prioritization system at Summer Atlantic Capital / SAC Nexus, where the real problem was not detection accuracy but alert volume: a system that flags everything just moves the workload onto human analysts. I own the repository and CI scaffold, the event-ingestion pipeline, and a versioned FastAPI microservice exposing the public detection API, so model changes ship behind stable, versioned endpoints instead of breaking downstream consumers. On top of that I built temporal sequence models over event streams using RNN and Transformer-style approaches for anomaly scoring, plus a learning-to-rank layer that orders alerts by priority rather than dumping them undifferentiated. I then added a retrieval-augmented LLM explanation layer so each surfaced anomaly comes with a traceable explanation an analyst can actually act on, and treated failure modes and documentation as part of the deliverable rather than an afterthought.",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:question_16876422003",
+        "expected": "A second one is a job-application agent I built for myself in TypeScript and Node, using Playwright for browser interaction. The problem was that job hunting is mostly repetitive browser work: opening ATS pages, refilling the same information, tracking state, following up. The catch is that a fully autonomous browser agent is dangerous here, because one wrong click submits a real application or fills a legal or demographic field incorrectly.\n\nSo I built it as a deterministic, operator-controlled system instead. Every application moves through an explicit state machine (DISCOVERED to ELIGIBILITY_CHECK to QUEUED to INSPECT to FILL to READY_TO_SUBMIT to SUBMITTED), with SQLite as the single source of truth, because state diverging across processes is what makes automation unsafe. Every mutating capability sits behind fail-closed flags like SUBMIT_ENABLED that never default on and are never on in tests. Free-text and demographic fields are architecturally prevented from autofilling and always generate a human-review item. I also added a validation ladder, from unit-confirmed up to live-mutation-confirmed, so nothing counts as working just because a fixture passed. Greenhouse is fully supported; Workday and iCIMS are detected and deliberately skipped rather than handled unreliably.",
+        "observed": "A second one is a job-application agent I built for myself in TypeScript and Node, using Playwright for browser interaction. The problem was that job hunting is mostly repetitive browser work: opening ATS pages, refilling the same information, tracking state, following up. The catch is that a fully autonomous browser agent is dangerous here, because one wrong click submits a real application or fills a legal or demographic field incorrectly.\n\nSo I built it as a deterministic, operator-controlled system instead. Every application moves through an explicit state machine (DISCOVERED to ELIGIBILITY_CHECK to QUEUED to INSPECT to FILL to READY_TO_SUBMIT to SUBMITTED), with SQLite as the single source of truth, because state diverging across processes is what makes automation unsafe. Every mutating capability sits behind fail-closed flags like SUBMIT_ENABLED that never default on and are never on in tests. Free-text and demographic fields are architecturally prevented from autofilling and always generate a human-review item. I also added a validation ladder, from unit-confirmed up to live-mutation-confirmed, so nothing counts as working just because a fixture passed. Greenhouse is fully supported; Workday and iCIMS are detected and deliberately skipped rather than handled unreliably.",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:question_16876423003",
+        "expected": "At Summer Atlantic Capital / SAC Nexus, I build the machine-learning core of an anomaly-detection and alert-prioritization system, and I own a lot of the infrastructure around it: the repository and CI scaffold, the event-ingestion pipeline, a versioned FastAPI microservice, and the public detection API. The modeling side uses temporal sequence models over event streams, RNN and Transformer-style approaches, anomaly scoring, and a learning-to-rank layer for ordering alerts. I also built an LLM explanation layer with retrieval-augmented generation so the outputs are readable to a human analyst rather than just a score.\n\nWhat shaped the design was realizing that raw detection quality was not the binding constraint. A detector that fires constantly just hands the analyst a second problem, so prioritization, explanation quality, versioning, and documenting failure modes ended up mattering as much as model metrics. That is also why I versioned the service early: downstream users need to know exactly which detector produced an alert.",
+        "observed": "At Summer Atlantic Capital / SAC Nexus, I build the machine-learning core of an anomaly-detection and alert-prioritization system, and I own a lot of the infrastructure around it: the repository and CI scaffold, the event-ingestion pipeline, a versioned FastAPI microservice, and the public detection API. The modeling side uses temporal sequence models over event streams, RNN and Transformer-style approaches, anomaly scoring, and a learning-to-rank layer for ordering alerts. I also built an LLM explanation layer with retrieval-augmented generation so the outputs are readable to a human analyst rather than just a score.\n\nWhat shaped the design was realizing that raw detection quality was not the binding constraint. A detector that fires constantly just hands the analyst a second problem, so prioritization, explanation quality, versioning, and documenting failure modes ended up mattering as much as model metrics. That is also why I versioned the service early: downstream users need to know exactly which detector produced an alert.",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:prior_internship_experience",
+        "expected": "Yes",
+        "observed": {
+          "value": "Yes",
+          "label": "Yes"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:graduation_year",
+        "expected": "2029",
+        "observed": {
+          "value": "2029",
+          "label": "2029"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "match": true
+      },
+      {
+        "canonical_field": "work_authorization",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:requires_sponsorship",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:onsite_requirement_acknowledged",
+        "expected": "Yes",
+        "observed": true,
+        "match": true
+      },
+      {
+        "canonical_field": "screener:willing_to_relocate",
+        "expected": "Yes",
+        "observed": {
+          "value": "Yes",
+          "label": "Yes"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:internship_season",
+        "expected": "Winter 2027 (January - April)",
+        "observed": {
+          "value": "Winter 2027 (January - April)",
+          "label": "Winter 2027 (January - April)"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:start_availability",
+        "expected": "Flexible — aligned to the posted term",
+        "observed": "Flexible — aligned to the posted term",
+        "match": true
+      },
+      {
+        "canonical_field": "how_heard",
+        "expected": "LinkedIn",
+        "observed": {
+          "value": "LinkedIn",
+          "label": "LinkedIn"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:prior_experience_details",
+        "expected": "I currently work on applied machine learning at Summer Atlantic Capital / SAC Nexus, where I build the ML core of an anomaly-detection and alert-prioritization system, including the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, and a retrieval-augmented explanation layer. Before that I worked with Intelehealth on AI and data systems for rural telemedicine, including a resource-availability scoring pipeline across 32 villages and an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case clinical standard.",
+        "observed": "I currently work on applied machine learning at Summer Atlantic Capital / SAC Nexus, where I build the ML core of an anomaly-detection and alert-prioritization system, including the event-ingestion pipeline, a versioned FastAPI detection service, temporal",
+        "match": true
+      },
+      {
+        "canonical_field": "gender",
+        "expected": "Male",
+        "observed": {
+          "value": "Male",
+          "label": "Male"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "hispanic_latino",
+        "expected": "No",
+        "observed": {
+          "value": "No",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "veteran_status",
+        "expected": "I am not a veteran",
+        "observed": {
+          "value": "I am not a protected veteran",
+          "label": "I am not a protected veteran"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "disability_status",
+        "expected": "No",
+        "observed": {
+          "value": "No, I do not have a disability and have not had one in the past",
+          "label": "No, I do not have a disability and have not had one in the past"
+        },
+        "match": true
       }
     ],
     "uploads": [],
-    "warnings": [
-      "verify screener:custom:search_roles_query_2: control not found on the page (label \"Search roles\") — failing fast instead of waiting 30s",
-      "verify screener:custom:search_roles_query_2:f_1: control not found on the page (label \"Search roles\") — failing fast instead of waiting 30s"
-    ]
+    "warnings": []
   },
-  "heal": {
-    "attempted": 2,
-    "healed": [],
-    "still_failing": [
-      "f_0",
-      "f_1"
-    ],
-    "attempts": [
-      {
-        "field_id": "f_0",
-        "layer": null,
-        "candidate": null,
-        "healed": false,
-        "notes": [
-          "no heuristic candidates scored >= 0.5",
-          "sidecar returned no candidates"
-        ]
-      },
-      {
-        "field_id": "f_1",
-        "layer": null,
-        "candidate": null,
-        "healed": false,
-        "notes": [
-          "no heuristic candidates scored >= 0.5",
-          "sidecar returned no candidates"
-        ]
-      }
-    ],
-    "sidecar_used": true
-  },
-  "operator_brief": {
-    "title": "Live fill — greenhouse https://www.zipline.com/open-roles?gh_jid=7980874003",
-    "summary": "4 item(s) need attention (verify failed — submit click blocked)",
-    "items": [
-      {
-        "id": "verify:screener:custom:search_roles_query_2",
-        "question": "Search roles",
-        "field_id": "f_0",
-        "canonical_field": "screener:custom:search_roles_query_2",
-        "kind": "verify_mismatch",
-        "problem": "Expected \"Software Engineer Intern\"; page shows \"(empty)\"",
-        "expected": "Software Engineer Intern",
-        "observed": null,
-        "how_to_answer": [
-          "System expected \"Software Engineer Intern\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
-          "Profile source: private/candidate/public-profile.json (key: screener:custom:search_roles_query_2)",
-          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:search_roles_query_2\" should match the on-form question text."
-        ]
-      },
-      {
-        "id": "verify:screener:custom:search_roles_query_2:f_1",
-        "question": "Search roles",
-        "field_id": "f_1",
-        "canonical_field": "screener:custom:search_roles_query_2:f_1",
-        "kind": "verify_mismatch",
-        "problem": "Expected \"Software Engineer Intern\"; page shows \"(empty)\"",
-        "expected": "Software Engineer Intern",
-        "observed": null,
-        "how_to_answer": [
-          "System expected \"Software Engineer Intern\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
-          "Profile source: private/candidate/public-profile.json (key: screener:custom:search_roles_query_2:f_1)",
-          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:search_roles_query_2:f_1\" should match the on-form question text."
-        ]
-      },
-      {
-        "id": "fill_error:f_0: control not found on the page (label \"Search roles\") — failing fast instead",
-        "question": "(fill error — see problem)",
-        "field_id": null,
-        "canonical_field": null,
-        "kind": "fill_error",
-        "problem": "f_0: control not found on the page (label \"Search roles\") — failing fast instead of waiting 30s",
-        "expected": null,
-        "observed": null,
-        "how_to_answer": [
-          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
-          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
-        ]
-      },
-      {
-        "id": "fill_error:f_1: control not found on the page (label \"Search roles\") — failing fast instead",
-        "question": "(fill error — see problem)",
-        "field_id": null,
-        "canonical_field": null,
-        "kind": "fill_error",
-        "problem": "f_1: control not found on the page (label \"Search roles\") — failing fast instead of waiting 30s",
-        "expected": null,
-        "observed": null,
-        "how_to_answer": [
-          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
-          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
-        ]
-      }
-    ],
-    "ok_count": 0,
-    "fail_count": 4
-  },
-  "written_at": "2026-08-30T15:24:24.716Z"
+  "written_at": "2026-08-30T16:27:10.832Z"
 }
