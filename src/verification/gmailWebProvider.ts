@@ -232,10 +232,11 @@ async function pollGmailWeb(
   requestedAt: string,
   accept: "code" | "code_or_link",
   headless = true,
+  forceStorageState = false,
 ): Promise<MailboxVerificationHit | null> {
   const cfg = getConfig();
   if (!cfg.gmailVerificationEnabled) return null;
-  const useCdp = await cdpReachable(cfg.agentCdpUrl);
+  const useCdp = !forceStorageState && (await cdpReachable(cfg.agentCdpUrl));
   // CDP attach ignores headless (operator Chrome is already visible).
   // STORAGE_STATE launches honor headless for smoke-test visibility.
   const session = new PlaywrightServiceSession({
@@ -280,9 +281,18 @@ async function pollGmailWeb(
       service: "gmail",
       action: "verification_code_web_error",
       metadata: {
+        session: useCdp ? "cdp" : "storage_state",
         reason: err instanceof Error ? err.message.slice(0, 200) : String(err),
       },
     });
+    if (useCdp) {
+      // The pipeline itself holds the CDP Chrome during submit recovery —
+      // live 2026-08-30: "port answers but the CDP session won't attach".
+      // The documented fallback (saved storage state, headless) was
+      // unreachable from this catch; try it once before giving up.
+      await session.close().catch(() => undefined);
+      return pollGmailWeb(requestedAt, accept, headless, true);
+    }
     return null;
   } finally {
     await session.close().catch(() => undefined);
