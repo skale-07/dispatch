@@ -792,10 +792,36 @@ export async function runAtsSubmission(input: {
             ) {
               const fetchCode =
                 input.fetchVerificationCode ?? resolveVerificationCodeProvider();
+              if (!fetchCode) {
+                // Name the skip — live 2026-08-29 the recovery silently
+                // never ran for 5 clicks and the cause was unfindable
+                // from artifacts alone.
+                logger.warn(
+                  "post-click code recovery skipped: no mailbox provider available",
+                  {
+                    service: "submission",
+                    action: "post_click_code_recovery_skip",
+                    application_id: applicationId,
+                  },
+                );
+              }
               if (fetchCode) {
                 const diagnosis = await diagnoseDisabledSubmit(page).catch(
                   () => null,
                 );
+                if (!diagnosis?.verification.detected) {
+                  logger.warn(
+                    "post-click code recovery skipped: no verification input detected on the inconclusive page",
+                    {
+                      service: "submission",
+                      action: "post_click_code_recovery_skip",
+                      application_id: applicationId,
+                      metadata: {
+                        summary: diagnosis?.summary ?? "(diagnosis failed)",
+                      },
+                    },
+                  );
+                }
                 if (diagnosis?.verification.detected) {
                   logger.info(
                     "post-click emailed-code wall — attempting verification-code recovery",
