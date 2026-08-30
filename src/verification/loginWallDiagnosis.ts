@@ -1,4 +1,4 @@
-import type { Page } from "playwright";
+import type { Locator, Page } from "playwright";
 
 /**
  * Structured, human-readable diagnosis of an employer login wall
@@ -51,6 +51,38 @@ const CREATE_ROUTE_RE =
 const ERROR_RE =
   /incorrect|invalid|doesn'?t match|does not match|no account|can'?t find|couldn'?t find|not recognized|try again|must be verified|verify your email|wrong password/i;
 
+/**
+ * Every way a portal names its email/username input. Live Workday
+ * (huntington.wd12, 2026-08-30): `<input type="text" autocomplete="email"
+ * data-automation-id="email">` — no type=email, no name/id with "email" —
+ * so the old list read `email=false` and the sign-in was never typed.
+ */
+export const EMAIL_INPUT_SELECTOR =
+  "input[type='email'], input[name*='email' i], input[id*='email' i], input[autocomplete='username'], input[autocomplete='email'], input[name*='user' i], input[data-automation-id='email'], input[data-automation-id='userName'], input[aria-label*='email' i], input[placeholder*='email' i]";
+
+/** Honeypots a portal plants for robots; never read as a field, never filled. */
+export const HONEYPOT_INPUT_SELECTOR =
+  "input[data-automation-id='beecatcher'], input[name='website']";
+
+/**
+ * Where the auth form actually lives. Workday opens Sign In as a modal
+ * `[role=dialog]` ON TOP of the Create Account form (both stay in the
+ * DOM): page-wide counting saw three password inputs and kept classifying
+ * the wall as create_account_form after the flip, and the first visible
+ * submit belonged to the form BEHIND the modal. When a visible dialog
+ * holds a password input, that dialog is the scope; otherwise the page.
+ */
+export async function authScope(page: Page): Promise<Page | Locator> {
+  const dialogs = page.locator("[role='dialog'], dialog");
+  const n = await dialogs.count().catch(() => 0);
+  for (let i = n - 1; i >= 0; i--) {
+    const d = dialogs.nth(i);
+    if (!(await d.isVisible().catch(() => false))) continue;
+    if ((await d.locator("input[type='password']").count().catch(() => 0)) > 0) return d;
+  }
+  return page;
+}
+
 export async function diagnoseLoginWall(page: Page): Promise<LoginWallDiagnosis> {
   const url = page.url();
   let host = "";
@@ -59,30 +91,29 @@ export async function diagnoseLoginWall(page: Page): Promise<LoginWallDiagnosis>
   } catch {
     host = "";
   }
+  const root = await authScope(page);
 
   const visible = async (selector: string): Promise<boolean> => {
-    const loc = page.locator(selector).first();
+    const loc = root.locator(selector).first();
     return (
       (await loc.count().catch(() => 0)) > 0 &&
       (await loc.isVisible().catch(() => false))
     );
   };
 
-  const email = await visible(
-    "input[type='email'], input[name*='email' i], input[id*='email' i], input[autocomplete='username'], input[name*='user' i]",
-  );
-  const passwordLocs = page.locator("input[type='password']");
+  const email = await visible(EMAIL_INPUT_SELECTOR);
+  const passwordLocs = root.locator("input[type='password']");
   const passwordCount = await passwordLocs.count().catch(() => 0);
   const confirmPassword = passwordCount > 1;
 
-  const otherVisibleInputs = await page
-    .locator("input:not([type='hidden'])")
+  const otherVisibleInputs = await root
+    .locator(`input:not([type='hidden']):not(${HONEYPOT_INPUT_SELECTOR.replace(/, /g, "):not(")})`)
     .count()
     .catch(() => 0);
 
   const names = async (role: "button" | "link"): Promise<string[]> => {
     const out: string[] = [];
-    const all = await page.getByRole(role).all().catch(() => []);
+    const all = await root.getByRole(role).all().catch(() => []);
     for (const el of all.slice(0, 40)) {
       if (!(await el.isVisible().catch(() => false))) continue;
       const text = ((await el.textContent().catch(() => null)) ?? "").trim();
@@ -105,8 +136,10 @@ export async function diagnoseLoginWall(page: Page): Promise<LoginWallDiagnosis>
   const createAccountRoute =
     allNames.find((n) => CREATE_ROUTE_RE.test(n) && !FEDERATED_RE.test(n)) ?? null;
 
-  const bodyText = await page
-    .innerText("body", { timeout: 3_000 })
+  const bodyText = await (root === page
+    ? page.innerText("body", { timeout: 3_000 })
+    : (root as Locator).innerText({ timeout: 3_000 })
+  )
     .then((t) => t.slice(0, 3_000))
     .catch(() => "");
   const errorMatch = bodyText.match(ERROR_RE);

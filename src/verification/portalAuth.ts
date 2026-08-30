@@ -6,6 +6,8 @@ import { prepareCredentialsForHost } from "./accountCredentials.js";
 import { getAccount } from "../accounts/vault.js";
 import { getConfig } from "../config/index.js";
 import {
+  EMAIL_INPUT_SELECTOR,
+  authScope,
   diagnoseLoginWall,
   summarizeLoginWall,
   type LoginWallDiagnosis,
@@ -103,7 +105,7 @@ export function isRecognizedAtsAuthHost(url: string): boolean {
   return getAccount(host) !== null;
 }
 
-async function firstVisible(page: Page, selector: string): Promise<Locator | null> {
+async function firstVisible(page: Page | Locator, selector: string): Promise<Locator | null> {
   const loc = page.locator(selector).first();
   if ((await loc.count().catch(() => 0)) === 0) return null;
   if (!(await loc.isVisible().catch(() => false))) return null;
@@ -111,7 +113,7 @@ async function firstVisible(page: Page, selector: string): Promise<Locator | nul
 }
 
 async function visibleNamed(
-  page: Page,
+  page: Page | Locator,
   name: RegExp,
   roles: Array<"button" | "link"> = ["button", "link"],
 ): Promise<Locator | null> {
@@ -166,15 +168,13 @@ async function locateAuthFields(page: Page): Promise<{
   password: Locator | null;
 }> {
   const sel = workdaySelectorsV1.auth;
+  const root = await authScope(page);
   const email =
-    (await firstVisible(page, sel.emailInput)) ??
-    (await firstVisible(
-      page,
-      "input[type='email'], input[name*='email' i], input[autocomplete='username']",
-    ));
+    (await firstVisible(root, sel.emailInput)) ??
+    (await firstVisible(root, EMAIL_INPUT_SELECTOR));
   const password =
-    (await firstVisible(page, sel.passwordInput)) ??
-    (await firstVisible(page, "input[type='password']"));
+    (await firstVisible(root, sel.passwordInput)) ??
+    (await firstVisible(root, "input[type='password']"));
   return { email, password };
 }
 
@@ -388,13 +388,18 @@ export async function authenticateAtsPortal(
   const attempt = async (
     kind: "sign_in" | "create",
   ): Promise<{ diag: LoginWallDiagnosis; formGone: boolean }> => {
+    // Scope to the visible auth dialog when there is one (Workday's Sign
+    // In modal sits over the Create Account form; the first visible submit
+    // on the PAGE belonged to the form behind the modal).
+    const root = await authScope(page);
+    if (root !== page) notes.push(`portal auth ${kind}: targeting the visible auth dialog`);
     const submit =
       (await firstVisible(
-        page,
+        root,
         kind === "create" ? sel.createAccountSubmit : sel.signInSubmit,
       )) ??
       (await visibleNamed(
-        page,
+        root,
         kind === "create"
           ? /create account|sign up|register/i
           : /^(sign in|log ?in|continue|submit)$/i,
@@ -405,19 +410,12 @@ export async function authenticateAtsPortal(
     }
     const form = await formOf(submit);
     const emailField = form
-      ? form
-          .locator(
-            "input[type='email'], input[name*='email' i], input[autocomplete='username']",
-          )
-          .first()
-      : ((await firstVisible(page, sel.emailInput)) ??
-        (await firstVisible(
-          page,
-          "input[type='email'], input[name*='email' i], input[autocomplete='username']",
-        )));
+      ? form.locator(EMAIL_INPUT_SELECTOR).first()
+      : ((await firstVisible(root, sel.emailInput)) ??
+        (await firstVisible(root, EMAIL_INPUT_SELECTOR)));
     const passwordFields = form
       ? form.locator("input[type='password']")
-      : page.locator("input[type='password']");
+      : root.locator("input[type='password']");
     const passwordCount = await passwordFields.count().catch(() => 0);
     if (emailField && (await emailField.count().catch(() => 0)) > 0) {
       await emailField.fill(username, { timeout: 5_000 }).catch(() => undefined);

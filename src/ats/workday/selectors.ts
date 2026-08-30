@@ -20,14 +20,23 @@ export const workdaySelectorsV1 = {
   auth: {
     /** Sign-in / create-account page detection. */
     emailInput:
-      "input[data-automation-id='email'], input[type='email'][data-automation-id], input[data-automation-id='userName']",
+      "input[data-automation-id='email'], input[type='email'][data-automation-id], input[data-automation-id='userName'], input[autocomplete='email']",
     passwordInput: "input[data-automation-id='password']",
     verifyPasswordInput: "input[data-automation-id='verifyPassword']",
     createAccountCheckbox: "input[data-automation-id='createAccountCheckbox']",
+    /**
+     * Live huntington.wd12 (2026-08-30): the real <button type=submit
+     * data-automation-id=signInSubmitButton> is aria-hidden/tabindex=-2;
+     * the VISIBLE control is a <div role=button aria-label="Sign In"
+     * data-automation-id="click_filter">. Both auth forms carry one, so
+     * callers scope to the visible dialog first.
+     */
     signInSubmit:
-      "button[data-automation-id='signInSubmitButton'], button[data-automation-id='click_filter']",
+      "button[data-automation-id='signInSubmitButton'], [role='button'][data-automation-id='click_filter'][aria-label*='sign in' i], button[data-automation-id='click_filter']",
     createAccountSubmit:
-      "button[data-automation-id='createAccountSubmitButton'], button[data-automation-id='click_filter']",
+      "button[data-automation-id='createAccountSubmitButton'], [role='button'][data-automation-id='click_filter'][aria-label*='create' i], button[data-automation-id='click_filter']",
+    /** Robot trap planted next to both forms — never a field, never filled. */
+    honeypot: "input[data-automation-id='beecatcher'], input[name='website']",
     /** Link/button that flips between the two auth forms. */
     createAccountLink:
       "button[data-automation-id='createAccountLink'], a[data-automation-id='createAccountLink']",

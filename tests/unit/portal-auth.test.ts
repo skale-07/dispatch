@@ -590,6 +590,158 @@ describe("workday portal auth (FIXTURE_CONFIRMED)", () => {
   }, 30_000);
 });
 
+describe("workday sign-in DIALOG over the create-account form — live huntington.wd12 shape (FIXTURE_CONFIRMED)", () => {
+  useIsolatedFillEnv("safe");
+  let browser: Browser;
+  let savedPortalEmail: string | undefined;
+  let savedPortalPassword: string | undefined;
+
+  beforeEach(async () => {
+    applySafeFillEnv();
+    savedPortalEmail = process.env.PORTAL_LOGIN_EMAIL;
+    savedPortalPassword = process.env.PORTAL_LOGIN_PASSWORD;
+    resetConfigCache();
+    browser = await chromium.launch({ headless: true });
+  });
+  afterEach(async () => {
+    await browser.close().catch(() => undefined);
+    if (savedPortalEmail === undefined) delete process.env.PORTAL_LOGIN_EMAIL;
+    else process.env.PORTAL_LOGIN_EMAIL = savedPortalEmail;
+    if (savedPortalPassword === undefined) delete process.env.PORTAL_LOGIN_PASSWORD;
+    else process.env.PORTAL_LOGIN_PASSWORD = savedPortalPassword;
+    resetConfigCache();
+  });
+
+  /**
+   * Night19 #45 (2026-08-30, huntington.wd12.myworkdayjobs.com, read-only
+   * DOM probe after Apply → Apply Manually → Sign In): the Create Account
+   * form STAYS in the DOM under a modal [role=dialog] holding the Sign In
+   * form. Email inputs are type=text with autocomplete=email +
+   * data-automation-id=email (no name/id). The real submit button is
+   * aria-hidden; the visible control is <div role=button
+   * data-automation-id=click_filter aria-label="Sign In">. A "beecatcher"
+   * honeypot input sits next to both forms.
+   */
+  const HUNTINGTON_HTML = `<!DOCTYPE html><html><body>
+    <p id="err"></p>
+    <div data-automation-id="createAccountContent">
+      <h3>Create Account</h3>
+      <form data-automation-id="signInFormo" id="create">
+        <label for="c-email"><span>Email Address<abbr>*</abbr></span></label>
+        <input type="text" data-automation-id="email" id="c-email" autocomplete="email" />
+        <label for="c-pw"><span>Password</span></label>
+        <input type="password" data-automation-id="password" id="c-pw" autocomplete="new-password" />
+        <label for="c-vpw"><span>Verify New Password</span></label>
+        <input type="password" data-automation-id="verifyPassword" id="c-vpw" autocomplete="new-password" />
+        <input id="c-cb" type="checkbox" data-automation-id="createAccountCheckbox" />
+        <div role="button" tabindex="0" aria-label="Create Account" data-automation-id="click_filter" id="c-click">Create Account</div>
+        <button type="submit" data-automation-id="createAccountSubmitButton" tabindex="-2" aria-hidden="true">Create Account</button>
+      </form>
+      <button data-automation-id="signInLink">Sign In</button>
+      <label for="hp1">Enter website. This input is for robots only, do not enter if you're human.</label>
+      <input data-automation-id="beecatcher" id="hp1" name="website" type="text" />
+    </div>
+    <div role="dialog" aria-modal="true" data-automation-id="popUpDialog" style="position:fixed;top:0;left:0;right:0;bottom:0;background:#fff">
+      <div data-automation-id="signInContent">
+        <h3 id="authViewTitle">Sign In</h3>
+        <form data-automation-id="signInFormo" id="signin">
+          <label for="s-email"><span>Email Address<abbr>*</abbr></span></label>
+          <input type="text" data-automation-id="email" id="s-email" autocomplete="email" />
+          <label for="s-pw"><span>Password</span></label>
+          <input type="password" data-automation-id="password" id="s-pw" autocomplete="current-password" />
+          <div role="button" tabindex="0" aria-label="Sign In" data-automation-id="click_filter" id="s-click">Sign In</div>
+          <button type="submit" data-automation-id="signInSubmitButton" tabindex="-2" aria-hidden="true">Sign In</button>
+        </form>
+        <div>Don't have an account yet?<button data-automation-id="createAccountLink">Create Account</button></div>
+        <button data-automation-id="forgotPasswordLink">Forgot your password?</button>
+        <input data-automation-id="beecatcher" id="hp2" name="website" type="text" />
+      </div>
+    </div>
+    <script>
+      var accounts = { 'candidate@fixture.test': 'StandingPass1!' };
+      function signIn() {
+        var email = document.getElementById('s-email').value.toLowerCase();
+        var pw = document.getElementById('s-pw').value;
+        if (document.getElementById('hp2').value || document.getElementById('hp1').value) {
+          document.getElementById('err').textContent = 'Robot detected.'; return;
+        }
+        if (accounts[email] !== pw) { document.getElementById('err').textContent = 'Invalid email or password.'; return; }
+        document.body.innerHTML = '<p>My Information</p><input name="first_name" />';
+      }
+      document.getElementById('s-click').addEventListener('click', signIn);
+      document.getElementById('signin').addEventListener('submit', function (e) { e.preventDefault(); signIn(); });
+      document.getElementById('c-click').addEventListener('click', function () {
+        document.getElementById('err').textContent = 'Create Account was clicked — wrong form.';
+      });
+      document.getElementById('create').addEventListener('submit', function (e) {
+        e.preventDefault(); document.getElementById('err').textContent = 'Create Account was clicked — wrong form.';
+      });
+    </script>
+  </body></html>`;
+
+  async function onWorkdayPage<T>(html: string, fn: (page: Page) => Promise<T>): Promise<T> {
+    const context = await browser.newContext();
+    const page = await context.newPage();
+    await context.route("**/*", (route) => route.fulfill({ body: html, contentType: "text/html" }));
+    await page.goto("https://huntington.wd12.myworkdayjobs.com/en-US/hnbcareers/job/x/apply/applyManually", {
+      waitUntil: "domcontentloaded",
+    });
+    try {
+      return await fn(page);
+    } finally {
+      await context.close().catch(() => undefined);
+    }
+  }
+
+  it("diagnoses the DIALOG as a sign_in_form (email=true, no confirm) — not the create form behind it", async () => {
+    const { diagnoseLoginWall } = await import("../../src/verification/loginWallDiagnosis.js");
+    await onWorkdayPage(HUNTINGTON_HTML, async (page) => {
+      const d = await diagnoseLoginWall(page);
+      expect(d.classification).toBe("sign_in_form");
+      expect(d.fields.email).toBe(true);
+      expect(d.fields.password).toBe(true);
+      expect(d.fields.confirmPassword).toBe(false);
+    });
+  }, 30_000);
+
+  it("signs in INSIDE the dialog with standing credentials; the create form and the honeypots are never touched", async () => {
+    applyControlledFillEnv({ NAVIGATION_ENABLED: "true" });
+    process.env.PORTAL_LOGIN_EMAIL = "candidate@fixture.test";
+    process.env.PORTAL_LOGIN_PASSWORD = "StandingPass1!";
+    resetConfigCache();
+    try {
+      await onWorkdayPage(HUNTINGTON_HTML, async (page) => {
+        const r = await authenticateAtsPortal(page, { settleMs: 0 });
+        expect(r.notes.join(" "), r.notes.join(" | ")).toMatch(/targeting the visible auth dialog/);
+        expect(r.status).toBe("signed_in");
+        expect(r.escalated_to_create).toBe(false);
+        expect(await page.locator("input[name='first_name']").count()).toBe(1);
+        expect(r.notes.join(" ")).not.toMatch(/wrong form|Robot detected/);
+      });
+    } finally {
+      applySafeFillEnv();
+    }
+  }, 30_000);
+
+  it("harder: a WRONG standing password inside the dialog is credentials_rejected, not a blind create", async () => {
+    applyControlledFillEnv({ NAVIGATION_ENABLED: "true" });
+    process.env.PORTAL_LOGIN_EMAIL = "candidate@fixture.test";
+    process.env.PORTAL_LOGIN_PASSWORD = "WrongPass9!";
+    resetConfigCache();
+    try {
+      await onWorkdayPage(HUNTINGTON_HTML, async (page) => {
+        const r = await authenticateAtsPortal(page, { settleMs: 0 });
+        expect(r.status).not.toBe("signed_in");
+        expect(await page.locator("input[name='first_name']").count()).toBe(0);
+        expect(await page.locator("#hp1").inputValue()).toBe("");
+        expect(await page.locator("#hp2").inputValue()).toBe("");
+      });
+    } finally {
+      applySafeFillEnv();
+    }
+  }, 30_000);
+});
+
 describe("employer-sandbox portal auth (FIXTURE_CONFIRMED)", () => {
   useIsolatedFillEnv("safe");
   let browser: Browser;

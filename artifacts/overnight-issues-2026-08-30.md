@@ -359,4 +359,34 @@ logged only its pre-flight before dying.)_
 - SUBMITTED handler now completes (reason "no JobRight job id — contact
   extraction not applicable") instead of running JobRight contact
   extraction and parking a MANUAL item; pipeline test added. 1e213072
-  moved CONTACTS_EXTRACTING → COMPLETED via the state machine.
+  moved CONTACTS_EXTRACTING → COMPLETED via the state machine. Commit cf56990.
+
+### Job #8 — 0f148a1e Huntington Summer 2027 Data & Analytics Internship (Workday) — 12:36 local, 28s, NOT submitted (AUTH_REQUIRED)
+- Nav resolved the Workday posting in 5s. Portal auth walked Apply →
+  Apply Manually → account form → flipped Create Account → Sign In with
+  standing credentials → `sign_in: no_form_found` → parked "Workday
+  account wall not cleared". First live exercise of the Workday portal
+  login tonight (operator asked about exactly this path).
+
+### 45. Workday sign-in: modal dialog over the create form; email input unrecognised; hidden real submit — FIXED + progressive-overload set
+- **Live read-only DOM (huntington.wd12, after Apply → Apply Manually →
+  Sign In):** the Create Account form STAYS in the DOM under a
+  `[role=dialog]` holding the Sign In form; both email inputs are
+  `type=text autocomplete=email data-automation-id=email` (no name/id →
+  `email=false` in the diagnosis); page-wide password count = 3 → still
+  "create_account_form" after the flip; the real `signInSubmitButton`
+  is aria-hidden/tabindex=-2 while the visible control is `<div
+  role=button data-automation-id=click_filter aria-label="Sign In">` —
+  and the FIRST visible click_filter on the page belongs to the create
+  form BEHIND the modal. A `beecatcher` honeypot (name=website) sits
+  beside both forms.
+- **Fix:** `authScope` — when a visible dialog holds a password input,
+  diagnosis and the sign-in/create attempt scope to it (inputs, password
+  count, submit lookup, button names, error text); `EMAIL_INPUT_SELECTOR`
+  adds autocomplete=email / data-automation-id=email / aria-label /
+  placeholder; registry accepts the role=button click_filter by
+  aria-label; honeypot excluded from field counts and never filled.
+- **Tests (live shape):** dialog diagnosed as sign_in_form (email=true,
+  no confirm); sign-in happens INSIDE the dialog (create-form handlers
+  would flag "wrong form"), honeypots stay empty; harder: a wrong
+  standing password is credentials_rejected, never a blind create.
