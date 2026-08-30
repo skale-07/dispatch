@@ -161,6 +161,116 @@ describe("URL congruence (UNIT_CONFIRMED)", () => {
   });
 
   /**
+   * Progressive-overload set, night19 (2026-08-30): the twelve live URLs
+   * that produced "Stored application URL belongs to X, not <company>"
+   * parks or fill refusals. Five name the employer in a tenant subdomain
+   * the decoder ignored; seven name NOTHING and were accused by a page
+   * word, a tenant code, a posting id or a job-title slug. Verdict per
+   * case is what a human reading the URL would say.
+   */
+  describe("night19 wrong-employer parks (UNIT_CONFIRMED)", () => {
+    const MATCHES: Array<[string, string]> = [
+      [
+        "Rivian",
+        "https://internal-careers-rivian.icims.com/jobs/27486/software-engineering-intern%2c-connected-systems---summer-2026/job",
+      ],
+      [
+        "Charles Schwab",
+        "https://career-schwab.icims.com/jobs/126227/technology-2027-intern---data-engineering/job",
+      ],
+      [
+        "Cleveland Research Company",
+        "https://clevelandresearch.applytojob.com/apply/zy7WHaTRsu/Hedge-Fund-Sales-Consultant-Intern-Summer-2027",
+      ],
+      [
+        "Atlas",
+        "https://oneatlas.hrmdirect.com/employment/job-opening.php?req=3794021&req_loc=1440881&cust_sort1=225852",
+      ],
+      [
+        "Bear Robotics",
+        "https://bear-robotics.breezy.hr/p/b8d4995f6d23-software-engineering-intern-developer-productivit",
+      ],
+      [
+        "Barbacane, Thornton & Company",
+        "https://btcpa.rec.pro.ukg.net/BEN1022BTLL/JobBoard/702a70c1-c1f7-4971-8626-bb99571a35a2/OpportunityDetail?opportunityId=4d519358-fb57-46be-8018-838c26e1bf4a",
+      ],
+    ];
+    const UNKNOWNS: Array<[string, string]> = [
+      [
+        "Acuity Insurance",
+        "https://recruiting2.ultipro.com/her1001acfin/JobBoard/ab33798a-3521-417b-8db8-a8e435c475fa/OpportunityDetail?opportunityId=3d8a72b0-b464-4ff8-bd58-555a1e640ef7",
+      ],
+      [
+        "RTX",
+        "https://globalhr.wd5.myworkdayjobs.com/private_posting_no_tmp/job/US-FL-JUPITER-ADR--17900-Beeline-Hwy--ADR-BLDG/Software-Engineering-Intern--Summer-2027-_01868485",
+      ],
+      [
+        "Vertiv",
+        "https://egup.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/job/20270351",
+      ],
+      [
+        "MicroVention-Terumo",
+        "https://sjobs.brassring.com/TGnewUI/Search/home/HomeWithPreLoad?partnerid=25987&siteid=5297&PageType=JobDetails&jobid=913456",
+      ],
+      ["Bradesco Bank", "https://www.linkedin.com/jobs/view/4458798591"],
+      ["Neuralink", "https://www.linkedin.com/jobs/view/4416715074"],
+    ];
+
+    it.each(MATCHES)("%s is named by its tenant subdomain: %s", (company, url) => {
+      const v = checkUrlCongruence(company, url);
+      expect(v.verdict, v.detail).toBe("match");
+    });
+
+    it.each(UNKNOWNS)("%s is not named anywhere in %s — unknown, never accused", (company, url) => {
+      const v = checkUrlCongruence(company, url);
+      expect(v.verdict, v.detail).toBe("unknown");
+    });
+
+    it("a job-title slug, a tenant code or a posting id can never accuse", () => {
+      const cands = extractOrgCandidates(
+        "https://internal-careers-rivian.icims.com/jobs/27486/software-engineering-intern%2c-connected-systems---summer-2026/job",
+      );
+      const title = cands.find((c) => c.value.startsWith("softwareengineeringintern"));
+      expect(title?.accuser).toBe(false);
+      expect(cands.find((c) => c.value === "rivian")?.source).toBe("tenant");
+      for (const url of [
+        "https://recruiting2.ultipro.com/her1001acfin/JobBoard/x",
+        "https://btcpa.rec.pro.ukg.net/BEN1022BTLL/JobBoard/x",
+        "https://clevelandresearch.applytojob.com/apply/zy7WHaTRsu/x",
+      ]) {
+        const accusers = extractOrgCandidates(url).filter((c) => c.accuser);
+        for (const a of accusers) expect(a.value, url).not.toMatch(/\d/);
+      }
+    });
+
+    it("harder — a WRONG tenant on the same board is still a mismatch (accusers keep their teeth)", () => {
+      // The Schwab tenant offered for a Rivian job: "schwab" is a clean
+      // 6-letter tenant label and must convict.
+      const v = checkUrlCongruence(
+        "Rivian",
+        "https://career-schwab.icims.com/jobs/126227/technology-2027-intern---data-engineering/job",
+      );
+      expect(v.verdict, v.detail).toBe("mismatch");
+      expect(v.slug).toBe("schwab");
+      // And the Cohere trio from the original regression is untouched.
+      expect(checkUrlCongruence("Postman", COHERE_URL).verdict).toBe("mismatch");
+    });
+
+    it("harder — initials-prefix only fires for a short slug that starts with 3+ initials", () => {
+      expect(
+        checkUrlCongruence("Barbacane, Thornton & Company", "https://btcpa.rec.pro.ukg.net/x").verdict,
+      ).toBe("match");
+      // "btc" prefix on a LONG unrelated word must not match.
+      expect(
+        checkUrlCongruence(
+          "Barbacane, Thornton & Company",
+          "https://btcparticipants.rec.pro.ukg.net/x",
+        ).verdict,
+      ).not.toBe("match");
+    });
+  });
+
+  /**
    * Live gap 2026-08-12: four navigations resolved CORRECT employer URLs
    * and every one came back "no org slug decodable from URL (unsupported
    * host)" — the company name was in the hostname or the first path

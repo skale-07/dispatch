@@ -147,6 +147,15 @@ const GENERIC_URL_WORDS = new Set([
   // locale segments, already compacted (en_US -> "enus")
   "enus", "engb", "enca", "enau", "frfr", "frca", "dede", "eses", "ptbr",
   "jajp", "zhcn", "kokr", "itit", "nlnl",
+  // Live 2026-08-30 (night19): every one of these was read as an EMPLOYER
+  // and accused a correct URL — linkedin.com/jobs/view, oraclecloud
+  // /hcmUI/CandidateExperience/en/sites/CX, brassring /TGnewUI/Search/home,
+  // ultipro /JobBoard/OpportunityDetail, hrmdirect /employment,
+  // workday tenant "globalhr" (RTX), "private_posting_no_tmp".
+  "view", "viewjob", "hcmui", "candidateexperience", "sites", "cx", "tgnewui",
+  "search", "home", "globalhr", "hr", "corporate", "employment", "jobboard",
+  "opportunitydetail", "jobdetail", "jobdetails", "private", "tmp", "internal",
+  "rec", "pro", "p", "j", "o", "sjobs", "recruiting2",
 ]);
 
 /**
@@ -158,6 +167,10 @@ const GENERIC_URL_WORDS = new Set([
 const MULTI_EMPLOYER_HOSTS = [
   "jobvite.com", "ycombinator.com", "smartrecruiters.com", "icims.com",
   "taleo.net", "brassring.com", "successfactors.com", "myworkdaysite.com",
+  // Live 2026-08-30: globalhr.wd5.myworkdayjobs.com (RTX) — the tenant slug
+  // is a generic word, and without this entry "myworkdayjobs" itself was
+  // read as the employer and accused the URL.
+  "myworkdayjobs.com",
   "oraclecloud.com", "wellfound.com", "builtin.com", "linkedin.com",
   "indeed.com", "glassdoor.com", "dice.com", "ziprecruiter.com",
   "jobs.net", "recruitee.com", "teamtailor.com", "personio.de",
@@ -190,7 +203,7 @@ const MULTI_EMPLOYER_HOSTS = [
  * decided on exactly that evidence, and suppressing it would break them.
  */
 const VENDOR_DOMAIN_RE =
-  /^(?:paycom(?:online)?|ukg(?:pro|ready)?|kronos|workforcenow|dayforce|ceridian|phenompeople|applicantpro|applytojob|clearcompany|cornerstoneondemand|csod|hrmdirect|isolvedhire|jobappnetwork|newtonsoftware|paycor|prismhr|silkroad|snaphire|trakstar|hiringthing|hirebridge|exacthire|ripplematch)\./;
+  /^(?:paycom(?:online)?|ukg(?:pro|ready)?|kronos|workforcenow|dayforce|ceridian|phenompeople|applicantpro|applytojob|clearcompany|cornerstoneondemand|csod|hrmdirect|isolvedhire|jobappnetwork|newtonsoftware|paycor|prismhr|silkroad|snaphire|trakstar|hiringthing|hirebridge|exacthire|ripplematch|ultipro)\./;
 
 function isVendorDomain(host: string): boolean {
   const labels = host.split(".");
@@ -225,8 +238,31 @@ function hostNameLabels(host: string): string[] {
 
 export type OrgCandidate = {
   value: string;
-  source: "ats_slug" | "host" | "path";
+  /**
+   * `tenant`: a subdomain label on a multi-employer/vendor host
+   * (internal-careers-rivian.icims.com, clevelandresearch.applytojob.com,
+   * bear-robotics.breezy.hr). Vendors put the tenant there and nowhere
+   * else in the URL — evidence FOR a match.
+   */
+  source: "ats_slug" | "host" | "path" | "tenant";
+  /**
+   * May this candidate ACCUSE (turn "nothing matched" into a mismatch)?
+   * Only a clean single word can: job-title phrases
+   * ("software-engineering-intern%2c-connected-systems---summer-2026"),
+   * tenant codes ("her1001acfin", "BEN1022BTLL"), posting ids
+   * ("zy7WHaTRsu", "b8d4995f6d23-…") and short labels name nothing. They
+   * still count as match evidence (a Gusto posting slug carries the
+   * employer's name), they just cannot convict. Live 2026-08-30: 7 of 12
+   * wrong-employer parks were accusations by exactly these shapes.
+   */
+  accuser: boolean;
 };
+
+/** A clean single word: letters only (a trailing shard number allowed), no separators. */
+function isAccuserShape(raw: string, minLength: number): boolean {
+  const word = raw.replace(/\d+$/, "");
+  return /^[a-z]+$/.test(word) && word.length >= minLength;
+}
 
 /**
  * Every decodable employer name in a URL, best evidence first.
@@ -241,7 +277,12 @@ export type OrgCandidate = {
 export function extractOrgCandidates(url: string): OrgCandidate[] {
   const out: OrgCandidate[] = [];
   const push = (value: string | null | undefined, source: OrgCandidate["source"]): void => {
-    const raw = (value ?? "").toLowerCase();
+    let raw = (value ?? "").toLowerCase();
+    try {
+      raw = decodeURIComponent(raw); // "%2c" inside a title slug is a comma, not letters
+    } catch {
+      // malformed escape — keep the raw form
+    }
     // App-plumbing segments, before punctuation is stripped: /v4/ats/web.php
     // on paycomonline.net contributed "v4", "ats" and "webphp" as employer
     // names and accused a correct Union Home Mortgage URL (live 2026-08-14).
@@ -257,7 +298,10 @@ export function extractOrgCandidates(url: string): OrgCandidate[] {
     const withoutShard = clean.replace(/\d+$/, "");
     if (withoutShard !== clean && GENERIC_URL_WORDS.has(withoutShard)) return;
     if (out.some((c) => c.value === clean)) return;
-    out.push({ value: clean, source });
+    const accuser =
+      source === "ats_slug" ||
+      isAccuserShape(raw, source === "tenant" ? 5 : 4);
+    out.push({ value: clean, source, accuser });
   };
 
   const slug = extractOrgSlug(url);
@@ -278,6 +322,16 @@ export function extractOrgCandidates(url: string): OrgCandidate[] {
   // A multi-employer board's hostname is not: it names the board.
   if (!onMultiEmployerHost) {
     for (const label of hostNameLabels(host)) push(label, "host");
+  } else {
+    // Tenant subdomain on a vendor/board host: everything left of the
+    // registrable domain. Hyphenated tenants split into words AND keep the
+    // joined form (bear-robotics → bear, robotics, bearrobotics).
+    const labels = hostNameLabels(host);
+    for (const label of labels.slice(0, -1)) {
+      const words = label.split(/[-_]+/).filter(Boolean);
+      for (const w of words) push(w, "tenant");
+      if (words.length > 1) push(words.join(""), "tenant");
+    }
   }
 
   // Path segments: the only place a board names the employer, and a useful
@@ -357,7 +411,7 @@ export function checkUrlCongruence(
   // employer there and nowhere else — so a miss is a real mismatch. Off a
   // known ATS, only a SPECIFIC candidate (>=4 chars) is confident enough
   // to park on: short hostname labels are too noisy to accuse with.
-  const specific = candidates.find((c) => c.value.length >= 4);
+  const specific = candidates.find((c) => c.accuser && c.value.length >= 4);
   if (atsSlug) {
     return {
       verdict: "mismatch",
@@ -395,6 +449,16 @@ function slugMatchesCompany(
   }
   if (id.initials.length >= 2 && slugCompact === id.initials) {
     return `initials "${id.initials}" = slug "${slugCompact}"`;
+  }
+  // btcpa.rec.pro.ukg.net for "Barbacane, Thornton & Company" (live
+  // 2026-08-30): initials plus a profession suffix. Three-letter initials
+  // as a PREFIX of a short slug is still the firm naming itself.
+  if (
+    id.initials.length >= 3 &&
+    slugCompact.length <= id.initials.length + 3 &&
+    slugCompact.startsWith(id.initials)
+  ) {
+    return `initials "${id.initials}" prefix slug "${slugCompact}"`;
   }
   if (
     id.joined.length >= 4 &&

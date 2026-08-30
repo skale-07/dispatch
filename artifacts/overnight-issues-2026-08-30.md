@@ -163,3 +163,38 @@ logged only its pre-flight before dying.)_
   take-home the operator has not done; not fillable by policy. Item
   resolved not-submitted, no requeue (row stays FAILED_RETRYABLE at the
   cap). Operator: do the take-home, then `retry --app d607b204`.
+- Commit d99f0ef.
+
+### Job #4 — 83751e38 Rivian SWE Intern (iCIMS) — 11:15 local, 11s, NOT submitted
+- Navigation resolved the right page
+  (`internal-careers-rivian.icims.com/jobs/27486/software-engineering-intern…`)
+  in 6s via the JobRight Apply popup; the fill then REFUSED: "stored URL
+  is for 'softwareengineeringintern2cconnectedsystemssummer2026', not
+  Rivian" and parked a MANUAL item. The identity decoder skipped the
+  tenant subdomain (icims.com is a multi-employer host) and let the
+  job-title path slug accuse the URL.
+
+### 38. RECURRING (12 live URLs tonight/last night) — URL-identity decoder accuses correct URLs and misses tenant subdomains — FIXED + progressive-overload set
+- **Evidence (review payloads):** 5 correct URLs accused — Rivian and
+  Schwab (icims tenant subdomain + title slug), Cleveland Research
+  (applytojob tenant + posting id "zy7WHaTRsu"), Atlas (hrmdirect
+  "oneatlas" + "employment"), Bear Robotics (breezy.hr tenant + posting
+  id); 7 URLs that name no employer were accused by a page word or code —
+  "view" (linkedin ×2), "hcmui" (oraclecloud), "tgnewui" (brassring),
+  "ultipro" (vendor host not in the list), "globalhr"/"myworkdayjobs"
+  (RTX Workday tenant is a generic word), "BEN1022BTLL" (UKG tenant code
+  for btcpa = Barbacane Thornton).
+- **Fix (src/navigation/congruence.ts):** (1) tenant-subdomain labels on
+  multi-employer/vendor hosts are match evidence (source `tenant`, split
+  on hyphens + joined); (2) `accuser` flag — only a clean single word
+  (letters, ≥4; ≥5 for tenants) may turn "nothing matched" into a
+  mismatch; title slugs, tenant codes, posting ids and phrases can match
+  but never convict; (3) page words added to GENERIC_URL_WORDS, `ultipro`
+  to the vendor regex, `myworkdayjobs.com` to multi-employer hosts;
+  (4) initials-PREFIX match for short slugs ("btcpa"); (5) `%2c` decoded
+  before tokenising. Matching authority unchanged: ATS slugs still convict.
+- **Progressive-overload set:** all 12 live URLs as `it.each` (6 must
+  match, 6 must be unknown), accuser-shape assertions, and two harder
+  negative controls: a WRONG tenant on the same board ("schwab" for
+  Rivian) must still be a mismatch; initials-prefix must not fire on a
+  long unrelated word. Cohere trio + all prior congruence tests untouched.
