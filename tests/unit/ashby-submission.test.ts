@@ -107,6 +107,36 @@ describe("Ashby submission (M6)", () => {
       fs.rmSync(shot, { force: true });
     }, 30_000);
 
+    // Live 2026-08-30 (Composio d607b204) and 2026-08-11 (Quadrillion): the
+    // corrections banner names the field inside a link. The old regex knew
+    // "field is required" but not this phrasing, so the run burned the 15s
+    // window and parked UNCERTAIN instead of naming the missing answer.
+    const CORRECTIONS_BANNER =
+      `<div role="alert"><p>Your form needs corrections</p><ul><li>Missing entry for required field:
+        <a href="#_systemfield_takehome">Complete the Takehome</a></li></ul></div>`;
+
+    it("verifySubmission fast-fails on Ashby's corrections banner and names the field", async () => {
+      const shot = scratchScreenshotPath();
+      const html = fixtureHtml("ashby").replace("<body>", `<body>${CORRECTIONS_BANNER}`);
+      const started = Date.now();
+      await withFixtureHtmlPage(html, async (page) => {
+        let caught: unknown;
+        try {
+          await ashbyVerifySubmission(page, { screenshotPath: shot, timeoutMs: 8000 });
+        } catch (err) {
+          caught = err;
+        }
+        expect(caught).toBeInstanceOf(SubmissionUncertainError);
+        const e = caught as SubmissionUncertainError;
+        expect(e.evidence["classification"]).toBe("still_on_form");
+        expect(e.evidence["validation_error"]).toBe(
+          "missing entry for required field: Complete the Takehome",
+        );
+      });
+      expect(Date.now() - started).toBeLessThan(7000);
+      fs.rmSync(shot, { force: true });
+    }, 30_000);
+
     it("classifies a blank page as unknown", () => {
       expect(
         detectSubmissionUncertainty(

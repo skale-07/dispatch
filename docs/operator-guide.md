@@ -338,7 +338,7 @@ Expected outcomes:
 | `SUBMITTED_VERIFIED` | Receipt captured; state `SUBMITTED`; resubmission now impossible | 0 |
 | `UNCERTAIN` | Clicked but unverifiable; review item; auto-resubmit blocked | 3 |
 | `FAILED_BEFORE_CLICK` | Refused before clicking; state `FAILED_RETRYABLE` | 1 |
-| `REJECTED_AFTER_CLICK` | Clicked, and the ATS refused it ON THE PAGE (e.g. Ashby "flagged as possible spam"); definitive not-submitted; state `FAILED_RETRYABLE`, no review item; refusal text in the reason | 1 |
+| `REJECTED_AFTER_CLICK` | Clicked, and the ATS refused it ON THE PAGE — an explicit refusal banner (Ashby "flagged as possible spam"), or the form still rendered with a visible validation error ("Missing entry for required field: X"); definitive not-submitted; state `FAILED_RETRYABLE`; refusal text in the reason; a validation error additionally opens a MANUAL "Answer needed" item naming the field | 1 |
 | `REFUSED` | A guard fired; nothing happened | 1 |
 
 Live fill/submit pages open as a new tab in the operator's debug Chrome

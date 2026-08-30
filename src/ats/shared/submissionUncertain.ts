@@ -29,12 +29,28 @@ export class SubmissionUncertainError extends Error {
  * "error budgets" must not fast-fail a real confirmation wait.
  */
 const VALIDATION_ERROR_RE =
-  /((?:this\s+)?field\s+is\s+required|is\s+a\s+required\s+field|(?:please\s+)?(?:fill\s+(?:in|out)|complete|select|enter|answer)\s+(?:this|all|the)\s+(?:required\s+)?(?:field|fields|question|questions)|required\s+fields?\s+(?:are\s+)?(?:missing|incomplete)|please\s+correct\s+the\s+errors?|there\s+(?:was|were)\s+(?:a\s+)?(?:problem|errors?)\s+(?:with|submitting)\s+your\s+(?:application|form|submission)|couldn'?t\s+submit\s+your\s+application|failed\s+to\s+submit)/i;
+  /((?:this\s+)?field\s+is\s+required|is\s+a\s+required\s+field|(?:please\s+)?(?:fill\s+(?:in|out)|complete|select|enter|answer)\s+(?:this|all|the)\s+(?:required\s+)?(?:field|fields|question|questions)|required\s+fields?\s+(?:are\s+)?(?:missing|incomplete)|please\s+correct\s+the\s+errors?|there\s+(?:was|were)\s+(?:a\s+)?(?:problem|errors?)\s+(?:with|submitting)\s+your\s+(?:application|form|submission)|couldn'?t\s+submit\s+your\s+application|failed\s+to\s+submit|your\s+form\s+needs\s+corrections|missing\s+entry\s+for\s+(?:a\s+)?required\s+field)/i;
+
+/**
+ * Ashby's corrections banner names the field after a colon, usually inside
+ * a link: "Missing entry for required field: <a>Complete the Takehome</a>"
+ * (live 2026-08-30 Composio d607b204; 2026-08-11 Quadrillion "Do you
+ * require visa sponsorship…"). Carry the name so the artifact and the
+ * review item say WHICH field, not just that one is missing.
+ */
+const NAMED_FIELD_RE =
+  /missing\s+entry\s+for\s+(?:a\s+)?required\s+field\s*:?\s*((?:<[^>]+>\s*)*)([^<]{1,100})/i;
 
 export function detectVisibleValidationError(html: string): string | null {
   const m = html.match(VALIDATION_ERROR_RE);
   if (!m) return null;
-  return m[0].replace(/\s+/g, " ").trim().slice(0, 120);
+  const named = html.match(NAMED_FIELD_RE);
+  const field = named?.[2]?.replace(/\s+/g, " ").trim();
+  const base = m[0].replace(/\s+/g, " ").trim();
+  if (field && /^(?:your form needs corrections|missing entry)/i.test(base)) {
+    return `missing entry for required field: ${field}`.slice(0, 160);
+  }
+  return base.slice(0, 120);
 }
 
 /**

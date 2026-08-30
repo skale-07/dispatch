@@ -140,4 +140,26 @@ logged only its pre-flight before dying.)_
   If Ashby STILL flags it from the real profile, the signal is rate/IP
   based (Quadrillion is at attempt 6 tonight) and Ashby apps get abandoned
   for the night rather than ground on. 23d64c04 is at the attempt cap; the
-  live check is d607b204 Composio (QUEUED, a4).
+  live check is d607b204 Composio (QUEUED, a4). Commit 3c8aee7.
+
+### Job #3 — d607b204 Composio Fullstack Intern (Ashby) — 11:08 local, 21s, NOT submitted — #37 CONFIRMED, new wall
+- **#37 (CDP tab in the operator's Chrome) CONFIRMED live:** NO spam
+  banner this time — Ashby processed the click and answered with a real
+  validation error instead. The spam flag was the profile-less browser.
+- **Wall:** "Your form needs corrections — Missing entry for required
+  field: Complete the Takehome" (a required Yes/No segmented control
+  asking whether the 1–2.5h take-home assignment is done). Two findings:
+  (a) the validation fast-fail regex did not know Ashby's phrasing, so
+  the run burned the 15s window and parked UNCERTAIN (2nd occurrence —
+  Quadrillion 2026-08-11 receipt shows the same banner) → FIXED: regex +
+  field-name extraction ("missing entry for required field: Complete the
+  Takehome"), and still_on_form+validation-error is now a definitive
+  `REJECTED_AFTER_CLICK` (FAILED_RETRYABLE) plus a MANUAL "Answer needed"
+  item naming the field; test with the live banner shape.
+  (b) the pre-click completeness scan missed a required segmented
+  Yes/No control — logged as a candidate progressive-overload target if
+  it recurs on a fillable question.
+- **Abandoned (reason recorded):** the answer would assert a completed
+  take-home the operator has not done; not fillable by policy. Item
+  resolved not-submitted, no requeue (row stays FAILED_RETRYABLE at the
+  cap). Operator: do the take-home, then `retry --app d607b204`.

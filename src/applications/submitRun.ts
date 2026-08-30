@@ -788,14 +788,37 @@ export async function runAtsSubmission(input: {
             // 23d64c04): the page itself says the application was NOT
             // submitted. Record the failure and requeue-able state instead
             // of an UNCERTAIN park that only the operator can resolve.
+            // Likewise a form that is STILL RENDERED with a visible
+            // validation message (Ashby "Missing entry for required field:
+            // Complete the Takehome", job #3 tonight): the POST never
+            // happened. FAILED_RETRYABLE + an "Answer needed" item naming
+            // the field, so the next attempt is a decision, not a replay.
+            const stillOnFormWithError =
+              err instanceof SubmissionUncertainError &&
+              err.evidence["classification"] === "still_on_form" &&
+              typeof err.evidence["validation_error"] === "string" &&
+              (err.evidence["validation_error"] as string).length > 0;
             if (
               err instanceof SubmissionUncertainError &&
-              err.evidence["classification"] === "rejected"
+              (err.evidence["classification"] === "rejected" || stillOnFormWithError)
             ) {
               const refusal =
                 typeof err.evidence["validation_error"] === "string"
                   ? (err.evidence["validation_error"] as string)
                   : err.message;
+              if (stillOnFormWithError) {
+                upsertOpenReviewItem(db, {
+                  applicationId,
+                  kind: "MANUAL",
+                  title: `Answer needed: form refused the click — ${refusal.slice(0, 100)}`,
+                  payload: {
+                    validation_error: refusal,
+                    final_url: err.evidence["final_url"] ?? null,
+                    screenshot_path: screenshotPath,
+                    submission_id: pending.id,
+                  },
+                });
+              }
               markSubmissionFailed(db, pending.id, `rejected after click: ${refusal}`);
               failIdempotencyKey(db, idemKey, "rejected_after_click");
               transitionApplication(db, {
