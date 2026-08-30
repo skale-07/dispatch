@@ -1,0 +1,46 @@
+{
+  "run_id": "nav-be4e5dc0-6e8a-46be-a6ac-6e7caceec5db",
+  "application_id": "b88dc050-500c-4349-b9e7-18c3928fe08e",
+  "jobright_job_id": "6a91f394a27a2d3c9848ac63",
+  "method": "apply_click_popup",
+  "resolved_url": "https://www.paycomonline.net/v4/ats/web.php/portal/8D53302EA22D1C46265D36DBFB59E08C/jobs/328655",
+  "resolved_ats": "generic",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no congruent apply href (11 external links)",
+      "evidence": "www.paycomonline.net, www.linkedin.com, x.com, www.crunchbase.com, www.glassdoor.com, www.uhm.com"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "resolved via popup",
+      "evidence": "www.paycomonline.net"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "ephemeral",
+  "notes": [
+    "phase A: 8 external host(s) seen: www.paycomonline.net, www.linkedin.com, x.com, www.crunchbase.com, www.glassdoor.com, www.uhm.com, www.housingwire.com, www.prnewswire.com",
+    "Apply control: autofill CTA (tier 0)",
+    "jobright interstitial: clicked \"Apply Without Customizing\"",
+    "popup captured on attempt 1",
+    "employer congruence unverifiable (no employer name decodable from URL (host and path are generic)) — recorded"
+  ],
+  "congruence": {
+    "verdict": "unknown",
+    "slug": null,
+    "detail": "no employer name decodable from URL (host and path are generic)",
+    "expected_company": "Annie Mac Home Mortgages",
+    "url": "https://www.paycomonline.net/v4/ats/web.php/portal/8D53302EA22D1C46265D36DBFB59E08C/jobs/328655?jr_id=6a91f394a27a2d3c9848ac63"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-08-30T01:06:21.697Z"
+}

@@ -1,0 +1,149 @@
+{
+  "outcome": "FAILED_BEFORE_CLICK",
+  "application_id": "a9559335-815a-485a-85cb-6f63767d3ef4",
+  "submission_id": "6261c4f4-68d9-468f-94f6-60b2407151cd",
+  "attempt": 1,
+  "receipt": null,
+  "review_item_id": null,
+  "reason": "Refusing to click submit: field verification or upload did not pass",
+  "artifact_path": null,
+  "operator_brief": {
+    "title": "Submit blocked — generic app a9559335-815a-485a-85cb-6f63767d3ef4",
+    "summary": "9 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:legal_name.first",
+        "question": "First Name",
+        "field_id": "PFp3gzYijmBkYNKzZ364",
+        "canonical_field": "legal_name.first",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Shubham\"; page shows \"(empty)\"",
+        "expected": "Shubham",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"Shubham\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → legal_name.first",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"legal_name.first\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:legal_name.last",
+        "question": "Last Name",
+        "field_id": "IhqSsJEryyVKn945mrl0",
+        "canonical_field": "legal_name.last",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Kale\"; page shows \"(empty)\"",
+        "expected": "Kale",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"Kale\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → legal_name.last",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"legal_name.last\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:email",
+        "question": "Email",
+        "field_id": "GqSBFRJ8ERInrtDGMpzZ",
+        "canonical_field": "email",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"skale072007@gmail.com\"; page shows \"(empty)\"",
+        "expected": "skale072007@gmail.com",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"skale072007@gmail.com\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → email",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"email\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:phone",
+        "question": "Phone",
+        "field_id": "MMGzxeShZql8k3lcpZ2B",
+        "canonical_field": "phone",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"4805897636\"; page shows \"(empty)\"",
+        "expected": "4805897636",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"4805897636\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → phone",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"phone\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "fill_error:PFp3gzYijmBkYNKzZ364: control not found on the page (label \"First Name\") — faili",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "PFp3gzYijmBkYNKzZ364: control not found on the page (label \"First Name\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:IhqSsJEryyVKn945mrl0: control not found on the page (label \"Last Name\") — failin",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "IhqSsJEryyVKn945mrl0: control not found on the page (label \"Last Name\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:GqSBFRJ8ERInrtDGMpzZ: control not found on the page (label \"Email\") — failing fa",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "GqSBFRJ8ERInrtDGMpzZ: control not found on the page (label \"Email\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:MMGzxeShZql8k3lcpZ2B: control not found on the page (label \"Phone\") — failing fa",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "MMGzxeShZql8k3lcpZ2B: control not found on the page (label \"Phone\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "upload:resume",
+        "question": "Upload: resume",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "upload_failed",
+        "problem": "no file input resolved: primary resume selector not attached within 3s; retrying resolve after 1500ms; primary resume selector not attached within 3s; no resume file input; 0 file inputs on page",
+        "expected": "resume-6b5f8e75.pdf",
+        "observed": null,
+        "how_to_answer": [
+          "Resume is system-owned: materials:register + adapter.uploadResume on submit/fill — not a free-text profile field.",
+          "If this is ats:fill without --resume, pass --resume <pdf> or use application submit (uses registered material).",
+          "Evidence: no file input resolved: primary resume selector not attached within 3s; retrying resolve after 1500ms; primary resume selector not attached within 3s; no resume file input; 0 file inputs on page"
+        ]
+      }
+    ],
+    "ok_count": 0,
+    "fail_count": 9
+  }
+}

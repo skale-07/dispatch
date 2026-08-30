@@ -1,0 +1,48 @@
+{
+  "run_id": "nav-4148f1c9-f45d-4f4a-8719-177fb124e78f",
+  "application_id": "2d5045a5-220b-4561-952d-047a127429e1",
+  "jobright_job_id": "6a8c6e30cde3717f9e9bcfdb",
+  "method": "apply_click_popup",
+  "resolved_url": "https://oneatlas.hrmdirect.com/employment/job-opening.php?req=3794021&req_loc=1440881&cust_sort1=225852",
+  "resolved_ats": "generic",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no congruent apply href (12 external links)",
+      "evidence": "oneatlas.hrmdirect.com, www.linkedin.com, x.com, www.crunchbase.com, www.oneatlas.com, www.globenewswire.com"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "resolved via popup",
+      "evidence": "oneatlas.hrmdirect.com"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "ephemeral",
+  "notes": [
+    "phase A: anchor reads as \"employment\" (URL names \"employment\" (path), which shares nothing with company \"Atlas\") — not preferred, deferring to the Apply click",
+    "phase A: 7 external host(s) seen: oneatlas.hrmdirect.com, www.linkedin.com, x.com, www.crunchbase.com, www.oneatlas.com, www.globenewswire.com, www.morningstar.com",
+    "Apply control: autofill CTA (tier 0)",
+    "jobright interstitial: clicked \"Apply Without Customizing\"",
+    "popup captured on attempt 1",
+    "phase B: captured URL reads as \"employment\" (URL names \"employment\" (path), which shares nothing with company \"Atlas\") — kept, provenance is the Apply click",
+    "congruence: URL names \"employment\", not \"Atlas\" (URL names \"employment\" (path), which shares nothing with company \"Atlas\") — recorded, not refused"
+  ],
+  "congruence": {
+    "verdict": "mismatch",
+    "slug": "employment",
+    "detail": "URL names \"employment\" (path), which shares nothing with company \"Atlas\"",
+    "expected_company": "Atlas",
+    "url": "https://oneatlas.hrmdirect.com/employment/job-opening.php?req=3794021&req_loc=1440881&&cust_sort1=225852&&jr_id=6a8c6e30cde3717f9e9bcfdb"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-08-30T00:49:03.250Z"
+}

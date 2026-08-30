@@ -1,0 +1,48 @@
+{
+  "run_id": "nav-3acc6782-2c09-44f9-8cc6-02c0f0ad18d5",
+  "application_id": "48a45183-8b20-4d25-a11a-958fe7ea36ba",
+  "jobright_job_id": "6a913104d96ad228f12640da",
+  "method": "apply_click_popup",
+  "resolved_url": "https://globalhr.wd5.myworkdayjobs.com/private_posting_no_tmp/job/US-FL-JUPITER-ADR--17900-Beeline-Hwy--ADR-BLDG/Software-Engineering-Intern--Summer-2027-_01868485",
+  "resolved_ats": "workday",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no congruent apply href (10 external links)",
+      "evidence": "globalhr.wd5.myworkdayjobs.com, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, economictimes.indiatimes.com"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "resolved via popup",
+      "evidence": "globalhr.wd5.myworkdayjobs.com"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "ephemeral",
+  "notes": [
+    "phase A: anchor reads as \"globalhr\" (slug \"globalhr\" shares nothing with company \"RTX\") — not preferred, deferring to the Apply click",
+    "phase A: 7 external host(s) seen: globalhr.wd5.myworkdayjobs.com, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, economictimes.indiatimes.com, www.marketscreener.com",
+    "Apply control: autofill CTA (tier 0)",
+    "jobright interstitial: clicked \"Apply Without Customizing\"",
+    "popup captured on attempt 1",
+    "phase B: captured URL reads as \"globalhr\" (slug \"globalhr\" shares nothing with company \"RTX\") — kept, provenance is the Apply click",
+    "congruence: URL names \"globalhr\", not \"RTX\" (slug \"globalhr\" shares nothing with company \"RTX\") — recorded, not refused"
+  ],
+  "congruence": {
+    "verdict": "mismatch",
+    "slug": "globalhr",
+    "detail": "slug \"globalhr\" shares nothing with company \"RTX\"",
+    "expected_company": "RTX",
+    "url": "https://globalhr.wd5.myworkdayjobs.com/private_posting_no_tmp/job/US-FL-JUPITER-ADR--17900-Beeline-Hwy--ADR-BLDG/Software-Engineering-Intern--Summer-2027-_01868485?jr_id=6a913104d96ad228f12640da"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-08-30T00:50:50.995Z"
+}
