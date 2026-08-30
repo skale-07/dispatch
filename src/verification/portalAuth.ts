@@ -106,6 +106,9 @@ export function isRecognizedAtsAuthHost(url: string): boolean {
   return getAccount(host) !== null;
 }
 
+/** How long a portal may take to answer a sign-in / create click before we read the wall. */
+const AUTH_RESPONSE_WAIT_MS = 8_000;
+
 async function firstVisible(page: Page | Locator, selector: string): Promise<Locator | null> {
   const loc = page.locator(selector).first();
   if ((await loc.count().catch(() => 0)) === 0) return null;
@@ -448,7 +451,26 @@ export async function authenticateAtsPortal(
     }
     await submit.click({ timeout: 10_000 }).catch(() => undefined);
     await settlePage(page, settle, 1_200);
-    const after = await diagnoseLoginWall(page);
+    // Workday answers a sign-in/create click AFTER the settle (live
+    // huntington 2026-08-30 #8d: the 1.2s read said "sign_in_form", the
+    // rejection banner landed a moment later and the escalation never
+    // ran). Poll, bounded, until the page is decisive: an error, the form
+    // gone, a verification-code input, or a different classification.
+    let after = await diagnoseLoginWall(page);
+    if (settle > 0) {
+      const deadline = Date.now() + AUTH_RESPONSE_WAIT_MS;
+      const before = after.classification;
+      while (
+        Date.now() < deadline &&
+        after.fields.password &&
+        !after.errorText &&
+        after.classification === before &&
+        !(await firstVisible(page, sel.verificationCodeInput))
+      ) {
+        await page.waitForTimeout(500);
+        after = await diagnoseLoginWall(page);
+      }
+    }
     const formGone = !after.fields.password && !after.errorText;
     notes.push(
       `portal auth ${kind}: ${formGone ? "form cleared" : after.classification}` +

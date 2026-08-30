@@ -592,3 +592,16 @@ logged only its pre-flight before dying.)_
 - Pronouns "He/Him" written into the encrypted sensitive profile via the
   crypto seams; new canonical `pronouns` (label match "pronouns",
   sensitive allowlist, `getSensitiveValue`) + 6 tests. DV Trading requeued.
+
+### Job #8d — Huntington with the NEW password — 14:32 local: still parked; response timing
+- Sign-in clicked; the 1.2s settle read `sign_in_form` (no error yet), so
+  the rejection branch did not fire; the final diagnosis a moment later
+  read `credentials_rejected` → "wall remains". Workday answers after the
+  settle.
+
+### 53. Portal auth: wait (bounded 8s) for the portal's answer after a sign-in/create click — FIXED
+- After the click, poll every 500ms until an error text, the form gone,
+  a verification-code input, or a changed classification — then decide.
+  Tests keep settle 0 (synchronous). Live check: Huntington #8e (should
+  now escalate to Create Account with the compliant password, then the
+  emailed verification code via Gmail).
