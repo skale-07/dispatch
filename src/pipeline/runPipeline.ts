@@ -1327,6 +1327,9 @@ async function step(
                 verifyPassed: false,
                 detail: "",
                 operatorBrief: undefined as OperatorFieldBrief | undefined,
+                ...(liveReport.gate.failure_code === "ATS_HANDOFF" && liveReport.handoff
+                  ? { handoff: liveReport.handoff }
+                  : {}),
               };
             }
             return {
@@ -1404,6 +1407,24 @@ async function step(
               handoff ? " (cdp session)" : "",
             ),
           );
+        }
+        // ATS handoff (night19 #52): Apply on a careers site landed on the
+        // employer's real ATS. Store that URL and go back through
+        // APPLICATION_OPENING → ATS_DETECTION with the right adapter.
+        // Bounded by the attempt cap like every other retry.
+        const handoff = (filled as { handoff?: { ats: string; url: string } }).handoff;
+        if (handoff) {
+          setEmployerApplicationUrl(db, app.id, handoff.url);
+          transitionApplication(db, {
+            applicationId: app.id,
+            nextState: "APPLICATION_OPENING",
+            reason: `ATS handoff: Apply landed on ${handoff.ats} — re-detecting from ${handoff.url}`,
+            runId,
+          });
+          return {
+            to: "APPLICATION_OPENING",
+            note: `ATS handoff: ${detected.ats} → ${handoff.ats} (${handoff.url})`,
+          };
         }
         if (filled.gateFailure || !filled.verifyPassed) {
           await ctx.heldSubmitSession.current?.close().catch(() => undefined);

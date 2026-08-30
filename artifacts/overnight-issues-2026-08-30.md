@@ -563,3 +563,21 @@ logged only its pre-flight before dying.)_
   matched") and parked fail-closed. New ATS family — needs its own
   read-only DOM probe + Apply-path rung (Phenom "Apply" → external
   Workday/Phenom form). Left NATIVE_AUTOFILL_RUNNING; not ground on.
+  Commit f1e1bc4.
+
+### Job #14 — 7eeeb3c3 Leidos Data Science Intern (careers.leidos.com) — 14:19 local, 17s, NOT submitted (FORM_NOT_REACHED)
+- Nav 5s. Generic adapter clicked "APPLY NOW" → landed on
+  `leidos.wd5.myworkdayjobs.com/External/job/…/apply?bid=…` — the
+  employer's WORKDAY — and kept reading it as "a posting with an Apply
+  CTA" → refused. Second careers-site → real-ATS hop in a row (Philips
+  is Phenom → Workday too).
+
+### 52. ATS HANDOFF — Apply on a careers site lands on another recognised ATS — FIXED
+- `detectAtsHandoff(currentAts, landedUrl)`: a recognised, non-generic
+  ATS different from the current binding ⇒ handoff (same vendor or a
+  generic host ⇒ null). The generic live fill returns `ATS_HANDOFF` with
+  the normalised URL; the pipeline stores it as the employer URL and
+  loops APPLICATION_OPENING → ATS_DETECTION with the right adapter
+  (attempt cap bounds it). Tests: Leidos Workday URL, greenhouse/ashby/
+  lever targets, same-vendor + generic + unparseable ⇒ null. Live check:
+  Leidos (will then hit the Workday account wall — #47, operator).

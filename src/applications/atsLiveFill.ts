@@ -70,6 +70,7 @@ import {
   withPublicUrlPage,
 } from "../browser/fixtureSession.js";
 import { resolveBrowserChannel } from "../browser/launchOptions.js";
+import { detectAtsHandoff } from "../ats/shared/atsHandoff.js";
 import type { Page } from "playwright";
 import { verifyResumePdfFile } from "../jobright/resumeDownload.js";
 import type { PublicProfile } from "../candidate/publicProfile.js";
@@ -278,6 +279,8 @@ export type AtsLiveFillReport = {
   url: string;
   requested_url: string;
   mode: "refused" | "plan_only" | "executed";
+  /** Apply landed on another recognised ATS; the pipeline re-detects from this URL. */
+  handoff?: { ats: string; url: string } | null;
   gate: {
     ok: boolean;
     failure_code: string | null;
@@ -632,6 +635,22 @@ export async function runAtsLiveFill(input: {
             planUrl = advance.url;
             gate = await binding.gate(page, advance.url, advance.url);
             landing = applyGateToReport(report, gate);
+          }
+          // Apply landed on a DIFFERENT recognised ATS (careers site →
+          // Workday/Greenhouse/…): hand the application to that adapter
+          // instead of classifying its page with this one (night19 #52,
+          // Leidos: careers.leidos.com → leidos.wd5.myworkdayjobs.com).
+          const handoff = detectAtsHandoff(binding.id, page.url());
+          if (handoff) {
+            report.gate.ok = false;
+            report.gate.failure_code = "ATS_HANDOFF";
+            report.gate.reason = `Apply landed on ${handoff.ats} (${handoff.url}) — handing off to the ${handoff.ats} adapter`;
+            report.gate.final_url = page.url();
+            report.handoff = handoff;
+            report.notes.push(
+              `ATS handoff: ${binding.id} → ${handoff.ats} at ${handoff.url}`,
+            );
+            return persist(report);
           }
           if (landing.page_class === "posting") {
             report.gate.ok = false;
