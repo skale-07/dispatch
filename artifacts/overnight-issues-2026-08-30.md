@@ -675,3 +675,15 @@ logged only its pre-flight before dying.)_
   designed). Bank entry added: `onsite_location_preference = "No
   preference"` (consistent with the operator's stated flexibility;
   ⚠ operator: change it if you have an office preference). Re-run #19b.
+- **#19b (15:25):** onsite-location filled; last wall "Third example:*"
+  — the essay model ABSTAINED on the third example twice (each essay
+  was generated in isolation: the bare "Third example:" label had no
+  parent question and no view of examples 1–2). **#57 FIXED:** follow-up
+  labels inherit the nearest preceding long question; the batch's
+  previous answers ride along with a distinctness instruction; the
+  null-over-invention rule unchanged. Test with a capturing fake client.
+
+### Job #20 — 93eff173 iA — 15:27 local, 20s — wrong-employer accusation by "workforcenow" (#38's family) — FIXED
+- ADP WorkforceNow tenant URL; the vendor's product name (tenant label)
+  and app-plumbing path words convicted the URL. Added to
+  GENERIC_URL_WORDS; live pair added to the #38 progressive set.
