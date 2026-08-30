@@ -1337,12 +1337,19 @@ async function step(
             };
           }
           try {
+            // The same registered resume the submit path uploads — so the
+            // upload happens ONCE, before the fill, and the submit path's
+            // chip check finds it (night19 #49).
+            const registeredResume = getRegisteredResume(db, app.id);
             const liveReport = await runGreenhouseLiveFill({
               url,
               execute: true,
               headless: ctx.options.headless ?? false,
               capture: { db, applicationId: app.id },
               ...(existingPage ? { existingPage } : {}),
+              ...(registeredResume && !ctx.options.fixtureHtmlPath
+                ? { resumePath: registeredResume.path }
+                : {}),
             });
             return {
               gateFailure: null,

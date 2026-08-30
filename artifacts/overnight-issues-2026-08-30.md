@@ -457,3 +457,37 @@ logged only its pre-flight before dying.)_
   sponsorship…" here vs "No" on Neuralink's "Will you, at any point,
   require employer sponsorship" — two canonical keys; worth one look at
   public-profile.json / screeners.json `requires_sponsorship`.
+- Commit 412fc36. **#9b (13:29):** the skip did NOT fire — on this form
+  the `#resume` input stays mounted beside the chip, so the mount check
+  let the 30s second upload through again; re-fill then mis-committed an
+  already-filled react-select ("Bachelor's Degree" picked, display shows
+  "Doctor of Medicine (M.D.)") — the re-fill-on-filled-combobox hazard
+  the code comment warned about. Fix: the chip alone (exact filename or
+  long stem, the same read-back verification trusts) means attached;
+  the pre-check now logs `input_mounted`/`chip_visible` when it proceeds.
+- **#9c (13:32):** pre-check logged `chip_visible:false` — the pipeline
+  fill and the submit path upload DIFFERENT filenames for the same
+  resume (default resume path vs the registered material copy), so the
+  chip never matches → second upload → re-fill. Then the completeness
+  gate stopped on a REQUIRED "What are your preferred pronouns?"
+  combobox: pronoun/demographic fields never take the predict path and
+  only fill from the operator's sensitive profile — no value on file ⇒
+  skipped ⇒ click blocked. ⚠ Operator: add a pronouns answer to the
+  sensitive profile (or "Prefer not to say" if the form offers it) and
+  `retry --app 2d517c7a`. Row left FAILED_RETRYABLE (attempt 3).
+
+### 49. ROOT CAUSE of the "(empty) after upload" comboboxes — the pipeline's Greenhouse fill never uploaded; the submit path uploaded AFTER the fill — FIXED (upload → settle → fill → verify)
+- Reading the code, not the logs: `runPipeline` called
+  `runGreenhouseLiveFill` without a `resumePath`, so the held-page fill
+  never uploaded (fill report `upload: null`); the submit path's single
+  upload then landed after the fill, job-boards parsed the resume and
+  re-rendered, and verified react-selects read "(empty)" (Neuralink
+  #7b, DV Trading #9/#9b/#9c). The re-fill fallback typed into filled
+  react-selects and mis-committed ("Bachelor's" → "Doctor of Medicine").
+- **Fix:** Greenhouse liveFill uploads BEFORE the fill when a resume path
+  is given (2.5s parse settle, then fill overwrites any prefill, then
+  verify); the pipeline now passes the registered resume (same file the
+  submit path uses, so the chip check finds it); the submit path uploads
+  before its fill too and re-verifies after. Late upload only when the
+  file input appears after the fill. Validation: existing Greenhouse
+  fixture suites (FIXTURE) + the next live Greenhouse job.

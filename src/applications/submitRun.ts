@@ -516,6 +516,14 @@ export async function runAtsSubmission(input: {
           // Fill + essays + upload + verify on the gated page.
           // A same-run pipeline fill already mutated this DOM; re-fill
           // empties Greenhouse comboboxes (listbox never opens).
+          // Upload FIRST (night19 #49): uploading after the fill let the
+          // board's resume-parse re-render wipe verified comboboxes. On a
+          // reused page the pipeline already uploaded and the chip check
+          // returns "already attached" without touching the form.
+          const upload = await adapter.uploadResume(page, resume.path);
+          if (upload.verified && !/already attached/.test(upload.evidence)) {
+            await page.waitForTimeout(2_500);
+          }
           let fill = input.reuseFilledPage
             ? {
                 filled: approvedFillEntries(approvedPlan).map((e) => e.field_id),
@@ -542,7 +550,6 @@ export async function runAtsSubmission(input: {
             );
             await greenhouseFillEssays(page, essayEntries, fieldMeta, db);
           }
-          const upload = await adapter.uploadResume(page, resume.path);
           // Known operator materials beyond the resume (transcript) — live
           // 2026-08-29 Appian: the click bounced off a required transcript
           // upload while private/candidate/transcript.pdf sat on disk.

@@ -1166,11 +1166,19 @@ export async function greenhouseUploadFile(
       const bodyNow = await page.locator("body").innerText().catch(() => "");
       const inputMounted =
         (await page.locator(`input[type="file"]#${preferId}`).count().catch(() => 0)) > 0;
-      if (!inputMounted && bodyNow.includes(filename)) {
+      const stemNow = filename.replace(/\.[^.]+$/, "");
+      // Same read-back the post-upload verification trusts: the exact
+      // filename, or a long stem prefix (job-boards truncates chips).
+      // DV Trading #9b: the input stayed mounted next to the chip, so a
+      // mount check alone let the destructive second upload through.
+      const chipNow =
+        bodyNow.includes(filename) ||
+        (stemNow.length >= 12 && bodyNow.includes(stemNow.slice(0, 24)));
+      if (chipNow) {
         logger.info(`greenhouse upload: ${kind} already attached — skipping re-upload`, {
           service: "greenhouse",
           action: "upload",
-          metadata: { kind, verified: true, already_attached: true },
+          metadata: { kind, verified: true, already_attached: true, input_mounted: inputMounted },
         });
         return {
           field: kind,
@@ -1178,9 +1186,14 @@ export async function greenhouseUploadFile(
           filename,
           size_bytes: stat.size,
           verified: true,
-          evidence: "already attached: filename chip visible and file input unmounted — re-upload skipped",
+          evidence: `already attached: chip for ${filename} visible${inputMounted ? " (input still mounted)" : " (input unmounted)"} — re-upload skipped`,
         };
       }
+      logger.info(`greenhouse upload: ${kind} not yet attached — uploading`, {
+        service: "greenhouse",
+        action: "upload",
+        metadata: { kind, input_mounted: inputMounted, chip_visible: false },
+      });
     }
 
     let input: Locator;

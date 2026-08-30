@@ -226,6 +226,8 @@ export async function verifyPageBeforeMutation(
   };
 }
 
+/** Job-boards parses an uploaded resume and re-renders; fill only after it settles. */
+const RESUME_PARSE_SETTLE_MS = 2_500;
 const LANDING_SETTLE_MS = 12_000;
 const LANDING_POLL_MS = 400;
 
@@ -828,6 +830,26 @@ export async function runGreenhouseLiveFill(input: {
         },
       });
       const knownFieldIds = new Set(plannedFields.map((f) => f.id));
+      // Upload FIRST (night19 #49, DV Trading + Neuralink): job-boards
+      // re-parses the resume on upload and re-renders the form; an upload
+      // AFTER the fill wiped verified comboboxes and the re-fill on filled
+      // react-selects mis-committed. Upload, let the parse settle, then
+      // fill over whatever it prefilled, then verify.
+      const uploads: Awaited<ReturnType<typeof adapter.uploadResume>>[] = [];
+      if (input.resumePath) {
+        const fileInputsBefore = await inventoryFileInputs(page);
+        if (fileInputsBefore.length > 0) {
+          logger.info("live fill: uploading resume before the fill", {
+            service: "greenhouse",
+            action: "upload",
+          });
+          const early = await adapter.uploadResume(page, input.resumePath);
+          uploads.push(early);
+          if (early.verified && !/already attached/.test(early.evidence)) {
+            await page.waitForTimeout(RESUME_PARSE_SETTLE_MS);
+          }
+        }
+      }
       base.fill = await adapter.fill(page, approvedPlan.answers);
       // "Other" chosen on a closed list reveals a specify box that only
       // exists after the option commits — the real answer goes in there.
@@ -889,9 +911,9 @@ export async function runGreenhouseLiveFill(input: {
         }
       }
 
-      // Upload only after comboboxes are settled — no further field mutation.
-      const uploads = [];
-      if (input.resumePath) {
+      // Late upload only when the page had no file input before the fill
+      // (revealed by the fill) — the pre-fill upload above is the norm.
+      if (input.resumePath && uploads.length === 0) {
         const fileInputs = await inventoryFileInputs(page);
         if (fileInputs.length === 0) {
           base.notes.push(
