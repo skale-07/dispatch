@@ -16,13 +16,16 @@
       "graduation_month": "May",
       "graduation_year": "2029",
       "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
-      "screener:custom:predicted:question_8969945005": "Johns Hopkins University",
-      "screener:custom:predicted:question_8969948005": "No",
+      "screener:custom:university_confirm": "Johns Hopkins University",
+      "screener:custom:prop_trading_experience": "No",
+      "screener:custom:other_specify": "N/A",
       "screener:custom:country_of_residence": "United States of America",
-      "screener:custom:predicted:question_8969952005": "Maryland",
+      "screener:custom:us_state_of_residence": "Maryland",
       "work_authorization": "[REDACTED_SPONSORSHIP]",
+      "screener:custom:visa_type_expiration": "N/A",
       "screener:how_heard": "LinkedIn",
-      "screener:custom:predicted:question_8969959005": "Yes, I have read and agree to DV Trading's Privacy Policy.",
+      "screener:custom:other_explain": "N/A",
+      "screener:custom:terms_and_conditions": "Yes, I have read and agree to DV Trading's Privacy Policy.",
       "gender": "Male",
       "hispanic_latino": "No",
       "veteran_status": "I am not a veteran",
@@ -177,10 +180,10 @@
         "field_id": "question_8969945005",
         "label": "Please re-confirm the university you currently attend",
         "type": "text",
-        "canonical_field": "screener:custom:predicted:question_8969945005",
+        "canonical_field": "screener:custom:university_confirm",
         "action": "fill",
         "value": "Johns Hopkins University",
-        "reason": "Predicted from operator context (llm_predict): Profile facts list Johns Hopkins University as the candidate's school."
+        "reason": "Screener bank answer (exact_option)"
       },
       {
         "field_id": "question_8969946005",
@@ -204,28 +207,28 @@
         "field_id": "question_8969948005",
         "label": "Do you have relevant internship experience at a proprietary trading firm?",
         "type": "text",
-        "canonical_field": "screener:custom:predicted:question_8969948005",
+        "canonical_field": "screener:custom:prop_trading_experience",
         "action": "fill",
         "value": "No",
-        "reason": "Predicted from operator context (llm_predict): Experience is in ML, health tech, and startups; no proprietary trading firm roles listed."
+        "reason": "Screener bank answer (exact_option)"
       },
       {
         "field_id": "question_8969949005",
         "label": "If yes, select your most recent proprietary trading firm experience",
         "type": "text",
         "canonical_field": null,
-        "action": "skip_unmapped",
+        "action": "skip_empty",
         "value": null,
-        "reason": "Predict produced no usable answer"
+        "reason": "conditional follow-up skipped — parent answer is No"
       },
       {
         "field_id": "question_8969950005",
         "label": "If other, please specify",
         "type": "text",
-        "canonical_field": null,
-        "action": "skip_unmapped",
-        "value": null,
-        "reason": "Predict produced no usable answer"
+        "canonical_field": "screener:custom:other_specify",
+        "action": "fill",
+        "value": "N/A",
+        "reason": "Screener bank answer (free_text)"
       },
       {
         "field_id": "question_8969951005",
@@ -240,10 +243,10 @@
         "field_id": "question_8969952005",
         "label": "If applicable, which US state do you reside in?",
         "type": "text",
-        "canonical_field": "screener:custom:predicted:question_8969952005",
+        "canonical_field": "screener:custom:us_state_of_residence",
         "action": "fill",
         "value": "Maryland",
-        "reason": "Predicted from operator context (llm_predict): Profile facts list Baltimore, Maryland as the candidate's location."
+        "reason": "Screener bank answer (exact_option)"
       },
       {
         "field_id": "question_8969953005",
@@ -267,10 +270,10 @@
         "field_id": "question_8969955005",
         "label": "If yes, please provide your visa type and expiration date.",
         "type": "text",
-        "canonical_field": null,
-        "action": "skip_unmapped",
-        "value": null,
-        "reason": "Predict produced no usable answer"
+        "canonical_field": "screener:custom:visa_type_expiration",
+        "action": "fill",
+        "value": "N/A",
+        "reason": "Screener bank answer (free_text)"
       },
       {
         "field_id": "question_8969956005",
@@ -294,19 +297,19 @@
         "field_id": "question_8969958005",
         "label": "If other, please explain",
         "type": "text",
-        "canonical_field": null,
-        "action": "skip_unmapped",
-        "value": null,
-        "reason": "Predict produced no usable answer"
+        "canonical_field": "screener:custom:other_explain",
+        "action": "fill",
+        "value": "N/A",
+        "reason": "Screener bank answer (free_text)"
       },
       {
         "field_id": "question_8969959005",
         "label": "Terms &amp; Conditions",
         "type": "text",
-        "canonical_field": "screener:custom:predicted:question_8969959005",
+        "canonical_field": "screener:custom:terms_and_conditions",
         "action": "fill",
         "value": "Yes, I have read and agree to DV Trading's Privacy Policy.",
-        "reason": "Predicted from operator context (llm_predict): Single required acknowledgement option must be selected to submit."
+        "reason": "Screener bank answer (exact_option)"
       },
       {
         "field_id": "gender",
@@ -345,8 +348,8 @@
         "reason": "Mapped from sensitive profile (operator-supplied)"
       }
     ],
-    "fillable_count": 27,
-    "skipped_count": 8,
+    "fillable_count": 30,
+    "skipped_count": 5,
     "review_required_count": 0
   },
   "submit_attempted": false,
@@ -355,6 +358,7 @@
     "schema diff: 20/23 declared question(s) matched onto 35 DOM field(s); 3 declared-only (2 required); 15 DOM-only",
     "board API declared 23 question(s); matched complete option lists onto 11 field(s)",
     "option harvest: scraped real options for 11/22 control(s) before planning",
+    "other-specify: \"Other\" revealed \"Please identify your race\" — answered with the real value",
     "frozen after fill→verify→upload — no further field mutation; submit never called"
   ],
   "validation_level": "LIVE_MUTATION_CONFIRMED",
@@ -817,11 +821,11 @@
         "field_id": "question_8969945005",
         "label": "Please re-confirm the university you currently attend",
         "type": "text",
-        "canonical_field": "screener:custom:predicted:question_8969945005",
+        "canonical_field": "screener:custom:university_confirm",
         "action": "FILL",
         "approved": true,
         "value": "Johns Hopkins University",
-        "reason": "Predicted from operator context (llm_predict): Profile facts list Johns Hopkins University as the candidate's school."
+        "reason": "Screener bank answer (exact_option)"
       },
       {
         "field_id": "question_8969946005",
@@ -847,11 +851,11 @@
         "field_id": "question_8969948005",
         "label": "Do you have relevant internship experience at a proprietary trading firm?",
         "type": "text",
-        "canonical_field": "screener:custom:predicted:question_8969948005",
+        "canonical_field": "screener:custom:prop_trading_experience",
         "action": "FILL",
         "approved": true,
         "value": "No",
-        "reason": "Predicted from operator context (llm_predict): Experience is in ML, health tech, and startups; no proprietary trading firm roles listed."
+        "reason": "Screener bank answer (exact_option)"
       },
       {
         "field_id": "question_8969949005",
@@ -861,17 +865,17 @@
         "action": "SKIP",
         "approved": false,
         "value": null,
-        "reason": "Predict produced no usable answer"
+        "reason": "conditional follow-up skipped — parent answer is No"
       },
       {
         "field_id": "question_8969950005",
         "label": "If other, please specify",
         "type": "text",
-        "canonical_field": null,
-        "action": "SKIP",
-        "approved": false,
-        "value": null,
-        "reason": "Predict produced no usable answer"
+        "canonical_field": "screener:custom:other_specify",
+        "action": "FILL",
+        "approved": true,
+        "value": "N/A",
+        "reason": "Screener bank answer (free_text)"
       },
       {
         "field_id": "question_8969951005",
@@ -887,11 +891,11 @@
         "field_id": "question_8969952005",
         "label": "If applicable, which US state do you reside in?",
         "type": "text",
-        "canonical_field": "screener:custom:predicted:question_8969952005",
+        "canonical_field": "screener:custom:us_state_of_residence",
         "action": "FILL",
         "approved": true,
         "value": "Maryland",
-        "reason": "Predicted from operator context (llm_predict): Profile facts list Baltimore, Maryland as the candidate's location."
+        "reason": "Screener bank answer (exact_option)"
       },
       {
         "field_id": "question_8969953005",
@@ -917,11 +921,11 @@
         "field_id": "question_8969955005",
         "label": "If yes, please provide your visa type and expiration date.",
         "type": "text",
-        "canonical_field": null,
-        "action": "SKIP",
-        "approved": false,
-        "value": null,
-        "reason": "Predict produced no usable answer"
+        "canonical_field": "screener:custom:visa_type_expiration",
+        "action": "FILL",
+        "approved": true,
+        "value": "N/A",
+        "reason": "Screener bank answer (free_text)"
       },
       {
         "field_id": "question_8969956005",
@@ -947,21 +951,21 @@
         "field_id": "question_8969958005",
         "label": "If other, please explain",
         "type": "text",
-        "canonical_field": null,
-        "action": "SKIP",
-        "approved": false,
-        "value": null,
-        "reason": "Predict produced no usable answer"
+        "canonical_field": "screener:custom:other_explain",
+        "action": "FILL",
+        "approved": true,
+        "value": "N/A",
+        "reason": "Screener bank answer (free_text)"
       },
       {
         "field_id": "question_8969959005",
         "label": "Terms &amp; Conditions",
         "type": "text",
-        "canonical_field": "screener:custom:predicted:question_8969959005",
+        "canonical_field": "screener:custom:terms_and_conditions",
         "action": "FILL",
         "approved": true,
         "value": "Yes, I have read and agree to DV Trading's Privacy Policy.",
-        "reason": "Predicted from operator context (llm_predict): Single required acknowledgement option must be selected to submit."
+        "reason": "Screener bank answer (exact_option)"
       },
       {
         "field_id": "gender",
@@ -1017,20 +1021,23 @@
       "graduation_month": "May",
       "graduation_year": "After January 2029",
       "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
-      "screener:custom:predicted:question_8969945005": "Johns Hopkins University",
-      "screener:custom:predicted:question_8969948005": "No",
+      "screener:custom:university_confirm": "Johns Hopkins University",
+      "screener:custom:prop_trading_experience": "No",
+      "screener:custom:other_specify": "N/A",
       "screener:custom:country_of_residence": "United States of America",
-      "screener:custom:predicted:question_8969952005": "Maryland",
+      "screener:custom:us_state_of_residence": "Maryland",
       "work_authorization": "[REDACTED_SPONSORSHIP]",
+      "screener:custom:visa_type_expiration": "N/A",
       "screener:how_heard": "LinkedIn",
-      "screener:custom:predicted:question_8969959005": "Yes, I have read and agree to DV Trading's Privacy Policy.",
+      "screener:custom:other_explain": "N/A",
+      "screener:custom:terms_and_conditions": "Yes, I have read and agree to DV Trading's Privacy Policy.",
       "gender": "Male",
       "hispanic_latino": "No",
       "veteran_status": "I am not a veteran",
       "disability_status": "No"
     },
-    "fillable_count": 27,
-    "skipped_count": 8,
+    "fillable_count": 30,
+    "skipped_count": 5,
     "review_required_count": 0
   },
   "fill": {
@@ -1048,16 +1055,19 @@
       "graduation_month",
       "graduation_year",
       "linkedin_url",
-      "screener:custom:predicted:question_8969945005",
+      "screener:custom:university_confirm",
       "graduation_year",
       "major",
-      "screener:custom:predicted:question_8969948005",
+      "screener:custom:prop_trading_experience",
+      "screener:custom:other_specify",
       "screener:custom:country_of_residence",
-      "screener:custom:predicted:question_8969952005",
+      "screener:custom:us_state_of_residence",
       "work_authorization",
       "work_authorization",
+      "screener:custom:visa_type_expiration",
       "screener:how_heard",
-      "screener:custom:predicted:question_8969959005",
+      "screener:custom:other_explain",
+      "screener:custom:terms_and_conditions",
       "gender",
       "hispanic_latino",
       "veteran_status",
@@ -1163,7 +1173,7 @@
       },
       {
         "field_id": "question_8969945005",
-        "canonical_field": "screener:custom:predicted:question_8969945005",
+        "canonical_field": "screener:custom:university_confirm",
         "control_kind": "combobox",
         "selected_option": "Johns Hopkins University",
         "match_via": "exact",
@@ -1191,7 +1201,7 @@
       },
       {
         "field_id": "question_8969948005",
-        "canonical_field": "screener:custom:predicted:question_8969948005",
+        "canonical_field": "screener:custom:prop_trading_experience",
         "control_kind": "combobox",
         "selected_option": "No",
         "match_via": "exact",
@@ -1199,6 +1209,11 @@
           "opened via control click",
           "picked \"No\" (exact) from open list"
         ]
+      },
+      {
+        "field_id": "question_8969950005",
+        "canonical_field": "screener:custom:other_specify",
+        "control_kind": "text"
       },
       {
         "field_id": "question_8969951005",
@@ -1213,7 +1228,7 @@
       },
       {
         "field_id": "question_8969952005",
-        "canonical_field": "screener:custom:predicted:question_8969952005",
+        "canonical_field": "screener:custom:us_state_of_residence",
         "control_kind": "combobox",
         "selected_option": "Maryland",
         "match_via": "exact",
@@ -1245,6 +1260,11 @@
         ]
       },
       {
+        "field_id": "question_8969955005",
+        "canonical_field": "screener:custom:visa_type_expiration",
+        "control_kind": "text"
+      },
+      {
         "field_id": "question_8969957005",
         "canonical_field": "screener:how_heard",
         "control_kind": "combobox",
@@ -1256,8 +1276,13 @@
         ]
       },
       {
+        "field_id": "question_8969958005",
+        "canonical_field": "screener:custom:other_explain",
+        "control_kind": "text"
+      },
+      {
         "field_id": "question_8969959005",
-        "canonical_field": "screener:custom:predicted:question_8969959005",
+        "canonical_field": "screener:custom:terms_and_conditions",
         "control_kind": "combobox",
         "selected_option": "Yes, I have read and agree to DV Trading's Privacy Policy.",
         "match_via": "exact",
@@ -1312,6 +1337,15 @@
       }
     ]
   },
+  "other_specify": [
+    {
+      "field_id": "question_8969949005",
+      "label": "If yes, select your most recent proprietary trading firm experience",
+      "revealed_field_id": "race",
+      "filled": true,
+      "note": "\"Other\" revealed \"Please identify your race\" — answered with the real value"
+    }
+  ],
   "verify": {
     "passed": true,
     "fields": [
@@ -1409,7 +1443,7 @@
         "match": true
       },
       {
-        "canonical_field": "screener:custom:predicted:question_8969945005",
+        "canonical_field": "screener:custom:university_confirm",
         "expected": "Johns Hopkins University",
         "observed": {
           "value": "Johns Hopkins University",
@@ -1436,12 +1470,18 @@
         "match": true
       },
       {
-        "canonical_field": "screener:custom:predicted:question_8969948005",
+        "canonical_field": "screener:custom:prop_trading_experience",
         "expected": "No",
         "observed": {
           "value": "No",
           "label": "No"
         },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:other_specify",
+        "expected": "N/A",
+        "observed": "N/A",
         "match": true
       },
       {
@@ -1454,7 +1494,7 @@
         "match": true
       },
       {
-        "canonical_field": "screener:custom:predicted:question_8969952005",
+        "canonical_field": "screener:custom:us_state_of_residence",
         "expected": "Maryland",
         "observed": {
           "value": "Maryland",
@@ -1475,6 +1515,12 @@
         "match": true
       },
       {
+        "canonical_field": "screener:custom:visa_type_expiration",
+        "expected": "N/A",
+        "observed": "N/A",
+        "match": true
+      },
+      {
         "canonical_field": "screener:how_heard",
         "expected": "LinkedIn",
         "observed": {
@@ -1484,7 +1530,13 @@
         "match": true
       },
       {
-        "canonical_field": "screener:custom:predicted:question_8969959005",
+        "canonical_field": "screener:custom:other_explain",
+        "expected": "N/A",
+        "observed": "N/A",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:terms_and_conditions",
         "expected": "Yes, I have read and agree to DV Trading's Privacy Policy.",
         "observed": {
           "value": "Yes, I have read and agree to DV Trading's Privacy Policy.",
@@ -1532,5 +1584,5 @@
     "uploads": [],
     "warnings": []
   },
-  "written_at": "2026-08-30T17:16:20.556Z"
+  "written_at": "2026-08-30T17:32:44.862Z"
 }
