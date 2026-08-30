@@ -13,6 +13,14 @@ learn mid-opening that the posting is closed (JobRight "closed" wall). A dead
 posting is ineligible, not a failure; this edge keeps it out of every future
 selection sweep without a thrown invalid-transition error.
 
+Workday submit reach: `FIELD_VERIFICATION → NATIVE_AUTOFILL_RUNNING` (night20
+#62, live tiaa.wd1) — a COLD Workday entry cannot submit because the wizard
+sits behind portal auth + the Apply walk, which only the fill leg performs.
+When the pipeline reaches FIELD_VERIFICATION without a held same-run page and
+the employer URL is Workday, it re-runs the fill leg (overwrite is the trusted
+reset) so the same-run held page carries the submit. Bounded by fill attempt
+caps.
+
 ## Rules
 
 - SQLite is authoritative; `state.json` is an export.

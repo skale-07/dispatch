@@ -857,3 +857,23 @@ Pre-flight state (16:00 local):
   wizard walk to the review page, then completeness-gate + click. Est
   1-2h; scheduled between cycles tonight. TIAA parked meanwhile (5
   attempts consumed — moving the loop on per budget discipline).
+- **OPERATOR DIRECTIVE (mid-run, ~17:15): stay on the SAME job until it
+  submits or needs operator input — do not rotate away from hard jobs.**
+  Supersedes the 3-min move-on rule; recorded in memory. TIAA resumes as
+  the sole target after #62 lands.
+
+### 62 — FIXED (pipeline-level): cold Workday FIELD_VERIFICATION re-runs the fill leg
+- Implementation: rather than teach submitRun the whole portal walk, the
+  pipeline routes a COLD Workday FIELD_VERIFICATION (no held same-run
+  page) back to NATIVE_AUTOFILL_RUNNING — the fill leg already performs
+  auth + Apply walk + wizard fill (overwrite = trusted reset) and hands
+  the live held page to the same-run submit (the Exa #21 shape). New
+  deliberate state-machine edge FIELD_VERIFICATION →
+  NATIVE_AUTOFILL_RUNNING (states.ts + docs/state-machine.md), bounded
+  by fill attempt caps. Non-Workday cold entries unchanged.
+- pipeline-run + review-resolvers 35/35. Gate → commit → live TIAA #22f.
+
+### Job #23 — (cycle while #62 was designed) — generic UNKNOWN_LANDING, 0 eligible in discovery
+- One app, generic adapter refused UNKNOWN_LANDING (details in cycle log;
+  parked NATIVE_AUTOFILL_RUNNING). Per the new directive the loop returns
+  to TIAA; this row queues behind it.

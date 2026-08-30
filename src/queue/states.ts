@@ -145,6 +145,11 @@ const ALLOWED: Partial<Record<ApplicationState, readonly ApplicationState[]>> = 
     "READY_TO_SUBMIT",
     "ESSAY_REQUIRED",
     "AMBIGUOUS_FIELD",
+    // Deliberate edge (night20 #62, live tiaa.wd1): a COLD Workday entry
+    // cannot submit — the wizard lives behind portal auth + the Apply
+    // walk that only the fill leg performs. The pipeline re-runs the
+    // fill so the same-run held page carries the submit.
+    "NATIVE_AUTOFILL_RUNNING",
     "FAILED_RETRYABLE",
     "FAILED_FINAL",
   ],

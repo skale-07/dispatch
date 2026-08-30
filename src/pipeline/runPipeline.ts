@@ -1496,6 +1496,30 @@ async function step(
       // Reached via the essay path (resume-essay). The binding pre-click
       // verification happens inside runAtsSubmission on the live page;
       // this stage records readiness only.
+      // #62 (live tiaa.wd1 2026-08-30): a COLD entry on a WORKDAY app can
+      // never submit from here — the wizard lives behind portal auth +
+      // the Apply walk, which only the FILL leg performs; the submit
+      // runner would open the posting URL and refuse NO_APPLICATION_FORM.
+      // Without a held same-run page, re-run the fill leg: it reaches the
+      // wizard, re-fills (overwrite is the trusted reset), and hands the
+      // live page to submit. Bounded by the fill leg's own attempt caps.
+      if (!ctx.heldSubmitSession.current) {
+        const url = getEmployerApplicationUrl(db, app.id);
+        const coldAts = url ? detectAtsFromUrl(url).ats : null;
+        if (coldAts === "workday") {
+          transitionApplication(db, {
+            applicationId: app.id,
+            nextState: "NATIVE_AUTOFILL_RUNNING",
+            reason:
+              "pipeline: workday submit needs the wizard reach — re-running the fill leg (#62)",
+            runId,
+          });
+          return {
+            to: "NATIVE_AUTOFILL_RUNNING",
+            note: "workday: re-filling to reach the wizard for submit (#62)",
+          };
+        }
+      }
       transitionApplication(db, {
         applicationId: app.id,
         nextState: "READY_TO_SUBMIT",
