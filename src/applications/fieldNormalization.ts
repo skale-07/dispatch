@@ -63,6 +63,9 @@ export function matchCanonicalField(
   if (best) return best.canonical;
 
   // Name/id-based hints when phrase map missed (Lever EEO / org / location)
+  // "What are your preferred pronouns?" / "Pronouns" (live DV Trading
+  // 2026-08-30, REQUIRED): operator-supplied only, via the sensitive profile.
+  if (/\bpronouns?\b/.test(normalized)) return "pronouns";
   if (/eeo\[?\s*gender|name=["']?eeo\[gender\]/i.test(nameHint) || /eeo\[gender\]/i.test(normalized))
     return "gender";
   if (

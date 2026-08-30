@@ -79,6 +79,7 @@ export function getSensitiveValue(
   if (canonical === "transgender") return profile.transgender;
   if (canonical === "veteran_status") return profile.veteran_status;
   if (canonical === "disability_status") return profile.disability_status;
+  if (canonical === "pronouns") return profile.pronouns;
   return undefined;
 }
 

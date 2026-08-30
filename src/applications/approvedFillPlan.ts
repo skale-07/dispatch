@@ -48,6 +48,7 @@ export const SENSITIVE_FILL_CANONICALS = new Set([
   "transgender",
   "veteran_status",
   "disability_status",
+  "pronouns",
 ]);
 
 /**

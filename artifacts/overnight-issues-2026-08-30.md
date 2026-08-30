@@ -579,5 +579,16 @@ logged only its pre-flight before dying.)_
   the normalised URL; the pipeline stores it as the employer URL and
   loops APPLICATION_OPENING → ATS_DETECTION with the right adapter
   (attempt cap bounds it). Tests: Leidos Workday URL, greenhouse/ashby/
-  lever targets, same-vendor + generic + unparseable ⇒ null. Live check:
-  Leidos (will then hit the Workday account wall — #47, operator).
+  lever targets, same-vendor + generic + unparseable ⇒ null. Commit 6cd4e0a.
+- **#14b (14:30):** Leidos' "APPLY NOW" this time routed to
+  `careers.leidos.com/jobs/…/apply?tm_src=0` → Cloudflare interstitial
+  ("Just a moment", no form) → `BLOCKING_CAPTCHA`, refused fail-closed
+  (#19 Cloudflare, still open). The handoff rung is unit-confirmed but
+  not yet live-confirmed. Row left NATIVE_AUTOFILL_RUNNING.
+
+### Operator inputs applied live (14:20–14:35)
+- `PORTAL_LOGIN_PASSWORD` changed as instructed (quoted in .env — dotenv
+  reads an unquoted `#` as a comment; verified 8 chars, all four classes).
+- Pronouns "He/Him" written into the encrypted sensitive profile via the
+  crypto seams; new canonical `pronouns` (label match "pronouns",
+  sensitive allowlist, `getSensitiveValue`) + 6 tests. DV Trading requeued.

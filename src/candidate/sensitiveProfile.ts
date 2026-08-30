@@ -12,6 +12,8 @@ export const sensitiveProfileSchema = z.object({
   transgender: z.string().default(""),
   veteran_status: z.string().default(""),
   disability_status: z.string().default(""),
+  /** "What are your preferred pronouns?" — operator-supplied only (night19: DV Trading required it). */
+  pronouns: z.string().default(""),
   self_identification_preferences: z.record(z.unknown()).default({}),
 });
 
