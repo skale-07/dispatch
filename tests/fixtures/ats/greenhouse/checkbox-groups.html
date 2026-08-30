@@ -1,0 +1,78 @@
+<!doctype html>
+<!--
+  Progressive-overload fixture (issue #21 / night19 #40, 2026-08-30), shaped
+  from a read-only snapshot of job-boards.greenhouse.io/neuralink/jobs/5469298003
+  (LIVE_READ_ONLY_CONFIRMED). Greenhouse's new job-boards markup renders every
+  checkbox question as a <fieldset> with a <legend>, members named
+  `question_N[]` carrying a `description` attribute (the question) and a
+  `<label for>` with the OPTION text. Three groups:
+    - work authorization: two members, Yes | No
+    - on-site acknowledgement: ONE member whose only option is "Yes"
+    - how did you hear about us: eleven members, one of them literally "LinkedIn"
+  plus the standard "LinkedIn Profile" text input that "LinkedIn" must not steal.
+  Sanitized: ids/values kept structurally, no candidate data.
+-->
+<html lang="en">
+<body>
+<form id="application-form">
+  <div class="field-wrapper">
+    <label id="first_name-label" for="first_name" class="label">First Name<span aria-hidden="true">*</span></label>
+    <input id="first_name" aria-label="First Name" aria-required="true" type="text" value="" />
+  </div>
+  <div class="field-wrapper">
+    <label id="email-label" for="email" class="label">Email<span aria-hidden="true">*</span></label>
+    <input id="email" aria-label="Email" aria-required="true" type="email" value="" />
+  </div>
+
+  <fieldset class="checkbox" id="question_16876429003[]" aria-required="true">
+    <legend class="label checkbox__description">Are you currently authorized to work in the United States? <span class="required">*</span></legend>
+    <div class="checkbox__wrapper"><div class="checkbox__input">
+      <input description="Are you currently authorized to work in the United States?" required="" type="checkbox" id="question_16876429003[]_104418776003" name="question_16876429003[]" value="104418776003" /><svg class="svg-icon"></svg></div>
+      <label for="question_16876429003[]_104418776003">Yes</label></div>
+    <div class="checkbox__wrapper"><div class="checkbox__input">
+      <input description="Are you currently authorized to work in the United States?" required="" type="checkbox" id="question_16876429003[]_104418777003" name="question_16876429003[]" value="104418777003" /><svg class="svg-icon"></svg></div>
+      <label for="question_16876429003[]_104418777003">No</label></div>
+  </fieldset>
+
+  <fieldset class="checkbox" id="question_16876431003[]" aria-required="true">
+    <legend class="label checkbox__description">I understand that this position requires me to work on-site. <span class="required">*</span></legend>
+    <div class="checkbox__wrapper"><div class="checkbox__input">
+      <input description="I understand that this position requires me to work on-site." required="" type="checkbox" id="question_16876431003[]_104418778003" name="question_16876431003[]" value="104418778003" /><svg class="svg-icon"></svg></div>
+      <label for="question_16876431003[]_104418778003">Yes</label></div>
+  </fieldset>
+
+  <fieldset class="checkbox" id="question_16876435003[]" aria-required="true">
+    <legend class="label checkbox__description">How did you hear about us? <span class="required">*</span></legend>
+    <div class="checkbox__wrapper"><div class="checkbox__input"><input description="How did you hear about us?" required="" type="checkbox" id="question_16876435003[]_104418785003" name="question_16876435003[]" value="104418785003" /><svg class="svg-icon"></svg></div><label for="question_16876435003[]_104418785003">Neuralink Show &amp; Tell</label></div>
+    <div class="checkbox__wrapper"><div class="checkbox__input"><input description="How did you hear about us?" required="" type="checkbox" id="question_16876435003[]_104418786003" name="question_16876435003[]" value="104418786003" /><svg class="svg-icon"></svg></div><label for="question_16876435003[]_104418786003">Campus Recruiting (please specify)</label></div>
+    <div class="checkbox__wrapper"><div class="checkbox__input"><input description="How did you hear about us?" required="" type="checkbox" id="question_16876435003[]_104418787003" name="question_16876435003[]" value="104418787003" /><svg class="svg-icon"></svg></div><label for="question_16876435003[]_104418787003">Company Website</label></div>
+    <div class="checkbox__wrapper"><div class="checkbox__input"><input description="How did you hear about us?" required="" type="checkbox" id="question_16876435003[]_104418788003" name="question_16876435003[]" value="104418788003" /><svg class="svg-icon"></svg></div><label for="question_16876435003[]_104418788003">Event / Conferences - Industry</label></div>
+    <div class="checkbox__wrapper"><div class="checkbox__input"><input description="How did you hear about us?" required="" type="checkbox" id="question_16876435003[]_104418789003" name="question_16876435003[]" value="104418789003" /><svg class="svg-icon"></svg></div><label for="question_16876435003[]_104418789003">Event - Recruiting</label></div>
+    <div class="checkbox__wrapper"><div class="checkbox__input"><input description="How did you hear about us?" required="" type="checkbox" id="question_16876435003[]_104418790003" name="question_16876435003[]" value="104418790003" /><svg class="svg-icon"></svg></div><label for="question_16876435003[]_104418790003">Friend or Family (non-employee)</label></div>
+    <div class="checkbox__wrapper"><div class="checkbox__input"><input description="How did you hear about us?" required="" type="checkbox" id="question_16876435003[]_104418791003" name="question_16876435003[]" value="104418791003" /><svg class="svg-icon"></svg></div><label for="question_16876435003[]_104418791003">LinkedIn</label></div>
+    <div class="checkbox__wrapper"><div class="checkbox__input"><input description="How did you hear about us?" required="" type="checkbox" id="question_16876435003[]_104418792003" name="question_16876435003[]" value="104418792003" /><svg class="svg-icon"></svg></div><label for="question_16876435003[]_104418792003">Monkey MindPong</label></div>
+    <div class="checkbox__wrapper"><div class="checkbox__input"><input description="How did you hear about us?" required="" type="checkbox" id="question_16876435003[]_104418793003" name="question_16876435003[]" value="104418793003" /><svg class="svg-icon"></svg></div><label for="question_16876435003[]_104418793003">News/Media</label></div>
+    <div class="checkbox__wrapper"><div class="checkbox__input"><input description="How did you hear about us?" required="" type="checkbox" id="question_16876435003[]_104418794003" name="question_16876435003[]" value="104418794003" /><svg class="svg-icon"></svg></div><label for="question_16876435003[]_104418794003">Referred by Neuralink employee (name below)</label></div>
+    <div class="checkbox__wrapper"><div class="checkbox__input"><input description="How did you hear about us?" required="" type="checkbox" id="question_16876435003[]_104418795003" name="question_16876435003[]" value="104418795003" /><svg class="svg-icon"></svg></div><label for="question_16876435003[]_104418795003">YouTube</label></div>
+    <div class="checkbox__wrapper"><div class="checkbox__input"><input description="How did you hear about us?" required="" type="checkbox" id="question_16876435003[]_104418796003" name="question_16876435003[]" value="104418796003" /><svg class="svg-icon"></svg></div><label for="question_16876435003[]_104418796003">Other (please specify)</label></div>
+  </fieldset>
+
+  <div class="field-wrapper"><div class="text-input-wrapper"><div class="input-wrapper input-wrapper--outside-label">
+    <label id="question_16876426003-label" for="question_16876426003" class="label label--outside-label">LinkedIn Profile<span aria-hidden="true">*</span></label>
+    <input id="question_16876426003" class="input" aria-label="LinkedIn Profile" aria-required="true" type="text" maxlength="255" value="" />
+  </div></div></div>
+  <div class="field-wrapper"><div class="text-input-wrapper"><div class="input-wrapper input-wrapper--outside-label">
+    <label id="question_16876427003-label" for="question_16876427003" class="label label--outside-label">Additional Link</label>
+    <input id="question_16876427003" class="input" aria-label="Additional Link" type="text" maxlength="255" value="" />
+  </div></div></div>
+
+  <!-- harder: a lone consent checkbox with its own <label for>, NOT in a fieldset — must stay a single boolean field -->
+  <div class="field-wrapper">
+    <input type="checkbox" id="privacy_consent" name="privacy_consent" value="1" />
+    <label for="privacy_consent">I have read and agree to the privacy policy</label>
+  </div>
+
+  <button type="submit">Submit application</button>
+</form>
+</body>
+</html>

@@ -133,6 +133,24 @@ export function discoverFieldsFromHtml(
     const valueAttr = getAttr(attrs, "value");
     let options =
       tag === "select" ? parseSelectOptions(inner) : undefined;
+    if (fieldType === "checkbox") {
+      // Greenhouse checkbox GROUPS (live neuralink 2026-08-30): every member
+      // is `<input type=checkbox name="question_N[]" description="<question>">`
+      // + `<label for>`option`</label>` inside a <fieldset> whose <legend> is
+      // the question. Read per member, the option label became the FIELD
+      // label — "LinkedIn" (an option of "How did you hear about us?") was
+      // claimed as linkedin_url, and "I understand … on-site" (a one-member
+      // group whose only option is "Yes") had no control the legend text
+      // could find. The question is the field; the member label is an option.
+      const question =
+        cleanLabel(decodeEntities(getAttr(attrs, "description") ?? "")) ||
+        enclosingFieldsetLegend(html, m.index);
+      if (question) {
+        const optionLabel = cleanLabel(decodeEntities(label));
+        label = question;
+        options = [optionLabel && optionLabel !== name ? optionLabel : (valueAttr ?? "").trim() || `option_${idx}`];
+      }
+    }
     if (fieldType === "radio") {
       const optionText = radioOptionText({
         wrap,
@@ -168,8 +186,57 @@ export function discoverFieldsFromHtml(
     idx++;
   }
 
-  // Radio groups: collapse by name
-  return collapseRadioGroups(fields);
+  // Radio groups: collapse by name; checkbox groups likewise (see the
+  // checkbox branch above — only members that resolved a group question).
+  return collapseCheckboxGroups(collapseRadioGroups(fields));
+}
+
+/**
+ * Legend of the <fieldset> that encloses `index`, or null when the input is
+ * not inside one (or the fieldset has no legend). Regex-scoped: the last
+ * `<fieldset` before the index that has no matching `</fieldset>` before it.
+ */
+function enclosingFieldsetLegend(html: string, index: number): string | null {
+  const before = html.slice(0, index);
+  const open = before.lastIndexOf("<fieldset");
+  if (open < 0) return null;
+  const close = before.lastIndexOf("</fieldset");
+  if (close > open) return null;
+  const legend = before.slice(open).match(/<legend\b[^>]*>([\s\S]*?)<\/legend>/i);
+  if (!legend?.[1]) return null;
+  const text = cleanLabel(decodeEntities(stripTags(legend[1])));
+  return text || null;
+}
+
+/**
+ * One field per checkbox group: the question as label, the member labels as
+ * options, the FIRST member's id as the locator anchor (the fill's option
+ * path walks the enclosing fieldset from any member). Members are grouped
+ * by `name`; a lone checkbox that resolved a legend keeps a one-option
+ * group so "I understand … on-site" → "Yes" checks its only box.
+ */
+function collapseCheckboxGroups(fields: DiscoveredField[]): DiscoveredField[] {
+  const groups = new Map<string, DiscoveredField>();
+  const out: DiscoveredField[] = [];
+  for (const f of fields) {
+    const grouped =
+      f.type === "checkbox" && f.name !== undefined && f.options !== undefined && f.options.length > 0;
+    if (!grouped) {
+      out.push(f);
+      continue;
+    }
+    const key = f.name as string;
+    const existing = groups.get(key);
+    if (existing) {
+      existing.options = [...(existing.options ?? []), ...(f.options ?? [])];
+      existing.required = existing.required || f.required;
+    } else {
+      const group: DiscoveredField = { ...f, id: key, options: [...(f.options ?? [])] };
+      groups.set(key, group);
+      out.push(group);
+    }
+  }
+  return out;
 }
 
 const VOID_TAGS = new Set([

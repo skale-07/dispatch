@@ -229,4 +229,45 @@ logged only its pre-flight before dying.)_
   evidence; already-embed; missing board/id; encoding + host pin), a
   fixture reach test for the zipline listing shell that must refuse
   (no board token ⇒ no network), and 16 widget-label cases + a poisoned-
-  bank reuse test.
+  bank reuse test. Commit 8caf0ec.
+
+### Job #6 — 279c395b Neuralink SWE Intern, BCI Applications — 11:31 local, 60s, NOT submitted → abandoned (true duplicate)
+- Agent navigation (54s) found the Greenhouse URL; nav refused it as
+  `duplicate_url` — correctly: 5766f038 (same role, AMBIGUOUS_FIELD) is a
+  live holder, not a terminal one (#29 does not apply here). JobRight
+  re-listed this role 4× (d1974007, 82dd996e, 5766f038, 279c395b).
+  Abandoned via the state machine with the holder named.
+- **Pattern surfaced:** 12 Neuralink SWE/ML rows sit in AMBIGUOUS_FIELD
+  from last night — the largest single cluster in the queue. That is
+  issue #21 (checkbox-group screener "I understand… on-site" never
+  clicked; kind-mismatch coercion). Next work item.
+
+### 40. #21 ROOT-CAUSED on the live Neuralink DOM — checkbox GROUPS were discovered as one field per option — FIXED + progressive-overload set
+- **Live read-only DOM (job-boards.greenhouse.io/neuralink/jobs/5469298003,
+  43 inputs):** every checkbox question is `<fieldset><legend>Q</legend>`
+  with members `<input type=checkbox name="question_N[]"
+  description="Q">` + `<label for>OPTION</label>`. Discovery read each
+  member as its own field named by the OPTION: "LinkedIn" (an option of
+  "How did you hear about us?") became a field the mapper claimed as
+  `linkedin_url` (URL → checkbox → verify read `true` / "(empty)");
+  "I understand… on-site" (one member, option "Yes") had no control the
+  legend text could locate ("control not found" f_24); and the
+  "Are you authorized…?" [Yes|No] group would have taken "No" as
+  "uncheck the first box".
+- **Fix (fieldDiscovery.ts):** a checkbox member with a `description`
+  attr or an enclosing fieldset legend takes the QUESTION as label and
+  its own label as an option; `collapseCheckboxGroups` folds members by
+  `name` into one field (id = name, options = member labels, inputId =
+  first member as the locator anchor). Lone checkboxes with their own
+  label (privacy consent) are untouched. **fill.ts:** a multi-member
+  group takes the option path even for Yes/No — "No" checks the No
+  member; only a lone box reads Yes/No as its state.
+- **Progressive-overload fixture** `tests/fixtures/ats/greenhouse/
+  checkbox-groups.html` (the live markup, sanitized) + 9 tests:
+  discovery (one field per group, 12 options, "LinkedIn" never a field
+  label, one-member group, lone consent box, legend-only variant) and
+  fill/verify (Yes on the one-member group; No on Yes|No checks the NO
+  member; "LinkedIn" checks the option while "LinkedIn Profile" gets the
+  URL; no-match refuses by name with nothing checked).
+- Relocation-question → address.city hijack (4dc34df9) not yet
+  addressed — separate alias problem; watch for recurrence.

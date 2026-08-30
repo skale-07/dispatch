@@ -678,7 +678,13 @@ export async function greenhouseFillFromPlan(
           }
         }
       } else if (type === "checkbox") {
-        if (isCheckboxBooleanValue(entry.value)) {
+        // A MULTI-member group takes the option path even for Yes/No: on
+        // neuralink's "Are you currently authorized…?" [Yes | No] group a
+        // consent-style "No" would have UNCHECKED the first box instead of
+        // checking the "No" member. Only a lone box reads Yes/No as its state.
+        const groupOptions = await collectCheckboxGroupOptions(loc).catch(() => []);
+        const multiMember = groupOptions.length > 1;
+        if (isCheckboxBooleanValue(entry.value) && !multiMember) {
           // Consent-style: the plan speaks about THIS box's state.
           const s = String(entry.value).trim().toLowerCase();
           const on =
@@ -698,7 +704,7 @@ export async function greenhouseFillFromPlan(
           // were blind-checked as `true`). Pick the group member whose
           // label matches the planned text; no match ⇒ named refusal,
           // never a blind check.
-          const options = await collectCheckboxGroupOptions(loc);
+          const options = groupOptions.length > 0 ? groupOptions : await collectCheckboxGroupOptions(loc);
           const pick = pickOptionLabel(
             options.map((o) => o.label),
             String(entry.value),
