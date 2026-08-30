@@ -1,0 +1,298 @@
+{
+  "ats": "ashby",
+  "url": "https://jobs.ashbyhq.com/exa/a9e01521-66f1-481b-89da-ec01d4620f16/application",
+  "requested_url": "https://jobs.ashbyhq.com/exa/a9e01521-66f1-481b-89da-ec01d4620f16/application",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://jobs.ashbyhq.com/exa/a9e01521-66f1-481b-89da-ec01d4620f16/application",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 11,
+    "skipped_count": 3,
+    "review_required_count": 1
+  },
+  "plan_fields": [
+    {
+      "field_id": "f_0",
+      "label": "Compensation",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "_systemfield_name",
+      "label": "Full Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Single full-name field: composed legal_name.first + legal_name.last (both safe factual canonicals)"
+    },
+    {
+      "field_id": "_systemfield_email",
+      "label": "Email",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "_systemfield_resume",
+      "label": "Resume",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "fcde060d-48c3-4176-a76e-d3d85384a4ad",
+      "label": "Earliest month you'd be able to join",
+      "type": "text",
+      "canonical_field": "screener:start_availability",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "7a0791af-44c8-451e-9ccd-765f55dc08d2",
+      "label": "LinkedIn",
+      "type": "text",
+      "canonical_field": "linkedin_url",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "081b5ade-f335-4cb3-b502-cbb733f99bd2",
+      "label": "Github",
+      "type": "text",
+      "canonical_field": "github_url",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "7246f79a-2fe9-4840-9841-d6353f33cb3e",
+      "label": "Other Links",
+      "type": "text",
+      "canonical_field": "screener:portfolio_url",
+      "action": "SKIP",
+      "reason": "portfolio_url empty in bank — optional, skipped"
+    },
+    {
+      "field_id": "e55328b1-8f93-4735-a27e-faff496a8f96",
+      "label": "Do you require Visa sponsorship to work in your selected location? If so, which one? And when does your Visa expire?",
+      "type": "text",
+      "canonical_field": "requires_sponsorship",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "dcbd2153-e1b7-41a0-96ae-f26d15795897",
+      "label": "Why are you interested in working at Exa? (can be short)",
+      "type": "textarea",
+      "canonical_field": "essay:generated:dcbd2153-e1b7-41a0-96ae-f26d15795897",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "0ba2f093-e932-4b0d-ba4c-2140c5e32d90",
+      "label": "What's something you worked on that you were proud of?",
+      "type": "textarea",
+      "canonical_field": "essay:generated:0ba2f093-e932-4b0d-ba4c-2140c5e32d90",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "9b21de87-2804-4279-ad92-d6649a69a4e9",
+      "label": "What motivates you?",
+      "type": "textarea",
+      "canonical_field": "essay:generated:9b21de87-2804-4279-ad92-d6649a69a4e9",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "bddddac6-b0a4-4995-a134-184b0699e853",
+      "label": "How did you hear about Exa?",
+      "type": "text",
+      "canonical_field": "screener:how_heard",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "08c314b0-f54f-48ce-8fc7-59dadf039d21",
+      "label": "Are you applying to work on something specific at Exa? (1 sentence, leave blank if you're open to anything)",
+      "type": "text",
+      "canonical_field": "screener:custom:exa_specific_team_interest",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "3a52e1c2-0c99-4088-a823-7533ee818bb1",
+      "label": "Are you based in San Francisco or open to relocating?",
+      "type": "select",
+      "canonical_field": "screener:willing_to_relocate",
+      "action": "REVIEW_REQUIRED",
+      "reason": "willing_to_relocate: bank answer \"Yes\" matches none of the 2 page options — review"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\ashby-live\\form-snapshot-1788120429301.html",
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "email",
+      "screener:start_availability",
+      "linkedin_url",
+      "github_url",
+      "requires_sponsorship",
+      "essay:generated:dcbd2153-e1b7-41a0-96ae-f26d15795897",
+      "essay:generated:0ba2f093-e932-4b0d-ba4c-2140c5e32d90",
+      "essay:generated:9b21de87-2804-4279-ad92-d6649a69a4e9",
+      "screener:how_heard",
+      "screener:custom:exa_specific_team_interest"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "_systemfield_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "_systemfield_email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "fcde060d-48c3-4176-a76e-d3d85384a4ad",
+        "canonical_field": "screener:start_availability",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "7a0791af-44c8-451e-9ccd-765f55dc08d2",
+        "canonical_field": "linkedin_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "081b5ade-f335-4cb3-b502-cbb733f99bd2",
+        "canonical_field": "github_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "e55328b1-8f93-4735-a27e-faff496a8f96",
+        "canonical_field": "requires_sponsorship",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "dcbd2153-e1b7-41a0-96ae-f26d15795897",
+        "canonical_field": "essay:generated:dcbd2153-e1b7-41a0-96ae-f26d15795897",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "0ba2f093-e932-4b0d-ba4c-2140c5e32d90",
+        "canonical_field": "essay:generated:0ba2f093-e932-4b0d-ba4c-2140c5e32d90",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "9b21de87-2804-4279-ad92-d6649a69a4e9",
+        "canonical_field": "essay:generated:9b21de87-2804-4279-ad92-d6649a69a4e9",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "bddddac6-b0a4-4995-a134-184b0699e853",
+        "canonical_field": "screener:how_heard",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "08c314b0-f54f-48ce-8fc7-59dadf039d21",
+        "canonical_field": "screener:custom:exa_specific_team_interest",
+        "control_kind": "text"
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham Kale",
+        "observed": "Shubham Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:start_availability",
+        "expected": "Flexible — aligned to the posted term",
+        "observed": "Flexible — aligned to the posted term",
+        "match": true
+      },
+      {
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "match": true
+      },
+      {
+        "canonical_field": "github_url",
+        "expected": "https://github.com/skale-07",
+        "observed": "https://github.com/skale-07",
+        "match": true
+      },
+      {
+        "canonical_field": "requires_sponsorship",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:dcbd2153-e1b7-41a0-96ae-f26d15795897",
+        "expected": "Most of what I've built lately comes back to retrieval and judgment. In tSearch, I built a talent-discovery pipeline that starts from seed candidates, expands through public GitHub and Substack collaboration graphs, scores heuristically, and only then runs rubric-driven LLM judges. The hardest part was not generation, it was retrieval quality and deciding what counts as evidence. I made \"insufficient evidence\" a real output rather than a low score, because a search system that quietly guesses is worse than one that says it doesn't know. I hit the same wall at Intelehealth, where I built an evaluation framework over a 4,169-case clinical benchmark and found that producing an answer was cheap while deciding whether to trust it was the actual problem.\n\nThat's why Exa interests me. If AI makes generation abundant, the bottleneck moves to finding and verifying the right information, and Exa is building the layer underneath that: crawling the whole web, training embedding models, and making retrieval fast enough to actually use. I'd want to work on the retrieval and evaluation side, and I like that the work has real users, real failure modes, and things I can measure.",
+        "observed": "Most of what I've built lately comes back to retrieval and judgment. In tSearch, I built a talent-discovery pipeline that starts from seed candidates, expands through public GitHub and Substack collaboration graphs, scores heuristically, and only then runs rubric-driven LLM judges. The hardest part was not generation, it was retrieval quality and deciding what counts as evidence. I made \"insufficient evidence\" a real output rather than a low score, because a search system that quietly guesses is worse than one that says it doesn't know. I hit the same wall at Intelehealth, where I built an evaluation framework over a 4,169-case clinical benchmark and found that producing an answer was cheap while deciding whether to trust it was the actual problem.\n\nThat's why Exa interests me. If AI makes generation abundant, the bottleneck moves to finding and verifying the right information, and Exa is building the layer underneath that: crawling the whole web, training embedding models, and making retrieval fast enough to actually use. I'd want to work on the retrieval and evaluation side, and I like that the work has real users, real failure modes, and things I can measure.",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:0ba2f093-e932-4b0d-ba4c-2140c5e32d90",
+        "expected": "ClarityAtlas, the iOS health app I built as technical lead at Open Health Intelligence. The technical part I'm most proud of is passive sleep estimation without a wearable. Most sleep tracking assumes a watch, so I built an estimator from phone-interaction and motion signals using HealthKit and Core Motion inputs like step count, gait speed, and movement patterns. I also built the backend for behavioral comparison, including a \"Sleep Twins\" matcher that standardizes behavioral features and matches users by weighted distance, so someone sees their sleep in context instead of as an isolated number. I wrote the whole thing in Swift and SwiftUI on Supabase and shipped it into a live pilot at Hopkins with 30 or more users. What I actually learned is that the build was maybe half the work. Getting real users, refining the thesis, and explaining repeatedly why the thing should exist mattered just as much. We got our meeting with President Daniels by spotting him during Lighting of the Quads and knocking on the doors of Garland Hall until someone let us pitch.",
+        "observed": "ClarityAtlas, the iOS health app I built as technical lead at Open Health Intelligence. The technical part I'm most proud of is passive sleep estimation without a wearable. Most sleep tracking assumes a watch, so I built an estimator from phone-interaction and motion signals using HealthKit and Core Motion inputs like step count, gait speed, and movement patterns. I also built the backend for behavioral comparison, including a \"Sleep Twins\" matcher that standardizes behavioral features and matches users by weighted distance, so someone sees their sleep in context instead of as an isolated number. I wrote the whole thing in Swift and SwiftUI on Supabase and shipped it into a live pilot at Hopkins with 30 or more users. What I actually learned is that the build was maybe half the work. Getting real users, refining the thesis, and explaining repeatedly why the thing should exist mattered just as much. We got our meeting with President Daniels by spotting him during Lighting of the Quads and knocking on the doors of Garland Hall until someone let us pitch.",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:9b21de87-2804-4279-ad92-d6649a69a4e9",
+        "expected": "Mostly two things. The first is building something that actually gets used, not demoed. With SnapSort I learned that a technically functional system and a product people use are very different; I got it to 300+ users and most of the work was pricing, positioning, and fixing the parts that broke for real people. The same lesson showed up at Open Health Intelligence, where getting 30+ users into a pilot took as much stakeholder work as engineering.\n\nThe second is the question I keep circling back to: as AI makes generation cheap, judgment becomes the scarce thing. That came out of Intelehealth, where I built an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case standard using stratified sampling. Producing an answer was fast; deciding whether to trust it was the hard problem. It shows up again in my job-application agent, where free-text and demographic fields are architecturally blocked from autofill and always escalate to a human.\n\nI'm motivated by problems with a concrete user, a real failure mode, and a system I can test against reality rather than against a fixture.",
+        "observed": "Mostly two things. The first is building something that actually gets used, not demoed. With SnapSort I learned that a technically functional system and a product people use are very different; I got it to 300+ users and most of the work was pricing, positioning, and fixing the parts that broke for real people. The same lesson showed up at Open Health Intelligence, where getting 30+ users into a pilot took as much stakeholder work as engineering.\n\nThe second is the question I keep circling back to: as AI makes generation cheap, judgment becomes the scarce thing. That came out of Intelehealth, where I built an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case standard using stratified sampling. Producing an answer was fast; deciding whether to trust it was the hard problem. It shows up again in my job-application agent, where free-text and demographic fields are architecturally blocked from autofill and always escalate to a human.\n\nI'm motivated by problems with a concrete user, a real failure mode, and a system I can test against reality rather than against a fixture.",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:how_heard",
+        "expected": "LinkedIn",
+        "observed": "LinkedIn",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:exa_specific_team_interest",
+        "expected": "I'd most want to work on search quality and retrieval ranking, including how results get evaluated, since my work on LLM output evaluation against a 4,169-case clinical benchmark and on a learning-to-rank layer for anomaly alerts both came down to judging whether a system's output should be trusted.",
+        "observed": "I'd most want to work on search quality and retrieval ranking, including how results get evaluated, since my work on LLM output evaluation against a 4,169-case clinical benchmark and on a learning-to-rank layer for anomaly alerts both came down to judging whether a system's output should be trusted.",
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": null,
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: form (15 fillable field(s))",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "written_at": "2026-08-30T20:07:10.256Z"
+}
