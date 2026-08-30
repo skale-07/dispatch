@@ -556,3 +556,10 @@ logged only its pre-flight before dying.)_
   upload-first (#49), fill + verify + completeness passed, click, receipt
   verified, and the post-submit tail completed (board-discovered row,
   #44) — 26s from QUEUED to COMPLETED.
+
+### Job #13b — Philips — 14:18 local: #51 CONFIRMED (posting check passed) → `UNKNOWN_LANDING` (Phenom People careers site)
+- careers.philips.com is a Phenom-style SPA: the generic classifier saw
+  neither a form, an Apply control, nor a login wall ("no signals
+  matched") and parked fail-closed. New ATS family — needs its own
+  read-only DOM probe + Apply-path rung (Phenom "Apply" → external
+  Workday/Phenom form). Left NATIVE_AUTOFILL_RUNNING; not ground on.

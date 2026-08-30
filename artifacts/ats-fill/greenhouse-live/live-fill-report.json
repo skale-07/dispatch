@@ -15,6 +15,7 @@
       "graduation_year": "2029",
       "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
       "screener:how_heard": "LinkedIn",
+      "screener:custom:sat_act_score": "ACT: 35",
       "gpa": 3.7,
       "screener:work_authorization": "[REDACTED_SPONSORSHIP]",
       "work_authorization": "[REDACTED_SPONSORSHIP]"
@@ -150,10 +151,10 @@
         "field_id": "question_31304703003",
         "label": "SAT/ACT Score",
         "type": "text",
-        "canonical_field": null,
-        "action": "skip_unmapped",
-        "value": null,
-        "reason": "Predict produced no usable answer"
+        "canonical_field": "screener:custom:sat_act_score",
+        "action": "fill",
+        "value": "ACT: 35",
+        "reason": "Screener bank answer (free_text)"
       },
       {
         "field_id": "question_31304704003",
@@ -192,18 +193,17 @@
         "reason": "Mapped from public profile"
       }
     ],
-    "fillable_count": 15,
-    "skipped_count": 4,
+    "fillable_count": 16,
+    "skipped_count": 3,
     "review_required_count": 0
   },
   "submit_attempted": false,
   "notes": [
     "session: handoff (caller-owned page, not closed here)",
-    "application form found in an iframe (20 fields) — hopping to https://job-boards.greenhouse.io/embed/job_app?for=oldmissioncapital&validityToken=A1fBKkPHLTLuNq7NHwCsNiu3lK5aH7aVMI_Qxs2_9fSLQlr99_SYx5NpAWU68O69ohIEH9d6NNzaAIaL3y1DXgOUTdRQJWMBrN0lrHtifSSmXjAlaLgtUFnDtFNRsjeG2KrbZdS6oHqirXFGEJ7ObdnaXxPXzXJ-4LbZ_8avkeh-Ma6wLx-mEfIpGGinrHBVntdgPaq_iQteFxIwzjZCPFOt6S_FQV1LxXcKW0Hco_dEnIK9XCngoR4j43jCc3wjBydB5yHMOqeDlyjIUrhUrhB9ppVFPS2Uco5AJvNUrFVEUKFWGa1xz_mzMTWj6TjW1gXEYXb0lI-oEKwpgoEfPw%3D%3D&token=7796180003",
+    "application form found in an iframe (19 fields) — hopping to https://job-boards.greenhouse.io/embed/job_app?for=oldmissioncapital&validityToken=A1fBKkPHLTLuNq7NHwCsNiu3lK5aH7aVMI_Qxs2_9fSLQlr99_SYx5NpAWU68O69ohIEH9d6NNzaAIaL3y1DXgOUTdRQJWMBrN0lrHtifSSmXjAlaLgtUFnDtFNRsjeG2KrbZdS6oHqirXFGEJ7ObdnaXxPXzXJ-4LbZ_8avkeh-Ma6wLx-mEfIpGGinrHBVntdgPaq_iQteFxIwzjZCPFOt6S_FQV1LxXcKW0Hco_dEnIK9XCngoR4j43jCc3wjBydB5yHMOqeDlyjIUrhUrhB9ppVFPS2Uco5AJvNUrFVEUKFWGa1xz_mzMTWj6TjW1gXEYXb0lI-oEKwpgoEfPw%3D%3D&token=7796180003",
     "schema diff: 11/13 declared question(s) matched onto 19 DOM field(s); 2 declared-only (1 required); 8 DOM-only",
     "board API declared 13 question(s); matched complete option lists onto 3 field(s)",
     "option harvest: scraped real options for 4/14 control(s) before planning",
-    "heal pass: recovered 2/2; final verify passed: true",
     "frozen after fill→verify→upload — no further field mutation; submit never called"
   ],
   "validation_level": "LIVE_MUTATION_CONFIRMED",
@@ -534,11 +534,11 @@
         "field_id": "question_31304703003",
         "label": "SAT/ACT Score",
         "type": "text",
-        "canonical_field": null,
-        "action": "SKIP",
-        "approved": false,
-        "value": null,
-        "reason": "Predict produced no usable answer"
+        "canonical_field": "screener:custom:sat_act_score",
+        "action": "FILL",
+        "approved": true,
+        "value": "ACT: 35",
+        "reason": "Screener bank answer (free_text)"
       },
       {
         "field_id": "question_31304704003",
@@ -593,12 +593,13 @@
       "graduation_year": "2029",
       "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
       "screener:how_heard": "LinkedIn",
+      "screener:custom:sat_act_score": "ACT: 35",
       "gpa": 3.7,
       "screener:work_authorization": "[REDACTED_SPONSORSHIP]",
       "work_authorization": "[REDACTED_SPONSORSHIP]"
     },
-    "fillable_count": 15,
-    "skipped_count": 4,
+    "fillable_count": 16,
+    "skipped_count": 3,
     "review_required_count": 0
   },
   "fill": {
@@ -608,20 +609,20 @@
       "email",
       "address.country",
       "phone",
+      "degree",
+      "major",
       "start_year",
       "graduation_year",
       "linkedin_url",
       "screener:how_heard",
+      "screener:custom:sat_act_score",
       "gpa",
       "email",
       "screener:work_authorization",
       "work_authorization"
     ],
     "skipped": [],
-    "errors": [
-      "degree--0: combobox option not committed: opened via control click; picked \"Bachelor's Degree\" (exact) from open list; commit not confirmed: display shows \"Doctor of Medicine (M.D.)\"",
-      "discipline--0: combobox option not committed: opened via control click; picked \"Mathematics\" (synonym) from open list; commit not confirmed: display shows \"Medicine\""
-    ],
+    "errors": [],
     "field_meta": [
       {
         "field_id": "first_name",
@@ -658,24 +659,22 @@
         "field_id": "degree--0",
         "canonical_field": "degree",
         "control_kind": "combobox",
-        "selected_option": null,
+        "selected_option": "Bachelor's Degree",
         "match_via": "exact",
         "notes": [
           "opened via control click",
-          "picked \"Bachelor's Degree\" (exact) from open list",
-          "commit not confirmed: display shows \"Doctor of Medicine (M.D.)\""
+          "picked \"Bachelor's Degree\" (exact) from open list"
         ]
       },
       {
         "field_id": "discipline--0",
         "canonical_field": "major",
         "control_kind": "combobox",
-        "selected_option": null,
+        "selected_option": "Mathematics",
         "match_via": "synonym",
         "notes": [
           "opened via control click",
-          "picked \"Mathematics\" (synonym) from open list",
-          "commit not confirmed: display shows \"Medicine\""
+          "picked \"Mathematics\" (synonym) from open list"
         ]
       },
       {
@@ -703,6 +702,11 @@
           "opened via control click",
           "picked \"LinkedIn\" (exact) from open list"
         ]
+      },
+      {
+        "field_id": "question_31304703003",
+        "canonical_field": "screener:custom:sat_act_score",
+        "control_kind": "text"
       },
       {
         "field_id": "question_31304704003",
@@ -820,6 +824,12 @@
         "match": true
       },
       {
+        "canonical_field": "screener:custom:sat_act_score",
+        "expected": "ACT: 35",
+        "observed": "ACT: 35",
+        "match": true
+      },
+      {
         "canonical_field": "gpa",
         "expected": 3.7,
         "observed": "3.7",
@@ -847,41 +857,6 @@
     "uploads": [],
     "warnings": []
   },
-  "heal": {
-    "attempted": 2,
-    "healed": [
-      "degree--0",
-      "discipline--0"
-    ],
-    "still_failing": [],
-    "attempts": [
-      {
-        "field_id": "degree--0",
-        "layer": "heuristic",
-        "candidate": {
-          "selector": "#degree--0",
-          "via": "label_text",
-          "score": 1,
-          "inputId": "degree--0"
-        },
-        "healed": true,
-        "notes": []
-      },
-      {
-        "field_id": "discipline--0",
-        "layer": "heuristic",
-        "candidate": {
-          "selector": "#discipline--0",
-          "via": "label_text",
-          "score": 1,
-          "inputId": "discipline--0"
-        },
-        "healed": true,
-        "notes": []
-      }
-    ],
-    "sidecar_used": false
-  },
   "uploads": [
     {
       "field": "resume",
@@ -892,5 +867,5 @@
       "evidence": "input files: []; stillAttached=false; chip=true"
     }
   ],
-  "written_at": "2026-08-30T18:05:22.804Z"
+  "written_at": "2026-08-30T18:10:16.719Z"
 }
