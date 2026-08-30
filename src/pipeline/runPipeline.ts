@@ -159,6 +159,16 @@ export {
   getEmployerApplicationUrl,
   setEmployerApplicationUrl,
 } from "../applications/employerUrl.js";
+
+/** Does this application's job carry a JobRight job id (vs. a board/ATS discovery row)? */
+export function hasJobRightJobId(db: Db, applicationId: string): boolean {
+  const row = db
+    .prepare(
+      `SELECT j.jobright_job_id AS id FROM applications a JOIN jobs j ON j.id = a.job_id WHERE a.id = ?`,
+    )
+    .get(applicationId) as { id: string | null } | undefined;
+  return Boolean(row?.id && String(row.id).trim().length > 0);
+}
 import {
   getEmployerApplicationUrl,
   setEmployerApplicationUrl,
@@ -1534,6 +1544,23 @@ async function step(
         return {
           to: "COMPLETED",
           note: "completed (no jobright session for contact extraction)",
+        };
+      }
+      // Contact extraction reads the JobRight job page. A row that entered
+      // through the boards.json / ATS discovery has no JobRight job id
+      // (live 2026-08-30: neuralink 1e213072's VERIFIED submit parked
+      // "Cannot resolve stored job: … has no JobRight job id"). Nothing to
+      // extract from — complete, do not park.
+      if (!ctx.options.contactsFixtureHtmlPath && !hasJobRightJobId(db, app.id)) {
+        transitionApplication(db, {
+          applicationId: app.id,
+          nextState: "COMPLETED",
+          reason: "pipeline: no JobRight job id — contact extraction not applicable, completing",
+          runId,
+        });
+        return {
+          to: "COMPLETED",
+          note: "completed (no JobRight job id — contact extraction not applicable)",
         };
       }
       try {

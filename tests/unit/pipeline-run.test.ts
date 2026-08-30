@@ -587,6 +587,23 @@ describe("pipeline driver (FIXTURE_CONFIRMED)", () => {
     );
   });
 
+  it("SUBMITTED completes when the job has no JobRight job id (board-discovered row) — night19 #44", async () => {
+    const appId = seed("SUBMITTED");
+    db.prepare(
+      `UPDATE jobs SET jobright_job_id = NULL WHERE id = (SELECT job_id FROM applications WHERE id = ?)`,
+    ).run(appId);
+    const report = await runPipeline({
+      db,
+      applicationId: appId,
+      jobrightContactsReady: true,
+    });
+    expect(getApplication(db, appId)?.state).toBe("COMPLETED");
+    expect(report.applications[0]?.steps[0]?.note).toMatch(/no JobRight job id/);
+    expect(
+      listOpenReviewItems(db).some((r) => r.application_id === appId),
+    ).toBe(false);
+  });
+
   it("SUBMITTED parks on review when contact extraction throws", async () => {
     const appId = seed("SUBMITTED");
     const report = await runPipeline({

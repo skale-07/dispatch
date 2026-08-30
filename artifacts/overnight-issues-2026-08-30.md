@@ -343,4 +343,20 @@ logged only its pre-flight before dying.)_
 - submitRun: the whole post-click recovery is fenced — anything thrown
   parks UNCERTAIN instead of "failure before the click".
 - ⚠ Operator (60s, not urgent): `npm run login:outlook` is expired; with
-  Gmail primary this no longer blocks anything.
+  Gmail primary this no longer blocks anything. Commit dfa3d49.
+
+### ✅ Job #7g — 1e213072 Neuralink SWE Intern, Infrastructure — 12:28 local — SUBMITTED_VERIFIED (first submit of the night; LIVE_MUTATION_CONFIRMED)
+- Full chain: CDP-tab fill (24 fields incl. 3 checkbox groups + essays)
+  → verify → upload → completeness → click → Greenhouse emailed-code
+  wall → Gmail live-context scan found the 8-letter code on poll 0 →
+  typed into the split-box widget → re-click → confirmation receipt.
+- Tail: contacts extraction failed "Cannot resolve stored job: no
+  JobRight job id" (row came from the boards.json discovery, not
+  JobRight) → parked review in CONTACTS_EXTRACTING. Submission itself is
+  verified and recorded; tail fix next (#44).
+
+### 44. Post-submit tail parks board-discovered rows — FIXED
+- SUBMITTED handler now completes (reason "no JobRight job id — contact
+  extraction not applicable") instead of running JobRight contact
+  extraction and parking a MANUAL item; pipeline test added. 1e213072
+  moved CONTACTS_EXTRACTING → COMPLETED via the state machine.
