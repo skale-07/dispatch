@@ -68,6 +68,32 @@ describe("matchCanonicalField name/id fallbacks", () => {
     expect(matchCanonicalField(field("Degree type"), aliases)).toBe("degree");
   });
 
+  // Live tiaa.wd1 2026-08-30 (#22g): Workday's "I have a preferred name"
+  // is a reveal TOGGLE checkbox; preferred_name mapped onto it and the
+  // fill tried to "check" the profile's name into it. Checkbox-typed
+  // preferred-name labels never map; the revealed TEXT field still does.
+  it("'I have a preferred name' checkbox is a toggle, not the preferred-name field", () => {
+    const aliases = { preferred_name: ["Preferred Name", "preferred name"] };
+    expect(
+      matchCanonicalField(
+        {
+          id: "name--preferredCheck",
+          label: "I have a preferred name",
+          type: "checkbox",
+          required: false,
+          name: "preferredCheck",
+        },
+        aliases,
+      ),
+    ).toBeNull();
+    expect(
+      matchCanonicalField(
+        { id: "pn", label: "Preferred Name", type: "text", required: false, name: "" },
+        aliases,
+      ),
+    ).toBe("preferred_name");
+  });
+
   it("maps eeo[race]/eeo[veteran] ids to sensitive canonicals", () => {
     expect(
       matchCanonicalField(

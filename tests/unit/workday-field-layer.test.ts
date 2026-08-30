@@ -45,6 +45,11 @@ const HTML = `<!DOCTYPE html><html><body>
       <span></span>
       <label for="q6boi">I accept the terms above, and would like to receive text (SMS, MMS) messages.</label>
     </div>
+    <div aria-label="I accept the WhatsApp terms.">
+      <input id="q6bok" type="checkbox" class="painted" data-automation-id="phone-whatsapp-opt-in" aria-label="I accept the WhatsApp terms." />
+      <span></span>
+      <span>I accept the WhatsApp terms.</span>
+    </div>
   </form>
 </body></html>`;
 
@@ -141,6 +146,24 @@ describe("workday field layer (night20 #61, FIXTURE_CONFIRMED)", () => {
       expect(await page.locator("#q6boi").isChecked()).toBe(true);
       const verify = await greenhouseVerifyFromPlan(page, [e], meta);
       expect(verify.fields[0]?.match).toBe(true);
+    });
+  }, 45_000);
+
+  it("harder: a PAINTED checkbox with NO label[for] at all still checks via the JS-click tier (live 22g SMS/WhatsApp opt-ins)", async () => {
+    await withFixtureHtmlPage(HTML, async (page) => {
+      const e = entry({
+        field_id: "q6bok",
+        label: "I accept the WhatsApp terms.",
+        type: "checkbox",
+        value: "true",
+        canonical_field: "screener:custom:whatsapp_opt_in",
+      });
+      const meta = new Map<string, FieldMeta>([
+        ["q6bok", { type: "checkbox", inputId: "q6bok" }],
+      ]);
+      const fill = await greenhouseFillFromPlan(page, [e], meta);
+      expect(fill.errors).toEqual([]);
+      expect(await page.locator("#q6bok").isChecked()).toBe(true);
     });
   }, 45_000);
 });

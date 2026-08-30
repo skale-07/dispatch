@@ -145,6 +145,15 @@ async function checkPaintedControl(page: Page, input: Locator): Promise<void> {
       if (await input.isChecked().catch(() => false)) return;
     }
   }
+  // Live tiaa.wd1 #22g: the SMS/WhatsApp opt-ins have NO label[for] at
+  // all (the consent text is a richText div) and force-check throws
+  // "Element is not visible" on a display-hidden input. A JS click on
+  // the input itself still toggles it and fires the framework's change
+  // pipeline; the read-back stays the arbiter.
+  await input
+    .evaluate((el: { click: () => void }) => el.click())
+    .catch(() => undefined);
+  if (await input.isChecked().catch(() => false)) return;
   // Last resort, still verified afterwards by the read-back.
   await input.check({ force: true });
 }

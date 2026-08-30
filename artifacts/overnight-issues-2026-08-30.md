@@ -877,3 +877,33 @@ Pre-flight state (16:00 local):
 - One app, generic adapter refused UNKNOWN_LANDING (details in cycle log;
   parked NATIVE_AUTOFILL_RUNNING). Per the new directive the loop returns
   to TIAA; this row queues behind it.
+
+### Jobs #22f/#22g — TIAA — 17:22-17:33 — signed-in state discovered; wizard now 10/13
+- #22f re-ran the whole auth walk on an already-authenticated session and
+  ended on an unknown signed-in page ("nothing to fill"). Operator (at the
+  screen) reported the create form typed but "Create Account" never
+  clicked; the click failure is silently swallowed at portalAuth's
+  submit.click (noted for #63 cleanup).
+- Probes (screenshots read): header shows Candidate Home + account menu —
+  the TIAA account EXISTS and the profile session persists across Chrome
+  restarts. Signed-in flow confirmed: Apply → popup chooser (Autofill/
+  Apply Manually) → `/apply/applyManually` = the RESUMED wizard, "My
+  Information" step 1, prior values retained (Country pre-filled).
+- #22g: walk flowed clean (no SSO, no create), wizard filled 5 pages
+  10/13 (was 8/13 — the #61 fixes gained 2 live). Remaining 3 (fill_run
+  5912cf28): (a) "I have a preferred name" reveal-toggle got the NAME
+  text (mapping); (b/c) SMS/WhatsApp opt-ins: label-click didn't toggle
+  and force-check threw instantly ("Element is not visible") — ids
+  regenerate per render; the label the click hit may be the heading twin.
+- CDP wedge recurred TWICE (6th/7th) — trigger CONFIRMED for #55: a
+  SIGKILL'd probe client (3-min timeout kill) wedges the debug pipe
+  immediately; killing the zombie tsx + restartCdpChrome recovers.
+
+### 63. Toggle-mapping + JS-click tier — FIXED
+- `matchCanonicalField`: checkbox-typed "preferred name" labels never map
+  (the revealed TEXT field still does) — mirror of the #54 extension
+  guard.
+- `checkPaintedControl` gains a JS-click tier (evaluate el.click()) after
+  the label-click and before force-check — covers painted inputs with no
+  usable label[for]; the read-back stays the arbiter. Progressive
+  fixture: painted checkbox with NO label at all. 5/5 + mapping tests.

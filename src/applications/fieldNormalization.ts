@@ -28,6 +28,14 @@ export function matchCanonicalField(
     return null;
   }
 
+  // "I have a preferred name" is Workday's reveal TOGGLE, not the
+  // preferred-name text field (live tiaa 2026-08-30 #22g: the fill tried
+  // to "check" the profile's name into it). The revealed text field keeps
+  // its own "Preferred Name" label and still maps normally.
+  if (field.type === "checkbox" && /\bpreferred name\b/.test(normalized)) {
+    return null;
+  }
+
   let best: { canonical: string; score: number } | null = null;
 
   for (const [canonical, phrases] of Object.entries(aliases)) {
