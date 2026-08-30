@@ -84,6 +84,16 @@ export function discoverFieldsFromHtml(
     if (typeAttr === "hidden" || typeAttr === "submit" || typeAttr === "button" || typeAttr === "image") {
       continue;
     }
+    // The control's OWN attributes say it is not visible: Greenhouse
+    // job-boards ships `<input required tabindex="-1" aria-hidden="true"
+    // class="…requiredInput">` after every combobox / checkbox group (live
+    // neuralink 2026-08-30). Read as text fields they were labeled by the
+    // nearest legend ("I understand … on-site" → f_24, plus f_12/f_14/f_21/
+    // f_26 "field_N"), planned, failed "control not found", and the healer
+    // then re-pointed one at an unrelated combobox at score 0.45.
+    if (isHiddenAttrs(attrs)) {
+      continue;
+    }
 
     const name = getAttr(attrs, "name") ?? undefined;
     const inputId = getAttr(attrs, "id") ?? undefined;

@@ -271,3 +271,35 @@ logged only its pre-flight before dying.)_
   URL; no-match refuses by name with nothing checked).
 - Relocation-question → address.city hijack (4dc34df9) not yet
   addressed — separate alias problem; watch for recurrence.
+- Commit 7e2b33c.
+
+### Job #7 — 1e213072 Neuralink SWE Intern, Infrastructure (Greenhouse) — 11:41–11:46 local, two runs, NOT submitted (refused before click)
+- Requeued from AMBIGUOUS_FIELD via the console resolver (FIELD_VERIFICATION)
+  and driven with `run --pipeline --app … --submit --headed` (first run
+  REFUSED for my missing `--yes`; second with `--yes`). Second run:
+  FAILED_BEFORE_CLICK, 8 items: five comboboxes "(empty)" (graduation
+  year, sponsorship, relocation, intern season, Hispanic/Latino) plus
+  `f_25` "I understand… on-site" control-not-found, and season
+  "12 or 16 weeks" matching none of the page's options (a real bank
+  mismatch — `internship_term` answer vs the form's options; operator
+  bank item, not a code bug).
+- **Diagnosis via `ats:fill --url … --execute --headed` on the same page
+  (same CDP tab):** 22/24 verified OK — comboboxes fill fine in the
+  real-Chrome tab. Only `f_24` failed, and the healer then "healed" it
+  onto `#question_16876432003` (the relocation combobox) at score 0.45.
+
+### 41. Two more Greenhouse job-boards defects — hidden required sentinels discovered as fields; submit path verifies AFTER the upload re-render — FIXED
+- **(a)** job-boards ships `<input required tabindex="-1"
+  aria-hidden="true" class="…requiredInput">` after every combobox and
+  checkbox group. Discovery emitted them as text fields labeled by the
+  nearest legend (f_24/f_25 "I understand… on-site", f_12/f_14/f_21/f_26
+  "field_N"); one even took the `willing_to_relocate` alias. Fix: an
+  input whose OWN attributes are hidden is skipped (`isHiddenAttrs`).
+  Fixture gains the sentinel; test asserts no ghost `f_N` and exactly
+  one on-site field.
+- **(b)** submit path order was fill → essays → upload → verify while the
+  fill-only path is fill → verify → upload; the five comboboxes were
+  empty only in the former. Fix: when the post-upload verify fails, ONE
+  re-fill + re-verify (the existing reuse-fallback, generalised and
+  logged as `post_upload_refill`). Bounded; verify still decides.
+- Next: 1e213072 requeued (`retry --app`) as the live check.

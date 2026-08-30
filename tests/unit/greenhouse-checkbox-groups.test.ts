@@ -70,6 +70,14 @@ describe("greenhouse checkbox groups — discovery (UNIT_CONFIRMED)", () => {
     expect(onsite?.inputId).toBe("question_16876431003[]_104418778003");
   });
 
+  it("the aria-hidden required sentinel after a group is never a field (no ghost f_N labeled by the legend)", () => {
+    const ghosts = fields.filter(
+      (f) => /^f_\d+$/.test(f.id) || (f.type === "text" && /work on-site/.test(f.label)),
+    );
+    expect(ghosts).toEqual([]);
+    expect(fields.filter((f) => /work on-site/.test(f.label))).toHaveLength(1);
+  });
+
   it("harder: a lone consent checkbox outside any fieldset keeps its own label and no options", () => {
     const consent = fields.find((f) => f.inputId === "privacy_consent");
     expect(consent?.label).toBe("I have read and agree to the privacy policy");

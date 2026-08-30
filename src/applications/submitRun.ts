@@ -562,15 +562,31 @@ export async function runAtsSubmission(input: {
             });
           }
           let verify = await adapter.verify(page, approvedPlan.answers);
-          if (
-            input.reuseFilledPage &&
-            (!verify.passed || fill.errors.length > 0)
-          ) {
-            logger.warn("reused fill did not verify — filling this page once", {
-              service: "submit",
-              action: "reuse_filled_page_fallback",
-              application_id: applicationId,
-            });
+          if (!verify.passed || fill.errors.length > 0) {
+            // Two live causes, one bounded remedy (ONE re-fill, then verify
+            // decides): a reused held page whose fill did not survive, and —
+            // neuralink 2026-08-30 — a fresh fill whose five comboboxes read
+            // "(empty)" AFTER the resume upload while the same fill verified
+            // clean in the fill-only path (fill → verify → upload). The
+            // upload's resume-parse re-render is between the fill and this
+            // verify; re-filling the misses after it is the cheap fix.
+            logger.warn(
+              input.reuseFilledPage
+                ? "reused fill did not verify — filling this page once"
+                : "post-upload verify failed — re-filling once (upload may have re-rendered the form)",
+              {
+                service: "submit",
+                action: input.reuseFilledPage
+                  ? "reuse_filled_page_fallback"
+                  : "post_upload_refill",
+                application_id: applicationId,
+                metadata: {
+                  verify_passed: verify.passed,
+                  fill_errors: fill.errors.length,
+                  mismatches: verify.fields.filter((f) => !f.match).length,
+                },
+              },
+            );
             fill = await adapter.fill(page, approvedPlan.answers);
             verify = await adapter.verify(page, approvedPlan.answers);
           }
