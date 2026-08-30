@@ -91,6 +91,69 @@ describe("screener registry + matcher (UNIT_CONFIRMED)", () => {
     });
   });
 
+  it("relocation SENTENCE options resolve to the single affirmative (night20 #58, live Exa/Cloudflare shapes)", () => {
+    // Live Exa 2026-08-30: no option contains a yes/no token at all.
+    const exa = resolveField(
+      {
+        label: "Are you based in San Francisco or open to relocating?",
+        type: "radio",
+        options: ["San Francisco based", "Open to relocating"],
+      },
+      BANK,
+    );
+    expect(exa!.status).toBe("fill");
+    expect((exa as { value: string }).value).toBe("Open to relocating");
+    // Live Cloudflare/Greenhouse sentence pair.
+    const cf = resolveField(
+      {
+        label: "Are you willing to relocate for this role?",
+        type: "select",
+        options: [
+          "I am willing to relocate to this job's location.",
+          "I do not live in the area and am not willing to relocate.",
+        ],
+      },
+      BANK,
+    );
+    expect(cf!.status).toBe("fill");
+    expect((cf as { value: string }).value).toBe(
+      "I am willing to relocate to this job's location.",
+    );
+    // Harder variants: anything ambiguous parks, never a guess.
+    // Two affirmatives => review.
+    const two = resolveField(
+      {
+        label: "Are you open to relocating?",
+        type: "radio",
+        options: ["Open to relocating", "Willing to relocate within the US"],
+      },
+      BANK,
+    );
+    expect(two!.status).toBe("review");
+    // No affirmative at all (negative + location claim) => review; a
+    // location claim ("San Francisco based") is never inferred from a
+    // relocation Yes.
+    const none = resolveField(
+      {
+        label: "Are you based in San Francisco or open to relocating?",
+        type: "radio",
+        options: ["San Francisco based", "Not open to relocating"],
+      },
+      BANK,
+    );
+    expect(none!.status).toBe("review");
+    // Negated affirmative wording never matches the affirmative filter.
+    const negated = resolveField(
+      {
+        label: "Are you willing to relocate?",
+        type: "radio",
+        options: ["I am not willing to relocate", "Unwilling to relocate at this time"],
+      },
+      BANK,
+    );
+    expect(negated!.status).toBe("review");
+  });
+
   it("never maps essays or demographics-shaped labels", () => {
     expect(matchScreenerKey("What makes you a good fit for Cohere?")).toBeNull();
     expect(matchScreenerKey("Tell us about a project you're proud of")).toBeNull();

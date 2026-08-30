@@ -155,6 +155,10 @@ describe("L3 automation worker (FIXTURE_CONFIRMED)", () => {
         fixtureHtmlPath: GREENHOUSE_FIXTURE,
         sleep: noSleep,
         agentLegProbe: async () => true,
+        // Hermetic: without this stub the preflight performs a REAL CDP
+        // attach (night20 — the test failed whenever the live debug Chrome
+        // was wedged/absent; unit tests must not touch live endpoints).
+        cdpAttachProbe: async () => true,
       });
       expect(up.notes.join(" ")).toMatch(/nav requeue: 1 navigation-starved/);
       expect(up.per_app.map((r) => r.application_id)).toEqual([starved]);

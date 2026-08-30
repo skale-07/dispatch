@@ -180,6 +180,51 @@ describe("required-completeness scan (FIXTURE_CONFIRMED)", () => {
     });
   }, 30_000);
 
+  it("LIVE Exa shape: NATIVE radios in a legendless fieldset, requiredness only as a class token on the question label (night20 #58)", async () => {
+    // The real 2026-08-30 miss: Ashby's native radio group carries no
+    // [required]/aria-required/asterisk anywhere — only `_required_…` in
+    // the question label's class — and hides the inputs behind painted
+    // circles. The scan filed the group as optional under an OPTION's
+    // label and the click sailed into "missing entry for required field".
+    // Fixture is one level harder than live: hidden inputs, a decoy
+    // `notrequired` class, an answered required group, an optional group.
+    const html = `
+      <style>input[type=radio]{display:none}</style>
+      <form>
+        <fieldset>
+          <label class="_heading_a _required_f7cvd_91 _label_b" for="q1">Are you based in San Francisco or open to relocating?</label>
+          <div><input type="radio" id="q1-r0" name="grp_q1" /><label for="q1-r0">San Francisco based</label></div>
+          <div><input type="radio" id="q1-r1" name="grp_q1" /><label for="q1-r1">Open to relocating</label></div>
+        </fieldset>
+        <fieldset>
+          <label class="_heading_a _required_zz9 _label_b" for="q2">Are you authorized to work in the US?</label>
+          <div><input type="radio" id="q2-r0" name="grp_q2" checked /><label for="q2-r0">Yes</label></div>
+          <div><input type="radio" id="q2-r1" name="grp_q2" /><label for="q2-r1">No</label></div>
+        </fieldset>
+        <fieldset>
+          <label class="_heading_a _notrequired_x1 _label_b" for="q3">Preferred T-shirt size</label>
+          <div><input type="radio" id="q3-r0" name="grp_q3" /><label for="q3-r0">S</label></div>
+          <div><input type="radio" id="q3-r1" name="grp_q3" /><label for="q3-r1">M</label></div>
+        </fieldset>
+        <button type="button">Submit application</button>
+      </form>`;
+    await withFixtureHtmlPage(html, async (page) => {
+      const scan = await scanRequiredCompleteness(page);
+      expect(scan.scanned).toBe(true);
+      const groups = scan.unanswered.filter((u) => u.control === "radio_group");
+      // The QUESTION label, never an option label.
+      expect(groups.map((g) => g.label)).toEqual([
+        "Are you based in San Francisco or open to relocating?",
+      ]);
+      expect(scan.unanswered.map((u) => u.label)).not.toContain("San Francisco based");
+      // Answered required group and decoy-class optional group stay clear.
+      expect(scan.unanswered.map((u) => u.label)).not.toContain(
+        "Are you authorized to work in the US?",
+      );
+      expect(scan.unanswered.map((u) => u.label)).not.toContain("Preferred T-shirt size");
+    });
+  }, 30_000);
+
   it("a fully answered form passes clean", async () => {
     const html = `
       <form>

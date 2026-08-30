@@ -189,12 +189,45 @@ const SCAN_EXPRESSION = `(() => {
         : [el];
       const groupRequired = group.some((r) => isRequired(r));
       const anyChecked = group.some((r) => r.checked);
-      const anyVisible = group.some((r) => visible(r));
+      // Custom-styled radios (live Ashby/Exa 2026-08-30) hide the native
+      // input behind a painted circle — the GROUP is on-screen when any
+      // member's own <label for> is visible even if every input is not.
+      const memberLabelVisible = (r) => {
+        if (!r.id) return false;
+        const lab = document.querySelector('label[for="' + CSS.escape(r.id) + '"]');
+        return lab ? visible(lab) : false;
+      };
+      const anyVisible = group.some((r) => visible(r) || memberLabelVisible(r));
       if (!anyChecked && anyVisible) {
         const fs = el.closest("fieldset");
         const legend = fs ? fs.querySelector("legend") : null;
-        push(groupRequired, {
-          label: clean(legend ? legend.textContent : labelFor(el)) || "(radio group)",
+        // Legendless fieldset (Ashby): the QUESTION label is the fieldset
+        // <label> that does not target a member radio; per-option labels
+        // point at member ids. Without this the group reports an option
+        // text ("San Francisco based") and the requiredness marker —
+        // which lives on the question label — is never seen.
+        let qLabel = null;
+        if (!legend && fs) {
+          const memberIds = new Set(group.map((r) => r.id).filter(Boolean));
+          const labs = Array.from(fs.querySelectorAll("label"));
+          qLabel = labs.find((l) => {
+            const f = l.getAttribute("for");
+            return f ? !memberIds.has(f) : !l.querySelector("input");
+          }) || null;
+        }
+        // Ashby marks requiredness ONLY via a class token on the question
+        // label ("_required_…") — no [required], no aria-required, no
+        // asterisk. A wrong hit here refuses into a review item, never a
+        // wrong submit, so the class marker and trailing asterisk count.
+        const markerEl = legend || qLabel;
+        const markerRequired = markerEl
+          ? /(^|[_\\s-])required([_\\s-]|$)/i.test(markerEl.className || "") ||
+            /[*\\u2731]\\s*$/.test(clean(markerEl.textContent))
+          : false;
+        push(groupRequired || markerRequired, {
+          label:
+            clean(legend ? legend.textContent : qLabel ? qLabel.textContent : labelFor(el)) ||
+            "(radio group)",
           control: "radio_group",
         });
       }

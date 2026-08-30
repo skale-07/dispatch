@@ -706,3 +706,49 @@ Pre-flight state (16:00 local):
   5/5. Full gate running before commit. tmp CDP probes moved scripts/ → private/.
 - Issue numbering continues from #57 (#55 attach-preflight and #56 Workday
   formField-* resolution still OPEN from night19).
+
+### Job #21 — 11eba960 Exa (Ashby) — 16:07 local, ~70s — NOT submitted (REJECTED_AFTER_CLICK)
+- Best fill of the night otherwise: 11 fields + 3 essays LIVE_MUTATION_CONFIRMED,
+  submit clicked, form bounced it: `missing entry for required field: Are you
+  based in San Francisco or open to relocating?`. Left FAILED_RETRYABLE.
+- The field (DB fill_field_outcomes + read-only CDP probe): Ashby NATIVE radio
+  group, legendless fieldset, options `San Francisco based | Open to relocating`,
+  radios carry NO required/aria-required — requiredness is only `_required_…`
+  in the question label's class. Plan parked it REVIEW_REQUIRED (`bank answer
+  "Yes" matches none of the 2 page options`); LLM option-select abstained twice
+  (chosen 0); then the pre-click completeness scan filed the group as OPTIONAL
+  (no marker it could see) under an OPTION's label → clicked anyway.
+
+### 58. Relocation sentence-options + class-marked required radio groups — FIXED (two shared-layer fixes)
+- (A) `resolveScreenerAnswer` willing_to_relocate: when the option set has no
+  Yes/No token, pick the SINGLE relocation-affirmative sentence option
+  (`open to/willing to/able to/happy to/will + relocat|mov`, negations
+  excluded); two affirmatives or none ⇒ park. Mirrors the greenhouse
+  comboboxFill logic that never got shared. Location claims ("San Francisco
+  based") are never inferred.
+- (B) completeness scan native-radio branch: group visibility now counts a
+  visible member `<label for>` (Ashby hides inputs behind painted circles);
+  legendless fieldsets resolve the QUESTION label (the fieldset label not
+  targeting a member radio); requiredness adds the label's class token
+  (`/(^|[_\s-])required([_\s-]|$)/`) and trailing asterisk. Wrong hit ⇒
+  refusal + review item, never a wrong submit.
+- Progressive-overload fixtures one level above live: hidden inputs, decoy
+  `notrequired` class, answered required group, two-affirmative and
+  negated-affirmative option sets. UNIT/FIXTURE_CONFIRMED + live read-only
+  re-scan of the real Exa page reports the group correctly
+  (LIVE_READ_ONLY_CONFIRMED).
+
+### 59. CDP wedge #13 recurred (5th today) + the attach-preflight leaked a LIVE attach into a unit test — both handled
+- 16:15-16:19 local: gate run failed 1/1385 — `automation-worker.test.ts`
+  "requeues nav-starved apps" read `preflight: CDP attach failed…
+  CDP_AUTOLAUNCH_ENABLED is off`. Root causes: (a) the debug Chrome wedged
+  again mid-evening (my own probe then hung at ws attach — same #13
+  signature: /json answers, attach times out); (b) night19's bbbfb08
+  preflight does a REAL `probeCdpAttach` in unit tests when a test stubs
+  `agentLegProbe: true` without `cdpAttachProbe` — a live-network
+  dependency in the gate, house-rule violation, flaky by Chrome state.
+- Fixes: `restartCdpChrome()` via the repo seam (killed 5 stale pids,
+  relaunched, attach probe passed, JobRight session survived —
+  LIVE_READ_ONLY_CONFIRMED); test now stubs `cdpAttachProbe: async () =>
+  true` (hermetic). The wedge trigger pattern (recurs after processes
+  attach/detach repeatedly) still untreated — #55 remains OPEN.

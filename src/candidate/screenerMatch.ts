@@ -175,6 +175,31 @@ export function resolveScreenerAnswer(input: {
     if (yes) {
       return { status: "fill", key, value: yes, basis: "synonym_option" };
     }
+    // Sentence-style option sets carry no Yes/No token at all (live Exa/
+    // Ashby 2026-08-30: "San Francisco based" | "Open to relocating";
+    // live Cloudflare/Greenhouse: "I am willing to relocate to this job's
+    // location." | "I do not live … and am not willing to relocate").
+    // The same directive resolves them: pick the option that AFFIRMS
+    // relocation/on-site willingness — exactly one affirmative, or park.
+    // Choosing the affirmative asserts only willingness (bank "Yes");
+    // a location claim ("San Francisco based") is never inferred.
+    const affirmative = (input.options ?? []).filter((o) => {
+      const n = normOpt(o);
+      return (
+        /\b(open to|willing to|able to|happy to|will)\s+(relocat|mov)/.test(n) &&
+        !/\b(not|no|un(?:willing|able))\b/.test(n)
+      );
+    });
+    if (affirmative.length === 1 && affirmative[0] !== undefined) {
+      return {
+        status: "fill",
+        key,
+        value: affirmative[0],
+        basis: "synonym_option",
+        rationale:
+          "relocation-affirmative sentence option (ability directive 2026-08-16)",
+      };
+    }
   }
 
   const bankAnswer = bank.answers[key]?.trim() ?? "";

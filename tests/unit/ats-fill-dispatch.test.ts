@@ -35,7 +35,9 @@ describe("applicationFiller multi-ATS dispatch (W2)", () => {
     )!;
     expect(nameEntry.approved).toBe(true);
     expect(nameEntry.value).toBe("Ada Lovelace");
-  });
+    // 30s like the sibling fixture tests: this launches a browser and the
+    // default 5s flaked the gate under full-suite load (night20).
+  }, 30_000);
 
   it("plans an ashby fixture fill with the composed full name (UNIT_CONFIRMED)", async () => {
     const report = await runAtsFixtureFill("ashby", {
@@ -48,7 +50,7 @@ describe("applicationFiller multi-ATS dispatch (W2)", () => {
     )!;
     expect(nameEntry.approved).toBe(true);
     expect(nameEntry.value).toBe("Ada Lovelace");
-  });
+  }, 30_000);
 
   it("a company-hosted URL plans via the generic adapter (UNIT_CONFIRMED)", async () => {
     // Formerly a refusal: the generic adapter lost its flag (operator
