@@ -663,4 +663,15 @@ logged only its pre-flight before dying.)_
 - The JobRight Apply popup landed on `joinbytedance.com/search/<id>` —
   ByteDance's own portal search page, not an application form; the
   generic classifier parked fail-closed. ByteDance needs its own portal
-  walk (account + form) — long-tail, not tonight.
+  walk (account + form) — long-tail, not tonight. (Job #18, a second
+  ByteDance row, parked identically. Databricks PM intern abandoned —
+  outside the SWE+DS+AI scope directive.)
+
+### Job #19 — 5766f038 Neuralink SWE Intern BCI Applications — 15:20 local — one field left after the #40 fixes
+- Checkbox groups, LinkedIn, on-site ack all pass now. Last miss:
+  "Which onsite location would you like to apply to?" — plan guessed
+  "United States" (country hijack), options are Austin | South San
+  Francisco | No preference; the option-verified matcher refused (as
+  designed). Bank entry added: `onsite_location_preference = "No
+  preference"` (consistent with the operator's stated flexibility;
+  ⚠ operator: change it if you have an office preference). Re-run #19b.
