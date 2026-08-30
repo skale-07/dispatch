@@ -87,7 +87,10 @@ export function locatorForField(
       .or(labelForDescend(page, entry.label, CONTROL_XPATH).and(page.locator(notBox)))
       .first();
   }
-  return labelledControl.or(innerControl).or(byLabel).or(labelForDescend(page, entry.label, CONTROL_XPATH)).first();
+  // NOTE: .or() is a union and .first() takes DOCUMENT order — an ancestor
+  // wrapper would always beat its inner control. Never include the bare
+  // labelled element: only real controls may win.
+  return labelledControl.or(innerControl).or(labelForDescend(page, entry.label, CONTROL_XPATH)).first();
 }
 
 const CONTROL_XPATH =
