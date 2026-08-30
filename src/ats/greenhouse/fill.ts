@@ -53,6 +53,18 @@ export function locatorForField(
    * input. id/name lookups are already unambiguous and skip the filter.
    */
   type?: FillPlanEntry["type"],
+  opts?: {
+    /**
+     * Restrict the label-based tiers to VISIBLE controls. Live tiaa.wd1
+     * 2026-08-30 (#61): "Phone" document-first matched a HIDDEN Workday
+     * decoy input carrying a hex token — the fill hung 30s on it while
+     * the real visible input sat empty. Callers ladder: visible-first,
+     * then the unrestricted match. id/name lookups are exact and skip
+     * this; checkbox/radio tiers never filter (painted inputs are
+     * legitimately hidden behind styled spans).
+     */
+    visibleOnly?: boolean;
+  },
 ): Locator {
   if (entry.inputId) {
     // Greenhouse free-text / EEO question ids are pure digits (e.g. 4010536008).
@@ -72,6 +84,8 @@ export function locatorForField(
   const CONTROL = 'input:not([type="hidden"]), textarea, select, [contenteditable="true"]';
   const labelledControl = byLabel.and(page.locator(CONTROL));
   const innerControl = byLabel.locator(CONTROL);
+  const vis = (l: Locator): Locator =>
+    opts?.visibleOnly ? l.and(page.locator(":visible")) : l;
   if (type === "checkbox" || type === "radio") {
     const boxes = 'input[type="checkbox"], input[type="radio"]';
     return byLabel
@@ -81,16 +95,15 @@ export function locatorForField(
   }
   if (type !== undefined && type !== "select") {
     const notBox = ':not(input[type="checkbox"]):not(input[type="radio"])';
-    return labelledControl
-      .and(page.locator(notBox))
-      .or(innerControl.and(page.locator(notBox)))
-      .or(labelForDescend(page, entry.label, CONTROL_XPATH).and(page.locator(notBox)))
+    return vis(labelledControl.and(page.locator(notBox)))
+      .or(vis(innerControl.and(page.locator(notBox))))
+      .or(vis(labelForDescend(page, entry.label, CONTROL_XPATH).and(page.locator(notBox))))
       .first();
   }
   // NOTE: .or() is a union and .first() takes DOCUMENT order — an ancestor
   // wrapper would always beat its inner control. Never include the bare
   // labelled element: only real controls may win.
-  return labelledControl.or(innerControl).or(labelForDescend(page, entry.label, CONTROL_XPATH)).first();
+  return vis(labelledControl).or(vis(innerControl)).or(vis(labelForDescend(page, entry.label, CONTROL_XPATH))).first();
 }
 
 const CONTROL_XPATH =
@@ -108,6 +121,75 @@ function labelForDescend(page: Page, label: string, controlXpath: string): Locat
   return page.locator(
     `xpath=(//*[@id = //label[contains(normalize-space(.), ${lit})]/@for])[1]${controlXpath}`,
   );
+}
+
+/**
+ * Check a box/radio whose native input is PAINTED OVER (live tiaa.wd1
+ * 2026-08-30 #61: display-hidden inputs behind styled spans — check()
+ * waited 30s on "element is not visible" for the SMS/WhatsApp opt-ins).
+ * A hidden input's <label for> still activates it; verify keeps reading
+ * the input's own checked state, so nothing is trusted on faith.
+ */
+async function checkPaintedControl(page: Page, input: Locator): Promise<void> {
+  if (await input.isVisible().catch(() => false)) {
+    await input.check();
+    return;
+  }
+  const id = await input.getAttribute("id").catch(() => null);
+  if (id) {
+    const lab = page
+      .locator(`label[for="${id.replace(/"/g, '\\"')}"]`)
+      .first();
+    if ((await lab.count().catch(() => 0)) > 0) {
+      await lab.click({ timeout: 8_000 }).catch(() => undefined);
+      if (await input.isChecked().catch(() => false)) return;
+    }
+  }
+  // Last resort, still verified afterwards by the read-back.
+  await input.check({ force: true });
+}
+
+/**
+ * Choose a radio-group member by the planned value: the member's own
+ * label text or value attribute (same matching the radio branch always
+ * used), clicked painted-safe. No match ⇒ named refusal, never a guess.
+ */
+async function checkRadioGroupMember(
+  page: Page,
+  group: Locator,
+  value: unknown,
+): Promise<string> {
+  const wanted = String(value).toLowerCase();
+  const count = await group.count();
+  for (let i = 0; i < count; i++) {
+    const opt = group.nth(i);
+    const val = ((await opt.getAttribute("value")) ?? "").toLowerCase();
+    const labelText = await opt.evaluate(
+      (el: {
+        getAttribute: (name: string) => string | null;
+        parentElement?: { textContent?: string | null } | null;
+      }) => {
+        const id = el.getAttribute("id");
+        if (id) {
+          const doc = (
+            globalThis as unknown as {
+              document?: {
+                querySelector: (s: string) => { textContent?: string | null } | null;
+              };
+            }
+          ).document;
+          const lab = doc?.querySelector(`label[for="${id}"]`);
+          if (lab?.textContent) return lab.textContent.trim();
+        }
+        return el.parentElement?.textContent?.trim() ?? "";
+      },
+    );
+    if (val === wanted || labelText.toLowerCase().includes(wanted)) {
+      await checkPaintedControl(page, opt);
+      return labelText || val;
+    }
+  }
+  throw new Error(`No radio option for "${String(value)}"`);
 }
 
 /**
@@ -644,29 +726,23 @@ export async function greenhouseFillFromPlan(
     const meta = fieldMeta.get(entry.field_id);
     try {
       const type = meta?.type ?? entry.type;
-      let loc = locatorForField(
-        page,
-        {
-          field_id: entry.field_id,
-          label: entry.label,
-          ...(meta?.name ? { name: meta.name } : {}),
-          ...(meta?.inputId ? { inputId: meta.inputId } : {}),
-        },
-        type,
-      );
+      const idArgs = {
+        field_id: entry.field_id,
+        label: entry.label,
+        ...(meta?.name ? { name: meta.name } : {}),
+        ...(meta?.inputId ? { inputId: meta.inputId } : {}),
+      };
       // Reachability before mutation, with a bounded ladder instead of a
-      // 30s hang: the type-filtered label match first; if that finds
-      // nothing, the unfiltered label match (the filter must never make a
-      // previously-fillable control unreachable); still nothing ⇒ an
-      // INSTANT named error. Live f_28 burned 30s in locator.evaluate
-      // waiting for a label that was never going to appear.
+      // 30s hang (#61 adds the visible-first rung): VISIBLE type-filtered
+      // → type-filtered → unfiltered; still nothing ⇒ an INSTANT named
+      // error. Live f_28 burned 30s waiting on a label that was never
+      // going to appear; live tiaa "Phone" burned 30s on a HIDDEN decoy.
+      let loc = locatorForField(page, idArgs, type, { visibleOnly: true });
       if ((await loc.count()) === 0) {
-        const unfiltered = locatorForField(page, {
-          field_id: entry.field_id,
-          label: entry.label,
-          ...(meta?.name ? { name: meta.name } : {}),
-          ...(meta?.inputId ? { inputId: meta.inputId } : {}),
-        });
+        loc = locatorForField(page, idArgs, type);
+      }
+      if ((await loc.count()) === 0) {
+        const unfiltered = locatorForField(page, idArgs);
         if ((await unfiltered.count()) === 0) {
           throw new Error(
             `control not found on the page (label "${entry.label.slice(0, 60)}") — failing fast instead of waiting 30s`,
@@ -724,7 +800,7 @@ export async function greenhouseFillFromPlan(
             typeof entry.value === "boolean"
               ? entry.value
               : !["false", "no", "off", "0"].includes(s);
-          if (on) await loc.check();
+          if (on) await checkPaintedControl(page, loc);
           else await loc.uncheck();
           field_meta.push({
             field_id: entry.field_id,
@@ -759,7 +835,7 @@ export async function greenhouseFillFromPlan(
           const escapedId = target.id
             .replace(/\\/g, "\\\\")
             .replace(/"/g, '\\"');
-          await page.locator(`[id="${escapedId}"]`).check();
+          await checkPaintedControl(page, page.locator(`[id="${escapedId}"]`).first());
           field_meta.push({
             field_id: entry.field_id,
             canonical_field: entry.canonical_field,
@@ -772,46 +848,12 @@ export async function greenhouseFillFromPlan(
         const group = name
           ? page.locator(`[name="${name.replace(/"/g, '\\"')}"]`)
           : page.locator('input[type="radio"]');
-        const wanted = String(entry.value).toLowerCase();
-        const count = await group.count();
-        let matched = false;
-        for (let i = 0; i < count; i++) {
-          const opt = group.nth(i);
-          const val = ((await opt.getAttribute("value")) ?? "").toLowerCase();
-          const labelText = await opt.evaluate(
-            (el: {
-              getAttribute: (name: string) => string | null;
-              parentElement?: { textContent?: string | null } | null;
-            }) => {
-              const id = el.getAttribute("id");
-              if (id) {
-                // document is available in the browser runtime only
-                const doc = (
-                  globalThis as unknown as {
-                    document?: {
-                      querySelector: (s: string) => { textContent?: string | null } | null;
-                    };
-                  }
-                ).document;
-                const lab = doc?.querySelector(`label[for="${id}"]`);
-                if (lab?.textContent) return lab.textContent.trim();
-              }
-              return el.parentElement?.textContent?.trim() ?? "";
-            },
-          );
-          if (val === wanted || labelText.toLowerCase().includes(wanted)) {
-            await opt.check();
-            matched = true;
-            break;
-          }
-        }
-        if (!matched) {
-          throw new Error(`No radio option for "${entry.value}"`);
-        }
+        const picked = await checkRadioGroupMember(page, group, entry.value);
         field_meta.push({
           field_id: entry.field_id,
           canonical_field: entry.canonical_field,
           control_kind: "text",
+          selected_option: picked,
         });
       } else {
         // Text-typed entries can still be combobox inner inputs live
@@ -882,12 +924,45 @@ export async function greenhouseFillFromPlan(
               notes: locFill.notes,
             });
           } else {
-            await loc.fill(String(entry.value));
-            field_meta.push({
-              field_id: entry.field_id,
-              canonical_field: entry.canonical_field,
-              control_kind: "text",
-            });
+            // Live tiaa.wd1 2026-08-30 (#61): discovery typed the
+            // previousWorker RADIO group "text"; the unfiltered ladder
+            // rung resolved a member radio and fill("No") crashed. A
+            // radio is an option CHOICE whatever the plan called it —
+            // route it through the same member-matching the radio branch
+            // uses; no matching member parks with the real reason.
+            const resolvedType = await loc
+              .evaluate(
+                (el: {
+                  tagName: string;
+                  getAttribute: (n: string) => string | null;
+                }) =>
+                  el.tagName.toLowerCase() === "input"
+                    ? (el.getAttribute("type") ?? "text").toLowerCase()
+                    : el.tagName.toLowerCase(),
+              )
+              .catch(() => "text");
+            if (resolvedType === "radio") {
+              const groupName = await loc.getAttribute("name");
+              const group = groupName
+                ? page.locator(
+                    `input[type="radio"][name="${groupName.replace(/"/g, '\\"')}"]`,
+                  )
+                : loc;
+              const picked = await checkRadioGroupMember(page, group, entry.value);
+              field_meta.push({
+                field_id: entry.field_id,
+                canonical_field: entry.canonical_field,
+                control_kind: "text",
+                selected_option: picked,
+              });
+            } else {
+              await loc.fill(String(entry.value));
+              field_meta.push({
+                field_id: entry.field_id,
+                canonical_field: entry.canonical_field,
+                control_kind: "text",
+              });
+            }
           }
         }
       }
@@ -909,7 +984,12 @@ export async function greenhouseReadFieldValue(
   // Same type-aware resolution as the fill side — verify must read the
   // control the fill wrote, not a same-label sibling (live: verify read
   // `true` off the "LinkedIn" checkbox while the URL input sat empty).
-  let loc = locatorForField(page, entry, entry.type);
+  // #61: the visible-first rung mirrors the fill ladder so verify reads
+  // the same control the fill chose, never the hidden decoy.
+  let loc = locatorForField(page, entry, entry.type, { visibleOnly: true });
+  if ((await loc.count()) === 0) {
+    loc = locatorForField(page, entry, entry.type);
+  }
   if ((await loc.count()) === 0) {
     const unfiltered = locatorForField(page, entry);
     if ((await unfiltered.count()) === 0) {

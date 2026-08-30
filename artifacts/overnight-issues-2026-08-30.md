@@ -805,3 +805,31 @@ Pre-flight state (16:00 local):
 - Fixture test: silent Sign In handler + Create Account flip →
   account_created, escalated_to_create, no secrets in notes. 17/17 in
   portal-auth.test.ts (FIXTURE_CONFIRMED). Live #22c after gate.
+
+### ✅ Job #22c — TIAA — 16:59 local — FULL LIVE WORKDAY WALK through BOTH new auth fixes
+- LIVE_MUTATION_CONFIRMED: Apply → Apply Manually → SSO chooser → "Sign in
+  with email" → silent sign-in → **create: form cleared** (account created)
+  → wizard walked 5 pages, 8/13 fields each. Parked AMBIGUOUS_FIELD on the
+  #56 field-layer class. The two auth fixes (#60, #60b) are live-proven.
+- The misses (fill_run 2edb5eb8, DB read-back): (a) previousWorker RADIO
+  group planned "text" → `fill("No")` crashed ("Input of type radio cannot
+  be filled") — same as BAH #16a; (b) "Phone" resolved a HIDDEN decoy
+  input holding a hex token, hung 30s — same as BAH #16b; (c) SMS/WhatsApp
+  opt-in checkboxes: painted, native inputs display-hidden → check() hung
+  30s; (d) "I have a preferred name" checkbox got the NAME text (mapping
+  quirk, minor, left open).
+
+### 61. Workday wizard field layer — three shared-layer fixes + progressive-overload fixture — FIXED (recurrence of #56 across bah+tiaa triggered the sandbox)
+- `locatorForField` gains a `visibleOnly` rung (label tiers ∩ `:visible`);
+  fill AND verify ladders run visible-first → type-filtered → unfiltered,
+  so a hidden decoy can never win while a visible control exists.
+- `checkPaintedControl`: check() on a hidden box/radio goes through its
+  `label[for]` click (verify still reads the input's own state); applied
+  to consent boxes, checkbox-group members, radio members.
+- A resolved RADIO under a text-planned entry routes through
+  `checkRadioGroupMember` (same member-label matching the radio branch
+  used) — never fill(); no matching member parks with the real reason.
+- New tests/unit/workday-field-layer.test.ts: TIAA-shaped fixture one
+  level harder (display:none members, decoy BEFORE the real input,
+  painted consent box, mismatch-parks case) — 4/4 + 86 regression tests
+  across the fill suites green. FIXTURE_CONFIRMED; live #22d next.
