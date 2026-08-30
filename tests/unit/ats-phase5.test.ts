@@ -179,6 +179,30 @@ describe("Phase 5 Greenhouse fill", () => {
     }
   });
 
+  it("a reused page whose resume chip is already visible (input unmounted) is verified without a second upload (night19 #48)", async () => {
+    // Live DV Trading 2026-08-30: the submit path re-uploaded on the held
+    // page, job-boards re-parsed the resume and re-rendered, and three
+    // verified comboboxes read "(empty)".
+    applyFixtureFillEnv();
+    const page = await browser.newPage();
+    try {
+      await page.setContent(`<!DOCTYPE html><html><body>
+        <form id="application-form">
+          <label>First Name<input id="first_name" /></label>
+          <div class="attach"><span>Resume/CV</span><span class="chip">sample-resume.pdf</span><button type="button">Remove</button></div>
+        </form></body></html>`);
+      const sampleResume = path.join(process.cwd(), "tests", "fixtures", "ats", "greenhouse", "sample-resume.pdf");
+      const upload = await greenhouseUploadFile(page, "resume", sampleResume);
+      expect(upload.verified).toBe(true);
+      expect(upload.evidence).toMatch(/already attached/);
+      // Nothing was mounted or clicked: the page is byte-identical.
+      expect(await page.locator("input[type='file']").count()).toBe(0);
+    } finally {
+      await page.close();
+      applySafeFillEnv();
+    }
+  });
+
   it("dropzone embed with no file input uploads via the filechooser fallback", async () => {
     // Issue #1 / samsara ?gh_jid= embed (2026-08-29): zero input[type=file]
     // on the page; the dropzone creates one on click. The fallback must pick

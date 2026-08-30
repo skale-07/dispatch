@@ -1155,6 +1155,34 @@ export async function greenhouseUploadFile(
     await page.keyboard.press("Escape").catch(() => undefined);
     await page.waitForTimeout(100);
 
+    // Already attached on a reused page (live DV Trading 2026-08-30): the
+    // pipeline fill uploaded the resume and verified 22 fields; the submit
+    // path then uploaded AGAIN on the same held page, job-boards re-parsed
+    // the resume and re-rendered, and three verified comboboxes read
+    // "(empty)" — a re-fill cannot restore react-selects. When the chip
+    // for this exact file is on the page and the input is unmounted, the
+    // upload already happened: report it verified and touch nothing.
+    {
+      const bodyNow = await page.locator("body").innerText().catch(() => "");
+      const inputMounted =
+        (await page.locator(`input[type="file"]#${preferId}`).count().catch(() => 0)) > 0;
+      if (!inputMounted && bodyNow.includes(filename)) {
+        logger.info(`greenhouse upload: ${kind} already attached — skipping re-upload`, {
+          service: "greenhouse",
+          action: "upload",
+          metadata: { kind, verified: true, already_attached: true },
+        });
+        return {
+          field: kind,
+          path: abs,
+          filename,
+          size_bytes: stat.size,
+          verified: true,
+          evidence: "already attached: filename chip visible and file input unmounted — re-upload skipped",
+        };
+      }
+    }
+
     let input: Locator;
     try {
       input = await resolveGreenhouseFileInput(page, kind);

@@ -15,7 +15,10 @@ const ESSAY_LABEL_HINTS =
 
 /** "If you said yes above, tell us about X" is a follow-up, not a cover letter. */
 export function isConditionalYesFollowUp(label: string): boolean {
-  return /^if you (said|answered|selected) yes\b/i.test(label.trim());
+  // "If yes, select your most recent proprietary trading firm experience"
+  // (live DV Trading 2026-08-30) — the submit-path re-plan predicted "N/A"
+  // for it and the combobox refused; the parent had just been answered No.
+  return /^if (?:you (?:said|answered|selected|responded|chose) )?(?:["“]?yes["”]?)\b/i.test(label.trim());
 }
 
 /**

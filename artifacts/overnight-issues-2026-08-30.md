@@ -434,4 +434,26 @@ logged only its pre-flight before dying.)_
   character, lowercase character") instead of "wall remains". Tests:
   live rule text ×3 (gaps / compliant / short), page with no rules never
   blocks, fixture create page with a non-compliant password is never
-  submitted.
+  submitted. Commit b1a9273.
+
+### Job #9 — 2d517c7a DV Trading SWE Intern Summer 2027 (Greenhouse) — 13:15 local, 150s, NOT submitted (refused before click)
+- Pipeline fill: 22 controls incl. 18 comboboxes picked exact/synonym,
+  resume uploaded, verify PASSED (fill report errors []). Submit path on
+  the held page: re-uploaded the resume → job-boards re-parsed/re-rendered
+  → three verified comboboxes read "(empty)"; the one re-fill could not
+  restore react-selects; and the submit-path re-plan (a second LLM
+  prediction) answered "N/A" on "If yes, select your most recent
+  proprietary trading firm…" (parent = No), which the pipeline plan had
+  correctly left unanswered.
+
+### 48. Second resume upload on a reused page wipes comboboxes; "If yes," follow-ups not recognised — FIXED
+- `greenhouseUploadFile`: when the exact filename chip is visible and the
+  file input is unmounted, the upload already happened — report verified,
+  touch nothing (evidence string names it). Ends the destructive
+  re-upload on the held submit page (#41b's real cause).
+- `isConditionalYesFollowUp`: "If yes, …" / 'If "Yes", …' / "If you
+  responded/chose yes" now skip when the parent answer is No. 10 cases.
+- Noted (operator data): sponsorship answered "Yes, I will require
+  sponsorship…" here vs "No" on Neuralink's "Will you, at any point,
+  require employer sponsorship" — two canonical keys; worth one look at
+  public-profile.json / screeners.json `requires_sponsorship`.
