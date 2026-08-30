@@ -402,6 +402,81 @@ describe("workday portal auth (FIXTURE_CONFIRMED)", () => {
     }
   }, 30_000);
 
+  it("TIAA SSO chooser: Apply Manually renders provider buttons — the email path is taken, never a third party (night20, FIXTURE_CONFIRMED)", async () => {
+    // Live tiaa.wd1 2026-08-30: after Apply → Apply Manually the flow
+    // rendered signInContent (Apple/Google/LinkedIn/"Sign in with email")
+    // with ZERO inputs; the walk waited 15s for a form and parked
+    // "no sign-in form on this page". Operator directive 2026-08-30:
+    // always click Sign in with email, then the standing credentials.
+    const TIAA_HTML = `<!DOCTYPE html><html><body>
+      <div id="stage">
+        <h1>Churchill Summer Internship</h1>
+        <button data-automation-id="adventureButton" type="button">Apply</button>
+      </div>
+      <script>
+        document.querySelector('[data-automation-id=adventureButton]')
+          .addEventListener('click', () => {
+            document.getElementById('stage').innerHTML =
+              '<h2>Start Your Application</h2>' +
+              '<button data-automation-id="applyManually" type="button">Apply Manually</button>';
+            document.querySelector('[data-automation-id=applyManually]')
+              .addEventListener('click', () => {
+                document.getElementById('stage').innerHTML =
+                  '<div data-automation-id="progressBar">step 1 of 8</div>' +
+                  '<div data-automation-id="signInContent">' +
+                  '<button data-automation-id="AppleSignInButton" type="button">Sign in with Apple</button>' +
+                  '<button data-automation-id="GoogleSignInButton" type="button">Sign in with Google</button>' +
+                  '<button data-automation-id="LinkedInSignInButton" type="button">Sign in with LinkedIn</button>' +
+                  '<button data-automation-id="SignInWithEmailButton" type="button">Sign in with email</button>' +
+                  '</div>';
+                for (const id of ['AppleSignInButton','GoogleSignInButton','LinkedInSignInButton']) {
+                  document.querySelector('[data-automation-id=' + id + ']')
+                    .addEventListener('click', () => { (globalThis).__thirdParty = id; });
+                }
+                document.querySelector('[data-automation-id=SignInWithEmailButton]')
+                  .addEventListener('click', () => {
+                    document.getElementById('stage').innerHTML =
+                      '<h2>Sign In</h2>' +
+                      '<input data-automation-id="email" type="email" />' +
+                      '<input data-automation-id="password" type="password" />' +
+                      '<button data-automation-id="signInSubmitButton" type="button">Sign In</button>';
+                    document.querySelector('[data-automation-id=signInSubmitButton]')
+                      .addEventListener('click', () => {
+                        document.body.innerHTML = '<p>My Information</p>';
+                      });
+                  });
+              });
+          });
+      </script></body></html>`;
+    applyControlledFillEnv({ NAVIGATION_ENABLED: "true" });
+    const prevEmail = process.env.PORTAL_LOGIN_EMAIL;
+    const prevPassword = process.env.PORTAL_LOGIN_PASSWORD;
+    process.env.PORTAL_LOGIN_EMAIL = "candidate@fixture.test";
+    process.env.PORTAL_LOGIN_PASSWORD = "StandingPass1!";
+    resetConfigCache();
+    try {
+      await onWorkdayPage(TIAA_HTML, async (page) => {
+        const r = await authenticateAtsPortal(page, { settleMs: 0 });
+        expect(r.notes.join(" ")).toMatch(/SSO chooser — clicked Sign in with email/);
+        expect(r.status).toBe("signed_in");
+        // No third-party provider button was ever clicked.
+        expect(
+          await page.evaluate(
+            () => (globalThis as unknown as { __thirdParty?: string }).__thirdParty,
+          ),
+        ).toBeUndefined();
+        expect(r.notes.join(" ")).not.toContain("StandingPass1!");
+      });
+    } finally {
+      if (prevEmail === undefined) delete process.env.PORTAL_LOGIN_EMAIL;
+      else process.env.PORTAL_LOGIN_EMAIL = prevEmail;
+      if (prevPassword === undefined) delete process.env.PORTAL_LOGIN_PASSWORD;
+      else process.env.PORTAL_LOGIN_PASSWORD = prevPassword;
+      applySafeFillEnv();
+      resetConfigCache();
+    }
+  }, 30_000);
+
   /**
    * The fixture above reveals each stage SYNCHRONOUSLY on click, which is
    * why it passed while the live run failed. Live 2026-08-14 (Crowe):

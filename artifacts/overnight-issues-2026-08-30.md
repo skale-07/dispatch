@@ -752,3 +752,32 @@ Pre-flight state (16:00 local):
   LIVE_READ_ONLY_CONFIRMED); test now stubs `cdpAttachProbe: async () =>
   true` (hermetic). The wedge trigger pattern (recurs after processes
   attach/detach repeatedly) still untreated — #55 remains OPEN.
+
+### Job #22 — fda27acb TIAA Churchill Summer Internship IIT (tiaa.wd1 Workday) — 16:33 local, ~35s — NOT submitted (NO_APPLICATION_FORM)
+- Nav resolved the `/search/job/…` posting fine. portalAuth walk: clicked
+  "Apply" (1) → clicked "Apply Manually" (2) → `no account form within 15s`
+  → attempt 3 found no Apply controls → "no sign-in form on this page" →
+  page kind after auth read `wizard` with ZERO discoverable fields →
+  refused fail-closed. final_url never left the posting URL.
+- Read-only probe of the same page: normal posting, visible Apply
+  `adventureButton`, 0 inputs — AND an undismissed cookie-consent banner
+  ("Decline / Accept Cookies"); the fill's `dismissPageObstructions` pass
+  reported nothing dismissed. Suspected: the banner overlay intercepts or
+  delays the post-Apply-Manually account dialog, or TIAA renders it
+  slower than the fixed 15s window. Left NATIVE_AUTOFILL_RUNNING.
+- **#60 root cause found and FIXED** — not the cookie banner: two more
+  bounded probes (cookie dismissed, 35s poll, frame scan, automation-id
+  dump) showed the post-Apply-Manually page is a Workday **SSO sign-in
+  chooser** — `signInContent` with `AppleSignInButton`/`GoogleSignInButton`/
+  `LinkedInSignInButton`/`SignInWithEmailButton` and ZERO inputs, wizard
+  progress bar already drawn ("step 1 of 8") ⇒ classified `wizard`,
+  "nothing to fill". Operator directive (mid-run, 2026-08-30): ALWAYS
+  click "Sign in with email", never a third-party provider, then standing
+  PORTAL_LOGIN_* creds.
+- Fix: `clickSignInWithEmail` in portalAuth (fires when the Apply-Manually
+  form wait misses and when no Apply control is left; bounded, notes the
+  click); `classifyWorkdayPage`: `signInContent`/`SignInWithEmailButton`
+  ⇒ `auth`, checked BEFORE the wizard branch. Tests: TIAA fixture walk
+  Apply → Apply Manually → chooser → email → sign-in (third-party click
+  traps assert no provider button is ever touched) + pageKind case.
+  22/22 in the two files (FIXTURE_CONFIRMED). Live re-run after gate.

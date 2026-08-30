@@ -44,6 +44,24 @@ describe("classifyWorkdayPage (UNIT_CONFIRMED)", () => {
     ).toBe("auth");
   });
 
+  /**
+   * Live tiaa.wd1 2026-08-30: the apply flow's SSO chooser draws the
+   * wizard progress bar around provider buttons and NO inputs — it was
+   * classified "wizard" and parked "nothing to fill". It is an auth
+   * page; portal auth clicks "Sign in with email" (never a third party).
+   */
+  it("TIAA SSO chooser inside the wizard chrome is auth, not wizard (night20)", () => {
+    expect(
+      classifyWorkdayPage(
+        `<div data-automation-id="progressBar">step 1 of 8</div>
+         <div data-automation-id="signInContent">
+           <button data-automation-id="GoogleSignInButton">Sign in with Google</button>
+           <button data-automation-id="SignInWithEmailButton">Sign in with email</button>
+         </div>`,
+      ),
+    ).toBe("auth");
+  });
+
   it("wizard: My Information first-name hook", () => {
     expect(
       classifyWorkdayPage(

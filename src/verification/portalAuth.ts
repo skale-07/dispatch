@@ -589,6 +589,34 @@ async function waitForAuthForm(
 }
 
 /**
+ * Workday SSO sign-in chooser (TIAA live 2026-08-30): after Apply
+ * Manually the flow renders signInContent — Apple / Google / LinkedIn
+ * buttons plus "Sign in with email" — and NO inputs, so the form waiters
+ * see nothing and the run parked "no sign-in form on this page".
+ * Operator directive 2026-08-30: ALWAYS take the email path, never a
+ * third-party provider. Click it and wait for the real email/password
+ * form; the standing PORTAL_LOGIN_* credentials fill it downstream.
+ */
+async function clickSignInWithEmail(
+  page: Page,
+  notes: string[],
+  settle: number,
+): Promise<boolean> {
+  const btn =
+    (await firstVisible(page, "[data-automation-id='SignInWithEmailButton']")) ??
+    (await visibleNamed(page, /^sign ?in with email$/i));
+  if (!btn) return false;
+  await btn.click({ timeout: 8_000 }).catch(() => undefined);
+  notes.push("portal auth: SSO chooser — clicked Sign in with email");
+  if (await waitForAuthForm(page, settle)) {
+    notes.push("portal auth: email sign-in form rendered");
+    return true;
+  }
+  notes.push("portal auth: email form did not render after Sign in with email");
+  return false;
+}
+
+/**
  * Workday posting → Start Your Application modal → Apply Manually.
  * Cap 3 clicks. Never Autofill with Resume. Never wizard submit.
  */
@@ -613,6 +641,8 @@ async function openWorkdayApplyChooser(
         notes.push("portal auth: account form rendered after Apply Manually");
         return;
       }
+      // The tenant may have rendered the SSO chooser instead of a form.
+      if (await clickSignInWithEmail(page, notes, settle)) return;
       notes.push("portal auth: no account form within 15s of Apply Manually");
       continue;
     }
@@ -649,6 +679,7 @@ async function openWorkdayApplyChooser(
       notes.push("portal auth: account form rendered while waiting");
       return;
     }
+    if (await clickSignInWithEmail(page, notes, settle)) return;
     notes.push(
       `portal auth: Apply / Apply Manually not found on attempt ${attempt}`,
     );

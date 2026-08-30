@@ -34,6 +34,18 @@ export function classifyWorkdayPage(html: string): WorkdayPageKind {
   ) {
     return "auth";
   }
+  // SSO sign-in chooser (TIAA live 2026-08-30): the apply flow renders
+  // signInContent — Apple/Google/LinkedIn buttons plus "Sign in with
+  // email" — with NO inputs, and the wizard progress bar is ALREADY
+  // drawn around it, so this must beat the wizard branch. It is an auth
+  // page: portal auth clicks the email path (operator directive
+  // 2026-08-30 — never a third-party provider).
+  if (
+    /data-automation-id=["'](?:signInContent|SignInWithEmailButton)["']/.test(h) ||
+    /sign ?in with email/i.test(h)
+  ) {
+    return "auth";
+  }
   if (
     /data-automation-id=["']legalNameSection_firstName["']/.test(h) ||
     /data-automation-id=["']progressBar["']/.test(h)
