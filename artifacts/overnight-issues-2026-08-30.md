@@ -536,3 +536,23 @@ logged only its pre-flight before dying.)_
   unanswered. ⚠ Operator: add an `sat_act_score` answer to the screener
   bank (or the profile) and `retry --app 6cb05b18`; the system will not
   invent a test score. Row FAILED_RETRYABLE (attempt 1).
+- **Operator answered live (14:10):** ACT 35; split Math 36 / Reading 35 /
+  English 34 / Science 35 → bank entries `act_score`, `sat_act_score`
+  ("ACT: 35"), `act_math/reading/english/science`. Requeued.
+
+### Job #13 — e1082c7f Philips Graduate Co-op Data Scientist (careers.philips.com, generic) — 14:06 local, 20s, NOT submitted
+- Nav resolved in 5s; generic gate refused `POSTING_MISMATCH`: the site
+  canonicalised the slug's CASE on load (`graduate-level-co-op…` →
+  `Graduate-Level-Co-op…`, same id PHILUS590567ENNA) and the redirect
+  guard read it as a different posting.
+
+### 51. Posting-redirect guard: case/encoding-only path differences are the same posting — FIXED
+- `samePostingPath`: decode + lowercase + trailing-slash-insensitive
+  compare; a different id or slug is still POSTING_MISMATCH. Tests: the
+  live Philips pair, an encoded-comma pair, three negative controls.
+
+### ✅ Job #12c — 6cb05b18 Old Mission Software Engineer – 2027 Internship Program — 14:10 local — SUBMITTED_VERIFIED → COMPLETED (second submit of the night)
+- With the ACT answer in the bank: embed resolved deterministically (#50),
+  upload-first (#49), fill + verify + completeness passed, click, receipt
+  verified, and the post-submit tail completed (board-discovered row,
+  #44) — 26s from QUEUED to COMPLETED.

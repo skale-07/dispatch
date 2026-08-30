@@ -14,6 +14,27 @@ import { classifyPage } from "./pageClassify.js";
  * defenses above it (flag gates, approved plan, verify-before-click, human
  * confirmation) are unchanged.
  */
+/**
+ * Same posting path, tolerating what a site's canonical redirect changes
+ * without changing the posting: letter CASE of the slug (live Philips
+ * 2026-08-30: /na/en/job/PHILUS590567ENNA/graduate-level-co-op-… →
+ * …/Graduate-Level-Co-op-…, same job id), percent-encoding, and trailing
+ * slashes. A different id or a different slug is still a mismatch — a
+ * redirected posting is never filled.
+ */
+export function samePostingPath(finalPath: string, expectedPath: string): boolean {
+  const norm = (p: string): string => {
+    let s = p;
+    try {
+      s = decodeURIComponent(p);
+    } catch {
+      // keep raw
+    }
+    return s.replace(/\/+$/, "").toLowerCase();
+  };
+  return norm(finalPath) === norm(expectedPath);
+}
+
 export type GenericPreMutationGateResult = {
   ok: boolean;
   finalUrl: string;
@@ -107,7 +128,7 @@ export async function verifyPageBeforeMutationGeneric(
         /\/+$/,
         "",
       );
-      if (finalPath !== expectedPath) {
+      if (!samePostingPath(finalPath, expectedPath)) {
         return fail(
           "POSTING_MISMATCH",
           `final path ${finalPath} is not the validated posting ${expectedPath} — redirected posting is never filled`,
