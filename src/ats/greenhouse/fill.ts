@@ -131,6 +131,11 @@ function labelForDescend(page: Page, label: string, controlXpath: string): Locat
  * the input's own checked state, so nothing is trusted on faith.
  */
 async function checkPaintedControl(page: Page, input: Locator): Promise<void> {
+  // #63b: a detached control (Workday's regenerated ids) must fail FAST
+  // and named — force-check would otherwise wait 30s for re-attachment.
+  if ((await input.count().catch(() => 0)) === 0) {
+    throw new Error("control detached before check (stale generated id)");
+  }
   if (await input.isVisible().catch(() => false)) {
     await input.check();
     return;
@@ -753,11 +758,26 @@ export async function greenhouseFillFromPlan(
       if ((await loc.count()) === 0) {
         const unfiltered = locatorForField(page, idArgs);
         if ((await unfiltered.count()) === 0) {
-          throw new Error(
-            `control not found on the page (label "${entry.label.slice(0, 60)}") — failing fast instead of waiting 30s`,
-          );
+          // #63b (live tiaa #22h): Workday regenerates its short random
+          // ids on every re-render, so a discovery-time id can be DEAD by
+          // fill time. Drop id/name and run the label tiers before failing.
+          const labelOnly = { field_id: entry.field_id, label: entry.label };
+          let byLabel = locatorForField(page, labelOnly, type, { visibleOnly: true });
+          if ((await byLabel.count()) === 0) {
+            byLabel = locatorForField(page, labelOnly, type);
+          }
+          if ((await byLabel.count()) === 0) {
+            byLabel = locatorForField(page, labelOnly);
+          }
+          if ((await byLabel.count()) === 0) {
+            throw new Error(
+              `control not found on the page (label "${entry.label.slice(0, 60)}") — failing fast instead of waiting 30s`,
+            );
+          }
+          loc = byLabel;
+        } else {
+          loc = unfiltered;
         }
-        loc = unfiltered;
       }
       if (type === "select") {
         // Offline discovery types both native selects and React-select
@@ -800,57 +820,80 @@ export async function greenhouseFillFromPlan(
         // neuralink's "Are you currently authorized…?" [Yes | No] group a
         // consent-style "No" would have UNCHECKED the first box instead of
         // checking the "No" member. Only a lone box reads Yes/No as its state.
-        const groupOptions = await collectCheckboxGroupOptions(loc).catch(() => []);
-        const multiMember = groupOptions.length > 1;
-        if (isCheckboxBooleanValue(entry.value) && !multiMember) {
-          // Consent-style: the plan speaks about THIS box's state.
-          const s = String(entry.value).trim().toLowerCase();
-          const on =
-            typeof entry.value === "boolean"
-              ? entry.value
-              : !["false", "no", "off", "0"].includes(s);
-          if (on) await checkPaintedControl(page, loc);
-          else await loc.uncheck();
-          field_meta.push({
-            field_id: entry.field_id,
-            canonical_field: entry.canonical_field,
-            control_kind: "text",
-          });
-        } else {
-          // Option-labeled answer on a checkbox control (issue #21/#10:
-          // export-control "United States", veteran "I am not a veteran"
-          // were blind-checked as `true`). Pick the group member whose
-          // label matches the planned text; no match ⇒ named refusal,
-          // never a blind check.
-          const options = groupOptions.length > 0 ? groupOptions : await collectCheckboxGroupOptions(loc);
-          const pick = pickOptionLabel(
-            options.map((o) => o.label),
-            String(entry.value),
-          );
-          const target = pick.ok
-            ? options.find((o) => o.label === pick.label)
-            : undefined;
-          if (!target || !target.id) {
-            throw new Error(
-              `checkbox group has no option matching "${entry.value}"` +
-                (options.length > 0
-                  ? ` (options: ${options
-                      .map((o) => o.label)
-                      .slice(0, 8)
-                      .join(", ")})`
-                  : " (no labeled group found around the control)"),
+        const doCheckbox = async (box: Locator): Promise<void> => {
+          const groupOptions = await collectCheckboxGroupOptions(box).catch(() => []);
+          const multiMember = groupOptions.length > 1;
+          if (isCheckboxBooleanValue(entry.value) && !multiMember) {
+            // Consent-style: the plan speaks about THIS box's state.
+            const s = String(entry.value).trim().toLowerCase();
+            const on =
+              typeof entry.value === "boolean"
+                ? entry.value
+                : !["false", "no", "off", "0"].includes(s);
+            if (on) await checkPaintedControl(page, box);
+            else await box.uncheck();
+            field_meta.push({
+              field_id: entry.field_id,
+              canonical_field: entry.canonical_field,
+              control_kind: "text",
+            });
+          } else {
+            // Option-labeled answer on a checkbox control (issue #21/#10:
+            // export-control "United States", veteran "I am not a veteran"
+            // were blind-checked as `true`). Pick the group member whose
+            // label matches the planned text; no match ⇒ named refusal,
+            // never a blind check.
+            const options =
+              groupOptions.length > 0 ? groupOptions : await collectCheckboxGroupOptions(box);
+            const pick = pickOptionLabel(
+              options.map((o) => o.label),
+              String(entry.value),
             );
+            const target = pick.ok
+              ? options.find((o) => o.label === pick.label)
+              : undefined;
+            if (!target || !target.id) {
+              throw new Error(
+                `checkbox group has no option matching "${entry.value}"` +
+                  (options.length > 0
+                    ? ` (options: ${options
+                        .map((o) => o.label)
+                        .slice(0, 8)
+                        .join(", ")})`
+                    : " (no labeled group found around the control)"),
+              );
+            }
+            const escapedId = target.id
+              .replace(/\\/g, "\\\\")
+              .replace(/"/g, '\\"');
+            await checkPaintedControl(page, page.locator(`[id="${escapedId}"]`).first());
+            field_meta.push({
+              field_id: entry.field_id,
+              canonical_field: entry.canonical_field,
+              control_kind: "checkbox_group",
+              selected_option: target.label,
+            });
           }
-          const escapedId = target.id
-            .replace(/\\/g, "\\\\")
-            .replace(/"/g, '\\"');
-          await checkPaintedControl(page, page.locator(`[id="${escapedId}"]`).first());
-          field_meta.push({
-            field_id: entry.field_id,
-            canonical_field: entry.canonical_field,
-            control_kind: "checkbox_group",
-            selected_option: target.label,
-          });
+        };
+        try {
+          await doCheckbox(loc);
+        } catch (err) {
+          // #63b: a mid-fill re-render can detach an id-resolved box
+          // between resolution and the check (live tiaa: the opt-ins
+          // render last; earlier fills re-render their section). ONE
+          // bounded retry through label resolution — same body, same
+          // refusals, and the read-back still arbitrates.
+          const staleShaped = /timeout|not visible|detached|stale generated id/i.test(
+            err instanceof Error ? err.message : String(err),
+          );
+          if (!staleShaped || (!meta?.inputId && !meta?.name)) throw err;
+          const fresh = locatorForField(
+            page,
+            { field_id: entry.field_id, label: entry.label },
+            "checkbox",
+          );
+          if ((await fresh.count()) === 0) throw err;
+          await doCheckbox(fresh);
         }
       } else if (type === "radio") {
         const name = meta?.name;
@@ -1002,11 +1045,25 @@ export async function greenhouseReadFieldValue(
   if ((await loc.count()) === 0) {
     const unfiltered = locatorForField(page, entry);
     if ((await unfiltered.count()) === 0) {
-      throw new Error(
-        `control not found on the page (label "${entry.label.slice(0, 60)}") — failing fast instead of waiting 30s`,
-      );
+      // #63b: stale generated id — verify falls back to the label tiers
+      // exactly like the fill ladder, so both read the same live control.
+      const labelOnly = { field_id: entry.field_id, label: entry.label };
+      let byLabel = locatorForField(page, labelOnly, entry.type, { visibleOnly: true });
+      if ((await byLabel.count()) === 0) {
+        byLabel = locatorForField(page, labelOnly, entry.type);
+      }
+      if ((await byLabel.count()) === 0) {
+        byLabel = locatorForField(page, labelOnly);
+      }
+      if ((await byLabel.count()) === 0) {
+        throw new Error(
+          `control not found on the page (label "${entry.label.slice(0, 60)}") — failing fast instead of waiting 30s`,
+        );
+      }
+      loc = byLabel;
+    } else {
+      loc = unfiltered;
     }
-    loc = unfiltered;
   }
   const tag = await loc.evaluate((el: { tagName: string }) =>
     el.tagName.toLowerCase(),

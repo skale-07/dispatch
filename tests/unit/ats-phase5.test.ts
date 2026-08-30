@@ -54,7 +54,9 @@ describe("Phase 5 Greenhouse fill", () => {
 
   afterAll(async () => {
     await browser.close();
-  });
+    // 30s like the sibling browser tests: browser.close() blew the 10s
+    // default under full-suite load and flaked the gate (night20).
+  }, 30_000);
 
   it("builds a fill plan from public profile without executing", async () => {
     const fixture = loadAtsFixture("greenhouse");

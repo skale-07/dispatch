@@ -149,6 +149,28 @@ describe("workday field layer (night20 #61, FIXTURE_CONFIRMED)", () => {
     });
   }, 45_000);
 
+  it("harder: a STALE discovery id (Workday regenerated it) falls back to label resolution for fill AND verify (live 22h)", async () => {
+    await withFixtureHtmlPage(HTML, async (page) => {
+      const e = entry({
+        field_id: "sms_optin",
+        label:
+          "I accept the terms above, and would like to receive text (SMS, MMS) messages.",
+        type: "checkbox",
+        value: "true",
+        canonical_field: "screener:custom:sms_opt_in",
+      });
+      // The id captured at discovery no longer exists on the page.
+      const meta = new Map<string, FieldMeta>([
+        ["sms_optin", { type: "checkbox", inputId: "deadbeef-regenerated" }],
+      ]);
+      const fill = await greenhouseFillFromPlan(page, [e], meta);
+      expect(fill.errors).toEqual([]);
+      expect(await page.locator("#q6boi").isChecked()).toBe(true);
+      const verify = await greenhouseVerifyFromPlan(page, [e], meta);
+      expect(verify.fields[0]?.match).toBe(true);
+    });
+  }, 45_000);
+
   it("harder: a PAINTED checkbox with NO label[for] at all still checks via the JS-click tier (live 22g SMS/WhatsApp opt-ins)", async () => {
     await withFixtureHtmlPage(HTML, async (page) => {
       const e = entry({

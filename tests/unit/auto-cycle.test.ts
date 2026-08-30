@@ -258,10 +258,11 @@ describe("auto-cycle (UNIT_CONFIRMED)", () => {
       },
     );
     expect(okR.preflight.agent_leg).toBe("available");
-    // 30s: this test runs three full cycles; the 5s default flaked twice
-    // under full-suite load with a live automation session + Chrome on the
-    // same machine (overnight 2026-08-29, timeouts not assertions).
-  }, 30_000);
+    // 90s: this test runs three full cycles; 5s then 30s each flaked
+    // under full-suite load with a live automation session + Chrome on
+    // the same machine (2026-08-29, then night20 with a headed pipeline
+    // session in flight — timeouts, never assertions).
+  }, 90_000);
 
   it("autolaunches the debug Chrome when CDP is dead and the operator opted in", async () => {
     armEnv();

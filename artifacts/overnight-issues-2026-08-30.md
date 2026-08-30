@@ -907,3 +907,22 @@ Pre-flight state (16:00 local):
   the label-click and before force-check — covers painted inputs with no
   usable label[for]; the read-back stays the arbiter. Progressive
   fixture: painted checkbox with NO label at all. 5/5 + mapping tests.
+
+### Job #22h — TIAA — 17:46 — #62 route live-proven; wizard 10/12; STALE-ID class isolated
+- FIELD_VERIFICATION → re-fill fired exactly as designed (the new edge is
+  LIVE_CONFIRMED); preferred-name toggle no longer planned (12 fields).
+  Only the two opt-ins still failed — but with NEW signatures: one hung
+  30s waiting for a DEAD id (`[id=pg0ki]`), the other failed the ladder
+  ("control not found"). Workday REGENERATES its short random ids on
+  every re-render; the opt-ins render last, so their discovery-time ids
+  die after earlier fills re-render the section.
+
+### 63b. Stale generated ids — label fallback everywhere — FIXED
+- Fill AND verify ladders: when the id/name lookup finds nothing, drop
+  them and run the label tiers (visible → typed → unfiltered) before
+  failing. `checkPaintedControl` fast-fails a detached control (named)
+  instead of force-check's 30s re-attach wait. The checkbox branch gets
+  ONE bounded retry: on a stale-shaped failure with an id/name-resolved
+  box, re-resolve by label and run the same body (same refusals; the
+  read-back arbitrates). Fixture: entry with a dead discovery id checks
+  the real labeled box for fill AND verify. 24/24 across the fill suites.
