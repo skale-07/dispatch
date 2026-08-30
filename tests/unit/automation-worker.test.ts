@@ -42,7 +42,7 @@ describe("L3 automation worker (FIXTURE_CONFIRMED)", () => {
   let db: Db;
   const noSleep = async (): Promise<void> => undefined;
 
-  function seedQueuedApp(withResume = true): string {
+  function seedQueuedApp(withResume = true, withEmployerUrl = true): string {
     const jobNo = Math.floor(Math.random() * 1_000_000);
     const job = upsertJobByFingerprint(db, {
       jobrightJobId: `jr-${randomUUID().slice(0, 8)}`,
@@ -52,7 +52,9 @@ describe("L3 automation worker (FIXTURE_CONFIRMED)", () => {
     });
     const app = createApplication(db, { jobId: job.id });
     db.prepare(`UPDATE applications SET state = 'QUEUED' WHERE id = ?`).run(app.id);
-    setEmployerApplicationUrl(db, app.id, `https://boards.greenhouse.io/acme/jobs/${jobNo}`);
+    if (withEmployerUrl) {
+      setEmployerApplicationUrl(db, app.id, `https://boards.greenhouse.io/acme/jobs/${jobNo}`);
+    }
     if (withResume) {
       registerResumeMaterial({ db, applicationId: app.id, filePath: SYNTHETIC_PDF });
     }
@@ -296,6 +298,104 @@ describe("L3 automation worker (FIXTURE_CONFIRMED)", () => {
       // The pre-seeded app still processed; the feed failure is just noted.
       expect(report.apps_started).toBe(1);
       expect(report.notes.some((n) => /empty_feed/.test(n))).toBe(true);
+    },
+    60_000,
+  );
+
+  const CDP_WALL =
+    "Debug Chrome at http://127.0.0.1:9222 is unresponsive (port answers but the CDP session won't attach). Close ALL Chrome windows, re-run chrome:debug:jobright, and retry.";
+
+  it(
+    "stops as cdp_unrecoverable when a CDP restart does not recover — the rest of the queue is left alone",
+    async () => {
+      const first = seedQueuedApp(true, false);
+      const second = seedQueuedApp(true, false);
+      applyControlledFillEnv({ NAVIGATION_ENABLED: "true" });
+      let restarts = 0;
+      try {
+        const report = await runAutomationSession({
+          db,
+          armRunId: arm(5, 25),
+          fixtureHtmlPath: GREENHOUSE_FIXTURE,
+          sleep: noSleep,
+          navigationRunner: async () => {
+            throw new Error(CDP_WALL);
+          },
+          cdpRestarter: async () => {
+            restarts += 1;
+            return { reachable: false, notes: ["did not terminate"] };
+          },
+        });
+        expect(report.stopped_reason).toBe("cdp_unrecoverable");
+        expect(restarts).toBe(1);
+        expect(report.apps_started).toBe(1);
+        expect(report.per_app.map((r) => r.application_id)).toEqual([]);
+        expect(report.notes.join(" ")).toMatch(/debug Chrome unrecoverable after 1\/3/);
+        // Nothing burned: the touched app stays in its pre-nav state (no
+        // FAILED_* / attempt cap), the next was never picked.
+        expect(getApplication(db, first)?.state).toBe("APPLICATION_OPENING");
+        expect(getApplication(db, first)?.attempt).toBe(1);
+        expect(getApplication(db, second)?.state).toBe("QUEUED");
+      } finally {
+        applySafeFillEnv();
+      }
+    },
+    60_000,
+  );
+
+  it(
+    "appDeadlineMs stops a job at its next step boundary and names the stop `deadline`",
+    async () => {
+      const slow = seedQueuedApp();
+      const next = seedQueuedApp();
+      const report = await runAutomationSession({
+        db,
+        armRunId: arm(5, 25),
+        fixtureHtmlPath: GREENHOUSE_FIXTURE,
+        sleep: noSleep,
+        appDeadlineMs: 1, // already elapsed by the first boundary check
+      });
+      // The deadline-stopped job is reported with a named reason, keeps a
+      // non-terminal state, and the session moves on to the next job.
+      const stopped = report.per_app.find((r) => r.application_id === slow);
+      expect(stopped?.stopped).toBe("skipped");
+      expect(stopped?.stop_reason).toMatch(/^deadline: \d+s elapsed of 0s budget/);
+      expect(report.notes.join(" ")).toMatch(new RegExp(`deadline ${slow}: `));
+      expect(getApplication(db, slow)?.state).not.toMatch(/^FAILED/);
+      expect(report.per_app.map((r) => r.application_id)).toEqual([slow, next]);
+      expect(report.stopped_reason).toBe("queue_drained");
+    },
+    60_000,
+  );
+
+  it(
+    "stops as cdp_unrecoverable once the restart budget is spent and the wall recurs",
+    async () => {
+      for (let i = 0; i < 6; i++) seedQueuedApp(true, false);
+      applyControlledFillEnv({ NAVIGATION_ENABLED: "true" });
+      let restarts = 0;
+      try {
+        const report = await runAutomationSession({
+          db,
+          armRunId: arm(5, 25),
+          fixtureHtmlPath: GREENHOUSE_FIXTURE,
+          sleep: noSleep,
+          navigationRunner: async () => {
+            throw new Error(CDP_WALL);
+          },
+          // Every restart "recovers" (night18's lie) but the wall comes back.
+          cdpRestarter: async () => {
+            restarts += 1;
+            return { reachable: true, notes: [] };
+          },
+        });
+        expect(restarts).toBe(3);
+        // 3 restarts + the 4th failure that exhausts the budget = 4 apps touched, not 6.
+        expect(report.apps_started).toBe(4);
+        expect(report.stopped_reason).toBe("cdp_unrecoverable");
+      } finally {
+        applySafeFillEnv();
+      }
     },
     60_000,
   );

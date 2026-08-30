@@ -1107,7 +1107,10 @@ that as unverified.
 **After the session:** the run report lists per-app outcomes
 (`per_app[].end_state` / `stopped` / `submitted`), discovery runs, outreach
 tail counts (`emails_generated`, `drafts_saved`), and why the session
-stopped (`disarmed` / `expired` / `apps_cap` / `queue_drained`). Leftover
+stopped (`disarmed` / `expired` / `apps_cap` / `queue_drained` /
+`cdp_unrecoverable` — the debug Chrome would not attach and the bounded
+in-session restarts failed or ran out; the remaining queue is left untouched
+for the next cycle instead of failing every app in turn). Leftover
 apps sit at `READY_TO_SUBMIT` (budget spent) or in review (walls). Review
 items are the worklist; Outlook Drafts is the outreach review surface —
 nothing has been sent.
@@ -1223,7 +1226,15 @@ autopush) feed the improvement loop.
 npm run auto:cycle                       # one full cycle now
 npm run auto:cycle -- --no-update        # skip the git pull (offline)
 npm run auto:cycle -- --duration 60 --max-submits 5 --max-apps 10
+npm run auto:cycle -- --no-update --max-apps 1 --app-deadline 180   # one job, 3-minute budget
 ```
+
+`--app-deadline <sec>` is a per-application wall-clock budget. It is checked
+at pipeline step boundaries (the same cooperative seam as the console Skip
+button — never mid-click), so a job that is still in flight past the budget
+stops at its next boundary, keeps the state it reached, and the session note
+names it `deadline <id>: Ns > Ms budget — stopped in <STATE>`. Use it to turn
+a stuck job into a diagnosis item instead of grinding on it.
 
 ### Standing live environment (set once, never again)
 

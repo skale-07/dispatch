@@ -69,6 +69,13 @@ export type AutomationStopReason =
   | "expired"
   | "apps_cap"
   | "queue_drained"
+  /**
+   * The debug Chrome would not attach and the bounded in-session restarts
+   * either failed or were exhausted. Night18 (2026-08-30) burned 40+ apps
+   * against a wedged Chrome after the cap; the queue is left for the next
+   * cycle instead.
+   */
+  | "cdp_unrecoverable"
   | "error";
 
 export type AutomationAppResult = {
@@ -139,6 +146,14 @@ export type AutomationSessionInput = {
   navigationRunner?: PipelineOptions["navigationRunner"];
   /** Test seam for the operator Skip signal; production reads the DB marker. */
   shouldSkip?: PipelineOptions["shouldSkip"];
+  /**
+   * Per-application wall-clock budget (operator directive 2026-08-30: 3 min
+   * discovery→submit, then stop and diagnose instead of grinding). Enforced
+   * at pipeline step boundaries through the same cooperative skip seam the
+   * console's Skip button uses — never mid-click. The app keeps whatever
+   * state it reached; the stop is named `deadline` in the session notes.
+   */
+  appDeadlineMs?: number;
   contactsFixtureHtmlPath?: string;
   /** Test seam replacing live discovery. */
   discoveryRunner?: DiscoveryRunner;
@@ -396,6 +411,7 @@ export async function runAutomationSession(
   await tryDiscover();
   let appsSinceDiscover = 0;
   let cdpRestarts = 0;
+  let cdpDead = false;
   // Each app is attempted at most once per session (see pickNextApplication).
   const seen = new Set<string>();
   /** Verified-submit apps whose referral tail runs after the loop (batch). */
@@ -533,6 +549,12 @@ export async function runAutomationSession(
       // Shared-session failures must not kill the loop: if the browser
       // died since the last app, drop it and retry ONCE with a fresh one.
       let navSession = await getNavSession().catch(() => undefined);
+      const appStartedAt = Date.now();
+      const deadlineMs = input.appDeadlineMs;
+      const deadlineHit = (): boolean =>
+        deadlineMs !== undefined && deadlineMs > 0 && Date.now() - appStartedAt >= deadlineMs;
+      const operatorSkip: NonNullable<PipelineOptions["shouldSkip"]> =
+        input.shouldSkip ?? ((id) => isSkipRequested(db, id));
       const runOnce = () =>
         runPipeline({
           db,
@@ -549,7 +571,7 @@ export async function runAutomationSession(
           ...(input.navigationRunner ? { navigationRunner: input.navigationRunner } : {}),
           // The console's Skip button writes a marker; the pipeline reads
           // it between steps and stops working this app. Tests override.
-          shouldSkip: input.shouldSkip ?? ((id) => isSkipRequested(db, id)),
+          shouldSkip: (id) => operatorSkip(id) || deadlineHit(),
         });
       let pipelineReport;
       try {
@@ -586,7 +608,12 @@ export async function runAutomationSession(
           noteError("anomaly_no_stop");
           report.notes.push(`anomaly: ${appId} stopped with no reason`);
         }
-        if (appReport.stopped === "skipped") {
+        if (appReport.stopped === "skipped" && deadlineHit() && !operatorSkip(appId)) {
+          appResult.stop_reason = `deadline: ${Math.round((Date.now() - appStartedAt) / 1000)}s elapsed of ${Math.round((deadlineMs ?? 0) / 1000)}s budget — stopped at step boundary in ${appReport.end_state}`;
+          report.notes.push(
+            `deadline ${appId}: ${Math.round((Date.now() - appStartedAt) / 1000)}s > ${Math.round((deadlineMs ?? 0) / 1000)}s budget — stopped in ${appReport.end_state} (diagnose, do not grind)`,
+          );
+        } else if (appReport.stopped === "skipped") {
           // Acted on — clear the pending marker so it does not re-fire, but
           // KEEP the exclusion: the operator said not this one, and only
           // the operator says otherwise (via the include toggle).
@@ -654,24 +681,46 @@ export async function runAutomationSession(
       // single try left 8 later apps dead. restartCdpChrome is fail-closed
       // behind CDP_AUTOLAUNCH_ENABLED; without the operator's standing
       // opt-in this only writes a note.
-      if (
-        cdpRestarts < MAX_CDP_RESTARTS_PER_SESSION &&
-        /CDP session won't attach|Debug Chrome .* unresponsive/i.test(message)
-      ) {
+      const cdpWall = /CDP session won't attach|Debug Chrome .* unresponsive/i.test(message);
+      if (cdpWall && cdpRestarts < MAX_CDP_RESTARTS_PER_SESSION) {
         cdpRestarts += 1;
         try {
           const restart = await (input.cdpRestarter ?? restartCdpChrome)();
           report.notes.push(
             restart.reachable
-              ? `CDP restart ${cdpRestarts}/${MAX_CDP_RESTARTS_PER_SESSION}: debug Chrome relaunched and reachable — continuing session`
+              ? `CDP restart ${cdpRestarts}/${MAX_CDP_RESTARTS_PER_SESSION}: debug Chrome relaunched and attach-verified — continuing session`
               : `CDP restart ${cdpRestarts}/${MAX_CDP_RESTARTS_PER_SESSION} did not recover: ${restart.notes.join("; ").slice(0, 200)}`,
           );
+          if (!restart.reachable) cdpDead = true;
         } catch (restartErr) {
           report.notes.push(
-            `CDP restart failed (continuing): ${restartErr instanceof Error ? restartErr.message.slice(0, 160) : String(restartErr)}`,
+            `CDP restart failed: ${restartErr instanceof Error ? restartErr.message.slice(0, 160) : String(restartErr)}`,
           );
+          cdpDead = true;
         }
+      } else if (cdpWall) {
+        // Restart budget spent and the wall is back: every further app would
+        // die the same way. Stop the session; the apps keep their state.
+        cdpDead = true;
       }
+    }
+
+    if (cdpDead) {
+      report.stopped_reason = "cdp_unrecoverable";
+      report.notes.push(
+        `session stopped: debug Chrome unrecoverable after ${cdpRestarts}/${MAX_CDP_RESTARTS_PER_SESSION} restart(s) — remaining queue left for the next cycle`,
+      );
+      logger.warn("automation loop exit: CDP unrecoverable", {
+        service: "automation",
+        action: "session_stop",
+        metadata: {
+          arm_run_id: armRunId,
+          stopped_reason: report.stopped_reason,
+          apps_started: report.apps_started,
+          cdp_restarts: cdpRestarts,
+        },
+      });
+      break;
     }
 
     // Refresh the submit counter straight from the arm row (not via

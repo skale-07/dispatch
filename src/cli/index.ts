@@ -169,7 +169,7 @@ Commands:
   gmail:auth --email <mailbox> --client-id <id> --client-secret <secret>   One-time readonly OAuth
   gmail:check                           Read-only Gmail token smoke test
   verify:mailbox [--since <minutes>] [--show] [--headed]   Smoke-test mailbox scan (gmail-web/outlook)
-  auto:cycle [--no-update] [--headed] [--duration <min>] [--max-submits N] [--max-apps N]   One hands-off session cycle (operator-guide §19)
+  auto:cycle [--no-update] [--headed] [--duration <min>] [--max-submits N] [--max-apps N] [--app-deadline <sec>]   One hands-off session cycle (operator-guide §19)
   viz:timeline [--limit N]              Render artifacts/console/run-timeline.html (read-only)
   review
   review:resolve --id <review_item_id> --outcome submitted|not-submitted [--requeue]
@@ -2023,6 +2023,9 @@ async function main(): Promise<void> {
         ...(num("duration") !== undefined ? { durationMinutes: num("duration")! } : {}),
         ...(num("max-submits") !== undefined ? { maxSubmits: num("max-submits")! } : {}),
         ...(num("max-apps") !== undefined ? { maxApps: num("max-apps")! } : {}),
+        ...(num("app-deadline") !== undefined
+          ? { appDeadlineSeconds: num("app-deadline")! }
+          : {}),
       });
       console.log(JSON.stringify(report, null, 2));
       process.exit(report.outcome === "completed" || report.outcome === "skipped_already_armed" ? 0 : 1);

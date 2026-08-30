@@ -123,30 +123,95 @@ export function assertDebugProfileDir(userDataDir: string): void {
 }
 
 /**
+ * PIDs of every chrome.exe whose command line names the debug profile dir.
+ * Windows: PowerShell CIM — `wmic` is REMOVED on Windows 11 24H2+ (live
+ * 2026-08-30, build 26200: `where wmic` → not found), which made the old
+ * kill a silent no-op. Non-Windows: pgrep -f. Empty on any tool failure.
+ */
+export function listDebugChromePids(userDataDir: string): number[] {
+  assertDebugProfileDir(userDataDir);
+  try {
+    let out: string;
+    if (process.platform === "win32") {
+      const needle = userDataDir.replace(/'/g, "''");
+      out = execFileSync(
+        "powershell",
+        [
+          "-NoProfile",
+          "-NonInteractive",
+          "-Command",
+          `Get-CimInstance Win32_Process -Filter "Name='chrome.exe'" | Where-Object { $_.CommandLine -like '*${needle}*' } | ForEach-Object { $_.ProcessId }`,
+        ],
+        { timeout: 30_000, encoding: "utf8" },
+      );
+    } else {
+      out = execFileSync("pgrep", ["-f", userDataDir], {
+        timeout: 30_000,
+        encoding: "utf8",
+      });
+    }
+    return out
+      .split(/\r?\n/)
+      .map((s) => Number.parseInt(s.trim(), 10))
+      .filter((n) => Number.isFinite(n) && n > 0);
+  } catch {
+    return [];
+  }
+}
+
+/**
  * Kill ONLY the debug-profile Chrome: process match is on the debug
  * user-data-dir in the command line, so the operator's everyday Chrome
  * windows are never touched. Best-effort — "no process matched" is fine.
+ *
+ * Returns the PIDs it targeted so the caller can VERIFY they are gone: a
+ * kill that does not terminate means the relaunch below is absorbed by the
+ * still-running (wedged) instance via Chrome's single-instance handoff —
+ * exactly how night18 reported "relaunched and reachable" three times
+ * against the same dead process.
  */
-function killDebugChrome(userDataDir: string): void {
+function killDebugChrome(userDataDir: string): number[] {
   assertDebugProfileDir(userDataDir);
+  const pids = listDebugChromePids(userDataDir);
+  if (pids.length === 0) return pids;
   try {
     if (process.platform === "win32") {
       execFileSync(
-        "wmic",
-        [
-          "process",
-          "where",
-          `Name='chrome.exe' and CommandLine like '%${userDataDir.replace(/'/g, "")}%'`,
-          "call",
-          "terminate",
-        ],
+        "taskkill",
+        ["/F", ...pids.flatMap((p) => ["/PID", String(p)])],
         { timeout: 30_000 },
       );
     } else {
-      execFileSync("pkill", ["-f", userDataDir], { timeout: 30_000 });
+      execFileSync("kill", ["-9", ...pids.map(String)], { timeout: 30_000 });
     }
   } catch {
-    // no matching process (or kill tool unavailable) — the relaunch decides
+    // partial or failed kill — the post-kill liveness poll decides
+  }
+  return pids;
+}
+
+const KILL_VERIFY_POLLS = 10;
+const KILL_VERIFY_INTERVAL_MS = 500;
+const ATTACH_PROBE_TIMEOUT_MS = 15_000;
+
+/**
+ * The probe that actually matters: /json/version answering proves nothing
+ * about a wedged Chrome (night18: the port answered for 45 minutes while
+ * every attach timed out). Attach over CDP with a bounded timeout and
+ * disconnect — never closes the operator's contexts (connectOverCDP
+ * browser.close() only detaches).
+ */
+export async function probeCdpAttach(
+  cdpUrl: string,
+  timeoutMs = ATTACH_PROBE_TIMEOUT_MS,
+): Promise<boolean> {
+  try {
+    const { chromium } = await import("playwright");
+    const browser = await chromium.connectOverCDP(cdpUrl, { timeout: timeoutMs });
+    await browser.close().catch(() => undefined);
+    return true;
+  } catch {
+    return false;
   }
 }
 
@@ -159,7 +224,14 @@ function killDebugChrome(userDataDir: string): void {
  * Fail-closed without the flag; the caller bounds attempts (once/session).
  */
 export async function restartCdpChrome(
-  seams: EnsureCdpSeams & { killer?: (userDataDir: string) => void } = {},
+  seams: EnsureCdpSeams & {
+    /** Returns the PIDs it targeted (empty = nothing to kill). */
+    killer?: (userDataDir: string) => number[] | void;
+    /** Post-kill liveness check; the restart refuses to relaunch over survivors. */
+    survivors?: (userDataDir: string) => number[];
+    /** Real CDP attach after relaunch — the HTTP probe alone lied (night18). */
+    attachProbe?: (cdpUrl: string) => Promise<boolean>;
+  } = {},
 ): Promise<EnsureCdpReport> {
   const cfg = getConfig();
   if (!cfg.cdpAutolaunchEnabled) {
@@ -172,9 +244,43 @@ export async function restartCdpChrome(
   const sleep =
     seams.sleep ?? ((ms: number) => new Promise((r) => setTimeout(r, ms)));
   const userDataDir = cdpUserDataDir("jobright");
-  (seams.killer ?? killDebugChrome)(userDataDir);
+  const targeted = (seams.killer ?? killDebugChrome)(userDataDir) ?? [];
+  const survivors = seams.survivors ?? listDebugChromePids;
+
+  // Verify the kill landed before relaunching: a survivor absorbs the new
+  // spawn (single-instance handoff) and the "relaunch" is theatre.
+  let alive = survivors(userDataDir);
+  for (let i = 0; alive.length > 0 && i < KILL_VERIFY_POLLS; i++) {
+    await sleep(KILL_VERIFY_INTERVAL_MS);
+    alive = survivors(userDataDir);
+  }
+  if (alive.length > 0) {
+    return {
+      reachable: false,
+      launched: false,
+      notes: [
+        `CDP restart: debug-profile Chrome did not terminate (pids ${alive.slice(0, 5).join(",")} still alive after kill) — relaunch would be absorbed by the wedged instance; not relaunching`,
+      ],
+    };
+  }
+
   await sleep(2_000);
   const report = await ensureCdpChrome(seams);
-  report.notes.unshift("CDP restart: killed stale debug-profile Chrome");
+  report.notes.unshift(
+    targeted.length > 0
+      ? `CDP restart: killed stale debug-profile Chrome (pids ${targeted.slice(0, 5).join(",")})`
+      : "CDP restart: no debug-profile Chrome was running — relaunching",
+  );
+  if (report.reachable) {
+    const attached = await (seams.attachProbe ?? probeCdpAttach)(cfg.agentCdpUrl);
+    if (!attached) {
+      report.reachable = false;
+      report.notes.push(
+        "CDP restart: port answers but a real CDP attach still fails after relaunch — not recovered",
+      );
+    } else {
+      report.notes.push("CDP restart: attach probe passed (LIVE_READ_ONLY_CONFIRMED)");
+    }
+  }
   return report;
 }

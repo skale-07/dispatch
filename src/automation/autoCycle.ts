@@ -128,6 +128,8 @@ export async function runAutoCycle(
     maxSubmits?: number;
     maxApps?: number;
     headless?: boolean;
+    /** Per-application wall-clock budget in seconds (worker appDeadlineMs). */
+    appDeadlineSeconds?: number;
   } = {},
   seams: AutoCycleSeams = {},
 ): Promise<AutoCycleReport> {
@@ -187,6 +189,7 @@ async function runAutoCycleInner(
     maxSubmits?: number;
     maxApps?: number;
     headless?: boolean;
+    appDeadlineSeconds?: number;
   },
   seams: AutoCycleSeams,
 ): Promise<AutoCycleReport> {
@@ -381,6 +384,9 @@ async function runAutoCycleInner(
           armRunId: id,
           headless: input.headless ?? false,
           discoverMax: report.arm?.discover_max ?? 8,
+          ...(input.appDeadlineSeconds !== undefined && input.appDeadlineSeconds > 0
+            ? { appDeadlineMs: Math.round(input.appDeadlineSeconds * 1000) }
+            : {}),
         }));
     report.session = await runner(db, armRunId);
     report.outcome = "completed";

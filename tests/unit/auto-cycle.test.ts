@@ -408,12 +408,21 @@ describe("auto-cycle (UNIT_CONFIRMED)", () => {
     try {
       const killedDirs: string[] = [];
       let up = false;
+      let attachProbes = 0;
       const r = await restartCdpChrome({
-        killer: (dir) => killedDirs.push(dir),
+        killer: (dir) => {
+          killedDirs.push(dir);
+          return [4242];
+        },
+        survivors: () => [],
         spawner: () => {
           up = true;
         },
         probe: async () => up,
+        attachProbe: async () => {
+          attachProbes += 1;
+          return true;
+        },
         sleep: async () => undefined,
       });
       expect(killedDirs.length).toBe(1);
@@ -421,7 +430,68 @@ describe("auto-cycle (UNIT_CONFIRMED)", () => {
       expect(killedDirs[0]).toMatch(/jobright-cdp/);
       expect(r.launched).toBe(true);
       expect(r.reachable).toBe(true);
-      expect(r.notes.join(" ")).toMatch(/killed stale debug-profile Chrome/);
+      expect(attachProbes).toBe(1);
+      expect(r.notes.join(" ")).toMatch(/killed stale debug-profile Chrome \(pids 4242\)/);
+      expect(r.notes.join(" ")).toMatch(/attach probe passed/);
+    } finally {
+      delete process.env.CHROME_PATH;
+      fs.rmSync(fakeChromeDir, { recursive: true, force: true });
+    }
+  });
+
+  // night18 (2026-08-30): `wmic` is gone on Windows 11 26200, so the kill
+  // was a no-op, the relaunch was absorbed by the wedged instance, and the
+  // HTTP probe said "reachable" three times against the same dead Chrome.
+  it("restartCdpChrome refuses to relaunch over a debug Chrome that survived the kill", async () => {
+    const { restartCdpChrome } = await import("../../src/automation/cdpChrome.js");
+    applyControlledFillEnv({ CDP_AUTOLAUNCH_ENABLED: "true" });
+    let spawned = 0;
+    let polls = 0;
+    const r = await restartCdpChrome({
+      killer: () => [17032],
+      survivors: () => {
+        polls += 1;
+        return [17032];
+      },
+      spawner: () => {
+        spawned += 1;
+      },
+      probe: async () => true,
+      attachProbe: async () => true,
+      sleep: async () => undefined,
+    });
+    expect(spawned).toBe(0);
+    expect(r.launched).toBe(false);
+    expect(r.reachable).toBe(false);
+    expect(polls).toBeGreaterThan(1);
+    expect(polls).toBeLessThanOrEqual(12); // bounded liveness poll
+    expect(r.notes.join(" ")).toMatch(/did not terminate \(pids 17032/);
+    expect(r.notes.join(" ")).toMatch(/not relaunching/);
+  });
+
+  it("restartCdpChrome demotes 'reachable' when the port answers but a CDP attach fails", async () => {
+    const { restartCdpChrome } = await import("../../src/automation/cdpChrome.js");
+    const fakeChromeDir = fs.mkdtempSync(path.join(os.tmpdir(), "jaa-chrome-"));
+    const fakeChrome = path.join(fakeChromeDir, "chrome.exe");
+    fs.writeFileSync(fakeChrome, "");
+    process.env.CHROME_PATH = fakeChrome;
+    applyControlledFillEnv({ CDP_AUTOLAUNCH_ENABLED: "true" });
+    try {
+      let up = false;
+      const r = await restartCdpChrome({
+        killer: () => [],
+        survivors: () => [],
+        spawner: () => {
+          up = true;
+        },
+        probe: async () => up, // /json/version answers once spawned…
+        attachProbe: async () => false, // …but the websocket session never attaches
+        sleep: async () => undefined,
+      });
+      expect(r.launched).toBe(true);
+      expect(r.reachable).toBe(false);
+      expect(r.notes.join(" ")).toMatch(/no debug-profile Chrome was running/);
+      expect(r.notes.join(" ")).toMatch(/attach still fails after relaunch — not recovered/);
     } finally {
       delete process.env.CHROME_PATH;
       fs.rmSync(fakeChromeDir, { recursive: true, force: true });
