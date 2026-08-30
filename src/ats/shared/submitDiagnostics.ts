@@ -62,6 +62,40 @@ const EMAIL_HINT =
 export async function diagnoseDisabledSubmit(
   page: Page,
 ): Promise<DisabledSubmitDiagnosis> {
+  // Scan the main frame first, then child frames (first-party embeds keep
+  // the form in an iframe), merging results. Live 2026-08-30 TransMarket:
+  // the wall was visible in the receipt but the main-frame scan saw
+  // nothing — long posting text also pushed the wall sentence past the
+  // old 20k innerText cap, so the text window now centers on the wall.
+  const main = page.mainFrame();
+  const frames = [main, ...page.frames().filter((f) => f !== main)];
+  let merged: Awaited<ReturnType<typeof scanFrame>> | null = null;
+  for (const frame of frames) {
+    const s = await scanFrame(frame);
+    if (!merged) {
+      merged = s;
+    } else {
+      merged = {
+        codeInputs: [...merged.codeInputs, ...s.codeInputs],
+        splitBox: merged.splitBox ?? s.splitBox,
+        requiredInvalid: [...merged.requiredInvalid, ...s.requiredInvalid],
+        errorNodes: [...merged.errorNodes, ...s.errorNodes],
+        bodyText: `${merged.bodyText}\n${s.bodyText}`.slice(0, 120_000),
+      };
+    }
+  }
+  return buildDiagnosis(
+    merged ?? {
+      codeInputs: [],
+      splitBox: null,
+      requiredInvalid: [],
+      errorNodes: [],
+      bodyText: "",
+    },
+  );
+}
+
+async function scanFrame(page: Pick<Page, "evaluate">) {
   const scan = await page
     .evaluate(
       // Runs in the browser; DOM globals are typed locally (the repo's
@@ -177,12 +211,20 @@ export async function diagnoseDisabledSubmit(
           .filter((t) => t.length > 0 && t.length < 300)
           .slice(0, 10);
 
+        // Center the text window on the wall wording when it sits deep in
+        // a long posting page (the old flat 20k cap cut it off).
+        const full = doc.body?.innerText ?? "";
+        const wallIdx = full.search(/verification code|security code|one[- ]time code/i);
+        const bodyText =
+          wallIdx >= 0
+            ? full.slice(Math.max(0, wallIdx - 2_000), wallIdx + 4_000)
+            : full.slice(0, 20000);
         return {
           codeInputs,
           splitBox,
           requiredInvalid,
           errorNodes,
-          bodyText: (doc.body?.innerText ?? "").slice(0, 20000),
+          bodyText,
         };
       },
       { strongSelector: STRONG_CODE_SELECTOR, weakSelector: WEAK_CODE_SELECTOR },
@@ -200,7 +242,12 @@ export async function diagnoseDisabledSubmit(
       errorNodes: [] as string[],
       bodyText: "",
     }));
+  return scan;
+}
 
+function buildDiagnosis(
+  scan: Awaited<ReturnType<typeof scanFrame>>,
+): DisabledSubmitDiagnosis {
   const textMatch = scan.bodyText.match(VERIFICATION_TEXT);
   // Strong matches win; weak ones ("…code…" anywhere) are accepted only
   // after discarding fields that say "code" for other reasons, so a

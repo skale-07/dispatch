@@ -223,6 +223,25 @@ describe("disabled-submit diagnostics (FIXTURE_CONFIRMED)", () => {
   );
 
   it(
+    "detects a split-box wall living inside a child iframe, past long posting text",
+    async () => {
+      const filler = "Lorem ipsum posting text. ".repeat(1200); // ~31k chars
+      const inner = `<p>A verification code was sent to skale072007@gmail.com. Security code</p>${Array.from(
+        { length: 8 },
+        () => '<input maxlength=1 style=width:24px>',
+      ).join("")}<button type=submit disabled>Submit application</button>`;
+      const html = `<html><body><article>${filler}</article><iframe srcdoc="${inner.replace(/"/g, "&quot;")}"></iframe></body></html>`;
+      await withFixtureHtmlPage(html, async (page) => {
+        await page.waitForLoadState("domcontentloaded");
+        const d = await diagnoseDisabledSubmit(page);
+        expect(d.verification.detected).toBe(true);
+        expect(d.verification.email_hint).toBe("skale072007@gmail.com");
+      });
+    },
+    45_000,
+  );
+
+  it(
     "a plain form (no verification wording) diagnoses without false positives",
     async () => {
       const plain = fs.readFileSync(
