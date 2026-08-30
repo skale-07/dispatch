@@ -531,6 +531,51 @@ describe("workday portal auth (FIXTURE_CONFIRMED)", () => {
     }
   }, 30_000);
 
+  it("overlay-guarded Sign In: the click is a NO-OP, the Enter retry submits (TIAA night20 #63c, FIXTURE_CONFIRMED)", async () => {
+    // Live tiaa.wd1 22f/22i: the visible Sign In sits on an
+    // invisible-captcha overlay; clicking the button does NOTHING — no
+    // error, no navigation — even with a valid account. Keyboard Enter
+    // from the password field submits.
+    const OVERLAY_HTML = `<!DOCTYPE html><html><body>
+      <div id="stage">
+        <h2>Sign In</h2>
+        <form id="f">
+          <input data-automation-id="email" type="email" />
+          <input data-automation-id="password" id="pw" type="password" />
+          <button data-automation-id="signInSubmitButton" type="button">Sign In</button>
+        </form>
+      </div>
+      <script>
+        // The button click is swallowed (overlay tenant). Only a keyboard
+        // submit from the password field advances.
+        document.getElementById('pw').addEventListener('keydown', (ev) => {
+          if (ev.key === 'Enter') { document.body.innerHTML = '<p>My Information</p>'; }
+        });
+      </script></body></html>`;
+    applyControlledFillEnv({ NAVIGATION_ENABLED: "true" });
+    const prevEmail = process.env.PORTAL_LOGIN_EMAIL;
+    const prevPassword = process.env.PORTAL_LOGIN_PASSWORD;
+    process.env.PORTAL_LOGIN_EMAIL = "candidate@fixture.test";
+    process.env.PORTAL_LOGIN_PASSWORD = "StandingPass1!";
+    resetConfigCache();
+    try {
+      await onWorkdayPage(OVERLAY_HTML, async (page) => {
+        const r = await authenticateAtsPortal(page, { settleMs: 1 });
+        expect(r.notes.join(" ")).toMatch(
+          /click answered nothing — retried with Enter/,
+        );
+        expect(r.status).toBe("signed_in");
+      });
+    } finally {
+      if (prevEmail === undefined) delete process.env.PORTAL_LOGIN_EMAIL;
+      else process.env.PORTAL_LOGIN_EMAIL = prevEmail;
+      if (prevPassword === undefined) delete process.env.PORTAL_LOGIN_PASSWORD;
+      else process.env.PORTAL_LOGIN_PASSWORD = prevPassword;
+      applySafeFillEnv();
+      resetConfigCache();
+    }
+  }, 45_000);
+
   /**
    * The fixture above reveals each stage SYNCHRONOUSLY on click, which is
    * why it passed while the live run failed. Live 2026-08-14 (Crowe):

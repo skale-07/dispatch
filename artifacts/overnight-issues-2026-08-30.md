@@ -926,3 +926,35 @@ Pre-flight state (16:00 local):
   box, re-resolve by label and run the same body (same refusals; the
   read-back arbitrates). Fixture: entry with a dead discovery id checks
   the real labeled box for fill AND verify. 24/24 across the fill suites.
+
+### Gate-environment note (18:00-18:35): flake roulette root-caused to a memory-tight box
+- Three consecutive full-suite runs each failed on a DIFFERENT purely
+  environmental timeout (afterAll browser.close; auto-cycle preflight;
+  then a 23-failure teardown cascade with vitest worker RPC timeouts).
+  Free physical memory: 1.6 GB (operator's Edge/Slack/Notion/Steam open —
+  not touched). No leaked playwright processes. Resolution: two flaky
+  timeouts bumped with evidence notes; the gate now runs at
+  `--maxWorkers=2` on this box — 1395/1395 + all checks green (commit
+  9fa3a66). One cascade run leaked the real portal password into a TEMP
+  task-output file via an unrestored test env (never near the repo);
+  file deleted.
+
+### Job #22i — TIAA — 18:34 — the auth wall's TRUE root cause isolated
+- The #62 route fired; the walk hit the SSO chooser AGAIN (the Workday
+  session had expired — earlier probes were signed in at 18:04) and the
+  sign-in click answered NOTHING — with an account that EXISTS (created
+  #22c, sign-in verified via probes). So the "silent sign-in" was never
+  a missing account: the tenant's visible Sign In control is the
+  invisible-captcha overlay (`click_filter`/`noCaptchaWrapper`);
+  clicking the underlying `signInSubmitButton` is a silent no-op. This
+  also explains the operator's pixel report on #22f ("filled everything
+  but never clicked create") — the clicks never registered.
+
+### 63c. Silent auth click ⇒ ONE keyboard-submit retry (Enter from the password field) — FIXED
+- In `attempt()`: when the response poll ends with the form standing,
+  unchanged, and no error, press Enter in the (form-scoped) password
+  field — the human-faithful submit that bypasses the overlay — note it,
+  re-poll, then the existing decision tree (rejection → create; silent →
+  #60b create route) runs unchanged. Fixture: overlay tenant whose
+  button click is swallowed and only keydown Enter submits →
+  signed_in with the retry note. 18/18 portal-auth (FIXTURE_CONFIRMED).

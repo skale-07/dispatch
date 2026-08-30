@@ -457,18 +457,38 @@ export async function authenticateAtsPortal(
     // ran). Poll, bounded, until the page is decisive: an error, the form
     // gone, a verification-code input, or a different classification.
     let after = await diagnoseLoginWall(page);
-    if (settle > 0) {
+    const before = after.classification;
+    const stillSilent = async (): Promise<boolean> =>
+      after.fields.password &&
+      !after.errorText &&
+      after.classification === before &&
+      !(await firstVisible(page, sel.verificationCodeInput));
+    const pollResponse = async (): Promise<void> => {
       const deadline = Date.now() + AUTH_RESPONSE_WAIT_MS;
-      const before = after.classification;
-      while (
-        Date.now() < deadline &&
-        after.fields.password &&
-        !after.errorText &&
-        after.classification === before &&
-        !(await firstVisible(page, sel.verificationCodeInput))
-      ) {
+      while (Date.now() < deadline && (await stillSilent())) {
         await page.waitForTimeout(500);
         after = await diagnoseLoginWall(page);
+      }
+    };
+    if (settle > 0) {
+      await pollResponse();
+      // TIAA live 2026-08-30 (#63c, runs 22f/22i — account EXISTED):
+      // the tenant's visible Sign In is an invisible-captcha overlay
+      // (click_filter/noCaptchaWrapper); clicking the underlying button
+      // is a silent no-op — no error, no navigation, ever. Keyboard
+      // submit from the password field is the human-faithful retry and
+      // bypasses the overlay. Once, noted, then the poll decides again.
+      if (await stillSilent()) {
+        const pw = form
+          ? form.locator("input[type='password']").first()
+          : passwordFields.first();
+        await pw.press("Enter", { timeout: 5_000 }).catch(() => undefined);
+        notes.push(
+          `portal auth ${kind}: click answered nothing — retried with Enter from the password field`,
+        );
+        await settlePage(page, settle, 1_200);
+        after = await diagnoseLoginWall(page);
+        await pollResponse();
       }
     }
     const formGone = !after.fields.password && !after.errorText;
