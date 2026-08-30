@@ -385,6 +385,15 @@ export function screenerKeyLabelIncompatible(
   if (/salary|compensation/.test(key)) {
     return /hear about|learned about|how did you (hear|find)/.test(n);
   }
+  // Live 2026-08-30 (neuralink): the internship LENGTH entry ("12 or 16
+  // weeks") had "What intern season are you interested in?" attached, so
+  // the season combobox was fed a duration and refused for three runs.
+  if (/length|duration|weeks|months/.test(key)) {
+    return /\b(season|term|cohort|quarter)\b|which (summer|fall|winter|spring)|when (would|can|are) you/.test(n);
+  }
+  if (/season|term|cohort/.test(key)) {
+    return /\b(length|duration|how (long|many weeks|many months))\b/.test(n);
+  }
   return false;
 }
 

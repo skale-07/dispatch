@@ -36,6 +36,8 @@ export type UnansweredRequired = {
     | "select"
     | "radio_group"
     | "checkbox"
+    /** A named checkbox group (question_N[] in a fieldset) — one question, answered by any member. */
+    | "checkbox_group"
     | "combobox"
     | "file";
   /** What marked it required: the DOM's own attributes/asterisk, or the ATS's published schema. */
@@ -201,6 +203,33 @@ const SCAN_EXPRESSION = `(() => {
     const required = isRequired(el);
     if (!visible(el)) continue;
     if (type === "checkbox") {
+      // Checkbox GROUP (Greenhouse job-boards, live neuralink 2026-08-30):
+      // members share a name (question_N[]) inside a <fieldset><legend>.
+      // Each member carries the required attribute, so per-box reading listed all 13
+      // unchecked members of two ANSWERED groups as unanswered questions.
+      // One question per group: unanswered only when no member is checked.
+      const cname = el.name || "";
+      const fs = el.closest("fieldset");
+      const siblings = cname
+        ? Array.from(document.querySelectorAll('input[type="checkbox"][name="' + CSS.escape(cname) + '"]'))
+        : [];
+      const isGroup = siblings.length > 1 || (cname !== "" && fs !== null && fs.querySelector("legend") !== null);
+      if (isGroup) {
+        const key = "checkbox:" + cname;
+        if (seenGroups.has(key)) continue;
+        seenGroups.add(key);
+        const members = siblings.length > 0 ? siblings : [el];
+        const groupRequired = members.some((c) => isRequired(c));
+        const anyChecked = members.some((c) => c.checked);
+        if (!anyChecked) {
+          const legend = fs ? fs.querySelector("legend") : null;
+          push(groupRequired, {
+            label: clean(legend ? legend.textContent : labelFor(el)) || "(checkbox group)",
+            control: "checkbox_group",
+          });
+        }
+        continue;
+      }
       if (!el.checked) push(required, { label: labelFor(el), control: "checkbox" });
       continue;
     }

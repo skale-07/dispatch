@@ -40,8 +40,21 @@ export function chainVerificationCodeProviders(
 ): FetchVerificationCode {
   return async (input) => {
     for (const fetch of fetchers) {
-      const result = await fetch(input);
-      if (result) return result;
+      try {
+        const result = await fetch(input);
+        if (result) return result;
+      } catch (err) {
+        // Live 2026-08-30 (neuralink, after a real submit click): the Gmail
+        // web scan came up dry and the Outlook leg THREW "outlook session
+        // invalid (UNAUTHENTICATED)" — the throw escaped the recovery and
+        // the post-click run was recorded FAILED_BEFORE_CLICK. A provider
+        // that cannot open its mailbox is a dry provider, not a run failure.
+        logger.warn("verification code provider failed — trying the next one", {
+          service: "verification",
+          action: "code_provider_error",
+          metadata: { reason: err instanceof Error ? err.message.slice(0, 200) : String(err) },
+        });
+      }
     }
     return null;
   };

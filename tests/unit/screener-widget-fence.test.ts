@@ -2,7 +2,34 @@ import { describe, expect, it } from "vitest";
 import {
   findCustomScreenerMatch,
   isPageWidgetLabel,
+  screenerKeyLabelIncompatible,
 } from "../../src/candidate/screenerMatch.js";
+
+/**
+ * Topic fence, night19 #42: the internship LENGTH entry ("12 or 16 weeks")
+ * had the neuralink SEASON question attached by the paraphrase loop, so a
+ * duration was fed to a "Fall 2026 | Winter 2027" combobox three times.
+ */
+describe("length ↔ season topic fence", () => {
+  it.each([
+    ["internship_length", "What intern season are you interested in?"],
+    ["internship_length", "What internship season are you interested in?"],
+    ["preferred_duration_weeks", "Which term are you applying for?"],
+    ["internship_length", "Which cohort would you like to join?"],
+    ["internship_season", "How long of an internship are you looking for?"],
+    ["internship_term", "Please indicate what length of internship you are interested in."],
+  ])("%s never takes label %s", (key, label) => {
+    expect(screenerKeyLabelIncompatible(key, label)).toBe(true);
+  });
+
+  it.each([
+    ["internship_length", "Please indicate what length of internship you are interested in."],
+    ["internship_season", "What intern season are you interested in?"],
+    ["graduation_year", "What year will you graduate?"],
+  ])("%s still accepts its own label %s", (key, label) => {
+    expect(screenerKeyLabelIncompatible(key, label)).toBe(false);
+  });
+});
 import type { ScreenerAnswerBank } from "../../src/candidate/screeners.js";
 
 /**

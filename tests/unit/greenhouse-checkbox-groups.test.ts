@@ -95,6 +95,23 @@ describe("greenhouse checkbox groups — discovery (UNIT_CONFIRMED)", () => {
   });
 });
 
+describe("greenhouse checkbox groups — the on-site acknowledgement is a bank-answerable question (UNIT_CONFIRMED)", () => {
+  it("'I understand …' / 'I am aware …' statements are capture-worthy checkbox questions", async () => {
+    const { isCaptureWorthyQuestion } = await import("../../src/applications/screenerPredictionLlm.js");
+    expect(
+      isCaptureWorthyQuestion({
+        label: "I understand that this position requires me to work on-site.",
+        type: "checkbox",
+      }),
+    ).toBe(true);
+    expect(
+      isCaptureWorthyQuestion({ label: "I am aware this role requires a security clearance.", type: "checkbox" }),
+    ).toBe(true);
+    // A bare option label is still not a question.
+    expect(isCaptureWorthyQuestion({ label: "Neuralink Show & Tell", type: "checkbox" })).toBe(false);
+  });
+});
+
 describe("greenhouse checkbox groups — fill + verify (FIXTURE_CONFIRMED)", () => {
   useIsolatedFillEnv("fixture_fill");
 

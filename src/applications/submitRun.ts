@@ -909,6 +909,11 @@ export async function runAtsSubmission(input: {
                       metadata: { summary: diagnosis.summary },
                     },
                   );
+                  // The click already happened: nothing thrown from here
+                  // may reach the outer "failure before the click" catch
+                  // (live 2026-08-30: an Outlook session error recorded a
+                  // real post-click run as FAILED_BEFORE_CLICK).
+                  try {
                   const recovery = await recoverEmailVerification(
                     page,
                     diagnosis,
@@ -943,6 +948,19 @@ export async function runAtsSubmission(input: {
                         // Still inconclusive — fall through to UNCERTAIN.
                       }
                     }
+                  }
+                  } catch (recoveryErr) {
+                    logger.warn("post-click code recovery threw — parking UNCERTAIN", {
+                      service: "submission",
+                      action: "post_click_code_recovery_error",
+                      application_id: applicationId,
+                      metadata: {
+                        reason:
+                          recoveryErr instanceof Error
+                            ? recoveryErr.message.slice(0, 200)
+                            : String(recoveryErr),
+                      },
+                    });
                   }
                 }
               }

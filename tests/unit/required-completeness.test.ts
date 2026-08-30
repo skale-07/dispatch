@@ -1,3 +1,5 @@
+import fs from "node:fs";
+import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { withFixtureHtmlPage } from "../../src/browser/fixtureSession.js";
 import { scanRequiredCompleteness } from "../../src/ats/shared/requiredCompleteness.js";
@@ -55,6 +57,34 @@ describe("required-completeness scan (FIXTURE_CONFIRMED)", () => {
       });
       const scan = await scanRequiredCompleteness(page);
       expect(scan.unanswered.filter((u) => u.control === "file")).toEqual([]);
+    });
+  }, 45_000);
+
+  it("LIVE neuralink shape: a required checkbox GROUP is one question, answered by any member (night19 #42)", async () => {
+    const html = fs.readFileSync(
+      path.join(process.cwd(), "tests", "fixtures", "ats", "greenhouse", "checkbox-groups.html"),
+      "utf8",
+    );
+    await withFixtureHtmlPage(html, async (page) => {
+      const before = await scanRequiredCompleteness(page);
+      const groups = before.unanswered.filter((u) => u.control === "checkbox_group");
+      // Three groups, named by their legends — never 15 member boxes.
+      expect(groups.map((g) => g.label.replace(/\s*\*\s*$/, ""))).toEqual([
+        "Are you currently authorized to work in the United States?",
+        "I understand that this position requires me to work on-site.",
+        "How did you hear about us?",
+      ]);
+      expect(before.unanswered.filter((u) => u.control === "checkbox")).toEqual([]);
+      // Answer one member of each group (the way the fill does).
+      await page.locator('[id="question_16876429003[]_104418776003"]').check();
+      await page.locator('[id="question_16876431003[]_104418778003"]').check();
+      await page.locator('[id="question_16876435003[]_104418791003"]').check();
+      const after = await scanRequiredCompleteness(page);
+      expect(after.unanswered.filter((u) => u.control === "checkbox_group")).toEqual([]);
+      expect(after.unanswered.filter((u) => u.control === "checkbox")).toEqual([]);
+      // The unchecked "No" / other how-did-you-hear members never reappear.
+      expect(after.unanswered.map((u) => u.label)).not.toContain("No");
+      expect(after.unanswered.map((u) => u.label)).not.toContain("YouTube");
     });
   }, 45_000);
 

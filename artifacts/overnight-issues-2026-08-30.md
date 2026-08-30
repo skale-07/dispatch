@@ -302,4 +302,45 @@ logged only its pre-flight before dying.)_
   empty only in the former. Fix: when the post-upload verify fails, ONE
   re-fill + re-verify (the existing reuse-fallback, generalised and
   logged as `post_upload_refill`). Bounded; verify still decides.
-- Next: 1e213072 requeued (`retry --app`) as the live check.
+- Next: 1e213072 requeued (`retry --app`) as the live check. Commit ab7418a.
+
+### Jobs #7c–#7f — Neuralink, four more runs (11:55–12:15 local): 8 blockers → 0 field blockers → SUBMIT CLICKED → emailed-code wall
+- **#7c:** the checkbox/ghost fixes held; ONE mismatch left — season
+  combobox: bank had "12 or 16 weeks" (a LENGTH answer) attached to the
+  season labels (paraphrase-attach poisoning, #32's shape). Options on
+  the form: "Fall 2026 (September - December)" | "Winter 2027 (January -
+  April)". Detached the labels; added `internship_season = "Winter 2027
+  (January - April)"` from the operator's own `second_cohort_flexibility`
+  = "Winter (January - April)" + availability "Flexible — aligned to the
+  posted term". ⚠ Operator: confirm/change in screeners.json. Code:
+  length↔season topic fence + 9 tests (#42).
+- **#7d:** fill + verify PASSED; the required-completeness scan then
+  listed 13 "unanswered" checkboxes — every unchecked MEMBER of two
+  answered groups. Fix: group-aware scan (one question per named group,
+  answered by any member, labeled by the legend; control
+  `checkbox_group`); test on the live fixture (#42).
+- **#7e:** 1 left — the on-site acknowledgement group was
+  `skip_unmapped`: `isCaptureWorthyQuestion` needed a "?" or "I agree/
+  certify/…" for checkbox questions; added "I understand / I am aware /
+  I accept". Bank: `onsite_requirement_acknowledged = Yes` (consistent
+  with the operator's relocation "Yes" / "open to relocating"; ⚠ confirm).
+- **#7f: SUBMIT CLICKED** (first click of the night that passed every
+  pre-click gate). Greenhouse raised its 8-char emailed security-code
+  wall (to skale072007@gmail.com). The mail ARRIVED at 12:10 ("Security
+  code for your application to Neuralink") and the live-context Gmail
+  scan opened it — but found "no fresh code": the code is 8 mixed-case
+  LETTERS and `extractOtpCode` only scans digit runs. Then the Outlook
+  provider threw "session invalid", the throw escaped the recovery, and
+  the post-click run was recorded FAILED_BEFORE_CLICK / FAILED_RETRYABLE
+  (the form is still sitting on the code wall — nothing was submitted).
+
+### 43. Emailed-code recovery: letter codes unparsed; a dead provider aborted the chain; post-click error mislabeled — FIXED
+- `extractOtpCode`: one alphanumeric token (6–12) directly after a
+  "code …:" / "code is" phrase, rejected when it looks like a word
+  (must be mixed case or carry a digit); digit codes keep their scoring.
+- `chainVerificationCodeProviders`: a provider that throws (Outlook
+  UNAUTHENTICATED) is logged and skipped, never fatal.
+- submitRun: the whole post-click recovery is fenced — anything thrown
+  parks UNCERTAIN instead of "failure before the click".
+- ⚠ Operator (60s, not urgent): `npm run login:outlook` is expired; with
+  Gmail primary this no longer blocks anything.

@@ -255,7 +255,11 @@ export function isCaptureWorthyQuestion(q: {
   }
   if (q.type === "checkbox") {
     if (isApplicationConsentField({ type: "checkbox", label })) return false;
-    return /\?|(do you|have you|are you|i (agree|certify|acknowledge|confirm)|please (select|indicate|check|confirm))/i.test(
+    // "I understand that this position requires me to work on-site." (live
+    // neuralink 2026-08-30, required one-member group) is an acknowledgement
+    // question the bank answers — it carries no "?" and none of the older
+    // phrasings, so it never became a candidate and stayed skip_unmapped.
+    return /\?|(do you|have you|are you|i (agree|certify|acknowledge|confirm|understand|am aware|accept)|please (select|indicate|check|confirm))/i.test(
       label,
     );
   }

@@ -46,6 +46,26 @@ export function extractOtpCode(subject: string, body: string): string | null {
     const score = keywordScore + (code.length === 6 ? 1 : 0);
     candidates.push({ code, score, index: m.index });
   }
+  // Greenhouse "Security code for your application to <Company>" (live
+  // 2026-08-30, neuralink, AFTER a real submit click): "…use the following
+  // code to finish your application: aBCdefGh" — EIGHT LETTERS, mixed
+  // case, no digits at all. The digit-only scan above returned null and
+  // the click parked. Accept one alphanumeric token when it directly
+  // follows a "code …:" / "code is" phrase and does not look like a word
+  // (mixed case, or contains a digit, or all-caps with a digit).
+  const alnum =
+    /\bcode\b[^:\n]{0,80}?(?:\bis\b|:)\s*([A-Za-z0-9]{6,12})(?![A-Za-z0-9])/gi;
+  while ((m = alnum.exec(text)) !== null) {
+    const token = m[1]!;
+    if (/^\d+$/.test(token)) continue; // digit codes are scored above
+    const hasUpper = /[A-Z]/.test(token);
+    const hasLower = /[a-z]/.test(token);
+    const hasDigit = /\d/.test(token);
+    const wordish = !hasDigit && (!hasUpper || !hasLower);
+    if (wordish) continue; // "code: below", "CODE: RESET" are prose
+    if (isEmailLocalPartDigits(text, m.index + m[0].length - token.length, token.length)) continue;
+    candidates.push({ code: token, score: 5, index: m.index + m[0].length - token.length });
+  }
   // Equal scores: last in the document wins. Gmail threads sandbox
   // resends into one conversation (oldest at top); live 2026-08-16 the
   // scanner typed 389820 from the first message while 560516 sat at the
