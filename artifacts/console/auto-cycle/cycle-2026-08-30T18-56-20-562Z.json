@@ -1,0 +1,35 @@
+{
+  "started_at": "2026-08-30T18:56:20.562Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\jake_swe.pdf)",
+    "agent_leg": "UNAVAILABLE — AGENT_FALLBACK_ENABLED is off; nav phase C will be skipped for every app"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "26a0de1f-dc7b-4ab6-961b-3f7e45b29afd",
+    "armed_until": "2026-08-30T20:56:20.552Z",
+    "seconds_remaining": 7200,
+    "max_submits": 10,
+    "submits_used": 0,
+    "max_apps": 25,
+    "apps_started": 0,
+    "discover_max": 10,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": null,
+  "outcome": "skipped_already_armed",
+  "notes": [
+    "an armed session is already live — not double-arming (arm 26a0de1f, 0/25 apps, 120 min left)"
+  ]
+}

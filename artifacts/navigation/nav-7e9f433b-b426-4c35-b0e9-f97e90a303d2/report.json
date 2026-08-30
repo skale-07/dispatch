@@ -1,0 +1,48 @@
+{
+  "run_id": "nav-7e9f433b-b426-4c35-b0e9-f97e90a303d2",
+  "application_id": "b0cac95d-53f9-46f2-8951-ee2052f5d8e0",
+  "jobright_job_id": "6a4798597f52ba442184a5bc",
+  "method": null,
+  "resolved_url": null,
+  "resolved_ats": null,
+  "wall": "budget",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no external anchors"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "unresolved by deterministic phases"
+    },
+    {
+      "phase": "C_agent",
+      "outcome": "wall: budget (turn 1)"
+    }
+  ],
+  "agent": {
+    "turns_used": 1,
+    "steps_used": 5,
+    "domains_visited": [
+      "jobright.ai",
+      "jobs.lever.co"
+    ]
+  },
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "no standard Apply control found (exact and broad name tiers both empty)",
+    "agent[1]: reached form",
+    "agent[1]: final_url rejected: host evil.example.com is outside allowed domains",
+    "agent[1] reason: sidecar final_url rejected: host evil.example.com is outside allowed domains"
+  ],
+  "congruence": null,
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-08-30T19:00:38.027Z"
+}
