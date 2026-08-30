@@ -152,6 +152,7 @@ const GENERIC_URL_WORDS = new Set([
   // /hcmUI/CandidateExperience/en/sites/CX, brassring /TGnewUI/Search/home,
   // ultipro /JobBoard/OpportunityDetail, hrmdirect /employment,
   // workday tenant "globalhr" (RTX), "private_posting_no_tmp".
+  "workforcenow", "mascsr", "mdf", "recruitment2", "default",
   "view", "viewjob", "hcmui", "candidateexperience", "sites", "cx", "tgnewui",
   "search", "home", "globalhr", "hr", "corporate", "employment", "jobboard",
   "opportunitydetail", "jobdetail", "jobdetails", "private", "tmp", "internal",

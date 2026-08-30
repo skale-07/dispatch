@@ -687,3 +687,22 @@ logged only its pre-flight before dying.)_
 - ADP WorkforceNow tenant URL; the vendor's product name (tenant label)
   and app-plumbing path words convicted the URL. Added to
   GENERIC_URL_WORDS; live pair added to the #38 progressive set.
+
+---
+
+## Night20 (same date, evening session; operator asleep, 3-min/job budget)
+
+Pre-flight state (16:00 local):
+- Debug Chrome CDP 9222: real `connectOverCDP` verified (probe listed night19's
+  leftover tabs); JobRight feed authenticated (39 applied per header).
+- Queue: 11 QUEUED, 41 APPLICATION_OPENING, 36 AMBIGUOUS_FIELD, 22
+  NATIVE_AUTOFILL_RUNNING, 6 FAILED_RETRYABLE, 4 SUBMISSION_VERIFICATION_FAILED,
+  4 COMPLETED. Flags: form_fill+submit on, dry_run off, rollout stage 4.
+- Hygiene: 12 MANUAL review rows dismissed (#29 still re-parks them).
+- Found UNCOMMITTED night19 work in the tree: #57 essay follow-up context fix +
+  #20 workforcenow GENERIC_URL_WORDS fix, with tests. The new #57 test's stub
+  answer was 32 words — validateDraft's 40-word floor rejected it and the test
+  crashed on a null `previous_answers`; padded the stub past 40 words, file now
+  5/5. Full gate running before commit. tmp CDP probes moved scripts/ → private/.
+- Issue numbering continues from #57 (#55 attach-preflight and #56 Workday
+  formField-* resolution still OPEN from night19).

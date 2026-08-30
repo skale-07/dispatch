@@ -40,6 +40,7 @@ Rules:
 - Facts about the CANDIDATE come ONLY from candidate_context. Never invent an employer, a school, a metric, a date, or a project.
 - posting_context (when present) is text taken from the employer's own posting and application pages — the company name, the role, what the team does. Use it to know who the employer is and to connect the candidate's real background to the role ("why us" reasoning). Never invent employer facts beyond it.
 - If neither context supports an answer, return null. A missing answer is far better than an invented one.
+- previous_answers (when given) are this application's already-written answers to sibling questions. For "Second/Third example" style follow-ups, write a DIFFERENT example than those; return null only when the candidate context has no further distinct material.
 - Write first person, plain and specific. No preamble, no sign-off, no headings.
 - 90-200 words unless the question asks for less.
 - Do not mention being an AI, and do not use bracketed placeholders.
@@ -186,14 +187,33 @@ export async function generateEssayAnswers(input: {
 
   const client = input.client ?? makeLlmClient();
   const answers: EssayAutofillResult[] = [];
+  // Follow-up shape (live neuralink 2026-08-30): "We look for evidence of
+  // exceptional ability… 3-4 examples" then bare "Second example:" /
+  // "Third example:". Sent alone, the model has no parent question and no
+  // way to give a DIFFERENT example — it (correctly) abstained on the
+  // third. Carry the nearest preceding long question into follow-up labels
+  // and pass this batch's previous answers for distinctness.
+  const previous: Array<{ question: string; answer: string }> = [];
+  let parentQuestion: string | null = null;
   for (const item of items) {
+    const isFollowUp = /^(first|second|third|fourth|fifth|next|another)?\s*(example|answer|response)\s*:?\s*$/i.test(
+      item.question.trim(),
+    );
+    if (!isFollowUp && item.question.trim().length >= 40) {
+      parentQuestion = item.question.trim();
+    }
+    const question =
+      isFollowUp && parentQuestion
+        ? `${parentQuestion} — ${item.question.trim()}`
+        : item.question;
     try {
       const userPayload = {
-        question: item.question,
+        question,
         company: input.job?.company ?? null,
         role: input.job?.role ?? null,
         posting_context: input.postingContext?.trim() || null,
         candidate_context: about,
+        previous_answers: previous.length > 0 ? previous.slice(-4) : null,
       };
       const { text } = await client.generateJson({
         system: SYSTEM_PROMPT,
@@ -231,6 +251,7 @@ export async function generateEssayAnswers(input: {
         question: item.question,
         answer: (parsed.answer as string).trim(),
       });
+      previous.push({ question, answer: String(parsed.answer).slice(0, 400) });
     } catch (err) {
       notes.push(
         `essay generation failed (parks as before): ${err instanceof Error ? err.message.slice(0, 140) : String(err)}`,

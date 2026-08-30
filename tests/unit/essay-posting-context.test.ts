@@ -118,4 +118,34 @@ describe("essay generation receives posting context (UNIT_CONFIRMED)", () => {
     expect(withoutCtx.answers).toHaveLength(1);
     expect(payloads[1]!["posting_context"]).toBeNull();
   });
+
+  it("'Second/Third example' follow-ups inherit the parent question and see previous answers (night19 #57)", async () => {
+    const payloads: Array<Record<string, unknown>> = [];
+    let n = 0;
+    const capture: EmailLlmClient = {
+      async generateJson({ user }) {
+        payloads.push(JSON.parse(user) as Record<string, unknown>);
+        n += 1;
+        return { text: JSON.stringify({ answer: n === 3 ? null : `Example number ${n}: I built a reliable ML tooling system as an applied-math undergraduate, and I care about dependable software in everything I ship for teams that rely on it every day. I automated browser workflows end to end, wrote deterministic verification for every fill, and treated every unverified claim as unfinished work until a read-back proved it.` }), model: "stub" };
+      },
+    };
+    const r = await generateEssayAnswers({
+      items: [
+        { fieldId: "q1", question: "We look for evidence of exceptional ability. Please provide us with 3-4 examples highlighting your exceptional ability." },
+        { fieldId: "q2", question: "Second example:" },
+        { fieldId: "q3", question: "Third example:" },
+      ],
+      client: capture,
+    });
+    // Follow-ups carry the parent question…
+    expect(String(payloads[1]!["question"])).toMatch(/exceptional ability.*Second example:/s);
+    expect(String(payloads[2]!["question"])).toMatch(/exceptional ability.*Third example:/s);
+    // …and the batch's previous answers ride along for distinctness.
+    expect(payloads[0]!["previous_answers"]).toBeNull();
+    expect((payloads[1]!["previous_answers"] as unknown[]).length).toBe(1);
+    expect((payloads[2]!["previous_answers"] as unknown[]).length).toBe(2);
+    // The model's abstention (null) is still honored.
+    expect(r.answers.map((a) => a.fieldId)).toEqual(["q1", "q2"]);
+    expect(r.notes.join(" ")).toMatch(/abstained.*Third example/);
+  });
 });

@@ -212,6 +212,10 @@ describe("URL congruence (UNIT_CONFIRMED)", () => {
         "MicroVention-Terumo",
         "https://sjobs.brassring.com/TGnewUI/Search/home/HomeWithPreLoad?partnerid=25987&siteid=5297&PageType=JobDetails&jobid=913456",
       ],
+      [
+        "iA",
+        "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=93fdfc70-37a2-4cde-ba86-0da4925db4c8&jobId=578206&ccId=9200669649151_3",
+      ],
       ["Bradesco Bank", "https://www.linkedin.com/jobs/view/4458798591"],
       ["Neuralink", "https://www.linkedin.com/jobs/view/4416715074"],
     ];
