@@ -1,36 +1,60 @@
 {
   "mode": "executed",
   "ats": "greenhouse",
-  "url": "https://job-boards.greenhouse.io/datadog/jobs/8052095",
+  "url": "https://job-boards.greenhouse.io/flyzipline/jobs/7980874003",
   "plan": {
-    "answers": {},
-    "entries": [],
-    "fillable_count": 0,
+    "answers": {
+      "screener:custom:search_roles_query_2": "Software Engineer Intern",
+      "screener:custom:search_roles_query_2:f_1": "Software Engineer Intern"
+    },
+    "entries": [
+      {
+        "field_id": "f_0",
+        "label": "Search roles",
+        "type": "unknown",
+        "canonical_field": "screener:custom:search_roles_query_2",
+        "action": "fill",
+        "value": "Software Engineer Intern",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "f_1",
+        "label": "Search roles",
+        "type": "unknown",
+        "canonical_field": "screener:custom:search_roles_query_2:f_1",
+        "action": "fill",
+        "value": "Software Engineer Intern",
+        "reason": "Screener bank answer (free_text)"
+      }
+    ],
+    "fillable_count": 2,
     "skipped_count": 0,
     "review_required_count": 0
   },
   "submit_attempted": false,
   "notes": [
     "session: handoff (caller-owned page, not closed here)",
-    "posting page (no fields, Apply CTA present) but no Apply control found — not filling the posting; no visible apply-ish controls",
-    "no hopable iframe after landing miss — frames: main https://careers.datadoghq.com/detail/8052095/?gh_jid=8052095",
-    "No Greenhouse application form was found on the page."
+    "gate passed but the page has no applicant-identity fields — treating as posting shell (samsara-type chrome), running Apply + hop recovery",
+    "no hopable iframe after landing miss — frames: main https://www.zipline.com/open-roles?gh_jid=7980874003",
+    "popups dismissed: close (aria-label)",
+    "heal pass: recovered 0/2; final verify passed: false (sidecar consulted)",
+    "frozen after fill→verify→upload — no further field mutation; submit never called"
   ],
   "validation_level": "UNVERIFIED",
-  "final_url": "https://careers.datadoghq.com/detail/8052095/?gh_jid=8052095",
+  "final_url": "https://www.zipline.com/open-roles?gh_jid=7980874003",
   "identity_verification": {
-    "requestedUrl": "https://job-boards.greenhouse.io/datadog/jobs/8052095",
-    "finalUrl": "https://careers.datadoghq.com/detail/8052095/?gh_jid=8052095",
-    "requestedJobId": "8052095",
-    "observedJobId": "8052095",
+    "requestedUrl": "https://job-boards.greenhouse.io/flyzipline/jobs/7980874003",
+    "finalUrl": "https://www.zipline.com/open-roles?gh_jid=7980874003",
+    "requestedJobId": "7980874003",
+    "observedJobId": "7980874003",
     "company": null,
-    "role": "Software Engineering Intern (Winter) | Datadog Careers",
-    "formDetected": false,
-    "fieldCount": 0,
+    "role": "Open Roles at Zipline | Join Our Team",
+    "formDetected": true,
+    "fieldCount": 2,
     "warnings": [],
-    "passed": false,
-    "failureCode": "FORM_NOT_FOUND",
-    "failureReason": "No Greenhouse application form was found on the page."
+    "passed": true,
+    "failureCode": null,
+    "failureReason": null
   },
   "captcha_detection": {
     "detected": false,
@@ -43,7 +67,167 @@
     "confidence": "LOW",
     "signals": []
   },
-  "failure_code": "FORM_NOT_FOUND",
-  "mutation_attempted": false,
-  "written_at": "2026-08-30T14:15:54.101Z"
+  "failure_code": null,
+  "mutation_attempted": true,
+  "harvested_options": [],
+  "approved_plan": {
+    "entries": [
+      {
+        "field_id": "f_0",
+        "label": "Search roles",
+        "type": "unknown",
+        "canonical_field": "screener:custom:search_roles_query_2",
+        "action": "FILL",
+        "approved": true,
+        "value": "Software Engineer Intern",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "f_1",
+        "label": "Search roles",
+        "type": "unknown",
+        "canonical_field": "screener:custom:search_roles_query_2:f_1",
+        "action": "FILL",
+        "approved": true,
+        "value": "Software Engineer Intern",
+        "reason": "Screener bank answer (free_text)"
+      }
+    ],
+    "answers": {
+      "screener:custom:search_roles_query_2": "Software Engineer Intern",
+      "screener:custom:search_roles_query_2:f_1": "Software Engineer Intern"
+    },
+    "fillable_count": 2,
+    "skipped_count": 0,
+    "review_required_count": 0
+  },
+  "fill": {
+    "filled": [],
+    "skipped": [],
+    "errors": [
+      "f_0: control not found on the page (label \"Search roles\") — failing fast instead of waiting 30s",
+      "f_1: control not found on the page (label \"Search roles\") — failing fast instead of waiting 30s"
+    ],
+    "field_meta": []
+  },
+  "verify": {
+    "passed": false,
+    "fields": [
+      {
+        "canonical_field": "screener:custom:search_roles_query_2",
+        "expected": "Software Engineer Intern",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "screener:custom:search_roles_query_2:f_1",
+        "expected": "Software Engineer Intern",
+        "observed": null,
+        "match": false
+      }
+    ],
+    "uploads": [],
+    "warnings": [
+      "verify screener:custom:search_roles_query_2: control not found on the page (label \"Search roles\") — failing fast instead of waiting 30s",
+      "verify screener:custom:search_roles_query_2:f_1: control not found on the page (label \"Search roles\") — failing fast instead of waiting 30s"
+    ]
+  },
+  "heal": {
+    "attempted": 2,
+    "healed": [],
+    "still_failing": [
+      "f_0",
+      "f_1"
+    ],
+    "attempts": [
+      {
+        "field_id": "f_0",
+        "layer": null,
+        "candidate": null,
+        "healed": false,
+        "notes": [
+          "no heuristic candidates scored >= 0.5",
+          "sidecar returned no candidates"
+        ]
+      },
+      {
+        "field_id": "f_1",
+        "layer": null,
+        "candidate": null,
+        "healed": false,
+        "notes": [
+          "no heuristic candidates scored >= 0.5",
+          "sidecar returned no candidates"
+        ]
+      }
+    ],
+    "sidecar_used": true
+  },
+  "operator_brief": {
+    "title": "Live fill — greenhouse https://www.zipline.com/open-roles?gh_jid=7980874003",
+    "summary": "4 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:screener:custom:search_roles_query_2",
+        "question": "Search roles",
+        "field_id": "f_0",
+        "canonical_field": "screener:custom:search_roles_query_2",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Software Engineer Intern\"; page shows \"(empty)\"",
+        "expected": "Software Engineer Intern",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"Software Engineer Intern\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:search_roles_query_2)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:search_roles_query_2\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:custom:search_roles_query_2:f_1",
+        "question": "Search roles",
+        "field_id": "f_1",
+        "canonical_field": "screener:custom:search_roles_query_2:f_1",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Software Engineer Intern\"; page shows \"(empty)\"",
+        "expected": "Software Engineer Intern",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"Software Engineer Intern\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:search_roles_query_2:f_1)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:search_roles_query_2:f_1\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "fill_error:f_0: control not found on the page (label \"Search roles\") — failing fast instead",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "f_0: control not found on the page (label \"Search roles\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:f_1: control not found on the page (label \"Search roles\") — failing fast instead",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "f_1: control not found on the page (label \"Search roles\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      }
+    ],
+    "ok_count": 0,
+    "fail_count": 4
+  },
+  "written_at": "2026-08-30T15:24:24.716Z"
 }
