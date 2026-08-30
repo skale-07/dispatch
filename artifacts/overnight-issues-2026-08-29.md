@@ -241,6 +241,21 @@ FIELD_VERIFICATION.
   verify-side synonym blindness, resolved by the same consent pick being
   recorded verbatim.
 
+### 33. Code-wall recovery chain: five fixes, proven to the last link (targeted runs 3–9, TransMarket)
+- Chain now works end-to-end in code: split-box wall detection (bare
+  maxlength=1 cells), frame-aware scan, SHADOW-DOM piercing via Playwright
+  locators, CDP-contention fallback, and a live-context Gmail read (new
+  tab in the pipeline's own signed-in Chrome — no OAuth, no second
+  attach). Commits 4ba888d, ad647d1, 407c91d, a21879d, a478ec4, 483bf39.
+- **Final blocker (operator, 60s):** the debug-Chrome profile is NOT
+  signed into Google — the Gmail tab landed on
+  accounts.google.com/v3/signin (inbox_rows 0). Operator must run
+  `npm run chrome:debug:jobright` and sign mail.google.com into
+  skale072007@gmail.com once. After that every emailed-code wall clears
+  autonomously (recovery types the 8-char code and re-clicks).
+- TransMarket rows: 5902f351 FAILED_FINAL (attempt cap, all on now-fixed
+  bugs), fresh row e9732f17 (attempt 2/3) awaiting the sign-in.
+
 ### Operator-scope action: 4 samsara ADR apps abandoned
 - bc3adad0/cc70554a (ADR Intern Atlanta/Phoenix), 68485479/9ee5373a
   (ADR II New Grad Atlanta/Phoenix) → FAILED_FINAL route INELIGIBLE via the

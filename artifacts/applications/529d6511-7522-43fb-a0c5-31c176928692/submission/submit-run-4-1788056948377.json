@@ -1,0 +1,37 @@
+{
+  "outcome": "FAILED_BEFORE_CLICK",
+  "application_id": "529d6511-7522-43fb-a0c5-31c176928692",
+  "submission_id": "2b8578bf-2aec-40ea-b954-b08241c7236f",
+  "attempt": 4,
+  "receipt": null,
+  "review_item_id": null,
+  "reason": "Refusing to click submit: field verification or upload did not pass",
+  "artifact_path": null,
+  "operator_brief": {
+    "title": "Submit blocked — greenhouse app 529d6511-7522-43fb-a0c5-31c176928692",
+    "summary": "1 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:screener:custom:brighthire_recording_consent",
+        "question": "Processing of Personal Data",
+        "field_id": "question_68338892",
+        "canonical_field": "screener:custom:brighthire_recording_consent",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Yes\"; page shows \"Acknowledge/Confirm\"",
+        "expected": "Yes",
+        "observed": {
+          "value": "Acknowledge/Confirm",
+          "label": "Acknowledge/Confirm"
+        },
+        "how_to_answer": [
+          "Type the intended value on the form (planned: Yes). If a places/autocomplete list appears, select a matching suggestion; plain city text is enough when no list opens.",
+          "DOM shows \"Acknowledge/Confirm\" but plan expected \"Yes\". Correct the value on the form or fix profile/aliases so the plan matches the real answer.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:brighthire_recording_consent)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:brighthire_recording_consent\" should match the on-form question text."
+        ]
+      }
+    ],
+    "ok_count": 27,
+    "fail_count": 1
+  }
+}
