@@ -41,15 +41,32 @@ export type LoginWallDiagnosis = {
     | "create_account_form"
     | "federated_only"
     | "credentials_rejected"
+    /**
+     * The portal says the account is locked / too many attempts. Not a
+     * wrong password (escalating to create-account would fail "already
+     * exists") and not retryable inside a run — park with this named.
+     * Live 2026-08-30 huntington.wd12 after repeated sign-in attempts.
+     */
+    | "account_locked"
     | "no_form_found";
 };
+
+const LOCK_RE =
+  /account (?:is|has been) (?:temporarily )?locked|locked out|too many (?:failed |unsuccessful )?(?:sign[- ]?in |login |log in )?attempts|temporarily (?:blocked|disabled|suspended)|try again (?:in|after) \d+ (?:minutes?|hours?)/i;
 
 const FEDERATED_RE =
   /(sign|log)\s?in with|continue with|login with|use your .{0,40}account/i;
 const CREATE_ROUTE_RE =
   /create an? .{0,40}account|create account|sign up|new to /i;
+// Live huntington.wd12 (2026-08-30): Workday's rejection reads "You may
+// have entered the wrong email address or password or your account might
+// be locked." — "wrong password" never matched it, the wall "remained" and
+// the documented create-account escalation never ran.
 const ERROR_RE =
-  /incorrect|invalid|doesn'?t match|does not match|no account|can'?t find|couldn'?t find|not recognized|try again|must be verified|verify your email|wrong password/i;
+  /incorrect|invalid|doesn'?t match|does not match|no account|can'?t find|couldn'?t find|not recognized|try again|must be verified|verify your email|wrong (?:email(?: address)?(?: or)?\s*)?password|wrong email|might be locked|unable to sign in|sign[- ]in failed/i;
+/** Vendor error containers read before the body text (Workday's errorMessage). */
+const ERROR_CONTAINER_SELECTOR =
+  "[data-automation-id='errorMessage'], [data-automation-id='alertMessage'], [role='alert']";
 
 /**
  * Every way a portal names its email/username input. Live Workday
@@ -142,16 +159,37 @@ export async function diagnoseLoginWall(page: Page): Promise<LoginWallDiagnosis>
   )
     .then((t) => t.slice(0, 3_000))
     .catch(() => "");
+  const containerText = (
+    await root
+      .locator(ERROR_CONTAINER_SELECTOR)
+      .allInnerTexts()
+      .catch(() => [] as string[])
+  )
+    .map((t) => t.replace(/\s+/g, " ").trim())
+    .filter((t) => t.length > 0 && ERROR_RE.test(t))
+    .join(" | ")
+    .slice(0, 240);
   const errorMatch = bodyText.match(ERROR_RE);
-  const errorText = errorMatch
+  const errorText = containerText
+    ? containerText
+    : errorMatch
+      ? bodyText
+          .slice(Math.max(0, (errorMatch.index ?? 0) - 60), (errorMatch.index ?? 0) + 120)
+          .replace(/\s+/g, " ")
+          .trim()
+      : null;
+
+  const hasPassword = passwordCount > 0;
+  const lockMatch = bodyText.match(LOCK_RE);
+  const lockedText = lockMatch
     ? bodyText
-        .slice(Math.max(0, (errorMatch.index ?? 0) - 60), (errorMatch.index ?? 0) + 120)
+        .slice(Math.max(0, (lockMatch.index ?? 0) - 60), (lockMatch.index ?? 0) + 140)
         .replace(/\s+/g, " ")
         .trim()
     : null;
-
-  const hasPassword = passwordCount > 0;
-  const classification: LoginWallDiagnosis["classification"] = errorText
+  const classification: LoginWallDiagnosis["classification"] = lockedText
+    ? "account_locked"
+    : errorText
     ? "credentials_rejected"
     : confirmPassword
       ? "create_account_form"
@@ -168,7 +206,7 @@ export async function diagnoseLoginWall(page: Page): Promise<LoginWallDiagnosis>
     submitControls,
     federatedProviders,
     createAccountRoute,
-    errorText,
+    errorText: lockedText ?? errorText,
     classification,
   };
 }

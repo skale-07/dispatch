@@ -390,3 +390,24 @@ logged only its pre-flight before dying.)_
   no confirm); sign-in happens INSIDE the dialog (create-form handlers
   would flag "wrong form"), honeypots stay empty; harder: a wrong
   standing password is credentials_rejected, never a blind create.
+  Commit 8f61912.
+
+### Job #8b — Huntington again — 12:49 local, NOT submitted; sign-in now recognised, wall "remains"
+- `sign_in: sign_in_form` (dialog recognised, credentials typed, Sign In
+  clicked) but no error read → "wall remains". Live probe of the exact
+  response: Workday `data-automation-id="errorMessage"`: "You may have
+  entered the wrong email address or password or your account might be
+  locked." (this tenant has no account for the standing email — the only
+  stored per-host account is interdigital.wd5).
+
+### 46. Workday rejection sentence unread → the documented create-account escalation never ran — FIXED (+ `account_locked`)
+- `ERROR_RE` learns "wrong email address or password", "might be
+  locked", "unable to sign in"; Workday's `errorMessage`/`alertMessage`/
+  `role=alert` containers are read first. New classification
+  `account_locked` (real lock wording only: "account has been locked",
+  "too many … attempts", "try again in N minutes") → portal auth parks
+  `wall_remains` with the sentence and neither retries nor creates.
+  Tests: live rejection ⇒ credentials_rejected + create route found;
+  two lock sentences ⇒ account_locked; beecatcher label wording is not
+  an error. Next live run should escalate: Create Account with the same
+  standing email+password (guide §Employer-portal logins).

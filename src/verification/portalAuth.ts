@@ -445,6 +445,14 @@ export async function authenticateAtsPortal(
   let state = startAsCreate ? await attempt("create") : await attempt("sign_in");
   if (startAsCreate) escalated = true;
 
+  if (!state.formGone && state.diag.classification === "account_locked") {
+    // A locked account is neither a wrong password nor a missing account:
+    // creating would fail "already exists", retrying extends the lock.
+    notes.push(
+      `portal auth: account locked on ${host} — ${(state.diag.errorText ?? "").slice(0, 120)}; not escalating, not retrying`,
+    );
+    return done("wall_remains", { escalated, diag: state.diag });
+  }
   if (!state.formGone && state.diag.classification === "credentials_rejected") {
     const route = state.diag.createAccountRoute;
     // Dual-form walls already show Create Account. Clicking that submit
