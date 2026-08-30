@@ -638,4 +638,23 @@ logged only its pre-flight before dying.)_
   from the debug Chrome; the next attach (the cycle's navigation) times
   out. `CDP restart 1/3 … attach-verified`, but the 1-app cycle was spent
   on the error. Next: attach-verify (real CDP connect) in the session
-  preflight and restart BEFORE the first app (#55).
+  preflight and restart BEFORE the first app (#55). Commit bbbfb08.
+
+### Job #16 — 97aad252 Booz Allen 2027 Summer Games Data Scientist Intern (bah.wd1 Workday) — 15:03 local, 4 min, NOT submitted (AMBIGUOUS_FIELD)
+- Second full live Workday walk: account created at bah.wd1 too, wizard
+  filled 5 pages (8/10). Misses (snapshot form-snapshot-1788116847321):
+  (a) "Have you previously been employed by Booz Allen?" is a RADIO group
+  named by `<legend><label>` with NO `for`; the group div carries
+  `aria-labelledby` so getByLabel matches the DIV, and discovery planned
+  it as text; (b) "Phone Number" (`id=phoneNumber--phoneNumber`) — the
+  plan's label was bare "Phone", the fill timed out and verify read a hex
+  token off some hidden match.
+
+### 56. OPEN — Workday wizard field layer needs data-automation-id resolution (radio-in-legend groups; formField-* containers)
+- Evidence saved: the bah.wd1 snapshots (formField-candidateIsPreviousWorker
+  radio group, formField-phoneNumber/extension). Direction: resolve wizard
+  fields via `data-automation-id="formField-*"` containers → inner control;
+  collapse legend-labelled radio groups like #40 did for checkbox groups.
+  Interim tonight: `.or()` unions in locatorForField no longer include the
+  bare labelled element (an ancestor wrapper in document order would beat
+  its inner control), so wrappers can never be filled.
