@@ -1,0 +1,43 @@
+{
+  "run_id": "nav-98ca4d6a-14c6-4496-a753-cb5fd663d3d8",
+  "application_id": "976529cb-22a7-42cb-81ae-42fbf55407c6",
+  "jobright_job_id": "6a920a10c12c90443efc93e6",
+  "method": null,
+  "resolved_url": null,
+  "resolved_ats": null,
+  "wall": "agent_unavailable",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no congruent apply href (11 external links)",
+      "evidence": "x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, www.zipline.com, fortune.com"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "unresolved by deterministic phases"
+    },
+    {
+      "phase": "C_agent",
+      "outcome": "skipped: agent phase unavailable (CDP Chrome unreachable at http://127.0.0.1:9222)"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "ephemeral",
+  "notes": [
+    "phase A: anchor reads as \"greenhouse\" (URL names \"greenhouse\" (host), which shares nothing with company \"Zipline\") — not preferred, deferring to the Apply click",
+    "phase A: 9 external host(s) seen: x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, www.zipline.com, fortune.com, mexicobusiness.news, www.techtimes.com, boards.greenhouse.io",
+    "phase A: greenhouse-host anchor failed strict validation: boards.greenhouse.io/embed/job_app — Embed job_app URL missing or invalid board token (?for=...)",
+    "no standard Apply control found (exact and broad name tiers both empty)",
+    "unresolved by deterministic phases; agent phase unavailable: CDP Chrome unreachable at http://127.0.0.1:9222"
+  ],
+  "congruence": null,
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-08-30T04:22:01.207Z"
+}
