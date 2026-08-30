@@ -338,7 +338,14 @@ Expected outcomes:
 | `SUBMITTED_VERIFIED` | Receipt captured; state `SUBMITTED`; resubmission now impossible | 0 |
 | `UNCERTAIN` | Clicked but unverifiable; review item; auto-resubmit blocked | 3 |
 | `FAILED_BEFORE_CLICK` | Refused before clicking; state `FAILED_RETRYABLE` | 1 |
+| `REJECTED_AFTER_CLICK` | Clicked, and the ATS refused it ON THE PAGE (e.g. Ashby "flagged as possible spam"); definitive not-submitted; state `FAILED_RETRYABLE`, no review item; refusal text in the reason | 1 |
 | `REFUSED` | A guard fired; nothing happened | 1 |
+
+Live fill/submit pages open in the operator's `BROWSER_CHANNEL` (default
+`chrome`, an installed browser); offline fixtures keep the bundled Chromium.
+Invisible reCAPTCHAs score the headless bundled Chromium as a bot (Ashby
+refused a real submission as spam, 2026-08-30) — run unattended sessions
+`--headed` when an ATS uses one.
 
 Receipts land in `artifacts/applications/<uuid>/submission/`.
 

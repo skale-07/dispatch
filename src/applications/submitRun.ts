@@ -63,6 +63,7 @@ import { healFailedFillEntries } from "../ats/greenhouse/fillHealer.js";
 import { detectAtsFromUrl } from "../ats/shared/urlValidationDispatch.js";
 import { ATS_BINDINGS } from "./atsBindings.js";
 import { withPublicUrlPage } from "../browser/fixtureSession.js";
+import { resolveBrowserChannel } from "../browser/launchOptions.js";
 import { getRegisteredResume } from "../jobright/materialsRegister.js";
 import { verifyResumePdfFile } from "../jobright/resumeDownload.js";
 import {
@@ -86,7 +87,13 @@ export type SubmissionRunOutcome =
   | "SUBMITTED_VERIFIED"
   | "UNCERTAIN"
   | "REFUSED"
-  | "FAILED_BEFORE_CLICK";
+  | "FAILED_BEFORE_CLICK"
+  /**
+   * The click happened and the ATS refused it ON THE PAGE (classification
+   * `rejected`, e.g. Ashby "flagged as possible spam"). Definitive
+   * not-submitted → FAILED_RETRYABLE, no UNCERTAIN review park.
+   */
+  | "REJECTED_AFTER_CLICK";
 
 export type SubmissionRunReport = {
   outcome: SubmissionRunOutcome;
@@ -777,6 +784,37 @@ export async function runAtsSubmission(input: {
             report.reason = receipt.confirmation_text;
             return persist(report);
           } catch (err) {
+            // Definitive on-page refusal (live 2026-08-30, Ashby spam flag on
+            // 23d64c04): the page itself says the application was NOT
+            // submitted. Record the failure and requeue-able state instead
+            // of an UNCERTAIN park that only the operator can resolve.
+            if (
+              err instanceof SubmissionUncertainError &&
+              err.evidence["classification"] === "rejected"
+            ) {
+              const refusal =
+                typeof err.evidence["validation_error"] === "string"
+                  ? (err.evidence["validation_error"] as string)
+                  : err.message;
+              markSubmissionFailed(db, pending.id, `rejected after click: ${refusal}`);
+              failIdempotencyKey(db, idemKey, "rejected_after_click");
+              transitionApplication(db, {
+                applicationId,
+                nextState: "FAILED_RETRYABLE",
+                reason: `submission rejected by the form after click: ${refusal}`,
+                runId,
+                artifacts: [screenshotPath],
+              });
+              logger.warn("submission rejected on-page after click", {
+                service: "submission",
+                action: "post_click_rejected",
+                application_id: applicationId,
+                metadata: { refusal, final_url: err.evidence["final_url"] ?? null },
+              });
+              report.outcome = "REJECTED_AFTER_CLICK";
+              report.reason = `Submission rejected by the form after click: ${refusal}`;
+              return persist(report);
+            }
             // Post-click emailed-code wall (live 2026-08-29, Greenhouse
             // "security code": the click leaves the FORM on-page waiting for
             // an 8-char code mailed to the candidate — the confirmation
@@ -923,7 +961,7 @@ export async function runAtsSubmission(input: {
     return await withPublicUrlPage(
       detected.normalizedUrl,
       runOnPage,
-      { headless: input.headless ?? false },
+      { headless: input.headless ?? false, channel: resolveBrowserChannel() },
     );
   } finally {
     releaseLease(db, {

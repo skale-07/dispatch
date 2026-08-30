@@ -53,6 +53,7 @@ import {
   withPublicUrlPage,
   type PublicUrlSession,
 } from "../browser/fixtureSession.js";
+import { resolveBrowserChannel } from "../browser/launchOptions.js";
 import { hasLlmKey } from "../contacts/emailLlm.js";
 import { describeSessionReadiness } from "../auth/serviceSession.js";
 import { runContactsExtraction } from "../contacts/extractContacts.js";
@@ -1356,6 +1357,9 @@ async function step(
         if (ctx.options.submit) {
           ctx.heldSubmitSession.current = await openPublicUrlSession({
             headless: ctx.options.headless ?? false,
+            // Live only: fixture runs keep the bundled Chromium (no
+            // installed-browser dependency in tests).
+            ...(ctx.options.fixtureHtmlPath ? {} : { channel: resolveBrowserChannel() }),
           });
           try {
             filled = await runLiveFill(

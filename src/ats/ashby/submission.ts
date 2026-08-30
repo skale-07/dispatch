@@ -12,6 +12,7 @@ import { resolveSubmitControl } from "../shared/submitControl.js";
 
 import {
   SubmissionUncertainError,
+  detectSubmissionRejection,
   detectVisibleValidationError,
 } from "../shared/submissionUncertain.js";
 
@@ -21,6 +22,12 @@ export type SubmissionPageClassification =
   | "confirmed"
   | "still_on_form"
   | "error_page"
+  /**
+   * The ATS refused the submission on-page (Ashby "flagged as possible
+   * spam", live 2026-08-30). Definitive not-submitted: submitRun maps it
+   * to FAILED_RETRYABLE instead of an operator-only UNCERTAIN park.
+   */
+  | "rejected"
   | "unknown";
 
 /**
@@ -37,6 +44,11 @@ export function detectSubmissionUncertainty(
   finalUrl: string,
 ): SubmissionPageClassification {
   void finalUrl;
+  // An explicit on-page refusal wins over everything: the form may be
+  // gone (Ashby replaces it with the spam banner) or still rendered.
+  if (detectSubmissionRejection(html)) {
+    return "rejected";
+  }
   // renderedFormMarkers, not the broad formMarkers: the SPA's script/JSON
   // blobs keep "_systemfield_" strings after a successful submit, and a
   // real success must not classify still_on_form forever.
@@ -129,6 +141,12 @@ export async function ashbyVerifySubmission(
     }
     classification = detectSubmissionUncertainty(html, page.url());
     if (classification === "confirmed" || classification === "error_page") {
+      break;
+    }
+    if (classification === "rejected") {
+      // Fast fail with the refusal text: waiting the rest of the window
+      // cannot turn a stated refusal into a receipt.
+      validationError = detectSubmissionRejection(html);
       break;
     }
     // Fast fail: still on the form with a visible validation message —

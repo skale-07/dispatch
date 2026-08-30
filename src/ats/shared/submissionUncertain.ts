@@ -36,3 +36,25 @@ export function detectVisibleValidationError(html: string): string | null {
   if (!m) return null;
   return m[0].replace(/\s+/g, " ").trim().slice(0, 120);
 }
+
+/**
+ * The ATS itself REFUSED the submission after the click and said so on the
+ * page — a definitive not-submitted, not an inconclusive wait. Live
+ * 2026-08-30 (Ashby, Quadrillion 23d64c04): "We couldn't submit your
+ * application — Your application submission was flagged as possible spam.
+ * … please submit your application again." The form was gone, so the
+ * still_on_form validation fast-fail never ran, the classifier read
+ * "unknown", the run burned the 15s window and parked UNCERTAIN for the
+ * operator although the page had already answered.
+ *
+ * Narrow on purpose: whole-sentence refusals an ATS renders as a banner,
+ * never a bare "spam"/"error" substring.
+ */
+const SUBMISSION_REJECTED_RE =
+  /(?:we\s+)?couldn'?t\s+submit\s+your\s+application|(?:your\s+)?(?:application|submission)\s+(?:submission\s+)?was\s+flagged\s+as\s+(?:possible\s+)?spam|flagged\s+as\s+possible\s+spam|your\s+(?:application|submission)\s+(?:was|has\s+been)\s+(?:rejected|blocked)\s+by\s+(?:our\s+)?(?:spam|security|fraud)/i;
+
+export function detectSubmissionRejection(html: string): string | null {
+  const m = html.match(SUBMISSION_REJECTED_RE);
+  if (!m) return null;
+  return m[0].replace(/\s+/g, " ").trim().slice(0, 120);
+}

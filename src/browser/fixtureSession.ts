@@ -1,5 +1,5 @@
 import { chromium, type Page } from "playwright";
-import { browserLaunchOptions } from "./launchOptions.js";
+import { browserLaunchOptions, type BrowserChannel } from "./launchOptions.js";
 
 /**
  * Headless Chromium for offline HTML fixtures via page.setContent.
@@ -36,11 +36,20 @@ export type PublicUrlSession = {
  */
 export async function openPublicUrlSession(options?: {
   headless?: boolean;
+  /**
+   * Browser binary. Default stays the bundled Chromium (offline tests,
+   * read-only inspection). LIVE fill/submit callers pass the operator's
+   * BROWSER_CHANNEL: live 2026-08-30 Ashby's invisible reCAPTCHA scored the
+   * headless bundled Chromium as a bot and refused the submission as
+   * "possible spam" — a real installed Chrome, headed, is a supported
+   * browser, not stealth.
+   */
+  channel?: BrowserChannel;
 }): Promise<PublicUrlSession> {
   const browser = await chromium.launch(
     browserLaunchOptions({
       headless: options?.headless ?? true,
-      channel: "chromium",
+      channel: options?.channel ?? "chromium",
       slowMoMs: 0,
     }),
   );
@@ -68,7 +77,7 @@ export async function openPublicUrlSession(options?: {
 export async function withPublicUrlPage<T>(
   url: string,
   fn: (page: Page) => Promise<T>,
-  options?: { headless?: boolean },
+  options?: { headless?: boolean; channel?: BrowserChannel },
 ): Promise<T> {
   const session = await openPublicUrlSession(options);
   try {

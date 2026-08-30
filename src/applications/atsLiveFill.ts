@@ -69,6 +69,7 @@ import {
   withFixtureHtmlPage,
   withPublicUrlPage,
 } from "../browser/fixtureSession.js";
+import { resolveBrowserChannel } from "../browser/launchOptions.js";
 import type { Page } from "playwright";
 import { verifyResumePdfFile } from "../jobright/resumeDownload.js";
 import type { PublicProfile } from "../candidate/publicProfile.js";
@@ -508,6 +509,7 @@ export async function runAtsLiveFill(input: {
     }
     return withPublicUrlPage(detected.normalizedUrl, fn, {
       headless: input.headless ?? true,
+      channel: resolveBrowserChannel(),
     });
   };
 

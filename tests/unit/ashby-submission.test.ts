@@ -59,6 +59,54 @@ describe("Ashby submission (M6)", () => {
       ).toBe("still_on_form");
     });
 
+    // Live 2026-08-30 (Quadrillion 23d64c04): Ashby replaced the form with
+    // its spam banner; the classifier read "unknown" and parked UNCERTAIN.
+    const SPAM_BANNER = `<html><body><div class="ashby-job-posting"><h1>Software Engineering Intern</h1>
+      <div role="alert"><p>We couldn't submit your application</p>
+      <p>Your application submission was flagged as possible spam. If you believe this was a mistake, please submit your application again.</p></div>
+      <h2>Try these steps</h2><ul><li>Turn off your VPN or proxy</li><li>Pause browser extensions</li></ul></div></body></html>`;
+
+    it("classifies Ashby's 'flagged as possible spam' banner as rejected (form gone)", () => {
+      expect(detectSubmissionUncertainty(SPAM_BANNER, APPLICATION_URL)).toBe("rejected");
+    });
+
+    it("rejected wins even when the form is still rendered underneath the banner", () => {
+      const withForm = fixtureHtml("ashby").replace(
+        "<body>",
+        `<body><div role="alert">We couldn't submit your application — flagged as possible spam.</div>`,
+      );
+      expect(detectSubmissionUncertainty(withForm, APPLICATION_URL)).toBe("rejected");
+    });
+
+    it("the bare word spam (e.g. a screener about spam filters) is not a rejection", () => {
+      const html = fixtureHtml("ashby").replace(
+        "<body>",
+        "<body><p>Have you built spam detection systems before?</p>",
+      );
+      expect(detectSubmissionUncertainty(html, APPLICATION_URL)).toBe("still_on_form");
+    });
+
+    it("verifySubmission fast-fails on the rejection with the refusal text as evidence", async () => {
+      const shot = scratchScreenshotPath();
+      const started = Date.now();
+      await withFixtureHtmlPage(SPAM_BANNER, async (page) => {
+        let caught: unknown;
+        try {
+          await ashbyVerifySubmission(page, { screenshotPath: shot, timeoutMs: 8000 });
+        } catch (err) {
+          caught = err;
+        }
+        expect(caught).toBeInstanceOf(SubmissionUncertainError);
+        const e = caught as SubmissionUncertainError;
+        expect(e.evidence["classification"]).toBe("rejected");
+        expect(String(e.evidence["validation_error"])).toMatch(/couldn't submit your application/i);
+        expect(e.message).toMatch(/rejected by the form/);
+      });
+      // Did not burn the full window waiting for a confirmation that cannot come.
+      expect(Date.now() - started).toBeLessThan(7000);
+      fs.rmSync(shot, { force: true });
+    }, 30_000);
+
     it("classifies a blank page as unknown", () => {
       expect(
         detectSubmissionUncertainty(
