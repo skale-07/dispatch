@@ -510,6 +510,7 @@ export async function runAtsLiveFill(input: {
     return withPublicUrlPage(detected.normalizedUrl, fn, {
       headless: input.headless ?? true,
       channel: resolveBrowserChannel(),
+      ...(getConfig().navigationEnabled ? { cdpUrl: getConfig().agentCdpUrl } : {}),
     });
   };
 

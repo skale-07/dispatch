@@ -341,11 +341,15 @@ Expected outcomes:
 | `REJECTED_AFTER_CLICK` | Clicked, and the ATS refused it ON THE PAGE (e.g. Ashby "flagged as possible spam"); definitive not-submitted; state `FAILED_RETRYABLE`, no review item; refusal text in the reason | 1 |
 | `REFUSED` | A guard fired; nothing happened | 1 |
 
-Live fill/submit pages open in the operator's `BROWSER_CHANNEL` (default
-`chrome`, an installed browser); offline fixtures keep the bundled Chromium.
-Invisible reCAPTCHAs score the headless bundled Chromium as a bot (Ashby
-refused a real submission as spam, 2026-08-30) — run unattended sessions
-`--headed` when an ATS uses one.
+Live fill/submit pages open as a new tab in the operator's debug Chrome
+(`AGENT_CDP_URL`, the same signed-in profile navigation uses) whenever
+`NAVIGATION_ENABLED` is on and the endpoint attaches; otherwise they launch
+the operator's `BROWSER_CHANNEL` (default `chrome`). Offline fixtures keep
+the bundled Chromium. Why: invisible reCAPTCHAs score a profile-less,
+automation-launched browser as a bot — Ashby refused a real submission as
+"possible spam" twice on 2026-08-30 (headless bundled Chromium, then headed
+installed Chrome). The tab is closed and the session detaches afterwards;
+the operator's Chrome is never closed.
 
 Receipts land in `artifacts/applications/<uuid>/submission/`.
 

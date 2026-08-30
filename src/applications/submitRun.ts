@@ -961,7 +961,11 @@ export async function runAtsSubmission(input: {
     return await withPublicUrlPage(
       detected.normalizedUrl,
       runOnPage,
-      { headless: input.headless ?? false, channel: resolveBrowserChannel() },
+      {
+        headless: input.headless ?? false,
+        channel: resolveBrowserChannel(),
+        ...(cfg.navigationEnabled ? { cdpUrl: cfg.agentCdpUrl } : {}),
+      },
     );
   } finally {
     releaseLease(db, {

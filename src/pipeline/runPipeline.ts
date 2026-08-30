@@ -1359,7 +1359,16 @@ async function step(
             headless: ctx.options.headless ?? false,
             // Live only: fixture runs keep the bundled Chromium (no
             // installed-browser dependency in tests).
-            ...(ctx.options.fixtureHtmlPath ? {} : { channel: resolveBrowserChannel() }),
+            ...(ctx.options.fixtureHtmlPath
+              ? {}
+              : {
+                  channel: resolveBrowserChannel(),
+                  // Operator's debug Chrome (the nav seam) when navigation
+                  // is on — the trusted, signed-in profile.
+                  ...(getConfig().navigationEnabled
+                    ? { cdpUrl: getConfig().agentCdpUrl }
+                    : {}),
+                }),
           });
           try {
             filled = await runLiveFill(

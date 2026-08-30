@@ -45,7 +45,39 @@ export async function openPublicUrlSession(options?: {
    * browser, not stealth.
    */
   channel?: BrowserChannel;
+  /**
+   * When set, open the page as a NEW TAB in the operator's debug Chrome
+   * (the same CDP endpoint navigation attaches to) instead of launching a
+   * browser. Live 2026-08-30 (Ashby, Quadrillion): even the installed
+   * Chrome channel, headed, launched fresh by Playwright was refused as
+   * "possible spam" — a profile-less automation-launched browser is what
+   * the invisible reCAPTCHA scores, and the operator's real signed-in
+   * profile is the project's existing trusted seam. close() closes only
+   * the tab we opened and detaches; it never closes the operator's Chrome.
+   * Falls back to a launch when the endpoint will not attach.
+   */
+  cdpUrl?: string;
 }): Promise<PublicUrlSession> {
+  if (options?.cdpUrl) {
+    try {
+      const attached = await chromium.connectOverCDP(options.cdpUrl, { timeout: 15_000 });
+      const context = attached.contexts()[0] ?? (await attached.newContext());
+      const page = await context.newPage();
+      let closed = false;
+      return {
+        page,
+        close: async () => {
+          if (closed) return;
+          closed = true;
+          await page.close().catch(() => undefined);
+          // connectOverCDP: close() only detaches from the operator's browser.
+          await attached.close().catch(() => undefined);
+        },
+      };
+    } catch {
+      // Endpoint down or wedged — the launched-browser path below still works.
+    }
+  }
   const browser = await chromium.launch(
     browserLaunchOptions({
       headless: options?.headless ?? true,
@@ -77,7 +109,7 @@ export async function openPublicUrlSession(options?: {
 export async function withPublicUrlPage<T>(
   url: string,
   fn: (page: Page) => Promise<T>,
-  options?: { headless?: boolean; channel?: BrowserChannel },
+  options?: { headless?: boolean; channel?: BrowserChannel; cdpUrl?: string },
 ): Promise<T> {
   const session = await openPublicUrlSession(options);
   try {
