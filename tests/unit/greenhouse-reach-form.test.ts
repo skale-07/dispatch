@@ -64,6 +64,31 @@ describe("reachGreenhouseApplicationForm (FIXTURE_CONFIRMED)", () => {
     });
   }, 45_000);
 
+  it("refuses a listing shell with no Apply, no iframe and no embed fallback instead of filling its search boxes (zipline shape)", async () => {
+    // Live 2026-08-30: www.zipline.com/open-roles?gh_jid=… — the only
+    // inputs are the site's "Search roles" boxes; Apply and hop both miss.
+    // With no board token to build the canonical embed URL from, the reach
+    // must REFUSE (FORM_NOT_FOUND) rather than hand chrome to the fill.
+    const html = `<!DOCTYPE html><html><body>
+      <div id="application_form">
+        <h1>Open roles</h1>
+        <label>Search roles<input id="s1" name="search" type="text"/></label>
+        <label>Search roles<input id="s2" name="search-mobile" type="text"/></label>
+        <ul><li>Electrical Project Engineer Intern</li><li>Software Engineer Intern</li></ul>
+      </div>
+    </body></html>`;
+    // Embed URL without ?for= — no board token, so no fallback navigation
+    // (tests must never leave the fixture page).
+    const requested = "https://job-boards.greenhouse.io/embed/job_app?token=7980874003";
+    await withFixtureHtmlPage(html, async (page) => {
+      const r = await reachGreenhouseApplicationForm(page, requested, requested);
+      expect(r.gate.ok).toBe(false);
+      expect(r.gate.failureCode).toBe("FORM_NOT_FOUND");
+      expect(r.gate.reason).toMatch(/posting shell/);
+      expect(r.notes.join(" ")).toMatch(/refusing to fill page chrome/);
+    });
+  }, 45_000);
+
   it("does not click Apply when the landing is already a Greenhouse form", async () => {
     const html = `<!DOCTYPE html><html><body>${FORM_HTML}</body></html>`;
     await withFixtureHtmlPage(html, async (page) => {

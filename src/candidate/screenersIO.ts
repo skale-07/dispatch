@@ -7,6 +7,7 @@ import {
 } from "./screeners.js";
 import {
   findCustomScreenerMatch,
+  isPageWidgetLabel,
   screenerKeyLabelIncompatible,
 } from "./screenerMatch.js";
 
@@ -46,6 +47,12 @@ export function addCustomScreenerAnswer(input: {
   label: string;
 }): { path: string; key: string } {
   const { bankPath } = screenerBankPaths();
+  if (isPageWidgetLabel(input.label)) {
+    // Page chrome is not a question (2026-08-30 "Search roles" poisoning).
+    throw new Error(
+      `refusing to store "${input.label.slice(0, 60)}" — a page search/filter widget, not a screener question`,
+    );
+  }
   if (screenerKeyLabelIncompatible(input.key, input.label)) {
     // Topic fence (2026-08-29 how_heard_source/"Salary Range" poisoning):
     // refuse to attach an off-topic label — the compounding store must not
@@ -80,7 +87,7 @@ export function rememberPredictedScreenerAnswer(input: {
   label: string;
 }): { path: string; key: string; wrote: boolean } {
   const { bankPath } = screenerBankPaths();
-  if (screenerKeyLabelIncompatible(input.key, input.label)) {
+  if (isPageWidgetLabel(input.label) || screenerKeyLabelIncompatible(input.key, input.label)) {
     return { path: bankPath, key: input.key, wrote: false };
   }
   const existing = tryLoadScreenerBank();
@@ -102,7 +109,7 @@ export function rememberPredictedScreenerAnswer(input: {
 
 /** Record a paraphrase on an existing custom entry so the next hit is exact. */
 export function attachCustomScreenerLabel(key: string, label: string): void {
-  if (screenerKeyLabelIncompatible(key, label)) return;
+  if (isPageWidgetLabel(label) || screenerKeyLabelIncompatible(key, label)) return;
   const existing = tryLoadScreenerBank();
   const prior = existing?.custom[key];
   if (!prior) return;

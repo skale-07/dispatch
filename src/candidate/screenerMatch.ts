@@ -388,6 +388,21 @@ export function screenerKeyLabelIncompatible(
   return false;
 }
 
+/**
+ * Page chrome that is not a screener question and must never enter the
+ * bank. Live 2026-08-30 (zipline.com ?gh_jid= listing shell): the fill ran
+ * on the site's "Search roles" boxes and the predictor persisted
+ * `search_roles_query_2 = "Software Engineer Intern"` — a search widget
+ * learned as a question, ready to be "answered" on every listing page.
+ */
+const PAGE_WIDGET_LABEL_RE =
+  /^(?:search(?:\s+(?:roles?|jobs?|positions?|openings?|careers?|by\s+\w+|for\s+\w+))?|keywords?|search\s+keywords?|job\s+title\s+or\s+keywords?|filter(?:\s+by\s+\w+)?|sort\s+by|location\s+search|find\s+(?:a\s+)?jobs?|newsletter|subscribe|email\s+me\s+jobs)$/i;
+
+export function isPageWidgetLabel(label: string): boolean {
+  const n = normalizeScreenerLabel(label);
+  return n.length > 0 && PAGE_WIDGET_LABEL_RE.test(n);
+}
+
 export function findCustomScreenerMatch(
   label: string,
   bank: ScreenerAnswerBank,
@@ -395,6 +410,7 @@ export function findCustomScreenerMatch(
 ): CustomScreenerMatch | null {
   const norm = normalizeScreenerLabel(label);
   if (!norm) return null;
+  if (isPageWidgetLabel(label)) return null;
   let best: CustomScreenerMatch | null = null;
   let runnerUp = 0;
   for (const [key, e] of Object.entries(bank.custom)) {

@@ -198,3 +198,35 @@ logged only its pre-flight before dying.)_
   negative controls: a WRONG tenant on the same board ("schwab" for
   Rivian) must still be a mismatch; initials-prefix must not fire on a
   long unrelated word. Cohere trio + all prior congruence tests untouched.
+- Commit 026683b. Rivian's MANUAL park dismissed; it re-runs next pick.
+
+### Job #5 — 976529cb Zipline Electrical Project Engineer Intern (Greenhouse via zipline.com) — 11:22 local, 87s, NOT submitted → abandoned
+- Hardware stray the nav-requeue sweep pulled back in (I had left it
+  alone). Agent navigation 83s → job-boards.greenhouse.io/flyzipline/
+  jobs/7980874003, which 302s to www.zipline.com/open-roles?gh_jid=….
+  Posting-shell detection fired correctly, Apply and iframe hop both
+  missed ("no hopable iframe — frames: main only"), and the fill then
+  ran on the page's two "Search roles" boxes → AMBIGUOUS_FIELD, and the
+  predictor persisted `search_roles_query_2 = "Software Engineer
+  Intern"` into screeners.json (bank poisoning, #32's shape).
+- Abandoned via the state machine (FAILED_FINAL, reason recorded:
+  non-SWE hardware role). The SWE Zipline app be8620a0 (QUEUED) hits the
+  same page shape and is the live check for #39.
+
+### 39. Posting shell with NO Apply and NO iframe (zipline.com gh_jid) — fill ran on page chrome and poisoned the bank — FIXED + progressive-overload set
+- **Fix A (liveFill.ts):** `greenhouseEmbedFallbackUrl` — when a
+  ?gh_jid= shell has nothing to hop to, ONE navigation to Greenhouse's
+  canonical `boards.greenhouse.io/embed/job_app?for=<board>&token=<id>`
+  (board from the requested URL, id from either), then re-gate.
+  **Fix B:** if the page is still chrome after every rung, the reach
+  REFUSES (`FORM_NOT_FOUND`, "posting shell: … application form never
+  rendered") instead of handing search boxes to the fill.
+  **Fix C (screenerMatch/screenersIO):** `isPageWidgetLabel` fence —
+  "Search roles/jobs", "Keywords", "Filter by…", "Sort by", "Email me
+  jobs" etc. are never stored, attached, or matched; the poisoned
+  `search_roles_query_2` entry deleted from the bank.
+- **Tests:** 5 embed-URL cases (live zipline shape; samsara-shaped split
+  evidence; already-embed; missing board/id; encoding + host pin), a
+  fixture reach test for the zipline listing shell that must refuse
+  (no board token ⇒ no network), and 16 widget-label cases + a poisoned-
+  bank reuse test.

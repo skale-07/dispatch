@@ -280,6 +280,42 @@ async function hopEmbeddedForm(
   }
 }
 
+/**
+ * Live 2026-08-30 (Zipline): job-boards.greenhouse.io/flyzipline/jobs/<id>
+ * 302s to www.zipline.com/open-roles?gh_jid=<id> — a listing page whose
+ * only inputs are its "Search roles" boxes, with NO Apply control and NO
+ * embed iframe in any frame. Apply + hop both miss, and the fill then ran
+ * on the search boxes (and the predictor learned "Search roles" as a
+ * screener). Greenhouse's canonical embed app is deterministic from the
+ * board token + job id we already hold, so a ?gh_jid= shell with nothing
+ * to hop to gets ONE direct navigation there. Null when either half is
+ * unknown or the page is already an embed.
+ */
+export function greenhouseEmbedFallbackUrl(
+  requestedUrl: string,
+  normalizedUrl: string | null,
+  finalUrl: string,
+): string | null {
+  let final: URL;
+  try {
+    final = new URL(finalUrl);
+  } catch {
+    return null;
+  }
+  if (/greenhouse\.io$/i.test(final.hostname) && /\/embed\/job_app/i.test(final.pathname)) {
+    return null;
+  }
+  const jobId =
+    extractGreenhouseJobIdFromUrl(finalUrl) ??
+    extractGreenhouseJobIdFromUrl(normalizedUrl ?? requestedUrl);
+  const board =
+    extractBoardTokenFromUrl(normalizedUrl ?? requestedUrl) ??
+    extractBoardTokenFromUrl(requestedUrl) ??
+    extractBoardTokenFromUrl(finalUrl);
+  if (!jobId || !board) return null;
+  return `https://boards.greenhouse.io/embed/job_app?for=${encodeURIComponent(board)}&token=${encodeURIComponent(jobId)}`;
+}
+
 function describeFrames(page: Page): string {
   const parts: string[] = [];
   for (const frame of page.frames()) {
@@ -386,7 +422,32 @@ export async function reachGreenhouseApplicationForm(
         notes.push(
           `no hopable iframe after landing miss — ${describeFrames(working)}`,
         );
+        const embedUrl = greenhouseEmbedFallbackUrl(requestedUrl, normalizedUrl, gate.finalUrl);
+        if (embedUrl) {
+          notes.push(`posting shell without Apply or iframe — navigating to the canonical embed app ${embedUrl}`);
+          try {
+            await working.goto(embedUrl, { waitUntil: "domcontentloaded" });
+            await settleGreenhouseLanding(working);
+            gate = await verifyPageBeforeMutation(working, requestedUrl, normalizedUrl);
+          } catch (e) {
+            notes.push(
+              `embed fallback navigation failed: ${e instanceof Error ? e.message.slice(0, 120) : String(e)}`,
+            );
+          }
+        }
       }
+    }
+    // Still chrome after every rung: refuse. Filling a listing page's search
+    // boxes "verified" nothing and poisoned the screener bank (live 2026-08-30).
+    if (gate.ok && gateLooksLikePostingShell(gate)) {
+      notes.push("application form never reached — refusing to fill page chrome");
+      gate = {
+        ...gate,
+        ok: false,
+        failureCode: "FORM_NOT_FOUND",
+        reason:
+          "posting shell: no Apply control, no embed iframe, and no canonical embed reachable — application form never rendered",
+      };
     }
   }
   return { page: working, gate, notes };
