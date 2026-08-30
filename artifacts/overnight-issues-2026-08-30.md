@@ -658,3 +658,9 @@ logged only its pre-flight before dying.)_
   Interim tonight: `.or()` unions in locatorForField no longer include the
   bare labelled element (an ancestor wrapper in document order would beat
   its inner control), so wrappers can never be filled.
+
+### Job #17 — 20790417 ByteDance — 15:10 local, 30s — UNKNOWN_LANDING (their portal's search page)
+- The JobRight Apply popup landed on `joinbytedance.com/search/<id>` —
+  ByteDance's own portal search page, not an application form; the
+  generic classifier parked fail-closed. ByteDance needs its own portal
+  walk (account + form) — long-tail, not tonight.
