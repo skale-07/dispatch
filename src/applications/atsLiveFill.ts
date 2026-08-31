@@ -695,8 +695,46 @@ export async function runAtsLiveFill(input: {
           planHtml = await page.content();
           planUrl = page.url();
           if (binding.id === "workday") {
-            const kind = classifyWorkdayPage(planHtml);
+            let kind = classifyWorkdayPage(planHtml);
             report.notes.push(`workday page kind after auth: ${kind}`);
+            // #63d (live tiaa 22f-22j): auth can SUCCEED yet land OFF the
+            // apply flow (Candidate Home / the posting) — the wizard is
+            // only reachable by re-walking Apply from the posting URL.
+            // ONE bounded re-reach: back to the employer URL, run the
+            // portal walk again (signed in, it is just Apply → Apply
+            // Manually → the resumed wizard — LIVE-probed 2026-08-30);
+            // an unauthenticated session parks exactly as before.
+            const offFlow =
+              kind === "posting" ||
+              kind === "chooser" ||
+              ((kind === "wizard" || kind === "unknown") &&
+                discoverFieldsFromHtml(planHtml).length === 0);
+            if (offFlow) {
+              report.notes.push(
+                `workday: page after auth is off the apply flow (${kind}) — one re-reach from the posting URL`,
+              );
+              await page
+                .goto(input.url, { waitUntil: "domcontentloaded", timeout: 30_000 })
+                .catch(() => undefined);
+              // Workday's SPA paints the Apply button SECONDS after
+              // domcontentloaded (probes: 4-5s; live 22k the re-reach
+              // walked a blank shell and found no Apply). Bounded wait
+              // for the control before walking.
+              await page
+                .locator("[data-automation-id='adventureButton']")
+                .first()
+                .waitFor({ timeout: 15_000 })
+                .catch(() => undefined);
+              const reReach = await authenticateAtsPortal(page);
+              void reReach.secrets;
+              report.notes.push(
+                ...reReach.notes.map((n) => `re-reach ${n}`),
+              );
+              planHtml = await page.content();
+              planUrl = page.url();
+              kind = classifyWorkdayPage(planHtml);
+              report.notes.push(`workday page kind after re-reach: ${kind}`);
+            }
             if (kind === "posting" || kind === "chooser") {
               report.gate.ok = false;
               report.gate.failure_code = "FORM_NOT_REACHED";
