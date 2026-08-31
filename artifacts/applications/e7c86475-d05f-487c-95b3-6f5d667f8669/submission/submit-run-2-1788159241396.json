@@ -1,0 +1,294 @@
+{
+  "outcome": "FAILED_BEFORE_CLICK",
+  "application_id": "e7c86475-d05f-487c-95b3-6f5d667f8669",
+  "submission_id": "f68af903-da99-4d8d-a670-8ee40ae6bb62",
+  "attempt": 2,
+  "receipt": null,
+  "review_item_id": null,
+  "reason": "Refusing to click submit: field verification or upload did not pass",
+  "artifact_path": null,
+  "operator_brief": {
+    "title": "Submit blocked — workday app e7c86475-d05f-487c-95b3-6f5d667f8669",
+    "summary": "19 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:work_authorization",
+        "question": "Are you legally authorized to work in the country in which the job is located?",
+        "field_id": "f_1",
+        "canonical_field": "work_authorization",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Yes\"; page shows \"(empty)\"",
+        "expected": "Yes",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"Yes\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → work_authorization",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"work_authorization\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:work_authorization",
+        "question": "Are you legally authorized to work in the country in which the job is located?",
+        "field_id": "f_1",
+        "canonical_field": "work_authorization",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Yes\"; page shows \"(empty)\"",
+        "expected": "Yes",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"Yes\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → work_authorization",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"work_authorization\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:custom:holds_visa",
+        "question": "Do you currently hold a Visa (including a student visa)?",
+        "field_id": "f_2",
+        "canonical_field": "screener:custom:holds_visa",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"No\"; page shows \"(empty)\"",
+        "expected": "No",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"No\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:holds_visa)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:holds_visa\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:age_over_18",
+        "question": "Are you 18 years or older? If you are under 18, hire is subject to verification that you are of minimum and legal age",
+        "field_id": "f_3",
+        "canonical_field": "screener:age_over_18",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Yes\"; page shows \"(empty)\"",
+        "expected": "Yes",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"Yes\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:age_over_18)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:age_over_18\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:age_over_18:f_4",
+        "question": "Are you 18 years or older? If you are under 18, hire is subject to verification that you are of minimum and legal age",
+        "field_id": "f_4",
+        "canonical_field": "screener:age_over_18:f_4",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Yes\"; page shows \"(empty)\"",
+        "expected": "Yes",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"Yes\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:age_over_18:f_4)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:age_over_18:f_4\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:gpa",
+        "question": "What is your current cumulative GPA?",
+        "field_id": "[REDACTED]",
+        "canonical_field": "gpa",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"3.7\"; page shows \"(empty)\"",
+        "expected": 3.7,
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"3.7\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: gpa)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"gpa\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:custom:currently_completing_degree",
+        "question": "Are you currently in process of completing your Bachelors or Masters Degree?",
+        "field_id": "f_8",
+        "canonical_field": "screener:custom:currently_completing_degree",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Yes\"; page shows \"(empty)\"",
+        "expected": "Yes",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"Yes\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:currently_completing_degree)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:currently_completing_degree\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:custom:met_stryker_rep",
+        "question": "Have you met with a Stryker representative at a recruiting event on a college or university campus?",
+        "field_id": "f_9",
+        "canonical_field": "screener:custom:met_stryker_rep",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"No\"; page shows \"(empty)\"",
+        "expected": "No",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"No\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:met_stryker_rep)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:met_stryker_rep\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:custom:first_robotics_involvement",
+        "question": "Have you in the past or are you currently involved with the FIRST Robotics program?",
+        "field_id": "f_10",
+        "canonical_field": "screener:custom:first_robotics_involvement",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"No\"; page shows \"(empty)\"",
+        "expected": "No",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"No\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:first_robotics_involvement)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:first_robotics_involvement\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "fill_error:f_0: control not found on the page (label \"Are you legally authorized to work in",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "f_0: control not found on the page (label \"Are you legally authorized to work in the country in which t\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:f_1: control not found on the page (label \"Are you legally authorized to work in",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "f_1: control not found on the page (label \"Are you legally authorized to work in the country in which t\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:f_2: control not found on the page (label \"Do you currently hold a Visa (includi",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "f_2: control not found on the page (label \"Do you currently hold a Visa (including a student visa)?\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:f_3: control not found on the page (label \"Are you 18 years or older? If you are",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "f_3: control not found on the page (label \"Are you 18 years or older? If you are under 18, hire is subj\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:f_4: control not found on the page (label \"Are you 18 years or older? If you are",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "f_4: control not found on the page (label \"Are you 18 years or older? If you are under 18, hire is subj\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:f_6: control not found on the page (label \"Is your current cumulative GPA 3.0 or",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "f_6: control not found on the page (label \"Is your current cumulative GPA 3.0 or above? (Please convert\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:f_8: control not found on the page (label \"Are you currently in process of compl",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "f_8: control not found on the page (label \"Are you currently in process of completing your Bachelors or\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:f_9: control not found on the page (label \"Have you met with a Stryker represent",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "f_9: control not found on the page (label \"Have you met with a Stryker representative at a recruiting e\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:f_10: control not found on the page (label \"Have you in the past or are you curr",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "f_10: control not found on the page (label \"Have you in the past or are you currently involved with the \") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "upload:resume",
+        "question": "Upload: resume",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "upload_failed",
+        "problem": "resume file input not found; primary resume selector not attached within 3s; retrying resolve after 1500ms; primary resume selector not attached within 3s; no resume file input; 0 file inputs on page",
+        "expected": "resume-6b5f8e75.pdf",
+        "observed": null,
+        "how_to_answer": [
+          "Resume is system-owned: materials:register + adapter.uploadResume on submit/fill — not a free-text profile field.",
+          "If this is ats:fill without --resume, pass --resume <pdf> or use application submit (uses registered material).",
+          "Evidence: resume file input not found; primary resume selector not attached within 3s; retrying resolve after 1500ms; primary resume selector not attached within 3s; no resume file input; 0 file inputs on page"
+        ]
+      }
+    ],
+    "ok_count": 0,
+    "fail_count": 19
+  }
+}
