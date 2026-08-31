@@ -747,7 +747,12 @@ export async function greenhouseFillFromPlan(
   const errors: string[] = [];
   const field_meta: FieldFillMeta[] = [];
 
-  for (const entry of entries) {
+  const deduped = dedupeAnchorlessCanonicalTwins(entries, fieldMeta);
+  for (const ghost of deduped.dropped) {
+    skipped.push(`${ghost} — anchorless twin of an anchored canonical (#69)`);
+  }
+
+  for (const entry of deduped.entries) {
     if (!isApprovedExecutable(entry)) {
       if (
         entry.action === "fill" ||
@@ -1223,6 +1228,46 @@ export async function greenhouseReadFieldValue(
   return loc.inputValue();
 }
 
+/**
+ * #69 (live tiaa #22r): discovery can emit an anchorless GHOST twin of a
+ * real field — f_13 "Phone" (no id, no name) duplicated canonical
+ * `phone` beside the precisely-anchored phoneNumber--phoneNumber. The
+ * ghost's fill typed into whatever a bare ambiguous label resolved to,
+ * its verify row double-counted the miss, and the #66b retype's locator
+ * could never resolve it. When an ANCHORED entry (inputId/name) claims a
+ * canonical, anchorless FILL twins of that canonical are dropped.
+ */
+export function dedupeAnchorlessCanonicalTwins(
+  entries: ExecutableFillEntry[],
+  fieldMeta: Map<string, FieldMeta>,
+): { entries: ExecutableFillEntry[]; dropped: string[] } {
+  const anchored = new Set<string>();
+  for (const e of entries) {
+    const m = fieldMeta.get(e.field_id);
+    if (
+      (e.action === "fill" || e.action === "FILL") &&
+      e.canonical_field &&
+      (m?.inputId || m?.name)
+    ) {
+      anchored.add(e.canonical_field);
+    }
+  }
+  const dropped: string[] = [];
+  const out = entries.filter((e) => {
+    const m = fieldMeta.get(e.field_id);
+    const ghost =
+      (e.action === "fill" || e.action === "FILL") &&
+      e.canonical_field !== null &&
+      e.canonical_field !== undefined &&
+      anchored.has(e.canonical_field) &&
+      !m?.inputId &&
+      !m?.name;
+    if (ghost) dropped.push(`${e.field_id} (${e.canonical_field})`);
+    return !ghost;
+  });
+  return { entries: out, dropped };
+}
+
 export async function greenhouseVerifyFromPlan(
   page: Page,
   entries: ExecutableFillEntry[],
@@ -1231,7 +1276,8 @@ export async function greenhouseVerifyFromPlan(
   const fields: FormVerificationResult["fields"] = [];
   const warnings: string[] = [];
 
-  const fillable = entries.filter(
+  const deduped = dedupeAnchorlessCanonicalTwins(entries, fieldMeta);
+  const fillable = deduped.entries.filter(
     (e) =>
       (e.action === "fill" || e.action === "FILL") &&
       (!("approved" in e) || e.approved === true),
@@ -1266,6 +1312,19 @@ export async function greenhouseVerifyFromPlan(
           valuesMatch(expected, o.label, canonical);
       } else {
         match = valuesMatch(expected, observed, canonical);
+        // #69 (live tiaa #22r): verify was STRICTER than the fill — the
+        // fill's already-committed check accepted the chip "United States
+        // of America (+1)" for the profile value via labelsCompatible,
+        // then verify mismatched the same pair. Verify accepts exactly
+        // what the fill's commit check accepts.
+        if (
+          !match &&
+          typeof expected === "string" &&
+          typeof observed === "string" &&
+          labelsCompatible(expected, observed)
+        ) {
+          match = true;
+        }
       }
       fields.push({
         canonical_field: canonical,
@@ -1667,13 +1726,21 @@ export async function retypeEmptyVerifyMisses(
     }
     return false;
   };
+  const cleanEntries = dedupeAnchorlessCanonicalTwins(entries, fieldMeta).entries;
   for (const f of verify.fields) {
     if (f.match || !observedEmpty(f.observed)) continue;
     const expected = typeof f.expected === "string" ? f.expected : "";
     if (expected.trim() === "") continue;
-    const entry = entries.find(
-      (e) => (e.canonical_field ?? e.field_id) === f.canonical_field,
-    );
+    // #69: prefer the ANCHORED entry for a canonical — the ghost twin's
+    // bare label ("Phone") can never resolve among four Phone-ish labels.
+    const entry = cleanEntries.find(
+      (e) =>
+        (e.canonical_field ?? e.field_id) === f.canonical_field &&
+        (fieldMeta.get(e.field_id)?.inputId || fieldMeta.get(e.field_id)?.name),
+    ) ??
+      cleanEntries.find(
+        (e) => (e.canonical_field ?? e.field_id) === f.canonical_field,
+      );
     if (!entry || !TEXT_TYPES.has(String(entry.type).toLowerCase())) continue;
     const meta = fieldMeta.get(entry.field_id);
     try {

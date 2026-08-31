@@ -1202,3 +1202,34 @@ Pre-flight (≈18:55 local):
 - Tests: overlaid-radio fixture (question-label legend, live shape);
   class-only option list picks "Social Media" over "Job Board" by
   order; no alternates ⇒ still refuses; scoping negatives. 8/8.
+
+### Job #22r — TIAA — 22:35 local — 15/17; radio FIXED live (#68a); last walls decomposed by probe
+- Previously-an-employee radio error GONE. Remaining, probe-decomposed:
+  (a) f_13 "Phone" is a GHOST — no phone-section element carries a bare
+  "Phone" label; an anchorless duplicate of canonical `phone` whose
+  fill typed into an ambiguous resolution, whose verify double-counted
+  the miss, and whose bare label blocked the #66b retype's locator
+  (four "Phone…" labels collide). (b) the phoneType listbox button's
+  MOUSE click is swallowed (painted overlay) while a JS click opens the
+  popup — probe-confirmed. (c) paced typing + Tab PERSISTS 3s (probe) ⇒
+  the phone wipe comes from LATER sibling fills re-rendering the
+  section; the verify-time keystroke retype is the right medicine and
+  only the ghost blocked it. (d) countryPhoneCode: the fill's chips
+  read-back accepted "United States of America (+1)" (labelsCompatible)
+  but VERIFY was stricter and mismatched the same pair. (e) the source
+  fallback picked "Social Network" but the single 250ms commit read
+  missed the chip.
+
+### 69. Ghost-twin dedupe; JS-click popup tier; verify↔fill comparator parity; chip-read settle — FIXED (FIXTURE_CONFIRMED; live #22s)
+- `dedupeAnchorlessCanonicalTwins` (fill + verify + retype): an
+  anchorless FILL twin of an anchored canonical is dropped and noted;
+  lone anchorless entries survive. The retype prefers the anchored
+  entry for a canonical.
+- fillComboboxControl: when the listbox doesn't open after the mouse
+  click, ONE JS-click tier (probe-proven on the live button), then the
+  loud refusal as before.
+- greenhouseVerifyFromPlan: verify accepts exactly what the fill's
+  commit check accepts for string observations (labelsCompatible) —
+  verify was stricter than fill and failed committed chips.
+- Alternates commit read gets the same double-read the main path has.
+- Tests: dedupe unit case (live f_13 shape); prior suites green. 11/11.

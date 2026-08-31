@@ -1250,8 +1250,19 @@ export async function fillComboboxControl(
   try {
     await listbox.waitFor({ state: "visible", timeout: 5_000 });
   } catch {
-    notes.push("listbox did not open after click");
-    return { committed: false, selectedLabel: null, notes };
+    // #69 (live tiaa phoneType): a painted overlay swallows the MOUSE
+    // click on Workday's listbox button while a JS click opens the popup
+    // (probe-confirmed). One JS-click tier, then give up loudly.
+    await loc
+      .evaluate((el: { click: () => void }) => el.click())
+      .catch(() => undefined);
+    try {
+      await listbox.waitFor({ state: "visible", timeout: 3_000 });
+      notes.push("opened via JS click (mouse click swallowed)");
+    } catch {
+      notes.push("listbox did not open after click");
+      return { committed: false, selectedLabel: null, notes };
+    }
   }
 
   const direct = await clickListedOption(listbox, expectedText);
@@ -1423,7 +1434,12 @@ export async function fillComboboxControl(
           );
           await page.keyboard.press("Escape").catch(() => undefined);
           await page.waitForTimeout(250);
-          const committedLabel = await readComboboxValue(loc);
+          let committedLabel = await readComboboxValue(loc);
+          if (!committedLabel) {
+            // chips render a beat after the pick (live tiaa #22r)
+            await page.waitForTimeout(400);
+            committedLabel = await readComboboxValue(loc);
+          }
           return {
             committed: Boolean(
               committedLabel &&

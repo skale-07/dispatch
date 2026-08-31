@@ -10,6 +10,7 @@ import {
 import { withFixtureHtmlPage } from "../../src/browser/fixtureSession.js";
 import {
   comboboxAlternates,
+  dedupeAnchorlessCanonicalTwins,
   greenhouseFillFromPlan,
 } from "../../src/ats/greenhouse/fill.js";
 
@@ -181,5 +182,25 @@ describe("#68 overlaid radios + how_heard class fallbacks (FIXTURE_CONFIRMED)", 
     expect(comboboxAlternates("address.state", "LinkedIn")).toEqual([]);
     expect(comboboxAlternates("how_heard", "My Neighbor")).toEqual([]);
     expect(comboboxAlternates(null, "LinkedIn")).toEqual([]);
+  });
+
+  it("#69 ghost dedupe: an anchorless FILL twin of an anchored canonical is dropped; lone anchorless entries survive", () => {
+    const mk = (field_id: string, canonical: string) =>
+      ({ field_id, label: field_id, type: "text", canonical_field: canonical, action: "FILL", approved: true, value: "x", reason: "t" }) as never;
+    const meta = new Map([
+      ["phoneNumber--phoneNumber", { type: "text", inputId: "phoneNumber--phoneNumber" }],
+      // f_13: no inputId, no name — the live tiaa ghost
+      ["f_13", { type: "text" }],
+      ["f_20", { type: "text" }],
+    ]);
+    const r = dedupeAnchorlessCanonicalTwins(
+      [mk("phoneNumber--phoneNumber", "phone"), mk("f_13", "phone"), mk("f_20", "essay_1")],
+      meta as never,
+    );
+    expect(r.dropped).toEqual(["f_13 (phone)"]);
+    expect(r.entries.map((e: { field_id: string }) => e.field_id)).toEqual([
+      "phoneNumber--phoneNumber",
+      "f_20",
+    ]);
   });
 });
