@@ -1510,3 +1510,10 @@ Pre-flight (≈18:55 local):
   should clear the flag; the draft (page 1 committed, resume uploaded)
   resumes via Continue, then `npm run retry -- --app fda27acb-…` +
   the pipeline run. TIAA retries suspended until then.
+
+### Morning (11:30) — #94 landed (scroll-harvest whole scroller, operator directive); TIAA down to the 2 marketing opt-ins
+- ⚠ OPERATOR-FLAGGED bank change: `sms_consent_opt_in` flipped Yes→No.
+  The painted SMS/WhatsApp checkboxes reject every check method (the
+  one field class unfixed since #22g), they are OPTIONAL marketing
+  consents, and "No" = unchecked verifies truthfully. Flip it back if
+  you want marketing texts and we'll fight the widget instead.
