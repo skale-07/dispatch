@@ -1282,3 +1282,33 @@ Pre-flight (≈18:55 local):
 - Tests: two-level fixture (live TREE shape, typing inert) drills Job
   Board → LinkedIn; flat-list fallback still picks the sanctioned
   alternate; 10/10 across the widget suite.
+
+### Job #22u — TIAA — 23:30 local — PAGE 1 CLEARED live (drill picked LinkedIn; Next advanced!); next wall = resume upload
+- The drill fired live ("drilled into 'Job Board' and picked leaf
+  'LinkedIn'"), page 1's error list emptied, and the wizard ADVANCED
+  past page 1 for the first time (walk shapes 14/17 → 0/17 → 13/14).
+  Our commit read raced (page satisfied, chip read null — the walk's
+  page-1 re-fill re-picked and stuck). New wall ×3: "The field Upload a
+  file (5MB max) is required" — and the ROOT is structural: the
+  pipeline's non-greenhouse branch NEVER passed resumePath to
+  runAtsLiveFill; no Workday run ever had the resume. Also: the predict
+  tier filled the empty phoneType via typed "filters" that went to the
+  PAGE (buttons aren't typeable) and committed a stray "Fax"; and the
+  signed-in draft now renders continueButton (not adventureButton) on
+  the posting — the walk didn't know it.
+
+### 72. Resume threaded to the workday leg; continueButton; buttons never typed; chip-read poll — FIXED (live #22v)
+- runPipeline non-greenhouse branch passes the registered resume (same
+  file as the submit path, #49 doctrine).
+- Registry applyButton/gatedEntry += continueButton (draft-in-progress
+  posting); re-reach paint-wait accepts it too.
+- fillComboboxControl: a BUTTON control skips the typed-filter phase
+  entirely (keyboard went to the page and committed strays — the "Fax"
+  incident); picks come only from its open list.
+- Drill/alternates commit reads use a bounded 6×500ms poll (chips
+  render seconds late; the page was satisfied while we reported not
+  committed).
+- ⚠ phoneType now holds a stray "Fax" in the draft from #22u —
+  the next run must re-pick; if the plan leaves prefilled selects alone
+  (#71a) it will SKIP the wrong value. Watch for it; may need a
+  targeted correction pass.

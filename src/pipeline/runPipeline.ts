@@ -1313,6 +1313,12 @@ async function step(
           sessionNote: string,
         ) => {
           if (detected.ats !== "greenhouse") {
+            // #72 (live tiaa #22u): the Workday wizard's My Experience page
+            // REQUIRES the resume ("Upload a file (5MB max) is required")
+            // and this branch never passed one — only the greenhouse
+            // branch threaded the registered resume. Same file as the
+            // submit path (night19 #49).
+            const registeredResumeAts = getRegisteredResume(db, app.id);
             const liveReport = await runAtsLiveFill({
               binding: ATS_BINDINGS[detected.ats],
               url,
@@ -1320,6 +1326,9 @@ async function step(
               headless: ctx.options.headless ?? false,
               capture: { db, applicationId: app.id },
               ...(existingPage ? { existingPage } : {}),
+              ...(registeredResumeAts && !ctx.options.fixtureHtmlPath
+                ? { resumePath: registeredResumeAts.path }
+                : {}),
             });
             if (!liveReport.gate.ok) {
               return {

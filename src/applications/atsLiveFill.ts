@@ -722,7 +722,9 @@ export async function runAtsLiveFill(input: {
               // walked a blank shell and found no Apply). Bounded wait
               // for the control before walking.
               await page
-                .locator("[data-automation-id='adventureButton']")
+                .locator(
+                  "[data-automation-id='adventureButton'], [data-automation-id='continueButton']",
+                )
                 .first()
                 .waitFor({ timeout: 15_000 })
                 .catch(() => undefined);

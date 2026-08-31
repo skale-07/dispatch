@@ -1241,6 +1241,17 @@ export async function fillComboboxControl(
 ): Promise<ComboboxFillResult> {
   const notes: string[] = [];
   const expectedText = String(expected);
+  // #72 (live tiaa #22u): the chip renders up to seconds after a drill
+  // pick — a fixed double-read reported "not committed" while the page
+  // itself showed the field satisfied. Bounded poll.
+  const pollCommittedRead = async (): Promise<string | null> => {
+    for (let i = 0; i < 6; i++) {
+      const v = await readComboboxValue(loc);
+      if (v) return v;
+      await page.waitForTimeout(500);
+    }
+    return null;
+  };
 
   const already = await readComboboxValue(loc);
   if (already && labelsCompatible(expectedText, already)) {
@@ -1326,7 +1337,17 @@ export async function fillComboboxControl(
   const filterCandidates = buildFilterCandidates(expectedText);
   try {
     await loc.click({ force: true, timeout: 3_000 }).catch(() => undefined);
-    for (const typeText of filterCandidates) {
+    // #72 (live tiaa #22t/#22u): a listbox BUTTON is not typeable — with
+    // the button focused, keyboard.type went to the PAGE, opened sibling
+    // widgets, and committed strays ("Fax" onto the device-type button).
+    // Buttons pick from their open list only; no typed filters.
+    const typeable = await loc
+      .evaluate((el: { tagName: string }) => el.tagName !== "BUTTON")
+      .catch(() => true);
+    if (!typeable) {
+      notes.push("filter typing skipped: control is a button (not typeable)");
+    }
+    for (const typeText of typeable ? filterCandidates : []) {
       // Clear prior filter without collapsing the menu when possible.
       await loc.evaluate((el: { focus: () => void; value: string }) => {
         el.focus();
@@ -1447,11 +1468,7 @@ export async function fillComboboxControl(
             );
             await page.keyboard.press("Escape").catch(() => undefined);
             await page.waitForTimeout(250);
-            let committedLabel = await readComboboxValue(loc);
-            if (!committedLabel) {
-              await page.waitForTimeout(400);
-              committedLabel = await readComboboxValue(loc);
-            }
+            const committedLabel = await pollCommittedRead();
             return {
               committed: Boolean(
                 committedLabel &&
@@ -1540,12 +1557,7 @@ export async function fillComboboxControl(
           );
           await page.keyboard.press("Escape").catch(() => undefined);
           await page.waitForTimeout(250);
-          let committedLabel = await readComboboxValue(loc);
-          if (!committedLabel) {
-            // chips render a beat after the pick (live tiaa #22r)
-            await page.waitForTimeout(400);
-            committedLabel = await readComboboxValue(loc);
-          }
+          const committedLabel = await pollCommittedRead();
           return {
             committed: Boolean(
               committedLabel &&

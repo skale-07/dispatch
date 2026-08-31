@@ -10,8 +10,13 @@
  */
 export const workdaySelectorsV1 = {
   /** Posting page: the Apply button that opens the auth/apply flow. */
+  /**
+   * #72 (live tiaa 2026-08-31): a signed-in session with a DRAFT in
+   * progress renders continueButton instead of adventureButton on the
+   * posting — same role, resumes the wizard.
+   */
   applyButton:
-    "a[data-automation-id='adventureButton'], button[data-automation-id='adventureButton'], a[role='button'][data-uxi-element-id*='Apply' i]",
+    "a[data-automation-id='adventureButton'], button[data-automation-id='adventureButton'], a[data-automation-id='continueButton'], button[data-automation-id='continueButton'], a[role='button'][data-uxi-element-id*='Apply' i]",
   /** Apply-method chooser after Apply. */
   applyMethods: {
     autofillWithResume: "a[data-automation-id='autofillWithResume'], button[data-automation-id='autofillWithResume']",
@@ -49,7 +54,7 @@ export const workdaySelectorsV1 = {
      * appears; they are not the form submit.
      */
     gatedEntry:
-      "a[data-automation-id='adventureButton'], button[data-automation-id='adventureButton']",
+      "a[data-automation-id='adventureButton'], button[data-automation-id='adventureButton'], a[data-automation-id='continueButton'], button[data-automation-id='continueButton']",
     /** Email-verification code entry (tenants that require it). */
     verificationCodeInput:
       "input[data-automation-id='verificationCode'], input[autocomplete='one-time-code']",
