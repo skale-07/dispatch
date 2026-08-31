@@ -23,3 +23,27 @@ describe("samePostingPath (UNIT_CONFIRMED)", () => {
     expect(samePostingPath("/careers", "/careers/jobs/1")).toBe(false);
   });
 });
+
+describe("#81 workday apply-flow presentation differences", () => {
+  it("locale prefix, encoded comma, and /apply suffix are the same posting; different requisition ids still mismatch", async () => {
+    const { samePostingPath } = await import("../../src/ats/shared/preMutationGate.js");
+    expect(
+      samePostingPath(
+        "/en-US/strykercareers/job/Portage%2C-Michigan/Summer-2027-Internship---Data-Analytics---Michigan_R572601/apply",
+        "/strykercareers/job/Portage-Michigan/Summer-2027-Internship---Data-Analytics---Michigan_R572601",
+      ),
+    ).toBe(true);
+    expect(
+      samePostingPath(
+        "/en-US/strykercareers/job/Portage-Michigan/Other-Role_R999999/apply",
+        "/strykercareers/job/Portage-Michigan/Summer-2027-Internship---Data-Analytics---Michigan_R572601",
+      ),
+    ).toBe(false);
+    expect(
+      samePostingPath(
+        "/en-US/board/job/City/Role_R1/apply/applyManually",
+        "/board/job/City/Role_R1",
+      ),
+    ).toBe(true);
+  });
+});

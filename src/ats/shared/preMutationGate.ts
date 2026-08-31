@@ -30,7 +30,20 @@ export function samePostingPath(finalPath: string, expectedPath: string): boolea
     } catch {
       // keep raw
     }
-    return s.replace(/\/+$/, "").toLowerCase();
+    return (
+      s
+        .replace(/\/+$/, "")
+        .toLowerCase()
+        // #81 (live stryker 2026-08-31): Workday's apply flow keeps the
+        // SAME posting while adding a locale segment (/en-US), turning
+        // "Portage-Michigan" into "Portage,-Michigan", and appending
+        // /apply(/applyManually). Locale prefixes, commas, and the apply
+        // suffix are presentation, not identity; the requisition id +
+        // slug (compared below) still convict a real mismatch.
+        .replace(/^\/[a-z]{2}-[a-z]{2}(?=\/)/, "")
+        .replace(/\/apply(\/[a-z]+)?$/, "")
+        .replace(/,/g, "")
+    );
   };
   return norm(finalPath) === norm(expectedPath);
 }
