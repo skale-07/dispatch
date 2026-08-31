@@ -119,3 +119,74 @@ questionnaire legend with "[ER]" was never a field — FIXED
   confirmed US citizen — verifying identity + work authorization within 72
   hours is factual). Labels are the exact on-form questions. Say the word
   and I'll change either.
+
+### Runs 5–9 (16:1x–16:48 EDT) — the wizard conquered page by page; five more
+fixes, each proven by the next run's advance
+- **Run 5**: #100 (approval layer) + #100b (exact custom labels beat core
+  screener keys) + #101 (date widget) landed → education level, graduation
+  date (05/01/2029 via section-wise focus+keyboard write), degree all
+  cleared. Pre-click gate named only the two GPA textareas.
+- **Run 6**: session expiry → pipeline auth silent again (#77) → refused
+  NO_APPLICATION_FORM. Root cause of the silent class FOUND and FIXED
+  (#102): portalAuth typed credentials with fill() — a synthetic
+  single-event write the tenant's anti-bot layer ignores while the DOM
+  read-back looks fine; the paced diagnostic that signs in every time
+  types real keystrokes. portalAuth now clicks the field and
+  pressSequentially's (delay 60; fill() only as fallback). portal-auth
+  21/21. (Paced probe after run 6 landed DIRECTLY in the signed-in
+  wizard — run 6's "create: form cleared" had actually signed in.)
+- **Run 7**: GPA textareas planned (fillable 5→7) but the EXECUTION guard
+  still refused ("textarea/essay") — assertExecutableApprovedEntry now
+  mirrors the #87/#100 class exactly (short value ≤80 + safe-factual or
+  screener canonical provenance; essay fence intact — long values and
+  unmapped textareas still throw). 3 guard tests. NOTE: this touches the
+  hardened seam deliberately as an alignment of two layers of the same
+  policy, not a weakening — flagging per house rules.
+- **Run 8**: GPA textareas FILLED (page 7 5/7) → wizard ADVANCED to the
+  Voluntary Disclosures (EEO) page for the first time. New wall: alias
+  "state" substring-matched "Personal Data STATEment" and planned
+  Maryland at a ghost (#103) — single-word aliases now match on word
+  boundaries only ("State/Province" etc. still map).
+- **Run 9**: #103 held; predict tier then invented + PROMOTED
+  "personal_data_statement_consent_2 = Yes" onto the heading-labeled
+  ghost mid-run (bank poisoning, #32 shape) — entry deleted. Remaining
+  page error: "Please indicate your race." — race_ethnicity IS in the
+  sensitive profile; the heading-labeled ghosts (hidden companions of
+  the demographic buttons) were shadowing. Run 10 in flight.
+- Also landed this evening (operator directive): verify-in-place — a
+  resumed draft's field already holding a value verify would accept is
+  compared, never cleared/retyped (text, location, and date-widget
+  branches; only valuesMatch-passing values skip). Fixture tests green.
+
+### Runs 10–16 (16:51–17:31 EDT) — the last four walls, then SUBMITTED
+- **#104** predict tier re-invented + re-promoted consent for the
+  "Personal Data Statement" heading ghost one run after deletion — heading
+  shapes fenced at STORE, MATCH, and PREDICT (isPageWidgetLabel), poisoned
+  entries purged.
+- **#105** the race question is a checkbox GROUP: Workday nests a
+  legendless inner fieldset (ethnicityMulti-CheckboxGroup) and members
+  carry no name — enclosingFieldsetLegend now walks out up to 3 levels and
+  collapseCheckboxGroups groups by the shared id-suffix token. Live: one
+  "Please indicate your race." field, 6 options; disclosures page went 4/4
+  and the walk reached REVIEW for the first time.
+- **#106a/b/c** the Review page is ZERO fields by design and this tenant
+  REUSES pageFooterNextButton for the Submit (text is the only signal):
+  (a) the pre-mutation gate admits a 0-field page carrying an explicit
+  submit-button automation id; (b) …or a pageFooter button reading exactly
+  "Submit" — and workdaySubmit resolves the control by exact footer text
+  ("Save and Continue"/"Next" can never match: the never-click-a-Next
+  invariant carried by text where the id cannot); (c) the workday
+  cross-page waiver accepts an EMPTY re-verify on that gated Review page —
+  the walk's per-page verifies are the evidence.
+
+### ✅✅ Job #1 — fda27acb TIAA Churchill Summer Internship: Investment
+Infrastructure & Technology (IIT) — 17:30:56 EDT — SUBMITTED → VERIFIED →
+COMPLETED (LIVE_MUTATION_CONFIRMED; receipt-attempt-15.png: green check
+"Application Submitted — Thank you for applying!", Candidate Home signed in,
+confirmation_url jobTasks/completed/application)
+- First Workday submission ever for this system. Sixteen runs tonight;
+  eleven numbered fixes (#96–#106), every one ATS-general, each proven by
+  the next run advancing exactly one wall.
+- Operator inputs used tonight: major GPA 3.5, highest completed = High
+  School, graduation May 2029, degree BS; investigation No + IRCA Yes
+  banked with ⚠ review notes; sms marketing opt-ins No (prior directive).
