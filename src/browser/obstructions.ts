@@ -20,7 +20,7 @@ import type { Page } from "playwright";
 export const obstructionSelectorsV1 = {
   /** Overlay-ish containers worth inspecting. */
   containers:
-    "[role='dialog'], [aria-modal='true'], [class*='modal' i], [id*='cookie' i], [class*='cookie' i], [id*='consent' i], [class*='consent' i], [class*='popup' i], [id*='onetrust' i]",
+    "[role='dialog'], [aria-modal='true'], [class*='modal' i], [id*='cookie' i], [class*='cookie' i], [id*='consent' i], [class*='consent' i], [class*='popup' i], [id*='onetrust' i], [data-automation-id*='legalnotice' i]",
   /** Accessible names that mean "make this go away". */
   dismissNamePattern:
     /^(accept( all)?( cookies)?|got it|ok(ay)?|close|dismiss|no,? thanks?|maybe later|not now|skip( for now)?|reject( all)?|decline|i (understand|agree)|allow all|later|✕|×|x)$/i,

@@ -75,6 +75,30 @@ describe("obstruction dismisser (FIXTURE_CONFIRMED)", () => {
   );
 
   it(
+    "dismisses Workday's legalNotice cookie banner (live tiaa.wd1 2026-08-31 — it sat over every auth click)",
+    async () => {
+      // Workday's banner carries only data-automation-id markers — no
+      // cookie/consent class or role — so the container scan missed it
+      // while it intercepted the Sign In / Create Account clicks below.
+      const html = `<html><body>
+        <div data-automation-id="legalNotice" style="position:fixed;top:0;left:0;right:0;background:#fff">
+          This website uses cookies to improve your browsing experience.
+          <button data-automation-id="legalNoticeDeclineButton" onclick="this.parentElement.remove()">Decline</button>
+          <button data-automation-id="legalNoticeAcceptButton" onclick="this.parentElement.remove()">Accept Cookies</button>
+        </div>
+        <button data-automation-id="adventureButton">Apply</button>
+      </body></html>`;
+      await withFixtureHtmlPage(html, async (page) => {
+        const r = await dismissPageObstructions(page);
+        expect(r.dismissed.length).toBe(1);
+        expect(await page.locator("[data-automation-id='legalNotice']").count()).toBe(0);
+        expect(await page.locator("[data-automation-id='adventureButton']").count()).toBe(1);
+      });
+    },
+    45_000,
+  );
+
+  it(
     "a clean page returns fast with nothing dismissed",
     async () => {
       await withFixtureHtmlPage(

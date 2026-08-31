@@ -63,7 +63,7 @@ const CREATE_ROUTE_RE =
 // be locked." — "wrong password" never matched it, the wall "remained" and
 // the documented create-account escalation never ran.
 const ERROR_RE =
-  /incorrect|invalid|doesn'?t match|does not match|no account|can'?t find|couldn'?t find|not recognized|try again|must be verified|verify your email|wrong (?:email(?: address)?(?: or)?\s*)?password|wrong email|might be locked|unable to sign in|sign[- ]in failed/i;
+  /incorrect|invalid|doesn'?t match|does not match|no account|can'?t find|couldn'?t find|not recognized|try again|must be verified|verify your email|wrong (?:email(?: address)?(?: or)?\s*)?password|wrong email|might be locked|unable to sign in|sign[- ]in failed|already (?:exists|in use|registered|taken)/i;
 /** Vendor error containers read before the body text (Workday's errorMessage). */
 const ERROR_CONTAINER_SELECTOR =
   "[data-automation-id='errorMessage'], [data-automation-id='alertMessage'], [role='alert']";

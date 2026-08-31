@@ -110,6 +110,15 @@ export function isRecognizedAtsAuthHost(url: string): boolean {
 /** How long a portal may take to answer a sign-in / create click before we read the wall. */
 const AUTH_RESPONSE_WAIT_MS = 8_000;
 
+/**
+ * The portal's explicit "this account exists" answer to a create attempt —
+ * the only sanctioned reason to sign in on a host with no vault record
+ * (#64, operator directive 2026-08-30). Static page text ("Already have
+ * an account?") must NOT match; these are error phrasings only.
+ */
+const ACCOUNT_EXISTS_RE =
+  /already (?:exists|in use|registered|taken)|account with this email/i;
+
 async function firstVisible(page: Page | Locator, selector: string): Promise<Locator | null> {
   const loc = page.locator(selector).first();
   if ((await loc.count().catch(() => 0)) === 0) return null;
@@ -207,6 +216,20 @@ export async function authenticateAtsPortal(
     };
   }
 
+  // #64 (live tiaa.wd1 2026-08-31): an undismissed cookie/legal banner
+  // (data-automation-id=legalNotice) sat over the page across every auth
+  // attempt of nights 20-21; swallowed click timeouts vanished into
+  // catch(() => undefined). Sweep before diagnosing — the dismisser's
+  // never-click pattern keeps real auth controls safe.
+  const swept = await dismissPageObstructions(page, {
+    settleMs: settle === 0 ? 0 : 400,
+  });
+  if (swept.dismissed.length > 0) {
+    notes.push(
+      `portal auth: dismissed page obstruction(s): ${swept.dismissed.join(", ")}`,
+    );
+  }
+
   const diagnosis = await diagnoseLoginWall(page);
   notes.push(summarizeLoginWall(diagnosis));
 
@@ -215,6 +238,13 @@ export async function authenticateAtsPortal(
     await openWorkdayApplyChooser(page, notes, settle);
     fields = await locateAuthFields(page);
   }
+
+  // Create-before-sign-in (operator directive 2026-08-30 night21): an
+  // account is assumed NOT to exist unless the vault records one we
+  // created/the operator set, or the portal itself answers "already
+  // exists". Read BEFORE prepareCredentialsForHost, which may mint a
+  // vault entry for the host as a side effect.
+  const knownAccount = getAccount(host) !== null;
 
   const creds = prepareCredentialsForHost({
     host,
@@ -364,13 +394,16 @@ export async function authenticateAtsPortal(
   const { username, password } = creds.credentials;
 
   // Workday lands on Create Account after Apply Manually. Prefer Sign In
-  // when standing credentials exist (operator already has the account).
+  // ONLY when the vault records an account for this host (#64, operator
+  // directive night21 — standing credentials alone are no longer reason
+  // to prefer sign-in: on first contact the account does not exist yet).
   // Do NOT click a Sign In *submit* — that posts an empty form. A real
   // flip is Workday's type=button signInLink. When both forms are already
   // on the page, skip the click and just target the Sign In form.
   let preferSignIn = false;
   const wallNow = await diagnoseLoginWall(page);
   if (
+    knownAccount &&
     wallNow.classification === "create_account_form" &&
     creds.notes.some((n) => /standing portal login|vault: (existing|per-host)/i.test(n))
   ) {
@@ -472,7 +505,17 @@ export async function authenticateAtsPortal(
     if (kind === "create" && checkbox) {
       await checkbox.check({ timeout: 3_000 }).catch(() => undefined);
     }
-    await submit.click({ timeout: 10_000 }).catch(() => undefined);
+    // #64: a swallowed click (obstruction interception, detached target)
+    // must leave evidence — a silent catch hid the TIAA banner for two
+    // nights. The Enter retry below still runs either way.
+    const clickErr = await submit
+      .click({ timeout: 10_000 })
+      .then(() => null, (e: unknown) => String(e));
+    if (clickErr) {
+      notes.push(
+        `portal auth ${kind}: submit click FAILED (${clickErr.replace(/\s+/g, " ").slice(0, 90)})`,
+      );
+    }
     await settlePage(page, settle, 1_200);
     // Workday answers a sign-in/create click AFTER the settle (live
     // huntington 2026-08-30 #8d: the 1.2s read said "sign_in_form", the
@@ -524,10 +567,58 @@ export async function authenticateAtsPortal(
 
   const wallAfterChooser = await diagnoseLoginWall(page);
   let escalated = false;
-  const startAsCreate =
+  let startAsCreate =
     !preferSignIn && wallAfterChooser.classification === "create_account_form";
+  // #64 create-before-sign-in: a sign-in-only wall on a host with NO
+  // account on record takes the page's own Create Account route FIRST.
+  // Sign-in on first contact was built on the false positive "create:
+  // form cleared" — live tiaa nights 20-21. The portal answering
+  // "already exists" (below) is the sanctioned flip back.
+  if (
+    !knownAccount &&
+    !startAsCreate &&
+    wallAfterChooser.classification === "sign_in_form" &&
+    wallAfterChooser.createAccountRoute
+  ) {
+    const route = wallAfterChooser.createAccountRoute;
+    const scopeNow = await authScope(page);
+    const control =
+      (await firstVisible(scopeNow, sel.createAccountLink)) ??
+      (await visibleNamed(scopeNow, new RegExp(`^${escapeRe(route)}$`, "i"))) ??
+      (await visibleNamed(page, new RegExp(`^${escapeRe(route)}$`, "i")));
+    if (control && !(await isFormSubmitControl(control))) {
+      await control.click({ timeout: 5_000 }).catch(() => undefined);
+      await settlePage(page, settle, 1_000);
+      notes.push(
+        `portal auth: no account on record for ${host} — taking "${route}" first (create-before-sign-in)`,
+      );
+      startAsCreate = true;
+    }
+  }
   let state = startAsCreate ? await attempt("create") : await attempt("sign_in");
   if (startAsCreate) escalated = true;
+
+  // The portal explicitly says the account exists — the ONLY sanctioned
+  // reason to sign in on a first-contact host (#64).
+  if (
+    escalated &&
+    !state.formGone &&
+    state.diag.errorText &&
+    ACCOUNT_EXISTS_RE.test(state.diag.errorText)
+  ) {
+    notes.push(
+      "portal auth: portal says an account already exists for this email — signing in",
+    );
+    const signInFlip =
+      (await firstVisible(await authScope(page), sel.signInLink)) ??
+      (await visibleNamed(page, /^(already have an account\??\s*)?sign in$/i));
+    if (signInFlip && !(await isFormSubmitControl(signInFlip))) {
+      await signInFlip.click({ timeout: 5_000 }).catch(() => undefined);
+      await settlePage(page, settle, 800);
+    }
+    escalated = false;
+    state = await attempt("sign_in");
+  }
 
   if (!state.formGone && state.diag.classification === "account_locked") {
     // A locked account is neither a wrong password nor a missing account:
@@ -609,6 +700,26 @@ export async function authenticateAtsPortal(
 
   const finalDiag = await diagnoseLoginWall(page);
   if (!finalDiag.fields.password || finalDiag.classification === "no_form_found") {
+    // #64: "form cleared" is not success. When Workday's signed-OUT
+    // header button is still on the page, the dialog merely closed —
+    // nights 20-21 reported "create: form cleared" five times for an
+    // account whose creation nothing ever evidenced.
+    if (await firstVisible(page, "[data-automation-id='utilityButtonSignIn']")) {
+      notes.push(
+        "portal auth: form cleared but the header still shows Sign In — NOT signed in; parking",
+      );
+      return done("wall_remains", { escalated, diag: finalDiag });
+    }
+    if (escalated && creds.credentials.available) {
+      // Record the verified creation so the next run on this host takes
+      // sign-in first — the vault entry IS the "account exists" evidence.
+      setAccount(host, {
+        email: username,
+        password,
+        runId: `portal-auth-${Date.now()}`,
+      });
+      notes.push(`portal auth: created account recorded in the vault for ${host}`);
+    }
     return done(escalated ? "account_created" : "signed_in", {
       escalated,
       diag: finalDiag,

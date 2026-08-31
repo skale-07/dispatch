@@ -4,6 +4,7 @@ import path from "node:path";
 import { chromium, type Browser, type Page } from "playwright";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { authenticateAtsPortal } from "../../src/verification/portalAuth.js";
+import { getAccount, setAccount } from "../../src/accounts/vault.js";
 import { startEmployerSandbox } from "../../src/sandbox/server.js";
 import { resetConfigCache } from "../../src/config/index.js";
 import {
@@ -176,6 +177,11 @@ describe("workday portal auth (FIXTURE_CONFIRMED)", () => {
       </script></body></html>`;
     applyControlledFillEnv({ NAVIGATION_ENABLED: "true" });
     resetConfigCache();
+    // #64: sign-in-before-create is now the KNOWN-account path; the
+    // rejection-gated escalation under test presumes one on record.
+    setAccount("interdigital.wd5.myworkdayjobs.com", {
+      email: "candidate@fixture.test",
+    });
     try {
       await onWorkdayPage(REJECT_HTML, async (page) => {
         const r = await authenticateAtsPortal(page, {
@@ -215,6 +221,10 @@ describe("workday portal auth (FIXTURE_CONFIRMED)", () => {
       </script></body></html>`;
     applyControlledFillEnv({ NAVIGATION_ENABLED: "true" });
     resetConfigCache();
+    // #64: a sign-in that can succeed means the account exists — on record.
+    setAccount("interdigital.wd5.myworkdayjobs.com", {
+      email: "candidate@fixture.test",
+    });
     try {
       await onWorkdayPage(OK_HTML, async (page) => {
         const r = await authenticateAtsPortal(page, {
@@ -363,6 +373,12 @@ describe("workday portal auth (FIXTURE_CONFIRMED)", () => {
     process.env.PORTAL_LOGIN_EMAIL = "candidate@fixture.test";
     process.env.PORTAL_LOGIN_PASSWORD = "StandingPass1!";
     resetConfigCache();
+    // #64: sign-in-first now requires an account on record — this test's
+    // premise (operator already has the account) becomes a vault entry.
+    setAccount("interdigital.wd5.myworkdayjobs.com", {
+      email: "candidate@fixture.test",
+      password: "StandingPass1!",
+    });
     try {
       await onWorkdayPage(CROWE_HTML, async (page) => {
         let waiterCalls = 0;
@@ -511,6 +527,12 @@ describe("workday portal auth (FIXTURE_CONFIRMED)", () => {
     process.env.PORTAL_LOGIN_EMAIL = "candidate@fixture.test";
     process.env.PORTAL_LOGIN_PASSWORD = "StandingPass1!";
     resetConfigCache();
+    // #64: with an account on record the walk still signs in first; this
+    // preserves the original #60b coverage (silent sign-in → create route).
+    setAccount("interdigital.wd5.myworkdayjobs.com", {
+      email: "candidate@fixture.test",
+      password: "StandingPass1!",
+    });
     try {
       await onWorkdayPage(SILENT_HTML, async (page) => {
         const r = await authenticateAtsPortal(page, { settleMs: 0 });
@@ -526,6 +548,163 @@ describe("workday portal auth (FIXTURE_CONFIRMED)", () => {
       else process.env.PORTAL_LOGIN_EMAIL = prevEmail;
       if (prevPassword === undefined) delete process.env.PORTAL_LOGIN_PASSWORD;
       else process.env.PORTAL_LOGIN_PASSWORD = prevPassword;
+      applySafeFillEnv();
+      resetConfigCache();
+    }
+  }, 30_000);
+
+  it("#64 create-before-sign-in: NO account on record ⇒ the page's Create Account route is taken FIRST, sign-in never attempted, creation recorded in the vault", async () => {
+    // Operator directive 2026-08-30 night21: "creating an account is
+    // necessary unless Workday explicitly tells you that you have an
+    // account". First contact = no vault record ⇒ create, don't guess.
+    const FIRST_CONTACT_HTML = `<!DOCTYPE html><html><body>
+      <div id="stage">
+        <h2>Sign In</h2>
+        <input data-automation-id="email" type="email" />
+        <input data-automation-id="password" type="password" />
+        <button data-automation-id="signInSubmitButton" type="button">Sign In</button>
+        <p>Don't have an account yet? <button data-automation-id="createAccountLink" type="button">Create Account</button></p>
+      </div>
+      <script>
+        document.querySelector('[data-automation-id=signInSubmitButton]')
+          .addEventListener('click', () => { (globalThis).__signInTried = true; });
+        document.querySelector('[data-automation-id=createAccountLink]')
+          .addEventListener('click', () => {
+            document.getElementById('stage').innerHTML =
+              '<h2>Create Account</h2>' +
+              '<input data-automation-id="email" type="email" />' +
+              '<input data-automation-id="password" type="password" />' +
+              '<input data-automation-id="verifyPassword" type="password" />' +
+              '<button data-automation-id="createAccountSubmitButton" type="button">Create Account</button>';
+            document.querySelector('[data-automation-id=createAccountSubmitButton]')
+              .addEventListener('click', () => {
+                document.body.innerHTML = '<p>My Information</p>';
+              });
+          });
+      </script></body></html>`;
+    applyControlledFillEnv({ NAVIGATION_ENABLED: "true" });
+    process.env.PORTAL_LOGIN_EMAIL = "candidate@fixture.test";
+    process.env.PORTAL_LOGIN_PASSWORD = "StandingPass1!";
+    resetConfigCache();
+    try {
+      await onWorkdayPage(FIRST_CONTACT_HTML, async (page) => {
+        const r = await authenticateAtsPortal(page, { settleMs: 0 });
+        expect(r.notes.join(" ")).toMatch(
+          /no account on record for .+ — taking ".*" first \(create-before-sign-in\)/,
+        );
+        expect(r.status).toBe("account_created");
+        expect(r.escalated_to_create).toBe(true);
+        // The sign-in submit was NEVER clicked — create came first.
+        expect(
+          await page.evaluate(
+            () => (globalThis as unknown as { __signInTried?: boolean }).__signInTried,
+          ),
+        ).toBeUndefined();
+        // The verified creation is now vault evidence for the next run.
+        const rec = getAccount("interdigital.wd5.myworkdayjobs.com");
+        expect(rec?.username).toBe("candidate@fixture.test");
+        expect(r.notes.join(" ")).toMatch(/created account recorded in the vault/);
+        expect(r.notes.join(" ")).not.toContain("StandingPass1!");
+      });
+    } finally {
+      applySafeFillEnv();
+      resetConfigCache();
+    }
+  }, 30_000);
+
+  it('#64 the portal answering "already exists" is the sanctioned flip to sign-in (signed_in, not account_created)', async () => {
+    const EXISTS_HTML = `<!DOCTYPE html><html><body>
+      <p id="err"></p>
+      <h2>Create Account</h2>
+      <form id="create">
+        <input id="email" type="email" name="email" />
+        <input id="password" type="password" name="password" />
+        <input id="verifyPassword" type="password" name="verifyPassword" />
+        <button type="submit">Create Account</button>
+      </form>
+      <h2>Sign In</h2>
+      <form id="signin">
+        <input id="si_email" type="email" name="email" />
+        <input id="si_password" type="password" name="password" />
+        <button type="submit">Sign In</button>
+      </form>
+      <script>
+        var accounts = { 'candidate@fixture.test': 'StandingPass1!' };
+        document.getElementById('create').addEventListener('submit', function (e) {
+          e.preventDefault();
+          var email = document.getElementById('email').value.toLowerCase();
+          if (accounts[email]) {
+            document.getElementById('err').textContent =
+              'An account with this email already exists. Sign in instead.';
+            return;
+          }
+          document.body.innerHTML = '<p>Application form</p><input name="first_name" />';
+        });
+        document.getElementById('signin').addEventListener('submit', function (e) {
+          e.preventDefault();
+          var email = document.getElementById('si_email').value.toLowerCase();
+          var pw = document.getElementById('si_password').value;
+          if (accounts[email] !== pw) {
+            document.getElementById('err').textContent = 'Invalid email or password.';
+            return;
+          }
+          document.body.innerHTML = '<p>Application form</p><input name="first_name" />';
+        });
+      </script>
+    </body></html>`;
+    applyControlledFillEnv({ NAVIGATION_ENABLED: "true" });
+    process.env.PORTAL_LOGIN_EMAIL = "candidate@fixture.test";
+    process.env.PORTAL_LOGIN_PASSWORD = "StandingPass1!";
+    resetConfigCache();
+    try {
+      await onWorkdayPage(EXISTS_HTML, async (page) => {
+        const r = await authenticateAtsPortal(page, { settleMs: 0 });
+        expect(r.notes.join(" ")).toMatch(
+          /portal says an account already exists for this email — signing in/,
+        );
+        expect(r.status).toBe("signed_in");
+        expect(r.escalated_to_create).toBe(false);
+        expect(await page.locator("input[name='first_name']").count()).toBe(1);
+      });
+    } finally {
+      applySafeFillEnv();
+      resetConfigCache();
+    }
+  }, 30_000);
+
+  it('#64 "form cleared" with the signed-OUT Workday header still on the page is wall_remains, never account_created (the TIAA false-positive killer)', async () => {
+    // Live tiaa nights 20-21: five runs reported "create: form cleared";
+    // no account email ever arrived and probes showed utilityButtonSignIn.
+    const GHOST_CREATE_HTML = `<!DOCTYPE html><html><body>
+      <div id="stage">
+        <h2>Create Account</h2>
+        <input data-automation-id="email" type="email" />
+        <input data-automation-id="password" type="password" />
+        <input data-automation-id="verifyPassword" type="password" />
+        <button data-automation-id="createAccountSubmitButton" type="button">Create Account</button>
+      </div>
+      <script>
+        document.querySelector('[data-automation-id=createAccountSubmitButton]')
+          .addEventListener('click', () => {
+            document.body.innerHTML =
+              '<button data-automation-id="utilityButtonSignIn">Sign In</button><p>Careers home</p>';
+          });
+      </script></body></html>`;
+    applyControlledFillEnv({ NAVIGATION_ENABLED: "true" });
+    process.env.PORTAL_LOGIN_EMAIL = "candidate@fixture.test";
+    process.env.PORTAL_LOGIN_PASSWORD = "StandingPass1!";
+    resetConfigCache();
+    try {
+      await onWorkdayPage(GHOST_CREATE_HTML, async (page) => {
+        const r = await authenticateAtsPortal(page, { settleMs: 0 });
+        expect(r.status).toBe("wall_remains");
+        expect(r.notes.join(" ")).toMatch(
+          /form cleared but the header still shows Sign In — NOT signed in/,
+        );
+        // Nothing was recorded — the vault stays evidence-only.
+        expect(getAccount("interdigital.wd5.myworkdayjobs.com")).toBeNull();
+      });
+    } finally {
       applySafeFillEnv();
       resetConfigCache();
     }
@@ -749,6 +928,11 @@ describe("workday portal auth (FIXTURE_CONFIRMED)", () => {
     process.env.PORTAL_LOGIN_EMAIL = "candidate@fixture.test";
     process.env.PORTAL_LOGIN_PASSWORD = "StandingPass1!";
     resetConfigCache();
+    // #64: the sign-in-first mechanic under test needs an account on record.
+    setAccount("interdigital.wd5.myworkdayjobs.com", {
+      email: "candidate@fixture.test",
+      password: "StandingPass1!",
+    });
     try {
       await onWorkdayPage(DUAL_HTML, async (page) => {
         const r = await authenticateAtsPortal(page, { settleMs: 0 });
@@ -767,6 +951,8 @@ describe("workday portal auth (FIXTURE_CONFIRMED)", () => {
 describe("workday sign-in DIALOG over the create-account form — live huntington.wd12 shape (FIXTURE_CONFIRMED)", () => {
   useIsolatedFillEnv("safe");
   let browser: Browser;
+  let privDir: string;
+  const savedPriv = process.env.PRIVATE_DIR;
   let savedPortalEmail: string | undefined;
   let savedPortalPassword: string | undefined;
 
@@ -774,6 +960,10 @@ describe("workday sign-in DIALOG over the create-account form — live huntingto
     applySafeFillEnv();
     savedPortalEmail = process.env.PORTAL_LOGIN_EMAIL;
     savedPortalPassword = process.env.PORTAL_LOGIN_PASSWORD;
+    // #64 vault seeding/recording must never touch the real private/ —
+    // a fixture password on a live host would hijack live runs.
+    privDir = fs.mkdtempSync(path.join(os.tmpdir(), "jaa-portal-hd-"));
+    process.env.PRIVATE_DIR = privDir;
     resetConfigCache();
     browser = await chromium.launch({ headless: true });
   });
@@ -783,6 +973,9 @@ describe("workday sign-in DIALOG over the create-account form — live huntingto
     else process.env.PORTAL_LOGIN_EMAIL = savedPortalEmail;
     if (savedPortalPassword === undefined) delete process.env.PORTAL_LOGIN_PASSWORD;
     else process.env.PORTAL_LOGIN_PASSWORD = savedPortalPassword;
+    if (savedPriv === undefined) delete process.env.PRIVATE_DIR;
+    else process.env.PRIVATE_DIR = savedPriv;
+    fs.rmSync(privDir, { recursive: true, force: true });
     resetConfigCache();
   });
 
@@ -883,6 +1076,12 @@ describe("workday sign-in DIALOG over the create-account form — live huntingto
     process.env.PORTAL_LOGIN_EMAIL = "candidate@fixture.test";
     process.env.PORTAL_LOGIN_PASSWORD = "StandingPass1!";
     resetConfigCache();
+    // #64: sign-in-first needs an account on record (huntington's was
+    // created live on night19 #8e).
+    setAccount("huntington.wd12.myworkdayjobs.com", {
+      email: "candidate@fixture.test",
+      password: "StandingPass1!",
+    });
     try {
       await onWorkdayPage(HUNTINGTON_HTML, async (page) => {
         const r = await authenticateAtsPortal(page, { settleMs: 0 });
@@ -932,6 +1131,11 @@ describe("workday sign-in DIALOG over the create-account form — live huntingto
     process.env.PORTAL_LOGIN_EMAIL = "candidate@fixture.test";
     process.env.PORTAL_LOGIN_PASSWORD = "WrongPass9!";
     resetConfigCache();
+    // #64: known account (wrong password) — sign-in is still first here.
+    setAccount("huntington.wd12.myworkdayjobs.com", {
+      email: "candidate@fixture.test",
+      password: "WrongPass9!",
+    });
     try {
       await onWorkdayPage(HUNTINGTON_HTML, async (page) => {
         const r = await authenticateAtsPortal(page, { settleMs: 0 });
@@ -949,14 +1153,24 @@ describe("workday sign-in DIALOG over the create-account form — live huntingto
 describe("employer-sandbox portal auth (FIXTURE_CONFIRMED)", () => {
   useIsolatedFillEnv("safe");
   let browser: Browser;
+  let privDir: string;
+  const savedPriv = process.env.PRIVATE_DIR;
 
   beforeEach(async () => {
     applySafeFillEnv();
+    // #64 records verified creations in the vault — keep it off private/.
+    privDir = fs.mkdtempSync(path.join(os.tmpdir(), "jaa-portal-sbv-"));
+    process.env.PRIVATE_DIR = privDir;
+    resetConfigCache();
     browser = await chromium.launch({ headless: true });
   });
   afterEach(async () => {
     await browser.close().catch(() => undefined);
+    if (savedPriv === undefined) delete process.env.PRIVATE_DIR;
+    else process.env.PRIVATE_DIR = savedPriv;
+    fs.rmSync(privDir, { recursive: true, force: true });
     applySafeFillEnv();
+    resetConfigCache();
   });
 
   it("clears /portal/auth with standing credentials when no account exists yet", async () => {
