@@ -1168,7 +1168,8 @@ async function scrollHarvestListbox(
     let added = 0;
     for (const t of texts) {
       const c = t.replace(/\s+/g, " ").trim();
-      if (c && c.length < 120 && !seen.has(c)) {
+      // <250 (was 120): sentence options are real rows (#97).
+      if (c && c.length < 250 && !seen.has(c)) {
         seen.add(c);
         added += 1;
       }
@@ -1257,8 +1258,12 @@ async function clickListedOption(
   listbox: Locator,
   expected: string,
 ): Promise<{ label: string; via: "exact" | "ci_exact" | "unique_substring" | "synonym" } | null> {
+  // Length cap 200, not 80 (live tiaa 2026-08-31 #97): Workday consent
+  // prompts offer SENTENCE options ("Yes, I hereby Consent and “Opt-in”
+  // to …", ~150 chars) — the 80-char junk filter silently dropped the
+  // only pickable rows and the whole ladder ground past an open popup.
   const clean = (texts: string[]) =>
-    texts.map((t) => t.replace(/\s+/g, " ").trim()).filter((t) => t.length > 0 && t.length < 80);
+    texts.map((t) => t.replace(/\s+/g, " ").trim()).filter((t) => t.length > 0 && t.length < 200);
 
   const roleLabels = clean(
     await listbox.locator(OPTION_SELECTOR).filter({ visible: true }).allTextContents(),
@@ -1544,15 +1549,27 @@ export async function fillComboboxControl(
       // typed residue FIRST — live (cc02e067) the leftover "Maryland"
       // filter made the "unfiltered" list pure junk (Maryland Heights,
       // Missouri…), poisoning both the pick and the artifact.
-      await loc.click({ force: true, timeout: 2_000 }).catch(() => undefined);
-      await page.keyboard.press("ControlOrMeta+a").catch(() => undefined);
-      await page.keyboard.press("Delete").catch(() => undefined);
-      await page.keyboard.press("Escape").catch(() => undefined);
-      await openCombobox(page, loc);
-      await listbox.waitFor({ state: "visible", timeout: 3_000 }).catch(() => undefined);
+      // #97 (live tiaa consent buttons): a listbox BUTTON has no residue
+      // to clear, and clicking it here TOGGLED the already-open popup
+      // CLOSED — every later phase then ground against a shut list. A
+      // button only gets a re-open when the popup is actually closed.
+      if (typeable) {
+        await loc.click({ force: true, timeout: 2_000 }).catch(() => undefined);
+        await page.keyboard.press("ControlOrMeta+a").catch(() => undefined);
+        await page.keyboard.press("Delete").catch(() => undefined);
+        await page.keyboard.press("Escape").catch(() => undefined);
+        await openCombobox(page, loc);
+        await listbox.waitFor({ state: "visible", timeout: 3_000 }).catch(() => undefined);
+        notes.push("filter yielded no/unmatched options; re-collected unfiltered (residue cleared)");
+      } else if (!(await listbox.isVisible().catch(() => false))) {
+        await openCombobox(page, loc);
+        await listbox.waitFor({ state: "visible", timeout: 3_000 }).catch(() => undefined);
+        notes.push("button popup was closed; reopened for the unfiltered pick");
+      } else {
+        notes.push("button popup already open; picking from it directly");
+      }
       await page.waitForTimeout(250);
       options = await collectOptions();
-      notes.push("filter yielded no/unmatched options; re-collected unfiltered (residue cleared)");
       const afterOpen = await clickListedOption(listbox, expectedText);
       if (afterOpen) {
         notes.push(`picked "${afterOpen.label}" (${afterOpen.via}) after reopen`);
@@ -1642,7 +1659,30 @@ export async function fillComboboxControl(
         ),
         ...level1,
       ].filter((v, i, a) => a.indexOf(v) === i);
-      for (const cat of drillCandidates.slice(0, 12)) {
+      // #97: the drill scan is for Workday MULTISELECT prompts only (#71's
+      // two-level category→leaf lists) — those have chips whose delete
+      // charm can undo an accidental flat commit. On any other widget a
+      // "category" click just COMMITS the row with no undo affordance
+      // (live: react-select "Canada" committed for "Atlantis"; tiaa
+      // consent button committed a sentence row). And a yes/no answer
+      // never lives under a category anywhere.
+      const isWorkdayMultiselect = await loc
+        .evaluate(
+          (el: {
+            closest: (s: string) => unknown;
+            getAttribute: (n: string) => string | null;
+          }) =>
+            Boolean(el.closest("[data-automation-id='multiSelectContainer']")) ||
+            el.getAttribute("data-uxi-widget-type") === "selectinput",
+        )
+        .catch(() => false);
+      const drillable = isWorkdayMultiselect && yesNoToken(expectedText) === null;
+      if (!drillable && drillCandidates.length > 0) {
+        notes.push(
+          "drill scan skipped (not a Workday multiselect prompt, or a yes/no answer — flat rows are answers, not categories)",
+        );
+      }
+      for (const cat of drillable ? drillCandidates.slice(0, 12) : []) {
         const catRow = await clickListedOption(listbox, cat);
         if (!catRow) continue;
         await page.waitForTimeout(800);
@@ -1815,6 +1855,14 @@ export async function fillComboboxControl(
     }
   }
 
+  // #97: the drill/harvest phases can leave the popup CLOSED (each option
+  // click shuts it) — the final pick then waited 5s on invisible options
+  // and timed out (live tiaa consent listbox). Reopen once before picking.
+  if (!(await listbox.isVisible().catch(() => false))) {
+    await openCombobox(page, loc);
+    await listbox.waitFor({ state: "visible", timeout: 3_000 }).catch(() => undefined);
+    notes.push("reopened listbox for the final pick");
+  }
   // Prefer role=option exact text when Playwright can resolve it; fall back to
   // substring filter if whitespace / flag chrome differs.
   const optionByRole = page.getByRole("option", { name: pick.label, exact: true });

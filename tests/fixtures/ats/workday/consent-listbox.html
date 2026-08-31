@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<!--
+  #97 progressive-overload fixture — Workday questionnaire CONSENT listbox
+  button, modeled on the LIVE tiaa.wd1 Application Questions DOM
+  (form-snapshot 2026-08-31 + popup probe) one level harder:
+    - the options are SENTENCES (~190 chars, longer than the live ~150)
+      that the old 80/120-char junk caps silently dropped;
+    - the button TOGGLES its popup on every click (the live button closed
+      on the JS-click tier and the old reopen branch toggled it shut);
+    - the popup carries a disabled "Select One" placeholder row;
+    - a second question offers TWO yes-leading sentence options — an
+      ambiguous yes/no set that must REFUSE with nothing committed
+      (the drill scan must never click sentence rows as categories).
+-->
+<body>
+  <div data-automation-id="formField-cons01" data-fkit-id="primaryQuestionnaire--cons01">
+    <fieldset>
+      <legend><div id="rich-label-1" data-automation-id="richText"><p>TIAA Talent Acquisition uses an interview scheduling tool to coordinate conversations between recruiters and hiring teams. You may select your communication preference below for this application only.<abbr title="required" class="requiredAsterisk">*</abbr></p></div></legend>
+      <div>
+        <button aria-haspopup="listbox" type="button" value="" aria-label=" Select One Required" name="cons01" id="primaryQuestionnaire--cons01" aria-expanded="false">Select One</button>
+        <input type="text" style="display:none" value="">
+      </div>
+    </fieldset>
+  </div>
+  <ul role="listbox" id="cons01List" style="display:none">
+    <li data-value="" role="option" aria-disabled="true"><div>Select One</div></li>
+    <li data-value="y" role="option"><div>Yes, I hereby Consent and &ldquo;Opt-in&rdquo; to &ldquo;SMS/Text&rdquo; messages related to my employment application, and I understand that these two-way exchanges may be retained, shared, and processed by the sender and/or its business partners under the associated Terms and Conditions.</div></li>
+    <li data-value="n" role="option"><div>No, I hereby Do Not Consent and &ldquo;Opt-out&rdquo; of receiving &ldquo;SMS/Text&rdquo; messages related to my employment application, understanding that TIAA Talent Acquisition will then contact me by email only and this selection cannot be changed later for this application.</div></li>
+  </ul>
+
+  <div data-automation-id="formField-cons02" data-fkit-id="primaryQuestionnaire--cons02">
+    <fieldset>
+      <legend><div id="rich-label-2" data-automation-id="richText"><p><b>Do you consent to the processing described above?</b><abbr title="required" class="requiredAsterisk">*</abbr></p></div></legend>
+      <div>
+        <button aria-haspopup="listbox" type="button" value="" aria-label=" Select One Required" name="cons02" id="primaryQuestionnaire--cons02" aria-expanded="false">Select One</button>
+        <input type="text" style="display:none" value="">
+      </div>
+    </fieldset>
+  </div>
+  <ul role="listbox" id="cons02List" style="display:none">
+    <li data-value="" role="option" aria-disabled="true"><div>Select One</div></li>
+    <li data-value="y1" role="option"><div>Yes, I hereby Consent to the processing of my application data for recruitment purposes as described in the notice above and in the associated Terms and Conditions of the application portal.</div></li>
+    <li data-value="y2" role="option"><div>Yes, I hereby Consent to the processing of my application data AND to receiving marketing communications from the company and its affiliates as described in the notice above.</div></li>
+  </ul>
+
+  <script>
+    // Live TIAA behavior: the button TOGGLES its popup; picking an option
+    // sets the button text and closes the popup.
+    function wire(btnId, listId) {
+      const btn = document.getElementById(btnId);
+      const list = document.getElementById(listId);
+      btn.addEventListener('click', () => {
+        const open = list.style.display === 'block';
+        list.style.display = open ? 'none' : 'block';
+        btn.setAttribute('aria-expanded', String(!open));
+      });
+      for (const li of list.querySelectorAll('li[role=option]:not([aria-disabled])')) {
+        li.addEventListener('click', () => {
+          btn.textContent = li.textContent.trim();
+          list.style.display = 'none';
+          btn.setAttribute('aria-expanded', 'false');
+        });
+      }
+    }
+    wire('primaryQuestionnaire--cons01', 'cons01List');
+    wire('primaryQuestionnaire--cons02', 'cons02List');
+  </script>
+</body>
+</html>
