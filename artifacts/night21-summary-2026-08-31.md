@@ -57,12 +57,9 @@ ATS-general.
 - Page-error reader + keystroke-retype suites (platform-neutral).
 
 ## Open items for you (⚠ = needs your input)
-- ⚠ Bank: "Do you currently hold a Visa (including a student visa)?" =
-  "No" — if you're on F-1 this is wrong; confirm in screeners.json.
-- ⚠ how_heard fallbacks: I mapped LinkedIn → Social Media/Network → Job
-  Board when a form doesn't offer "LinkedIn" (TIAA's tree had LinkedIn
-  as a leaf under Job Board — used verbatim there). Veto/edit the table
-  in comboboxAlternates if you want different picks.
+- ✅ RESOLVED (operator, 08-31 morning): US Citizen — visa "No",
+  work_authorization "Yes", requires_sponsorship "No" all confirmed
+  correct as stored. how_heard fallback order approved.
 - TIAA: retry after a multi-hour cool-down (`npm run retry -- --app
   fda27acb-…` then the pipeline run); draft is intact.
 - #29 (review re-parks), #19 (Cloudflare), #55 (CDP wedge trigger)
