@@ -1351,9 +1351,31 @@ Pre-flight (≈18:55 local):
   Workday chrome, so its html snapshot is the pre-Next DOM. The #69
   dedupe notes also verified live (f_11/f_13 ghost drops).
 
+### ⚠ #74/#74b/#74c/#74d were chasing an ARTIFACT — the real cause was a signed-out session (see #75)
+- Three fingerprint strategies produced identical failures because the
+  runs weren't on our draft at all. Kept (they harden the walk), but
+  the "stale page" readings of #22w-#23a are reinterpreted below.
+
 ### 74. Wizard plans on the FRESH page — field-set fingerprint poll after Next — FIXED (live #22x)
 - Before Next: fingerprint the current page's discovered field ids.
   After a landed transition: poll page.content() (bounded by
   settleTimeoutMs) until the field set DIFFERS, then run the error
   check, classification, and the per-page plan on that fresh DOM.
   settleMs 0 keeps fixtures synchronous. frame-hop-wizard 10/10.
+
+### 75. THE REAL #22x-#23a CAUSE — Workday session expiry + a late-painting chooser modal left the walk anonymous — FIXED
+- Pixels (01:30): header "Sign In" (session expired AGAIN — recurrent
+  every ~30-60 min all night), and Continue opens the "Start Your
+  Application" chooser. #23a's auth trail: clicked "Continue
+  Application" → probed for Apply Manually BEFORE the modal painted →
+  15s wait for a password form that never comes → "no sign-in form" →
+  an anonymous wizard shell classified `wizard` → three runs planned
+  against pages that were never our draft. The identical "stale plan"
+  failures across three fingerprint fixes were this, not DOM staleness.
+- Fixes: (a) openWorkdayApplyChooser's fall-through now polls (bounded
+  15s) for ANY continuation — password form, the Apply Manually button,
+  or the SSO email button — and loops when the chooser paints late;
+  (b) atsLiveFill: a wizard-looking page with the signed-OUT header
+  (utilityButtonSignIn visible) is an anonymous shell — off-flow, one
+  re-reach through the (fixed) auth walk. portal-auth + ats-live-fill
+  40/40. Live: #23b.

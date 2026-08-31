@@ -858,12 +858,44 @@ async function openWorkdayApplyChooser(
       continue;
     }
 
-    // No button left to click. That is usually because the form is ON ITS
-    // WAY — Workday swaps the page out from under the probe. Give it the
-    // same wait before declaring there is no sign-in form here.
-    if (attempt > 1 && (await waitForAuthForm(page, settle))) {
-      notes.push("portal auth: account form rendered while waiting");
-      return;
+    // No button left to click. That is usually because the form — or the
+    // Start Your Application CHOOSER — is ON ITS WAY: Workday paints the
+    // modal seconds after the Apply/Continue click (#75, live tiaa
+    // 2026-08-31: the walk probed before the modal rendered, waited 15s
+    // for a password form that never comes, and planned an anonymous
+    // shell without ever signing in). Poll for ANY of the three
+    // continuations: a password form, the Apply Manually button, or the
+    // SSO email button — then loop.
+    if (attempt > 1) {
+      const deadline = Date.now() + (settle === 0 ? 0 : 15_000);
+      let found: "form" | "manual" | "sso" | null = null;
+      for (;;) {
+        if (await firstVisible(page, "input[type='password']")) {
+          found = "form";
+          break;
+        }
+        if (
+          (await firstVisible(page, workdaySelectorsV1.applyMethods.applyManually)) ??
+          (await visibleNamed(page, /^apply manually$/i))
+        ) {
+          found = "manual";
+          break;
+        }
+        if (await firstVisible(page, "[data-automation-id='SignInWithEmailButton']")) {
+          found = "sso";
+          break;
+        }
+        if (Date.now() >= deadline) break;
+        await page.waitForTimeout(400);
+      }
+      if (found === "form") {
+        notes.push("portal auth: account form rendered while waiting");
+        return;
+      }
+      if (found === "manual") {
+        notes.push("portal auth: chooser modal rendered while waiting");
+        continue;
+      }
     }
     if (await clickSignInWithEmail(page, notes, settle)) return;
     notes.push(

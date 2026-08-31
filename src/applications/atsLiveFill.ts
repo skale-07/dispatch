@@ -705,7 +705,21 @@ export async function runAtsLiveFill(input: {
             // portal walk again (signed in, it is just Apply → Apply
             // Manually → the resumed wizard — LIVE-probed 2026-08-30);
             // an unauthenticated session parks exactly as before.
+            // #75: a WIZARD-looking page with the signed-OUT header is an
+            // anonymous shell, never our draft — treat it as off-flow.
+            const signedOut =
+              (await page
+                .locator("[data-automation-id='utilityButtonSignIn']")
+                .first()
+                .isVisible()
+                .catch(() => false)) === true;
+            if (signedOut) {
+              report.notes.push(
+                "workday: page header shows Sign In — session is signed OUT",
+              );
+            }
             const offFlow =
+              signedOut ||
               kind === "posting" ||
               kind === "chooser" ||
               ((kind === "wizard" || kind === "unknown") &&
