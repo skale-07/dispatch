@@ -217,7 +217,15 @@ export function discoverFieldsFromHtml(
     const battrs = bm[1] ?? "";
     if (isHiddenAttrs(battrs)) continue;
     const btnId = getAttr(battrs, "id") ?? undefined;
-    const btnLabel = btnId ? labelMap.get(btnId) : undefined;
+    // #85 (live stryker questionnaire): Workday's compliance questions are
+    // listbox buttons labeled only by the enclosing FIELDSET LEGEND
+    // (richText — no label[for] anywhere), so the labelMap misses and
+    // the questions pages filled 0/N across every tenant. Page-chrome
+    // listbox buttons sit outside fieldsets and stay invisible.
+    const btnLabel =
+      (btnId ? labelMap.get(btnId) : undefined) ??
+      enclosingFieldsetLegend(html, bm.index) ??
+      undefined;
     if (!btnId || !btnLabel || isUninformativeLabel(btnLabel)) continue;
     const btnName = getAttr(battrs, "name") ?? undefined;
     const current = cleanLabel(decodeEntities(stripTags(bm[2] ?? "")));

@@ -37,6 +37,24 @@ describe("workday widget discovery (#67, FIXTURE_CONFIRMED)", () => {
     expect(fields.find((f) => f.inputId === "settingsSelectorButton")).toBeUndefined();
   });
 
+  it("#85 questionnaire listbox buttons labeled only by their fieldset LEGEND are discovered (live stryker shape); chrome buttons outside fieldsets stay invisible", () => {
+    const html = `<html><body>
+      <button aria-expanded="false" aria-haspopup="listbox" data-automation-id="utilityMenuButton" id="settingsSelectorButton">⚙</button>
+      <div data-automation-id="formField-1cb40" data-fkit-id="primaryQuestionnaire--1cb40">
+        <fieldset><legend><div data-automation-id="richText"><p><b>Are you legally authorized to work in the country in which the job is located?</b><abbr title="required" class="requiredAsterisk">*</abbr></p></div></legend>
+        <button aria-haspopup="listbox" type="button" value="" aria-label=" Select One Required" name="1cb40" id="primaryQuestionnaire--1cb40">Select One</button>
+        <input type="text" value="">
+        </fieldset>
+      </div>
+    </body></html>`;
+    const fields = discoverFieldsFromHtml(html);
+    const q = fields.find((f) => f.inputId === "primaryQuestionnaire--1cb40");
+    expect(q?.label).toMatch(/^Are you legally authorized to work/);
+    expect(q?.type).toBe("select");
+    expect(q?.required).toBe(true);
+    expect(fields.find((f) => f.inputId === "settingsSelectorButton")).toBeUndefined();
+  });
+
   it("#67a getAttr boundary: aria-invalid before id no longer yields id=\"false\" — the multiselect is labeled by its label[for], not its placeholder", () => {
     const fields = discoverFieldsFromHtml(FIXTURE);
     const source = fields.find((f) => f.inputId === "source--source");
