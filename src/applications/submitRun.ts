@@ -594,25 +594,46 @@ export async function runAtsSubmission(input: {
           // (observed non-null) block here. The required-completeness scan
           // below still guards the click, and a rejected click is still
           // definitive.
-          if (binding.id === "workday" && !verify.passed) {
-            const onPageMisses = verify.fields.filter(
+          const applyCrossPageWaiver = (
+            v: typeof verify,
+          ): typeof verify => {
+            if (binding.id !== "workday" || v.passed) return v;
+            const onPageMisses = v.fields.filter(
               (f) => !f.match && f.observed !== null,
             );
-            const offPage = verify.fields.filter(
+            const offPage = v.fields.filter(
               (f) => !f.match && f.observed === null,
             ).length;
             if (onPageMisses.length === 0 && fill.errors.length === 0 && offPage > 0) {
-              verify = {
-                ...verify,
+              return {
+                ...v,
                 passed: true,
                 warnings: [
-                  ...verify.warnings,
+                  ...v.warnings,
                   `workday wizard: ${offPage} cross-page answer(s) not re-checkable on this page — per-page verifies during the walk are the evidence`,
                 ],
               };
             }
+            return v;
+          };
+          verify = applyCrossPageWaiver(verify);
+          // #90 (live crowe/stryker): for a Workday WIZARD the blanket
+          // re-fill below smears cross-page errors; the targeted retype
+          // (re-pick selects, keystroke text) fixes exactly the on-page
+          // misses, then the waiver re-applies over the fresh verify.
+          if (
+            binding.id === "workday" &&
+            !verify.passed &&
+            adapter.retypeVerifyMisses
+          ) {
+            const retype = await adapter.retypeVerifyMisses(page, verify);
+            if (retype.retyped.length > 0) {
+              verify = applyCrossPageWaiver(
+                await adapter.verify(page, approvedPlan.answers),
+              );
+            }
           }
-          if (!verify.passed || fill.errors.length > 0) {
+          if (binding.id !== "workday" && (!verify.passed || fill.errors.length > 0)) {
             // Two live causes, one bounded remedy (ONE re-fill, then verify
             // decides): a reused held page whose fill did not survive, and —
             // neuralink 2026-08-30 — a fresh fill whose five comboboxes read

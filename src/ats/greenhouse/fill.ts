@@ -1888,7 +1888,50 @@ export async function retypeEmptyVerifyMisses(
       cleanEntries.find(
         (e) => (e.canonical_field ?? e.field_id) === f.canonical_field,
       );
-    if (!entry || !TEXT_TYPES.has(String(entry.type).toLowerCase())) continue;
+    if (!entry) continue;
+    // #90 (live crowe/stryker submit legs): an on-page SELECT that
+    // verified at fill time can read empty at submit time (late pick
+    // loss). Re-pick it through the combobox machinery — bounded, same
+    // option-verified refusals.
+    if (
+      String(entry.type).toLowerCase() === "select" &&
+      typeof entry.value === "string"
+    ) {
+      const meta = fieldMeta.get(entry.field_id);
+      try {
+        const loc = locatorForField(
+          page,
+          {
+            field_id: entry.field_id,
+            label: entry.label,
+            ...(meta?.name ? { name: meta.name } : {}),
+            ...(meta?.inputId ? { inputId: meta.inputId } : {}),
+          },
+          entry.type,
+          { visibleOnly: true },
+        );
+        const r = await fillComboboxControl(
+          page,
+          loc,
+          comboboxExpected(entry.canonical_field, entry.value),
+          { alternates: comboboxAlternates(entry.canonical_field, entry.value) },
+        );
+        if (r.committed) {
+          retyped.push(f.canonical_field);
+          notes.push(`retype: ${f.canonical_field} re-picked after empty verify read`);
+        } else {
+          notes.push(
+            `retype: ${f.canonical_field} re-pick not committed — ${r.notes.slice(-1).join("")}`.slice(0, 200),
+          );
+        }
+      } catch (err) {
+        notes.push(
+          `retype: ${f.canonical_field} re-pick failed — ${err instanceof Error ? err.message.slice(0, 100) : String(err)}`,
+        );
+      }
+      continue;
+    }
+    if (!TEXT_TYPES.has(String(entry.type).toLowerCase())) continue;
     const meta = fieldMeta.get(entry.field_id);
     try {
       const loc = locatorForField(
