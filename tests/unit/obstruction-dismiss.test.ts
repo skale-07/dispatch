@@ -99,6 +99,27 @@ describe("obstruction dismisser (FIXTURE_CONFIRMED)", () => {
   );
 
   it(
+    "an APPLICATION-FLOW dialog (Start Your Application chooser) is never dismissed — not even via its close-X (#75, live tiaa)",
+    async () => {
+      const html = `<html><body>
+        <div role="dialog" id="chooser" aria-modal="true">
+          <button aria-label="Close">✕</button>
+          <h2>Start Your Application</h2>
+          <button>Autofill with Resume</button>
+          <button>Apply Manually</button>
+          <button>Use My Last Application</button>
+        </div>
+      </body></html>`;
+      await withFixtureHtmlPage(html, async (page) => {
+        const r = await dismissPageObstructions(page);
+        expect(r.dismissed).toEqual([]);
+        expect(await page.locator("#chooser").count()).toBe(1);
+      });
+    },
+    45_000,
+  );
+
+  it(
     "a clean page returns fast with nothing dismissed",
     async () => {
       await withFixtureHtmlPage(

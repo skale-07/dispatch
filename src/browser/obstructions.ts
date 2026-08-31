@@ -34,6 +34,15 @@ export const obstructionSelectorsV1 = {
    */
   neverClickPattern:
     /submit|apply|continue|next|save|send|sign|log ?in|create|delete|remove|unsubscribe|buy|upgrade|pay|start|finish|confirm/i,
+  /**
+   * A dialog whose controls carry APPLICATION-FLOW semantics is part of
+   * the flow, never dismissed — not even via its close-X (#75: the sweep
+   * X-ed away Workday's "Start Your Application" chooser). Spend/upsell
+   * words deliberately excluded: those dialogs are chrome and their X is
+   * fair game.
+   */
+  flowDialogPattern:
+    /\b(apply|submit(?! a review)|continue|sign ?in|log ?in|create account|autofill|use my last application)\b/i,
   status: "UNVERIFIED_SELECTOR" as const,
 } as const;
 
@@ -64,6 +73,24 @@ export async function dismissPageObstructions(
       for (const container of containers) {
         if (dismissed.length >= maxDismissals) break;
         if (!(await container.isVisible().catch(() => false))) continue;
+
+        // #75 (live tiaa 2026-08-31): Workday's "Start Your Application"
+        // chooser is a [role=dialog] with a close-X — the X matched
+        // closeControls and the sweep DISMISSED the application flow
+        // itself (the walk then found no Apply Manually, ever). A dialog
+        // whose controls carry progression semantics is flow, not
+        // chrome: never dismissed, not even via its X.
+        const containerButtonNames = (
+          await container
+            .locator("button, [role='button'], a")
+            .allTextContents()
+            .catch(() => [] as string[])
+        )
+          .map((t) => t.replace(/\s+/g, " ").trim())
+          .filter((t) => t.length > 0 && t.length <= 40);
+        if (containerButtonNames.some((n) => sel.flowDialogPattern.test(n))) {
+          continue;
+        }
 
         // Preferred: an explicit close affordance inside the container.
         let target = container.locator(sel.closeControls).first();
