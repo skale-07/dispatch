@@ -1453,6 +1453,19 @@ Pre-flight (≈18:55 local):
   wrong on any submitted form that asked it (none submitted with it
   tonight). Please confirm/fix in screeners.json.
 
+### 88/OPEN — the Stryker GPA textarea survives nothing: eleven runs, parked at ONE field
+- #86 (settle-reverify), #87 (safe factual canonicals may fill
+  textareas — it was silently SKIPped as an essay for the first eight
+  runs), #88 (Workday text types at keystroke level) each removed a
+  real layer; the field still reads empty at the submit scan while
+  per-page verifies pass. Working hypothesis for fresh eyes: the
+  completeness scan's GPA textarea is a TWIN of the control the fill
+  writes (two "current cumulative GPA" questions existed — the Yes/No
+  select (#85c) and the free-text one; possibly a third hidden). Needs
+  a pixels-first probe of the held page's GPA area, not more retries.
+  App parked FAILED_RETRYABLE — everything else on all 6 pages fills
+  and verifies.
+
 ### 77. OPEN — TIAA sign-in silently refused by every input path; suspected tenant throttle after ~30 attempts tonight
 - Same creds + same form + human-paced clicks succeeded at 20:55;
   by 01:50 mouse/JS/Enter all no-op with no error text. Consistent with

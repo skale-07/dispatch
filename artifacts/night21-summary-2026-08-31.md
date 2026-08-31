@@ -7,7 +7,7 @@
 | **Exa — Software Engineer, Intern** | Ashby | 2 | ✅ **SUBMITTED** (receipt pixels: green "successfully submitted" banner; state SUBMITTED) |
 | TIAA — Churchill Summer Internship IIT | Workday | ~14 (22k–23e) | Parked: draft intact (page 1 committed + resume uploaded); sign-in silently refused by mouse/JS/Enter after ~30 attempts — suspected tenant throttle (#77). Retry after cool-down. |
 | Stryker — Summer 2027 Internship, Data Analytics | Workday | 2 | Parked FAILED_RETRYABLE (one field from clean when the loop moved on) |
-| Stryker — Summer 2027 Internship, Electrical Eng | Workday | 7 | Parked: block items went 17 → 3 → 1 across runs; last wall = free-text GPA textarea empty on held page; final retry was in flight at write time |
+| Stryker — Summer 2027 Internship, Electrical Eng | Workday | 11 | Parked at ONE field: block items 17 → 3 → 1; the free-text GPA textarea reads empty at submit despite keystroke entry + settle re-verify (#86–#88 each removed a real layer; suspected twin control — needs a pixels-first probe, see #88/OPEN) |
 | USAJobs ×2 | federal | 2 | Abandoned with reason (login.gov flow unsupported; refusals correct) |
 | Banco Popular — Data Analytics Internship | generic | 1 | Parked (email-gated portal funnel; 30s field timeouts) |
 
