@@ -43,8 +43,15 @@ export type WizardWalkResult = {
 };
 
 const NEXT_NAME_RE = /^(next|save and continue|continue)$/i;
-/** Additional pages beyond the landing page — hard cap, never unbounded. */
-export const WIZARD_PAGE_CAP = 5;
+/**
+ * Additional pages beyond the landing page — hard cap, never unbounded.
+ * 8, not 5 (#99, live tiaa): a 7-step wizard (My Information … Review)
+ * needs 6 clean Nexts to reach Review — the submit button lives ONLY
+ * there, and the 5-page cap made "workday final submit control not
+ * found" structural. The loop still self-terminates at Review ("no Next
+ * control") and on errors, so the cap is head-room, not a target.
+ */
+export const WIZARD_PAGE_CAP = 8;
 
 export async function walkWorkdayWizard(
   page: Page,
