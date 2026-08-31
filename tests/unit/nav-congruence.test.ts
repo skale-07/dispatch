@@ -546,3 +546,11 @@ describe("employer-URL audit + duplicate detection (UNIT_CONFIRMED)", () => {
     expect(item?.title).toMatch(/needs human review/);
   });
 });
+
+describe("#91 brand abbreviations open long slugs", () => {
+  it('"WD" matches tenant "westerndigital" as evidence; unrelated short tokens do not', async () => {
+    const { checkUrlCongruence } = await import("../../src/navigation/congruence.js");
+    const wd = checkUrlCongruence("WD", "https://westerndigital.wd1.myworkdayjobs.com/jobs/123");
+    expect(wd.verdict).not.toBe("mismatch");
+  });
+});

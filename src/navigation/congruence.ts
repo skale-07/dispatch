@@ -468,6 +468,29 @@ function slugMatchesCompany(
   ) {
     return `joined name ~ slug "${slugCompact}"`;
   }
+  // #91 (live 2026-08-31): the job card says "WD", the tenant is
+  // "westerndigital" — a 2-3 letter brand ABBREVIATION whose letters
+  // open the slug's words. Match evidence only (never an accuser), and
+  // only against a long slug so tiny slugs stay exact-match-only.
+  for (const token of [...id.tokens, ...id.aliases]) {
+    if (
+      token.length >= 2 &&
+      token.length <= 3 &&
+      slugCompact.length >= 8 &&
+      slugCompact.startsWith(token[0]!) &&
+      ((): boolean => {
+        let pos = 1;
+        for (const ch of token.slice(1)) {
+          const idx = slugCompact.indexOf(ch, pos);
+          if (idx < 0) return false;
+          pos = idx + 1;
+        }
+        return true;
+      })()
+    ) {
+      return `abbreviation "${token}" opens slug "${slugCompact}"`;
+    }
+  }
   return null;
 }
 
