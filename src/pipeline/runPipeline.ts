@@ -1308,6 +1308,25 @@ async function step(
             stop: "gate",
           };
         }
+        // #89 (night21, cycles 2/3/7/9/10): USAJOBS postings require the
+        // login.gov federal account flow — categorically unsupported.
+        // JobRight's feed re-enqueues fresh twins after every abandon, so
+        // each one burned a full cycle at the fill gate. Terminal here,
+        // reason named, no attempt spent.
+        const applyHost = ((): string => {
+          try {
+            return new URL(url).hostname.toLowerCase();
+          } catch {
+            return "";
+          }
+        })();
+        if (/(^|\.)usajobs\.gov$/i.test(applyHost)) {
+          return {
+            to: "FAILED_FINAL",
+            note: "unsupported portal: USAJOBS requires the login.gov federal flow",
+            stop: "gate",
+          };
+        }
         const runLiveFill = async (
           existingPage: Page | undefined,
           sessionNote: string,
