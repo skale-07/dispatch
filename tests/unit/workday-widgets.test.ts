@@ -8,6 +8,10 @@ import {
   readComboboxValue,
 } from "../../src/ats/greenhouse/comboboxFill.js";
 import { withFixtureHtmlPage } from "../../src/browser/fixtureSession.js";
+import {
+  comboboxAlternates,
+  greenhouseFillFromPlan,
+} from "../../src/ats/greenhouse/fill.js";
 
 /**
  * #67 progressive-overload — Workday listbox-button dropdowns and
@@ -77,4 +81,105 @@ describe("workday widget fill/verify (#67, FIXTURE_CONFIRMED)", () => {
       expect(r.notes.join(" ")).toMatch(/already committed/);
     });
   }, 45_000);
+});
+
+describe("#68 overlaid radios + how_heard class fallbacks (FIXTURE_CONFIRMED)", () => {
+  it("a VISIBLE radio under a pointer-intercepting overlay is checked via the label[for] tier, not a 30s hang", async () => {
+    // Live tiaa #22q: candidateIsPreviousWorker — visible, enabled,
+    // stable, and a painted div swallowed every click for 30s.
+    const html = `<html><body>
+      <fieldset data-automation-id="formField-candidateIsPreviousWorker">
+        <legend><label>Have you previously been an employee of TIAA?</label></legend>
+        <div style="position:relative">
+          <input type="radio" name="candidateIsPreviousWorker" id="prev-yes" value="true" />
+          <label for="prev-yes">Yes</label>
+          <input type="radio" name="candidateIsPreviousWorker" id="prev-no" value="false" />
+          <label for="prev-no">No</label>
+          <div style="position:absolute;top:0;left:0;width:100%;height:100%;background:transparent"></div>
+        </div>
+      </fieldset>
+    </body></html>`;
+    await withFixtureHtmlPage(html, async (page) => {
+      const meta = new Map([
+        ["candidateIsPreviousWorker", { type: "radio", name: "candidateIsPreviousWorker" }],
+      ]);
+      const r = await greenhouseFillFromPlan(
+        page,
+        [
+          {
+            field_id: "candidateIsPreviousWorker",
+            label: "Have you previously been an employee of TIAA?",
+            type: "radio",
+            canonical_field: "screener:previously_applied_or_worked",
+            action: "FILL",
+            value: "No",
+            reason: "test",
+            approved: true,
+          } as never,
+        ],
+        meta as never,
+      );
+      expect(r.errors).toEqual([]);
+      expect(await page.locator("#prev-no").isChecked()).toBe(true);
+    });
+  }, 45_000);
+
+  it('how_heard "LinkedIn" on a class-only option list falls back to the FIRST offered class alternate, noted; without alternates it still refuses', async () => {
+    const html = `<html><body>
+      <label for="src">How did you hear about us?</label>
+      <div data-automation-id="multiSelectContainer" id="ms">
+        <input placeholder="Search" data-uxi-widget-type="selectinput" id="src" value="">
+        <ul role="listbox" data-automation-id="selectedItemList"></ul>
+      </div>
+      <div role="listbox" id="opts" style="display:none"></div>
+      <script>
+        const OPTIONS = ['College Event', 'Contacted by Recruiter', 'Corporate Website', 'Job Board', 'Military/Veterans', 'Social Media'];
+        const input = document.getElementById('src');
+        const popup = document.getElementById('opts');
+        const chips = document.querySelector('#ms [data-automation-id=selectedItemList]');
+        function render(filter) {
+          popup.innerHTML = '';
+          for (const s of OPTIONS.filter((o) => !filter || o.toLowerCase().includes(filter.toLowerCase()))) {
+            const d = document.createElement('div');
+            d.setAttribute('role', 'option');
+            d.textContent = s;
+            d.addEventListener('click', () => {
+              const pill = document.createElement('div');
+              pill.setAttribute('data-automation-id', 'selectedItem');
+              chips.appendChild(pill);
+              pill.textContent = s;
+              popup.style.display = 'none';
+              input.value = '';
+            });
+            popup.appendChild(d);
+          }
+          popup.style.display = 'block';
+        }
+        input.addEventListener('click', () => render(''));
+        input.addEventListener('input', () => render(input.value));
+        input.addEventListener('keyup', () => render(input.value));
+      </script>
+    </body></html>`;
+    await withFixtureHtmlPage(html, async (page) => {
+      const input = page.locator("#src");
+      const withAlts = await fillComboboxControl(page, input, "LinkedIn", {
+        alternates: comboboxAlternates("how_heard", "LinkedIn"),
+      });
+      expect(withAlts.committed).toBe(true);
+      // Order preference: "Social Media" (most accurate for LinkedIn)
+      // beats "Job Board" even though both are offered.
+      expect(withAlts.selectedLabel).toBe("Social Media");
+      expect(withAlts.notes.join(" ")).toMatch(/not offered — class fallback picked/);
+    });
+    await withFixtureHtmlPage(html, async (page) => {
+      const bare = await fillComboboxControl(page, page.locator("#src"), "LinkedIn");
+      expect(bare.committed).toBe(false);
+    });
+  }, 45_000);
+
+  it("comboboxAlternates is SCOPED: nothing for other canonicals or unknown values", () => {
+    expect(comboboxAlternates("address.state", "LinkedIn")).toEqual([]);
+    expect(comboboxAlternates("how_heard", "My Neighbor")).toEqual([]);
+    expect(comboboxAlternates(null, "LinkedIn")).toEqual([]);
+  });
 });

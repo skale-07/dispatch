@@ -1218,6 +1218,16 @@ export async function fillComboboxControl(
   page: Page,
   loc: Locator,
   expected: unknown,
+  opts: {
+    /**
+     * #68 (live tiaa 2026-08-31): caller-scoped CLASS fallbacks tried in
+     * order when the stored answer matches no option ("LinkedIn" on a
+     * source list offering only channel classes). Still option-verified:
+     * an alternate must itself match a page option verbatim/synonym, and
+     * the pick is noted as a fallback.
+     */
+    alternates?: string[];
+  } = {},
 ): Promise<ComboboxFillResult> {
   const notes: string[] = [];
   const expectedText = String(expected);
@@ -1384,6 +1394,47 @@ export async function fillComboboxControl(
           notes,
           pickVia: afterOpen.via,
         };
+      }
+      // #68 class fallbacks: the stored answer is not offered. Try each
+      // alternate in order — first against the open window, then as its
+      // own typed filter (virtualized lists), same focus guard as above.
+      for (const alt of opts.alternates ?? []) {
+        let altHit = await clickListedOption(listbox, alt);
+        if (!altHit) {
+          const focused = await loc
+            .evaluate(
+              (el: { ownerDocument: { activeElement: unknown } }) =>
+                el.ownerDocument.activeElement === el,
+            )
+            .catch(() => false);
+          if (focused) {
+            await page.keyboard.type(alt, { delay: 25 }).catch(() => undefined);
+            await page.waitForTimeout(500);
+            altHit = await clickListedOption(listbox, alt);
+            if (!altHit) {
+              await page.keyboard.press("ControlOrMeta+a").catch(() => undefined);
+              await page.keyboard.press("Delete").catch(() => undefined);
+            }
+          }
+        }
+        if (altHit) {
+          notes.push(
+            `stored answer "${expectedText}" not offered — class fallback picked "${altHit.label}"`,
+          );
+          await page.keyboard.press("Escape").catch(() => undefined);
+          await page.waitForTimeout(250);
+          const committedLabel = await readComboboxValue(loc);
+          return {
+            committed: Boolean(
+              committedLabel &&
+                (labelsCompatible(altHit.label, committedLabel) ||
+                  normalize(committedLabel).includes(normalize(altHit.label))),
+            ),
+            selectedLabel: committedLabel ?? altHit.label,
+            notes,
+            pickVia: "synonym",
+          };
+        }
       }
     }
   } catch {

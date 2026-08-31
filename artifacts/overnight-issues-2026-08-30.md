@@ -1170,3 +1170,35 @@ Pre-flight (≈18:55 local):
   listbox-multiselect.html` (live markup + harder: attr-order trap,
   hex decoy, preselected chips, virtualization window, chrome button)
   + 5 tests — all FIXTURE_CONFIRMED first run. Live validation: #22q.
+
+### Job #22q — TIAA — 22:15 local — #67 LIVE-CONFIRMED (17 fields discovered, State fills); two last walls isolated
+- Discovery 12→17 fields; "State is required" GONE (the listbox button
+  filled); 13/17. The page names the rest: (a) "How Did You Hear About
+  Us? — 0 items selected": the pick machinery worked live (opened,
+  filtered, collected TIAA's real options) and REFUSED correctly — the
+  profile's stored `how_heard: "LinkedIn"` matches nothing TIAA offers
+  (College Event | Company Communication | Contacted by Agency/Recruiter
+  | Corporate Website | Job Board | Military/Veterans | …). (b) the
+  previously-an-employee RADIO: the right member resolved, then check()
+  hung 30s — VISIBLE input under a painted overlay div that intercepts
+  pointer events; checkPaintedControl's ladder only engaged for HIDDEN
+  inputs. Also noted: the wizard walk re-filled the same page 5× (Next
+  blocked while errors exist) and the wizard retype probes fields from
+  other pages (noise, bounded).
+
+### 68. Overlaid-radio ladder + how_heard class fallbacks — FIXED (FIXTURE_CONFIRMED; live #22r)
+- (a) checkPaintedControl: the visible-path check() is now BOUNDED (5s)
+  and falls through to the label[for]-click / JS-click tiers on
+  interception — the read-back still arbitrates.
+- (b) fillComboboxControl gains caller-scoped `alternates`: tried in
+  order against the open window, then as typed filters (same focus
+  guard). `comboboxAlternates` is scoped to canonical how_heard ONLY,
+  with a small deterministic channel-class table (LinkedIn → Social
+  Media | Social Network | Job Board | …; JobRight/Indeed → Job Board);
+  an alternate must itself match a page option verbatim and the pick is
+  noted as a fallback. Everything else still refuses. ⚠ Operator: the
+  class mapping is my inference from "LinkedIn IS social media / a job
+  board" — say the word and I'll change the order or remove it.
+- Tests: overlaid-radio fixture (question-label legend, live shape);
+  class-only option list picks "Social Media" over "Job Board" by
+  order; no alternates ⇒ still refuses; scoping negatives. 8/8.

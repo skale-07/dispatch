@@ -137,8 +137,16 @@ async function checkPaintedControl(page: Page, input: Locator): Promise<void> {
     throw new Error("control detached before check (stale generated id)");
   }
   if (await input.isVisible().catch(() => false)) {
-    await input.check();
-    return;
+    // #68 (live tiaa #22q): a VISIBLE Workday radio can still sit under a
+    // painted overlay div that intercepts pointer events — check() waited
+    // its full 30s and the ladder below never ran. Bounded try, then fall
+    // through to the label-click / JS-click tiers; read-back arbitrates.
+    try {
+      await input.check({ timeout: 5_000 });
+      return;
+    } catch {
+      // fall through to the painted-control ladder
+    }
   }
   const id = await input.getAttribute("id").catch(() => null);
   if (id) {
@@ -655,6 +663,35 @@ function isApprovedExecutable(
 }
 
 /** Bare profile year against a seasonal combobox needs the month. */
+/**
+ * #68 (live tiaa 2026-08-31): "How did you hear about us?" lists often
+ * offer channel CLASSES, not brands — the operator's stored "LinkedIn"
+ * matched none of TIAA's options (College Event | … | Job Board | …).
+ * Deterministic class fallbacks, scoped to how_heard only, tried in
+ * order and still option-verified against the page's own list. Nothing
+ * here invents an answer: LinkedIn IS social media / a job board.
+ */
+export function comboboxAlternates(
+  canonical: string | null,
+  value: unknown,
+): string[] {
+  if (canonical !== "how_heard") return [];
+  const key = String(value ?? "").trim().toLowerCase();
+  const table: Record<string, string[]> = {
+    linkedin: [
+      "Social Media",
+      "Social Network",
+      "Job Board",
+      "Online Job Board",
+      "Professional Network",
+    ],
+    indeed: ["Job Board", "Online Job Board"],
+    jobright: ["Job Board", "Online Job Board"],
+    handshake: ["Job Board", "Online Job Board", "College Event"],
+  };
+  return table[key] ?? [];
+}
+
 export function comboboxExpected(
   canonical: string | null,
   value: unknown,
@@ -797,6 +834,7 @@ export async function greenhouseFillFromPlan(
             page,
             loc,
             comboboxExpected(entry.canonical_field, entry.value),
+            { alternates: comboboxAlternates(entry.canonical_field, entry.value) },
           );
           field_meta.push({
             field_id: entry.field_id,
@@ -916,6 +954,7 @@ export async function greenhouseFillFromPlan(
             page,
             loc,
             comboboxExpected(entry.canonical_field, entry.value),
+            { alternates: comboboxAlternates(entry.canonical_field, entry.value) },
           );
           field_meta.push({
             field_id: entry.field_id,
