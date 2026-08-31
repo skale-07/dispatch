@@ -40,7 +40,7 @@ export function samePostingPath(finalPath: string, expectedPath: string): boolea
         // /apply(/applyManually). Locale prefixes, commas, and the apply
         // suffix are presentation, not identity; the requisition id +
         // slug (compared below) still convict a real mismatch.
-        .replace(/^\/[a-z]{2}-[a-z]{2}(?=\/)/, "")
+        .replace(/^\/[a-z]{2}[-_][a-z]{2}(?=\/)/, "")
         .replace(/\/apply(\/[a-z]+)?$/, "")
         .replace(/,/g, "")
     );

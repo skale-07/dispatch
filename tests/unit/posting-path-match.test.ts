@@ -47,3 +47,11 @@ describe("#81 workday apply-flow presentation differences", () => {
     ).toBe(true);
   });
 });
+
+describe("#90b underscore locales (Avature en_US)", () => {
+  it("an en_US prefix is presentation; a different jobId path still mismatches", async () => {
+    const { samePostingPath } = await import("../../src/ats/shared/preMutationGate.js");
+    expect(samePostingPath("/en_US/careers/JobDetail", "/careers/JobDetail")).toBe(true);
+    expect(samePostingPath("/en_US/careers/OtherPage", "/careers/JobDetail")).toBe(false);
+  });
+});
