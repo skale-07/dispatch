@@ -407,6 +407,16 @@ export function screenerKeyLabelIncompatible(
   if (/how_heard|hear|learned_about/.test(key)) {
     return /salary|compensation|pay (range|rate)|accept the listed/.test(n);
   }
+  // Live 2026-08-31 (stryker): the predict tier answered "Phone Device
+  // Type" with the COUNTRY CODE and promoted that attachment into the
+  // bank — every later Workday tenant then fed the device-type dropdown
+  // "+1". Codes and device types are different topics.
+  if (/country_code|dial_code/.test(key)) {
+    return /device type|phone type|device\b/.test(n);
+  }
+  if (/device_type|phone_type/.test(key)) {
+    return /country code|dial(ing)? code/.test(n);
+  }
   if (/salary|compensation/.test(key)) {
     return /hear about|learned about|how did you (hear|find)/.test(n);
   }
