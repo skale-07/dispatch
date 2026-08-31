@@ -53,7 +53,7 @@ export const ashbySelectorsV1 = {
   loginMarkers: /sign in to apply|log in to apply/i,
   /** In-page success panel — Ashby does not navigate on submit. */
   confirmationMarkers:
-    /application (?:has been )?submitted|thank you for applying|we(?:'|’)ve received your application/i,
+    /application (?:has been |was )?(?:successfully )?submitted|thank you for applying|we(?:'|’)ve received your application/i,
   /** Unrendered SPA shell heuristics. */
   shellMarkers: /window\.__appData|__NEXT_DATA__|id=["']root["']/i,
 } as const;

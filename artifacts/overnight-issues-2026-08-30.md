@@ -1398,6 +1398,20 @@ Pre-flight (≈18:55 local):
   header demotion can't fire on auth pages, so a vault entry was
   recorded — factually correct, account exists).
 
+### ✅ Job — 11eba960 Exa Software Engineer, Intern (Ashby) — 02:26 local — SUBMITTED (first submit of night21; LIVE_MUTATION_CONFIRMED)
+- Cycle 1 picked Exa (night20's #58 job). One blocker left: the
+  relocation question resolves "Open to relocating" (#58 ✓) but the
+  control is an Ashby hidden-radio FIELDSET typed select — resolution
+  failed. **#78**: when the label ladder exhausts and a fieldset
+  matching the question holds radios, pick the member painted-safe;
+  verify reads the checked member's label. Fixture from the live shape.
+- Retry: fill passed → READY_TO_SUBMIT → click → receipt pixels:
+  green "Success — Your application was successfully submitted."
+  The classifier read `unknown` (wording gap) and parked UNCERTAIN —
+  resolved submitted via the guide's resolver; state = SUBMITTED.
+- **#79**: Ashby confirmationMarkers learn "application was
+  successfully submitted" (the live banner). One-line regex.
+
 ### 77. OPEN — TIAA sign-in silently refused by every input path; suspected tenant throttle after ~30 attempts tonight
 - Same creds + same form + human-paced clicks succeeded at 20:55;
   by 01:50 mouse/JS/Enter all no-op with no error text. Consistent with
