@@ -599,6 +599,136 @@ function countryDialCompatible(expected: string, observed: string): boolean {
   return false;
 }
 
+/**
+ * #101 (live tiaa): Workday date widgets are a `dateInputWrapper` group of
+ * Month/Day/Year spinbutton inputs (`<wrapperId>-dateSectionMonth-input`…).
+ * Discovery collapses the trio into one field; the fill writes each
+ * section with focus+keyboard (mouse clicks are swallowed on the widget).
+ */
+const MONTH_NAMES: Record<string, number> = {
+  january: 1, february: 2, march: 3, april: 4, may: 5, june: 6,
+  july: 7, august: 8, september: 9, october: 10, november: 11, december: 12,
+};
+
+export function parseDateParts(
+  v: unknown,
+): { month: number; day: number | null; year: number } | null {
+  const s = String(v ?? "").trim();
+  if (!s) return null;
+  // "May 2029" / "May 15, 2029" / "may 1st 2029"
+  let m = s.match(/^([A-Za-z]{3,9})\.?\s+(?:(\d{1,2})(?:st|nd|rd|th)?\s*,?\s+)?(\d{4})$/);
+  if (m) {
+    const name = m[1]!.toLowerCase();
+    const month =
+      MONTH_NAMES[name] ??
+      Object.entries(MONTH_NAMES).find(([k]) => k.startsWith(name.slice(0, 3)))?.[1] ??
+      null;
+    if (!month) return null;
+    return { month, day: m[2] ? Number(m[2]) : null, year: Number(m[3]) };
+  }
+  // "05/2029", "05/01/2029"
+  m = s.match(/^(\d{1,2})\/(?:(\d{1,2})\/)?(\d{4})$/);
+  if (m) {
+    const month = Number(m[1]);
+    if (month < 1 || month > 12) return null;
+    return { month, day: m[2] ? Number(m[2]) : null, year: Number(m[3]) };
+  }
+  // "2029-05", "2029-05-01"
+  m = s.match(/^(\d{4})-(\d{1,2})(?:-(\d{1,2}))?$/);
+  if (m) {
+    const month = Number(m[2]);
+    if (month < 1 || month > 12) return null;
+    return { month, day: m[3] ? Number(m[3]) : null, year: Number(m[1]) };
+  }
+  return null;
+}
+
+async function workdayDateWrapperId(loc: Locator): Promise<string | null> {
+  return loc
+    .evaluate(
+      (el: {
+        id?: string;
+        getAttribute: (n: string) => string | null;
+        closest: (s: string) => { id?: string } | null;
+      }) => {
+        if (el.getAttribute("data-automation-id") === "dateInputWrapper") {
+          return el.id ?? null;
+        }
+        return el.closest("[data-automation-id='dateInputWrapper']")?.id ?? null;
+      },
+    )
+    .catch(() => null);
+}
+
+async function readWorkdayDateSections(
+  page: Page,
+  wrapperId: string,
+): Promise<{ month: number | null; day: number | null; year: number | null } | null> {
+  const read = async (part: string): Promise<number | null> => {
+    const sec = page
+      .locator(`[id="${wrapperId.replace(/"/g, '\\"')}-dateSection${part}-input"]`)
+      .first();
+    if ((await sec.count().catch(() => 0)) === 0) return null;
+    const raw =
+      (await sec.inputValue().catch(() => "")) ||
+      ((await sec.getAttribute("aria-valuetext").catch(() => null)) ?? "");
+    const n = Number(raw.trim());
+    return Number.isFinite(n) && n > 0 ? n : null;
+  };
+  const [month, day, year] = [await read("Month"), await read("Day"), await read("Year")];
+  if (month === null && day === null && year === null) return null;
+  return { month, day, year };
+}
+
+async function fillWorkdayDateSections(
+  page: Page,
+  wrapperId: string,
+  value: unknown,
+): Promise<string[]> {
+  const notes: string[] = [];
+  const parts = parseDateParts(value);
+  if (!parts) {
+    throw new Error(
+      `date widget: cannot parse "${String(value).slice(0, 40)}" into month/year — refusing to type into spinbuttons`,
+    );
+  }
+  const write = async (part: string, num: number, width: number): Promise<boolean> => {
+    const sec = page
+      .locator(`[id="${wrapperId.replace(/"/g, '\\"')}-dateSection${part}-input"]`)
+      .first();
+    if ((await sec.count().catch(() => 0)) === 0) return false;
+    // Mouse clicks are swallowed on this widget (live: 5s click timeouts
+    // every pass) — focus + keyboard is the write path.
+    await sec.evaluate((el: { focus: () => void }) => el.focus()).catch(() => undefined);
+    await page.keyboard.type(String(num).padStart(width, "0"), { delay: 60 });
+    await page.waitForTimeout(150);
+    return true;
+  };
+  if (!(await write("Month", parts.month, 2))) {
+    throw new Error("date widget: Month section not found");
+  }
+  const daySection =
+    (await page
+      .locator(`[id="${wrapperId.replace(/"/g, '\\"')}-dateSectionDay-input"]`)
+      .count()
+      .catch(() => 0)) > 0;
+  if (daySection) {
+    const day = parts.day ?? 1;
+    if (parts.day === null) {
+      notes.push("date widget: day not on file — 01 (month-precision answer)");
+    }
+    await write("Day", day, 2);
+  }
+  if (!(await write("Year", parts.year, 4))) {
+    throw new Error("date widget: Year section not found");
+  }
+  const back = await readWorkdayDateSections(page, wrapperId);
+  notes.push(
+    `date widget wrote ${String(parts.month).padStart(2, "0")}/${String(parts.day ?? 1).padStart(2, "0")}/${parts.year}; read back ${back ? `${back.month ?? "?"}/${back.day ?? "?"}/${back.year ?? "?"}` : "(empty)"}`,
+  );
+  return notes;
+}
+
 function valuesMatch(
   expected: unknown,
   observed: unknown,
@@ -618,6 +748,22 @@ function valuesMatch(
   if (labelsCompatible(eRaw, oRaw)) return true;
   if (labelsCompatible(oRaw, eRaw)) return true;
   if (pickOptionLabel([oRaw], eRaw).ok) return true;
+  // #101: "May 2029" (bank) ↔ "05/01/2029" (date-widget sections). A
+  // month-precision expectation accepts any day; mismatched month/year
+  // never match.
+  {
+    const eD = parseDateParts(eRaw);
+    const oD = parseDateParts(oRaw);
+    if (
+      eD &&
+      oD &&
+      eD.year === oD.year &&
+      eD.month === oD.month &&
+      (eD.day === null || oD.day === null || eD.day === oD.day)
+    ) {
+      return true;
+    }
+  }
   // Multi-select readback "Man, Woman" vs expected "Man": require exclusive match.
   if (oRaw.includes(",")) {
     const parts = oRaw.split(",").map((s) => s.trim()).filter(Boolean);
@@ -1078,13 +1224,30 @@ export async function greenhouseFillFromPlan(
               ...(meta?.inputId ? { inputId: meta.inputId } : {}),
             })
           ) {
-            const locFill = await fillLocationStyleText(page, loc, entry.value);
-            field_meta.push({
-              field_id: entry.field_id,
-              canonical_field: entry.canonical_field,
-              control_kind: "text",
-              notes: locFill.notes,
-            });
+            // Operator directive (2026-08-31, resumed drafts like tiaa):
+            // a field already holding a value verify would accept is
+            // VERIFIED IN PLACE, never retyped — rewriting a correct
+            // value risks the re-render wipe classes (#63f/#65) and
+            // burns walk time on recurrent applications.
+            const preLoc = (await loc.inputValue().catch(() => null))?.trim() ?? "";
+            if (preLoc !== "" && valuesMatch(entry.value, preLoc, entry.canonical_field)) {
+              field_meta.push({
+                field_id: entry.field_id,
+                canonical_field: entry.canonical_field,
+                control_kind: "text",
+                notes: [
+                  `already holds "${preLoc.slice(0, 40)}" — verified in place, not retyped`,
+                ],
+              });
+            } else {
+              const locFill = await fillLocationStyleText(page, loc, entry.value);
+              field_meta.push({
+                field_id: entry.field_id,
+                canonical_field: entry.canonical_field,
+                control_kind: "text",
+                notes: locFill.notes,
+              });
+            }
           } else {
             // Live tiaa.wd1 2026-08-30 (#61): discovery typed the
             // previousWorker RADIO group "text"; the unfiltered ladder
@@ -1118,7 +1281,56 @@ export async function greenhouseFillFromPlan(
                 selected_option: picked,
               });
             } else {
+              // #101: a Workday date widget takes the section-wise write —
+              // never prose into a spinbutton. Already-correct sections
+              // are verified in place (resumed drafts).
+              const dateWrapper = await workdayDateWrapperId(loc);
+              if (dateWrapper) {
+                const want = parseDateParts(entry.value);
+                const have = await readWorkdayDateSections(page, dateWrapper);
+                if (
+                  want &&
+                  have &&
+                  have.year === want.year &&
+                  have.month === want.month &&
+                  (want.day === null || have.day === null || have.day === want.day)
+                ) {
+                  field_meta.push({
+                    field_id: entry.field_id,
+                    canonical_field: entry.canonical_field,
+                    control_kind: "text",
+                    notes: ["date widget already holds the planned date — verified in place"],
+                  });
+                } else {
+                  const dNotes = await fillWorkdayDateSections(page, dateWrapper, entry.value);
+                  field_meta.push({
+                    field_id: entry.field_id,
+                    canonical_field: entry.canonical_field,
+                    control_kind: "text",
+                    notes: dNotes,
+                  });
+                }
+                filled.push(entry.canonical_field ?? entry.field_id);
+                continue;
+              }
               const v = String(entry.value);
+              // Same verify-in-place rule as the location branch: a
+              // resumed draft's already-correct value is never retyped
+              // (strictly: skip only when verify's own comparator would
+              // pass it; anything else refills exactly as before).
+              const pre = (await loc.inputValue().catch(() => null))?.trim() ?? "";
+              if (pre !== "" && valuesMatch(entry.value, pre, entry.canonical_field)) {
+                field_meta.push({
+                  field_id: entry.field_id,
+                  canonical_field: entry.canonical_field,
+                  control_kind: "text",
+                  notes: [
+                    `already holds "${pre.slice(0, 40)}" — verified in place, not retyped`,
+                  ],
+                });
+                filled.push(entry.canonical_field ?? entry.field_id);
+                continue;
+              }
               if (opts.keystrokeText && v.length <= 80 && v.length > 0) {
                 // #88: keystroke-level entry — the only write Workday's
                 // handlers reliably keep.
@@ -1224,6 +1436,18 @@ export async function greenhouseReadFieldValue(
     } else {
       loc = unfiltered;
     }
+  }
+  // #101: date-widget entries resolve to the wrapper (or descend to a
+  // section input) — observed is the joined sections, comparable to the
+  // bank's "May 2029" via valuesMatch's date rule.
+  const dateWrapper = await workdayDateWrapperId(loc);
+  if (dateWrapper) {
+    const have = await readWorkdayDateSections(page, dateWrapper);
+    if (!have || (have.month === null && have.year === null)) return "";
+    const mm = String(have.month ?? 0).padStart(2, "0");
+    return have.day === null
+      ? `${mm}/${have.year ?? ""}`
+      : `${mm}/${String(have.day).padStart(2, "0")}/${have.year ?? ""}`;
   }
   const tag = await loc.evaluate((el: { tagName: string }) =>
     el.tagName.toLowerCase(),

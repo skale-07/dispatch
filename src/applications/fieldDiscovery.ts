@@ -75,6 +75,7 @@ export function discoverFieldsFromHtml(
   );
   const fields: DiscoveredField[] = [];
   const labelMap = buildLabelMap(html);
+  const seenDateWrappers = new Set<string>();
 
   const inputRe =
     /<(input|textarea|select)\b([^>]*)>(?:([\s\S]*?)<\/\1>)?/gi;
@@ -84,6 +85,42 @@ export function discoverFieldsFromHtml(
     const tag = (m[1] ?? "input").toLowerCase();
     const attrs = m[2] ?? "";
     const inner = m[3] ?? "";
+
+    // #101 (live tiaa page 7): Workday date widgets are a dateInputWrapper
+    // holding Month/Day/Year spinbutton fragments whose aria-labels
+    // ("Month") mapped to the wrong canonicals and whose per-section fills
+    // typed prose into spinbuttons. Collapse the trio into ONE field named
+    // by the enclosing fieldset legend; the fill routes it to the
+    // section-wise date writer.
+    const dateSection = attrs.match(
+      /data-automation-id=["']dateSection(?:Month|Day|Year)-input["']/i,
+    );
+    if (dateSection) {
+      const secId = getAttr(attrs, "id") ?? "";
+      const wrapperId = secId.replace(/-dateSection(?:Month|Day|Year)-input$/i, "");
+      if (wrapperId && wrapperId !== secId && !seenDateWrappers.has(wrapperId)) {
+        seenDateWrappers.add(wrapperId);
+        const legend = enclosingFieldsetLegend(html, m.index);
+        const wLabel =
+          (legend && !isUninformativeLabel(legend) ? legend : undefined) ??
+          labelMap.get(wrapperId) ??
+          nearestSectionHeading(html, m.index) ??
+          `field_${idx}`;
+        const fsOpen = html.slice(Math.max(0, m.index - 4_000), m.index);
+        const fsWin = fsOpen.slice(Math.max(0, fsOpen.lastIndexOf("<fieldset")));
+        fields.push({
+          id: wrapperId,
+          label: cleanLabel(wLabel),
+          type: "text",
+          required:
+            /requiredAsterisk/i.test(fsWin) ||
+            /aria-required=["']true["']/i.test(attrs),
+          inputId: wrapperId,
+        });
+        idx++;
+      }
+      continue;
+    }
 
     const typeAttr = getAttr(attrs, "type")?.toLowerCase() ?? (tag === "textarea" ? "textarea" : tag === "select" ? "select" : "text");
     if (typeAttr === "hidden" || typeAttr === "submit" || typeAttr === "button" || typeAttr === "image") {
@@ -260,15 +297,24 @@ export function discoverFieldsFromHtml(
  * `<fieldset` before the index that has no matching `</fieldset>` before it.
  */
 function enclosingFieldsetLegend(html: string, index: number): string | null {
-  const before = html.slice(0, index);
-  const open = before.lastIndexOf("<fieldset");
-  if (open < 0) return null;
-  const close = before.lastIndexOf("</fieldset");
-  if (close > open) return null;
-  const legend = before.slice(open).match(/<legend\b[^>]*>([\s\S]*?)<\/legend>/i);
-  if (!legend?.[1]) return null;
-  const text = cleanLabel(decodeEntities(stripTags(legend[1])));
-  return text || null;
+  // #105 (live tiaa race group): Workday NESTS a legendless inner
+  // fieldset (ethnicityMulti-CheckboxGroup) inside the legend-bearing
+  // one — walk outward up to 3 levels until a legend appears.
+  let cursor = index;
+  for (let depth = 0; depth < 3; depth++) {
+    const before = html.slice(0, cursor);
+    const open = before.lastIndexOf("<fieldset");
+    if (open < 0) return null;
+    const close = before.lastIndexOf("</fieldset");
+    if (close > open) return null;
+    const legend = before.slice(open).match(/<legend\b[^>]*>([\s\S]*?)<\/legend>/i);
+    if (legend?.[1]) {
+      const text = cleanLabel(decodeEntities(stripTags(legend[1])));
+      return text || null;
+    }
+    cursor = open;
+  }
+  return null;
 }
 
 /**
@@ -282,13 +328,23 @@ function collapseCheckboxGroups(fields: DiscoveredField[]): DiscoveredField[] {
   const groups = new Map<string, DiscoveredField>();
   const out: DiscoveredField[] = [];
   for (const f of fields) {
+    // #105: Workday group members carry NO name — their ids share a
+    // suffix token after a long generated prefix ("<hex>-ethnicityMulti").
+    // That token is the group key; short/plain ids never group this way.
+    const idSuffix =
+      f.name === undefined &&
+      f.inputId !== undefined &&
+      /^[0-9a-f]{12,}-(\w{3,})$/i.exec(f.inputId)?.[1];
     const grouped =
-      f.type === "checkbox" && f.name !== undefined && f.options !== undefined && f.options.length > 0;
+      f.type === "checkbox" &&
+      (f.name !== undefined || Boolean(idSuffix)) &&
+      f.options !== undefined &&
+      f.options.length > 0;
     if (!grouped) {
       out.push(f);
       continue;
     }
-    const key = f.name as string;
+    const key = f.name ?? `idsuffix:${idSuffix as string}`;
     const existing = groups.get(key);
     if (existing) {
       existing.options = [...(existing.options ?? []), ...(f.options ?? [])];
