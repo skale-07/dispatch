@@ -100,6 +100,13 @@ export async function walkWorkdayWizard(
       break;
     }
 
+    // #74 (live #22w): fingerprint THIS page's fields before Next — the
+    // transition's readyMarker matches any Workday chrome, so its html
+    // snapshot can be the OLD page and every per-page plan was one page
+    // stale ("control not found" ×N on all four question pages).
+    const beforeIds = discoverFieldsFromHtml(await page.content().catch(() => ""))
+      .map((f) => f.id)
+      .join("|");
     const transition = await performTransition(page, next, {
       settleTimeoutMs,
       readyMarker: workdaySelectorsV1.formMarkers,
@@ -124,6 +131,30 @@ export async function walkWorkdayWizard(
     }
 
     let html = transition.html;
+    // #74: poll for the NEW page's DOM — done when the field set differs
+    // from the page we just filled (bounded by settleTimeoutMs; tests at
+    // settleMs 0 stay synchronous on the transition snapshot).
+    if (settleTimeoutMs > 0) {
+      const deadline = Date.now() + settleTimeoutMs;
+      for (;;) {
+        const fresh = await page.content().catch(() => "");
+        const ids = discoverFieldsFromHtml(fresh)
+          .map((f) => f.id)
+          .join("|");
+        if (fresh && ids !== beforeIds) {
+          html = fresh;
+          break;
+        }
+        if (Date.now() >= deadline) {
+          html = fresh || html;
+          notes.push(
+            `wizard: page ${extra + 1} field set unchanged within the settle window — planning on the current DOM`,
+          );
+          break;
+        }
+        await page.waitForTimeout(500);
+      }
+    }
     if (
       /data-automation-id=["']errorBanner|please fix the errors|required information is missing/i.test(
         html,

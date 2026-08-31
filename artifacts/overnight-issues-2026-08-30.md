@@ -1342,3 +1342,18 @@ Pre-flight (≈18:55 local):
   mystery becomes diagnosable next run).
 - Tests: skills fixture (picks offered, names unoffered, chips-subset
   verify), 3 label-mapping cases. 11/11 + 8/8.
+
+### Job #22w — TIAA — 00:15 local — the 0/N mystery DECODED by the new evidence: every per-page plan was ONE PAGE STALE
+- The propagated errors say it plainly: page 2's plan tried page 1's
+  fields (source, previousWorker, names, address — "control not found"
+  ×8), page 3's tried My Experience's (workExperience-4--jobTitle…) —
+  performTransition's readyMarker (/data-automation-id=/) matches ANY
+  Workday chrome, so its html snapshot is the pre-Next DOM. The #69
+  dedupe notes also verified live (f_11/f_13 ghost drops).
+
+### 74. Wizard plans on the FRESH page — field-set fingerprint poll after Next — FIXED (live #22x)
+- Before Next: fingerprint the current page's discovered field ids.
+  After a landed transition: poll page.content() (bounded by
+  settleTimeoutMs) until the field set DIFFERS, then run the error
+  check, classification, and the per-page plan on that fresh DOM.
+  settleMs 0 keeps fixtures synchronous. frame-hop-wizard 10/10.
