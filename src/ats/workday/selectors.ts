@@ -36,10 +36,18 @@ export const workdaySelectorsV1 = {
      * data-automation-id="click_filter">. Both auth forms carry one, so
      * callers scope to the visible dialog first.
      */
+    /**
+     * #92 (live tiaa, ~35 silent sign-ins across two nights): the
+     * underlying signInSubmitButton is aria-hidden UNDER the
+     * click_filter overlay — Playwright counts it visible, firstVisible
+     * returned it FIRST, and every click was intercepted. The overlay's
+     * own click_filter is the human-clickable control (the paced
+     * diagnostic that signed in clicked exactly it) — it goes first.
+     */
     signInSubmit:
-      "button[data-automation-id='signInSubmitButton'], [role='button'][data-automation-id='click_filter'][aria-label*='sign in' i], button[data-automation-id='click_filter']",
+      "[role='button'][data-automation-id='click_filter'][aria-label*='sign in' i], button[data-automation-id='click_filter'], button[data-automation-id='signInSubmitButton']",
     createAccountSubmit:
-      "button[data-automation-id='createAccountSubmitButton'], [role='button'][data-automation-id='click_filter'][aria-label*='create' i], button[data-automation-id='click_filter']",
+      "[role='button'][data-automation-id='click_filter'][aria-label*='create' i], button[data-automation-id='click_filter'], button[data-automation-id='createAccountSubmitButton']",
     /** Robot trap planted next to both forms — never a field, never filled. */
     honeypot: "input[data-automation-id='beecatcher'], input[name='website']",
     /** Link/button that flips between the two auth forms. */
