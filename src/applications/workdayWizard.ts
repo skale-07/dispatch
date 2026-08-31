@@ -106,18 +106,21 @@ export async function walkWorkdayWizard(
     // page stale. Fingerprint by LABELS, not ids: Workday regenerates
     // its random ids on every re-render (#63b), which made the first
     // id-based poll break instantly on the SAME page.
-    const fieldPrint = (h: string): string => {
-      const heading = h.match(/<h[123]\b[^>]*>([\s\S]{1,200}?)<\/h[123]>/i)?.[1] ?? "";
-      return (
-        heading.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim() +
-        "::" +
-        discoverFieldsFromHtml(h)
-          .map((f) => f.label)
-          .sort()
-          .join("|")
-      );
-    };
-    const beforePrint = fieldPrint(await page.content().catch(() => ""));
+    const headingOf = (h: string): string =>
+      (h.match(/<h[123]\b[^>]*>([\s\S]{1,200}?)<\/h[123]>/i)?.[1] ?? "")
+        .replace(/<[^>]+>/g, "")
+        .replace(/\s+/g, " ")
+        .trim();
+    const fieldPrint = (h: string): string =>
+      headingOf(h) +
+      "::" +
+      discoverFieldsFromHtml(h)
+        .map((f) => f.label)
+        .sort()
+        .join("|");
+    const beforeContent = await page.content().catch(() => "");
+    const beforePrint = fieldPrint(beforeContent);
+    const beforeHeading = headingOf(beforeContent);
     const transition = await performTransition(page, next, {
       settleTimeoutMs,
       readyMarker: workdaySelectorsV1.formMarkers,
@@ -157,14 +160,24 @@ export async function walkWorkdayWizard(
       for (;;) {
         const fresh = await page.content().catch(() => "");
         const print = fresh ? fieldPrint(fresh) : "";
-        if (print && print === prevPrint && print !== beforePrint) {
+        // #74d (live #22z): beforePrint can be POLLUTED (popup open,
+        // banner) right after the fill, making settled page-1 reads
+        // "differ" and the poll accept the old page. When the pre-Next
+        // page had a heading, the NEW page's heading must actually
+        // CHANGE ("My Information" → "My Experience"); the print diff
+        // is the fallback for headingless pages.
+        const headingNow = fresh ? headingOf(fresh) : "";
+        const advanced = beforeHeading
+          ? headingNow !== "" && headingNow !== beforeHeading
+          : print !== beforePrint;
+        if (print && print === prevPrint && advanced) {
           html = fresh;
           break;
         }
         if (Date.now() >= deadline) {
           html = fresh || html;
           notes.push(
-            `wizard: page ${extra + 1} never settled on a NEW field set within the window — planning on the current DOM`,
+            `wizard: page ${extra + 1} never settled on a NEW page (heading still "${headingNow || "?"}") — planning on the current DOM`,
           );
           break;
         }
