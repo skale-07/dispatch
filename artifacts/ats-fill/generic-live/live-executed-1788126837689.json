@@ -1,0 +1,109 @@
+{
+  "ats": "generic",
+  "url": "http://localhost:4599/portal",
+  "requested_url": "http://localhost:4599/portal",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "http://localhost:4599/portal",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 3,
+    "skipped_count": 0,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "full_name",
+      "label": "Full Name",
+      "type": "text",
+      "canonical_field": "screener:custom:legal_name_if_different",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "email",
+      "label": "Email",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phone",
+      "label": "Phone",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    }
+  ],
+  "form_snapshot_path": null,
+  "fill": {
+    "filled": [
+      "screener:custom:legal_name_if_different",
+      "email",
+      "phone"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "full_name",
+        "canonical_field": "screener:custom:legal_name_if_different",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "phone",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "screener:custom:legal_name_if_different",
+        "expected": "N/A",
+        "observed": "N/A",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "a***@example.com",
+        "observed": "a***@example.com",
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-0100",
+        "observed": "***-***-0100",
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": null,
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "page class at gate: form (3 fillable field(s))",
+    "extensionFirst requested but JOBRIGHT_AUTOFILL_ENABLED is off — native fill",
+    "form-advance: visible submit after page 1 — leaving it for the gated submit path",
+    "submit not attempted — live fill never submits",
+    "fixture-served page (test seam) — validation level demoted, not live evidence"
+  ],
+  "harvested_options": [],
+  "wizard_pages": [],
+  "written_at": "2026-08-30T21:53:57.755Z"
+}
