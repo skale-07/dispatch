@@ -8,8 +8,10 @@
 | TIAA — Churchill Summer Internship IIT | Workday | ~14 (22k–23e) | Parked: draft intact (page 1 committed + resume uploaded); sign-in silently refused by mouse/JS/Enter after ~30 attempts — suspected tenant throttle (#77). Retry after cool-down. |
 | Stryker — Summer 2027 Internship, Data Analytics | Workday | 2 | Parked FAILED_RETRYABLE (one field from clean when the loop moved on) |
 | Stryker — Summer 2027 Internship, Electrical Eng | Workday | 11 | Parked at ONE field: block items 17 → 3 → 1; the free-text GPA textarea reads empty at submit despite keystroke entry + settle re-verify (#86–#88 each removed a real layer; suspected twin control — needs a pixels-first probe, see #88/OPEN) |
-| USAJobs ×2 | federal | 2 | Abandoned with reason (login.gov flow unsupported; refusals correct) |
+| Crowe — AI Engineering Intern | Workday | 2 | Parked at ONE field: the "Just-In-Time Notice" acknowledgement select loses its pick by submit-time and its discovered label carries raw HTML the re-pick can't match (next-session fix named in the log) |
+| USAJobs ×~5 (feed kept re-enqueuing twins) | federal | 5 cycles | #89: now terminal at ATS detection with the reason named — no more burned cycles |
 | Banco Popular — Data Analytics Internship | generic | 1 | Parked (email-gated portal funnel; 30s field timeouts) |
+| IBM — (careers.ibm.com) | portal | 1 | Parked (account-gated own portal, long-tail) |
 
 **Submitted: 1** (Exa). The night's value was capability: the Workday
 pipeline went from "cannot pass page 1" to "fills 6 wizard pages, nine
@@ -18,7 +20,7 @@ ATS-general.
 
 ## Commits (all gated: typecheck + full suite solo + forbidden + secrets)
 
-~20 milestones, #63d–#85c. Highlights by theme:
+~27 milestones, #63d–#90. Highlights by theme:
 - **Truthful evidence** (#64,#66a): create-first portal policy per your
   directive; success requires positive evidence; EVERY failed verify now
   reads the page's OWN validation errors (platform-neutral reader,

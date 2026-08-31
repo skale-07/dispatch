@@ -1466,6 +1466,22 @@ Pre-flight (≈18:55 local):
   App parked FAILED_RETRYABLE — everything else on all 6 pages fills
   and verifies.
 
+### Dawn run (05:40-07:00): #89 USAJOBS terminal fence; #90 targeted submit-time re-pick; Crowe one field out
+- Cycles 7-14: USAJOBS twins kept re-enqueuing (5 cycles burned) —
+  **#89** terminates usajobs.gov at ATS detection, reason named. IBM's
+  portal parked (account-gated, long-tail). One unsupported-ATS triage,
+  one correct duplicate refusal.
+- Crowe (crowe.wd12, night19's original tenant!) reached the submit
+  leg: fill leg verified 19/19 incl. the walk. **#90**: submit-time
+  select misses get a targeted RE-PICK (option-verified) instead of the
+  blanket refill; the #82 waiver re-applies post-retype. Block items
+  3 → 2 → 1 real item: the "Just-In-Time Notice" acknowledgement
+  select loses its pick by submit-time AND its discovered label carries
+  raw HTML markup ("<b>Just-In-Time Notice</b> <br> …") which the
+  re-pick's label ladder cannot match — next session: strip markup in
+  discovery's cleanLabel (check bank-label compat first). Parked
+  FAILED_RETRYABLE, one field out.
+
 ### 77. OPEN — TIAA sign-in silently refused by every input path; suspected tenant throttle after ~30 attempts tonight
 - Same creds + same form + human-paced clicks succeeded at 20:55;
   by 01:50 mouse/JS/Enter all no-op with no error text. Consistent with
