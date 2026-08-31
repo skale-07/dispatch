@@ -1,0 +1,66 @@
+{
+  "outcome": "FAILED_BEFORE_CLICK",
+  "application_id": "b3d005ae-bf72-45c4-86ab-8d2acfeae671",
+  "submission_id": "c4512985-43ca-4f42-ae4e-bb8fe3894eda",
+  "attempt": 1,
+  "receipt": null,
+  "review_item_id": null,
+  "reason": "Refusing to click submit: field verification or upload did not pass",
+  "artifact_path": null,
+  "operator_brief": {
+    "title": "Submit blocked — workday app b3d005ae-bf72-45c4-86ab-8d2acfeae671",
+    "summary": "3 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:screener:custom:ai_screening_notice_acknowledgment",
+        "question": "<b>Just-In-Time Notice</b> <br> How we review applications & your choices: </br> We use an AI‑assisted resume‑screening tool to help recruiters manage applications. Based on the job posting, the tool reads only the information you provide and may identify job‑related details (for example, experience with listed skills or stated qualifications), prepare a short automated summary to help a recruiter review more efficiently, and direct your application to the appropriate recruiter or hiring team. The tool does not approve, reject, or make any hiring decisions. Our recruiters review your full application and may override or ignore tool suggestions at any time. <br></br> Your choices: You may opt out of automated screening and request manual review at any time by contacting us at recruiting@crowe.com . Opting-out from automated screening will not impact our decision making. To request information about how this tool is used in connection with your application, please contact us at recruiting@crowe.com .",
+        "field_id": "[REDACTED]",
+        "canonical_field": "screener:custom:ai_screening_notice_acknowledgment",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"I acknowledge this notice regarding the use of AI-assisted resume screening.\"; page shows \"(empty)\"",
+        "expected": "I acknowledge this notice regarding the use of AI-assisted resume screening.",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "how_to_answer": [
+          "Type the intended value on the form (planned: I acknowledge this notice regarding the use of AI-assisted resume screening.). If a places/autocomplete list appears, select a matching suggestion; plain city text is enough when no list opens.",
+          "System expected \"I acknowledge this notice regarding the use of AI-assisted resume screening.\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:ai_screening_notice_acknowledgment)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:ai_screening_notice_acknowledgment\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "fill_error:primaryQuestionnaire--bc610b0368b81000a481a1055d2b0000: combobox option not comm",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "primaryQuestionnaire--bc610b0368b81000a481a1055d2b0000: combobox option not committed: opened via control click; filter typing skipped: control is a button (not typeable); filter yielded no/unmatched options; re-collected unfiltered (residue cleared); no option matches \"I acknowledge this notice regarding the use of AI-assisted resume screening.\" (options: Select One | Opt In | Opt Out)",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "upload:resume",
+        "question": "Upload: resume",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "upload_failed",
+        "problem": "resume file input not found; primary resume selector not attached within 3s; retrying resolve after 1500ms; primary resume selector not attached within 3s; no resume file input; 0 file inputs on page; no upload widget on this wizard page — walk-time upload is the evidence (#84)",
+        "expected": "resume-db94def0.pdf",
+        "observed": null,
+        "how_to_answer": [
+          "Resume is system-owned: materials:register + adapter.uploadResume on submit/fill — not a free-text profile field.",
+          "If this is ats:fill without --resume, pass --resume <pdf> or use application submit (uses registered material).",
+          "Evidence: resume file input not found; primary resume selector not attached within 3s; retrying resolve after 1500ms; primary resume selector not attached within 3s; no resume file input; 0 file inputs on page; no upload widget on this wizard page — walk-time upload is the evidence (#84)"
+        ]
+      }
+    ],
+    "ok_count": 7,
+    "fail_count": 3
+  }
+}
