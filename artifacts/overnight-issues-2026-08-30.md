@@ -1490,3 +1490,14 @@ Pre-flight (≈18:55 local):
   retry after a multi-hour cool-down or in the morning. Per the 3-min
   doctrine the loop MOVES ON — tonight's fixes (#66-#74) are
   ATS-generic and the rest of the queue benefits immediately.
+
+### Morning cycles 15-23 (06:30-09:00) — long-tail triage; #90b/#91 landed; picker re-pick noted
+- #90b underscore locales (Avature en_US) — Delta cleared the identity
+  gate then hit its unbuilt account flow (abandoned, family noted).
+  #91 brand abbreviations ("WD" ↔ westerndigital) as match evidence.
+- Abandons with reasons: Paycom shape (Apply never reaches a form),
+  untrusted-final-host row, Avature. Correct refusals: duplicates ×2.
+- META: the cycle picker re-picks the newest gate-parked
+  NATIVE_AUTOFILL_RUNNING row (Delta ×3, Paycom ×2, untrusted ×2 —
+  ~7 cycles re-ground already-diagnosed rows). Next session: a
+  per-night pick cooldown for gate-parked rows (#92 candidate).
