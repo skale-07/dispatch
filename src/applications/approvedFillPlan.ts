@@ -197,6 +197,20 @@ function rejectFillCandidate(entry: FillPlanEntry): ApprovedFillPlanEntry | null
     ) {
       return null;
     }
+    // #87 (live stryker ×3, deterministic): Workday renders its NUMBER
+    // boxes as textareas — "What is your current cumulative GPA?" was
+    // silently SKIPped as "essay/textarea" on every run and the click
+    // refused on the unanswered required question. A safe factual
+    // canonical (gpa, phone, urls…) with a short value is a fact, not an
+    // essay; long values keep the essay gate.
+    if (
+      entry.canonical_field &&
+      SAFE_FACTUAL_CANONICALS.has(entry.canonical_field) &&
+      !isEmptyValue(entry.value) &&
+      String(entry.value).length <= 80
+    ) {
+      return null;
+    }
     return {
       field_id: entry.field_id,
       label: entry.label,
