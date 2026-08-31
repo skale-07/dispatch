@@ -14,7 +14,12 @@ export function isUninformativeLabel(label: string): boolean {
   const t = label.trim();
   if (t.length === 0) return true;
   if (/^field_\d+$/.test(t)) return true;
-  if (/\[[^\]]*\]/.test(t)) return true; // cards[uuid][field0], urls[Other]
+  // Machine names only: the WHOLE label is token[key][key…] (cards[uuid]
+  // [field0], urls[Other]). A bracketed abbreviation inside a real
+  // question ("…Employee Relations [ER] review…") is informative — the
+  // substring test threw away the one tiaa questionnaire legend that
+  // contained brackets and the field was never discovered (#98).
+  if (/^[\w.-]*(\[[^\]]*\])+$/.test(t)) return true;
   if (/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(t)) {
     return true;
   }

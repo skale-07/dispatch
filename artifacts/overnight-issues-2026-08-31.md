@@ -92,6 +92,27 @@ caps; button toggle desync; drill scan commits on flat lists — FIXED
   consent-listbox.html (~190-char sentences, toggling button, placeholder
   row, two-yes ambiguous set that must refuse with nothing committed) + 4
   tests, first-run green.
+### Run night22-tiaa-02 (14:57–15:01 EDT) — #97 LIVE-CONFIRMED (IRCA + SMS
+consent filled; questionnaire errors 3 → 1); TWO new walls isolated
+- verify + upload + completeness ALL passed; the submit leg failed only on
+  "workday final submit control not found (not on the Review page?)" — the
+  held page is Application Questions 1 of 2, not Review; nothing walks the
+  remaining wizard steps to reach the Submit button (#99, next).
+- Page-6 pixels: ONE error left — the internal-investigation question still
+  "Select One". IRCA shows Yes; SMS consent filled. (The pre-click gate
+  passed because the completeness scan couldn't see the undiscovered field
+  — fail-open hole closed by #98 fixing discovery itself.)
+
+### 98. Discovery discarded any label containing [brackets] — the ONE
+questionnaire legend with "[ER]" was never a field — FIXED
+- isUninformativeLabel's machine-name rule (`/\[[^\]]*\]/` for
+  cards[uuid][field0] / urls[Other]) rejected the natural-language legend
+  "…(such as an ongoing Employee Relations [ER] review)…" — the only one
+  of TIAA's 15 questionnaire questions with brackets, which is why exactly
+  this field was invisible on every run. Rule narrowed to whole-label
+  machine shapes (`/^[\w.-]*(\[[^\]]*\])+$/`); the live snapshot now
+  discovers the field (select, required). Regression case added to the
+  label tests; machine shapes still rejected.
 - **Bank (⚠ operator review):** `internal_investigation_current` = **No**
   (you have no present-employer ER investigation) and
   `irca_identity_work_authorization_verification` = **Yes** (you are a

@@ -303,6 +303,10 @@ describe("label resolution for machine-named fields (UNIT_CONFIRMED)", () => {
       "How did you learn about this opportunity?",
       "School",
       "Are you currently in a period of Optional Practical Training (OPT)?",
+      // #98 (live tiaa): a bracketed abbreviation inside a real question is
+      // informative — the substring [..] test discarded this legend and the
+      // required field was never discovered.
+      "Are you at this time subject to any internal investigation (such as an ongoing Employee Relations [ER] review) with your present employment?",
     ]) {
       expect(isUninformativeLabel(good)).toBe(false);
     }
