@@ -515,6 +515,15 @@ export async function authenticateAtsPortal(
       notes.push(
         `portal auth ${kind}: submit click FAILED (${clickErr.replace(/\s+/g, " ").slice(0, 90)})`,
       );
+      // #76 (live tiaa #23d): the visible Sign In sits under the
+      // invisible-captcha click_filter overlay — the mouse click times
+      // out on interception. A JS click on the submit fires the
+      // framework handlers the pointer never reached (the paced
+      // diagnostic that signed in clicked exactly this element).
+      await submit
+        .evaluate((el: { click: () => void }) => el.click())
+        .catch(() => undefined);
+      notes.push(`portal auth ${kind}: retried via JS click`);
     }
     await settlePage(page, settle, 1_200);
     // Workday answers a sign-in/create click AFTER the settle (live
