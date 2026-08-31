@@ -38,7 +38,11 @@ export function matchCanonicalField(
   const optionControl =
     field.type === "select" || field.type === "checkbox" || field.type === "radio";
   const matched = matchCanonicalFieldInner(field, aliases, normalized, nameHint);
-  if (matched === "phone" && optionControl) return null;
+  // #85c (live stryker): "Is your current cumulative GPA 3.0 or above?"
+  // — a Yes/No SELECT — matched canonical `gpa` and was fed "3.7". A
+  // free-value fact (number/text) can never answer an option control;
+  // unmapped, the screener path answers it from the page's own options.
+  if ((matched === "phone" || matched === "gpa") && optionControl) return null;
   return matched;
 }
 

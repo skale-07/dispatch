@@ -161,3 +161,21 @@ describe("#73 skills label mapping", () => {
     ).toBeNull();
   });
 });
+
+describe("#85c gpa never claims option controls", () => {
+  it("a Yes/No select asking about GPA threshold is not canonical gpa; text GPA fields still map", () => {
+    const aliases = { gpa: ["GPA", "cumulative GPA"] };
+    expect(
+      matchCanonicalField(
+        { id: "q", label: "Is your current cumulative GPA 3.0 or above?", type: "select", required: true },
+        aliases,
+      ),
+    ).toBeNull();
+    expect(
+      matchCanonicalField(
+        { id: "g", label: "What is your cumulative GPA?", type: "text", required: true },
+        aliases,
+      ),
+    ).toBe("gpa");
+  });
+});
