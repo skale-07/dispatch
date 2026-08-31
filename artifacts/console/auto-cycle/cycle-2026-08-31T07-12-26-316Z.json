@@ -1,0 +1,68 @@
+{
+  "started_at": "2026-08-31T07:12:26.316Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\jake_swe.pdf)",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "2dd10a4c-a116-4d60-9541-9ee33adc2de2",
+    "armed_until": "2026-08-31T09:12:26.348Z",
+    "seconds_remaining": 7200,
+    "max_submits": 10,
+    "submits_used": 0,
+    "max_apps": 1,
+    "apps_started": 0,
+    "discover_max": 10,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": {
+    "arm_run_id": "2dd10a4c-a116-4d60-9541-9ee33adc2de2",
+    "apps_started": 1,
+    "submits_used": 0,
+    "stopped_reason": "apps_cap",
+    "discover_runs": 1,
+    "emails_generated": 0,
+    "drafts_saved": 0,
+    "essay_drafts_generated": 0,
+    "screener_predictions_generated": 0,
+    "notes": [
+      "nav audit: 0 wrong-employer URL(s) cleared for re-navigation, 1 parked for review",
+      "discover: 8 inspected, 3 eligible, 7 already known, 1 filtered out, 0 already submitted",
+      "artifact autopush: 18 file(s) pushed to master as b624785c"
+    ],
+    "per_app": [
+      {
+        "application_id": "ef1e0d74-1cc2-41bf-a306-09769315ac96",
+        "end_state": "AMBIGUOUS_FIELD",
+        "stopped": "review",
+        "stop_reason": "verification failed",
+        "submitted": false,
+        "outreach": null
+      }
+    ],
+    "nav_audit": {
+      "checked": 153,
+      "repaired": 0,
+      "parked": 1
+    },
+    "artifact_autopush": {
+      "pushed": true,
+      "commit": "b624785c",
+      "files_staged": 18
+    }
+  },
+  "outcome": "completed",
+  "notes": []
+}
