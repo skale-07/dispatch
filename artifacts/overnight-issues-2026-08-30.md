@@ -1431,6 +1431,28 @@ Pre-flight (≈18:55 local):
   Direction: enforce screenerKeyLabelIncompatible at prediction REPLAY;
   route verify for button-selects through readComboboxValue by inputId.
 
+### The Stryker gauntlet (03:00-05:00) — seven runs, six structural fixes, block items 17 → 3 → 1
+- Each run peeled one layer, every fix ATS-general: **#83** option
+  harvest scopes to the control's own popup (chips were being harvested
+  as another field's options — the poisoned-prediction factory);
+  poisoned bank answers corrected (phone_device_type → "Mobile");
+  **#84** an upload with no widget on the held page is walk-time
+  evidence, not a failure; **#85** questionnaire listbox buttons
+  labeled only by their fieldset LEGEND are discovered (the compliance
+  questions filled 0/N all night on every tenant — nine landed the
+  first run after); **#85b** ghost twins drop by LABEL too; **#85c**
+  gpa never claims option controls (the "GPA 3.0 or above?" Yes/No
+  select was fed "3.7").
+- Last wall at 05:00: the free-text "What is your current cumulative
+  GPA?" textarea reads empty on the held page (value-drop or unwalked
+  page) — one final no-code retry in flight; otherwise parked
+  FAILED_RETRYABLE with the draft intact.
+- ⚠ OPERATOR: the bank answers "Do you currently hold a Visa
+  (including a student visa)?" = **No** — but your sponsorship answers
+  imply F-1 status. If you hold a student visa this answer is factually
+  wrong on any submitted form that asked it (none submitted with it
+  tonight). Please confirm/fix in screeners.json.
+
 ### 77. OPEN — TIAA sign-in silently refused by every input path; suspected tenant throttle after ~30 attempts tonight
 - Same creds + same form + human-paced clicks succeeded at 20:55;
   by 01:50 mouse/JS/Enter all no-op with no error text. Consistent with
