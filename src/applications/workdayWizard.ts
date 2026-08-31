@@ -106,11 +106,17 @@ export async function walkWorkdayWizard(
     // page stale. Fingerprint by LABELS, not ids: Workday regenerates
     // its random ids on every re-render (#63b), which made the first
     // id-based poll break instantly on the SAME page.
-    const fieldPrint = (h: string): string =>
-      discoverFieldsFromHtml(h)
-        .map((f) => f.label)
-        .sort()
-        .join("|");
+    const fieldPrint = (h: string): string => {
+      const heading = h.match(/<h[123]\b[^>]*>([\s\S]{1,200}?)<\/h[123]>/i)?.[1] ?? "";
+      return (
+        heading.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim() +
+        "::" +
+        discoverFieldsFromHtml(h)
+          .map((f) => f.label)
+          .sort()
+          .join("|")
+      );
+    };
     const beforePrint = fieldPrint(await page.content().catch(() => ""));
     const transition = await performTransition(page, next, {
       settleTimeoutMs,
@@ -140,21 +146,30 @@ export async function walkWorkdayWizard(
     // from the page we just filled (bounded by settleTimeoutMs; tests at
     // settleMs 0 stay synchronous on the transition snapshot).
     if (settleTimeoutMs > 0) {
+      // #74c (live #22y): a single differing read can be TRANSITIONAL
+      // flap (open popups, error banners, half-rendered swaps) — the
+      // poll accepted page-1 content while the SPA hadn't swapped, and
+      // later a mid-transition blank ("no fillable fields"). Done only
+      // when two consecutive reads AGREE with each other AND differ
+      // from the pre-Next print; deadline falls back to the last read.
       const deadline = Date.now() + settleTimeoutMs;
+      let prevPrint: string | null = null;
       for (;;) {
         const fresh = await page.content().catch(() => "");
-        if (fresh && fieldPrint(fresh) !== beforePrint) {
+        const print = fresh ? fieldPrint(fresh) : "";
+        if (print && print === prevPrint && print !== beforePrint) {
           html = fresh;
           break;
         }
         if (Date.now() >= deadline) {
           html = fresh || html;
           notes.push(
-            `wizard: page ${extra + 1} field set unchanged within the settle window — planning on the current DOM`,
+            `wizard: page ${extra + 1} never settled on a NEW field set within the window — planning on the current DOM`,
           );
           break;
         }
-        await page.waitForTimeout(500);
+        prevPrint = print;
+        await page.waitForTimeout(600);
       }
     }
     if (
