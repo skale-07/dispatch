@@ -100,13 +100,18 @@ export async function walkWorkdayWizard(
       break;
     }
 
-    // #74 (live #22w): fingerprint THIS page's fields before Next — the
-    // transition's readyMarker matches any Workday chrome, so its html
-    // snapshot can be the OLD page and every per-page plan was one page
-    // stale ("control not found" ×N on all four question pages).
-    const beforeIds = discoverFieldsFromHtml(await page.content().catch(() => ""))
-      .map((f) => f.id)
-      .join("|");
+    // #74 (live #22w/#22x): fingerprint THIS page's fields before Next —
+    // the transition's readyMarker matches any Workday chrome, so its
+    // html snapshot can be the OLD page and every per-page plan was one
+    // page stale. Fingerprint by LABELS, not ids: Workday regenerates
+    // its random ids on every re-render (#63b), which made the first
+    // id-based poll break instantly on the SAME page.
+    const fieldPrint = (h: string): string =>
+      discoverFieldsFromHtml(h)
+        .map((f) => f.label)
+        .sort()
+        .join("|");
+    const beforePrint = fieldPrint(await page.content().catch(() => ""));
     const transition = await performTransition(page, next, {
       settleTimeoutMs,
       readyMarker: workdaySelectorsV1.formMarkers,
@@ -138,10 +143,7 @@ export async function walkWorkdayWizard(
       const deadline = Date.now() + settleTimeoutMs;
       for (;;) {
         const fresh = await page.content().catch(() => "");
-        const ids = discoverFieldsFromHtml(fresh)
-          .map((f) => f.id)
-          .join("|");
-        if (fresh && ids !== beforeIds) {
+        if (fresh && fieldPrint(fresh) !== beforePrint) {
           html = fresh;
           break;
         }
