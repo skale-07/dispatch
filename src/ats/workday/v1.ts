@@ -130,6 +130,8 @@ export class WorkdayAdapterV1 implements ApplicationAdapter {
       page,
       approvedFillEntries(plan),
       this.fieldMeta(),
+      // #88: Workday keeps keystrokes, loses programmatic fills.
+      { keystrokeText: true },
     );
   }
 

@@ -740,6 +740,16 @@ export async function greenhouseFillFromPlan(
   page: Page,
   entries: ExecutableFillEntry[],
   fieldMeta: Map<string, FieldMeta>,
+  opts: {
+    /**
+     * #88 (live stryker, deterministic): Workday text values written via
+     * fill() can pass EVERY read-back (immediate, blur, 1.5s settle) and
+     * still vanish at the next server sync — React state never took the
+     * programmatic value. The paced diagnostic proved real keystrokes
+     * stick. Workday passes true; short values type at keystroke level.
+     */
+    keystrokeText?: boolean;
+  } = {},
 ): Promise<FillResult> {
   assertFormFillAllowed("greenhouse.fill");
   const filled: string[] = [];
@@ -1106,7 +1116,16 @@ export async function greenhouseFillFromPlan(
                 selected_option: picked,
               });
             } else {
-              await loc.fill(String(entry.value));
+              const v = String(entry.value);
+              if (opts.keystrokeText && v.length <= 80 && v.length > 0) {
+                // #88: keystroke-level entry — the only write Workday's
+                // handlers reliably keep.
+                await loc.click({ timeout: 5_000 });
+                await loc.fill("");
+                await loc.pressSequentially(v, { delay: 25 });
+              } else {
+                await loc.fill(v);
+              }
               // #63f (live tiaa: phone verified "" while every sibling
               // matched): a just-rendered React control can DROP the
               // written value on its next render. Read it back; if it
