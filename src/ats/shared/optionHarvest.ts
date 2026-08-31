@@ -229,12 +229,30 @@ async function readListboxOptions(
   await clickTarget.scrollIntoViewIfNeeded().catch(() => undefined);
   await clickTarget.click({ timeout: OPEN_TIMEOUT_MS, force: true });
 
-  const listbox = page.locator(LISTBOX_SELECTOR).filter({ visible: true }).first();
+  // #83 (live stryker ×3): the page-wide "first visible listbox" was the
+  // ALWAYS-VISIBLE Workday chips ul (selectedItemList) whenever the
+  // control's own popup failed to open — the harvest then attributed the
+  // COUNTRY-CODE chip to the device-type button, the planner
+  // exact-matched a bank answer against it, and the wrong value chased
+  // the field for three runs. Chips are never options; a swallowed mouse
+  // click gets one JS-click tier (#69); option reads scope to the
+  // LISTBOX, never the page.
+  const withoutChips = LISTBOX_SELECTOR.split(",")
+    .map((s) => `${s.trim()}:not([data-automation-id='selectedItemList'])`)
+    .join(", ");
+  const listbox = page.locator(withoutChips).filter({ visible: true }).first();
   try {
     await listbox.waitFor({ state: "visible", timeout: OPEN_TIMEOUT_MS });
   } catch {
-    await page.keyboard.press("Escape").catch(() => undefined);
-    return [];
+    await loc
+      .evaluate((el: { click: () => void }) => el.click())
+      .catch(() => undefined);
+    try {
+      await listbox.waitFor({ state: "visible", timeout: 3_000 });
+    } catch {
+      await page.keyboard.press("Escape").catch(() => undefined);
+      return [];
+    }
   }
   // Virtualized menus mount rows over a few frames; poll briefly for a
   // stable count rather than sleeping a fixed amount.
@@ -242,7 +260,7 @@ async function readListboxOptions(
   for (let i = 0; i < 8; i++) {
     await page.waitForTimeout(100);
     const next = cleanOptions(
-      await page
+      await listbox
         .locator(OPTION_SELECTOR)
         .filter({ visible: true })
         .allTextContents(),
