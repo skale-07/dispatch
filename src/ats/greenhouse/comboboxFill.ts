@@ -1500,14 +1500,27 @@ export async function fillComboboxControl(
                 pickVia: catRow.via,
               };
             }
+            // Undo the LAST chip (the accidental one) via its delete
+            // charm; fall back to removing its pill node outright.
             await loc
-              .evaluate((el: { closest: (s: string) => { querySelector: (s: string) => { click?: () => void } | null } | null }) => {
+              .evaluate((el: { closest: (s: string) => { querySelectorAll: (s: string) => ArrayLike<{ click?: () => void; closest?: (s: string) => { remove?: () => void } | null }> } | null }) => {
                 const c = el.closest("[data-automation-id='multiSelectContainer']");
-                c?.querySelector("[data-automation-id='DELETE_charm']")?.click?.();
+                const charms = c ? Array.from(c.querySelectorAll("[data-automation-id='DELETE_charm']")) : [];
+                const last = charms[charms.length - 1];
+                if (last?.click) last.click();
+                else {
+                  const chips = c ? Array.from(c.querySelectorAll("[data-automation-id='selectedItem']")) : [];
+                  const lastChip = chips[chips.length - 1] as { closest?: (s: string) => { remove?: () => void } | null } | undefined;
+                  (lastChip?.closest?.("li") ?? (lastChip as { remove?: () => void } | undefined))?.remove?.();
+                }
               })
               .catch(() => undefined);
+            await page.waitForTimeout(300);
+            const after = await readComboboxValue(loc);
             notes.push(
-              `flat list — undid accidental pick "${catRow.label}"; stopping the drill scan`,
+              `flat list — undid accidental pick "${catRow.label}"${
+                after && labelsCompatible(catRow.label, after) ? " (UNDO FAILED — flagging)" : ""
+              }; stopping the drill scan`,
             );
             break;
           }

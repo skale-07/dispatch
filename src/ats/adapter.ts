@@ -61,6 +61,7 @@ export type FieldFillMeta = {
   control_kind?:
     | "text"
     | "combobox"
+    | "multiselect"
     | "native_select"
     | "button_group"
     | "checkbox_group"

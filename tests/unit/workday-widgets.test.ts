@@ -12,6 +12,7 @@ import {
   comboboxAlternates,
   dedupeAnchorlessCanonicalTwins,
   greenhouseFillFromPlan,
+  greenhouseVerifyFromPlan,
 } from "../../src/ats/greenhouse/fill.js";
 
 /**
@@ -234,6 +235,78 @@ describe("#68 overlaid radios + how_heard class fallbacks (FIXTURE_CONFIRMED)", 
       expect(r.notes.join(" ")).toMatch(/drilled into "Job Board" and picked leaf "LinkedIn"/);
     });
   }, 45_000);
+
+  it("#73 skills multiselect: each resume skill picked option-verified; unoffered skills named; chips-subset verify passes", async () => {
+    const html = `<html><body>
+      <label for="sk">Skills</label>
+      <div data-automation-id="multiSelectContainer" id="ms">
+        <input placeholder="Search" data-uxi-widget-type="selectinput" id="sk" value="">
+        <ul role="listbox" data-automation-id="selectedItemList"></ul>
+      </div>
+      <div role="listbox" id="opts" style="display:none"></div>
+      <script>
+        const TAXONOMY = ['Java', 'JavaScript', 'Python', 'React', 'SQL', 'TypeScript'];
+        const input = document.getElementById('sk');
+        const popup = document.getElementById('opts');
+        const chips = document.querySelector('#ms [data-automation-id=selectedItemList]');
+        function render(filter) {
+          popup.innerHTML = '';
+          for (const s of TAXONOMY.filter((o) => !filter || o.toLowerCase().includes(filter.toLowerCase()))) {
+            const d = document.createElement('div');
+            d.setAttribute('role', 'option');
+            d.textContent = s;
+            d.addEventListener('click', () => {
+              const li = document.createElement('li');
+              const pill = document.createElement('div');
+              pill.setAttribute('data-automation-id', 'selectedItem');
+              pill.textContent = s;
+              const charm = document.createElement('span');
+              charm.setAttribute('data-automation-id', 'DELETE_charm');
+              charm.addEventListener('click', () => li.remove());
+              pill.appendChild(charm);
+              li.appendChild(pill);
+              chips.appendChild(li);
+              popup.style.display = 'none';
+              input.value = '';
+            });
+            popup.appendChild(d);
+          }
+          popup.style.display = 'block';
+        }
+        input.addEventListener('click', () => render(input.value));
+        input.addEventListener('input', () => render(input.value));
+        input.addEventListener('keyup', () => render(input.value));
+      </script>
+    </body></html>`;
+    await withFixtureHtmlPage(html, async (page) => {
+      const meta = new Map([["sk", { type: "select", inputId: "sk" }]]);
+      const entries = [
+        {
+          field_id: "sk",
+          label: "Skills",
+          type: "select",
+          canonical_field: "skills",
+          action: "FILL",
+          approved: true,
+          value: ["Python", "TypeScript", "Quantum Basketry"],
+          reason: "t",
+        } as never,
+      ];
+      const r = await greenhouseFillFromPlan(page, entries, meta as never);
+      expect(r.errors).toEqual([]);
+      const chips = await page
+        .locator("#ms [data-automation-id='selectedItem']")
+        .allTextContents();
+      expect(chips).toEqual(["Python", "TypeScript"]);
+      expect(
+        (r.field_meta ?? [])
+          .find((m: { field_id: string }) => m.field_id === "sk")
+          ?.notes?.join(" "),
+      ).toMatch(/not offered by the page: Quantum Basketry/);
+      const v = await greenhouseVerifyFromPlan(page, entries, meta as never);
+      expect(v.passed).toBe(true);
+    });
+  }, 60_000);
 
   it("#69 ghost dedupe: an anchorless FILL twin of an anchored canonical is dropped; lone anchorless entries survive", () => {
     const mk = (field_id: string, canonical: string) =>

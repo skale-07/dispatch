@@ -97,6 +97,13 @@ function matchCanonicalFieldInner(
 
   if (best) return best.canonical;
 
+  // #73 (operator directive): Workday-style Skills pickers fill from the
+  // resume's skills (profile.skills). Tight label match — a sentence
+  // mentioning skills is a screener, not the picker.
+  if (/^(technical |top |relevant |your )?skills?$/.test(normalized)) {
+    return "skills";
+  }
+
   // Name/id-based hints when phrase map missed (Lever EEO / org / location)
   // "What are your preferred pronouns?" / "Pronouns" (live DV Trading
   // 2026-08-30, REQUIRED): operator-supplied only, via the sensitive profile.

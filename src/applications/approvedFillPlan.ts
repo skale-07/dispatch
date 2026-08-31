@@ -36,6 +36,7 @@ export const SAFE_FACTUAL_CANONICALS = new Set([
   "how_heard",
   "restrictive_covenants",
   "current_company",
+  "skills",
 ]);
 
 /** Operator-supplied EEO / self-ID values (sensitive profile), never invented. */

@@ -1170,6 +1170,16 @@ export async function runAtsLiveFill(input: {
           });
           const wizardAdapter = pagePlan.adapter;
           const fillResult = await wizardAdapter.fill(page, pagePlan.approvedPlan.answers);
+          // #73: per-page fill errors/skips were DROPPED — #22v walked four
+          // question pages at 0/17..0/9 filled with zero evidence why.
+          report.notes.push(
+            ...fillResult.errors.slice(0, 8).map((e) => `wizard fill error: ${e}`),
+          );
+          if (fillResult.filled.length === 0 && pagePlan.approvedPlan.fillable_count > 0) {
+            report.notes.push(
+              `wizard fill: 0 of ${pagePlan.approvedPlan.fillable_count} approved entries filled — skipped: ${fillResult.skipped.slice(0, 6).join("; ").slice(0, 300)}`,
+            );
+          }
           let verifyResult = await wizardAdapter.verify(page, pagePlan.approvedPlan.answers);
           // #66b per wizard page: keystroke-retype empty text misses once.
           if (!verifyResult.passed && wizardAdapter.retypeVerifyMisses) {

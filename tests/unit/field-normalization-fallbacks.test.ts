@@ -144,3 +144,20 @@ describe("#70 phone never claims option controls (live tiaa #22s)", () => {
     ).toBeNull();
   });
 });
+
+describe("#73 skills label mapping", () => {
+  it("tight Skills labels map; sentences mentioning skills do not", () => {
+    expect(
+      matchCanonicalField({ id: "sk", label: "Skills", type: "select", required: false }, {}),
+    ).toBe("skills");
+    expect(
+      matchCanonicalField({ id: "sk2", label: "Technical Skills", type: "select", required: false }, {}),
+    ).toBe("skills");
+    expect(
+      matchCanonicalField(
+        { id: "q", label: "Describe the skills you would bring to this role", type: "textarea", required: false },
+        {},
+      ),
+    ).toBeNull();
+  });
+});

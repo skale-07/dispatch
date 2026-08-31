@@ -821,7 +821,37 @@ export async function greenhouseFillFromPlan(
           loc = unfiltered;
         }
       }
-      if (type === "select") {
+      if (type === "select" && Array.isArray(entry.value)) {
+        // #73 (operator directive): multi-VALUE pickers — Workday Skills.
+        // Each value is picked option-verified; values the taxonomy does
+        // not offer are named, never invented. At least one must land.
+        const items = (entry.value as unknown[])
+          .map((v) => String(v))
+          .filter((s) => s.trim() !== "")
+          .slice(0, 10);
+        const picked: string[] = [];
+        const misses: string[] = [];
+        for (const item of items) {
+          const r = await fillComboboxControl(page, loc, item);
+          if (r.committed) picked.push(r.selectedLabel ?? item);
+          else misses.push(item);
+        }
+        field_meta.push({
+          field_id: entry.field_id,
+          canonical_field: entry.canonical_field,
+          control_kind: "multiselect",
+          selected_option: picked.join("; ") || null,
+          notes:
+            misses.length > 0
+              ? [`not offered by the page: ${misses.slice(0, 8).join(", ")}`]
+              : [],
+        });
+        if (picked.length === 0) {
+          throw new Error(
+            `multiselect: none of ${items.length} planned values matched the page's options`,
+          );
+        }
+      } else if (type === "select") {
         // Offline discovery types both native selects and React-select
         // comboboxes as "select"; only the live element tells them apart.
         const kind = await detectControlKind(loc);
@@ -1300,6 +1330,28 @@ export async function greenhouseVerifyFromPlan(
       });
       const expected = entry.value;
       let match = false;
+      if (Array.isArray(expected)) {
+        // #73 multi-value pickers (Skills): the chips must be a NON-EMPTY
+        // subset of the planned list — no foreign values, at least one
+        // landed. The fill already named the values the page refused.
+        const chipString =
+          typeof observed === "string"
+            ? observed
+            : observed && typeof observed === "object" && "label" in observed
+              ? String((observed as { label: unknown }).label ?? "")
+              : "";
+        const chips = chipString
+          .split(";")
+          .map((t) => t.trim())
+          .filter((t) => t.length > 0);
+        match =
+          chips.length > 0 &&
+          chips.every((c) =>
+            (expected as unknown[]).some((e) => labelsCompatible(String(e), c)),
+          );
+        fields.push({ canonical_field: canonical, expected, observed, match });
+        continue;
+      }
       if (
         observed &&
         typeof observed === "object" &&

@@ -1312,3 +1312,33 @@ Pre-flight (≈18:55 local):
   the next run must re-pick; if the plan leaves prefilled selects alone
   (#71a) it will SKIP the wrong value. Watch for it; may need a
   targeted correction pass.
+
+### Job #22v — TIAA — 23:55 local — RESUME UPLOADED + VERIFIED (#72 live-proven); wizard reaches the question pages; two mysteries
+- uploads: verified:true, chip evidence — the "Upload a file" wall is
+  GONE. phoneType draft restored to Mobile pre-run (logged one-off
+  remediation of our own stray write). The walk now surfaces the
+  Application Questions pages' real screeners via #66a (work auth,
+  sponsorship, government-official, debarment, PwC conflict, SEC
+  pay-to-play disclosure) — but fills 0/17, 0/14, 0/11, 0/9 with ZERO
+  recorded evidence (per-page fill errors were dropped on the floor),
+  and the phoneType plan STILL predicted (why didn't #71a fire? —
+  under investigation; its drill scan also page-wide-clicked the
+  countryPhoneCode chip: contained by the flat-list undo now).
+
+### 73. Skills from the resume (operator directive) + wizard fill-evidence propagation — FIXED (FIXTURE_CONFIRMED; live #22w)
+- **Operator (00:00): "there's a skills input for most jobs in Workday —
+  the skills to be input and selected should be the ones on my resume."**
+  Resume read (Shubham_Kale_Resume_SWE.pdf); 30 skills written to
+  public-profile.json `skills` (languages → frameworks → AI → workflow,
+  taxonomy-friendly names). New canonical `skills` (schema + accessor +
+  SAFE_FACTUAL allowlist), tight label mapping (/^(technical|top|
+  relevant|your)? skills?$/ — sentences never match), and a multi-VALUE
+  select branch: each skill picked option-verified through the existing
+  multiselect machinery (cap 10), unoffered skills NAMED, ≥1 must land;
+  verify passes when the chips are a non-empty subset of the planned
+  list. Flat-list drill-scan undo hardened: deletes the LAST chip via
+  its charm (falls back to node removal) and flags a failed undo.
+- Wizard per-page fill errors/skips now land in report.notes (the 0/N
+  mystery becomes diagnosable next run).
+- Tests: skills fixture (picks offered, names unoffered, chips-subset
+  verify), 3 label-mapping cases. 11/11 + 8/8.

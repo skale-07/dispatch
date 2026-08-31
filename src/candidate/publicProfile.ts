@@ -48,6 +48,12 @@ export const publicProfileSchema = z.object({
    * unless the operator puts it here.
    */
   current_company: z.string().optional().default(""),
+  /**
+   * #73 (operator directive 2026-08-31): skills for Workday-style Skills
+   * multiselects, taken from the RESUME's Technical Skills section —
+   * operator-owned facts, ordered by prominence (first N get picked).
+   */
+  skills: z.array(z.string()).optional().default([]),
   employment_history: z.array(z.unknown()).optional().default([]),
   education_history: z.array(z.unknown()).optional().default([]),
 });
@@ -86,6 +92,7 @@ export function getProfileValue(
   if (canonical === "restrictive_covenants") return profile.restrictive_covenants;
   if (canonical === "preferred_name") return profile.preferred_name;
   if (canonical === "current_company") return profile.current_company ?? "";
+  if (canonical === "skills") return profile.skills;
 
   const parts = canonical.split(".");
   let cur: unknown = profile;
