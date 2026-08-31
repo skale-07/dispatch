@@ -112,7 +112,14 @@ export function discoverFieldsFromHtml(
       name ??
       `field_${idx}`;
 
-    const fieldType = mapType(tag, typeAttr);
+    let fieldType = mapType(tag, typeAttr);
+    // #67 (live tiaa 2026-08-31): Workday multiselect search inputs
+    // (data-uxi-widget-type=selectinput, placeholder "Search") are option
+    // PICKERS whose options render on open — never free text. Typed as
+    // select so the fill takes the pick path, not fill().
+    if (/data-uxi-widget-type\s*=\s*["']selectinput["']/i.test(attrs)) {
+      fieldType = "select";
+    }
     const wrap = wrappingLabelTexts(html, m.index, m.index + m[0].length);
     // Spec-standard wrapping <label> with no `for`. For checkboxes/text
     // this IS the question. For radios it is usually the option ("Yes").
@@ -192,6 +199,39 @@ export function discoverFieldsFromHtml(
     if (maxLengthRaw) field.maxLength = Number(maxLengthRaw);
     if (minLengthRaw) field.minLength = Number(minLengthRaw);
 
+    fields.push(field);
+    idx++;
+  }
+
+  // #67 (live tiaa 2026-08-31): Workday listbox dropdowns are BUTTONs
+  // (`<button aria-haspopup="listbox" id=…>Current</button>`) with a
+  // label[for] pointing at the button — invisible to the input scan, so
+  // State / Phone Device Type / Country were never planned and the page
+  // errored "The field State is required". Page-chrome listbox buttons
+  // (settings gear, locale menu) have no label[for]; requiring a labelMap
+  // hit filters them out.
+  const buttonRe =
+    /<button\b([^>]*aria-haspopup\s*=\s*["']listbox["'][^>]*)>([\s\S]*?)<\/button>/gi;
+  let bm: RegExpExecArray | null;
+  while ((bm = buttonRe.exec(html)) !== null) {
+    const battrs = bm[1] ?? "";
+    if (isHiddenAttrs(battrs)) continue;
+    const btnId = getAttr(battrs, "id") ?? undefined;
+    const btnLabel = btnId ? labelMap.get(btnId) : undefined;
+    if (!btnId || !btnLabel || isUninformativeLabel(btnLabel)) continue;
+    const btnName = getAttr(battrs, "name") ?? undefined;
+    const current = cleanLabel(decodeEntities(stripTags(bm[2] ?? "")));
+    const field: DiscoveredField = {
+      id: btnId,
+      label: cleanLabel(btnLabel),
+      type: "select",
+      required:
+        /required/i.test(getAttr(battrs, "aria-label") ?? "") ||
+        /aria-required=["']true["']/i.test(battrs),
+      inputId: btnId,
+    };
+    if (btnName) field.name = btnName;
+    if (current) field.currentValue = current;
     fields.push(field);
     idx++;
   }
@@ -342,7 +382,12 @@ function buildLabelMap(html: string): Map<string, string> {
 }
 
 function getAttr(attrs: string, name: string): string | null {
-  const re = new RegExp(`${name}\\s*=\\s*["']([^"']*)["']`, "i");
+  // #67a (live tiaa 2026-08-31): without a left boundary, getAttr("id")
+  // matched INSIDE `aria-invalid="false"` — every Workday multiselect got
+  // id "false", missed its label[for], and fell back to its placeholder
+  // ("Search"), which the page-widget fence then skipped. The attr name
+  // must start at the beginning or after whitespace.
+  const re = new RegExp(`(?:^|\\s)${name}\\s*=\\s*["']([^"']*)["']`, "i");
   const m = attrs.match(re);
   return m?.[1] ?? null;
 }

@@ -853,7 +853,29 @@ export async function readComboboxValue(loc: Locator): Promise<string | null> {
     textContent: string | null;
     closest: (s: string) => ContainerEl | null;
   };
-  const raw = await loc.evaluate((el: ContainerEl & { value?: string; parentElement?: ContainerEl | null }) => {
+  const raw = await loc.evaluate((el: ContainerEl & { value?: string; parentElement?: ContainerEl | null; tagName?: string; getAttribute?: (n: string) => string | null; textContent?: string | null }) => {
+    // #67 Workday (live tiaa 2026-08-31). Two widget shapes:
+    // (a) listbox BUTTON — the committed display is the button's own text
+    //     ("Mobile"); its sibling hidden input holds only a hex token.
+    if (
+      el.tagName === "BUTTON" &&
+      el.getAttribute?.("aria-haspopup") === "listbox"
+    ) {
+      const t = (el.textContent ?? "").replace(/\s+/g, " ").trim();
+      return t && !/^select one$/i.test(t) ? t : null;
+    }
+    // (b) multiselect search input — the committed values are chips
+    //     ([data-automation-id='selectedItem']) in the container; the
+    //     input's own value is only filter residue.
+    const wdContainer = el.closest("[data-automation-id='multiSelectContainer']");
+    if (wdContainer) {
+      const chips = Array.from(
+        wdContainer.querySelectorAll("[data-automation-id='selectedItem']"),
+      )
+        .map((c) => (c.textContent ?? "").replace(/\s+/g, " ").trim())
+        .filter((t) => t.length > 0);
+      return chips.length > 0 ? chips.join("; ") : null;
+    }
     // Paylocity FIRST. `[class*="select_"]` matches `pcty-input-select__input`
     // (the inner filter wrap), which does not contain the committed label.
     // Live 2026-08-19: display already said "United States"; verify read
@@ -1123,7 +1145,14 @@ async function listboxForControl(page: Page, loc: Locator): Promise<Locator> {
   if (ownedId) {
     return page.locator(`[id="${ownedId.replace(/"/g, '\\"')}"]`);
   }
-  return page.locator(LISTBOX_SELECTOR).filter({ visible: true }).first();
+  // #67 (live tiaa 2026-08-31): Workday multiselects keep their SELECTED
+  // chips in an always-visible `<ul role=listbox data-automation-id=
+  // selectedItemList>` — the fallback's "first visible listbox" found the
+  // chips, not the options popup. Exclude it per selector part.
+  const withoutChips = LISTBOX_SELECTOR.split(",")
+    .map((s) => `${s.trim()}:not([data-automation-id='selectedItemList'])`)
+    .join(", ");
+  return page.locator(withoutChips).filter({ visible: true }).first();
 }
 
 async function clickListedOption(

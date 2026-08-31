@@ -1131,3 +1131,42 @@ Pre-flight (≈18:55 local):
 - Tests: 5 new (alert/aria/classed + hidden excluded; vendor-extras +
   flood filter; clean page; keydown-counting input proves keystroke
   entry; skip-everything-else negative). Live validation: #22p.
+
+### Job #22p — TIAA — 21:52 local — #66a pays off instantly: the page names the REAL blockers
+- Wizard 12/12 ×5 (vacuously — see below), still AMBIGUOUS_FIELD, but
+  the notes now carry Workday's own words: "The field State is required
+  and must have a value", "The field How Did You Hear About Us? is
+  required…" / "0 items selected". Three nights of expected/observed
+  diffs never surfaced these because THE FIELDS WERE NEVER DISCOVERED —
+  12/12 counted only what the plan knew about. (Also: the wizard-page
+  retype tried "Phone" on later pages where it doesn't exist — noisy
+  5s timeouts, bounded, left as-is.)
+
+### 67. Workday listbox buttons + multiselects invisible to discovery; getAttr matched INSIDE aria-invalid — FIXED + progressive-overload set
+- Live probes (resumed wizard, read-only + open-state popup dumps):
+  - State / Phone Device Type / Country are `<button aria-haspopup=
+    "listbox" id=…>` with a label[for] pointing at the BUTTON — the
+    input-scan never saw them; their popup is `<ul role=listbox><li
+    role=option>` (generic selectors already match). The #16b hidden
+    hex-token decoy is the button's companion input.
+  - How Did You Hear / Country Phone Code are multiselect search
+    widgets (`input data-uxi-widget-type=selectinput`, placeholder
+    "Search"); options render in a virtualized `activeListContainer`
+    (role=listbox, role=option) and committed values are CHIPS in an
+    always-visible `<ul role=listbox data-automation-id=
+    selectedItemList>`.
+  - **#67a root bug:** `getAttr("id")` had no left boundary and matched
+    inside `aria-invalid="false"` → every multiselect got id "false",
+    missed its label[for], took placeholder "Search" as its label, and
+    the #39 widget fence skipped it. One-line boundary fix relabels the
+    whole class correctly.
+- Fixes: getAttr boundary; selectinput inputs typed "select" (pick
+  path, never fill()); a discovery pass for labeled listbox BUTTONs
+  (label[for] required — page-chrome listbox buttons have none and stay
+  invisible); listboxForControl excludes selectedItemList (the chips
+  ul was winning "first visible listbox"); readComboboxValue learns
+  both shapes (button text; chips join).
+- Progressive-overload fixture `tests/fixtures/ats/workday/
+  listbox-multiselect.html` (live markup + harder: attr-order trap,
+  hex decoy, preselected chips, virtualization window, chrome button)
+  + 5 tests — all FIXTURE_CONFIRMED first run. Live validation: #22q.
