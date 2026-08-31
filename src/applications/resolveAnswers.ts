@@ -181,16 +181,37 @@ export function buildFillPlan(
         });
         continue;
       }
-      entries.push({
-        field_id: field.id,
-        label: field.label,
-        type: field.type,
-        canonical_field: field.canonical_field,
-        action: "skip_essay",
-        value: null,
-        reason: opts.essaySkipReason ?? "Essay generation produced no answer",
-      });
-      continue;
+      // #100 (live tiaa page 7): Workday renders NUMBER boxes as
+      // textareas — "What is your cumulative GPA?" (canonical gpa) and
+      // "What is your GPA in your major?" (bank screener) were
+      // skip_essay'd here on every run, upstream of the #87 approval
+      // rescue that only ever sees action:"fill". A SHORT factual
+      // answer (safe factual canonical, or a resolved screener fill)
+      // is a fact, not an essay: fall through to normal resolution.
+      // (getProfileValue only answers public-profile facts; the approval
+      // layer's SAFE_FACTUAL allowlist stays the strict authority —
+      // importing the Set here would cycle with approvedFillPlan.)
+      const screenerHit = opts.screenerResolutions?.get(field.id);
+      const profileFact = field.canonical_field
+        ? getProfileValue(profile, field.canonical_field)
+        : undefined;
+      const shortFactAvailable =
+        (!isEmptyValue(profileFact) && String(profileFact).length <= 80) ||
+        (screenerHit?.status === "fill" &&
+          String(screenerHit.value ?? "").length <= 80 &&
+          !isEmptyValue(screenerHit.value));
+      if (!shortFactAvailable) {
+        entries.push({
+          field_id: field.id,
+          label: field.label,
+          type: field.type,
+          canonical_field: field.canonical_field,
+          action: "skip_essay",
+          value: null,
+          reason: opts.essaySkipReason ?? "Essay generation produced no answer",
+        });
+        continue;
+      }
     }
 
     if (isDemographicsField(field)) {

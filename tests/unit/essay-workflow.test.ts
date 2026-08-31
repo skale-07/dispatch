@@ -289,7 +289,7 @@ describe("fixture essay fill (FIXTURE_CONFIRMED)", () => {
     expect(report.essay_fill).toBeUndefined();
   }, 30_000);
 
-  it("regression: greenhouseFillFromPlan still hard-rejects textarea entries", async () => {
+  it("regression: greenhouseFillFromPlan still hard-rejects textarea ESSAY entries (#100 admits only short facts — prose-length values keep the fence)", async () => {
     const bogus: ApprovedFillPlanEntry = {
       field_id: "why",
       label: "Why do you want to work at Acme?",
@@ -297,7 +297,10 @@ describe("fixture essay fill (FIXTURE_CONFIRMED)", () => {
       canonical_field: "email",
       action: "FILL",
       approved: true,
-      value: "generated essay text",
+      // >80 chars: prose-length — the #100 short-fact exemption must NOT
+      // apply, whatever canonical the entry claims.
+      value:
+        "generated essay text that runs well past the eighty character short-fact boundary of issue #100",
       reason: "smuggled",
     };
     const { withFixtureHtmlPage } = await import(

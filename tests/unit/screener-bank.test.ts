@@ -380,14 +380,28 @@ describe("buildFillPlan screener integration (UNIT_CONFIRMED)", () => {
     expect(commitment?.status).toBe("review");
   });
 
-  it("a textarea can never sneak through as a screener fill", () => {
+  it("#100: a SHORT screener fact fills a textarea (Workday number-box class); a prose-length screener value keeps skip_essay", () => {
     const fields = [field("essay", "How did you hear about this role?", "textarea")];
-    const resolutions = new Map<string, ScreenerResolution>([
+    const short = new Map<string, ScreenerResolution>([
       ["essay", { status: "fill", key: "how_heard", value: "JobRight", basis: "free_text" }],
     ]);
-    const plan = buildFillPlan(fields, profile, { screenerResolutions: resolutions });
-    // The essay branch runs BEFORE the unmapped/screener branch.
-    expect(plan.entries[0]!.action).toBe("skip_essay");
+    const shortPlan = buildFillPlan(fields, profile, { screenerResolutions: short });
+    expect(shortPlan.entries[0]!.action).toBe("fill");
+    expect(shortPlan.entries[0]!.value).toBe("JobRight");
+
+    const long = new Map<string, ScreenerResolution>([
+      [
+        "essay",
+        {
+          status: "fill",
+          key: "how_heard",
+          value: "x".repeat(120),
+          basis: "free_text",
+        },
+      ],
+    ]);
+    const longPlan = buildFillPlan(fields, profile, { screenerResolutions: long });
+    expect(longPlan.entries[0]!.action).toBe("skip_essay");
   });
 
   it("fills a generated essay instead of skip_essay", () => {

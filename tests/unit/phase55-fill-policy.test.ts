@@ -223,3 +223,74 @@ describe("Phase 5.5 fill policy", () => {
     expect(redacted["report_path"]).toBe("[REDACTED_PATH]");
   });
 });
+
+/**
+ * #100 (live tiaa page 7): Workday renders its NUMBER boxes as textareas.
+ * A SHORT resolved screener answer ("What is your GPA in your major?" →
+ * bank major_gpa "3.5") is a fact, the #87 class — the essay gate is for
+ * prose. Long screener values and unmapped textareas keep the gate.
+ */
+describe("#100 short screener facts fill Workday number-box textareas (UNIT_CONFIRMED)", () => {
+  const mk = (over: Record<string, unknown>) =>
+    ({
+      field_id: "q1",
+      label: "What is your GPA in your major?",
+      type: "textarea",
+      canonical_field: "screener:custom:major_gpa",
+      action: "fill",
+      value: "3.5",
+      reason: "",
+      ...over,
+    }) as Parameters<typeof toApprovedFillPlan>[0][number];
+
+  it("short screener answer on a textarea is approved FILL", () => {
+    const approved = toApprovedFillPlan([mk({})]);
+    const e = approved.entries[0]!;
+    expect(e.action).toBe("FILL");
+    expect(e.approved).toBe(true);
+  });
+
+  it("a LONG screener value keeps the essay gate (never auto-filled)", () => {
+    const approved = toApprovedFillPlan([
+      mk({ value: "x".repeat(120) }),
+    ]);
+    expect(approved.entries[0]!.action).toBe("SKIP");
+    expect(approved.entries[0]!.approved).toBe(false);
+  });
+
+  it("an unmapped textarea still SKIPs as essay", () => {
+    const approved = toApprovedFillPlan([
+      mk({ canonical_field: null, value: "3.5" }),
+    ]);
+    expect(approved.entries[0]!.action).toBe("SKIP");
+  });
+});
+
+describe("#100 executable guard mirrors the approval layer (UNIT_CONFIRMED)", () => {
+  const base = {
+    field_id: "q1",
+    label: "What is your GPA in your major?",
+    type: "textarea",
+    canonical_field: "screener:custom:major_gpa",
+    action: "FILL",
+    approved: true,
+    value: "3.5",
+    reason: "",
+  } as Parameters<typeof assertExecutableApprovedEntry>[0];
+
+  it("short screener fact on a textarea is executable", () => {
+    expect(() => assertExecutableApprovedEntry(base)).not.toThrow();
+  });
+
+  it("long value still refuses (essay fence)", () => {
+    expect(() =>
+      assertExecutableApprovedEntry({ ...base, value: "x".repeat(120) }),
+    ).toThrow(/textarea\/essay/);
+  });
+
+  it("no canonical provenance still refuses", () => {
+    expect(() =>
+      assertExecutableApprovedEntry({ ...base, canonical_field: null }),
+    ).toThrow(/textarea\/essay|allowlist/);
+  });
+});

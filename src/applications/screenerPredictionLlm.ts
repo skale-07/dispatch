@@ -39,6 +39,7 @@ import {
   type EmailLlmClient,
 } from "../contacts/emailLlm.js";
 import {
+  isPageWidgetLabel,
   learnedCustomAnswersFor,
   normalizeScreenerLabel,
 } from "../candidate/screenerMatch.js";
@@ -242,6 +243,10 @@ export function isCaptureWorthyQuestion(q: {
   const label = decodeBasicHtmlEntities(q.label).replace(/\s+/g, " ").trim();
   if (label.length < 8) return false;
   if (isUnusableLabel(label)) return false;
+  // #104: page widgets and SECTION HEADINGS ("Personal Data Statement")
+  // are never questions — the predict tier invented consent for one and
+  // promotion re-poisoned the bank a run after the entry was deleted.
+  if (isPageWidgetLabel(label)) return false;
   if (/^[0-9a-f]{8}-[0-9a-f-]{27,}$/i.test(label)) return false;
   if (
     isDemographicsField({

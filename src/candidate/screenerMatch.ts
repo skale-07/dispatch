@@ -440,7 +440,12 @@ export function screenerKeyLabelIncompatible(
  * learned as a question, ready to be "answered" on every listing page.
  */
 const PAGE_WIDGET_LABEL_RE =
-  /^(?:search(?:\s+(?:roles?|jobs?|positions?|openings?|careers?|by\s+\w+|for\s+\w+))?|keywords?|search\s+keywords?|job\s+title\s+or\s+keywords?|filter(?:\s+by\s+\w+)?|sort\s+by|location\s+search|find\s+(?:a\s+)?jobs?|newsletter|subscribe|email\s+me\s+jobs)$/i;
+  // #104 (live tiaa disclosures page, twice): a bare SECTION HEADING
+  // ("Personal Data Statement", "Voluntary Disclosures") became a ghost
+  // field's label via nearest-heading recovery, the predict tier invented
+  // "Yes" for it, and promotion re-poisoned the bank the run after the
+  // entry was deleted. Heading shapes are never questions.
+  /^(?:search(?:\s+(?:roles?|jobs?|positions?|openings?|careers?|by\s+\w+|for\s+\w+))?|keywords?|search\s+keywords?|job\s+title\s+or\s+keywords?|filter(?:\s+by\s+\w+)?|sort\s+by|location\s+search|find\s+(?:a\s+)?jobs?|newsletter|subscribe|email\s+me\s+jobs|personal\s+data\s+statement|voluntary\s+(?:self[\s-])?disclosures?|self[\s-]identif(?:y|ication)(?:\s+preferences?)?|application\s+questions(?:\s+\d+\s+of\s+\d+)?|my\s+information|my\s+experience|review)$/i;
 
 export function isPageWidgetLabel(label: string): boolean {
   const n = normalizeScreenerLabel(label);

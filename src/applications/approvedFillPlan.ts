@@ -211,6 +211,20 @@ function rejectFillCandidate(entry: FillPlanEntry): ApprovedFillPlanEntry | null
     ) {
       return null;
     }
+    // #100 (live tiaa page 7): "What is your GPA in your major?" is a
+    // Workday NUMBER box rendered as a textarea; its answer lives in the
+    // operator's screener bank (major_gpa = "3.5"). A SHORT resolved
+    // screener answer is a fact, exactly the #87 class — the essay gate
+    // is for prose. Long values keep the essay gate; demographics never
+    // map to screener canonicals (fenced upstream).
+    if (
+      entry.canonical_field &&
+      isScreenerFillCanonical(entry.canonical_field) &&
+      !isEmptyValue(entry.value) &&
+      String(entry.value).length <= 80
+    ) {
+      return null;
+    }
     return {
       field_id: entry.field_id,
       label: entry.label,
@@ -310,7 +324,19 @@ export function assertExecutableApprovedEntry(
   }
   if (
     entry.type === "textarea" &&
-    !isEssayGeneratedCanonical(entry.canonical_field)
+    !isEssayGeneratedCanonical(entry.canonical_field) &&
+    // #87/#100 mirror (live tiaa page 7): toApprovedFillPlan approves a
+    // SHORT factual answer on a Workday number-box textarea (safe
+    // factual canonical, or an operator-bank/validated screener value);
+    // this guard kept refusing the same entries at execution. The essay
+    // fence stays: no canonical provenance or a long value still throws.
+    !(
+      entry.canonical_field &&
+      (SAFE_FACTUAL_CANONICALS.has(entry.canonical_field) ||
+        isScreenerFillCanonical(entry.canonical_field)) &&
+      !isEmptyValue(entry.value) &&
+      String(entry.value).length <= 80
+    )
   ) {
     throw new Error(`Refusing fill for ${entry.field_id}: textarea/essay`);
   }

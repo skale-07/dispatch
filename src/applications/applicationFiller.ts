@@ -72,6 +72,7 @@ import {
 } from "../candidate/screenersIO.js";
 import {
   matchScreenerKey,
+  findCustomScreenerMatch,
   resolveCustomScreener,
   resolveScreenerForField,
   screenerKeyFitsField,
@@ -294,9 +295,50 @@ export async function planApplicationFill(input: {
       !isApplicationConsentField(f) &&
       isCaptureWorthyQuestion(f),
   );
+  // #100 (live tiaa page 7): Workday renders NUMBER boxes as textareas —
+  // "What is your GPA in your major?" lives in the operator's bank but
+  // the candidates filter excluded textareas entirely. Deterministic bank
+  // passes only (exact/high-overlap stored labels); the LLM map and
+  // predict tiers never see textareas, so real essay prompts keep the
+  // essay path.
+  const textareaCandidates = bank
+    ? mapped.filter(
+        (f) =>
+          !f.canonical_field &&
+          f.type === "textarea" &&
+          !screenerIsDemographic(f) &&
+          !isApplicationConsentField(f) &&
+          isCaptureWorthyQuestion(f),
+      )
+    : [];
+  for (const f of textareaCandidates) {
+    const custom = resolveCustomScreener(
+      { label: f.label, type: f.type, options: f.options },
+      bank!,
+    );
+    if (custom && custom.status === "fill" && String(custom.value).length <= 80) {
+      screenerResolutions.set(f.id, custom);
+    }
+  }
   if (bank) {
     const unmatchedForLlm: typeof candidates = [];
     for (const f of candidates) {
+      // #100b: an EXACT stored custom label is the strongest signal on the
+      // page — it beats a core screener-key phrase match. Live: "Please
+      // indicate the highest level of education you have completed."
+      // phrase-matched core `education_level` ("Undergrad", no such
+      // option) while the custom entry stored this exact question.
+      const exactCustom = findCustomScreenerMatch(f.label, bank);
+      if (exactCustom?.exact) {
+        const custom = resolveCustomScreener(
+          { label: f.label, type: f.type, options: f.options },
+          bank,
+        );
+        if (custom) {
+          screenerResolutions.set(f.id, custom);
+          continue;
+        }
+      }
       if (matchScreenerKey(f.label)) {
         const r = resolveScreenerForField(
           { label: f.label, type: f.type, options: f.options },

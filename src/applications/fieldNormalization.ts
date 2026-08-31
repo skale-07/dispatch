@@ -87,6 +87,16 @@ function matchCanonicalFieldInner(
         ) {
           continue;
         }
+        // #103 (live tiaa): a short alias must match as a WHOLE WORD —
+        // "state" claimed the "Personal Data Statement" heading and typed
+        // Maryland at a disclosures-page control. Multi-word question
+        // phrases keep plain containment.
+        if (!phraseIsQuestionLike) {
+          const escaped = p.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+          if (!new RegExp(`(^|[^a-z0-9])${escaped}([^a-z0-9]|$)`, "i").test(normalized)) {
+            continue;
+          }
+        }
         score = 100 + p.length;
       } else if (p.includes(normalized) && normalized.length >= 4) {
         score = 50 + normalized.length;
