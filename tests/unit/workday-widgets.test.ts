@@ -308,6 +308,39 @@ describe("#68 overlaid radios + how_heard class fallbacks (FIXTURE_CONFIRMED)", 
     });
   }, 60_000);
 
+  it("#78 a select-planned question that is really an Ashby hidden-radio FIELDSET fills painted-safe and verifies via the checked member (live exa shape)", async () => {
+    const html = `<html><body>
+      <fieldset>
+        <label>Are you based in San Francisco or open to relocating?</label>
+        <input type="radio" name="q1" id="o1" value="a" style="display:none" />
+        <label for="o1">San Francisco based</label>
+        <input type="radio" name="q1" id="o2" value="b" style="display:none" />
+        <label for="o2">Open to relocating</label>
+      </fieldset>
+    </body></html>`;
+    await withFixtureHtmlPage(html, async (page) => {
+      const meta = new Map([["3a52e1c2", { type: "select" }]]);
+      const entries = [
+        {
+          field_id: "3a52e1c2",
+          label: "Are you based in San Francisco or open to relocating?",
+          type: "select",
+          canonical_field: "screener:willing_to_relocate",
+          action: "FILL",
+          approved: true,
+          value: "Open to relocating",
+          reason: "t",
+        } as never,
+      ];
+      const r = await greenhouseFillFromPlan(page, entries, meta as never);
+      expect(r.errors).toEqual([]);
+      expect(await page.locator("#o2").isChecked()).toBe(true);
+      expect(await page.locator("#o1").isChecked()).toBe(false);
+      const v = await greenhouseVerifyFromPlan(page, entries, meta as never);
+      expect(v.passed).toBe(true);
+    });
+  }, 45_000);
+
   it("#69 ghost dedupe: an anchorless FILL twin of an anchored canonical is dropped; lone anchorless entries survive", () => {
     const mk = (field_id: string, canonical: string) =>
       ({ field_id, label: field_id, type: "text", canonical_field: canonical, action: "FILL", approved: true, value: "x", reason: "t" }) as never;

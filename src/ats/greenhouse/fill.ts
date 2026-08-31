@@ -812,6 +812,30 @@ export async function greenhouseFillFromPlan(
             byLabel = locatorForField(page, labelOnly);
           }
           if ((await byLabel.count()) === 0) {
+            // #78 (live exa #cycle-1): an option-typed question can be an
+            // Ashby-style RADIO fieldset — hidden inputs behind painted
+            // circles, no select control anywhere, and the question text
+            // lives in the fieldset, not a label[for]. When a fieldset
+            // matching the question holds radios, pick the member
+            // painted-safe (same matching + refusals as the radio branch).
+            if (type === "select" && typeof entry.value === "string") {
+              const fieldset = page
+                .locator("fieldset")
+                .filter({ hasText: entry.label.slice(0, 60) })
+                .first();
+              const radios = fieldset.locator("input[type='radio']");
+              if ((await radios.count().catch(() => 0)) > 0) {
+                const picked = await checkRadioGroupMember(page, radios, entry.value);
+                field_meta.push({
+                  field_id: entry.field_id,
+                  canonical_field: entry.canonical_field,
+                  control_kind: "button_group",
+                  selected_option: picked,
+                });
+                filled.push(entry.canonical_field ?? entry.field_id);
+                continue;
+              }
+            }
             throw new Error(
               `control not found on the page (label "${entry.label.slice(0, 60)}") — failing fast instead of waiting 30s`,
             );
@@ -1385,6 +1409,47 @@ export async function greenhouseVerifyFromPlan(
         match,
       });
     } catch (err) {
+      // #78 verify fallback: option-typed questions that are really an
+      // Ashby-style radio FIELDSET (no locatable control by label) —
+      // read the checked member's own label.
+      if (String(entry.type) === "select") {
+        const fieldset = page
+          .locator("fieldset")
+          .filter({ hasText: entry.label.slice(0, 60) })
+          .first();
+        const checked = fieldset.locator("input[type='radio']:checked").first();
+        if ((await checked.count().catch(() => 0)) > 0) {
+          const checkedLabel = await checked
+            .evaluate(
+              (el: {
+                getAttribute: (n: string) => string | null;
+                parentElement?: { textContent?: string | null } | null;
+              }) => {
+                const id = el.getAttribute("id");
+                const doc = (
+                  globalThis as unknown as {
+                    document?: { querySelector: (s: string) => { textContent?: string | null } | null };
+                  }
+                ).document;
+                if (id) {
+                  const lab = doc?.querySelector(`label[for="${id}"]`);
+                  if (lab?.textContent) return lab.textContent.trim();
+                }
+                return el.parentElement?.textContent?.trim() ?? "";
+              },
+            )
+            .catch(() => "");
+          const ok =
+            checkedLabel.length > 0 && valuesMatch(entry.value, checkedLabel, canonical);
+          fields.push({
+            canonical_field: canonical,
+            expected: entry.value,
+            observed: checkedLabel || null,
+            match: ok,
+          });
+          continue;
+        }
+      }
       warnings.push(
         `verify ${canonical}: ${err instanceof Error ? err.message : String(err)}`,
       );
