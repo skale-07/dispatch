@@ -4,6 +4,11 @@ import { isTrustedWorkdayHost } from "../ats/workday/urlValidation.js";
 import { workdaySelectorsV1 } from "../ats/workday/selectors.js";
 import { prepareCredentialsForHost } from "./accountCredentials.js";
 import { getAccount, setAccount } from "../accounts/vault.js";
+import {
+  authBudgetExhausted,
+  clearAuthFailures,
+  recordAuthFailure,
+} from "./authAttemptBudget.js";
 import { dismissPageObstructions } from "../browser/obstructions.js";
 import { getConfig } from "../config/index.js";
 import {
@@ -216,6 +221,23 @@ export async function authenticateAtsPortal(
     };
   }
 
+  // #93 (operator directive): per-host auth budget, persistent across
+  // runs — three failed/silent attempts in 6h and this host cools down
+  // instead of being hammered into a bot flag (TIAA took ~35 attempts
+  // across two nights before anyone noticed).
+  const exhausted = authBudgetExhausted(host);
+  if (exhausted) {
+    notes.push(`portal auth refused: ${exhausted}`);
+    return {
+      status: "wall_remains",
+      verification_used: false,
+      escalated_to_create: false,
+      diagnosis: null,
+      notes,
+      secrets,
+    };
+  }
+
   // #64 (live tiaa.wd1 2026-08-31): an undismissed cookie/legal banner
   // (data-automation-id=legalNotice) sat over the page across every auth
   // attempt of nights 20-21; swallowed click timeouts vanished into
@@ -254,17 +276,30 @@ export async function authenticateAtsPortal(
   });
   notes.push(...creds.notes);
   secrets.push(...creds.secrets);
+  // #93: credentials-typed flag — only real attempts burn budget; early
+  // refusals (no creds, no form, budget itself) never do.
+  let credentialsTyped = false;
   const done = (
     status: PortalAuthOutcome["status"],
     extra: { verification?: boolean; escalated?: boolean; diag?: LoginWallDiagnosis } = {},
-  ): PortalAuthOutcome => ({
-    status,
-    verification_used: extra.verification ?? false,
-    escalated_to_create: extra.escalated ?? false,
-    diagnosis: extra.diag ?? diagnosis,
-    notes,
-    secrets,
-  });
+  ): PortalAuthOutcome => {
+    if (status === "signed_in" || status === "account_created") {
+      clearAuthFailures(host);
+    } else if (status === "wall_remains" && credentialsTyped) {
+      recordAuthFailure(host);
+      notes.push(
+        "portal auth: attempt recorded against the host's budget (3 failures in 6h ⇒ cool-down)",
+      );
+    }
+    return {
+      status,
+      verification_used: extra.verification ?? false,
+      escalated_to_create: extra.escalated ?? false,
+      diagnosis: extra.diag ?? diagnosis,
+      notes,
+      secrets,
+    };
+  };
 
   const settleEmailedCodeWall = async (input: {
     username: string;
@@ -485,6 +520,7 @@ export async function authenticateAtsPortal(
     for (let i = 0; i < Math.min(passwordCount, 2); i++) {
       await passwordFields.nth(i).fill(password, { timeout: 5_000 }).catch(() => undefined);
     }
+    credentialsTyped = true;
     await settlePage(page, settle, 500);
     if (emailField && (await emailField.count().catch(() => 0)) > 0) {
       const took = (await emailField.inputValue().catch(() => "")).trim();
