@@ -60,12 +60,12 @@
 </style></head>
 <body><div class="wrap">
 <h1>Dispatch run timeline</h1>
-<p class="sub">Generated 2026-08-31T09:21:47.467Z · 40 navigation run(s) · read-only view of artifacts/</p>
-<div class="stats"><span class="stat"><b>19</b> resolved</span><span class="stat"><b>7</b> auth</span><span class="stat"><b>7</b> budget</span><span class="stat"><b>4</b> closed</span><span class="stat"><b>3</b> submit_risk</span></div>
+<p class="sub">Generated 2026-08-31T09:22:28.814Z · 40 navigation run(s) · read-only view of artifacts/</p>
+<div class="stats"><span class="stat"><b>19</b> resolved</span><span class="stat"><b>7</b> auth</span><span class="stat"><b>6</b> budget</span><span class="stat"><b>4</b> closed</span><span class="stat"><b>3</b> submit_risk</span><span class="stat"><b>1</b> duplicate_url</span></div>
 <section class="cycle">
   <h2>Latest cycle</h2>
   <dl>
-    <div><dt>Started</dt><dd>2026-08-31T09:20:51.975Z</dd></div>
+    <div><dt>Started</dt><dd>2026-08-31T09:21:55.620Z</dd></div>
     <div><dt>Outcome</dt><dd>completed</dd></div>
     <div><dt>Agent leg</dt><dd>available</dd></div>
     <div><dt>Default resume</dt><dd>ready (C:\dev\jobright-application-agent\private\candidate\resumes\jake_swe.pdf)</dd></div>
@@ -73,9 +73,24 @@
     <div><dt>Submits used</dt><dd>0</dd></div>
     <div><dt>Stopped</dt><dd>apps_cap</dd></div>
   </dl>
-  <h3>Session notes</h3><ul class="notes"><li>nav audit: 0 wrong-employer URL(s) cleared for re-navigation, 1 parked for review</li><li>discover: 8 inspected, 2 eligible, 7 already known, 1 filtered out, 0 already submitted</li><li>artifact autopush: 4 file(s) pushed to master as 6ce50b43</li></ul>
+  <h3>Session notes</h3><ul class="notes"><li>nav audit: 0 wrong-employer URL(s) cleared for re-navigation, 1 parked for review</li><li>discover: 8 inspected, 1 eligible, 8 already known, 0 filtered out, 0 already submitted</li><li>artifact autopush: 2 file(s) pushed to master as afcf14db</li></ul>
 </section>
 <h2>Applications</h2>
+<details class="app bad">
+  <summary>
+    <span class="id">de803481</span>
+    <span class="co">Neuralink</span>
+    <span class="badge">wall: duplicate_url</span>
+    
+    
+    
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — resolved (10 candidates, employer match)<span class="ev">boards.greenhouse.io</span></li></ol>
+    <h4>Notes</h4><ul class="notes"><li>phase A: token-only greenhouse embed anchor resolved to board &quot;neuralink&quot; (job 6569018003) via one read-only GET</li><li>employer URL already held by 1 other application(s): 2e3cfd5c (Neuralink — Software Engineer Intern, Implant, AMBIGUOUS_FIELD)</li></ul>
+    
+  </div>
+</details>
 <details class="app ok">
   <summary>
     <span class="id">6e095d71</span>
@@ -659,21 +674,6 @@
     <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — needs_input WITHOUT verification evidence on the page — mailbox not consulted, human review</li></ol>
     <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>verification need rejected: agent's page evidence shows no verification prompt</li></ul>
     <h4>Hosts visited</h4><p class="hosts">jobs.ashbyhq.com</p>
-  </div>
-</details>
-<details class="app bad">
-  <summary>
-    <span class="id">74ac3f9d</span>
-    <span class="co">—</span>
-    <span class="badge">wall: budget</span>
-    
-    
-    <span class="chip">agent 1t/5s</span>
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — wall: budget (turn 1)</li></ol>
-    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent[1]: reached form</li><li>agent[1]: final_url rejected: host evil.example.com is outside allowed domains</li><li>agent[1] reason: sidecar final_url rejected: host evil.example.com is outside allowed domains</li></ul>
-    <h4>Hosts visited</h4><p class="hosts">jobright.ai → jobs.lever.co</p>
   </div>
 </details>
 <footer>Every row is one navigation run. Green = employer URL resolved; amber = auth/CAPTCHA wall; red = unresolved; grey = posting closed. Expand a row for its phase trace and the notes that explain the stop.</footer>
