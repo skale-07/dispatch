@@ -28,6 +28,27 @@ export function matchCanonicalField(
     return null;
   }
 
+  // #70 (live tiaa #22s): "Phone Device Type" — a SELECT — mapped
+  // canonical `phone` via the label substring and the name hint, so the
+  // plan tried to pick the phone NUMBER from [Mobile|Fax|Landline] and
+  // the wrong-target writes re-rendered the section, wiping the real
+  // number every run. A phone number is free text: canonical `phone`
+  // never claims an option control (the country-code select has its own
+  // canonicals).
+  const optionControl =
+    field.type === "select" || field.type === "checkbox" || field.type === "radio";
+  const matched = matchCanonicalFieldInner(field, aliases, normalized, nameHint);
+  if (matched === "phone" && optionControl) return null;
+  return matched;
+}
+
+function matchCanonicalFieldInner(
+  field: DiscoveredField,
+  aliases: Record<string, string[]>,
+  normalized: string,
+  nameHint: string,
+): string | null {
+
   // "I have a preferred name" is Workday's reveal TOGGLE, not the
   // preferred-name text field (live tiaa 2026-08-30 #22g: the fill tried
   // to "check" the profile's name into it). The revealed text field keeps

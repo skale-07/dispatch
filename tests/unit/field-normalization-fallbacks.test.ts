@@ -109,3 +109,38 @@ describe("matchCanonicalField name/id fallbacks", () => {
     ).toBe("veteran_status");
   });
 });
+
+describe("#70 phone never claims option controls (live tiaa #22s)", () => {
+  // "Phone Device Type" (a SELECT) mapped canonical `phone` via the label
+  // substring AND the name hint — the plan then tried to pick the phone
+  // NUMBER from [Mobile|Fax|Landline], and the wrong-target writes
+  // re-rendered the section, wiping the real number.
+  const aliases = { phone: ["Phone", "Phone Number", "Mobile Number"] };
+  it("select/radio/checkbox controls never map phone; text controls still do", () => {
+    expect(
+      matchCanonicalField(
+        { id: "phoneNumber--phoneType", label: "Phone Device Type", type: "select", required: true, name: "phoneType" },
+        aliases,
+      ),
+    ).toBeNull();
+    expect(
+      matchCanonicalField(
+        { id: "x", label: "Phone", type: "radio", required: false },
+        aliases,
+      ),
+    ).toBeNull();
+    expect(
+      matchCanonicalField(
+        { id: "phoneNumber--phoneNumber", label: "Phone Number", type: "text", required: true, name: "phoneNumber" },
+        aliases,
+      ),
+    ).toBe("phone");
+    // The name-hint fallback is fenced too.
+    expect(
+      matchCanonicalField(
+        { id: "y", label: "Device kind", type: "select", required: false, name: "phoneType" },
+        aliases,
+      ),
+    ).toBeNull();
+  });
+});

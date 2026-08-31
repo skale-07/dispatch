@@ -1233,3 +1233,26 @@ Pre-flight (≈18:55 local):
   verify was stricter than fill and failed committed chips.
 - Alternates commit read gets the same double-read the main path has.
 - Tests: dedupe unit case (live f_13 shape); prior suites green. 11/11.
+
+### Job #22s — TIAA — 23:00 local — the REAL phone root cause: the PLAN mapped canonical `phone` onto THREE controls
+- Evidence (outcomes, unredacted expected_class): phoneNumber--phoneType
+  (the device-type SELECT) and f_13 were both planned with the phone
+  NUMBER — the option-verified pick refused ("no option matches
+  '480…'"), and those wrong-target writes are what re-rendered the
+  section and wiped the real number all night. #69's pieces held:
+  JS-click tier fired live ("opened via JS click — mouse click
+  swallowed"), dedupe dropped anchorless twins (f_13 apparently carries
+  an anchor since #67a and is dealt with by #70's guard instead).
+  countryPhoneCode's chip committed at fill but verify classified the
+  multiselect input "text" and read its empty value.
+
+### 70. Canonical `phone` never claims option controls; multiselects verify via chips — FIXED (FIXTURE_CONFIRMED; live #22t)
+- matchCanonicalField: select/checkbox/radio controls can never map
+  `phone` (label substring AND name-hint routes both fenced — the
+  mirror of #54's extension guard, one level up: a phone number is free
+  text). Text phone fields unaffected.
+- detectControlKind: an input with data-uxi-widget-type=selectinput or
+  inside multiSelectContainer is a combobox — verify now reads the
+  CHIPS (readComboboxValue's #67 branch) instead of the empty search
+  input.
+- Tests: 4 mapper-guard cases + prior widget suites. 5/5 + 9/9.

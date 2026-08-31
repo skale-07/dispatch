@@ -837,6 +837,16 @@ export async function detectControlKind(loc: Locator): Promise<ControlKind> {
     ) {
       return "combobox" as const;
     }
+    // #70 (live tiaa #22s): Workday multiselect search inputs carry no
+    // role/haspopup — VERIFY classified them "text", read the input's
+    // empty value, and failed a committed chip. The widget marker / the
+    // container is the tell.
+    if (
+      el.getAttribute("data-uxi-widget-type") === "selectinput" ||
+      el.closest("[data-automation-id='multiSelectContainer']")
+    ) {
+      return "combobox" as const;
+    }
     return "text" as const;
   });
 }
