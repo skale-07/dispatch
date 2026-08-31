@@ -1379,3 +1379,30 @@ Pre-flight (≈18:55 local):
   (utilityButtonSignIn visible) is an anonymous shell — off-flow, one
   re-reach through the (fixed) auth walk. portal-auth + ats-live-fill
   40/40. Live: #23b.
+
+### ⚠ DIAGNOSIS-HYGIENE FAILURE (#74–#75b, ~00:40-01:50): five cycles read ONE stale fill_runs row
+- Refused runs record NO fill_runs row; "ORDER BY created_at DESC
+  LIMIT 1" kept returning #22x's row (code_version 97e2cc8) and every
+  "identical failure" was the same old record. The #74 fingerprint
+  hardening and #75 chooser/flow-dialog fixes are real improvements but
+  were aimed at an artifact. Memory note saved (stale-fill-run-rows):
+  check code_version/created_at, prefer the newest live-*.json.
+
+### 76. Auth submit JS-click tier — FIXED code-side; #77 opened on the remaining wall
+- The true #23b-#23e trail (refusal artifacts): the walk works end to
+  end (Apply → Apply Manually → SSO email → form, creds typed and
+  read back), but the sign-in submit is intercepted (10s click timeout
+  on the click_filter overlay), and now the JS click AND Enter are BOTH
+  silent — on the same form the 20:55 paced diagnostic cleared
+  instantly. The create route then "clears" (false positive; #64's
+  header demotion can't fire on auth pages, so a vault entry was
+  recorded — factually correct, account exists).
+
+### 77. OPEN — TIAA sign-in silently refused by every input path; suspected tenant throttle after ~30 attempts tonight
+- Same creds + same form + human-paced clicks succeeded at 20:55;
+  by 01:50 mouse/JS/Enter all no-op with no error text. Consistent with
+  silent rate-limiting on the tenant. Not code-fixable now. TIAA parked
+  (AMBIGUOUS_FIELD, draft intact: page 1 committed + resume uploaded);
+  retry after a multi-hour cool-down or in the morning. Per the 3-min
+  doctrine the loop MOVES ON — tonight's fixes (#66-#74) are
+  ATS-generic and the rest of the queue benefits immediately.
