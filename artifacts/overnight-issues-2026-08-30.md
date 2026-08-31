@@ -1412,6 +1412,25 @@ Pre-flight (≈18:55 local):
 - **#79**: Ashby confirmationMarkers learn "application was
   successfully submitted" (the live banner). One-line regex.
 
+### Cycles 2-4 + Stryker (02:40-03:30): two USAJobs abandons; a fresh Workday tenant reached the submit leg
+- USAJobs ×2 abandoned (login.gov flow, unsupported; refusals correct).
+- Stryker (stryker.wd1, FIRST contact): auth + wizard walked 6 pages
+  with the new instrumentation (headings + shots working), resume
+  uploaded, all but ONE field verified. Chain of fixes proven live:
+  **#80** country-code↔device-type topic fence (a promoted prediction
+  had poisoned the bank), **#81** posting identity survives /en-US +
+  encoded commas + /apply (the submit leg's gate passed after), **#82**
+  cross-page wizard answers no longer re-verified against one page
+  (19 false "empty" reads ended).
+
+### 83. OPEN — Phone Device Type keeps getting planned with wrong values; verify resolves the hex companion input
+- The #80 bank fence landed but the CACHED screener_predictions replay
+  still feeds the field (fence not enforced on replay), and verify's
+  resolution reads the hidden hex companion instead of the button text
+  on Stryker. One optional-looking field; parked rather than ground on.
+  Direction: enforce screenerKeyLabelIncompatible at prediction REPLAY;
+  route verify for button-selects through readComboboxValue by inputId.
+
 ### 77. OPEN — TIAA sign-in silently refused by every input path; suspected tenant throttle after ~30 attempts tonight
 - Same creds + same form + human-paced clicks succeeded at 20:55;
   by 01:50 mouse/JS/Enter all no-op with no error text. Consistent with
