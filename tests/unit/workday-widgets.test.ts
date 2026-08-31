@@ -170,7 +170,9 @@ describe("#68 overlaid radios + how_heard class fallbacks (FIXTURE_CONFIRMED)", 
       // Order preference: "Social Media" (most accurate for LinkedIn)
       // beats "Job Board" even though both are offered.
       expect(withAlts.selectedLabel).toBe("Social Media");
-      expect(withAlts.notes.join(" ")).toMatch(/not offered — class fallback picked/);
+      expect(withAlts.notes.join(" ")).toMatch(
+        /not offered — class fallback picked|picked "Social Media" \(drill scan\)/,
+      );
     });
     await withFixtureHtmlPage(html, async (page) => {
       const bare = await fillComboboxControl(page, page.locator("#src"), "LinkedIn");
@@ -183,6 +185,55 @@ describe("#68 overlaid radios + how_heard class fallbacks (FIXTURE_CONFIRMED)", 
     expect(comboboxAlternates("how_heard", "My Neighbor")).toEqual([]);
     expect(comboboxAlternates(null, "LinkedIn")).toEqual([]);
   });
+
+  it('#71 two-level prompt list: drills into "Job Board" and picks the stored "LinkedIn" LEAF verbatim (live tiaa shape)', async () => {
+    const html = `<html><body>
+      <label for="src">How did you hear about us?</label>
+      <div data-automation-id="multiSelectContainer" id="ms">
+        <input placeholder="Search" data-uxi-widget-type="selectinput" id="src" value="">
+        <ul role="listbox" data-automation-id="selectedItemList"></ul>
+      </div>
+      <div role="listbox" id="opts" style="display:none"></div>
+      <script>
+        const TREE = {
+          'College Event': ['Career Fair', 'Other'],
+          'Job Board': ['Glassdoor', 'Indeed', 'LinkedIn', 'Other'],
+          'Social Network': ['Facebook', 'Other'],
+        };
+        const input = document.getElementById('src');
+        const popup = document.getElementById('opts');
+        const chips = document.querySelector('#ms [data-automation-id=selectedItemList]');
+        function render(items, leaf) {
+          popup.innerHTML = '';
+          for (const s of items) {
+            const d = document.createElement('div');
+            d.setAttribute('role', 'option');
+            d.textContent = s;
+            d.addEventListener('click', () => {
+              if (!leaf) { render(TREE[s], true); return; }
+              const pill = document.createElement('div');
+              pill.setAttribute('data-automation-id', 'selectedItem');
+              pill.textContent = s;
+              chips.appendChild(pill);
+              popup.style.display = 'none';
+            });
+            popup.appendChild(d);
+          }
+          popup.style.display = 'block';
+        }
+        // typing does NOTHING on this widget (live tiaa shape)
+        input.addEventListener('click', () => render(Object.keys(TREE), false));
+      </script>
+    </body></html>`;
+    await withFixtureHtmlPage(html, async (page) => {
+      const r = await fillComboboxControl(page, page.locator("#src"), "LinkedIn", {
+        alternates: comboboxAlternates("how_heard", "LinkedIn"),
+      });
+      expect(r.committed).toBe(true);
+      expect(r.selectedLabel).toBe("LinkedIn");
+      expect(r.notes.join(" ")).toMatch(/drilled into "Job Board" and picked leaf "LinkedIn"/);
+    });
+  }, 45_000);
 
   it("#69 ghost dedupe: an anchorless FILL twin of an anchored canonical is dropped; lone anchorless entries survive", () => {
     const mk = (field_id: string, canonical: string) =>

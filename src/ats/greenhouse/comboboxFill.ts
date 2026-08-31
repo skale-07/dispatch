@@ -1416,6 +1416,102 @@ export async function fillComboboxControl(
           pickVia: afterOpen.via,
         };
       }
+      // #71 (live tiaa #22t, probe-mapped): Workday prompt lists can be
+      // TWO-LEVEL — level 1 is categories ("Job Board", "Social
+      // Network"), clicking one drills to leaves, and the stored answer
+      // lives as a LEAF ("Job Board" → LinkedIn). The search box ignores
+      // typing on these. Drill bounded: category candidates are the
+      // caller's alternates first (class hints), then every level-1 row;
+      // in each drilled level look for the EXPECTED leaf; back out via
+      // the widget's back affordance (else reopen) when it is not there.
+      const level1 = await collectOptions();
+      const drillCandidates = [
+        ...(opts.alternates ?? []).filter((a) =>
+          level1.some((o) => optionKey(o) === optionKey(a)),
+        ),
+        ...level1,
+      ].filter((v, i, a) => a.indexOf(v) === i);
+      for (const cat of drillCandidates.slice(0, 12)) {
+        const catRow = await clickListedOption(listbox, cat);
+        if (!catRow) continue;
+        await page.waitForTimeout(800);
+        const drilled = await collectOptions();
+        const changed =
+          drilled.length > 0 &&
+          drilled.join("|") !== level1.join("|");
+        if (changed) {
+          const leaf = await clickListedOption(listbox, expectedText);
+          if (leaf) {
+            notes.push(
+              `drilled into "${catRow.label}" and picked leaf "${leaf.label}"`,
+            );
+            await page.keyboard.press("Escape").catch(() => undefined);
+            await page.waitForTimeout(250);
+            let committedLabel = await readComboboxValue(loc);
+            if (!committedLabel) {
+              await page.waitForTimeout(400);
+              committedLabel = await readComboboxValue(loc);
+            }
+            return {
+              committed: Boolean(
+                committedLabel &&
+                  (labelsCompatible(leaf.label, committedLabel) ||
+                    normalize(committedLabel).includes(normalize(leaf.label))),
+              ),
+              selectedLabel: committedLabel ?? leaf.label,
+              notes,
+              pickVia: leaf.via,
+            };
+          }
+        } else {
+          // Clicking committed a chip directly — this level is FLAT, not
+          // categories. Accept only when the clicked row was the stored
+          // answer or a sanctioned alternate; anything else is undone via
+          // the chip's delete charm and the drill scan stops (a flat list
+          // has nothing to drill).
+          const maybe = await readComboboxValue(loc);
+          if (maybe && labelsCompatible(catRow.label, maybe)) {
+            const sanctioned =
+              labelsCompatible(expectedText, catRow.label) ||
+              (opts.alternates ?? []).some((a) => labelsCompatible(a, catRow.label));
+            if (sanctioned) {
+              notes.push(`picked "${catRow.label}" (drill scan)`);
+              return {
+                committed: true,
+                selectedLabel: maybe,
+                notes,
+                pickVia: catRow.via,
+              };
+            }
+            await loc
+              .evaluate((el: { closest: (s: string) => { querySelector: (s: string) => { click?: () => void } | null } | null }) => {
+                const c = el.closest("[data-automation-id='multiSelectContainer']");
+                c?.querySelector("[data-automation-id='DELETE_charm']")?.click?.();
+              })
+              .catch(() => undefined);
+            notes.push(
+              `flat list — undid accidental pick "${catRow.label}"; stopping the drill scan`,
+            );
+            break;
+          }
+        }
+        // back out of the drilled level for the next candidate
+        const back = page
+          .locator(
+            "[data-automation-id='backButtonQuantum'], [data-automation-id='promptBack'], [aria-label*='back' i]",
+          )
+          .first();
+        if ((await back.count().catch(() => 0)) > 0) {
+          await back.click({ timeout: 3_000 }).catch(() => undefined);
+          await page.waitForTimeout(600);
+        } else {
+          await page.keyboard.press("Escape").catch(() => undefined);
+          await page.waitForTimeout(400);
+          await loc.click({ force: true, timeout: 3_000 }).catch(() => undefined);
+          await listbox.waitFor({ state: "visible", timeout: 3_000 }).catch(() => undefined);
+          await page.waitForTimeout(400);
+        }
+      }
       // #68 class fallbacks: the stored answer is not offered. Try each
       // alternate in order — first against the open window, then as its
       // own typed filter (virtualized lists), same focus guard as above.

@@ -273,6 +273,33 @@ export function buildFillPlan(
 
     if (!field.canonical_field) {
       const screener = opts.screenerResolutions?.get(field.id);
+      // #71 (live tiaa #22t): the predict tier answered a PREFILLED
+      // "Phone Device Type" select ("Mobile" already committed on the
+      // form) with country-code nonsense. Prediction exists for
+      // UNANSWERED fields; a select that already holds a committed
+      // non-placeholder value is answered — leave it alone.
+      const current = String(field.currentValue ?? "").trim();
+      const alreadyAnswered =
+        field.type === "select" &&
+        current !== "" &&
+        !/^(select( one)?|choose|please select|--|—|none)$/i.test(current);
+      if (
+        screener &&
+        screener.status === "fill" &&
+        alreadyAnswered &&
+        (screener.basis === "llm_predict" || screener.basis === "other_option")
+      ) {
+        entries.push({
+          field_id: field.id,
+          label: field.label,
+          type: field.type,
+          canonical_field: null,
+          action: "skip_unmapped",
+          value: null,
+          reason: `already answered on the form ("${current.slice(0, 40)}") — prediction not applied`,
+        });
+        continue;
+      }
       if (screener) {
         const canonical = `screener:${screener.key}`;
         if (screener.status === "fill") {

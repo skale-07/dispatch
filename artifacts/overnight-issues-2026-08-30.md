@@ -1256,3 +1256,29 @@ Pre-flight (≈18:55 local):
   CHIPS (readComboboxValue's #67 branch) instead of the empty search
   input.
 - Tests: 4 mapper-guard cases + prior widget suites. 5/5 + 9/9.
+
+### Job #22t — TIAA — 23:05 local — phone section CLEAN (#70 live-proven); two walls left, both decomposed
+- phoneNumber, countryPhoneCode, f_13 all verify ✓ (the mapper guard
+  ended the wrong-target writes that had wiped the number all night).
+  Remaining: (a) phoneType — the #70 guard worked (no longer canonical
+  phone) but the LLM predict tier then answered the UNMAPPED select
+  with country-code nonsense while the button already sits on a correct
+  prefilled "Mobile"; (b) source — probes mapped the widget: TWO-LEVEL
+  list (categories → leaves), the search box ignores typing, "Social
+  Network" → [Facebook, Other], and **"Job Board" → […, Indeed,
+  LinkedIn, …] — the operator's stored answer EXISTS as a leaf.**
+
+### 71. Prediction never overwrites an answered select; two-level prompt lists drill to the stored leaf — FIXED (FIXTURE_CONFIRMED; live #22u)
+- resolveAnswers: an llm_predict/other_option screener resolution for a
+  SELECT whose discovered currentValue is a committed non-placeholder is
+  skipped with the value named — prediction is for UNANSWERED fields.
+- fillComboboxControl drill tier (before class fallbacks): category
+  candidates = caller alternates present at level 1 first (class
+  hints), then every level-1 row, capped 12; a drilled level is
+  searched for the EXPECTED leaf (stored answer verbatim — better than
+  any fallback); back out via the widget's back affordance or reopen.
+  FLAT lists are protected: an accidental commit of an unsanctioned row
+  is undone via the chip's delete charm and the scan stops.
+- Tests: two-level fixture (live TREE shape, typing inert) drills Job
+  Board → LinkedIn; flat-list fallback still picks the sanctioned
+  alternate; 10/10 across the widget suite.
