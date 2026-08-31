@@ -164,6 +164,15 @@ export interface ApplicationAdapter {
     page: Page,
     expected: ResolvedApplicationAnswers,
   ): Promise<FormVerificationResult>;
+  /**
+   * #66b: ONE keystroke-level retype of verify misses that read empty on
+   * text controls (React state never took the fill-time value). The
+   * caller re-verifies; verify stays the arbiter.
+   */
+  retypeVerifyMisses?(
+    page: Page,
+    verify: FormVerificationResult,
+  ): Promise<{ retyped: string[]; notes: string[] }>;
   submit?(page: Page): Promise<SubmissionAttempt>;
   verifySubmission?(page: Page): Promise<SubmissionReceipt>;
 }

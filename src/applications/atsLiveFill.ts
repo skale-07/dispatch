@@ -6,6 +6,7 @@ import {
 } from "../verification/portalAuth.js";
 import { classifyWorkdayPage } from "../ats/workday/pageKind.js";
 import { workdaySelectorsV1 } from "../ats/workday/selectors.js";
+import { readPageValidationErrors } from "./pageErrors.js";
 import { walkWorkdayWizard } from "./workdayWizard.js";
 import { walkGenericFormPages } from "./genericFormAdvance.js";
 import { discoverFieldsFromHtml } from "./fieldDiscovery.js";
@@ -1092,6 +1093,39 @@ export async function runAtsLiveFill(input: {
         report.notes.push(...specified.map((s) => `other-specify: ${s.note}`));
       }
       report.verify = await adapter.verify(page, approvedPlan.answers);
+      // #66b: a verify miss reading EMPTY on a text control is the one
+      // moment we know React state never took the fill — one keystroke
+      // retype (adapter-provided), then verify decides again.
+      if (!report.verify.passed && adapter.retypeVerifyMisses) {
+        const retype = await adapter.retypeVerifyMisses(page, report.verify);
+        report.notes.push(...retype.notes);
+        if (retype.retyped.length > 0) {
+          report.verify = await adapter.verify(page, approvedPlan.answers);
+          report.notes.push(
+            `verify after keystroke retype: ${report.verify.passed ? "passed" : "still failing"}`,
+          );
+        }
+      }
+      // #66a (operator directive): EVERY platform paints its own
+      // validation errors — read them on any failed verify so the page's
+      // wording names the blocker. Vendor extras come from the registry.
+      if (!report.verify.passed) {
+        const pageErrors = await readPageValidationErrors(page, {
+          extraSelectors:
+            binding.id === "workday"
+              ? [...workdaySelectorsV1.errorContainers]
+              : [],
+        });
+        const lines = pageErrors.map((e) => `page error: ${e}`);
+        if (lines.length > 0) {
+          report.notes.push(...lines);
+          report.verify.warnings.push(...lines);
+        } else {
+          report.notes.push(
+            "page error scan: no visible validation errors on the page",
+          );
+        }
+      }
       await postSandboxTrace(input.url, {
         kind: "fill",
         lines: [
@@ -1134,7 +1168,24 @@ export async function runAtsLiveFill(input: {
           });
           const wizardAdapter = pagePlan.adapter;
           const fillResult = await wizardAdapter.fill(page, pagePlan.approvedPlan.answers);
-          const verifyResult = await wizardAdapter.verify(page, pagePlan.approvedPlan.answers);
+          let verifyResult = await wizardAdapter.verify(page, pagePlan.approvedPlan.answers);
+          // #66b per wizard page: keystroke-retype empty text misses once.
+          if (!verifyResult.passed && wizardAdapter.retypeVerifyMisses) {
+            const retype = await wizardAdapter.retypeVerifyMisses(page, verifyResult);
+            report.notes.push(...retype.notes.map((n) => `wizard ${n}`));
+            if (retype.retyped.length > 0) {
+              verifyResult = await wizardAdapter.verify(page, pagePlan.approvedPlan.answers);
+            }
+          }
+          // #66a per wizard page: the page's own error UI, when verify fails.
+          if (!verifyResult.passed) {
+            const pageErrors = await readPageValidationErrors(page, {
+              extraSelectors: [...workdaySelectorsV1.errorContainers],
+            });
+            report.notes.push(
+              ...pageErrors.map((e) => `wizard page error: ${e}`),
+            );
+          }
           // Resume upload lives on My Experience — retry there if page 1
           // had no control (or its upload failed to verify).
           if (

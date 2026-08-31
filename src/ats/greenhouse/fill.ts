@@ -1598,6 +1598,73 @@ export async function greenhouseResetForm(page: Page): Promise<FormResetResult> 
   return { reset: true, notes: ["HTMLFormElement.reset() invoked"] };
 }
 
+/**
+ * #66b (live tiaa #22n/#22o): a text value can sit in the DOM through the
+ * fill-time read-backs (including post-blur) and STILL never reach React
+ * state — a later re-render (hydration, a sibling committing) wipes it
+ * and verify reads "(empty)". Verify failure is the one moment we KNOW
+ * state didn't take, so retype exactly the empty-observed text misses at
+ * keystroke level (real key events reach handlers fill() can miss), once,
+ * then the caller re-verifies. Bounded: only match=false + empty observed
+ * + non-empty expected + text-class entries; everything else untouched.
+ */
+export async function retypeEmptyVerifyMisses(
+  page: Page,
+  entries: ExecutableFillEntry[],
+  fieldMeta: Map<string, FieldMeta>,
+  verify: FormVerificationResult,
+): Promise<{ retyped: string[]; notes: string[] }> {
+  const retyped: string[] = [];
+  const notes: string[] = [];
+  const TEXT_TYPES = new Set(["text", "email", "tel", "phone", "url", "number", "textarea"]);
+  const observedEmpty = (o: unknown): boolean => {
+    if (o === null || o === undefined) return true;
+    if (typeof o === "string") return o.trim() === "";
+    if (typeof o === "object" && "value" in o && "label" in o) {
+      const v = o as { value: unknown; label: unknown };
+      return (
+        String(v.value ?? "").trim() === "" && String(v.label ?? "").trim() === ""
+      );
+    }
+    return false;
+  };
+  for (const f of verify.fields) {
+    if (f.match || !observedEmpty(f.observed)) continue;
+    const expected = typeof f.expected === "string" ? f.expected : "";
+    if (expected.trim() === "") continue;
+    const entry = entries.find(
+      (e) => (e.canonical_field ?? e.field_id) === f.canonical_field,
+    );
+    if (!entry || !TEXT_TYPES.has(String(entry.type).toLowerCase())) continue;
+    const meta = fieldMeta.get(entry.field_id);
+    try {
+      const loc = locatorForField(
+        page,
+        {
+          field_id: entry.field_id,
+          label: entry.label,
+          ...(meta?.name ? { name: meta.name } : {}),
+          ...(meta?.inputId ? { inputId: meta.inputId } : {}),
+        },
+        entry.type,
+        { visibleOnly: true },
+      );
+      await loc.click({ timeout: 5_000 });
+      await loc.fill("");
+      await loc.pressSequentially(expected, { delay: 30 });
+      await loc.blur().catch(() => undefined);
+      await page.waitForTimeout(300);
+      retyped.push(f.canonical_field);
+      notes.push(`retype: ${f.canonical_field} keystroke-retyped after empty verify read`);
+    } catch (err) {
+      notes.push(
+        `retype: ${f.canonical_field} failed — ${err instanceof Error ? err.message.slice(0, 120) : String(err)}`,
+      );
+    }
+  }
+  return { retyped, notes };
+}
+
 export async function greenhouseVerifyAnswers(
   page: Page,
   expected: ResolvedApplicationAnswers,

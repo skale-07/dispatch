@@ -104,6 +104,17 @@ export const workdaySelectorsV1 = {
       previousWorker: "input[data-automation-id='previousWorker']",
     },
   },
+  /**
+   * Vendor error containers for the shared page-error reader (#66a) —
+   * Workday's page-level "N errors found" banner and inline messages.
+   */
+  errorContainers: [
+    "[data-automation-id='errorBanner']",
+    "[data-automation-id='pageLevelErrorBanner']",
+    "[data-automation-id='errorMessage']",
+    "[data-automation-id='alertMessage']",
+    "[data-automation-id='inputError']",
+  ],
   /** Post-submit confirmation — deliberately narrow. */
   confirmationMarkers:
     /application (?:submitted|received|complete)|thank you for applying|you(?:'ve| have) successfully (?:applied|submitted)/i,

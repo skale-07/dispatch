@@ -27,6 +27,7 @@ import {
 import {
   greenhouseFillFromPlan,
   greenhouseVerifyAnswers,
+  retypeEmptyVerifyMisses,
   type FieldMeta,
 } from "../greenhouse/fill.js";
 import { workdayUploadFile, workdayResetForm } from "./fill.js";
@@ -141,6 +142,18 @@ export class WorkdayAdapterV1 implements ApplicationAdapter {
         ? approvedFillEntries(this.approvedPlan)
         : this.planEntries();
     return greenhouseVerifyAnswers(page, expected, entries, this.fieldMeta());
+  }
+
+  async retypeVerifyMisses(
+    page: Page,
+    verify: FormVerificationResult,
+  ): Promise<{ retyped: string[]; notes: string[] }> {
+    assertFormFillAllowed("workday.retypeVerifyMisses");
+    const entries =
+      this.approvedPlan !== null
+        ? approvedFillEntries(this.approvedPlan)
+        : this.planEntries();
+    return retypeEmptyVerifyMisses(page, entries, this.fieldMeta(), verify);
   }
 
   async uploadResume(

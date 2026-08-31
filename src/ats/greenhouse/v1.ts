@@ -26,8 +26,10 @@ import {
   greenhouseResetForm,
   greenhouseUploadFile,
   greenhouseVerifyAnswers,
+  retypeEmptyVerifyMisses,
   type FieldMeta,
 } from "./fill.js";
+import { assertFormFillAllowed } from "../../applications/formFillGuards.js";
 import type { FillPlanEntry } from "../../applications/resolveAnswers.js";
 import type { PublicProfile } from "../../candidate/publicProfile.js";
 import {
@@ -191,6 +193,18 @@ export class GreenhouseAdapterV1 implements ApplicationAdapter {
       entries,
       this.lastFieldMeta,
     );
+  }
+
+  async retypeVerifyMisses(
+    page: Page,
+    verify: FormVerificationResult,
+  ): Promise<{ retyped: string[]; notes: string[] }> {
+    assertFormFillAllowed("greenhouse.retypeVerifyMisses");
+    const entries =
+      this.approvedPlan !== null
+        ? approvedFillEntries(this.approvedPlan)
+        : this.lastPlanEntries;
+    return retypeEmptyVerifyMisses(page, entries, this.lastFieldMeta, verify);
   }
 
   async uploadResume(page: Page, resumePath: string): Promise<UploadVerification> {

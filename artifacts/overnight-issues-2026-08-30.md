@@ -1062,14 +1062,72 @@ Pre-flight (≈18:55 local):
   - loginWallDiagnosis ERROR_RE += `already (exists|in use|registered|
     taken)` so the portal's explicit answer is readable ("already have an
     account" deliberately EXCLUDED — static text on every create form).
-- Queued for after -0d pushes (portalAuth.ts held): knownAccount ordering
-  (read vault BEFORE prepareCredentialsForHost mints), flip-to-sign-in
-  gated on a known account, create-first route-click on sign-in-only
-  walls, already-exists ⇒ sign-in branch, submit-click failures noted
-  instead of swallowed, and "form cleared" demoted when the Workday
-  header still shows utilityButtonSignIn (the false-positive killer) —
-  with vault recording on verified success. Test updates mapped: seed
-  the vault in tests asserting sign-in-first (Crowe, dual-form, both
-  huntington dialog tests — huntington/sandbox describes need temp
-  PRIVATE_DIR first; useIsolatedFillEnv does NOT redirect it and a
-  fixture password in the real vault would hijack live runs).
+- LANDED (after cae9569): knownAccount ordering (read vault BEFORE
+  prepareCredentialsForHost mints), flip-to-sign-in gated on a known
+  account, create-first route-click on sign-in-only walls,
+  already-exists ⇒ sign-in branch, submit-click failures noted instead
+  of swallowed, "form cleared" demoted when the Workday header still
+  shows utilityButtonSignIn (the false-positive killer), and verified
+  creations recorded in the vault. Obstruction sweep runs at portal-auth
+  start. Tests: 3 new #64 cases (create-first + never-signs-in flag +
+  vault record; "already exists" ⇒ signed_in; ghost-clear ⇒
+  wall_remains, nothing recorded); 6 existing sign-in-first tests seeded
+  with vault accounts (their premise, made explicit); huntington +
+  sandbox describes gained temp PRIVATE_DIR (a fixture password in the
+  real vault would hijack live runs). portal-auth 24/24 +
+  auth-phase2 + login-wall-diagnosis green. FIXTURE_CONFIRMED; live
+  validation rides the next cold-auth Workday tenant (TIAA is signed
+  in, so #64 wasn't exercised there).
+
+### Job #22n — TIAA — 21:12 local — wizard 12/12 ×5, blocker isolated to the phone DRAFT never persisting
+- First run on cae9569: already signed in ("no sign-in form on this
+  page"), wizard filled 12/12 on all five pages. Outer page-1 verify
+  still failed: phoneNumber--phoneNumber expected the number, page
+  shows "(empty)" → AMBIGUOUS_FIELD.
+- DRAFT PROBE (resumed wizard, read-only): the saved draft's phone is
+  EMPTY while its siblings persisted — the DOM held the value (fill_ok,
+  immediate read-back saw it) but React state never took it, Workday
+  saved "", and the next re-render wiped the field before verify. #63f's
+  immediate read-back cannot catch this class. Also on the page: the
+  night19 #16b hidden hex-token decoy input, still there.
+
+### 65. Blur-stability for plain text fills — FIXED (the location widget's pattern, generalized)
+- greenhouse/fill.ts plain-text branch (shared by the Workday wizard):
+  after fill + #63f read-back, BLUR the field (forces the commit/
+  re-render now), settle 300ms, read back again; a cleared value gets
+  ONE keystroke-level retype (pressSequentially — real key events reach
+  handlers fill() can miss) + blur + read-back; still-empty pushes a
+  loud fill error naming the class. Mirrors the location autocomplete's
+  blur-stability check that solved the identical Places-widget symptom.
+  Bounded; verify stays the arbiter. Live validation: TIAA #22o.
+
+### Job #22o — TIAA — 21:32 local — #65 NOT sufficient; operator names the missing capability
+- Wizard 12/12 ×5 again; phone STILL "(empty)" at the page-1 verify and
+  NO blur-retype note fired — the post-blur read-back saw a value that a
+  LATER re-render wiped (blur does not force React to re-render an input
+  whose state never changed). 2 review items now.
+- **Operator (watching, 21:35):** the run "can't recognize where errors
+  were found even though the application is telling you on the page" —
+  and (21:40) "reading page errors is a necessity for ALL applications,
+  don't overfit it to one platform."
+
+### 66. Page-error reading (generic) + verify-failure keystroke retype — FIXED (FIXTURE_CONFIRMED; live #22p)
+- **66a** `src/applications/pageErrors.ts` — platform-NEUTRAL validation
+  reader: role=alert / aria-live=assertive text, aria-invalid fields
+  named by their nearest label with their aria-describedby message, and
+  short visible error-classed nodes (bounded ×12, length-filtered).
+  Vendor containers ride in via each ATS's selector REGISTRY
+  (workdaySelectorsV1.errorContainers — the only vendor-specific lines);
+  page-side code ships as a string expression per the repo's no-DOM-libs
+  pattern. Wired into atsLiveFill on EVERY failed verify (all bindings)
+  and per wizard page; lines land in notes + verify.warnings so review
+  items carry the page's own wording.
+- **66b** `retypeEmptyVerifyMisses` (shared fill layer) + optional
+  adapter method on workday AND greenhouse: a verify miss observing
+  EMPTY on a text control is the moment we KNOW React state never took
+  the fill — ONE keystroke-level retype (click, clear, pressSequentially,
+  blur; real key events), then re-verify decides. Non-empty mismatches
+  and non-text controls are never touched.
+- Tests: 5 new (alert/aria/classed + hidden excluded; vendor-extras +
+  flood filter; clean page; keydown-counting input proves keystroke
+  entry; skip-everything-else negative). Live validation: #22p.
