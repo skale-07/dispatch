@@ -250,7 +250,9 @@ describe("#68 overlaid radios + how_heard class fallbacks (FIXTURE_CONFIRMED)", 
       });
       expect(r.committed).toBe(true);
       expect(r.selectedLabel).toBe("LinkedIn");
-      expect(r.notes.join(" ")).toMatch(/drilled into "Job Board" and picked leaf "LinkedIn"/);
+      expect(r.notes.join(" ")).toMatch(
+        /drilled into "Job Board" (and picked leaf|via inventory — leaf) "LinkedIn"/,
+      );
     });
   }, 45_000);
 

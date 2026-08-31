@@ -866,7 +866,9 @@ export async function greenhouseFillFromPlan(
         const picked: string[] = [];
         const misses: string[] = [];
         for (const item of items) {
-          const r = await fillComboboxControl(page, loc, item);
+          const r = await fillComboboxControl(page, loc, item, {
+            preserveExistingChips: true,
+          });
           if (r.committed) picked.push(r.selectedLabel ?? item);
           else misses.push(item);
         }

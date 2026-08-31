@@ -44,11 +44,17 @@ function normalize(s: string): string {
 
 /** Loose key for synonym / degree / punctuation-insensitive compare. */
 function optionKey(s: string): string {
-  return normalize(stripDialCode(s))
-    .replace(/['']/g, "")
-    .replace(/[^a-z0-9&+]/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
+  return (
+    normalize(stripDialCode(s))
+      .replace(/['']/g, "")
+      .replace(/[^a-z0-9&+]/g, " ")
+      // #94: "&" and "and" are the same conjunction — "Applied
+      // Mathematics and Statistics" must key like "Applied Mathematics &
+      // Statistics" (majors taxonomies use both spellings).
+      .replace(/&/g, " and ")
+      .replace(/\s+/g, " ")
+      .trim()
+  );
 }
 
 /**
@@ -1142,6 +1148,88 @@ async function openCombobox(
   return { clickTarget, notes };
 }
 
+/**
+ * #94: full inventory of a (possibly virtualized) open listbox — scroll
+ * the list container step by step, collecting option texts until two
+ * consecutive steps add nothing (bounded). Read-only; the scroll
+ * position is left wherever the harvest ends (the direct click below
+ * re-scrolls to its target).
+ */
+async function scrollHarvestListbox(
+  page: Page,
+  listbox: Locator,
+): Promise<string[]> {
+  const seen = new Set<string>();
+  const read = async (): Promise<number> => {
+    const texts = await listbox
+      .locator(OPTION_SELECTOR)
+      .allTextContents()
+      .catch(() => [] as string[]);
+    let added = 0;
+    for (const t of texts) {
+      const c = t.replace(/\s+/g, " ").trim();
+      if (c && c.length < 120 && !seen.has(c)) {
+        seen.add(c);
+        added += 1;
+      }
+    }
+    return added;
+  };
+  await read();
+  let quiet = 0;
+  for (let i = 0; i < 40 && quiet < 2 && seen.size < 500; i++) {
+    const moved = await listbox
+      .evaluate((el: { scrollTop: number; clientHeight: number; scrollHeight: number }) => {
+        const before = el.scrollTop;
+        el.scrollTop = Math.min(el.scrollTop + el.clientHeight, el.scrollHeight);
+        return el.scrollTop !== before;
+      })
+      .catch(() => false);
+    await page.waitForTimeout(150);
+    const added = await read();
+    if (!moved && added === 0) break;
+    quiet = added === 0 ? quiet + 1 : 0;
+  }
+  return [...seen].filter((t) => !/^(no options|no results|loading|searching|select one)\b/i.test(t));
+}
+
+/**
+ * #94: click ONE option by exact text in a virtualized list — scroll
+ * from the top until the row is rendered, then click it. Never iterates
+ * clicks across rows.
+ */
+async function clickScrolledOption(
+  page: Page,
+  listbox: Locator,
+  label: string,
+): Promise<boolean> {
+  await listbox
+    .evaluate((el: { scrollTop: number }) => {
+      el.scrollTop = 0;
+    })
+    .catch(() => undefined);
+  for (let i = 0; i < 45; i++) {
+    const target = listbox
+      .getByRole("option", { name: label, exact: true })
+      .filter({ visible: true })
+      .first();
+    if ((await target.count().catch(() => 0)) > 0) {
+      await target.click({ timeout: 5_000, force: true }).catch(() => undefined);
+      return true;
+    }
+    const moved = await listbox
+      .evaluate((el: { scrollTop: number; clientHeight: number; scrollHeight: number }) => {
+        const before = el.scrollTop;
+        el.scrollTop = Math.min(el.scrollTop + el.clientHeight, el.scrollHeight);
+        return el.scrollTop !== before;
+      })
+      .catch(() => false);
+    if (!moved) break;
+    await page.waitForTimeout(150);
+  }
+  return false;
+}
+
 async function listboxForControl(page: Page, loc: Locator): Promise<Locator> {
   const ownedId = await loc.evaluate(
     (el: {
@@ -1237,6 +1325,15 @@ export async function fillComboboxControl(
      * the pick is noted as a fallback.
      */
     alternates?: string[];
+    /**
+     * #94c: multi-VALUE callers (skills) pick repeatedly into the same
+     * chips container — they must never reconcile away their own prior
+     * picks. Single-value picks leave this unset and DO remove chips
+     * that match neither the expected value nor any alternate (live
+     * tiaa majors: a drill mishap committed "Communication" and an old
+     * run left "CS" — both had to go before the right pick).
+     */
+    preserveExistingChips?: boolean;
   } = {},
 ): Promise<ComboboxFillResult> {
   const notes: string[] = [];
@@ -1262,6 +1359,42 @@ export async function fillComboboxControl(
       notes,
       pickVia: "exact",
     };
+  }
+  // #94c: chips that match neither the expected value nor any alternate
+  // are STALE (wrong picks from earlier runs/mishaps) — remove them via
+  // their delete charms before picking, unless a multi-value caller
+  // asked to preserve its own accumulating picks.
+  if (already && !opts.preserveExistingChips) {
+    const compatible = [expectedText, ...(opts.alternates ?? [])].some(
+      (c) =>
+        labelsCompatible(c, already) ||
+        normalize(already).includes(normalize(c)),
+    );
+    if (!compatible) {
+      const removed = await loc
+        .evaluate(
+          (el: {
+            closest: (s: string) => {
+              querySelectorAll: (s: string) => ArrayLike<{ click?: () => void }>;
+            } | null;
+          }) => {
+            const c = el.closest("[data-automation-id='multiSelectContainer']");
+            if (!c) return 0;
+            const charms = Array.from(
+              c.querySelectorAll("[data-automation-id='DELETE_charm']"),
+            ).slice(0, 5);
+            for (const ch of charms) ch.click?.();
+            return charms.length;
+          },
+        )
+        .catch(() => 0);
+      if (removed > 0) {
+        notes.push(
+          `removed ${removed} stale chip(s) ("${already.slice(0, 60)}") before picking`,
+        );
+        await page.waitForTimeout(500);
+      }
+    }
   }
 
   const opened = await openCombobox(page, loc);
@@ -1436,6 +1569,63 @@ export async function fillComboboxControl(
           notes,
           pickVia: afterOpen.via,
         };
+      }
+      // #94 (operator, live tiaa majors field): on a FLAT virtualized
+      // list the drill scan degenerated into clicking every row and left
+      // a wrong value committed. Correct design: SCROLL the whole
+      // virtualized list once, inventory every option, match, click the
+      // one target directly. Only when the FULL inventory has no match
+      // do the two-level drill semantics below apply.
+      const fullInventory = await scrollHarvestListbox(page, listbox);
+      if (fullInventory.length > 0) {
+        notes.push(`scroll-harvested ${fullInventory.length} option(s)`);
+        const candidates = [expectedText, ...(opts.alternates ?? [])];
+        for (const cand of candidates) {
+          const pick = pickOptionLabel(fullInventory, cand);
+          if (!pick.ok) continue;
+          const clicked = await clickScrolledOption(page, listbox, pick.label);
+          if (!clicked) continue;
+          await page.waitForTimeout(400);
+          let committedLabel = await readComboboxValue(loc);
+          const accept = (label: string, via: typeof pick.via): ComboboxFillResult => {
+            notes.push(
+              cand === expectedText
+                ? `picked "${label}" (${via}) from the full inventory`
+                : `stored answer "${expectedText}" not offered — class fallback picked "${label}" from the full inventory`,
+            );
+            return {
+              committed: Boolean(
+                committedLabel &&
+                  (labelsCompatible(label, committedLabel) ||
+                    normalize(committedLabel).includes(normalize(label))),
+              ),
+              selectedLabel: committedLabel ?? label,
+              notes,
+              pickVia: via,
+            };
+          };
+          if (committedLabel && labelsCompatible(pick.label, committedLabel)) {
+            await page.keyboard.press("Escape").catch(() => undefined);
+            committedLabel = (await pollCommittedRead()) ?? committedLabel;
+            return accept(pick.label, pick.via);
+          }
+          // No chip — the row was a CATEGORY that drilled to leaves.
+          // Harvest the drilled level and pick the EXPECTED leaf there.
+          const drilledInv = await scrollHarvestListbox(page, listbox);
+          const leaf = pickOptionLabel(drilledInv, expectedText);
+          if (leaf.ok && (await clickScrolledOption(page, listbox, leaf.label))) {
+            notes.push(`drilled into "${pick.label}" via inventory — leaf "${leaf.label}"`);
+            await page.keyboard.press("Escape").catch(() => undefined);
+            await page.waitForTimeout(250);
+            committedLabel = await pollCommittedRead();
+            return accept(leaf.label, leaf.via);
+          }
+          // Not there either — back out for the next candidate.
+          await page.keyboard.press("Escape").catch(() => undefined);
+          await page.waitForTimeout(300);
+          await loc.click({ force: true, timeout: 3_000 }).catch(() => undefined);
+          await listbox.waitFor({ state: "visible", timeout: 3_000 }).catch(() => undefined);
+        }
       }
       // #71 (live tiaa #22t, probe-mapped): Workday prompt lists can be
       // TWO-LEVEL — level 1 is categories ("Job Board", "Social
