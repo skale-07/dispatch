@@ -1501,3 +1501,12 @@ Pre-flight (≈18:55 local):
   NATIVE_AUTOFILL_RUNNING row (Delta ×3, Paycom ×2, untrusted ×2 —
   ~7 cycles re-ground already-diagnosed rows). Next session: a
   per-night pick cooldown for gate-parked rows (#92 candidate).
+
+### Morning (09:30) — #92 landed (click_filter overlay-first ordering: the aria-hidden underlying button had won firstVisible ~35 times); TIAA STILL silent ⇒ #77 upgraded
+- With mouse-on-overlay, JS, and Enter all ignored and a 7-hour
+  cool-down insufficient, the evidence points at account/tenant-level
+  bot flagging on tiaa.wd1 — no click strategy fixes that. ⚠ OPERATOR:
+  one MANUAL sign-in at tiaa.wd1.myworkdayjobs.com in the debug Chrome
+  should clear the flag; the draft (page 1 committed, resume uploaded)
+  resumes via Continue, then `npm run retry -- --app fda27acb-…` +
+  the pipeline run. TIAA retries suspended until then.
