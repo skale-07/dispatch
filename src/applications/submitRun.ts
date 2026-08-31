@@ -569,6 +569,33 @@ export async function runAtsSubmission(input: {
             });
           }
           let verify = await adapter.verify(page, approvedPlan.answers);
+          // #82 (live stryker 2026-08-31): a Workday WIZARD's answers live
+          // across pages — the flat re-verify on the held page reads every
+          // other page's question as unreachable (observed null via
+          // resolution failure), and the blanket re-fill would smear the
+          // full plan onto the review page. The walk verified each page
+          // live; only failures whose control IS on the current page
+          // (observed non-null) block here. The required-completeness scan
+          // below still guards the click, and a rejected click is still
+          // definitive.
+          if (binding.id === "workday" && !verify.passed) {
+            const onPageMisses = verify.fields.filter(
+              (f) => !f.match && f.observed !== null,
+            );
+            const offPage = verify.fields.filter(
+              (f) => !f.match && f.observed === null,
+            ).length;
+            if (onPageMisses.length === 0 && fill.errors.length === 0 && offPage > 0) {
+              verify = {
+                ...verify,
+                passed: true,
+                warnings: [
+                  ...verify.warnings,
+                  `workday wizard: ${offPage} cross-page answer(s) not re-checkable on this page — per-page verifies during the walk are the evidence`,
+                ],
+              };
+            }
+          }
           if (!verify.passed || fill.errors.length > 0) {
             // Two live causes, one bounded remedy (ONE re-fill, then verify
             // decides): a reused held page whose fill did not survive, and —
