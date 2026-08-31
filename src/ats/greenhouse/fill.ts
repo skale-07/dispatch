@@ -1023,6 +1023,33 @@ export async function greenhouseFillFromPlan(
                 await page.waitForTimeout(400);
                 await loc.fill(String(entry.value)).catch(() => undefined);
               }
+              // #65 (live tiaa #22n, DRAFT probe): the immediate read-back
+              // is not enough — the DOM held the phone value but React
+              // state never took it, the server draft saved "", and the
+              // next re-render wiped the field before verify. Same class
+              // the location widget solves with its blur-stability check:
+              // blur to force the commit/re-render NOW; if the value
+              // clears, one keystroke-level retype (real key events reach
+              // the handlers fill() can miss) + blur, then read back.
+              if (took !== null && String(entry.value).trim() !== "") {
+                await loc.blur().catch(() => undefined);
+                await page.waitForTimeout(300);
+                const postBlur = (await loc.inputValue().catch(() => "")).trim();
+                if (postBlur === "") {
+                  await loc.click({ timeout: 5_000 }).catch(() => undefined);
+                  await loc
+                    .pressSequentially(String(entry.value), { delay: 30 })
+                    .catch(() => undefined);
+                  await loc.blur().catch(() => undefined);
+                  await page.waitForTimeout(300);
+                  const retyped = (await loc.inputValue().catch(() => "")).trim();
+                  if (retyped === "") {
+                    errors.push(
+                      `${entry.field_id}: value cleared on blur twice (React state never took it)`,
+                    );
+                  }
+                }
+              }
               field_meta.push({
                 field_id: entry.field_id,
                 canonical_field: entry.canonical_field,
