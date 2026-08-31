@@ -958,3 +958,118 @@ Pre-flight state (16:00 local):
   #60b create route) runs unchanged. Fixture: overlay tenant whose
   button click is swallowed and only keydown Enter submits →
   signed_in with the retry note. 18/18 portal-auth (FIXTURE_CONFIRMED).
+
+### Job #22j — 18:49 — Enter retry fired, sign-in STILL silent; create "cleared" again → off-flow page
+- Notes confirm the new retry ran ("click answered nothing — retried with
+  Enter") with no change; then the create route "cleared" (as every run).
+  The #22j page was closed before pixels could be taken. Working theory
+  consistent with ALL evidence (probes found the profile SIGNED IN after
+  pipeline runs): the create/sign-in eventually SUCCEEDS but dumps the
+  session OFF the apply flow (Candidate Home / posting), and the walk
+  never re-approaches the wizard — "unknown, nothing to fill".
+
+---
+
+## Night21 (2026-08-30 late evening, operator asleep; standing overnight authorization)
+
+Pre-flight (≈18:55 local):
+- Found night20's #63d (Workday off-flow re-reach) implemented but
+  UNCOMMITTED and ungated in the tree; gate running, commit next, then
+  TIAA #22k is the live check.
+- Debug Chrome was fully DOWN (ECONNREFUSED, not the #13 wedge);
+  `restartCdpChrome` relaunched + attach-verified (LIVE_READ_ONLY_CONFIRMED).
+- Queue: 11 QUEUED, 41 APPLICATION_OPENING, 36 AMBIGUOUS_FIELD,
+  24 NATIVE_AUTOFILL_RUNNING, 6 FAILED_RETRYABLE, 4 COMPLETED. TIAA
+  fda27acb NATIVE_AUTOFILL_RUNNING attempt 2 — stays the active job per
+  the stay-on-same-job directive (operator's new message re-states the
+  3-min budget: stop the RUN at 3 min, diagnose, fix, retry same job).
+- Open issue carry-over: #55 CDP attach preflight, #29 review re-parks,
+  #19 Cloudflare, #47 operator password items resolved night19; Outlook
+  login still expired (Gmail primary — fine).
+
+### 63d. Workday post-auth off-flow ⇒ ONE bounded re-reach — implemented, mechanism LIVE_CONFIRMED on #22k/#22l
+- atsLiveFill workday branch: after auth, when the page classifies
+  posting/chooser or a zero-field wizard/unknown, goto the employer URL
+  once and run `authenticateAtsPortal` again — a signed-in session walks
+  Apply → Apply Manually → the RESUMED wizard (exactly the live-probed
+  signed-in flow); an unauthenticated one parks as before. Bounded to
+  one re-reach; notes carry the full trail.
+- #22k: re-reach fired but walked a BLANK shell (Workday paints Apply
+  seconds after domcontentloaded) — added a bounded 15s wait for
+  `adventureButton` after the goto. #22l: the re-reach then walked the
+  full chain properly (Apply → Manually → SSO → email form) — auth
+  itself still silent. Also learned: pipeline pages close at teardown,
+  so post-mortem pixels need in-run capture.
+
+### Container restart + parallel-gate note (20:00-20:50)
+- The harness container restarted mid-gate; stray vitest workers cleaned,
+  gate recreated. New memory guidance adopted ("gate only before commits;
+  run live cycles in parallel") — but empirically THIS box cannot carry
+  the full suite and a live headed run simultaneously (the overlapped
+  gate produced 12 pure-timeout failures). Reconciliation: gates run solo
+  between live runs; live work never waits on a gate.
+
+### 🔑 ROOT CAUSE of the silent TIAA auth — found via instrumented diagnostic (operator's pixels directive)
+- One diagnostic walk with HUMAN pacing (wait for paints, then type, then
+  click) signed in INSTANTLY: header showed the account email + Candidate
+  Home and landed directly in the wizard (step 1 of 7). Credentials,
+  selectors, click target: all correct. The pipeline's typing lands
+  before the just-rendered React form's handlers attach — the keystrokes
+  never reach component state and the submit posts an EMPTY form, which
+  this tenant answers with NOTHING (no error, no navigation). Every
+  "silent sign-in"/"create: form cleared" of the night traces to this.
+
+### 63e. Auth fills settle + read-back + one retype — FIXED (pending live #22m)
+- `attempt()`: settle before typing (bounded by settleMs; tests at 0
+  unchanged), settle after, then READ THE FIELDS BACK — an empty
+  read-back retypes once, noted. The submit only fires over values that
+  provably took. Side effect of the diagnostic: the profile session is
+  signed in, so #22m may take the signed-in resume path directly.
+
+### ⚠ TWO SESSIONS, ONE TREE (≈20:40-21:05 local) — discovered and divided
+- Session -35 (this loop) and session -0d were BOTH live-driving TIAA and
+  editing portalAuth.ts unaware of each other (-35's job22k overlapped
+  -0d's 22k/22l — same row, same debug Chrome). Division agreed by
+  message: -35 owns the loop, issues log, and live runs; -0d commits its
+  uncommitted stack (#63e settle/read-back/retype, #63f greenhouse text
+  fill read-back, #63d paint-wait addendum) and stops driving. TIAA auth
+  evidence from that window is CONTAMINATED — treat with suspicion.
+- Evidence reconciliation for the auth mystery:
+  - -0d instrumented diagnostic 20:55: paced sign-in SUCCEEDED (header
+    email, Candidate Home, wizard step 1/7; pixels in private/
+    tiaa-diag-*.png) ⇒ the TIAA account EXISTS and the standing password
+    matches — the dropped-keystroke root cause explains every "silent"
+    click. LIVE_READ_ONLY-observed on a mutation walk.
+  - -35 probes ~20:47: posting page signed OUT (utilityButtonSignIn) —
+    consistent with short session expiry, not with "no account";
+    Gmail has ZERO tiaa emails ⇒ this tenant sends no creation mail, so
+    mailbox absence is NOT evidence of a missing account (correcting the
+    earlier #64 inference).
+
+### 64. Create-before-sign-in (operator directive night21) + auth truthfulness — PARTIALLY LANDED, rest queued behind -0d's commit
+- Operator (watching the screen, ~20:30): "creating an account is
+  necessary unless Workday explicitly tells you that you have an account
+  and you should sign in." Policy: on FIRST CONTACT (no vault record for
+  the host) attempt Create Account first; sign in only when the vault
+  records an account we made/set, or the portal answers "already
+  exists" — and RECORD verified creations in the vault so the signal is
+  evidence, not a note.
+- Landed now (non-colliding files, FIXTURE_CONFIRMED):
+  - obstructions.ts containers += `[data-automation-id*='legalnotice' i]`
+    — TIAA's cookie banner sat over every auth click since night20 and
+    the container scan couldn't see it (probe + pixel evidence); new
+    fixture test 5/5.
+  - loginWallDiagnosis ERROR_RE += `already (exists|in use|registered|
+    taken)` so the portal's explicit answer is readable ("already have an
+    account" deliberately EXCLUDED — static text on every create form).
+- Queued for after -0d pushes (portalAuth.ts held): knownAccount ordering
+  (read vault BEFORE prepareCredentialsForHost mints), flip-to-sign-in
+  gated on a known account, create-first route-click on sign-in-only
+  walls, already-exists ⇒ sign-in branch, submit-click failures noted
+  instead of swallowed, and "form cleared" demoted when the Workday
+  header still shows utilityButtonSignIn (the false-positive killer) —
+  with vault recording on verified success. Test updates mapped: seed
+  the vault in tests asserting sign-in-first (Crowe, dual-form, both
+  huntington dialog tests — huntington/sandbox describes need temp
+  PRIVATE_DIR first; useIsolatedFillEnv does NOT redirect it and a
+  fixture password in the real vault would hijack live runs).

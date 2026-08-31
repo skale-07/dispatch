@@ -3,7 +3,8 @@ import { assertNavigationAllowed } from "../navigation/navigationGuards.js";
 import { isTrustedWorkdayHost } from "../ats/workday/urlValidation.js";
 import { workdaySelectorsV1 } from "../ats/workday/selectors.js";
 import { prepareCredentialsForHost } from "./accountCredentials.js";
-import { getAccount } from "../accounts/vault.js";
+import { getAccount, setAccount } from "../accounts/vault.js";
+import { dismissPageObstructions } from "../browser/obstructions.js";
 import { getConfig } from "../config/index.js";
 import {
   EMAIL_INPUT_SELECTOR,
@@ -439,11 +440,33 @@ export async function authenticateAtsPortal(
       ? form.locator("input[type='password']")
       : root.locator("input[type='password']");
     const passwordCount = await passwordFields.count().catch(() => 0);
+    // TIAA live 2026-08-30 (#63e): a just-rendered Workday auth form can
+    // DROP keystrokes typed before its React handlers attach — the submit
+    // then posts an empty form and the page answers nothing, ever (the
+    // instrumented diagnostic with human pacing signed in instantly).
+    // Settle before typing, then read the fields back and retype once.
+    await settlePage(page, settle, 800);
     if (emailField && (await emailField.count().catch(() => 0)) > 0) {
       await emailField.fill(username, { timeout: 5_000 }).catch(() => undefined);
     }
     for (let i = 0; i < Math.min(passwordCount, 2); i++) {
       await passwordFields.nth(i).fill(password, { timeout: 5_000 }).catch(() => undefined);
+    }
+    await settlePage(page, settle, 500);
+    if (emailField && (await emailField.count().catch(() => 0)) > 0) {
+      const took = (await emailField.inputValue().catch(() => "")).trim();
+      if (took === "") {
+        notes.push(`portal auth ${kind}: email did not take — retyped once`);
+        await emailField.fill(username, { timeout: 5_000 }).catch(() => undefined);
+      }
+    }
+    for (let i = 0; i < Math.min(passwordCount, 2); i++) {
+      const f = passwordFields.nth(i);
+      const took = (await f.inputValue().catch(() => "")).trim();
+      if (took === "") {
+        notes.push(`portal auth ${kind}: password did not take — retyped once`);
+        await f.fill(password, { timeout: 5_000 }).catch(() => undefined);
+      }
     }
     const checkbox = await firstVisible(page, sel.createAccountCheckbox);
     if (kind === "create" && checkbox) {

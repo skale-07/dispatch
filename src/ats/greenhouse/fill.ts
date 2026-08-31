@@ -1009,6 +1009,20 @@ export async function greenhouseFillFromPlan(
               });
             } else {
               await loc.fill(String(entry.value));
+              // #63f (live tiaa: phone verified "" while every sibling
+              // matched): a just-rendered React control can DROP the
+              // written value on its next render. Read it back; if it
+              // vanished, settle briefly and type once more — verify
+              // stays the arbiter.
+              const took = await loc.inputValue().catch(() => null);
+              if (
+                took !== null &&
+                took.trim() === "" &&
+                String(entry.value).trim() !== ""
+              ) {
+                await page.waitForTimeout(400);
+                await loc.fill(String(entry.value)).catch(() => undefined);
+              }
               field_meta.push({
                 field_id: entry.field_id,
                 canonical_field: entry.canonical_field,
