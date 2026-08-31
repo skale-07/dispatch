@@ -1,4 +1,7 @@
+import fs from "node:fs";
+import path from "node:path";
 import type { Page } from "playwright";
+import { getConfig } from "../config/index.js";
 import { workdaySelectorsV1 } from "../ats/workday/selectors.js";
 import { classifyWorkdayPage } from "../ats/workday/pageKind.js";
 import { discoverFieldsFromHtml } from "./fieldDiscovery.js";
@@ -183,6 +186,22 @@ export async function walkWorkdayWizard(
         }
         prevPrint = print;
         await page.waitForTimeout(600);
+      }
+    }
+    // #76 instrumentation: three runs of note-reading contradicted each
+    // other — pixels arbitrate. One screenshot per walked page, heading
+    // + url in the note.
+    if (settleTimeoutMs > 0) {
+      try {
+        const dir = path.join(getConfig().artifactsDir, "ats-fill", "workday-live");
+        fs.mkdirSync(dir, { recursive: true });
+        const shot = path.join(dir, `wizard-page-${extra + 1}-${Date.now()}.png`);
+        await page.screenshot({ path: shot }).catch(() => undefined);
+        notes.push(
+          `wizard: page ${extra + 1} heading="${headingOf(html).slice(0, 40)}" url…${page.url().slice(-25)} shot=${path.basename(shot)}`,
+        );
+      } catch {
+        // instrumentation must never break the walk
       }
     }
     if (
