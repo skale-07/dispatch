@@ -514,11 +514,31 @@ export async function authenticateAtsPortal(
     // instrumented diagnostic with human pacing signed in instantly).
     // Settle before typing, then read the fields back and retype once.
     await settlePage(page, settle, 800);
+    // #102 (live tiaa, two nights of "silent sign-in"): fill()'s synthetic
+    // single-event write passes the DOM read-back below but this tenant's
+    // anti-bot layer ignores it — the submit posts an empty form and the
+    // page answers NOTHING. The paced diagnostic that signs in every time
+    // clicks the field and types real keystrokes; do exactly that, with
+    // fill() only as the fallback when the field click is intercepted.
+    const typeInto = async (
+      f: NonNullable<typeof emailField>,
+      text: string,
+    ): Promise<void> => {
+      const clicked = await f
+        .click({ timeout: 3_000 })
+        .then(() => true, () => false);
+      if (!clicked) {
+        await f.fill(text, { timeout: 5_000 }).catch(() => undefined);
+        return;
+      }
+      await f.fill("").catch(() => undefined);
+      await f.pressSequentially(text, { delay: settle === 0 ? 0 : 60 }).catch(() => undefined);
+    };
     if (emailField && (await emailField.count().catch(() => 0)) > 0) {
-      await emailField.fill(username, { timeout: 5_000 }).catch(() => undefined);
+      await typeInto(emailField, username);
     }
     for (let i = 0; i < Math.min(passwordCount, 2); i++) {
-      await passwordFields.nth(i).fill(password, { timeout: 5_000 }).catch(() => undefined);
+      await typeInto(passwordFields.nth(i), password);
     }
     credentialsTyped = true;
     await settlePage(page, settle, 500);
@@ -526,7 +546,7 @@ export async function authenticateAtsPortal(
       const took = (await emailField.inputValue().catch(() => "")).trim();
       if (took === "") {
         notes.push(`portal auth ${kind}: email did not take — retyped once`);
-        await emailField.fill(username, { timeout: 5_000 }).catch(() => undefined);
+        await typeInto(emailField, username);
       }
     }
     for (let i = 0; i < Math.min(passwordCount, 2); i++) {
@@ -534,7 +554,7 @@ export async function authenticateAtsPortal(
       const took = (await f.inputValue().catch(() => "")).trim();
       if (took === "") {
         notes.push(`portal auth ${kind}: password did not take — retyped once`);
-        await f.fill(password, { timeout: 5_000 }).catch(() => undefined);
+        await typeInto(f, password);
       }
     }
     const checkbox = await firstVisible(page, sel.createAccountCheckbox);

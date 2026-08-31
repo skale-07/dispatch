@@ -57,16 +57,32 @@ export async function workdaySubmit(
   opts: SubmitClickOptions = {},
 ): Promise<SubmissionAttempt> {
   assertSubmitAllowed("workday.submit");
-  const control = page.locator(workdaySelectorsV1.wizard.submitButton).first();
-  if ((await control.count().catch(() => 0)) === 0) {
-    return {
-      clicked: false,
-      notes: [
-        "workday final submit control not found (not on the Review page?)",
-      ],
-    };
-  }
+  let control = page.locator(workdaySelectorsV1.wizard.submitButton).first();
   const notes: string[] = [];
+  if ((await control.count().catch(() => 0)) === 0) {
+    // #106b (live tiaa): the tenant reuses pageFooterNextButton for the
+    // Review Submit — only the TEXT distinguishes it. Exact-name "Submit"
+    // inside the footer container can never be a wizard Next ("Save and
+    // Continue"/"Next"/"Continue"), preserving the never-click-a-Next
+    // invariant by text where the id cannot carry it.
+    const footerSubmit = page
+      .locator("[data-automation-id='pageFooter'], [data-automation-id='footerContainer'], [data-automation-id='bottom-navigation']")
+      .getByRole("button", { name: "Submit", exact: true })
+      .first();
+    if ((await footerSubmit.count().catch(() => 0)) > 0) {
+      control = footerSubmit;
+      notes.push(
+        "workday submit resolved by exact footer text \"Submit\" (tenant reuses the Next button's automation id)",
+      );
+    } else {
+      return {
+        clicked: false,
+        notes: [
+          "workday final submit control not found (not on the Review page?)",
+        ],
+      };
+    }
+  }
   if (await control.isDisabled().catch(() => false)) {
     return { clicked: false, notes: ["workday submit control disabled"] };
   }

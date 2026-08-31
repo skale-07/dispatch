@@ -188,6 +188,26 @@ export async function verifyPageBeforeMutationGeneric(
   // Paylocity (live 2026-08-19): 32 fields, no wrapping <form> tag. The
   // marker regex is not the form. Field count is.
   if (discovered.length === 0) {
+    // #106 (live tiaa, the walk's finish line): a Workday REVIEW page has
+    // ZERO inputs by design — its one control is the FINAL submit button.
+    // A page carrying that explicit control is the submit destination,
+    // not a posting (postings carry adventureButton/continueButton, never
+    // bottom-navigation-submit). Tight positive signal; everything else
+    // with 0 fields still refuses exactly as before (Crowe posting hole
+    // stays closed).
+    if (
+      /data-automation-id=["'](?:bottom-navigation-submit-button|pageFooterSubmitButton)["']/i.test(
+        html,
+      ) ||
+      // #106b (live tiaa): this tenant REUSES pageFooterNextButton for the
+      // Review page's Submit — the id never changes, only the text. A
+      // footer button reading exactly "Submit" is the submit destination.
+      /<button[^>]*data-automation-id=["']pageFooter\w*["'][^>]*>\s*Submit\s*<\/button>/i.test(
+        html,
+      )
+    ) {
+      return { ok: true, finalUrl, html, title, failureCode: null, reason: null };
+    }
     return fail(
       "NO_APPLICATION_FORM",
       "form markers matched but the page has no fillable fields — this is a posting/description page, not the application form",

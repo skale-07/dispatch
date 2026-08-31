@@ -598,6 +598,22 @@ export async function runAtsSubmission(input: {
             v: typeof verify,
           ): typeof verify => {
             if (binding.id !== "workday" || v.passed) return v;
+            // #106c (live tiaa): the held page is the REVIEW step — zero
+            // fillable fields by design, so the re-plan is empty and the
+            // empty verify reports passed:false ("nothing verified").
+            // Reaching here with 0 fields means the identity gate already
+            // required the Review submit-button signature; the walk's
+            // per-page verifies are the evidence.
+            if (v.fields.length === 0 && fill.errors.length === 0) {
+              return {
+                ...v,
+                passed: true,
+                warnings: [
+                  ...v.warnings,
+                  "workday review page: nothing to re-verify — the walk's per-page verifies are the evidence",
+                ],
+              };
+            }
             const onPageMisses = v.fields.filter(
               (f) => !f.match && f.observed !== null,
             );
