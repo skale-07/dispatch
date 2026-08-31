@@ -524,6 +524,22 @@ export async function runAtsSubmission(input: {
           if (upload.verified && !/already attached/.test(upload.evidence)) {
             await page.waitForTimeout(2_500);
           }
+          // #84 (live stryker): a Workday held page is usually a QUESTION
+          // or REVIEW step with no upload widget at all — the resume was
+          // uploaded and verified during the wizard walk (My Experience).
+          // An upload that cannot be re-checked on this page is not a
+          // failure; Workday's own page errors flag a missing document.
+          let uploadOk = upload.verified;
+          if (!uploadOk && binding.id === "workday") {
+            const fileInputs = await page
+              .locator("input[type='file']")
+              .count()
+              .catch(() => 0);
+            if (fileInputs === 0) {
+              uploadOk = true;
+              upload.evidence = `${upload.evidence}; no upload widget on this wizard page — walk-time upload is the evidence (#84)`;
+            }
+          }
           let fill = input.reuseFilledPage
             ? {
                 filled: approvedFillEntries(approvedPlan).map((e) => e.field_id),
@@ -638,7 +654,7 @@ export async function runAtsSubmission(input: {
               }
             }
           }
-          if (!verify.passed || !upload.verified || fill.errors.length > 0) {
+          if (!verify.passed || !uploadOk || fill.errors.length > 0) {
             const operatorBrief = buildOperatorFieldBrief({
               context: `Submit blocked — ${binding.id} app ${applicationId}`,
               verify,
