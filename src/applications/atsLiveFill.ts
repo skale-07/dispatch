@@ -1195,6 +1195,21 @@ export async function runAtsLiveFill(input: {
             );
           }
           let verifyResult = await wizardAdapter.verify(page, pagePlan.approvedPlan.answers);
+          // #86 (live stryker ×2, deterministic): a text value can pass the
+          // immediate per-page verify (read before the wipe) and be gone
+          // by the time Next is clicked — the GPA textarea emptied on
+          // every run. Re-verify after a settle so the late wipe is seen
+          // while the page is still current; the #66b retype then fires.
+          if (verifyResult.passed) {
+            await page.waitForTimeout(1_500);
+            const settled = await wizardAdapter.verify(page, pagePlan.approvedPlan.answers);
+            if (!settled.passed) {
+              report.notes.push(
+                `wizard: page verified then LOST value(s) after settle — retyping (${settled.fields.filter((f) => !f.match).length} miss(es))`,
+              );
+              verifyResult = settled;
+            }
+          }
           // #66b per wizard page: keystroke-retype empty text misses once.
           if (!verifyResult.passed && wizardAdapter.retypeVerifyMisses) {
             const retype = await wizardAdapter.retypeVerifyMisses(page, verifyResult);
