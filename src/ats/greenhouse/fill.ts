@@ -1295,28 +1295,39 @@ export function dedupeAnchorlessCanonicalTwins(
   entries: ExecutableFillEntry[],
   fieldMeta: Map<string, FieldMeta>,
 ): { entries: ExecutableFillEntry[]; dropped: string[] } {
+  const normLabel = (s: string): string =>
+    s.toLowerCase().replace(/\s+/g, " ").trim().slice(0, 120);
   const anchored = new Set<string>();
+  const anchoredLabels = new Set<string>();
   for (const e of entries) {
     const m = fieldMeta.get(e.field_id);
     if (
       (e.action === "fill" || e.action === "FILL") &&
-      e.canonical_field &&
       (m?.inputId || m?.name)
     ) {
-      anchored.add(e.canonical_field);
+      if (e.canonical_field) anchored.add(e.canonical_field);
+      if (e.label) anchoredLabels.add(normLabel(e.label));
     }
   }
   const dropped: string[] = [];
   const out = entries.filter((e) => {
     const m = fieldMeta.get(e.field_id);
+    const anchorless =
+      (e.action === "fill" || e.action === "FILL") && !m?.inputId && !m?.name;
+    // #85b (live stryker): questionnaire buttons and their anchorless
+    // companion-input ghosts share the exact QUESTION label but get
+    // DIFFERENT canonicals (per-field screener uniquing), so the
+    // canonical-based dedupe missed them — the ghosts then failed
+    // resolution, broke the submit waiver, and the fallback re-fill
+    // smeared their errors. Same-label twins of an anchored entry drop
+    // too.
     const ghost =
-      (e.action === "fill" || e.action === "FILL") &&
-      e.canonical_field !== null &&
-      e.canonical_field !== undefined &&
-      anchored.has(e.canonical_field) &&
-      !m?.inputId &&
-      !m?.name;
-    if (ghost) dropped.push(`${e.field_id} (${e.canonical_field})`);
+      anchorless &&
+      ((e.canonical_field !== null &&
+        e.canonical_field !== undefined &&
+        anchored.has(e.canonical_field)) ||
+        (e.label !== undefined && anchoredLabels.has(normLabel(e.label))));
+    if (ghost) dropped.push(`${e.field_id} (${e.canonical_field ?? e.label})`);
     return !ghost;
   });
   return { entries: out, dropped };
