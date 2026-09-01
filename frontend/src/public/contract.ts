@@ -18,7 +18,9 @@ export const CONTRACT = {
   profilesTable: "profiles",
   /** Invite redemption goes through an RPC so quota rules live server-side. */
   redeemInviteRpc: "redeem_invite",
-  /** Read model for the signed-in user's quota. */
+  /** Read model for the signed-in user's quota. Queen relay 2026-09-01:
+   *  launcher's draft names this view user_quota_status — adopt on its
+   *  final verdict. */
   quotaView: "my_quota",
   /** Read model for the signed-in user's applications. */
   applicationsView: "my_applications",

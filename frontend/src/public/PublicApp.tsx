@@ -1,10 +1,11 @@
 import { Link, NavLink, Route, Routes } from "react-router-dom";
 import { useEffect } from "react";
-import { AuthProvider } from "../auth/AuthContext";
+import { AuthProvider, RequireAuth } from "../auth/AuthContext";
 import { DispatchMark } from "../components/DispatchMark";
 import { useTheme } from "../hooks/useTheme";
 import { LandingPage } from "./LandingPage";
 import { SignupPage } from "./SignupPage";
+import { ProfileWizardPage } from "./ProfileWizardPage";
 
 /**
  * The public consumer app — what a student reaches on the internet.
@@ -66,6 +67,14 @@ export function PublicApp(): JSX.Element {
           <Route path="/" element={<LandingPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/invite/:code" element={<SignupPage />} />
+          <Route
+            path="/onboarding"
+            element={
+              <RequireAuth>
+                <ProfileWizardPage />
+              </RequireAuth>
+            }
+          />
           <Route
             path="*"
             element={<div className="banner warn">No such page.</div>}

@@ -1289,3 +1289,71 @@ a.evidence-frame:hover {
   flex-direction: column;
   gap: var(--space-3);
 }
+
+/* ── onboarding wizard (public surface) ─────────────────────────── */
+
+.wizard-steps {
+  display: flex;
+  gap: var(--space-1);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-4);
+}
+.wizard-step {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: var(--text-xs);
+  color: var(--text-dim);
+  border-color: transparent;
+  background: transparent;
+  padding: 0.3rem 0.55rem;
+}
+.wizard-step:hover:not(:disabled) {
+  background: var(--bg-hover);
+}
+.wizard-step.current {
+  color: var(--accent);
+  background: var(--accent-dim);
+}
+.wizard-step.done {
+  color: var(--ok);
+}
+.wizard-step-n {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+}
+.wizard-step.current .wizard-step-n {
+  border-color: var(--accent);
+}
+.wizard-step.done .wizard-step-n {
+  border-color: var(--ok);
+}
+
+.wizard-fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  max-width: 30rem;
+}
+.wizard-options {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  margin-top: 0.2rem;
+}
+.wizard-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: var(--text-sm);
+  color: var(--text);
+  font-weight: 400;
+  cursor: pointer;
+}

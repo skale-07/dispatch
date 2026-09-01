@@ -27,6 +27,18 @@ function client() {
   return supabase;
 }
 
+/**
+ * The signed-in user's id from the LOCAL session — auth.getUser() would
+ * round-trip to the server, which turns every profile read into a second
+ * network dependency and hangs the UI when the service is unreachable.
+ * RLS re-checks identity server-side on every query anyway; the id here
+ * only builds paths and filters.
+ */
+async function currentUserId(): Promise<string | null> {
+  const { data } = await client().auth.getSession();
+  return data.session?.user.id ?? null;
+}
+
 /* ── invite redemption across the magic-link hop ─────────────────────
  * The code is entered before the user has a session (magic link goes
  * out, the tab may even be closed). Stash it locally; the first
@@ -74,8 +86,7 @@ export async function redeemPendingInvite(): Promise<InviteRedemption> {
 /* ── profile ────────────────────────────────────────────────────────── */
 
 export async function getMyProfile(): Promise<Profile | null> {
-  const { data: userData } = await client().auth.getUser();
-  const uid = userData.user?.id;
+  const uid = await currentUserId();
   if (!uid) return null;
   const { data, error } = await client()
     .from(CONTRACT.profilesTable)
@@ -87,8 +98,7 @@ export async function getMyProfile(): Promise<Profile | null> {
 }
 
 export async function saveMyProfile(draft: ProfileDraft): Promise<void> {
-  const { data: userData } = await client().auth.getUser();
-  const uid = userData.user?.id;
+  const uid = await currentUserId();
   if (!uid) throw new Error("not signed in — nothing was saved");
   const { error } = await client()
     .from(CONTRACT.profilesTable)
@@ -109,8 +119,7 @@ export async function uploadResume(
   if (file.size > MAX_RESUME_BYTES) {
     throw new Error("resume PDF is over 5 MB — export a smaller copy");
   }
-  const { data: userData } = await client().auth.getUser();
-  const uid = userData.user?.id;
+  const uid = await currentUserId();
   if (!uid) throw new Error("not signed in — nothing was uploaded");
   // One canonical path per user: re-upload replaces, never accumulates.
   const path = `${uid}/resume.pdf`;
