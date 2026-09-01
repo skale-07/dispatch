@@ -28,6 +28,7 @@ import { getArmStatus, sweepStaleArmSessions } from "../automation/armSession.js
 import { buildRunRoutes } from "./runRoutes.js";
 import { buildGmailRoutes } from "./gmailRoutes.js";
 import { buildExtensionRoutes } from "./extensionRoutes.js";
+import { buildOnboardingRoutes } from "./onboardingRoutes.js";
 import { GmailAuthBroker } from "./gmailAuthBroker.js";
 import { RunManager } from "./runManager.js";
 import { findRoute, type Route } from "./routes.js";
@@ -150,6 +151,7 @@ export function createConsoleHandler(
       : []),
     ...(deps.gmailBroker ? buildGmailRoutes({ broker: deps.gmailBroker }) : []),
     ...buildExtensionRoutes(),
+    ...buildOnboardingRoutes({ db: deps.db }),
     ...(deps.extraRoutes ?? []),
   ];
 
