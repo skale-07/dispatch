@@ -1,0 +1,45 @@
+{
+  "run_id": "nav-d22dad6d-a863-424b-8eca-a2f60e216272",
+  "application_id": "9d70d002-f025-480b-b160-e721df378c6a",
+  "jobright_job_id": "6a9741bd455eaf6a08c1bcd6",
+  "method": "apply_click_popup",
+  "resolved_url": "https://www.linkedin.com/jobs/view/4459565675",
+  "resolved_ats": "generic",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no congruent apply href (12 external links)",
+      "evidence": "www.linkedin.com, x.com, www.crunchbase.com, www.glassdoor.com, clearwateranalytics.com, www.hedgeweek.com"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "resolved via popup",
+      "evidence": "www.linkedin.com"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "phase A: 8 external host(s) seen: www.linkedin.com, x.com, www.crunchbase.com, www.glassdoor.com, clearwateranalytics.com, www.hedgeweek.com, financialit.net, idahobusinessreview.com",
+    "Apply control matched via broad name tier",
+    "popup captured on attempt 1",
+    "employer congruence unverifiable (no employer name decodable from URL (host and path are generic)) — recorded"
+  ],
+  "congruence": {
+    "verdict": "unknown",
+    "slug": null,
+    "detail": "no employer name decodable from URL (host and path are generic)",
+    "expected_company": "Clearwater Analytics",
+    "url": "https://www.linkedin.com/jobs/view/4459565675?jr_id=6a9741bd455eaf6a08c1bcd6"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-09-01T21:36:29.711Z"
+}
