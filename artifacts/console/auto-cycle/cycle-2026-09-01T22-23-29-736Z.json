@@ -1,0 +1,68 @@
+{
+  "started_at": "2026-09-01T22:23:29.736Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\jake_swe.pdf)",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "d62c708c-3a0a-415c-a85b-42df2be9f28e",
+    "armed_until": "2026-09-02T00:23:29.806Z",
+    "seconds_remaining": 7200,
+    "max_submits": 10,
+    "submits_used": 0,
+    "max_apps": 1,
+    "apps_started": 0,
+    "discover_max": 1,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": {
+    "arm_run_id": "d62c708c-3a0a-415c-a85b-42df2be9f28e",
+    "apps_started": 1,
+    "submits_used": 0,
+    "stopped_reason": "apps_cap",
+    "discover_runs": 1,
+    "emails_generated": 0,
+    "drafts_saved": 0,
+    "essay_drafts_generated": 0,
+    "screener_predictions_generated": 0,
+    "notes": [
+      "discover: 1 inspected, 0 eligible, 1 already known, 0 filtered out, 0 already submitted",
+      "prediction rejected \"Self Identification Questions\": no answer",
+      "artifact autopush: 23 file(s) pushed to master as 089055a0"
+    ],
+    "per_app": [
+      {
+        "application_id": "d9c79368-751a-413a-aeb5-57ea13a215cf",
+        "end_state": "NATIVE_AUTOFILL_RUNNING",
+        "stopped": "gate",
+        "stop_reason": "generic live fill refused: FORM_NOT_REACHED",
+        "submitted": false,
+        "outreach": null
+      }
+    ],
+    "nav_audit": {
+      "checked": 175,
+      "repaired": 0,
+      "parked": 0
+    },
+    "artifact_autopush": {
+      "pushed": true,
+      "commit": "089055a0",
+      "files_staged": 23
+    }
+  },
+  "outcome": "completed",
+  "notes": []
+}
