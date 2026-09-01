@@ -269,6 +269,25 @@ Walls, in order (operator co-debugged live):
 - Intel posting (4a03b318) was REMOVED upstream (Workday 404) — parked
   FAILED_FINAL with probe evidence.
 
+## Night25 (APPLIER agent takes the loop, ~22:30 UTC)
+
+### Job: d9c79368 Bradesco Bank — AI & Data Engineering Intern → PARKED
+
+- Cycle refused FORM_NOT_REACHED (live-refused-1788301474805.json): stored
+  URL is linkedin.com/jobs/view/4458798591; generic adapter clicked
+  a[href*=apply] twice, classifier honestly kept reading "posting".
+- Probe (private/tmp-probe-bradesco.ts, signed-in session, pixels in
+  artifacts/probes/night25-bradesco/01-posting.png): the posting offers
+  ONE apply control — anchor "Easy Apply to this job" →
+  /jobs/view/4458798591/apply/?openSDUIApplyFlow=true. No external-apply
+  route exists on this posting.
+- Verdict: Clearwater-class (LinkedIn Easy Apply adapter unwired — a
+  dedicated project, not a mid-loop fix). Parked AMBIGUOUS_FIELD via the
+  state machine with probe evidence in the reason.
+- Hygiene: Clearwater 9d70d002 had been LEFT in NATIVE_AUTOFILL_RUNNING
+  when backlogged — formally parked AMBIGUOUS_FIELD too, so cycles stop
+  re-picking a known-unwired flow.
+
 ## State snapshot (13:30)
 
 - Sierra 44fb9eb1: run 6 in flight (all four fixes live).
