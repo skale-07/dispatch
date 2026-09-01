@@ -15,6 +15,10 @@ const SKIP_DIRS = new Set([
   "artifacts",
   "cache",
   "private",
+  // Agent worktrees are separate checkouts scanned by their own gates;
+  // walking into them breaks the relative-path allowlist (the worktree
+  // copy of outlook-send-guards.test.ts tripped the scanner 2026-09-01).
+  ".claude",
 ]);
 
 function walk(dir: string, out: string[] = []): string[] {
