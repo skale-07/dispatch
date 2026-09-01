@@ -126,30 +126,33 @@ export async function attachSupplementalMaterials(
       });
     }
   }
+  // Click-created dropzones (Appian 2026-08-29: "Please upload a copy of
+  // an unofficial undergraduate transcript" renders Attach/Dropbox/Drive
+  // buttons and NO input[type=file] until Attach is clicked). Run for
+  // EVERY still-empty transcript section — not only when nothing attached:
+  // live databricks 2026-09-01 (#123) carries TWO required transcript
+  // slots (undergrad + "graduate studies (if applicable)"); the first
+  // attached via its input, the `attached.length === 0` gate skipped the
+  // second, and the submit click bounced off its "This field is required".
+  const viaChooser = await attachTranscriptsViaChooser(page, transcriptPath);
+  result.attached.push(...viaChooser);
   if (result.attached.length === 0) {
-    // Click-created dropzone (Appian 2026-08-29: "Please upload a copy of
-    // an unofficial undergraduate transcript" renders Attach/Dropbox/Drive
-    // buttons and NO input[type=file] until Attach is clicked). Intercept
-    // the filechooser on a transcript-section Attach trigger.
-    const viaChooser = await attachTranscriptViaChooser(page, transcriptPath);
-    if (viaChooser) {
-      result.attached.push(viaChooser);
-    } else {
-      result.notes.push("no empty transcript-labeled file input found");
-    }
+    result.notes.push("no empty transcript-labeled file input found");
   }
   return result;
 }
 
-async function attachTranscriptViaChooser(
+async function attachTranscriptsViaChooser(
   page: Page,
   transcriptPath: string,
-): Promise<SupplementalAttachment | null> {
+): Promise<SupplementalAttachment[]> {
+  const out: SupplementalAttachment[] = [];
+  const filename = path.basename(transcriptPath);
   const main = page.mainFrame();
   for (const frame of [main, ...page.frames().filter((f) => f !== main)]) {
     const triggers = frame.locator('button, [role="button"], label');
     const n = Math.min(await triggers.count().catch(() => 0), 80);
-    for (let i = 0; i < n; i++) {
+    for (let i = 0; i < n && out.length < 3; i++) {
       const t = triggers.nth(i);
       const text = ((await t.innerText().catch(() => "")) ?? "").trim();
       if (!text || text.length > 40) continue;
@@ -183,6 +186,10 @@ async function attachTranscriptViaChooser(
         .catch(() => "");
       if (!/transcript/i.test(sectionText)) continue;
       if (/resume|\bcv\b|cover[\s_-]*letter/i.test(sectionText)) continue;
+      // A section already showing the transcript filename is DONE — the
+      // per-section check is what lets a multi-slot form (#123) fill its
+      // remaining empty slots without re-attaching to the first.
+      if (sectionText.includes(filename)) continue;
       if (!(await t.isVisible().catch(() => false))) continue;
       assertFormFillAllowed("supplemental.transcript");
       try {
@@ -196,18 +203,17 @@ async function attachTranscriptViaChooser(
       }
       // Read-back: the section (or page) should acknowledge the filename.
       await page.waitForTimeout(600);
-      const filename = path.basename(transcriptPath);
       const stem = filename.replace(/\.[^.]+$/, "");
       const bodyText = await page.locator("body").innerText().catch(() => "");
       const verified =
         bodyText.includes(filename) ||
         (stem.length >= 8 && bodyText.includes(stem.slice(0, 20)));
-      return {
+      out.push({
         kind: "transcript",
-        label: "transcript (filechooser fallback)",
+        label: `transcript (filechooser): ${sectionText.slice(0, 60)}`,
         verified,
-      };
+      });
     }
   }
-  return null;
+  return out;
 }

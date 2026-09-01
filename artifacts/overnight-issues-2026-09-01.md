@@ -98,6 +98,62 @@ walk (fill verified; submit gate: 3 required text fields unanswered — the
   ⚠ OPERATOR: one manual Indeed sign-in in the debug Chrome (like TIAA),
   then requeue f173d837; or apply manually.
 
+## Job: f7cc3448 Databricks — SWE Intern Winter 2027 (greenhouse) — 9-run grind
+
+Fill stage verifies 31/31 every run (grad-date bucket via llm_option, GPA via
+gpa_range, demographics from sensitive profile). The submit stage then
+re-plans the SAME page and walled four ways:
+
+- **#121** the option-select pick is now REMEMBERED
+  (rememberPredictedScreenerAnswer, first-write-wins) — the submit re-plan
+  used to carry the raw bank answer ("May 2029") the page's bucket list
+  cannot hold. (Write was refused for grad-date — label already attached to
+  the expected_graduation_date custom entry — but stands for fresh labels.)
+- **#122 fill-evidence waiver**: when submit-verify disagrees but the page
+  holds exactly what the newest fill run committed AND verified
+  (fill_field_outcomes.selected_option, joined by canonical OR the plan's
+  field id), accept with a warning. Three instrumented iterations found the
+  real shapes: submit re-plan maps the same control to a different canonical
+  (gpa vs gpa_range → field-id join), observed can be "" not null, and
+  observed can be an OBJECT ({label,value}) whose String() is
+  "[object Object]". Run 8: waived 2 — values confirmed on page.
+- **#122b** the blanket refill on a REUSED page is destructive: it re-opens
+  verified comboboxes with re-plan values, CLEARS the committed picks, fails
+  to restore ("no option matches"), and its own fill error blocks the click.
+  On reuse, the refill is now skipped in favor of the targeted heal pass
+  (fills only verify-failures — the late-mounting race/school fields that
+  appear after Hispanic=No / school typeahead), which never touches a
+  verified control.
+- Run 9 verify-green then crashed on a malformed bank key (my
+  "custom:name_pronunciation" write — keys are bare snake_case; fixed, and
+  the pronunciation answer the operator supplied in chat is banked as
+  name_pronunciation = "SHOO-bum KAH-lay").
+- Run 11: verify PASSED (failing_detail []) — first click. Bounced off a
+  SECOND required transcript slot ("graduate studies (if applicable)"),
+  pixels: receipt-attempt-11.png. **#123**: the filechooser fallback only
+  ran when zero attachments had happened, so a multi-slot form could never
+  fill slot 2. Now runs per-section (skips sections already showing the
+  filename, cap 3). 5/5 tests.
+- **Run 12: SUBMITTED_VERIFIED → COMPLETED.** Databricks done on attempt 12.
+- Outreach: insider triage found 7 emails; drafting for the 6
+  @databricks.com addresses. ⚠ JobRight data flag: gdb@gdbsecurity.com
+  listed under Databricks insiders — off-domain, not drafted.
+- CDP wedged twice more (port answers, attach hangs) — manual restart:
+  kill chrome.exe with jobright-cdp in the command line, relaunch,
+  verify with a real connectOverCDP.
+
+## Submissions (day session, 2026-09-01)
+
+- **Databricks f7cc3448 SUBMITTED_VERIFIED → COMPLETED** (attempt 12,
+  15:53 UTC). Outreach: 6 drafts to @databricks.com insiders (5 verified,
+  diana.poplacenel drafted-unverified — left alone per outreach-sent-is-final).
+- **Sierra 44fb9eb1 SUBMITTED → COMPLETED** (attempt 8, 15:02 UTC) — the
+  #116-#119 batch + banked name_pronunciation ("SHOO-bum KAH-lay",
+  operator-supplied in chat). Outreach: drafting to the 4 @sierra.ai
+  insiders. ⚠ JobRight data flags: ralucam@waymo.com and
+  andrew.min@scale.com listed under SIERRA insiders — off-domain, not
+  drafted.
+
 ## State snapshot (13:30)
 
 - Sierra 44fb9eb1: run 6 in flight (all four fixes live).

@@ -68,11 +68,13 @@ import type { Page } from "playwright";
 import type { FillPlanEntry } from "./resolveAnswers.js";
 import {
   attachCustomScreenerLabel,
+  rememberPredictedScreenerAnswer,
   tryLoadScreenerBank,
 } from "../candidate/screenersIO.js";
 import {
   matchScreenerKey,
   findCustomScreenerMatch,
+  normalizeScreenerLabel,
   resolveCustomScreener,
   resolveScreenerForField,
   screenerKeyFitsField,
@@ -492,6 +494,25 @@ export async function planApplicationFill(input: {
           value: c.option,
           basis: "llm_option",
         });
+        // #121 (live databricks 2026-09-01): the submit stage's one-shot
+        // refill re-plans the page, and the option-select model is not
+        // deterministic — the fill chose "Later than Summer 2028" for the
+        // graduation-date bucket list while the refill carried the raw
+        // bank answer ("May 2029") and could match nothing. Remember the
+        // validated pick (first-write-wins, topic-fenced) so the SAME
+        // question resolves to the same option on every later plan.
+        const field = mapped.find((f) => f.id === c.key);
+        if (field) {
+          try {
+            rememberPredictedScreenerAnswer({
+              key: `custom:option:${normalizeScreenerLabel(field.label).slice(0, 60).replace(/\s+/g, "_")}`,
+              answer: c.option,
+              label: field.label,
+            });
+          } catch {
+            // bank persist is best-effort; a write error must not drop a fill
+          }
+        }
       }
     }
   }

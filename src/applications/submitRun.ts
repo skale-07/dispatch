@@ -46,6 +46,7 @@ import {
 import { assertSubmitAllowed } from "./formFillGuards.js";
 import { planApplicationFill } from "./applicationFiller.js";
 import { approvedFillEntries } from "./approvedFillPlan.js";
+import { labelsCompatible } from "../ats/greenhouse/comboboxFill.js";
 import { buildHumanEssayEntries } from "./essayFill.js";
 import { greenhouseFillEssays } from "../ats/greenhouse/essayFill.js";
 import type { FieldMeta } from "../ats/greenhouse/fill.js";
@@ -633,6 +634,142 @@ export async function runAtsSubmission(input: {
             return v;
           };
           verify = applyCrossPageWaiver(verify);
+          // #122 (live databricks 2026-09-01): the submit-stage re-plan can
+          // resolve a screener differently than the fill stage did minutes
+          // earlier — the hydrated page no longer exposes a select's
+          // options, so the raw bank answer survives planning while the
+          // fill stage's option-select pick (verified on the page) reads
+          // as a mismatch. The refill then CLEARED committed picks it
+          // could not restore. When the OBSERVED value is exactly what the
+          // newest fill run verifiably committed for that field, the page
+          // is right and the re-plan is stale: accept with a warning.
+          const applyFillEvidenceWaiver = (
+            v: typeof verify,
+          ): typeof verify => {
+            if (v.passed) return v;
+            let committed: Array<{
+              field_id: string;
+              canonical_field: string | null;
+              selected_option: string | null;
+            }>;
+            try {
+              committed = db
+                .prepare(
+                  `SELECT field_id, canonical_field, selected_option
+                   FROM fill_field_outcomes
+                   WHERE fill_run_id = (
+                     SELECT id FROM fill_runs WHERE application_id = ?
+                     ORDER BY created_at DESC LIMIT 1)
+                   AND verify_match = 1 AND selected_option IS NOT NULL`,
+                )
+                .all(applicationId) as typeof committed;
+            } catch {
+              return v; // evidence unavailable — verify stands as-is
+            }
+            if (committed.length === 0) return v;
+            // The submit re-plan may map the same control to a DIFFERENT
+            // canonical than the fill stage did (live: fill said
+            // gpa_range, submit said gpa — same question_37911665002).
+            // The page control id is the stable join.
+            const fieldIdByCanonical = new Map<string, string>(
+              approvedPlan.entries.map((e) => [
+                e.canonical_field ?? e.field_id,
+                e.field_id,
+              ]),
+            );
+            const waived: string[] = [];
+            const fields = v.fields.map((f) => {
+              if (f.match) return f;
+              const planFieldId = fieldIdByCanonical.get(f.canonical_field);
+              const record = committed.find(
+                (c) =>
+                  (c.canonical_field !== null &&
+                    c.canonical_field === f.canonical_field) ||
+                  c.field_id === f.canonical_field ||
+                  (planFieldId !== undefined && c.field_id === planFieldId),
+              );
+              if (!record?.selected_option) return f;
+              // observed may be null, "", or an OBJECT ({label,value} from
+              // the select reader) — "[object Object]" must not defeat the
+              // comparison, and an empty label is an empty control.
+              const observedToText = (o: unknown): string => {
+                if (o === null || o === undefined) return "";
+                if (typeof o === "object") {
+                  const rec = o as { label?: unknown; value?: unknown };
+                  const s = rec.label ?? rec.value;
+                  return s === null || s === undefined ? "" : String(s).trim();
+                }
+                return String(o).trim();
+              };
+              const observedText = observedToText(f.observed);
+              if (
+                observedText !== "" &&
+                labelsCompatible(record.selected_option, observedText)
+              ) {
+                waived.push(
+                  `${f.canonical_field}: page shows "${observedText}" — the fill stage committed and verified exactly this (#122)`,
+                );
+                return { ...f, match: true };
+              }
+              if (observedText === "") {
+                // The submit-stage reader cannot see this control's
+                // committed value (hydrated React-select reads null while
+                // the display node shows the pick) — the fill run's OWN
+                // read-back verified "${selected_option}" on this page.
+                // The required-completeness scan before the click reads
+                // the display nodes and remains the empty-form backstop.
+                waived.push(
+                  `${f.canonical_field}: unreadable at submit — the fill stage committed and verified "${record.selected_option}" (#122)`,
+                );
+                return { ...f, match: true };
+              }
+              return f;
+            });
+            logger.info("fill-evidence waiver (#122)", {
+              service: "submit",
+              action: "fill_evidence_waiver",
+              application_id: applicationId,
+              metadata: {
+                evidence_rows: committed.length,
+                waived: waived.length,
+                still_failing: fields.filter((f) => !f.match).length,
+                notes: waived,
+                failing_detail: fields
+                  .filter((f) => !f.match)
+                  .slice(0, 6)
+                  .map((f) => ({
+                    canonical: f.canonical_field,
+                    observed:
+                      f.observed === null
+                        ? "<null>"
+                        : JSON.stringify(f.observed)?.slice(0, 120) ?? "<undef>",
+                    plan_field_id:
+                      fieldIdByCanonical.get(f.canonical_field) ?? "<none>",
+                    evidence_hit: Boolean(
+                      committed.find(
+                        (c) =>
+                          c.canonical_field === f.canonical_field ||
+                          c.field_id === f.canonical_field ||
+                          c.field_id ===
+                            fieldIdByCanonical.get(f.canonical_field),
+                      ),
+                    ),
+                  })),
+                evidence_sample: committed
+                  .slice(0, 6)
+                  .map((c) => `${c.field_id}|${c.canonical_field}`),
+              },
+            });
+            if (waived.length === 0) return v;
+            // Waiver notes are evidence, not defects — passed is judged on
+            // the pre-existing warnings plus the adjusted field matches.
+            const passed =
+              fields.length > 0 &&
+              fields.every((f) => f.match) &&
+              v.warnings.length === 0;
+            return { ...v, fields, passed, warnings: [...v.warnings, ...waived] };
+          };
+          verify = applyFillEvidenceWaiver(verify);
           // #90 (live crowe/stryker): for a Workday WIZARD the blanket
           // re-fill below smears cross-page errors; the targeted retype
           // (re-pick selects, keystroke text) fixes exactly the on-page
@@ -649,7 +786,22 @@ export async function runAtsSubmission(input: {
               );
             }
           }
-          if (binding.id !== "workday" && (!verify.passed || fill.errors.length > 0)) {
+          // #122b (live databricks, 8 runs of evidence): on a REUSED page
+          // the blanket refill is destructive — it re-opens verified
+          // comboboxes with the re-plan's raw values, clears the committed
+          // picks, and cannot restore them ("no option matches"), then its
+          // own fill error blocks the click. The targeted heal pass below
+          // fills exactly the entries that failed verify (the fields that
+          // mount late, e.g. Greenhouse's race select after Hispanic=No)
+          // and never touches a verified control. Blanket refill remains
+          // for fresh fills (the neuralink post-upload re-render class).
+          const skipBlanketRefill =
+            input.reuseFilledPage && binding.supportsHealing;
+          if (
+            binding.id !== "workday" &&
+            !skipBlanketRefill &&
+            (!verify.passed || fill.errors.length > 0)
+          ) {
             // Two live causes, one bounded remedy (ONE re-fill, then verify
             // decides): a reused held page whose fill did not survive, and —
             // neuralink 2026-08-30 — a fresh fill whose five comboboxes read
@@ -675,7 +827,9 @@ export async function runAtsSubmission(input: {
               },
             );
             fill = await adapter.fill(page, approvedPlan.answers);
-            verify = await adapter.verify(page, approvedPlan.answers);
+            verify = applyFillEvidenceWaiver(
+              await adapter.verify(page, approvedPlan.answers),
+            );
           }
           // Phase 6a′: one heal pass before giving up on the click
           // (greenhouse-only until the healer is proven on other ATSes).
@@ -687,7 +841,9 @@ export async function runAtsSubmission(input: {
                 failedEntries: failed,
               });
               if (heal.healed.length > 0) {
-                verify = await adapter.verify(page, approvedPlan.answers);
+                verify = applyFillEvidenceWaiver(
+                  await adapter.verify(page, approvedPlan.answers),
+                );
               }
             }
           }
