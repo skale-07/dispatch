@@ -110,6 +110,29 @@ const CONTROL_XPATH =
   '/descendant::*[self::input[not(@type="hidden")] or self::textarea or self::select or @contenteditable="true"][1]';
 
 /**
+ * #112 (live nuvo on jobs.gem.com 2026-08-31): captions are bare spans and
+ * the inputs carry NO id/name/label/aria/placeholder — every earlier tier
+ * finds nothing. Locate the caption text run itself (a short text node
+ * whose element does NOT contain a control, so `following::` cannot skip
+ * into the next field's subtree) and take the first control after it.
+ * LAST matching caption wins: page furniture mentioning the same word
+ * (job description "Email …") sits above the form.
+ */
+export function captionFollowControl(page: Page, label: string): Locator {
+  const text = label.replace(/\s+/g, " ").trim().slice(0, 80);
+  if (text.length < 3) return page.locator("__no_such_control__");
+  const lit = text.includes('"') ? `'${text.replace(/'/g, "")}'` : `"${text}"`;
+  const caption =
+    `//*[self::span or self::div or self::p or self::b or self::strong]` +
+    `[not(descendant::input) and not(descendant::textarea) and not(descendant::select)]` +
+    `[starts-with(normalize-space(.), ${lit})]` +
+    `[string-length(normalize-space(.)) <= ${text.length + 8}]`;
+  return page.locator(
+    `xpath=((${caption})[last()]/following::*[self::input[not(@type="hidden")] or self::textarea or self::select][1])`,
+  );
+}
+
+/**
  * Playwright's getByLabel only associates a <label for> with FORM controls;
  * when `for` targets a wrapper div (Workday) nothing is found at all. Walk
  * it explicitly: label text → @for → element with that id → first control
@@ -992,9 +1015,14 @@ export async function greenhouseFillFromPlan(
                 continue;
               }
             }
-            throw new Error(
-              `control not found on the page (label "${entry.label.slice(0, 60)}") — failing fast instead of waiting 30s`,
-            );
+            // #112 last rung: Gem-style caption span → first following control.
+            const byCaption = captionFollowControl(page, entry.label);
+            if ((await byCaption.count().catch(() => 0)) === 0) {
+              throw new Error(
+                `control not found on the page (label "${entry.label.slice(0, 60)}") — failing fast instead of waiting 30s`,
+              );
+            }
+            byLabel = byCaption;
           }
           loc = byLabel;
         } else {
@@ -1428,9 +1456,15 @@ export async function greenhouseReadFieldValue(
         byLabel = locatorForField(page, labelOnly);
       }
       if ((await byLabel.count()) === 0) {
-        throw new Error(
-          `control not found on the page (label "${entry.label.slice(0, 60)}") — failing fast instead of waiting 30s`,
-        );
+        // #112: same caption rung as the fill ladder — verify must read
+        // the control the fill wrote.
+        const byCaption = captionFollowControl(page, entry.label);
+        if ((await byCaption.count().catch(() => 0)) === 0) {
+          throw new Error(
+            `control not found on the page (label "${entry.label.slice(0, 60)}") — failing fast instead of waiting 30s`,
+          );
+        }
+        byLabel = byCaption;
       }
       loc = byLabel;
     } else {

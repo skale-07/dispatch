@@ -341,6 +341,30 @@ describe("label resolution for machine-named fields (UNIT_CONFIRMED)", () => {
     expect(nearestSectionHeading(html, html.indexOf("<input"))).toBeNull();
   });
 
+  // #112 (live nuvo on jobs.gem.com 2026-08-31): captions are bare spans,
+  // inputs carry NO name/id/placeholder/aria — every field discovered as
+  // field_N and the classifier read the whole application as furniture.
+  it("recovers Gem-style bare-span captions for attribute-less inputs (#112)", () => {
+    const gem = `<div class="formLayout"><div class="h2-45">Ready to apply?</div>
+      <div class="form-38">
+        <span class="bodyImportant">First name<span class="requiredAsterisk"> *</span></span>
+        <div class="textField"><input data-1p-ignore="true" class="input-84" type="text" value=""></div>
+        <span class="bodyImportant">Last name<span class="requiredAsterisk"> *</span></span>
+        <div class="textField"><input data-1p-ignore="true" class="input-84" type="text" value=""></div>
+        <span class="bodyImportant">Email<span class="requiredAsterisk"> *</span></span>
+        <div class="textField"><input data-1p-ignore="true" class="input-84" type="text" value=""></div>
+        <span class="bodyImportant">LinkedIn URL</span>
+        <div class="textField"><input data-1p-ignore="true" class="input-84" type="text" value=""></div>
+      </div></div>`;
+    const fields = discoverFieldsFromHtml(gem);
+    expect(fields.map((f) => f.label)).toEqual([
+      "First name",
+      "Last name",
+      "Email",
+      "LinkedIn URL",
+    ]);
+  });
+
   it("does not discover controls inside display:none wizard steps", () => {
     const html = `<form>
       <div id="page1">

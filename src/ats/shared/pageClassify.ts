@@ -36,8 +36,11 @@ export type PageClassification = {
   evidence: string;
 };
 
+// "application for <role> has been received" — Gem's receipt card (live
+// nuvo 2026-08-31) names the role between the words; a bounded gap plus
+// optional "has been" covers that class without loosening the anchor words.
 const GENERIC_CONFIRMATION_RE =
-  /thank you for (applying|your application)|application (submitted|received|complete)|you(?:'ve| have) successfully (applied|submitted)/i;
+  /thank you for (applying|your application)|application (for .{1,80}? )?(has been |was )?(submitted|received|complete)|you(?:'ve| have) successfully (applied|submitted)/i;
 
 const APPLY_CTA_RE =
   /\bapply(?:\s+now)?\b[^<]{0,40}<|data-automation-id=["']adventureButton["']|>\s*apply\s*</i;

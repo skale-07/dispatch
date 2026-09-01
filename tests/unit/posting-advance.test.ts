@@ -43,6 +43,17 @@ describe("posting vs form discrimination (UNIT_CONFIRMED)", () => {
     ).toBe("unknown");
   });
 
+  // Live nuvo on jobs.gem.com (2026-08-31): the receipt names the role
+  // between "application" and "received" — the submit verifier classified
+  // the real receipt "unknown" and parked a SUCCESSFUL submission.
+  it("recognises a Gem-style receipt that names the role mid-sentence", () => {
+    const html = `<html><body><div>Congratulations!</div>
+      <div>Your application for Software Engineering Intern has been received!</div>
+      <div>Save your information in Gem to make applying to jobs faster.</div></body></html>`;
+    const r = classifyPage({ url: "https://jobs.gem.com/nuvo/x", html });
+    expect(r.page_class).toBe("confirmation");
+  });
+
   it("a listing page's search chrome is not an application form", () => {
     const c = classifyPage({
       html: LISTING_WITH_SEARCH_CHROME,
@@ -229,6 +240,38 @@ describe("advancePastPosting (FIXTURE_CONFIRMED)", () => {
       expect(r.hops).toBe(1);
       expect(r.html).toContain("first_name");
       expect(r.notes.join(" ")).toMatch(/landed on a posting/);
+    });
+  }, 45_000);
+
+  // Live nuvo on jobs.gem.com (2026-08-31): the posting offers
+  // "Apply and save" / "Apply without saving". Only the no-account
+  // variant is a CTA — same form, no third-party data retention.
+  it("picks \"Apply without saving\" on a Gem-style posting, never \"Apply and save\"", async () => {
+    const html = `<!DOCTYPE html><html><body>
+      <div id="stage">
+        <h1>Software Engineering Intern</h1>
+        <input id="position-query-search-search" placeholder="Search by job title, ID, or keyword" />
+        <button id="save" onclick="window.__savedWithGem = true">Apply and save</button>
+        <button id="nosave">Apply without saving</button>
+      </div>
+      <script>
+        document.getElementById('nosave').addEventListener('click', () => {
+          document.getElementById('stage').innerHTML =
+            '<form><label>First Name<input name="first_name"/></label>' +
+            '<label>Email<input type="email" name="email"/></label></form>';
+        });
+      </script></body></html>`;
+    await withFixtureHtmlPage(html, async (page) => {
+      const r = await advancePastPosting({
+        page,
+        html,
+        url: page.url(),
+        settleTimeoutMs: 5_000,
+      });
+      expect(r.advanced).toBe(true);
+      expect(r.page_class).toBe("form");
+      const saved = await page.evaluate("window.__savedWithGem");
+      expect(saved).toBeUndefined();
     });
   }, 45_000);
 

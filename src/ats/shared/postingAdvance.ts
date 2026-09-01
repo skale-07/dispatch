@@ -42,8 +42,11 @@ const APPLY_SELECTORS = [
   '[class*="apply-button" i]',
 ] as const;
 
+// "without saving" — Gem postings (live nuvo 2026-08-31) offer
+// "Apply and save" / "Apply without saving"; only the latter is accepted
+// on purpose: same form, no third-party account or data retention.
 const APPLY_TEXT_RE =
-  /^\s*apply(\s+now|\s+here|\s+for this (job|role|position)|\s+to .{1,32})?\s*$/i;
+  /^\s*apply(\s+now|\s+here|\s+for this (job|role|position)|\s+without saving|\s+to .{1,32})?\s*$/i;
 
 export type PostingAdvanceResult = {
   /** The page the flow should continue on (a popup, if the click opened one). */

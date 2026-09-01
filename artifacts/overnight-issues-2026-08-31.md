@@ -304,3 +304,36 @@ checkbox capture-worthy imperatives (Stripe's required cohort group
 screener tiers); Stripe's offer-deadline textarea label attached to the
 existing operator-approved `competing_offers` = "No" bank entry (same
 fact, new wording — the #100 short-textarea path then fills it).
+
+### ✅✅ Job #2 — 86533179 Nuvo Software Engineering Intern (Gem,
+jobs.gem.com/nuvo) — 02:51 UTC submit click; receipt-attempt-1.png
+"Congratulations! Your application … has been received!" — SUBMITTED
+(review:resolve on the UNCERTAIN_SUBMISSION item, receipt pixels are the
+evidence) → COMPLETED (LIVE_MUTATION_CONFIRMED). First-ever Gem
+submission. Outreach: 2 insider emails → 2 drafts (⚠ "Emily Brown" is
+emily.duffy@pentera.io — off-domain, JobRight's data; operator may skip
+that draft; Hugh O'Reilly III hugh@nuvo.com verified).
+
+### 112. Gem ATS end-to-end: caption-only fields invisible at every layer
+— FIXED (FIXTURE/UNIT 150+ green across 8 suites + LIVE submit)
+- Gem renders captions as bare `<span class="bodyImportant">First name
+  <span> *</span></span>`; inputs carry NO id/name/label/aria/placeholder.
+  Three walls, one per run, all ATS-general:
+  a. **Apply label**: the posting's CTAs are "Apply and save"/"Apply
+     without saving" — neither matched APPLY_TEXT_RE. Only "without
+     saving" added, deliberately: same form, no third-party account/data
+     retention (postingAdvance.ts).
+  b. **Discovery/classification**: every field discovered as `field_N`,
+     `hasApplicationIdentityFields` false ⇒ the APPLICATION was classed
+     "page furniture". `nearestPrecedingCaption` (short text run scoped
+     AFTER the previous control) + nearest-signal-wins vs section heading
+     — the description's "About the Role" h2 4k chars back had been
+     claiming all four fields once caption recovery existed.
+  c. **Locate at fill/verify**: caption rung appended to BOTH ladders in
+     greenhouse/fill.ts (`captionFollowControl`: caption text run that
+     contains no control → first following control) — fires only when
+     id/name/label/aria tiers all found nothing.
+- Also: GENERIC_CONFIRMATION_RE now tolerates "application for <role>
+  has been received" (bounded gap) — the verifier had classed Gem's real
+  receipt "unknown" and parked a successful submission as
+  SUBMISSION_VERIFICATION_FAILED. Reconciled via review:resolve.

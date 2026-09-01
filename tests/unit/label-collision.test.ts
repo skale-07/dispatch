@@ -92,6 +92,48 @@ describe("label collision (FIXTURE_CONFIRMED)", () => {
     });
   }, 45_000);
 
+  // #112 (live nuvo on jobs.gem.com 2026-08-31): captions are bare spans
+  // and inputs carry NO id/name/label/aria/placeholder — every earlier
+  // locator tier finds nothing. The caption rung finds the caption text
+  // run and takes the first FOLLOWING control; fill and verify share it.
+  it("fills and verifies a Gem-style caption-labeled anonymous input (#112)", async () => {
+    const GEM_HTML = `<!DOCTYPE html><html><body>
+      <h2>Ready to apply?</h2>
+      <div class="form">
+        <span class="caption">First name<span> *</span></span>
+        <div><div><input data-1p-ignore="true" type="text" value=""></div></div>
+        <span class="caption">Email<span> *</span></span>
+        <div><div><input data-1p-ignore="true" type="text" value=""></div></div>
+      </div></body></html>`;
+    await withFixtureHtmlPage(GEM_HTML, async (page) => {
+      const first = entry({
+        field_id: "f_0",
+        label: "First name",
+        type: "text",
+        value: "Ada",
+        canonical_field: "legal_name.first",
+      });
+      const email = entry({
+        field_id: "f_1",
+        label: "Email",
+        type: "text",
+        value: "ada@example.com",
+        canonical_field: "email",
+      });
+      const meta = new Map<string, FieldMeta>([
+        ["f_0", { type: "text" }],
+        ["f_1", { type: "text" }],
+      ]);
+      const fill = await greenhouseFillFromPlan(page, [first, email], meta);
+      expect(fill.errors).toEqual([]);
+      const inputs = page.locator("input[type=text]");
+      expect(await inputs.nth(0).inputValue()).toBe("Ada");
+      expect(await inputs.nth(1).inputValue()).toBe("ada@example.com");
+      const verify = await greenhouseVerifyFromPlan(page, [first, email], meta);
+      expect(verify.fields.map((f) => f.match)).toEqual([true, true]);
+    });
+  }, 45_000);
+
   it("a CHECKBOX entry never lands on a same-label text input", async () => {
     await withFixtureHtmlPage(COLLISION_HTML, async (page) => {
       const e = entry({

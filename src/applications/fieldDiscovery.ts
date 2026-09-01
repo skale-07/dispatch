@@ -36,6 +36,42 @@ const HEADING_RE =
   /<(legend|h1|h2|h3|h4|h5|h6)\b[^>]*>([\s\S]{1,300}?)<\/\1>/gi;
 
 /**
+ * Gem-style caption recovery (#112, live nuvo jobs.gem.com 2026-08-31):
+ * the form renders captions as bare `<span class="bodyImportant">First
+ * name<span> *</span></span>` — no <label>, no heading, and the inputs
+ * carry no name/id/placeholder/aria, so every field discovered as
+ * `field_N` and the classifier read the page as furniture. Fallback when
+ * no legend/heading resolves: the nearest short text run BEFORE the
+ * control, scoped to AFTER the previous form control so another field's
+ * caption (or a radio option) can never be stolen.
+ */
+export function nearestPrecedingCaption(
+  html: string,
+  position: number,
+): { text: string; distance: number } | null {
+  const window = html.slice(Math.max(0, position - 1_500), position);
+  const lastControl = Math.max(
+    window.lastIndexOf("<input"),
+    window.lastIndexOf("<select"),
+    window.lastIndexOf("<textarea"),
+    window.lastIndexOf("<button"),
+  );
+  const scopeStart = lastControl >= 0 ? lastControl : 0;
+  const scope = window.slice(scopeStart);
+  const re = /<(span|div|p|b|strong)\b[^>]*>([\s\S]{1,200}?)<\/\1>/gi;
+  let best: { text: string; distance: number } | null = null;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(scope)) !== null) {
+    const text = cleanLabel(decodeEntities(stripTags(m[2] ?? "")));
+    if (text.length < 3 || text.length > 80) continue;
+    if (isUninformativeLabel(text)) continue;
+    // last (nearest) informative run wins
+    best = { text, distance: window.length - (scopeStart + m.index) };
+  }
+  return best;
+}
+
+/**
  * Text of the nearest legend/heading/label BEFORE this position — the
  * question a machine-named control sits under. Bounded scan; returns null
  * rather than guessing when nothing informative precedes the field.
@@ -44,15 +80,22 @@ export function nearestSectionHeading(
   html: string,
   position: number,
 ): string | null {
+  return nearestSectionHeadingWithDistance(html, position)?.text ?? null;
+}
+
+function nearestSectionHeadingWithDistance(
+  html: string,
+  position: number,
+): { text: string; distance: number } | null {
   const window = html.slice(Math.max(0, position - 4_000), position);
   HEADING_RE.lastIndex = 0;
-  let best: string | null = null;
+  let best: { text: string; distance: number } | null = null;
   let m: RegExpExecArray | null;
   while ((m = HEADING_RE.exec(window)) !== null) {
     const text = cleanLabel(decodeEntities(stripTags(m[2] ?? "")));
     if (text.length < 3 || text.length > 200) continue;
     if (isUninformativeLabel(text)) continue;
-    best = text; // last (nearest) informative one wins
+    best = { text, distance: window.length - m.index }; // nearest wins
   }
   return best;
 }
@@ -180,7 +223,20 @@ export function discoverFieldsFromHtml(
     // prediction tier rejected them as "unusable label". Look upward for
     // the nearest legend/heading instead of giving up.
     if (isUninformativeLabel(label)) {
-      const nearby = nearestSectionHeading(html, m.index);
+      // #112: the NEARER of section heading vs bare-span caption wins —
+      // on Gem the description's "About the Role" h2 sits 4k chars back
+      // while the field's own caption span is right above it. Caption
+      // recovery is for plain inputs only: a radio/checkbox member's
+      // nearest text run is its OPTION, handled below.
+      const heading = nearestSectionHeadingWithDistance(html, m.index);
+      const caption =
+        fieldType !== "radio" && fieldType !== "checkbox"
+          ? nearestPrecedingCaption(html, m.index)
+          : null;
+      const nearby =
+        caption && (!heading || caption.distance < heading.distance)
+          ? caption.text
+          : (heading?.text ?? null);
       if (nearby) label = nearby;
     }
 
@@ -466,7 +522,8 @@ function stripTags(s: string): string {
 }
 
 function cleanLabel(s: string): string {
-  return s.replace(/\s*\*\s*$/, "").replace(/\s+/g, " ").trim();
+  // ✱ is Lever's required glyph (U+2731), same role as the trailing *.
+  return s.replace(/\s*[*✱]\s*$/, "").replace(/\s+/g, " ").trim();
 }
 
 /** Headings carry entities that a question text must not; decode the common ones. */
