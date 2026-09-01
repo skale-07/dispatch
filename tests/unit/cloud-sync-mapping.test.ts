@@ -1,10 +1,14 @@
 import { describe, expect, it } from "vitest";
 import {
   chunkRows,
+  joinOnboardedUsers,
   MIRROR_COLUMNS,
+  toReceiptUpload,
   toStatusMirrorRow,
   toStatusMirrorRows,
+  type CloudProfileRow,
   type EngineApplicationRow,
+  type EngineSubmissionRow,
 } from "../../src/cloud/syncMapping.js";
 import { assertSyncConfigured } from "../../src/cloud/syncSupabase.js";
 import { loadConfig } from "../../src/config/index.js";
@@ -95,6 +99,106 @@ describe("cloud sync mapping (UNIT_CONFIRMED)", () => {
     expect(chunkRows(rows, 2).map((c) => c.length)).toEqual([2, 1]);
     expect(chunkRows([], 5)).toEqual([]);
     expect(() => chunkRows(rows, 0)).toThrow(/positive integer/);
+  });
+});
+
+describe("receipt upload mapping (UNIT_CONFIRMED)", () => {
+  function sub(overrides: Partial<EngineSubmissionRow> = {}): EngineSubmissionRow {
+    return {
+      application_id: "app-9",
+      submission_attempt_number: 2,
+      submitted_at: "2026-09-01T10:00:00.000Z",
+      confirmation_url: "https://boards.example/confirm/123",
+      application_identifier: "GH-456",
+      screenshot_path: "applications/app-9/submission/receipt.png",
+      ...overrides,
+    };
+  }
+
+  it("builds the RLS-matching object path {uid}/{app}/attempt-N.png", () => {
+    const r = toReceiptUpload(sub(), "user-1");
+    expect(r).not.toBeNull();
+    expect(r!.objectPath).toBe("user-1/app-9/attempt-2.png");
+    expect(r!.row).toEqual({
+      user_id: "user-1",
+      engine_application_id: "app-9",
+      submission_attempt: 2,
+      object_path: "user-1/app-9/attempt-2.png",
+      submitted_at: "2026-09-01T10:00:00.000Z",
+      confirmation_url: "https://boards.example/confirm/123",
+      application_identifier: "GH-456",
+    });
+    expect(r!.localScreenshotPath).toBe("applications/app-9/submission/receipt.png");
+  });
+
+  it("no screenshot evidence ⇒ no receipt; bad attempt defaults to 1", () => {
+    expect(toReceiptUpload(sub({ screenshot_path: null }), "u")).toBeNull();
+    expect(toReceiptUpload(sub({ screenshot_path: "  " }), "u")).toBeNull();
+    const r = toReceiptUpload(sub({ submission_attempt_number: null }), "u");
+    expect(r!.row.submission_attempt).toBe(1);
+    expect(() => toReceiptUpload(sub(), " ")).toThrow(/user id/);
+  });
+});
+
+describe("onboarded-profile join (UNIT_CONFIRMED)", () => {
+  function profile(overrides: Partial<CloudProfileRow> = {}): CloudProfileRow {
+    return {
+      user_id: "u1",
+      full_name: "Test User",
+      phone: "+1 555 0100",
+      location_city: "Boston",
+      location_region: "MA",
+      location_country: "US",
+      linkedin_url: null,
+      github_url: null,
+      portfolio_url: null,
+      work_authorization: "us_citizen",
+      needs_sponsorship: false,
+      education: [{ school: "MIT", degree: "BS" }],
+      job_preferences: { titles: ["SWE Intern"], remote: "any" },
+      resume_object_path: "u1/resume.pdf",
+      resume_filename: "resume.pdf",
+      onboarding_completed_at: "2026-09-01T09:00:00.000Z",
+      ...overrides,
+    };
+  }
+
+  it("joins users to completed profiles and carries invite quota", () => {
+    const out = joinOnboardedUsers(
+      [
+        { id: "u1", email: "a@b.c", invite_id: "i1", max_completed_applications: 7 },
+        { id: "u2", email: "x@y.z", invite_id: "i2", max_completed_applications: 5 },
+      ],
+      [profile()],
+    );
+    expect(out).toHaveLength(1);
+    expect(out[0]!.userId).toBe("u1");
+    expect(out[0]!.maxCompletedApplications).toBe(7);
+    expect(out[0]!.workAuthorization).toBe("us_citizen");
+    expect(out[0]!.resumeObjectPath).toBe("u1/resume.pdf");
+    expect(out[0]!.education).toEqual([{ school: "MIT", degree: "BS" }]);
+  });
+
+  it("half-finished onboarding is never returned; malformed jsonb degrades safely", () => {
+    const out = joinOnboardedUsers(
+      [
+        { id: "u1", email: "a@b.c", invite_id: null },
+        { id: "u3", email: "m@n.o", invite_id: null },
+      ],
+      [
+        profile({ onboarding_completed_at: null }),
+        profile({
+          user_id: "u3",
+          education: "not-an-array",
+          job_preferences: ["not-an-object"],
+        }),
+      ],
+    );
+    expect(out).toHaveLength(1);
+    expect(out[0]!.userId).toBe("u3");
+    expect(out[0]!.education).toEqual([]);
+    expect(out[0]!.jobPreferences).toEqual({});
+    expect(out[0]!.maxCompletedApplications).toBeNull();
   });
 });
 

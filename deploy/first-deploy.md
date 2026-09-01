@@ -46,7 +46,15 @@ resumes, and ATS credentials never leave this machine.
 3. Project → Settings → Environment Variables:
    - `VITE_SUPABASE_URL` = project URL
    - `VITE_SUPABASE_ANON_KEY` = anon key
-   (Names are the contract with the frontend agent; anon key only.)
+   (Names are the contract with the storefront agent; anon key only —
+   NEVER the service-role key.)
+   The app is a client-routed SPA (`/redeem`, `/onboarding`,
+   `/dashboard`), so deep links must rewrite to `index.html`; storefront
+   ships `frontend/vercel.json`:
+
+   ```json
+   { "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }] }
+   ```
 4. Project → Settings → Domains → add the domain, follow the DNS
    records (A / CNAME) at your registrar. SSL is automatic.
 5. Smoke: open `https://<domain>`, join the waitlist, confirm a row in

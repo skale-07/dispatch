@@ -698,7 +698,7 @@
       "id": "cloud",
       "label": "Cloud plane bridge (invites + Supabase mirror)",
       "layer": "interface",
-      "purpose": "Split-plane v0 (docs/roadmap/cloud-deploy.md): mint invite codes/links locally with SQL/CSV exports for Supabase, and (behind SUPABASE_SYNC_ENABLED) one-way mirror aggregate application status to the cloud. No PII, resumes, credentials or artifacts ever cross; cloud state never flows back into the engine.",
+      "purpose": "Split-plane v0 public app (docs/roadmap/cloud-deploy.md): mint invite codes/links locally with SQL/CSV exports for Supabase; behind SUPABASE_SYNC_ENABLED, push aggregate status + submission receipts up and pull onboarded users' wizard profiles down (snapshot in private/cloud/users/). Whitelist mappers are the data boundary; the OPERATOR'S private/ contents and ATS credentials never cross upward, and cloud rows never mutate pipeline state directly.",
       "paths": [
         "src/cloud",
         "supabase"
@@ -719,10 +719,14 @@
         ],
         "src/cloud/syncMapping.ts": [
           "toStatusMirrorRow",
-          "MIRROR_COLUMNS"
+          "MIRROR_COLUMNS",
+          "toReceiptUpload",
+          "joinOnboardedUsers"
         ],
         "src/cloud/syncSupabase.ts": [
           "runSupabaseSync",
+          "runReceiptsPush",
+          "runProfilesPull",
           "assertSyncConfigured"
         ]
       },

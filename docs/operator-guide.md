@@ -1821,22 +1821,40 @@ Supabase SQL editor to make the codes redeemable; share the printed
 links. Redemption, once-only enforcement, and quota accounting are
 cloud-side (`supabase/migrations/`).
 
-## 25. Cloud status mirror — `cloud:sync`
+## 25. Cloud sync — `cloud:sync` (status + receipts up, profiles down)
 
-One-shot, one-way push of aggregate application status (company, role,
-state, route, source ATS, timestamps — nothing else; the whitelist is
-`MIRROR_COLUMNS` in `src/cloud/syncMapping.ts`) into Supabase's
-`application_status_mirror`, so the hosted read-only console can show
-progress. Fail-closed: requires all of
+One bounded pass per invocation, all behind the same fail-closed gate:
+
+```
+npm run cloud:sync                 # push status mirror + receipts
+npm run cloud:sync -- --pull       # also pull onboarded user profiles
+npm run cloud:sync -- --no-receipts  # status only
+```
+
+- **Status push:** aggregate application rows (company, role, state,
+  route, source ATS, timestamps — nothing else; the whitelist is
+  `MIRROR_COLUMNS` in `src/cloud/syncMapping.ts`) upserted into
+  `application_status_mirror` for the user's dashboard.
+- **Receipts push:** each submitted application's screenshot + attempt
+  metadata uploaded to the private `receipts` bucket
+  (`{uid}/{app}/attempt-N.png`) + `application_receipts`. Idempotent;
+  missing screenshot files are counted and skipped.
+- **Profiles pull (`--pull`):** users who FINISHED onboarding, joined
+  to their invite quota, snapshotted to
+  `private/cloud/users/onboarded-<ts>.json` (user PII ⇒ `private/`,
+  never `artifacts/`). Half-finished onboarding never comes down.
+
+Fail-closed: requires all of
 
 ```
 SUPABASE_SYNC_ENABLED=true
 SUPABASE_URL=https://<ref>.supabase.co
 SUPABASE_SERVICE_ROLE_KEY=...   # engine machine ONLY, never frontend
-SUPABASE_SYNC_USER_ID=<auth.users uuid the rows belong to>
+SUPABASE_SYNC_USER_ID=<auth.users uuid the pushed rows belong to>
 ```
 
 in `.env`, and refuses loudly naming whichever is missing. Run it after
-a session (or alongside `auto:cycle`); one invocation is one bounded
-pass — there is no polling loop. Nothing is ever read back from the
-cloud, and cloud rows never influence the pipeline.
+a session (or alongside `auto:cycle`); there is no polling loop. Cloud
+rows never mutate pipeline state directly — you act on the pulled
+snapshot deliberately. Your own `private/` candidate data, vault
+entries, and ATS credentials never go up.

@@ -1,23 +1,37 @@
+import fs from "node:fs";
+import path from "node:path";
 import { getConfig, type AppConfig } from "../config/index.js";
 import { logger } from "../logging/logger.js";
 import type { Db } from "../storage/db/client.js";
 import {
   chunkRows,
+  joinOnboardedUsers,
+  toReceiptUpload,
   toStatusMirrorRows,
+  type CloudAppUserRow,
+  type CloudProfileRow,
   type EngineApplicationRow,
+  type EngineSubmissionRow,
+  type OnboardedUser,
   type StatusMirrorRow,
 } from "./syncMapping.js";
 
 /**
- * One-way engine → Supabase status mirror (cloud plane v0.5,
- * docs/roadmap/cloud-deploy.md).
+ * Engine ⇄ Supabase sync (cloud plane v0, docs/roadmap/cloud-deploy.md).
  *
  * Fail-closed behind SUPABASE_SYNC_ENABLED and refuses loudly unless all
  * of SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY / SUPABASE_SYNC_USER_ID are
- * configured. The read side is the same discipline as the console read
- * models (SELECTs only, aggregate columns); the write side upserts through
- * @supabase/supabase-js with the service-role key, which never leaves this
- * machine. Nothing is ever read back from the cloud into the engine.
+ * configured. Three bounded operations, all behind the same flag:
+ *
+ *   PUSH status   — aggregate application rows → application_status_mirror
+ *   PUSH receipts — submission screenshots + metadata → `receipts` bucket
+ *                   + application_receipts (the user's OWN evidence)
+ *   PULL profiles — onboarded users' wizard data → a snapshot under
+ *                   private/cloud/users/ for the engine to act on
+ *
+ * The permitted surfaces are the whitelist mappers in syncMapping.ts. The
+ * service-role key never leaves this machine. What never crosses upward:
+ * the operator's private/ contents, ATS credentials, vault entries.
  */
 
 export const SYNC_BATCH_SIZE = 200;
@@ -73,6 +87,31 @@ export function assertSyncConfigured(config: AppConfig): {
   };
 }
 
+/** Newest submitted attempts with evidence; bounded like every sync read. */
+export function selectSubmittedRows(db: Db): EngineSubmissionRow[] {
+  return db
+    .prepare(
+      `SELECT application_id, submission_attempt_number, submitted_at,
+              confirmation_url, application_identifier, screenshot_path
+       FROM submissions
+       WHERE submitted = 1
+       ORDER BY submitted_at DESC
+       LIMIT 500`,
+    )
+    .all() as EngineSubmissionRow[];
+}
+
+async function makeClient(url: string, serviceRoleKey: string) {
+  // Loaded only after the gate passes: tests (flag always off) never touch
+  // the dependency, and no client object exists to leak the key from.
+  const { createClient } = await import("@supabase/supabase-js");
+  return createClient(url, serviceRoleKey, {
+    auth: { persistSession: false, autoRefreshToken: false },
+  });
+}
+
+type SupabaseClientLike = Awaited<ReturnType<typeof makeClient>>;
+
 export async function runSupabaseSync(options: {
   db: Db;
   now?: () => Date;
@@ -88,12 +127,7 @@ export async function runSupabaseSync(options: {
     (options.now ?? (() => new Date()))(),
   );
 
-  // Loaded only after the gate passes: tests (flag always off) never touch
-  // the dependency, and no client object exists to leak the key from.
-  const { createClient } = await import("@supabase/supabase-js");
-  const client = createClient(url, serviceRoleKey, {
-    auth: { persistSession: false, autoRefreshToken: false },
-  });
+  const client = await makeClient(url, serviceRoleKey);
 
   let upserted = 0;
   const batches = chunkRows(rows, SYNC_BATCH_SIZE);
@@ -120,4 +154,154 @@ export async function runSupabaseSync(options: {
     metadata: { ...result },
   });
   return result;
+}
+
+export type ReceiptsPushResult = {
+  candidates: number;
+  uploaded: number;
+  rows_upserted: number;
+  skipped_missing_file: number;
+  duration_ms: number;
+};
+
+/**
+ * Upload each submitted application's screenshot receipt to the private
+ * `receipts` bucket ({uid}/{app}/attempt-N.png) and upsert its metadata
+ * row. Idempotent: storage upsert + row unique key make re-runs safe.
+ */
+export async function runReceiptsPush(options: {
+  db: Db;
+  client?: SupabaseClientLike;
+}): Promise<ReceiptsPushResult> {
+  const started = Date.now();
+  const config = getConfig();
+  const { url, serviceRoleKey, userId } = assertSyncConfigured(config);
+  const client = options.client ?? (await makeClient(url, serviceRoleKey));
+
+  const subs = selectSubmittedRows(options.db);
+  let uploaded = 0;
+  let rowsUpserted = 0;
+  let skippedMissing = 0;
+  let candidates = 0;
+
+  for (const sub of subs) {
+    const receipt = toReceiptUpload(sub, userId);
+    if (receipt === null) continue;
+    candidates += 1;
+    const localPath = path.isAbsolute(receipt.localScreenshotPath)
+      ? receipt.localScreenshotPath
+      : path.join(config.artifactsDir, receipt.localScreenshotPath);
+    if (!fs.existsSync(localPath)) {
+      skippedMissing += 1;
+      continue;
+    }
+    const bytes = fs.readFileSync(localPath);
+    const { error: uploadError } = await client.storage
+      .from("receipts")
+      .upload(receipt.objectPath, bytes, {
+        contentType: "image/png",
+        upsert: true,
+      });
+    if (uploadError) {
+      throw new Error(`receipt upload failed (${receipt.objectPath}): ${uploadError.message}`);
+    }
+    uploaded += 1;
+    const { error: rowError } = await client
+      .from("application_receipts")
+      .upsert([receipt.row], {
+        onConflict: "user_id,engine_application_id,submission_attempt",
+      });
+    if (rowError) {
+      throw new Error(`receipt row upsert failed: ${rowError.message}`);
+    }
+    rowsUpserted += 1;
+  }
+
+  const result: ReceiptsPushResult = {
+    candidates,
+    uploaded,
+    rows_upserted: rowsUpserted,
+    skipped_missing_file: skippedMissing,
+    duration_ms: Date.now() - started,
+  };
+  logger.info("supabase receipts pushed", {
+    service: "cloud",
+    action: "receipts_push",
+    metadata: { ...result },
+  });
+  return result;
+}
+
+export type ProfilesPullResult = {
+  onboarded_users: number;
+  snapshot_path: string;
+  duration_ms: number;
+};
+
+/**
+ * Pull every ONBOARDED user's wizard profile + preferences down to a
+ * snapshot under private/cloud/users/ (gitignored — user PII belongs in
+ * private/, never artifacts/). This is the sanctioned cloud → engine read;
+ * it feeds operator-run engine sessions, never the cloud tables back.
+ */
+export async function runProfilesPull(options: {
+  client?: SupabaseClientLike;
+  now?: () => Date;
+}): Promise<ProfilesPullResult & { users: OnboardedUser[] }> {
+  const started = Date.now();
+  const config = getConfig();
+  const { url, serviceRoleKey } = assertSyncConfigured(config);
+  const client = options.client ?? (await makeClient(url, serviceRoleKey));
+
+  const usersRes = await client
+    .from("app_users")
+    .select("id, email, invite_id, invites(max_completed_applications)")
+    .limit(1000);
+  if (usersRes.error) {
+    throw new Error(`app_users select failed: ${usersRes.error.message}`);
+  }
+  const profilesRes = await client
+    .from("user_profiles")
+    .select("*")
+    .not("onboarding_completed_at", "is", null)
+    .limit(1000);
+  if (profilesRes.error) {
+    throw new Error(`user_profiles select failed: ${profilesRes.error.message}`);
+  }
+
+  const userRows: CloudAppUserRow[] = (
+    (usersRes.data ?? []) as Array<Record<string, unknown>>
+  ).map((u) => ({
+    id: String(u["id"]),
+    email: String(u["email"] ?? ""),
+    invite_id: (u["invite_id"] as string | null) ?? null,
+    max_completed_applications:
+      (u["invites"] as { max_completed_applications?: number } | null)
+        ?.max_completed_applications ?? null,
+  }));
+  const users = joinOnboardedUsers(
+    userRows,
+    (profilesRes.data ?? []) as CloudProfileRow[],
+  );
+
+  const outDir = path.join(config.privateDir, "cloud", "users");
+  fs.mkdirSync(outDir, { recursive: true });
+  const stamp = (options.now ?? (() => new Date()))()
+    .toISOString()
+    .replace(/[:.]/g, "-");
+  const snapshotPath = path.join(outDir, `onboarded-${stamp}.json`);
+  fs.writeFileSync(snapshotPath, `${JSON.stringify(users, null, 2)}\n`, "utf8");
+
+  const result: ProfilesPullResult = {
+    onboarded_users: users.length,
+    snapshot_path: snapshotPath,
+    duration_ms: Date.now() - started,
+  };
+  logger.info("supabase profiles pulled", {
+    service: "cloud",
+    action: "profiles_pull",
+    // Counts and path only — never profile contents in logs.
+    metadata: { ...result },
+  });
+  return { ...result, users };
 }

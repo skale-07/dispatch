@@ -7,39 +7,50 @@ Owner: operator. Engine plane invariants in this document defer to
 ## The one architectural decision (approved)
 
 **Split-plane.** The engine plane (this repo as it runs today —
-Playwright, the operator's debug Chrome, `private/` PII, the SQLite
+Playwright, the operator's debug Chrome, `private/` contents, the SQLite
 source of truth in `data/`) stays on the operator's machine. The cloud
-plane is additive: a marketing/waitlist frontend, Supabase (Postgres)
-holding **users, invites, quotas, and a one-way status mirror**, and —
-only in v1 — per-user containerized engines.
+plane is a **real public web app** (operator direction 2026-09-01):
+users visit the domain, redeem an invite (Supabase Auth magic link),
+complete an onboarding wizard, and get a dashboard of their
+applications, screenshot receipts, and remaining quota. Nothing
+localhost-shaped ever reaches a user; the operator console remains
+internal tooling.
 
 ```
 ┌────────────────────── CLOUD PLANE ──────────────────────┐
-│  operator domain (Vercel Hobby, free)                   │
-│    v0:   marketing site + waitlist + invite redemption  │
-│    v0.5: read-only console mirror (reads Supabase       │
-│          directly with anon key + RLS — no API server)  │
+│  operator domain (Vercel Hobby, free) — the PUBLIC APP  │
+│    marketing + waitlist + invite redemption             │
+│    onboarding wizard (profile, education, work auth,    │
+│      resume upload, job preferences)                    │
+│    dashboard (applications · receipts · quota)          │
+│    SPA → Supabase directly (anon key + RLS); no API     │
 │                                                         │
 │  Supabase (free tier + $300 YC credit)                  │
-│    auth.users · app_users · invites ·                   │
-│    application_status_mirror (status strings only)      │
-└──────────────▲──────────────────────────────────────────┘
-               │ one-way upserts, service-role key,
-               │ SUPABASE_SYNC_ENABLED (fail-closed)
-┌──────────────┴────────────── ENGINE PLANE ──────────────┐
+│    auth.users · app_users · invites · waitlist          │
+│    user_profiles · application_status_mirror ·          │
+│    application_receipts · storage: resumes/, receipts/  │
+└───────▲──────────────────────────────┬──────────────────┘
+        │ PUSH status + receipts       │ PULL onboarded
+        │ (service-role key,           │ profiles/prefs
+        │  SUPABASE_SYNC_ENABLED,      │ (same flag, into
+        │  fail-closed)                │  private/cloud/)
+┌───────┴──────────────────────────────▼────── ENGINE ────┐
 │  operator machine (today) / per-user AWS container (v1) │
 │  Playwright + debug Chrome · SQLite (data/) · private/  │
-│  ALL PII, resumes, portal credentials, sensitive        │
-│  profile, LLM keys — never leaves this plane in v0/v0.5 │
+│  Operator console = INTERNAL tooling (loopback-only)    │
+│  The OPERATOR'S private/ contents, ATS credentials,     │
+│  vault entries, LLM keys — never go to the cloud        │
 └─────────────────────────────────────────────────────────┘
 ```
 
-**Data-flow rule (non-negotiable through v0.5):** nothing crosses from
-engine → cloud except rows of the shape
-`(engine_application_id, company, role, state, route, source_ats, timestamps)`
-plus invite/user bookkeeping. No candidate PII, no resumes, no answers,
-no ATS credentials, no artifacts, no screenshots. The sync worker is a
-mirror of already-aggregate console read models, filtered further.
+**Data-flow rule (non-negotiable):** the cloud plane holds
+**user-submitted** data (their own profile, resume, preferences) and
+**their own application evidence** (status rows, screenshot receipts) —
+that is correct and expected. What never crosses upward is the
+OPERATOR'S local `private/` contents, ATS/portal credentials, vault
+entries, and LLM keys. Every engine→cloud write goes through the
+whitelist mappers in `src/cloud/syncMapping.ts`; every cloud table and
+bucket is under RLS so a user sees only their own rows/objects.
 
 ## Cost posture (per coordinator directive 2026-09-01)
 
@@ -48,8 +59,8 @@ rides free tiers plus the operator's YC Startup School credits:
 
 | Credit | Amount | Use |
 | --- | --- | --- |
-| Supabase | $300 / 12 mo | v0–v0.5 entirely (free tier likely suffices; credits are headroom) |
-| AWS | $10,000 | **RESERVED for v1** per-user containerized engines. Do not spend on v0/v0.5. |
+| Supabase | $300 / 12 mo | v0 entirely — auth, tables, storage buckets (free tier likely suffices; credits are headroom) |
+| AWS | $10,000 | **RESERVED for v1** per-user containerized engines. Do not spend on v0. |
 | Anthropic | $500 | Pipeline LLM calls (screeners, essays, nav sidecar) — not infra |
 | OpenAI | $1,000 | Same — fallback provider spend |
 | Langfuse (optional) | $100/mo × 6 | Optional LLM observability once multiple users generate LLM traffic |
@@ -60,13 +71,18 @@ non-commercial/hobby use — fine for an invite-only test cohort; revisit
 
 ---
 
-## Phase v0 — marketing site + waitlist + invite links (days, not weeks)
+## Phase v0 — the public app (waitlist + invites + onboarding + dashboard)
 
-Goal: a public page on the operator's domain where a visitor can join a
-waitlist, and an invited tester can redeem an invite code, creating a
-cloud account with a quota. **No engine capacity is exposed yet** — v0
-test users ride operator-provisioned engine runs; the cloud account is
-identity + quota + (from v0.5) a status page.
+Goal: a real product on the operator's domain. A visitor joins the
+waitlist; an invited tester redeems a code (Supabase Auth magic link),
+completes the onboarding wizard (name/contact, education, work
+authorization, resume upload, job preferences), and lands on a dashboard
+showing their applications, screenshot receipts, and remaining quota.
+**Engine capacity is still operator-provisioned** — the engine pulls
+onboarded profiles (`cloud:sync --pull`), the operator runs their queue,
+and pushes status + receipts back up. The old "hosted console mirror"
+idea is dead: the operator console is internal tooling only, and nothing
+localhost-shaped ever reaches a user.
 
 ### Hosting recommendation: Vercel (Hobby), with reasoning
 
@@ -80,25 +96,30 @@ identity + quota + (from v0.5) a status page.
 - Alternative considered — **Fly.io**: better once we want the console
   server itself hosted (long-running Node process, Dockerfile in
   `deploy/` already works for it). Chosen for v1 engine experiments or
-  a hosted API if v0.5's direct-to-Supabase reads ever prove
-  insufficient; overkill for a static site.
+  a hosted API if the SPA's direct-to-Supabase reads ever prove
+  insufficient; overkill for a static SPA.
 
 ### v0 scope
 
-1. Marketing/waitlist page (frontend agent owns `frontend/**`; the
-   redemption API contract is below).
+1. The public SPA (storefront agent owns `frontend/**`; the full
+   Supabase contract is below): marketing + waitlist, invite redemption,
+   onboarding wizard, dashboard.
 2. Supabase project with `supabase/migrations/` applied: `app_users`,
-   `invites`, `waitlist`, `application_status_mirror`, RLS.
+   `invites`, `waitlist`, `user_profiles`, `application_status_mirror`,
+   `application_receipts`, the `resumes`/`receipts` storage buckets, RLS
+   throughout.
 3. Invite minting on the engine machine:
    `npm run invites:mint -- --count N --quota M --base-url https://<domain>`
    generates codes + shareable links, stores them in local SQLite, and
    emits SQL/CSV under `private/cloud/invites/` to paste into Supabase
-   until keys exist (then the same CLI can be re-run with keys to push
-   directly — v0.5).
-4. Redemption flow (stub page contract): visitor signs up via Supabase
-   Auth (email OTP/magic link), then calls the `redeem_invite` RPC.
+   until keys exist.
+4. Engine sync, both directions behind the one fail-closed flag
+   (`SUPABASE_SYNC_ENABLED`): `npm run cloud:sync` pushes status +
+   screenshot receipts; `--pull` brings onboarded users' profiles and
+   preferences down into `private/cloud/users/` for operator-run engine
+   sessions.
 
-### Frontend redemption contract (for the frontend agent)
+### Frontend ⇄ Supabase contract (for the storefront agent)
 
 All calls are `@supabase/supabase-js` against the operator's Supabase
 project with the **anon key** (safe to ship in the bundle; RLS is the
@@ -119,17 +140,56 @@ const { data, error } = await supabase.rpc("redeem_invite", {
 // error.message on failure is one of:
 //   "invalid invite code" | "invite already redeemed" | "not authenticated"
 
-// 4. Own profile + quota (RLS: only your rows)
+// 4. Own account + quota (RLS: only your rows)
 const { data: me } = await supabase.from("app_users").select("*").single();
 const { data: quota } = await supabase
   .from("user_quota_status")           // view: used vs max
   .select("*").single();
 
-// 5. (v0.5) Own application statuses, newest first
+// 5. Onboarding wizard — one user_profiles row, upsert as steps complete.
+//    Columns (see supabase/migrations/20260902000100_user_profiles.sql):
+//    full_name, phone, location_city/region/country, linkedin_url,
+//    github_url, portfolio_url, work_authorization ('us_citizen' |
+//    'permanent_resident' | 'visa_holder' | 'needs_sponsorship' |
+//    'other'), needs_sponsorship, education (jsonb array of
+//    {school, degree, field, start_year, end_year, gpa?}),
+//    job_preferences (jsonb {titles[], locations[], remote:
+//    'remote'|'hybrid'|'onsite'|'any', employment_types[],
+//    min_salary_usd?}), resume_object_path/filename/uploaded_at,
+//    onboarding_completed_at (set by the FINAL step — the engine ignores
+//    profiles until it is non-null).
+await supabase.from("user_profiles").upsert({
+  user_id: session.user.id, full_name, phone, /* ...step fields */
+});
+
+// 6. Resume upload — private `resumes` bucket, path MUST start with the
+//    user's own uid (storage RLS enforces it), then record it:
+const objectPath = `${session.user.id}/${file.name}`;
+await supabase.storage.from("resumes").upload(objectPath, file, { upsert: true });
+await supabase.from("user_profiles").upsert({
+  user_id: session.user.id,
+  resume_object_path: objectPath,
+  resume_filename: file.name,
+  resume_uploaded_at: new Date().toISOString(),
+});
+
+// 7. Dashboard — own applications with the latest receipt attached
+//    (my_applications view: id, company, role, status, route, source_ats,
+//     engine_updated_at, submitted_at, receipt_path)
 const { data: apps } = await supabase
-  .from("application_status_mirror")
-  .select("engine_application_id, company, role, state, route, source_ats, engine_updated_at")
+  .from("my_applications")
+  .select("*")
   .order("engine_updated_at", { ascending: false });
+
+// 8. Dashboard — screenshot receipts (rows + signed image URLs).
+//    Receipts are engine-written; users are read-only by design.
+const { data: receipts } = await supabase
+  .from("application_receipts")
+  .select("engine_application_id, submission_attempt, object_path, submitted_at, confirmation_url, application_identifier")
+  .order("created_at", { ascending: false });
+const { data: signed } = await supabase.storage
+  .from("receipts")
+  .createSignedUrl(receipts[0].object_path, 3600);
 ```
 
 Invite link shape minted by the CLI: `<base-url>/redeem?code=<CODE>`,
@@ -143,36 +203,42 @@ code format `JRA-` + 2×4 crockford-base32 groups (e.g.
 used/remaining; enforcement in v0 is operational (the operator stops
 running that user's queue at quota), becomes automatic in v1.
 
-## Phase v0.5 — read-only hosted console mirror (week 2)
+## The engine sync — two-way, one flag, whitelisted both directions
 
-Goal: an invited user (and the operator, from a phone) sees live-ish
-application status on the domain without the engine exposing any port.
+`npm run cloud:sync` (`src/cloud/syncSupabase.ts`), gated by
+`SUPABASE_SYNC_ENABLED` (fail-closed, `.env.example`), refusing loudly
+without `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY` +
+`SUPABASE_SYNC_USER_ID`. The service-role key never leaves the engine
+machine.
 
-- **Engine side:** `npm run cloud:sync` (`src/cloud/syncSupabase.ts`)
-  reads the same aggregate queries the local console read models use
-  (`src/console/readModels.ts` discipline: SELECTs only, redacted),
-  maps them through pure functions (`src/cloud/syncMapping.ts` —
-  unit-tested), and **upserts** to `application_status_mirror` with the
-  **service-role key, which never leaves the engine machine**. Gated by
-  `SUPABASE_SYNC_ENABLED` (fail-closed, `.env.example`), refuses loudly
-  without `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY` +
-  `SUPABASE_SYNC_USER_ID`. One-way: the worker never reads cloud state
-  into the engine, and cloud rows never influence the pipeline.
-- **Cloud side:** the hosted frontend reads
-  `application_status_mirror` directly with the anon key; RLS restricts
-  every user to `user_id = auth.uid()`. **No hosted API server** — one
-  less thing to secure, deploy, and pay for.
-- Sync cadence: on-demand CLI at first; then a loop with a bounded
-  interval and attempt caps (house rule: no unbounded polling) run by
-  the operator alongside overnight sessions.
+- **PUSH status:** the same aggregate queries the local console read
+  models use (`src/console/readModels.ts` discipline: SELECTs only),
+  mapped through pure, unit-tested whitelist functions
+  (`MIRROR_COLUMNS` in `src/cloud/syncMapping.ts`), upserted in bounded
+  batches to `application_status_mirror`.
+- **PUSH receipts:** each submitted application's screenshot + metadata
+  (attempt, confirmation URL, application identifier) — the user's own
+  evidence — uploaded to the private `receipts` bucket at
+  `{uid}/{app}/attempt-N.png` and upserted into `application_receipts`.
+  Idempotent; missing files are counted and skipped, never fatal.
+- **PULL profiles (`--pull`):** onboarded users' wizard data
+  (`onboarding_completed_at` non-null only — half-finished onboarding is
+  never acted on) joined to invite quota, snapshotted into
+  `private/cloud/users/onboarded-<ts>.json`. User PII lives under
+  `private/` on the engine, never `artifacts/`. Cloud rows never
+  mutate engine pipeline state directly — the operator runs sessions
+  from the snapshot.
+- Cadence: on-demand CLI; any future loop gets a bounded interval and
+  attempt caps (house rule: no unbounded polling).
 
-### The local console stays exactly as-is
+### The operator console is internal tooling — repositioned explicitly
 
-`src/console/security.ts` (localhost Host-header pin + per-boot bearer
-token) and the `CONSOLE_HOST` 127.0.0.1 assertion in
-`src/config/env.ts` are untouched in every phase. Hosted read surface
-is a *different* deployment (static frontend + Supabase), not a
-re-exposed local console.
+The console (`npm run console`) is for the OPERATOR only. Its security
+model (`src/console/security.ts` localhost Host-header pin + per-boot
+bearer token, `CONSOLE_HOST` 127.0.0.1 assertion in
+`src/config/env.ts`) is untouched in every phase, and no user-facing
+surface is ever built on it. Users get the public SPA + Supabase under
+RLS; nothing localhost-shaped reaches them.
 
 ### Hosted-auth design (documented now, built only when needed)
 
@@ -225,9 +291,9 @@ stop riding operator capacity.
     (24/7) would be ~$36/user/mo — the session-scoped design is the
     cost model.
 - Quota enforcement becomes automatic: the engine refuses to start a
-  fill for a user at `max_completed_applications` (read from the
-  invite row at session start — the one permitted cloud→engine read,
-  added in v1 with its own flag).
+  fill for a user at `max_completed_applications` (the quota already
+  rides down with the v0 profiles pull; v1 makes the refusal
+  programmatic at session start instead of operational).
 
 ## The `.env` override fix (PaaS-breaking behavior, fixed additively)
 
@@ -273,3 +339,4 @@ parentheses.
 | 3 | `invites:mint` CLI + local `cloud_invites` table + SQL/CSV export to `private/cloud/invites/` | UNIT_CONFIRMED (code gen, link building, SQL/CSV emit) |
 | 4 | `src/cloud/syncSupabase.ts` behind `SUPABASE_SYNC_ENABLED` + `DOTENV_OVERRIDE` fix | UNIT_CONFIRMED (pure mapping); live sync is LIVE_MUTATION (cloud-only) once keys exist |
 | 5 | `deploy/` Dockerfile + first-deploy runbook; `npm run build` (tsc → dist, no tsx at runtime) | image builds + console serves locally (docker available on this box) |
+| 6 | v0 public-app schema (`user_profiles`, storage buckets + policies, `application_receipts`) + two-way sync (receipts push, profiles pull) + this roadmap's v0 reframe | UNIT_CONFIRMED (mappers/joins); cloud-side LIVE once operator keys exist |
