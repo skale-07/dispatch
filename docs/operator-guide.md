@@ -1240,6 +1240,14 @@ npm run auto:cycle -- --duration 60 --max-submits 5 --max-apps 10
 npm run auto:cycle -- --no-update --max-apps 1 --app-deadline 180   # one job, 3-minute budget
 ```
 
+Standing behavior (operator directive 2026-09-01):
+
+- **Discovery is one job per cycle** (`discover_max` defaults to 1) —
+  postings churn too fast for a batch queue; each cycle pulls the current
+  top recommendation fresh and attempts it on ANY board — proven or not.
+  Every unproven-board attempt is a chance to generalize the platform;
+  there is no time-of-day gating.
+
 `--app-deadline <sec>` is a per-application wall-clock budget. It is checked
 at pipeline step boundaries (the same cooperative seam as the console Skip
 button — never mid-click), so a job that is still in flight past the budget

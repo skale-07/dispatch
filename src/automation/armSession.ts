@@ -29,7 +29,8 @@ const DURATION_MAX = 240;
 const DEFAULT_DURATION = 120;
 const DEFAULT_MAX_SUBMITS = 10;
 const DEFAULT_MAX_APPS = 25;
-const DEFAULT_DISCOVER_MAX = 10;
+// Operator 2026-09-01: postings churn — discover ONE fresh job per cycle.
+const DEFAULT_DISCOVER_MAX = 1;
 const DEFAULT_REDISCOVER_EVERY = 5;
 
 export type ArmMetadata = {

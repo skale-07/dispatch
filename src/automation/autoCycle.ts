@@ -383,7 +383,9 @@ async function runAutoCycleInner(
           db: database,
           armRunId: id,
           headless: input.headless ?? false,
-          discoverMax: report.arm?.discover_max ?? 8,
+          // Operator 2026-09-01: postings churn fast — discover ONE fresh
+          // job per cycle instead of a batch that goes stale in the queue.
+          discoverMax: report.arm?.discover_max ?? 1,
           ...(input.appDeadlineSeconds !== undefined && input.appDeadlineSeconds > 0
             ? { appDeadlineMs: Math.round(input.appDeadlineSeconds * 1000) }
             : {}),

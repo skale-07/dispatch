@@ -147,6 +147,11 @@ const GENERIC_URL_WORDS = new Set([
   // locale segments, already compacted (en_US -> "enus")
   "enus", "engb", "enca", "enau", "frfr", "frca", "dede", "eses", "ptbr",
   "jajp", "zhcn", "kokr", "itit", "nlnl",
+  // #128 (live atlassian 2026-09-01): iCIMS shards tenants onto REGIONAL
+  // hosts — careers-americas.icims.com is Atlassian's board, and
+  // "americas" accused a correct URL. Regions are never employer names.
+  "americas", "america", "northamerica", "latam", "emea", "apac", "amer",
+  "asia", "europe", "international", "intl", "worldwide",
   // Live 2026-08-30 (night19): every one of these was read as an EMPLOYER
   // and accused a correct URL — linkedin.com/jobs/view, oraclecloud
   // /hcmUI/CandidateExperience/en/sites/CX, brassring /TGnewUI/Search/home,
