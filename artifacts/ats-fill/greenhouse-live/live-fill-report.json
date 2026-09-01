@@ -1,7 +1,7 @@
 {
   "mode": "executed",
   "ats": "greenhouse",
-  "url": "https://boards.greenhouse.io/databricks/jobs/8732364002",
+  "url": "https://boards.greenhouse.io/flyzipline/jobs/7886501003",
   "plan": {
     "answers": {
       "legal_name.first": "Shubham",
@@ -10,24 +10,15 @@
       "address.country": "United States",
       "phone": "***-***-7636",
       "address.city": "Baltimore",
-      "degree": "Bachelor of Science",
-      "graduation_month": "May",
-      "graduation_year": "2029",
-      "screener:custom:expected_graduation_date": "Later than Summer 2028",
-      "screener:custom:gpa_range": "3.6 or above (out of 4.0)",
-      "screener:custom:preferred_location": "San Francisco, CA",
-      "screener:availability_full_time": "Yes",
       "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
-      "how_heard": "LinkedIn",
-      "work_authorization": "[REDACTED_SPONSORSHIP]",
-      "screener:requires_sponsorship": "[REDACTED_SPONSORSHIP]",
-      "screener:previously_applied_or_worked": "No",
-      "screener:custom:sanctions_export_control_status": "None of the above",
-      "screener:custom:sanctions_followup_not_applicable": "Not applicable (i.e., I selected “none of the above” for the prior question)",
-      "gender": "Male",
-      "hispanic_latino": "No",
-      "veteran_status": "I am not a veteran",
-      "disability_status": "No"
+      "screener:how_heard": "LinkedIn",
+      "screener:availability_full_time": "Yes",
+      "screener:work_authorization": "[REDACTED_SPONSORSHIP]",
+      "gender_identity": "Man",
+      "sexual_orientation": "Heterosexual",
+      "transgender": "No",
+      "disability_status": "No",
+      "veteran_status": "I am not a veteran"
     },
     "entries": [
       {
@@ -46,15 +37,6 @@
         "canonical_field": "legal_name.last",
         "action": "fill",
         "value": "Kale",
-        "reason": "Mapped from public profile"
-      },
-      {
-        "field_id": "preferred_name",
-        "label": "Preferred First Name",
-        "type": "text",
-        "canonical_field": "legal_name.first",
-        "action": "fill",
-        "value": "Shubham",
         "reason": "Mapped from public profile"
       },
       {
@@ -112,43 +94,7 @@
         "reason": "File uploads handled via uploadResume/uploadCoverLetter"
       },
       {
-        "field_id": "school--0",
-        "label": "School",
-        "type": "text",
-        "canonical_field": null,
-        "action": "skip_unmapped",
-        "value": null,
-        "reason": "No answer-alias mapping"
-      },
-      {
-        "field_id": "degree--0",
-        "label": "Degree",
-        "type": "text",
-        "canonical_field": "degree",
-        "action": "fill",
-        "value": "Bachelor's Degree",
-        "reason": "Mapped from public profile; placed onto \"Bachelor's Degree\""
-      },
-      {
-        "field_id": "end-month--0",
-        "label": "End date month",
-        "type": "text",
-        "canonical_field": "graduation_month",
-        "action": "fill",
-        "value": "May",
-        "reason": "Mapped from public profile"
-      },
-      {
-        "field_id": "end-year--0",
-        "label": "End date year",
-        "type": "text",
-        "canonical_field": "graduation_year",
-        "action": "fill",
-        "value": "2029",
-        "reason": "Mapped from public profile"
-      },
-      {
-        "field_id": "question_37893689002",
+        "field_id": "cover_letter",
         "label": "Attach",
         "type": "file",
         "canonical_field": null,
@@ -157,52 +103,7 @@
         "reason": "File uploads handled via uploadResume/uploadCoverLetter"
       },
       {
-        "field_id": "question_37911664002",
-        "label": "Attach",
-        "type": "file",
-        "canonical_field": null,
-        "action": "skip_file",
-        "value": null,
-        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
-      },
-      {
-        "field_id": "question_37893690002",
-        "label": "What is your graduation date?",
-        "type": "text",
-        "canonical_field": "screener:custom:expected_graduation_date",
-        "action": "fill",
-        "value": "Later than Summer 2028",
-        "reason": "Screener bank answer (llm_option)"
-      },
-      {
-        "field_id": "question_37911665002",
-        "label": "What is your GPA?",
-        "type": "text",
-        "canonical_field": "screener:custom:gpa_range",
-        "action": "fill",
-        "value": "3.6 or above (out of 4.0)",
-        "reason": "Screener bank answer (exact_option)"
-      },
-      {
-        "field_id": "question_37911666002[]",
-        "label": "Please choose the single location that you",
-        "type": "checkbox",
-        "canonical_field": "screener:custom:preferred_location",
-        "action": "fill",
-        "value": "San Francisco, CA",
-        "reason": "Screener bank answer (exact_option)"
-      },
-      {
-        "field_id": "question_37929335002",
-        "label": "Are you able to work full-time (40 hours) in-person at one of our 3 eligible offices during January-April?",
-        "type": "text",
-        "canonical_field": "screener:availability_full_time",
-        "action": "fill",
-        "value": "Yes",
-        "reason": "Screener bank answer (exact_option)"
-      },
-      {
-        "field_id": "question_37893692002",
+        "field_id": "question_31992214003",
         "label": "LinkedIn Profile",
         "type": "text",
         "canonical_field": "linkedin_url",
@@ -211,135 +112,168 @@
         "reason": "Mapped from public profile"
       },
       {
-        "field_id": "question_37893693002",
-        "label": "Website",
+        "field_id": "question_31992215003",
+        "label": "Tell us how you heard about Zipline and this job!",
         "type": "text",
-        "canonical_field": "personal_website",
+        "canonical_field": "screener:how_heard",
+        "action": "fill",
+        "value": "LinkedIn",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_31992216003",
+        "label": "Are you available for a full-time onsite internship this summer (May/June - August/September)?",
+        "type": "text",
+        "canonical_field": "screener:availability_full_time",
+        "action": "fill",
+        "value": "Yes",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_31992217003",
+        "label": "Why are you interested in becoming an Enterprise Systems Software Engineering Intern?",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_31992217003",
+        "action": "fill",
+        "value": "The work I keep coming back to is software that sits inside a real operational workflow, where a wrong action has a cost. I built a Playwright job-application agent in TypeScript where every application moves through an explicit state machine and every mutating capability sits behind fail-closed flags like SUBMIT_ENABLED. I also built a validation ladder so a capability is not called working just because it passes against a local fixture. That is the mindset I would bring to internal business systems: state has to live in one place, integrations have to fail safely, and the human has to stay in the loop where judgment matters.\n\nI care about operational usefulness over model novelty. On the anomaly-detection system I work on now, the harder problem was not scoring events but prioritizing and explaining alerts, because a system that produces too many alerts just creates a second problem.\n\nZipline runs autonomous logistics on four continents with a delivery every 30 seconds. Systems at that scale only work if the internal tooling behind them is reliable, and I want to own real pieces of that rather than isolated tickets.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_31992218003",
+        "label": "Tell us about a project where something didn’t work as expected. What was the problem and how did you figure out what to do next?",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_31992218003",
+        "action": "fill",
+        "value": "The clearest example is my independent research on how scientific work gets funded and evaluated. I started with a strong hypothesis: the main constraints on research were compensation and grant-writing burden. I spent a year reading papers and institutional history, then interviewed researchers, research administrators, economists, and people building alternative research organizations, and the interviews kept contradicting me. Many people were consciously trading compensation for autonomy and task choice, so my explanation did not hold. What I did next was change the question instead of defending the thesis. I now think the bigger effect is selection: researchers learn which ideas are legible enough to survive review, and some ideas never get attempted. I also prototyped thinking around automated reproducibility of papers. It looked technically valuable, but once I asked who would actually pay for a system that surfaces problems in already-published work, the model got much weaker and I stopped pushing it. That pattern has carried into my engineering work: I try to find the assumption that would make the whole thing wrong, test it early, and be willing to drop the version I liked.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_31992219003",
+        "label": "Describe a recent project where you used AI tools while building software. What did the AI help with, and what parts still required your judgement?",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_31992219003",
+        "action": "fill",
+        "value": "On my job-application agent, I used OpenAI only at narrow call sites rather than letting a model drive the browser. The model helped with parsing and interpreting messy ATS form structures and drafting text, which is the part where language variation is endless and rules break down. Everything else was my judgment encoded in the system: the explicit state machine each application moves through, SQLite as the single source of truth so state cannot diverge across processes, Zod validation at boundaries, and fail-closed flags like SUBMIT_ENABLED and FORM_FILL_ENABLED that never default on. I also decided that free-text essays and demographic fields are architecturally prevented from being auto-filled and always generate a human-review item, and that Workday, iCIMS, and Oracle get detected and skipped rather than handled unreliably.\n\nThe same split showed up in tSearch, where rubric-driven LLM judges assess dimensions in parallel but cannot re-run discovery or silently fix identity-resolution errors, and missing evidence returns insufficient evidence instead of a low score. AI made generation cheap. Deciding what a system is allowed to act on stayed mine.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_31992220003",
+        "label": "Tell us about the most technically challenging project you’ve built. What problem were you solving, what decisions did you make, and what would you do differently today?",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_31992220003",
+        "action": "fill",
+        "value": "The hardest thing I've built is the machine-learning core of the anomaly-detection and alert-prioritization system I work on at Summer Atlantic Capital. I own major parts of the data and ML infrastructure: the repository and CI scaffold, the event-ingestion pipeline, a versioned FastAPI microservice, and the public detection API. The modeling side is temporal sequence modeling over event streams using RNN and Transformer-style approaches, anomaly scoring, and a learning-to-rank layer on top.\n\nThe decision that mattered most was treating the real problem as operational rather than statistical. A detector that flags everything just replaces one problem with a worse one, so I put effort into the ranking layer and into an LLM explanation layer built with retrieval-augmented generation so an analyst can see why something was surfaced instead of receiving a bare score. Versioning the service mattered for the same reason: detection behavior changing silently is a failure mode.\n\nWhat I would do differently is define the alert budget and the evaluation harness with analysts before training anything. I built modeling capability first and then worked backward into what was actually useful, which cost me time.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_31992221003",
+        "label": "Please provide details on your current work authorization status in the United States:",
+        "type": "text",
+        "canonical_field": "screener:work_authorization",
+        "action": "fill",
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Screener bank answer (llm_option)"
+      },
+      {
+        "field_id": "question_31992222003",
+        "label": "Voluntary Self-Identification - Disability",
+        "type": "text",
+        "canonical_field": null,
+        "action": "skip_demographics",
+        "value": null,
+        "reason": "Demographics deferred to sensitive-profile policy path"
+      },
+      {
+        "field_id": "question_31992223003",
+        "label": "Voluntary Self-Identification - Veteran",
+        "type": "text",
+        "canonical_field": null,
+        "action": "skip_demographics",
+        "value": null,
+        "reason": "Demographics deferred to sensitive-profile policy path"
+      },
+      {
+        "field_id": "4010916003",
+        "label": "How would you describe your gender identity? (mark all that apply)",
+        "type": "text",
+        "canonical_field": "gender_identity",
+        "action": "fill",
+        "value": "Man",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "4010914003",
+        "label": "How would you describe your racial/ethnic background? (mark all that apply)",
+        "type": "text",
+        "canonical_field": "race_ethnicity",
         "action": "skip_empty",
         "value": null,
-        "reason": "Profile value empty for personal_website"
+        "reason": "Profile value empty for race_ethnicity"
       },
       {
-        "field_id": "question_37893694002",
-        "label": "How did you hear about this job?",
+        "field_id": "4010910003",
+        "label": "How would you describe your sexual orientation? (mark all that apply)",
         "type": "text",
-        "canonical_field": "how_heard",
+        "canonical_field": "sexual_orientation",
         "action": "fill",
-        "value": "LinkedIn Job Posting",
-        "reason": "Mapped from public profile; placed onto \"LinkedIn Job Posting\""
-      },
-      {
-        "field_id": "question_37893695002",
-        "label": "Are you legally authorized to work in the country in which you are applying?",
-        "type": "text",
-        "canonical_field": "work_authorization",
-        "action": "fill",
-        "value": "[REDACTED_SPONSORSHIP]",
-        "reason": "Mapped from public profile"
-      },
-      {
-        "field_id": "question_37893696002",
-        "label": "Do you now or will you in the future need sponsorship for employment visa status in the country in which you are applying?",
-        "type": "text",
-        "canonical_field": "screener:requires_sponsorship",
-        "action": "fill",
-        "value": "[REDACTED_SPONSORSHIP]",
-        "reason": "Screener bank answer (profile_derived)"
-      },
-      {
-        "field_id": "question_37893697002",
-        "label": "Do you currently or have you previously worked for Databricks in the past?",
-        "type": "text",
-        "canonical_field": "screener:previously_applied_or_worked",
-        "action": "fill",
-        "value": "No",
-        "reason": "Screener bank answer (exact_option)"
-      },
-      {
-        "field_id": "question_37893698002[]",
-        "label": "Please confirm whether any of the below applies to you. Select all that apply. Note: This information will only be used to ensure compliance with U.S. sanctions and export controls.",
-        "type": "checkbox",
-        "canonical_field": "screener:custom:sanctions_export_control_status",
-        "action": "fill",
-        "value": "None of the above",
-        "reason": "Screener bank answer (exact_option)"
-      },
-      {
-        "field_id": "question_37893699002[]",
-        "label": "If you selected a response to the prior question other than “none of the above,” please confirm whether any of the following also applies to you. Select all that apply.",
-        "type": "checkbox",
-        "canonical_field": "screener:custom:sanctions_followup_not_applicable",
-        "action": "fill",
-        "value": "Not applicable (i.e., I selected “none of the above” for the prior question)",
-        "reason": "Screener bank answer (exact_option)"
-      },
-      {
-        "field_id": "gender",
-        "label": "Gender",
-        "type": "text",
-        "canonical_field": "gender",
-        "action": "fill",
-        "value": "Male",
+        "value": "Heterosexual",
         "reason": "Mapped from sensitive profile (operator-supplied)"
       },
       {
-        "field_id": "hispanic_ethnicity",
-        "label": "Are you Hispanic/Latino?",
+        "field_id": "4010908003",
+        "label": "Do you identify as transgender?",
         "type": "text",
-        "canonical_field": "hispanic_latino",
+        "canonical_field": "transgender",
         "action": "fill",
         "value": "No",
         "reason": "Mapped from sensitive profile (operator-supplied)"
       },
       {
-        "field_id": "veteran_status",
-        "label": "Veteran Status",
-        "type": "text",
-        "canonical_field": "veteran_status",
-        "action": "fill",
-        "value": "I am not a veteran",
-        "reason": "Mapped from sensitive profile (operator-supplied)"
-      },
-      {
-        "field_id": "disability_status",
-        "label": "Disability Status",
+        "field_id": "4010907003",
+        "label": "Do you have a disability or chronic condition (physical, visual, auditory, cognitive, mental, emotional, or other) that substantially limits one or more of your major life activities, including mobility, communication (seeing, hearing, speaking), and learning?",
         "type": "text",
         "canonical_field": "disability_status",
         "action": "fill",
         "value": "No",
         "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "4010905003",
+        "label": "Are you a veteran or active member of the United States Armed Forces?",
+        "type": "text",
+        "canonical_field": "veteran_status",
+        "action": "fill",
+        "value": "I am not a veteran",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
       }
     ],
-    "fillable_count": 25,
+    "fillable_count": 19,
     "skipped_count": 6,
     "review_required_count": 0
   },
   "submit_attempted": false,
   "notes": [
     "session: handoff (caller-owned page, not closed here)",
-    "landed on a posting (no fields, Apply CTA present); clicking Apply via role=button \"Apply now\"",
-    "Apply landed on: posting (no fields, Apply CTA present)",
-    "landed on a posting (no fields, Apply CTA present); clicking Apply via role=button \"Apply now\"",
-    "Apply landed on: posting (no fields, Apply CTA present)",
-    "still on a posting after 2 Apply click(s) — giving up rather than filling the listing page",
-    "application form found in an iframe (31 fields) — hopping to https://job-boards.greenhouse.io/embed/job_app?for=databricks&validityToken=IPbp5Rxk4oyLHBKHWMEzY9SOLospWnYMXWZRbpvIL9BiRvpIjch5RhK4S15U0Cnvf3cvbPHgJ5V3JZKZvkwiPgIUvmgz_4Zl9-CRv2Rc8-lYjjvQZG9LDzbQAefKcw-_F-As8kdngRJFPlXY-A0xZ2D5RudHInfN4AOGl7H2IEIHkTvTc2QU6XVjzh3V-7cGU3U8tGgP0ZtOu7AFhhHnLAcqqoVTB7yEGXuxoRLb_kBC_XxGhWV7ae9Z2MFnL1yUymsmtEj8RifmKzxPB8N6YPP_qmipRotiyXw3cy9pZSR72xzyY1HzqSnQZ9G-MI8sqebNhxj9OYH6KzF-wWuoew%3D%3D&token=8732364002",
-    "schema diff: 17/20 declared question(s) matched onto 31 DOM field(s); 3 declared-only (3 required); 14 DOM-only",
-    "board API declared 20 question(s); matched complete option lists onto 10 field(s)",
+    "gate passed but the page has no applicant-identity fields — treating as posting shell (samsara-type chrome), running Apply + hop recovery",
+    "no hopable iframe after landing miss — frames: main https://www.zipline.com/open-roles?gh_jid=7886501003",
+    "posting shell without Apply or iframe — navigating to the canonical embed app https://boards.greenhouse.io/embed/job_app?for=flyzipline&token=7886501003",
+    "schema diff: 14/16 declared question(s) matched onto 25 DOM field(s); 2 declared-only (1 required); 11 DOM-only",
+    "board API declared 16 question(s); matched complete option lists onto 5 field(s)",
     "option harvest: \"Location (City)\" is a combobox but offered no readable options",
-    "option harvest: scraped real options for 8/17 control(s) before planning",
+    "option harvest: scraped real options for 7/13 control(s) before planning",
     "frozen after fill→verify→upload — no further field mutation; submit never called"
   ],
   "validation_level": "LIVE_MUTATION_CONFIRMED",
-  "final_url": "https://job-boards.greenhouse.io/embed/job_app?for=databricks&validityToken=IPbp5Rxk4oyLHBKHWMEzY9SOLospWnYMXWZRbpvIL9BiRvpIjch5RhK4S15U0Cnvf3cvbPHgJ5V3JZKZvkwiPgIUvmgz_4Zl9-CRv2Rc8-lYjjvQZG9LDzbQAefKcw-_F-As8kdngRJFPlXY-A0xZ2D5RudHInfN4AOGl7H2IEIHkTvTc2QU6XVjzh3V-7cGU3U8tGgP0ZtOu7AFhhHnLAcqqoVTB7yEGXuxoRLb_kBC_XxGhWV7ae9Z2MFnL1yUymsmtEj8RifmKzxPB8N6YPP_qmipRotiyXw3cy9pZSR72xzyY1HzqSnQZ9G-MI8sqebNhxj9OYH6KzF-wWuoew%3D%3D&token=8732364002",
+  "final_url": "https://job-boards.greenhouse.io/embed/job_app?for=flyzipline&token=7886501003",
   "identity_verification": {
-    "requestedUrl": "https://boards.greenhouse.io/databricks/jobs/8732364002",
-    "finalUrl": "https://job-boards.greenhouse.io/embed/job_app?for=databricks&validityToken=IPbp5Rxk4oyLHBKHWMEzY9SOLospWnYMXWZRbpvIL9BiRvpIjch5RhK4S15U0Cnvf3cvbPHgJ5V3JZKZvkwiPgIUvmgz_4Zl9-CRv2Rc8-lYjjvQZG9LDzbQAefKcw-_F-As8kdngRJFPlXY-A0xZ2D5RudHInfN4AOGl7H2IEIHkTvTc2QU6XVjzh3V-7cGU3U8tGgP0ZtOu7AFhhHnLAcqqoVTB7yEGXuxoRLb_kBC_XxGhWV7ae9Z2MFnL1yUymsmtEj8RifmKzxPB8N6YPP_qmipRotiyXw3cy9pZSR72xzyY1HzqSnQZ9G-MI8sqebNhxj9OYH6KzF-wWuoew%3D%3D&token=8732364002",
-    "requestedJobId": "8732364002",
-    "observedJobId": "8732364002",
-    "company": "databricks",
-    "role": "Job Application for Software Engineering Intern (2027 Start) - Winter at Databricks",
+    "requestedUrl": "https://boards.greenhouse.io/flyzipline/jobs/7886501003",
+    "finalUrl": "https://job-boards.greenhouse.io/embed/job_app?for=flyzipline&token=7886501003",
+    "requestedJobId": "7886501003",
+    "observedJobId": "7886501003",
+    "company": "flyzipline",
+    "role": "Job Application for Enterprise Systems Software Engineer Intern (Summer 2027) at Zipline",
     "formDetected": true,
-    "fieldCount": 31,
+    "fieldCount": 25,
     "warnings": [
       "login_wall_low: auth_provider_marker"
     ],
@@ -352,7 +286,6 @@
     "confidence": "LOW",
     "signals": [],
     "dormantMarkers": [
-      "recaptcha_api_script_loaded",
       "generic_captcha_word_only"
     ]
   },
@@ -366,23 +299,19 @@
   "failure_code": null,
   "mutation_attempted": true,
   "schema_diff": {
-    "board": "databricks",
-    "job_id": "8732364002",
-    "declared_count": 20,
-    "dom_count": 31,
-    "matched": 17,
+    "board": "flyzipline",
+    "job_id": "7886501003",
+    "declared_count": 16,
+    "dom_count": 25,
+    "matched": 14,
     "api_only": [
       {
         "label": "Resume/CV",
         "required": true
       },
       {
-        "label": "Please provide a recent transcript",
-        "required": true
-      },
-      {
-        "label": "Please provide a recent transcript of your graduate studies (if applicable)",
-        "required": true
+        "label": "Cover Letter",
+        "required": false
       }
     ],
     "dom_only": [
@@ -390,16 +319,13 @@
       "Search",
       "Location (City)",
       "Attach",
-      "School",
-      "Degree",
-      "End date month",
-      "End date year",
       "Attach",
-      "Attach",
-      "Gender",
-      "Are you Hispanic/Latino?",
-      "Veteran Status",
-      "Disability Status"
+      "How would you describe your gender identity? (mark all that apply)",
+      "How would you describe your racial/ethnic background? (mark all that apply)",
+      "How would you describe your sexual orientation? (mark all that apply)",
+      "Do you identify as transgender?",
+      "Do you have a disability or chronic condition (physical, visual, auditory, cognitive, mental, emotional, or other) that substantially limits one or more of your major life activities, including mobility, communication (seeing, hearing, speaking), and learning?",
+      "Are you a veteran or active member of the United States Armed Forces?"
     ],
     "option_mismatches": []
   },
@@ -439,124 +365,92 @@
       "other_option": null
     },
     {
-      "field_id": "school--0",
-      "label": "School",
+      "field_id": "4010916003",
+      "label": "How would you describe your gender identity? (mark all that apply)",
       "answer_space": "closed",
-      "option_count": 100,
+      "option_count": 5,
       "options": [
-        "Aalborg University",
-        "Aalto University",
-        "Aarhus University",
-        "Abertay University",
-        "Aberystwyth University",
-        "Abilene Christian University",
-        "Abo Akademi University",
-        "Abraham Baldwin Agricultural College",
-        "Abu Dhabi University",
-        "Academy of Art University",
-        "Acadia University",
-        "Acharya Nagarjuna University",
-        "Acupuncture and Integrative Medicine College - Berkeley",
-        "Adams State University",
-        "Adelphi University",
-        "Adrian College",
-        "Adventist University of Health Sciences",
-        "Agnes Scott College",
-        "AIB College of Business",
-        "Ain Shams University",
-        "Airlangga University",
-        "Ajou University",
-        "Alabama A&M University",
-        "Alabama State University",
-        "Alaska Pacific University"
-      ],
-      "other_option": null
-    },
-    {
-      "field_id": "degree--0",
-      "label": "Degree",
-      "answer_space": "closed",
-      "option_count": 10,
-      "options": [
-        "Associate's Degree",
-        "Bachelor's Degree",
-        "Doctor of Medicine (M.D.)",
-        "Doctor of Philosophy (Ph.D.)",
-        "Engineer's Degree",
-        "High School",
-        "Juris Doctor (J.D.)",
-        "Master of Business Administration (M.B.A.)",
-        "Master's Degree",
-        "Other"
-      ],
-      "other_option": "Other"
-    },
-    {
-      "field_id": "end-month--0",
-      "label": "End date month",
-      "answer_space": "closed",
-      "option_count": 12,
-      "options": [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December"
-      ],
-      "other_option": null
-    },
-    {
-      "field_id": "gender",
-      "label": "Gender",
-      "answer_space": "closed",
-      "option_count": 3,
-      "options": [
-        "Male",
-        "Female",
-        "Decline To Self Identify"
-      ],
-      "other_option": null
-    },
-    {
-      "field_id": "hispanic_ethnicity",
-      "label": "Are you Hispanic/Latino?",
-      "answer_space": "closed",
-      "option_count": 3,
-      "options": [
-        "Yes",
-        "No",
-        "Decline To Self Identify"
-      ],
-      "other_option": null
-    },
-    {
-      "field_id": "veteran_status",
-      "label": "Veteran Status",
-      "answer_space": "closed",
-      "option_count": 3,
-      "options": [
-        "I am not a protected veteran",
-        "I identify as one or more of the classifications of a protected veteran",
+        "Man",
+        "Non-binary",
+        "Woman",
+        "I prefer to self-describe",
         "I don't wish to answer"
       ],
       "other_option": null
     },
     {
-      "field_id": "disability_status",
-      "label": "Disability Status",
+      "field_id": "4010914003",
+      "label": "How would you describe your racial/ethnic background? (mark all that apply)",
       "answer_space": "closed",
-      "option_count": 3,
+      "option_count": 11,
       "options": [
-        "Yes, I have a disability, or have had one in the past",
-        "No, I do not have a disability and have not had one in the past",
-        "I do not want to answer"
+        "Black or of African descent",
+        "East Asian",
+        "Hispanic, Latinx or of Spanish Origin",
+        "Indigenous, American Indian or Alaska Native",
+        "Middle Eastern or North African",
+        "Native Hawaiian or Pacific Islander",
+        "South Asian",
+        "Southeast Asian",
+        "White or European",
+        "I prefer to self-describe",
+        "I don't wish to answer"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "4010910003",
+      "label": "How would you describe your sexual orientation? (mark all that apply)",
+      "answer_space": "closed",
+      "option_count": 8,
+      "options": [
+        "Asexual",
+        "Bisexual and/or pansexual",
+        "Gay",
+        "Heterosexual",
+        "Lesbian",
+        "Queer",
+        "I prefer to self-describe",
+        "I don't wish to answer"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "4010908003",
+      "label": "Do you identify as transgender?",
+      "answer_space": "closed",
+      "option_count": 4,
+      "options": [
+        "Yes",
+        "No",
+        "I prefer to self-describe",
+        "I don't wish to answer"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "4010907003",
+      "label": "Do you have a disability or chronic condition (physical, visual, auditory, cognitive, mental, emotional, or other) that substantially limits one or more of your major life activities, including mobility, communication (seeing, hearing, speaking), and learning?",
+      "answer_space": "closed",
+      "option_count": 4,
+      "options": [
+        "Yes",
+        "No",
+        "I prefer to self-describe",
+        "I don't wish to answer"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "4010905003",
+      "label": "Are you a veteran or active member of the United States Armed Forces?",
+      "answer_space": "closed",
+      "option_count": 4,
+      "options": [
+        "Yes, I am a veteran or active member",
+        "No, I am not a veteran or active member",
+        "I prefer to self-describe",
+        "I don't wish to answer"
       ],
       "other_option": null
     }
@@ -581,16 +475,6 @@
         "action": "FILL",
         "approved": true,
         "value": "Kale",
-        "reason": "Mapped from public profile"
-      },
-      {
-        "field_id": "preferred_name",
-        "label": "Preferred First Name",
-        "type": "text",
-        "canonical_field": "legal_name.first",
-        "action": "FILL",
-        "approved": true,
-        "value": "Shubham",
         "reason": "Mapped from public profile"
       },
       {
@@ -654,47 +538,7 @@
         "reason": "File uploads handled via uploadResume/uploadCoverLetter"
       },
       {
-        "field_id": "school--0",
-        "label": "School",
-        "type": "text",
-        "canonical_field": null,
-        "action": "SKIP",
-        "approved": false,
-        "value": null,
-        "reason": "No answer-alias mapping"
-      },
-      {
-        "field_id": "degree--0",
-        "label": "Degree",
-        "type": "text",
-        "canonical_field": "degree",
-        "action": "FILL",
-        "approved": true,
-        "value": "Bachelor's Degree",
-        "reason": "Mapped from public profile; placed onto \"Bachelor's Degree\""
-      },
-      {
-        "field_id": "end-month--0",
-        "label": "End date month",
-        "type": "text",
-        "canonical_field": "graduation_month",
-        "action": "FILL",
-        "approved": true,
-        "value": "May",
-        "reason": "Mapped from public profile"
-      },
-      {
-        "field_id": "end-year--0",
-        "label": "End date year",
-        "type": "text",
-        "canonical_field": "graduation_year",
-        "action": "FILL",
-        "approved": true,
-        "value": "2029",
-        "reason": "Mapped from public profile"
-      },
-      {
-        "field_id": "question_37893689002",
+        "field_id": "cover_letter",
         "label": "Attach",
         "type": "file",
         "canonical_field": null,
@@ -704,57 +548,7 @@
         "reason": "File uploads handled via uploadResume/uploadCoverLetter"
       },
       {
-        "field_id": "question_37911664002",
-        "label": "Attach",
-        "type": "file",
-        "canonical_field": null,
-        "action": "SKIP",
-        "approved": false,
-        "value": null,
-        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
-      },
-      {
-        "field_id": "question_37893690002",
-        "label": "What is your graduation date?",
-        "type": "text",
-        "canonical_field": "screener:custom:expected_graduation_date",
-        "action": "FILL",
-        "approved": true,
-        "value": "Later than Summer 2028",
-        "reason": "Screener bank answer (llm_option)"
-      },
-      {
-        "field_id": "question_37911665002",
-        "label": "What is your GPA?",
-        "type": "text",
-        "canonical_field": "screener:custom:gpa_range",
-        "action": "FILL",
-        "approved": true,
-        "value": "3.6 or above (out of 4.0)",
-        "reason": "Screener bank answer (exact_option)"
-      },
-      {
-        "field_id": "question_37911666002[]",
-        "label": "Please choose the single location that you",
-        "type": "checkbox",
-        "canonical_field": "screener:custom:preferred_location",
-        "action": "FILL",
-        "approved": true,
-        "value": "San Francisco, CA",
-        "reason": "Screener bank answer (exact_option)"
-      },
-      {
-        "field_id": "question_37929335002",
-        "label": "Are you able to work full-time (40 hours) in-person at one of our 3 eligible offices during January-April?",
-        "type": "text",
-        "canonical_field": "screener:availability_full_time",
-        "action": "FILL",
-        "approved": true,
-        "value": "Yes",
-        "reason": "Screener bank answer (exact_option)"
-      },
-      {
-        "field_id": "question_37893692002",
+        "field_id": "question_31992214003",
         "label": "LinkedIn Profile",
         "type": "text",
         "canonical_field": "linkedin_url",
@@ -764,113 +558,153 @@
         "reason": "Mapped from public profile"
       },
       {
-        "field_id": "question_37893693002",
-        "label": "Website",
+        "field_id": "question_31992215003",
+        "label": "Tell us how you heard about Zipline and this job!",
         "type": "text",
-        "canonical_field": "personal_website",
+        "canonical_field": "screener:how_heard",
+        "action": "FILL",
+        "approved": true,
+        "value": "LinkedIn",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_31992216003",
+        "label": "Are you available for a full-time onsite internship this summer (May/June - August/September)?",
+        "type": "text",
+        "canonical_field": "screener:availability_full_time",
+        "action": "FILL",
+        "approved": true,
+        "value": "Yes",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_31992217003",
+        "label": "Why are you interested in becoming an Enterprise Systems Software Engineering Intern?",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_31992217003",
+        "action": "FILL",
+        "approved": true,
+        "value": "The work I keep coming back to is software that sits inside a real operational workflow, where a wrong action has a cost. I built a Playwright job-application agent in TypeScript where every application moves through an explicit state machine and every mutating capability sits behind fail-closed flags like SUBMIT_ENABLED. I also built a validation ladder so a capability is not called working just because it passes against a local fixture. That is the mindset I would bring to internal business systems: state has to live in one place, integrations have to fail safely, and the human has to stay in the loop where judgment matters.\n\nI care about operational usefulness over model novelty. On the anomaly-detection system I work on now, the harder problem was not scoring events but prioritizing and explaining alerts, because a system that produces too many alerts just creates a second problem.\n\nZipline runs autonomous logistics on four continents with a delivery every 30 seconds. Systems at that scale only work if the internal tooling behind them is reliable, and I want to own real pieces of that rather than isolated tickets.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_31992218003",
+        "label": "Tell us about a project where something didn’t work as expected. What was the problem and how did you figure out what to do next?",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_31992218003",
+        "action": "FILL",
+        "approved": true,
+        "value": "The clearest example is my independent research on how scientific work gets funded and evaluated. I started with a strong hypothesis: the main constraints on research were compensation and grant-writing burden. I spent a year reading papers and institutional history, then interviewed researchers, research administrators, economists, and people building alternative research organizations, and the interviews kept contradicting me. Many people were consciously trading compensation for autonomy and task choice, so my explanation did not hold. What I did next was change the question instead of defending the thesis. I now think the bigger effect is selection: researchers learn which ideas are legible enough to survive review, and some ideas never get attempted. I also prototyped thinking around automated reproducibility of papers. It looked technically valuable, but once I asked who would actually pay for a system that surfaces problems in already-published work, the model got much weaker and I stopped pushing it. That pattern has carried into my engineering work: I try to find the assumption that would make the whole thing wrong, test it early, and be willing to drop the version I liked.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_31992219003",
+        "label": "Describe a recent project where you used AI tools while building software. What did the AI help with, and what parts still required your judgement?",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_31992219003",
+        "action": "FILL",
+        "approved": true,
+        "value": "On my job-application agent, I used OpenAI only at narrow call sites rather than letting a model drive the browser. The model helped with parsing and interpreting messy ATS form structures and drafting text, which is the part where language variation is endless and rules break down. Everything else was my judgment encoded in the system: the explicit state machine each application moves through, SQLite as the single source of truth so state cannot diverge across processes, Zod validation at boundaries, and fail-closed flags like SUBMIT_ENABLED and FORM_FILL_ENABLED that never default on. I also decided that free-text essays and demographic fields are architecturally prevented from being auto-filled and always generate a human-review item, and that Workday, iCIMS, and Oracle get detected and skipped rather than handled unreliably.\n\nThe same split showed up in tSearch, where rubric-driven LLM judges assess dimensions in parallel but cannot re-run discovery or silently fix identity-resolution errors, and missing evidence returns insufficient evidence instead of a low score. AI made generation cheap. Deciding what a system is allowed to act on stayed mine.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_31992220003",
+        "label": "Tell us about the most technically challenging project you’ve built. What problem were you solving, what decisions did you make, and what would you do differently today?",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_31992220003",
+        "action": "FILL",
+        "approved": true,
+        "value": "The hardest thing I've built is the machine-learning core of the anomaly-detection and alert-prioritization system I work on at Summer Atlantic Capital. I own major parts of the data and ML infrastructure: the repository and CI scaffold, the event-ingestion pipeline, a versioned FastAPI microservice, and the public detection API. The modeling side is temporal sequence modeling over event streams using RNN and Transformer-style approaches, anomaly scoring, and a learning-to-rank layer on top.\n\nThe decision that mattered most was treating the real problem as operational rather than statistical. A detector that flags everything just replaces one problem with a worse one, so I put effort into the ranking layer and into an LLM explanation layer built with retrieval-augmented generation so an analyst can see why something was surfaced instead of receiving a bare score. Versioning the service mattered for the same reason: detection behavior changing silently is a failure mode.\n\nWhat I would do differently is define the alert budget and the evaluation harness with analysts before training anything. I built modeling capability first and then worked backward into what was actually useful, which cost me time.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_31992221003",
+        "label": "Please provide details on your current work authorization status in the United States:",
+        "type": "text",
+        "canonical_field": "screener:work_authorization",
+        "action": "FILL",
+        "approved": true,
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Screener bank answer (llm_option)"
+      },
+      {
+        "field_id": "question_31992222003",
+        "label": "Voluntary Self-Identification - Disability",
+        "type": "text",
+        "canonical_field": null,
         "action": "SKIP",
         "approved": false,
         "value": null,
-        "reason": "Profile value empty for personal_website"
+        "reason": "Demographics deferred to sensitive-profile policy path"
       },
       {
-        "field_id": "question_37893694002",
-        "label": "How did you hear about this job?",
+        "field_id": "question_31992223003",
+        "label": "Voluntary Self-Identification - Veteran",
         "type": "text",
-        "canonical_field": "how_heard",
-        "action": "FILL",
-        "approved": true,
-        "value": "LinkedIn Job Posting",
-        "reason": "Mapped from public profile; placed onto \"LinkedIn Job Posting\""
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "Demographics deferred to sensitive-profile policy path"
       },
       {
-        "field_id": "question_37893695002",
-        "label": "Are you legally authorized to work in the country in which you are applying?",
+        "field_id": "4010916003",
+        "label": "How would you describe your gender identity? (mark all that apply)",
         "type": "text",
-        "canonical_field": "work_authorization",
+        "canonical_field": "gender_identity",
         "action": "FILL",
         "approved": true,
-        "value": "[REDACTED_SPONSORSHIP]",
-        "reason": "Mapped from public profile"
-      },
-      {
-        "field_id": "question_37893696002",
-        "label": "Do you now or will you in the future need sponsorship for employment visa status in the country in which you are applying?",
-        "type": "text",
-        "canonical_field": "screener:requires_sponsorship",
-        "action": "FILL",
-        "approved": true,
-        "value": "[REDACTED_SPONSORSHIP]",
-        "reason": "Screener bank answer (profile_derived)"
-      },
-      {
-        "field_id": "question_37893697002",
-        "label": "Do you currently or have you previously worked for Databricks in the past?",
-        "type": "text",
-        "canonical_field": "screener:previously_applied_or_worked",
-        "action": "FILL",
-        "approved": true,
-        "value": "No",
-        "reason": "Screener bank answer (exact_option)"
-      },
-      {
-        "field_id": "question_37893698002[]",
-        "label": "Please confirm whether any of the below applies to you. Select all that apply. Note: This information will only be used to ensure compliance with U.S. sanctions and export controls.",
-        "type": "checkbox",
-        "canonical_field": "screener:custom:sanctions_export_control_status",
-        "action": "FILL",
-        "approved": true,
-        "value": "None of the above",
-        "reason": "Screener bank answer (exact_option)"
-      },
-      {
-        "field_id": "question_37893699002[]",
-        "label": "If you selected a response to the prior question other than “none of the above,” please confirm whether any of the following also applies to you. Select all that apply.",
-        "type": "checkbox",
-        "canonical_field": "screener:custom:sanctions_followup_not_applicable",
-        "action": "FILL",
-        "approved": true,
-        "value": "Not applicable (i.e., I selected “none of the above” for the prior question)",
-        "reason": "Screener bank answer (exact_option)"
-      },
-      {
-        "field_id": "gender",
-        "label": "Gender",
-        "type": "text",
-        "canonical_field": "gender",
-        "action": "FILL",
-        "approved": true,
-        "value": "Male",
+        "value": "Man",
         "reason": "Mapped from sensitive profile (operator-supplied)"
       },
       {
-        "field_id": "hispanic_ethnicity",
-        "label": "Are you Hispanic/Latino?",
+        "field_id": "4010914003",
+        "label": "How would you describe your racial/ethnic background? (mark all that apply)",
         "type": "text",
-        "canonical_field": "hispanic_latino",
+        "canonical_field": "race_ethnicity",
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "Profile value empty for race_ethnicity"
+      },
+      {
+        "field_id": "4010910003",
+        "label": "How would you describe your sexual orientation? (mark all that apply)",
+        "type": "text",
+        "canonical_field": "sexual_orientation",
+        "action": "FILL",
+        "approved": true,
+        "value": "Heterosexual",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "4010908003",
+        "label": "Do you identify as transgender?",
+        "type": "text",
+        "canonical_field": "transgender",
         "action": "FILL",
         "approved": true,
         "value": "No",
         "reason": "Mapped from sensitive profile (operator-supplied)"
       },
       {
-        "field_id": "veteran_status",
-        "label": "Veteran Status",
-        "type": "text",
-        "canonical_field": "veteran_status",
-        "action": "FILL",
-        "approved": true,
-        "value": "I am not a veteran",
-        "reason": "Mapped from sensitive profile (operator-supplied)"
-      },
-      {
-        "field_id": "disability_status",
-        "label": "Disability Status",
+        "field_id": "4010907003",
+        "label": "Do you have a disability or chronic condition (physical, visual, auditory, cognitive, mental, emotional, or other) that substantially limits one or more of your major life activities, including mobility, communication (seeing, hearing, speaking), and learning?",
         "type": "text",
         "canonical_field": "disability_status",
         "action": "FILL",
         "approved": true,
         "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "4010905003",
+        "label": "Are you a veteran or active member of the United States Armed Forces?",
+        "type": "text",
+        "canonical_field": "veteran_status",
+        "action": "FILL",
+        "approved": true,
+        "value": "I am not a veteran",
         "reason": "Mapped from sensitive profile (operator-supplied)"
       }
     ],
@@ -881,26 +715,21 @@
       "address.country": "United States +1",
       "phone": "***-***-7636",
       "address.city": "Baltimore",
-      "degree": "Bachelor's Degree",
-      "graduation_month": "May",
-      "graduation_year": "2029",
-      "screener:custom:expected_graduation_date": "Later than Summer 2028",
-      "screener:custom:gpa_range": "3.6 or above (out of 4.0)",
-      "screener:custom:preferred_location": "San Francisco, CA",
-      "screener:availability_full_time": "Yes",
       "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
-      "how_heard": "LinkedIn Job Posting",
-      "work_authorization": "[REDACTED_SPONSORSHIP]",
-      "screener:requires_sponsorship": "[REDACTED_SPONSORSHIP]",
-      "screener:previously_applied_or_worked": "No",
-      "screener:custom:sanctions_export_control_status": "None of the above",
-      "screener:custom:sanctions_followup_not_applicable": "Not applicable (i.e., I selected “none of the above” for the prior question)",
-      "gender": "Male",
-      "hispanic_latino": "No",
-      "veteran_status": "I am not a veteran",
-      "disability_status": "No"
+      "screener:how_heard": "LinkedIn",
+      "screener:availability_full_time": "Yes",
+      "essay:generated:question_31992217003": "The work I keep coming back to is software that sits inside a real operational workflow, where a wrong action has a cost. I built a Playwright job-application agent in TypeScript where every application moves through an explicit state machine and every mutating capability sits behind fail-closed flags like SUBMIT_ENABLED. I also built a validation ladder so a capability is not called working just because it passes against a local fixture. That is the mindset I would bring to internal business systems: state has to live in one place, integrations have to fail safely, and the human has to stay in the loop where judgment matters.\n\nI care about operational usefulness over model novelty. On the anomaly-detection system I work on now, the harder problem was not scoring events but prioritizing and explaining alerts, because a system that produces too many alerts just creates a second problem.\n\nZipline runs autonomous logistics on four continents with a delivery every 30 seconds. Systems at that scale only work if the internal tooling behind them is reliable, and I want to own real pieces of that rather than isolated tickets.",
+      "essay:generated:question_31992218003": "The clearest example is my independent research on how scientific work gets funded and evaluated. I started with a strong hypothesis: the main constraints on research were compensation and grant-writing burden. I spent a year reading papers and institutional history, then interviewed researchers, research administrators, economists, and people building alternative research organizations, and the interviews kept contradicting me. Many people were consciously trading compensation for autonomy and task choice, so my explanation did not hold. What I did next was change the question instead of defending the thesis. I now think the bigger effect is selection: researchers learn which ideas are legible enough to survive review, and some ideas never get attempted. I also prototyped thinking around automated reproducibility of papers. It looked technically valuable, but once I asked who would actually pay for a system that surfaces problems in already-published work, the model got much weaker and I stopped pushing it. That pattern has carried into my engineering work: I try to find the assumption that would make the whole thing wrong, test it early, and be willing to drop the version I liked.",
+      "essay:generated:question_31992219003": "On my job-application agent, I used OpenAI only at narrow call sites rather than letting a model drive the browser. The model helped with parsing and interpreting messy ATS form structures and drafting text, which is the part where language variation is endless and rules break down. Everything else was my judgment encoded in the system: the explicit state machine each application moves through, SQLite as the single source of truth so state cannot diverge across processes, Zod validation at boundaries, and fail-closed flags like SUBMIT_ENABLED and FORM_FILL_ENABLED that never default on. I also decided that free-text essays and demographic fields are architecturally prevented from being auto-filled and always generate a human-review item, and that Workday, iCIMS, and Oracle get detected and skipped rather than handled unreliably.\n\nThe same split showed up in tSearch, where rubric-driven LLM judges assess dimensions in parallel but cannot re-run discovery or silently fix identity-resolution errors, and missing evidence returns insufficient evidence instead of a low score. AI made generation cheap. Deciding what a system is allowed to act on stayed mine.",
+      "essay:generated:question_31992220003": "The hardest thing I've built is the machine-learning core of the anomaly-detection and alert-prioritization system I work on at Summer Atlantic Capital. I own major parts of the data and ML infrastructure: the repository and CI scaffold, the event-ingestion pipeline, a versioned FastAPI microservice, and the public detection API. The modeling side is temporal sequence modeling over event streams using RNN and Transformer-style approaches, anomaly scoring, and a learning-to-rank layer on top.\n\nThe decision that mattered most was treating the real problem as operational rather than statistical. A detector that flags everything just replaces one problem with a worse one, so I put effort into the ranking layer and into an LLM explanation layer built with retrieval-augmented generation so an analyst can see why something was surfaced instead of receiving a bare score. Versioning the service mattered for the same reason: detection behavior changing silently is a failure mode.\n\nWhat I would do differently is define the alert budget and the evaluation harness with analysts before training anything. I built modeling capability first and then worked backward into what was actually useful, which cost me time.",
+      "screener:work_authorization": "[REDACTED_SPONSORSHIP]",
+      "gender_identity": "Man",
+      "sexual_orientation": "Heterosexual",
+      "transgender": "No",
+      "disability_status": "No",
+      "veteran_status": "I am not a veteran"
     },
-    "fillable_count": 25,
+    "fillable_count": 19,
     "skipped_count": 6,
     "review_required_count": 0
   },
@@ -908,29 +737,23 @@
     "filled": [
       "legal_name.first",
       "legal_name.last",
-      "legal_name.first",
       "email",
       "address.country",
       "phone",
       "address.city",
-      "degree",
-      "graduation_month",
-      "graduation_year",
-      "screener:custom:expected_graduation_date",
-      "screener:custom:gpa_range",
-      "screener:custom:preferred_location",
-      "screener:availability_full_time",
       "linkedin_url",
-      "how_heard",
-      "work_authorization",
-      "screener:requires_sponsorship",
-      "screener:previously_applied_or_worked",
-      "screener:custom:sanctions_export_control_status",
-      "screener:custom:sanctions_followup_not_applicable",
-      "gender",
-      "hispanic_latino",
-      "veteran_status",
-      "disability_status"
+      "screener:how_heard",
+      "screener:availability_full_time",
+      "essay:generated:question_31992217003",
+      "essay:generated:question_31992218003",
+      "essay:generated:question_31992219003",
+      "essay:generated:question_31992220003",
+      "screener:work_authorization",
+      "gender_identity",
+      "sexual_orientation",
+      "transgender",
+      "disability_status",
+      "veteran_status"
     ],
     "skipped": [],
     "errors": [],
@@ -943,11 +766,6 @@
       {
         "field_id": "last_name",
         "canonical_field": "legal_name.last",
-        "control_kind": "text"
-      },
-      {
-        "field_id": "preferred_name",
-        "canonical_field": "legal_name.first",
         "control_kind": "text"
       },
       {
@@ -983,62 +801,23 @@
         ]
       },
       {
-        "field_id": "degree--0",
-        "canonical_field": "degree",
-        "control_kind": "combobox",
-        "selected_option": "Bachelor's Degree",
-        "match_via": "exact",
-        "notes": [
-          "opened via control click",
-          "picked \"Bachelor's Degree\" (exact) from open list"
-        ]
-      },
-      {
-        "field_id": "end-month--0",
-        "canonical_field": "graduation_month",
-        "control_kind": "combobox",
-        "selected_option": "May",
-        "match_via": "exact",
-        "notes": [
-          "opened via control click",
-          "picked \"May\" (exact) from open list"
-        ]
-      },
-      {
-        "field_id": "end-year--0",
-        "canonical_field": "graduation_year",
+        "field_id": "question_31992214003",
+        "canonical_field": "linkedin_url",
         "control_kind": "text"
       },
       {
-        "field_id": "question_37893690002",
-        "canonical_field": "screener:custom:expected_graduation_date",
+        "field_id": "question_31992215003",
+        "canonical_field": "screener:how_heard",
         "control_kind": "combobox",
-        "selected_option": "Later than Summer 2028",
+        "selected_option": "LinkedIn",
         "match_via": "exact",
         "notes": [
           "opened via control click",
-          "picked \"Later than Summer 2028\" (exact) from open list"
+          "picked \"LinkedIn\" (exact) from open list"
         ]
       },
       {
-        "field_id": "question_37911665002",
-        "canonical_field": "screener:custom:gpa_range",
-        "control_kind": "combobox",
-        "selected_option": "3.6 or above (out of 4.0)",
-        "match_via": "exact",
-        "notes": [
-          "opened via control click",
-          "picked \"3.6 or above (out of 4.0)\" (exact) from open list"
-        ]
-      },
-      {
-        "field_id": "question_37911666002[]",
-        "canonical_field": "screener:custom:preferred_location",
-        "control_kind": "checkbox_group",
-        "selected_option": "San Francisco, CA"
-      },
-      {
-        "field_id": "question_37929335002",
+        "field_id": "question_31992216003",
         "canonical_field": "screener:availability_full_time",
         "control_kind": "combobox",
         "selected_option": "Yes",
@@ -1049,35 +828,61 @@
         ]
       },
       {
-        "field_id": "question_37893692002",
-        "canonical_field": "linkedin_url",
+        "field_id": "question_31992217003",
+        "canonical_field": "essay:generated:question_31992217003",
         "control_kind": "text"
       },
       {
-        "field_id": "question_37893694002",
-        "canonical_field": "how_heard",
+        "field_id": "question_31992218003",
+        "canonical_field": "essay:generated:question_31992218003",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_31992219003",
+        "canonical_field": "essay:generated:question_31992219003",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_31992220003",
+        "canonical_field": "essay:generated:question_31992220003",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_31992221003",
+        "canonical_field": "screener:work_authorization",
         "control_kind": "combobox",
-        "selected_option": "LinkedIn Job Posting",
+        "selected_option": "I am legally authorized to work for any employer in the United States.",
         "match_via": "exact",
         "notes": [
           "opened via control click",
-          "picked \"LinkedIn Job Posting\" (exact) from open list"
+          "picked \"I am legally authorized to work for any employer in the United States.\" (exact) from open list"
         ]
       },
       {
-        "field_id": "question_37893695002",
-        "canonical_field": "work_authorization",
+        "field_id": "4010916003",
+        "canonical_field": "gender_identity",
         "control_kind": "combobox",
-        "selected_option": "Yes",
+        "selected_option": "Man",
         "match_via": "exact",
         "notes": [
           "opened via control click",
-          "picked \"Yes\" (exact) from open list"
+          "picked \"Man\" (exact) from open list"
         ]
       },
       {
-        "field_id": "question_37893696002",
-        "canonical_field": "screener:requires_sponsorship",
+        "field_id": "4010910003",
+        "canonical_field": "sexual_orientation",
+        "control_kind": "combobox",
+        "selected_option": "Heterosexual",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Heterosexual\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "4010908003",
+        "canonical_field": "transgender",
         "control_kind": "combobox",
         "selected_option": "No",
         "match_via": "exact",
@@ -1087,70 +892,25 @@
         ]
       },
       {
-        "field_id": "question_37893697002",
-        "canonical_field": "screener:previously_applied_or_worked",
-        "control_kind": "combobox",
-        "selected_option": "No",
-        "match_via": "exact",
-        "notes": [
-          "opened via control click",
-          "picked \"No\" (exact) from open list"
-        ]
-      },
-      {
-        "field_id": "question_37893698002[]",
-        "canonical_field": "screener:custom:sanctions_export_control_status",
-        "control_kind": "checkbox_group",
-        "selected_option": "None of the above"
-      },
-      {
-        "field_id": "question_37893699002[]",
-        "canonical_field": "screener:custom:sanctions_followup_not_applicable",
-        "control_kind": "checkbox_group",
-        "selected_option": "Not applicable (i.e., I selected “none of the above” for the prior question)"
-      },
-      {
-        "field_id": "gender",
-        "canonical_field": "gender",
-        "control_kind": "combobox",
-        "selected_option": "Male",
-        "match_via": "exact",
-        "notes": [
-          "opened via control click",
-          "picked \"Male\" (exact) from open list"
-        ]
-      },
-      {
-        "field_id": "hispanic_ethnicity",
-        "canonical_field": "hispanic_latino",
-        "control_kind": "combobox",
-        "selected_option": "No",
-        "match_via": "exact",
-        "notes": [
-          "opened via control click",
-          "picked \"No\" (exact) from open list"
-        ]
-      },
-      {
-        "field_id": "veteran_status",
-        "canonical_field": "veteran_status",
-        "control_kind": "combobox",
-        "selected_option": "I am not a protected veteran",
-        "match_via": "synonym",
-        "notes": [
-          "opened via control click",
-          "picked \"I am not a protected veteran\" (synonym) from open list"
-        ]
-      },
-      {
-        "field_id": "disability_status",
+        "field_id": "4010907003",
         "canonical_field": "disability_status",
         "control_kind": "combobox",
-        "selected_option": "No, I do not have a disability and have not had one in the past",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "4010905003",
+        "canonical_field": "veteran_status",
+        "control_kind": "combobox",
+        "selected_option": "No, I am not a veteran or active member",
         "match_via": "synonym",
         "notes": [
           "opened via control click",
-          "picked \"No, I do not have a disability and have not had one in the past\" (synonym) from open list"
+          "picked \"No, I am not a veteran or active member\" (synonym) from open list"
         ]
       }
     ]
@@ -1168,12 +928,6 @@
         "canonical_field": "legal_name.last",
         "expected": "Kale",
         "observed": "Kale",
-        "match": true
-      },
-      {
-        "canonical_field": "legal_name.first",
-        "expected": "Shubham",
-        "observed": "Shubham",
         "match": true
       },
       {
@@ -1207,53 +961,17 @@
         "match": true
       },
       {
-        "canonical_field": "degree",
-        "expected": "Bachelor's Degree",
-        "observed": {
-          "value": "Bachelor's Degree",
-          "label": "Bachelor's Degree"
-        },
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
         "match": true
       },
       {
-        "canonical_field": "graduation_month",
-        "expected": "May",
+        "canonical_field": "screener:how_heard",
+        "expected": "LinkedIn",
         "observed": {
-          "value": "May",
-          "label": "May"
-        },
-        "match": true
-      },
-      {
-        "canonical_field": "graduation_year",
-        "expected": "2029",
-        "observed": "2029",
-        "match": true
-      },
-      {
-        "canonical_field": "screener:custom:expected_graduation_date",
-        "expected": "Later than Summer 2028",
-        "observed": {
-          "value": "Later than Summer 2028",
-          "label": "Later than Summer 2028"
-        },
-        "match": true
-      },
-      {
-        "canonical_field": "screener:custom:gpa_range",
-        "expected": "3.6 or above (out of 4.0)",
-        "observed": {
-          "value": "3.6 or above (out of 4.0)",
-          "label": "3.6 or above (out of 4.0)"
-        },
-        "match": true
-      },
-      {
-        "canonical_field": "screener:custom:preferred_location",
-        "expected": "San Francisco, CA",
-        "observed": {
-          "value": "San Francisco, CA",
-          "label": "San Francisco, CA"
+          "value": "LinkedIn",
+          "label": "LinkedIn"
         },
         "match": true
       },
@@ -1267,34 +985,55 @@
         "match": true
       },
       {
-        "canonical_field": "linkedin_url",
-        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
-        "observed": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "canonical_field": "essay:generated:question_31992217003",
+        "expected": "The work I keep coming back to is software that sits inside a real operational workflow, where a wrong action has a cost. I built a Playwright job-application agent in TypeScript where every application moves through an explicit state machine and every mutating capability sits behind fail-closed flags like SUBMIT_ENABLED. I also built a validation ladder so a capability is not called working just because it passes against a local fixture. That is the mindset I would bring to internal business systems: state has to live in one place, integrations have to fail safely, and the human has to stay in the loop where judgment matters.\n\nI care about operational usefulness over model novelty. On the anomaly-detection system I work on now, the harder problem was not scoring events but prioritizing and explaining alerts, because a system that produces too many alerts just creates a second problem.\n\nZipline runs autonomous logistics on four continents with a delivery every 30 seconds. Systems at that scale only work if the internal tooling behind them is reliable, and I want to own real pieces of that rather than isolated tickets.",
+        "observed": "The work I keep coming back to is software that sits inside a real operational workflow, where a wrong action has a cost. I built a Playwright job-application agent in TypeScript where every application moves through an explicit state machine and every mutating capability sits behind fail-closed flags like SUBMIT_ENABLED. I also built a validation ladder so a capability is not called working just because it passes against a local fixture. That is the mindset I would bring to internal business systems: state has to live in one place, integrations have to fail safely, and the human has to stay in the loop where judgment matters.\n\nI care about operational usefulness over model novelty. On the anomaly-detection system I work on now, the harder problem was not scoring events but prioritizing and explaining alerts, because a system that produces too many alerts just creates a second problem.\n\nZipline runs autonomous logistics on four continents with a delivery every 30 seconds. Systems at that scale only work if the internal tooling behind them is reliable, and I want to own real pieces of that rather than isolated tickets.",
         "match": true
       },
       {
-        "canonical_field": "how_heard",
-        "expected": "LinkedIn Job Posting",
+        "canonical_field": "essay:generated:question_31992218003",
+        "expected": "The clearest example is my independent research on how scientific work gets funded and evaluated. I started with a strong hypothesis: the main constraints on research were compensation and grant-writing burden. I spent a year reading papers and institutional history, then interviewed researchers, research administrators, economists, and people building alternative research organizations, and the interviews kept contradicting me. Many people were consciously trading compensation for autonomy and task choice, so my explanation did not hold. What I did next was change the question instead of defending the thesis. I now think the bigger effect is selection: researchers learn which ideas are legible enough to survive review, and some ideas never get attempted. I also prototyped thinking around automated reproducibility of papers. It looked technically valuable, but once I asked who would actually pay for a system that surfaces problems in already-published work, the model got much weaker and I stopped pushing it. That pattern has carried into my engineering work: I try to find the assumption that would make the whole thing wrong, test it early, and be willing to drop the version I liked.",
+        "observed": "The clearest example is my independent research on how scientific work gets funded and evaluated. I started with a strong hypothesis: the main constraints on research were compensation and grant-writing burden. I spent a year reading papers and institutional history, then interviewed researchers, research administrators, economists, and people building alternative research organizations, and the interviews kept contradicting me. Many people were consciously trading compensation for autonomy and task choice, so my explanation did not hold. What I did next was change the question instead of defending the thesis. I now think the bigger effect is selection: researchers learn which ideas are legible enough to survive review, and some ideas never get attempted. I also prototyped thinking around automated reproducibility of papers. It looked technically valuable, but once I asked who would actually pay for a system that surfaces problems in already-published work, the model got much weaker and I stopped pushing it. That pattern has carried into my engineering work: I try to find the assumption that would make the whole thing wrong, test it early, and be willing to drop the version I liked.",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:question_31992219003",
+        "expected": "On my job-application agent, I used OpenAI only at narrow call sites rather than letting a model drive the browser. The model helped with parsing and interpreting messy ATS form structures and drafting text, which is the part where language variation is endless and rules break down. Everything else was my judgment encoded in the system: the explicit state machine each application moves through, SQLite as the single source of truth so state cannot diverge across processes, Zod validation at boundaries, and fail-closed flags like SUBMIT_ENABLED and FORM_FILL_ENABLED that never default on. I also decided that free-text essays and demographic fields are architecturally prevented from being auto-filled and always generate a human-review item, and that Workday, iCIMS, and Oracle get detected and skipped rather than handled unreliably.\n\nThe same split showed up in tSearch, where rubric-driven LLM judges assess dimensions in parallel but cannot re-run discovery or silently fix identity-resolution errors, and missing evidence returns insufficient evidence instead of a low score. AI made generation cheap. Deciding what a system is allowed to act on stayed mine.",
+        "observed": "On my job-application agent, I used OpenAI only at narrow call sites rather than letting a model drive the browser. The model helped with parsing and interpreting messy ATS form structures and drafting text, which is the part where language variation is endless and rules break down. Everything else was my judgment encoded in the system: the explicit state machine each application moves through, SQLite as the single source of truth so state cannot diverge across processes, Zod validation at boundaries, and fail-closed flags like SUBMIT_ENABLED and FORM_FILL_ENABLED that never default on. I also decided that free-text essays and demographic fields are architecturally prevented from being auto-filled and always generate a human-review item, and that Workday, iCIMS, and Oracle get detected and skipped rather than handled unreliably.\n\nThe same split showed up in tSearch, where rubric-driven LLM judges assess dimensions in parallel but cannot re-run discovery or silently fix identity-resolution errors, and missing evidence returns insufficient evidence instead of a low score. AI made generation cheap. Deciding what a system is allowed to act on stayed mine.",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:question_31992220003",
+        "expected": "The hardest thing I've built is the machine-learning core of the anomaly-detection and alert-prioritization system I work on at Summer Atlantic Capital. I own major parts of the data and ML infrastructure: the repository and CI scaffold, the event-ingestion pipeline, a versioned FastAPI microservice, and the public detection API. The modeling side is temporal sequence modeling over event streams using RNN and Transformer-style approaches, anomaly scoring, and a learning-to-rank layer on top.\n\nThe decision that mattered most was treating the real problem as operational rather than statistical. A detector that flags everything just replaces one problem with a worse one, so I put effort into the ranking layer and into an LLM explanation layer built with retrieval-augmented generation so an analyst can see why something was surfaced instead of receiving a bare score. Versioning the service mattered for the same reason: detection behavior changing silently is a failure mode.\n\nWhat I would do differently is define the alert budget and the evaluation harness with analysts before training anything. I built modeling capability first and then worked backward into what was actually useful, which cost me time.",
+        "observed": "The hardest thing I've built is the machine-learning core of the anomaly-detection and alert-prioritization system I work on at Summer Atlantic Capital. I own major parts of the data and ML infrastructure: the repository and CI scaffold, the event-ingestion pipeline, a versioned FastAPI microservice, and the public detection API. The modeling side is temporal sequence modeling over event streams using RNN and Transformer-style approaches, anomaly scoring, and a learning-to-rank layer on top.\n\nThe decision that mattered most was treating the real problem as operational rather than statistical. A detector that flags everything just replaces one problem with a worse one, so I put effort into the ranking layer and into an LLM explanation layer built with retrieval-augmented generation so an analyst can see why something was surfaced instead of receiving a bare score. Versioning the service mattered for the same reason: detection behavior changing silently is a failure mode.\n\nWhat I would do differently is define the alert budget and the evaluation harness with analysts before training anything. I built modeling capability first and then worked backward into what was actually useful, which cost me time.",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:work_authorization",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "gender_identity",
+        "expected": "Man",
         "observed": {
-          "value": "LinkedIn Job Posting",
-          "label": "LinkedIn Job Posting"
+          "value": "Man",
+          "label": "Man"
         },
         "match": true
       },
       {
-        "canonical_field": "work_authorization",
-        "expected": "[REDACTED_SPONSORSHIP]",
-        "observed": "[REDACTED_SPONSORSHIP]",
+        "canonical_field": "sexual_orientation",
+        "expected": "Heterosexual",
+        "observed": {
+          "value": "Heterosexual",
+          "label": "Heterosexual"
+        },
         "match": true
       },
       {
-        "canonical_field": "screener:requires_sponsorship",
-        "expected": "[REDACTED_SPONSORSHIP]",
-        "observed": "[REDACTED_SPONSORSHIP]",
-        "match": true
-      },
-      {
-        "canonical_field": "screener:previously_applied_or_worked",
+        "canonical_field": "transgender",
         "expected": "No",
         "observed": {
           "value": "No",
@@ -1303,34 +1042,7 @@
         "match": true
       },
       {
-        "canonical_field": "screener:custom:sanctions_export_control_status",
-        "expected": "None of the above",
-        "observed": {
-          "value": "None of the above",
-          "label": "None of the above"
-        },
-        "match": true
-      },
-      {
-        "canonical_field": "screener:custom:sanctions_followup_not_applicable",
-        "expected": "Not applicable (i.e., I selected “none of the above” for the prior question)",
-        "observed": {
-          "value": "Not applicable (i.e., I selected “none of the above” for the prior question)",
-          "label": "Not applicable (i.e., I selected “none of the above” for the prior question)"
-        },
-        "match": true
-      },
-      {
-        "canonical_field": "gender",
-        "expected": "Male",
-        "observed": {
-          "value": "Male",
-          "label": "Male"
-        },
-        "match": true
-      },
-      {
-        "canonical_field": "hispanic_latino",
+        "canonical_field": "disability_status",
         "expected": "No",
         "observed": {
           "value": "No",
@@ -1342,17 +1054,8 @@
         "canonical_field": "veteran_status",
         "expected": "I am not a veteran",
         "observed": {
-          "value": "I am not a protected veteran",
-          "label": "I am not a protected veteran"
-        },
-        "match": true
-      },
-      {
-        "canonical_field": "disability_status",
-        "expected": "No",
-        "observed": {
-          "value": "No, I do not have a disability and have not had one in the past",
-          "label": "No, I do not have a disability and have not had one in the past"
+          "value": "No, I am not a veteran or active member",
+          "label": "No, I am not a veteran or active member"
         },
         "match": true
       }
@@ -1370,5 +1073,5 @@
       "evidence": "input files: []; stillAttached=false; chip=true"
     }
   ],
-  "written_at": "2026-09-01T14:52:30.131Z"
+  "written_at": "2026-09-01T19:00:12.274Z"
 }
