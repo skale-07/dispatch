@@ -1,7 +1,7 @@
 {
   "mode": "executed",
   "ats": "greenhouse",
-  "url": "https://job-boards.greenhouse.io/neuralink/jobs/6594422003",
+  "url": "https://boards.greenhouse.io/stripe/jobs/8128745",
   "plan": {
     "answers": {
       "legal_name.first": "Shubham",
@@ -9,20 +9,25 @@
       "email": "s***@gmail.com",
       "address.country": "United States",
       "phone": "***-***-7636",
-      "graduation_month": "May",
-      "graduation_year": "2029",
-      "screener:custom:prior_internship_experience": "Yes",
-      "screener:custom:graduation_year": "2029",
+      "address.city": "Baltimore",
+      "degree": "Bachelor of Science",
+      "major": "Applied Mathematics and Statistics",
+      "start_year": "2025",
+      "screener:custom:school_not_listed_name": "Johns Hopkins University",
+      "screener:custom:predicted:question_68581547": "ACT: 35",
+      "screener:custom:predicted:question_68581548": "3.7",
+      "preferred_name": "Shubham",
+      "pronouns": "He/Him",
       "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
-      "work_authorization": "[REDACTED_SPONSORSHIP]",
-      "screener:requires_sponsorship": "[REDACTED_SPONSORSHIP]",
-      "screener:custom:onsite_requirement_acknowledged": "Yes",
-      "screener:custom:onsite_location_preference": "No preference",
-      "screener:willing_to_relocate": "Yes",
-      "screener:custom:internship_season": "Winter 2027 (January - April)",
-      "screener:start_availability": "Flexible — aligned to the posted term",
-      "how_heard": "LinkedIn",
-      "screener:custom:prior_experience_details": "I currently work on applied machine learning at Summer Atlantic Capital / SAC Nexus, where I build the ML core of an anomaly-detection and alert-prioritization system, including the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, and a retrieval-augmented explanation layer. Before that I worked with Intelehealth on AI and data systems for rural telemedicine, including a resource-availability scoring pipeline across 32 villages and an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case clinical standard."
+      "screener:custom:second_cohort_flexibility": "Winter (January - April)",
+      "screener:custom:predicted:question_68581556": "I am open to working in any office",
+      "screener:custom:predicted:question_68581557": "I am open to working in any office",
+      "screener:work_authorization": "[REDACTED_SPONSORSHIP]",
+      "requires_sponsorship": "[REDACTED_SPONSORSHIP]",
+      "gender": "Male",
+      "hispanic_latino": "No",
+      "veteran_status": "I am not a veteran",
+      "disability_status": "No"
     },
     "entries": [
       {
@@ -80,6 +85,15 @@
         "reason": "Mapped from public profile"
       },
       {
+        "field_id": "candidate-location",
+        "label": "Location (City)",
+        "type": "text",
+        "canonical_field": "address.city",
+        "action": "fill",
+        "value": "Baltimore",
+        "reason": "Mapped from public profile"
+      },
+      {
         "field_id": "resume",
         "label": "Attach",
         "type": "file",
@@ -107,71 +121,89 @@
         "reason": "No answer-alias mapping"
       },
       {
-        "field_id": "end-month--0",
-        "label": "End date month",
+        "field_id": "degree--0",
+        "label": "Degree",
         "type": "text",
-        "canonical_field": "graduation_month",
+        "canonical_field": "degree",
         "action": "fill",
-        "value": "May",
+        "value": "Bachelor's Degree",
+        "reason": "Mapped from public profile; placed onto \"Bachelor's Degree\""
+      },
+      {
+        "field_id": "discipline--0",
+        "label": "Discipline",
+        "type": "text",
+        "canonical_field": "major",
+        "action": "fill",
+        "value": "Mathematics",
+        "reason": "Mapped from public profile; placed onto \"Mathematics\""
+      },
+      {
+        "field_id": "start-year--0",
+        "label": "Start date year",
+        "type": "text",
+        "canonical_field": "start_year",
+        "action": "fill",
+        "value": "2025",
         "reason": "Mapped from public profile"
       },
       {
-        "field_id": "end-year--0",
-        "label": "End date year",
+        "field_id": "question_68843617",
+        "label": "We are always aiming to keep our school list inclusive of all institutions. If you did not see your University listed in the previous question, please let us know your school name here.",
         "type": "text",
-        "canonical_field": "graduation_year",
+        "canonical_field": "screener:custom:school_not_listed_name",
         "action": "fill",
-        "value": "2029",
-        "reason": "Mapped from public profile"
+        "value": "Johns Hopkins University",
+        "reason": "Screener bank answer (free_text)"
       },
       {
-        "field_id": "question_21278581003",
-        "label": "We look for evidence of exceptional ability. Please provide us with 3-4 examples highlighting your exceptional ability, using quantitative metrics to display the impact on a product/project related to the requirements of the position you are applying for. Each bullet should be very concise— no longer than 3-4 sentences each and should capture the problem, solution, and result. We recommend starting with an action word (designed, led, built, promoted, launched, created, etc.) and be sure to include technical detail. This is your moment to WOW us! NOTE: Answering this question fully is the most important part of our interview process. First example:",
-        "type": "textarea",
-        "canonical_field": "essay:generated:question_21278581003",
+        "field_id": "question_68581547",
+        "label": "As part of our commitment to understanding candidates' backgrounds, we invite you to share your SAT or ACT score if you feel comfortable. This information is optional and will help us in evaluating your application alongside your other qualifications.",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_68581547",
         "action": "fill",
-        "value": "Built and shipped ClarityAtlas, an iOS health product, end to end in Swift and SwiftUI with a Supabase backend, as co-founder and technical lead of Open Health Intelligence. The core technical problem was estimating sleep without a wearable, so I built a passive sleep-estimation system that infers sleep from phone-interaction and motion signals, using HealthKit and Core Motion inputs like step count, gait speed, and movement patterns, plus backend services for behavioral comparison including a \"Sleep Twins\" matching system based on standardized features and weighted distance. I shipped it into a live pilot at Johns Hopkins with 30+ users, and the project was selected for the Pava Spark Accelerator and NSF I-Corps and drew a non-binding investment indication of roughly $75,000 for about 7 to 8% equity. It taught me how noisy body-signal inference behaves once real users depend on it daily, which is the part I would want to carry into decoding work on BCI Applications.",
-        "reason": "Essay generated from the operator's about-me context"
+        "value": "ACT: 35",
+        "reason": "Predicted from operator context (llm_predict): Learned answer for SAT/ACT score prompts is 'ACT: 35'."
       },
       {
-        "field_id": "question_21278582003",
-        "label": "Second example:",
-        "type": "textarea",
-        "canonical_field": "essay:generated:question_21278582003",
+        "field_id": "question_68581548",
+        "label": "Similarly, we also invite you to provide your GPA, this can help us further understand your academic experience.",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_68581548",
         "action": "fill",
-        "value": "A second example is ClarityAtlas, an iOS health product I co-founded Open Health Intelligence to build and served as technical lead on. I built it end to end in Swift and SwiftUI with a Supabase backend. The hardest technical piece was estimating sleep without a wearable, so I built a passive sleep-estimation system from phone-interaction and motion signals, using HealthKit and Core Motion inputs such as step count, gait speed, and movement patterns. That meant inferring a physiological state from noisy, indirect sensor streams rather than measuring it directly. I also built backend services for behavioral comparison, including a \"Sleep Twins\" matching system using standardized behavioral features and weighted distance. We shipped it into a live pilot at Johns Hopkins with 30 or more users, and the project was selected for the Pava Spark Accelerator and NSF I-Corps. What I took from it is that shipping to real users exposes failure modes no local test does, which is the part I would want to carry into work on interfaces people actually depend on daily.",
-        "reason": "Essay generated from the operator's about-me context"
+        "value": "3.7",
+        "reason": "Predicted from operator context (llm_predict): Profile facts and learned answers list GPA as 3.7."
       },
       {
-        "field_id": "question_21278583003",
-        "label": "Third example:",
-        "type": "textarea",
+        "field_id": "question_68584724",
+        "label": "Attach",
+        "type": "file",
         "canonical_field": null,
-        "action": "skip_essay",
+        "action": "skip_file",
         "value": null,
-        "reason": "Essay generation produced no answer"
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
       },
       {
-        "field_id": "question_21278584003",
-        "label": "Do you have prior internship or co-op experience?",
+        "field_id": "question_68581549",
+        "label": "Preferred Name",
         "type": "text",
-        "canonical_field": "screener:custom:prior_internship_experience",
+        "canonical_field": "preferred_name",
         "action": "fill",
-        "value": "Yes",
-        "reason": "Screener bank answer (exact_option)"
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
       },
       {
-        "field_id": "question_21278585003",
-        "label": "What year will you graduate?",
+        "field_id": "question_68581550",
+        "label": "Pronouns",
         "type": "text",
-        "canonical_field": "screener:custom:graduation_year",
+        "canonical_field": "pronouns",
         "action": "fill",
-        "value": "2029",
-        "reason": "Screener bank answer (exact_option)"
+        "value": "He/Him",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
       },
       {
-        "field_id": "question_21278586003",
-        "label": "LinkedIn Profile",
+        "field_id": "question_68581551",
+        "label": "LinkedIn Profile, Github, Personal Website, or Portfolio",
         "type": "text",
         "canonical_field": "linkedin_url",
         "action": "fill",
@@ -179,119 +211,150 @@
         "reason": "Mapped from public profile"
       },
       {
-        "field_id": "question_21278587003",
-        "label": "Additional Link",
-        "type": "text",
-        "canonical_field": "screener:portfolio_url",
-        "action": "skip_empty",
+        "field_id": "question_68581553",
+        "label": "Do you have an active offer deadline or another recruiting-process deadline we should be aware of? If yes, please share the deadline date and any relevant context.",
+        "type": "textarea",
+        "canonical_field": null,
+        "action": "skip_essay",
         "value": null,
-        "reason": "portfolio_url empty in bank — optional, skipped"
+        "reason": "Essay generation produced no answer"
       },
       {
-        "field_id": "question_21278588003[]",
-        "label": "Are you currently authorized to work in the United States?",
+        "field_id": "question_68581554",
+        "label": "As Stripe grows, we are always aiming to expand our recruitment presence at conferences and gatherings. Please let us know of any conferences you’re planning to attend this year or have previously attended to help inform our team about future recruitment opportunities.",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_68581554",
+        "action": "fill",
+        "value": "I don't have a fixed conference schedule for this year, so I'll speak to what I've actually attended. I was a national finalist at the Junior Science and Humanities Symposium for my Valley Fever research, where I presented an SIR-style epidemiological model I built in Python along with a microcontroller-based dust sensor I programmed in C/C++. More recently, ClarityAtlas, the iOS health product I lead technically at Open Health Intelligence, was selected for NSF I-Corps and the Johns Hopkins Pava Spark Accelerator, both of which involved cohort programming and demo events with founders, researchers, and university leadership. On campus, the Johns Hopkins Data Science and AI Institute runs events that pull in a lot of students doing applied ML and systems work, and that community would probably be a useful place for Stripe to recruit.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_68675431[]",
+        "label": "We host cohorts of 12 or 16 week internships over Winter or Summer. The ranges listed here are approximate and, in the case of Summer, offer a range of start dates that best fit your academic calendar that are shared closer to the start of the program. Please choose which cohort works best for you.",
         "type": "checkbox",
-        "canonical_field": "work_authorization",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_68675600",
+        "label": "Do you have flexibility to consider a second cohort option? Your answer will not negatively impact your application.",
+        "type": "text",
+        "canonical_field": "screener:custom:second_cohort_flexibility",
+        "action": "fill",
+        "value": "Winter (January - April)",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_68675604",
+        "label": "First location preference:",
+        "type": "text",
+        "canonical_field": "screener:closest_location",
+        "action": "review_required",
+        "value": null,
+        "reason": "closest_location: bank answer \"United States\" matches none of the 4 page options — review"
+      },
+      {
+        "field_id": "question_68581556",
+        "label": "Second location preference",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_68581556",
+        "action": "fill",
+        "value": "I am open to working in any office",
+        "reason": "Predicted from operator context (llm_predict): Candidate is willing to relocate, so open to any office is the best fit."
+      },
+      {
+        "field_id": "question_68581557",
+        "label": "Third location preference",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_68581557",
+        "action": "fill",
+        "value": "I am open to working in any office",
+        "reason": "Predicted from operator context (llm_predict): Relocation willingness in profile supports openness to any office location."
+      },
+      {
+        "field_id": "question_68702648",
+        "label": "Are you currently eligible to work in the United States?",
+        "type": "text",
+        "canonical_field": "screener:work_authorization",
         "action": "fill",
         "value": "[REDACTED_SPONSORSHIP]",
-        "reason": "Mapped from public profile"
+        "reason": "Screener bank answer (llm_option)"
       },
       {
-        "field_id": "question_21278589003",
-        "label": "Will you, at any point, require employer sponsorship to work in the United States?",
+        "field_id": "question_68581559",
+        "label": "Do you require visa sponsorship, now or in the future, to continue working in the United States?",
         "type": "text",
-        "canonical_field": "screener:requires_sponsorship",
+        "canonical_field": "requires_sponsorship",
         "action": "fill",
         "value": "[REDACTED_SPONSORSHIP]",
-        "reason": "Screener bank answer (profile_derived)"
+        "reason": "Mapped from public profile; placed onto \"No, I do not require visa sponsorship now or in the future to continue working in the country where this role is based.\""
       },
       {
-        "field_id": "question_21278590003[]",
-        "label": "I understand that this position requires me to work on-site.",
-        "type": "checkbox",
-        "canonical_field": "screener:custom:onsite_requirement_acknowledged",
-        "action": "fill",
-        "value": "Yes",
-        "reason": "Screener bank answer (exact_option)"
-      },
-      {
-        "field_id": "question_32473866003",
-        "label": "Which onsite location would you like to apply to?",
+        "field_id": "gender",
+        "label": "Gender",
         "type": "text",
-        "canonical_field": "screener:custom:onsite_location_preference",
+        "canonical_field": "gender",
         "action": "fill",
-        "value": "No preference",
-        "reason": "Screener bank answer (exact_option)"
+        "value": "Male",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
       },
       {
-        "field_id": "question_21278591003",
-        "label": "At this time we do not offer relocation assistance to interns. If hired, are you able to relocate on your own if you are not based locally?",
+        "field_id": "hispanic_ethnicity",
+        "label": "Are you Hispanic/Latino?",
         "type": "text",
-        "canonical_field": "screener:willing_to_relocate",
+        "canonical_field": "hispanic_latino",
         "action": "fill",
-        "value": "Yes",
-        "reason": "Screener bank answer (synonym_option)"
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
       },
       {
-        "field_id": "question_21278592003",
-        "label": "What intern season are you interested in?",
+        "field_id": "veteran_status",
+        "label": "Veteran Status",
         "type": "text",
-        "canonical_field": "screener:custom:internship_season",
+        "canonical_field": "veteran_status",
         "action": "fill",
-        "value": "Winter 2027 (January - April)",
-        "reason": "Screener bank answer (exact_option)"
+        "value": "I am not a veteran",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
       },
       {
-        "field_id": "question_21278593003",
-        "label": "Ideal start date in office",
+        "field_id": "disability_status",
+        "label": "Disability Status",
         "type": "text",
-        "canonical_field": "screener:start_availability",
+        "canonical_field": "disability_status",
         "action": "fill",
-        "value": "Flexible — aligned to the posted term",
-        "reason": "Screener bank answer (free_text)"
-      },
-      {
-        "field_id": "question_21278594003[]",
-        "label": "How did you hear about us?",
-        "type": "checkbox",
-        "canonical_field": "how_heard",
-        "action": "fill",
-        "value": "LinkedIn",
-        "reason": "Mapped from public profile"
-      },
-      {
-        "field_id": "question_21278595003",
-        "label": "Please specify",
-        "type": "text",
-        "canonical_field": "screener:custom:prior_experience_details",
-        "action": "fill",
-        "value": "I currently work on applied machine learning at Summer Atlantic Capital / SAC Nexus, where I build the ML core of an anomaly-detection and alert-prioritization system, including the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, and a retrieval-augmented explanation layer. Before that I worked with Intelehealth on AI and data systems for rural telemedicine, including a resource-availability scoring pipeline across 32 villages and an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case clinical standard.",
-        "reason": "Screener bank answer (free_text)"
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
       }
     ],
-    "fillable_count": 21,
-    "skipped_count": 6,
-    "review_required_count": 0
+    "fillable_count": 25,
+    "skipped_count": 7,
+    "review_required_count": 1
   },
   "submit_attempted": false,
   "notes": [
     "session: handoff (caller-owned page, not closed here)",
-    "schema diff: 20/22 declared question(s) matched onto 27 DOM field(s); 2 declared-only (1 required); 7 DOM-only",
-    "board API declared 22 question(s); matched complete option lists onto 9 field(s)",
-    "option harvest: scraped real options for 3/12 control(s) before planning",
+    "gate passed but the page has no applicant-identity fields — treating as posting shell (samsara-type chrome), running Apply + hop recovery",
+    "no hopable iframe after landing miss — frames: main https://stripe.com/careers/search?gh_jid=8128745 | https://b.stripecdn.com/stripethirdparty-srv/assets/v33.1/PrivacyCompliance.html?id=5e457f81-3ffa-4416-aa49-3d4251cde096&origin=https%3A%2F%2Fstripe.com | https://b.stripecdn.com/stripethirdparty-srv/assets/v33.1/GoogleTagManager.html?id=d9d61d76-cb88-4a65-a048-816a6331e1b3&origin=https%3A%2F%2F",
+    "posting shell without Apply or iframe — navigating to the canonical embed app https://boards.greenhouse.io/embed/job_app?for=stripe&token=8128745",
+    "schema diff: 19/22 declared question(s) matched onto 33 DOM field(s); 3 declared-only (1 required); 14 DOM-only",
+    "board API declared 22 question(s); matched complete option lists onto 7 field(s)",
+    "option harvest: \"Location (City)\" is a combobox but offered no readable options",
+    "option harvest: scraped real options for 8/20 control(s) before planning",
     "frozen after fill→verify→upload — no further field mutation; submit never called"
   ],
   "validation_level": "LIVE_MUTATION_CONFIRMED",
-  "final_url": "https://job-boards.greenhouse.io/neuralink/jobs/6594422003",
+  "final_url": "https://job-boards.greenhouse.io/embed/job_app?for=stripe&token=8128745",
   "identity_verification": {
-    "requestedUrl": "https://job-boards.greenhouse.io/neuralink/jobs/6594422003",
-    "finalUrl": "https://job-boards.greenhouse.io/neuralink/jobs/6594422003",
-    "requestedJobId": "6594422003",
-    "observedJobId": "6594422003",
-    "company": "neuralink",
-    "role": "Job Application for Software Engineer Intern, BCI Applications at Neuralink",
+    "requestedUrl": "https://boards.greenhouse.io/stripe/jobs/8128745",
+    "finalUrl": "https://job-boards.greenhouse.io/embed/job_app?for=stripe&token=8128745",
+    "requestedJobId": "8128745",
+    "observedJobId": "8128745",
+    "company": "stripe",
+    "role": "Job Application for Software Engineer, Intern (Summer or Winter) at Stripe",
     "formDetected": true,
-    "fieldCount": 27,
+    "fieldCount": 33,
     "warnings": [
       "login_wall_low: auth_provider_marker"
     ],
@@ -303,7 +366,10 @@
     "detected": false,
     "confidence": "LOW",
     "signals": [],
-    "dormantMarkers": []
+    "dormantMarkers": [
+      "recaptcha_api_script_loaded",
+      "generic_captcha_word_only"
+    ]
   },
   "login_wall_detection": {
     "detected": false,
@@ -315,11 +381,11 @@
   "failure_code": null,
   "mutation_attempted": true,
   "schema_diff": {
-    "board": "neuralink",
-    "job_id": "6594422003",
+    "board": "stripe",
+    "job_id": "8128745",
     "declared_count": 22,
-    "dom_count": 27,
-    "matched": 20,
+    "dom_count": 33,
+    "matched": 19,
     "api_only": [
       {
         "label": "Resume/CV",
@@ -328,16 +394,27 @@
       {
         "label": "Cover Letter",
         "required": false
+      },
+      {
+        "label": "Please upload your academic record document (e.g. University Transcript, Transcript of Records, Marksheet, or Statement of Marks).",
+        "required": false
       }
     ],
     "dom_only": [
       "Country",
       "Search",
+      "Location (City)",
       "Attach",
       "Attach",
       "School",
-      "End date month",
-      "End date year"
+      "Degree",
+      "Discipline",
+      "Start date year",
+      "Attach",
+      "Gender",
+      "Are you Hispanic/Latino?",
+      "Veteran Status",
+      "Disability Status"
     ],
     "option_mismatches": []
   },
@@ -385,6 +462,7 @@
         "Aalborg University",
         "Aalto University",
         "Aarhus University",
+        "Abdullah Gul University",
         "Abertay University",
         "Aberystwyth University",
         "Abilene Christian University",
@@ -399,35 +477,114 @@
         "Adelphi University",
         "Adrian College",
         "Adventist University of Health Sciences",
+        "African Leadership University",
+        "African University of Science and Technology",
+        "AGH University of Science and Technology",
         "Agnes Scott College",
+        "Ahmedabad University",
         "AIB College of Business",
-        "Ain Shams University",
-        "Airlangga University",
-        "Ajou University",
-        "Alabama A&M University",
-        "Alabama State University",
-        "Alaska Pacific University"
+        "Ain Shams University"
       ],
       "other_option": null
     },
     {
-      "field_id": "end-month--0",
-      "label": "End date month",
+      "field_id": "degree--0",
+      "label": "Degree",
       "answer_space": "closed",
-      "option_count": 12,
+      "option_count": 10,
       "options": [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December"
+        "Associate's Degree",
+        "Bachelor's Degree",
+        "Doctor of Medicine (M.D.)",
+        "Doctor of Philosophy (Ph.D.)",
+        "Engineer's Degree",
+        "High School",
+        "Juris Doctor (J.D.)",
+        "Master of Business Administration (M.B.A.)",
+        "Master's Degree",
+        "Other"
+      ],
+      "other_option": "Other"
+    },
+    {
+      "field_id": "discipline--0",
+      "label": "Discipline",
+      "answer_space": "closed",
+      "option_count": 73,
+      "options": [
+        "Accounting",
+        "African Studies",
+        "Agriculture",
+        "Anthropology",
+        "Applied Health Services",
+        "Architecture",
+        "Art",
+        "Asian Studies",
+        "Biology",
+        "Business",
+        "Business Administration",
+        "Chemistry",
+        "Classical Languages",
+        "Communications & Film",
+        "Computer Science",
+        "Data Science",
+        "Dentistry",
+        "Developing Nations",
+        "Discipline Unknown",
+        "Earth Sciences",
+        "Economics",
+        "Education",
+        "Electronics",
+        "Engineering",
+        "English Studies"
+      ],
+      "other_option": "Other"
+    },
+    {
+      "field_id": "gender",
+      "label": "Gender",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "Male",
+        "Female",
+        "Decline To Self Identify"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "hispanic_ethnicity",
+      "label": "Are you Hispanic/Latino?",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "Yes",
+        "No",
+        "Decline To Self Identify"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "veteran_status",
+      "label": "Veteran Status",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "I am not a protected veteran",
+        "I identify as one or more of the classifications of a protected veteran",
+        "I don't wish to answer"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "disability_status",
+      "label": "Disability Status",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "Yes, I have a disability, or have had one in the past",
+        "No, I do not have a disability and have not had one in the past",
+        "I do not want to answer"
       ],
       "other_option": null
     }
@@ -495,6 +652,16 @@
         "reason": "Mapped from public profile"
       },
       {
+        "field_id": "candidate-location",
+        "label": "Location (City)",
+        "type": "text",
+        "canonical_field": "address.city",
+        "action": "FILL",
+        "approved": true,
+        "value": "Baltimore",
+        "reason": "Mapped from public profile"
+      },
+      {
         "field_id": "resume",
         "label": "Attach",
         "type": "file",
@@ -525,78 +692,98 @@
         "reason": "No answer-alias mapping"
       },
       {
-        "field_id": "end-month--0",
-        "label": "End date month",
+        "field_id": "degree--0",
+        "label": "Degree",
         "type": "text",
-        "canonical_field": "graduation_month",
+        "canonical_field": "degree",
         "action": "FILL",
         "approved": true,
-        "value": "May",
+        "value": "Bachelor's Degree",
+        "reason": "Mapped from public profile; placed onto \"Bachelor's Degree\""
+      },
+      {
+        "field_id": "discipline--0",
+        "label": "Discipline",
+        "type": "text",
+        "canonical_field": "major",
+        "action": "FILL",
+        "approved": true,
+        "value": "Mathematics",
+        "reason": "Mapped from public profile; placed onto \"Mathematics\""
+      },
+      {
+        "field_id": "start-year--0",
+        "label": "Start date year",
+        "type": "text",
+        "canonical_field": "start_year",
+        "action": "FILL",
+        "approved": true,
+        "value": "2025",
         "reason": "Mapped from public profile"
       },
       {
-        "field_id": "end-year--0",
-        "label": "End date year",
+        "field_id": "question_68843617",
+        "label": "We are always aiming to keep our school list inclusive of all institutions. If you did not see your University listed in the previous question, please let us know your school name here.",
         "type": "text",
-        "canonical_field": "graduation_year",
+        "canonical_field": "screener:custom:school_not_listed_name",
         "action": "FILL",
         "approved": true,
-        "value": "2029",
-        "reason": "Mapped from public profile"
+        "value": "Johns Hopkins University",
+        "reason": "Screener bank answer (free_text)"
       },
       {
-        "field_id": "question_21278581003",
-        "label": "We look for evidence of exceptional ability. Please provide us with 3-4 examples highlighting your exceptional ability, using quantitative metrics to display the impact on a product/project related to the requirements of the position you are applying for. Each bullet should be very concise— no longer than 3-4 sentences each and should capture the problem, solution, and result. We recommend starting with an action word (designed, led, built, promoted, launched, created, etc.) and be sure to include technical detail. This is your moment to WOW us! NOTE: Answering this question fully is the most important part of our interview process. First example:",
-        "type": "textarea",
-        "canonical_field": "essay:generated:question_21278581003",
+        "field_id": "question_68581547",
+        "label": "As part of our commitment to understanding candidates' backgrounds, we invite you to share your SAT or ACT score if you feel comfortable. This information is optional and will help us in evaluating your application alongside your other qualifications.",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_68581547",
         "action": "FILL",
         "approved": true,
-        "value": "Built and shipped ClarityAtlas, an iOS health product, end to end in Swift and SwiftUI with a Supabase backend, as co-founder and technical lead of Open Health Intelligence. The core technical problem was estimating sleep without a wearable, so I built a passive sleep-estimation system that infers sleep from phone-interaction and motion signals, using HealthKit and Core Motion inputs like step count, gait speed, and movement patterns, plus backend services for behavioral comparison including a \"Sleep Twins\" matching system based on standardized features and weighted distance. I shipped it into a live pilot at Johns Hopkins with 30+ users, and the project was selected for the Pava Spark Accelerator and NSF I-Corps and drew a non-binding investment indication of roughly $75,000 for about 7 to 8% equity. It taught me how noisy body-signal inference behaves once real users depend on it daily, which is the part I would want to carry into decoding work on BCI Applications.",
-        "reason": "Essay generated from the operator's about-me context"
+        "value": "ACT: 35",
+        "reason": "Predicted from operator context (llm_predict): Learned answer for SAT/ACT score prompts is 'ACT: 35'."
       },
       {
-        "field_id": "question_21278582003",
-        "label": "Second example:",
-        "type": "textarea",
-        "canonical_field": "essay:generated:question_21278582003",
+        "field_id": "question_68581548",
+        "label": "Similarly, we also invite you to provide your GPA, this can help us further understand your academic experience.",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_68581548",
         "action": "FILL",
         "approved": true,
-        "value": "A second example is ClarityAtlas, an iOS health product I co-founded Open Health Intelligence to build and served as technical lead on. I built it end to end in Swift and SwiftUI with a Supabase backend. The hardest technical piece was estimating sleep without a wearable, so I built a passive sleep-estimation system from phone-interaction and motion signals, using HealthKit and Core Motion inputs such as step count, gait speed, and movement patterns. That meant inferring a physiological state from noisy, indirect sensor streams rather than measuring it directly. I also built backend services for behavioral comparison, including a \"Sleep Twins\" matching system using standardized behavioral features and weighted distance. We shipped it into a live pilot at Johns Hopkins with 30 or more users, and the project was selected for the Pava Spark Accelerator and NSF I-Corps. What I took from it is that shipping to real users exposes failure modes no local test does, which is the part I would want to carry into work on interfaces people actually depend on daily.",
-        "reason": "Essay generated from the operator's about-me context"
+        "value": "3.7",
+        "reason": "Predicted from operator context (llm_predict): Profile facts and learned answers list GPA as 3.7."
       },
       {
-        "field_id": "question_21278583003",
-        "label": "Third example:",
-        "type": "textarea",
+        "field_id": "question_68584724",
+        "label": "Attach",
+        "type": "file",
         "canonical_field": null,
         "action": "SKIP",
         "approved": false,
         "value": null,
-        "reason": "Essay generation produced no answer"
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
       },
       {
-        "field_id": "question_21278584003",
-        "label": "Do you have prior internship or co-op experience?",
+        "field_id": "question_68581549",
+        "label": "Preferred Name",
         "type": "text",
-        "canonical_field": "screener:custom:prior_internship_experience",
+        "canonical_field": "preferred_name",
         "action": "FILL",
         "approved": true,
-        "value": "Yes",
-        "reason": "Screener bank answer (exact_option)"
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
       },
       {
-        "field_id": "question_21278585003",
-        "label": "What year will you graduate?",
+        "field_id": "question_68581550",
+        "label": "Pronouns",
         "type": "text",
-        "canonical_field": "screener:custom:graduation_year",
+        "canonical_field": "pronouns",
         "action": "FILL",
         "approved": true,
-        "value": "2029",
-        "reason": "Screener bank answer (exact_option)"
+        "value": "He/Him",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
       },
       {
-        "field_id": "question_21278586003",
-        "label": "LinkedIn Profile",
+        "field_id": "question_68581551",
+        "label": "LinkedIn Profile, Github, Personal Website, or Portfolio",
         "type": "text",
         "canonical_field": "linkedin_url",
         "action": "FILL",
@@ -605,104 +792,134 @@
         "reason": "Mapped from public profile"
       },
       {
-        "field_id": "question_21278587003",
-        "label": "Additional Link",
-        "type": "text",
-        "canonical_field": "screener:portfolio_url",
+        "field_id": "question_68581553",
+        "label": "Do you have an active offer deadline or another recruiting-process deadline we should be aware of? If yes, please share the deadline date and any relevant context.",
+        "type": "textarea",
+        "canonical_field": null,
         "action": "SKIP",
         "approved": false,
         "value": null,
-        "reason": "portfolio_url empty in bank — optional, skipped"
+        "reason": "Essay generation produced no answer"
       },
       {
-        "field_id": "question_21278588003[]",
-        "label": "Are you currently authorized to work in the United States?",
+        "field_id": "question_68581554",
+        "label": "As Stripe grows, we are always aiming to expand our recruitment presence at conferences and gatherings. Please let us know of any conferences you’re planning to attend this year or have previously attended to help inform our team about future recruitment opportunities.",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_68581554",
+        "action": "FILL",
+        "approved": true,
+        "value": "I don't have a fixed conference schedule for this year, so I'll speak to what I've actually attended. I was a national finalist at the Junior Science and Humanities Symposium for my Valley Fever research, where I presented an SIR-style epidemiological model I built in Python along with a microcontroller-based dust sensor I programmed in C/C++. More recently, ClarityAtlas, the iOS health product I lead technically at Open Health Intelligence, was selected for NSF I-Corps and the Johns Hopkins Pava Spark Accelerator, both of which involved cohort programming and demo events with founders, researchers, and university leadership. On campus, the Johns Hopkins Data Science and AI Institute runs events that pull in a lot of students doing applied ML and systems work, and that community would probably be a useful place for Stripe to recruit.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_68675431[]",
+        "label": "We host cohorts of 12 or 16 week internships over Winter or Summer. The ranges listed here are approximate and, in the case of Summer, offer a range of start dates that best fit your academic calendar that are shared closer to the start of the program. Please choose which cohort works best for you.",
         "type": "checkbox",
-        "canonical_field": "work_authorization",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_68675600",
+        "label": "Do you have flexibility to consider a second cohort option? Your answer will not negatively impact your application.",
+        "type": "text",
+        "canonical_field": "screener:custom:second_cohort_flexibility",
+        "action": "FILL",
+        "approved": true,
+        "value": "Winter (January - April)",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_68675604",
+        "label": "First location preference:",
+        "type": "text",
+        "canonical_field": "screener:closest_location",
+        "action": "REVIEW_REQUIRED",
+        "approved": false,
+        "value": null,
+        "reason": "closest_location: bank answer \"United States\" matches none of the 4 page options — review"
+      },
+      {
+        "field_id": "question_68581556",
+        "label": "Second location preference",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_68581556",
+        "action": "FILL",
+        "approved": true,
+        "value": "I am open to working in any office",
+        "reason": "Predicted from operator context (llm_predict): Candidate is willing to relocate, so open to any office is the best fit."
+      },
+      {
+        "field_id": "question_68581557",
+        "label": "Third location preference",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_68581557",
+        "action": "FILL",
+        "approved": true,
+        "value": "I am open to working in any office",
+        "reason": "Predicted from operator context (llm_predict): Relocation willingness in profile supports openness to any office location."
+      },
+      {
+        "field_id": "question_68702648",
+        "label": "Are you currently eligible to work in the United States?",
+        "type": "text",
+        "canonical_field": "screener:work_authorization",
         "action": "FILL",
         "approved": true,
         "value": "[REDACTED_SPONSORSHIP]",
-        "reason": "Mapped from public profile"
+        "reason": "Screener bank answer (llm_option)"
       },
       {
-        "field_id": "question_21278589003",
-        "label": "Will you, at any point, require employer sponsorship to work in the United States?",
+        "field_id": "question_68581559",
+        "label": "Do you require visa sponsorship, now or in the future, to continue working in the United States?",
         "type": "text",
-        "canonical_field": "screener:requires_sponsorship",
+        "canonical_field": "requires_sponsorship",
         "action": "FILL",
         "approved": true,
         "value": "[REDACTED_SPONSORSHIP]",
-        "reason": "Screener bank answer (profile_derived)"
+        "reason": "Mapped from public profile; placed onto \"No, I do not require visa sponsorship now or in the future to continue working in the country where this role is based.\""
       },
       {
-        "field_id": "question_21278590003[]",
-        "label": "I understand that this position requires me to work on-site.",
-        "type": "checkbox",
-        "canonical_field": "screener:custom:onsite_requirement_acknowledged",
-        "action": "FILL",
-        "approved": true,
-        "value": "Yes",
-        "reason": "Screener bank answer (exact_option)"
-      },
-      {
-        "field_id": "question_32473866003",
-        "label": "Which onsite location would you like to apply to?",
+        "field_id": "gender",
+        "label": "Gender",
         "type": "text",
-        "canonical_field": "screener:custom:onsite_location_preference",
+        "canonical_field": "gender",
         "action": "FILL",
         "approved": true,
-        "value": "No preference",
-        "reason": "Screener bank answer (exact_option)"
+        "value": "Male",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
       },
       {
-        "field_id": "question_21278591003",
-        "label": "At this time we do not offer relocation assistance to interns. If hired, are you able to relocate on your own if you are not based locally?",
+        "field_id": "hispanic_ethnicity",
+        "label": "Are you Hispanic/Latino?",
         "type": "text",
-        "canonical_field": "screener:willing_to_relocate",
+        "canonical_field": "hispanic_latino",
         "action": "FILL",
         "approved": true,
-        "value": "Yes",
-        "reason": "Screener bank answer (synonym_option)"
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
       },
       {
-        "field_id": "question_21278592003",
-        "label": "What intern season are you interested in?",
+        "field_id": "veteran_status",
+        "label": "Veteran Status",
         "type": "text",
-        "canonical_field": "screener:custom:internship_season",
+        "canonical_field": "veteran_status",
         "action": "FILL",
         "approved": true,
-        "value": "Winter 2027 (January - April)",
-        "reason": "Screener bank answer (exact_option)"
+        "value": "I am not a veteran",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
       },
       {
-        "field_id": "question_21278593003",
-        "label": "Ideal start date in office",
+        "field_id": "disability_status",
+        "label": "Disability Status",
         "type": "text",
-        "canonical_field": "screener:start_availability",
+        "canonical_field": "disability_status",
         "action": "FILL",
         "approved": true,
-        "value": "Flexible — aligned to the posted term",
-        "reason": "Screener bank answer (free_text)"
-      },
-      {
-        "field_id": "question_21278594003[]",
-        "label": "How did you hear about us?",
-        "type": "checkbox",
-        "canonical_field": "how_heard",
-        "action": "FILL",
-        "approved": true,
-        "value": "LinkedIn",
-        "reason": "Mapped from public profile"
-      },
-      {
-        "field_id": "question_21278595003",
-        "label": "Please specify",
-        "type": "text",
-        "canonical_field": "screener:custom:prior_experience_details",
-        "action": "FILL",
-        "approved": true,
-        "value": "I currently work on applied machine learning at Summer Atlantic Capital / SAC Nexus, where I build the ML core of an anomaly-detection and alert-prioritization system, including the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, and a retrieval-augmented explanation layer. Before that I worked with Intelehealth on AI and data systems for rural telemedicine, including a resource-availability scoring pipeline across 32 villages and an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case clinical standard.",
-        "reason": "Screener bank answer (free_text)"
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
       }
     ],
     "answers": {
@@ -711,26 +928,30 @@
       "email": "s***@gmail.com",
       "address.country": "United States +1",
       "phone": "***-***-7636",
-      "graduation_month": "May",
-      "graduation_year": "2029",
-      "essay:generated:question_21278581003": "Built and shipped ClarityAtlas, an iOS health product, end to end in Swift and SwiftUI with a Supabase backend, as co-founder and technical lead of Open Health Intelligence. The core technical problem was estimating sleep without a wearable, so I built a passive sleep-estimation system that infers sleep from phone-interaction and motion signals, using HealthKit and Core Motion inputs like step count, gait speed, and movement patterns, plus backend services for behavioral comparison including a \"Sleep Twins\" matching system based on standardized features and weighted distance. I shipped it into a live pilot at Johns Hopkins with 30+ users, and the project was selected for the Pava Spark Accelerator and NSF I-Corps and drew a non-binding investment indication of roughly $75,000 for about 7 to 8% equity. It taught me how noisy body-signal inference behaves once real users depend on it daily, which is the part I would want to carry into decoding work on BCI Applications.",
-      "essay:generated:question_21278582003": "A second example is ClarityAtlas, an iOS health product I co-founded Open Health Intelligence to build and served as technical lead on. I built it end to end in Swift and SwiftUI with a Supabase backend. The hardest technical piece was estimating sleep without a wearable, so I built a passive sleep-estimation system from phone-interaction and motion signals, using HealthKit and Core Motion inputs such as step count, gait speed, and movement patterns. That meant inferring a physiological state from noisy, indirect sensor streams rather than measuring it directly. I also built backend services for behavioral comparison, including a \"Sleep Twins\" matching system using standardized behavioral features and weighted distance. We shipped it into a live pilot at Johns Hopkins with 30 or more users, and the project was selected for the Pava Spark Accelerator and NSF I-Corps. What I took from it is that shipping to real users exposes failure modes no local test does, which is the part I would want to carry into work on interfaces people actually depend on daily.",
-      "screener:custom:prior_internship_experience": "Yes",
-      "screener:custom:graduation_year": "2029",
+      "address.city": "Baltimore",
+      "degree": "Bachelor's Degree",
+      "major": "Mathematics",
+      "start_year": "2025",
+      "screener:custom:school_not_listed_name": "Johns Hopkins University",
+      "screener:custom:predicted:question_68581547": "ACT: 35",
+      "screener:custom:predicted:question_68581548": "3.7",
+      "preferred_name": "Shubham",
+      "pronouns": "He/Him",
       "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
-      "work_authorization": "[REDACTED_SPONSORSHIP]",
-      "screener:requires_sponsorship": "[REDACTED_SPONSORSHIP]",
-      "screener:custom:onsite_requirement_acknowledged": "Yes",
-      "screener:custom:onsite_location_preference": "No preference",
-      "screener:willing_to_relocate": "Yes",
-      "screener:custom:internship_season": "Winter 2027 (January - April)",
-      "screener:start_availability": "Flexible — aligned to the posted term",
-      "how_heard": "LinkedIn",
-      "screener:custom:prior_experience_details": "I currently work on applied machine learning at Summer Atlantic Capital / SAC Nexus, where I build the ML core of an anomaly-detection and alert-prioritization system, including the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, and a retrieval-augmented explanation layer. Before that I worked with Intelehealth on AI and data systems for rural telemedicine, including a resource-availability scoring pipeline across 32 villages and an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case clinical standard."
+      "essay:generated:question_68581554": "I don't have a fixed conference schedule for this year, so I'll speak to what I've actually attended. I was a national finalist at the Junior Science and Humanities Symposium for my Valley Fever research, where I presented an SIR-style epidemiological model I built in Python along with a microcontroller-based dust sensor I programmed in C/C++. More recently, ClarityAtlas, the iOS health product I lead technically at Open Health Intelligence, was selected for NSF I-Corps and the Johns Hopkins Pava Spark Accelerator, both of which involved cohort programming and demo events with founders, researchers, and university leadership. On campus, the Johns Hopkins Data Science and AI Institute runs events that pull in a lot of students doing applied ML and systems work, and that community would probably be a useful place for Stripe to recruit.",
+      "screener:custom:second_cohort_flexibility": "Winter (January - April)",
+      "screener:custom:predicted:question_68581556": "I am open to working in any office",
+      "screener:custom:predicted:question_68581557": "I am open to working in any office",
+      "screener:work_authorization": "[REDACTED_SPONSORSHIP]",
+      "requires_sponsorship": "[REDACTED_SPONSORSHIP]",
+      "gender": "Male",
+      "hispanic_latino": "No",
+      "veteran_status": "I am not a veteran",
+      "disability_status": "No"
     },
-    "fillable_count": 21,
-    "skipped_count": 6,
-    "review_required_count": 0
+    "fillable_count": 25,
+    "skipped_count": 7,
+    "review_required_count": 1
   },
   "fill": {
     "filled": [
@@ -739,22 +960,26 @@
       "email",
       "address.country",
       "phone",
-      "graduation_month",
-      "graduation_year",
-      "essay:generated:question_21278581003",
-      "essay:generated:question_21278582003",
-      "screener:custom:prior_internship_experience",
-      "screener:custom:graduation_year",
+      "address.city",
+      "degree",
+      "major",
+      "start_year",
+      "screener:custom:school_not_listed_name",
+      "screener:custom:predicted:question_68581547",
+      "screener:custom:predicted:question_68581548",
+      "preferred_name",
+      "pronouns",
       "linkedin_url",
-      "work_authorization",
-      "screener:requires_sponsorship",
-      "screener:custom:onsite_requirement_acknowledged",
-      "screener:custom:onsite_location_preference",
-      "screener:willing_to_relocate",
-      "screener:custom:internship_season",
-      "screener:start_availability",
-      "how_heard",
-      "screener:custom:prior_experience_details"
+      "essay:generated:question_68581554",
+      "screener:custom:second_cohort_flexibility",
+      "screener:custom:predicted:question_68581556",
+      "screener:custom:predicted:question_68581557",
+      "screener:work_authorization",
+      "requires_sponsorship",
+      "gender",
+      "hispanic_latino",
+      "veteran_status",
+      "disability_status"
     ],
     "skipped": [],
     "errors": [],
@@ -791,67 +1016,147 @@
         "control_kind": "text"
       },
       {
-        "field_id": "end-month--0",
-        "canonical_field": "graduation_month",
+        "field_id": "candidate-location",
+        "canonical_field": "address.city",
         "control_kind": "combobox",
-        "selected_option": "May",
+        "selected_option": "Baltimore, Maryland, United States",
         "match_via": "exact",
         "notes": [
           "opened via control click",
-          "picked \"May\" (exact) from open list"
+          "filter \"Baltimore\" then picked \"Baltimore, Maryland, United States\" (exact)"
         ]
       },
       {
-        "field_id": "end-year--0",
-        "canonical_field": "graduation_year",
-        "control_kind": "text"
-      },
-      {
-        "field_id": "question_21278581003",
-        "canonical_field": "essay:generated:question_21278581003",
-        "control_kind": "text"
-      },
-      {
-        "field_id": "question_21278582003",
-        "canonical_field": "essay:generated:question_21278582003",
-        "control_kind": "text"
-      },
-      {
-        "field_id": "question_21278584003",
-        "canonical_field": "screener:custom:prior_internship_experience",
+        "field_id": "degree--0",
+        "canonical_field": "degree",
         "control_kind": "combobox",
-        "selected_option": "Yes",
+        "selected_option": "Bachelor's Degree",
         "match_via": "exact",
         "notes": [
           "opened via control click",
-          "picked \"Yes\" (exact) from open list"
+          "picked \"Bachelor's Degree\" (exact) from open list"
         ]
       },
       {
-        "field_id": "question_21278585003",
-        "canonical_field": "screener:custom:graduation_year",
+        "field_id": "discipline--0",
+        "canonical_field": "major",
         "control_kind": "combobox",
-        "selected_option": "2029",
-        "match_via": "exact",
+        "selected_option": "Mathematics",
+        "match_via": "synonym",
         "notes": [
           "opened via control click",
-          "picked \"2029\" (exact) from open list"
+          "picked \"Mathematics\" (synonym) from open list"
         ]
       },
       {
-        "field_id": "question_21278586003",
+        "field_id": "start-year--0",
+        "canonical_field": "start_year",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_68843617",
+        "canonical_field": "screener:custom:school_not_listed_name",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_68581547",
+        "canonical_field": "screener:custom:predicted:question_68581547",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_68581548",
+        "canonical_field": "screener:custom:predicted:question_68581548",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_68581549",
+        "canonical_field": "preferred_name",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_68581550",
+        "canonical_field": "pronouns",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_68581551",
         "canonical_field": "linkedin_url",
         "control_kind": "text"
       },
       {
-        "field_id": "question_21278588003[]",
-        "canonical_field": "work_authorization",
-        "control_kind": "checkbox_group",
-        "selected_option": "Yes"
+        "field_id": "question_68581554",
+        "canonical_field": "essay:generated:question_68581554",
+        "control_kind": "text"
       },
       {
-        "field_id": "question_21278589003",
-        "canonical_field": "screener:requires_sponsorship",
+        "field_id": "question_68675600",
+        "canonical_field": "screener:custom:second_cohort_flexibility",
+        "control_kind": "combobox",
+        "selected_option": "Winter (January - April)",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Winter (January - April)\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_68581556",
+        "canonical_field": "screener:custom:predicted:question_68581556",
+        "control_kind": "combobox",
+        "selected_option": "I am open to working in any office",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"I am open to working in any office\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_68581557",
+        "canonical_field": "screener:custom:predicted:question_68581557",
+        "control_kind": "combobox",
+        "selected_option": "I am open to working in any office",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"I am open to working in any office\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_68702648",
+        "canonical_field": "screener:work_authorization",
+        "control_kind": "combobox",
+        "selected_option": "Yes, I am currently eligible to work in the location where this role is based.",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes, I am currently eligible to work in the location where this role is based.\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_68581559",
+        "canonical_field": "requires_sponsorship",
+        "control_kind": "combobox",
+        "selected_option": "No, I do not require visa sponsorship now or in the future to continue working in the country where this role is based.",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No, I do not require visa sponsorship now or in the future to continue working in the country where this role is based.\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "gender",
+        "canonical_field": "gender",
+        "control_kind": "combobox",
+        "selected_option": "Male",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Male\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "hispanic_ethnicity",
+        "canonical_field": "hispanic_latino",
         "control_kind": "combobox",
         "selected_option": "No",
         "match_via": "exact",
@@ -861,58 +1166,26 @@
         ]
       },
       {
-        "field_id": "question_21278590003[]",
-        "canonical_field": "screener:custom:onsite_requirement_acknowledged",
-        "control_kind": "text"
-      },
-      {
-        "field_id": "question_32473866003",
-        "canonical_field": "screener:custom:onsite_location_preference",
+        "field_id": "veteran_status",
+        "canonical_field": "veteran_status",
         "control_kind": "combobox",
-        "selected_option": "No preference",
-        "match_via": "exact",
+        "selected_option": "I am not a protected veteran",
+        "match_via": "synonym",
         "notes": [
           "opened via control click",
-          "picked \"No preference\" (exact) from open list"
+          "picked \"I am not a protected veteran\" (synonym) from open list"
         ]
       },
       {
-        "field_id": "question_21278591003",
-        "canonical_field": "screener:willing_to_relocate",
+        "field_id": "disability_status",
+        "canonical_field": "disability_status",
         "control_kind": "combobox",
-        "selected_option": "Yes",
-        "match_via": "exact",
+        "selected_option": "No, I do not have a disability and have not had one in the past",
+        "match_via": "synonym",
         "notes": [
           "opened via control click",
-          "picked \"Yes\" (exact) from open list"
+          "picked \"No, I do not have a disability and have not had one in the past\" (synonym) from open list"
         ]
-      },
-      {
-        "field_id": "question_21278592003",
-        "canonical_field": "screener:custom:internship_season",
-        "control_kind": "combobox",
-        "selected_option": "Winter 2027 (January - April)",
-        "match_via": "exact",
-        "notes": [
-          "opened via control click",
-          "picked \"Winter 2027 (January - April)\" (exact) from open list"
-        ]
-      },
-      {
-        "field_id": "question_21278593003",
-        "canonical_field": "screener:start_availability",
-        "control_kind": "text"
-      },
-      {
-        "field_id": "question_21278594003[]",
-        "canonical_field": "how_heard",
-        "control_kind": "checkbox_group",
-        "selected_option": "LinkedIn"
-      },
-      {
-        "field_id": "question_21278595003",
-        "canonical_field": "screener:custom:prior_experience_details",
-        "control_kind": "text"
       }
     ]
   },
@@ -953,48 +1226,66 @@
         "match": true
       },
       {
-        "canonical_field": "graduation_month",
-        "expected": "May",
+        "canonical_field": "address.city",
+        "expected": "Baltimore",
         "observed": {
-          "value": "May",
-          "label": "May"
+          "value": "Baltimore, Maryland, United States",
+          "label": "Baltimore, Maryland, United States"
         },
         "match": true
       },
       {
-        "canonical_field": "graduation_year",
-        "expected": "2029",
-        "observed": "2029",
-        "match": true
-      },
-      {
-        "canonical_field": "essay:generated:question_21278581003",
-        "expected": "Built and shipped ClarityAtlas, an iOS health product, end to end in Swift and SwiftUI with a Supabase backend, as co-founder and technical lead of Open Health Intelligence. The core technical problem was estimating sleep without a wearable, so I built a passive sleep-estimation system that infers sleep from phone-interaction and motion signals, using HealthKit and Core Motion inputs like step count, gait speed, and movement patterns, plus backend services for behavioral comparison including a \"Sleep Twins\" matching system based on standardized features and weighted distance. I shipped it into a live pilot at Johns Hopkins with 30+ users, and the project was selected for the Pava Spark Accelerator and NSF I-Corps and drew a non-binding investment indication of roughly $75,000 for about 7 to 8% equity. It taught me how noisy body-signal inference behaves once real users depend on it daily, which is the part I would want to carry into decoding work on BCI Applications.",
-        "observed": "Built and shipped ClarityAtlas, an iOS health product, end to end in Swift and SwiftUI with a Supabase backend, as co-founder and technical lead of Open Health Intelligence. The core technical problem was estimating sleep without a wearable, so I built a passive sleep-estimation system that infers sleep from phone-interaction and motion signals, using HealthKit and Core Motion inputs like step count, gait speed, and movement patterns, plus backend services for behavioral comparison including a \"Sleep Twins\" matching system based on standardized features and weighted distance. I shipped it into a live pilot at Johns Hopkins with 30+ users, and the project was selected for the Pava Spark Accelerator and NSF I-Corps and drew a non-binding investment indication of roughly $75,000 for about 7 to 8% equity. It taught me how noisy body-signal inference behaves once real users depend on it daily, which is the part I would want to carry into decoding work on BCI Applications.",
-        "match": true
-      },
-      {
-        "canonical_field": "essay:generated:question_21278582003",
-        "expected": "A second example is ClarityAtlas, an iOS health product I co-founded Open Health Intelligence to build and served as technical lead on. I built it end to end in Swift and SwiftUI with a Supabase backend. The hardest technical piece was estimating sleep without a wearable, so I built a passive sleep-estimation system from phone-interaction and motion signals, using HealthKit and Core Motion inputs such as step count, gait speed, and movement patterns. That meant inferring a physiological state from noisy, indirect sensor streams rather than measuring it directly. I also built backend services for behavioral comparison, including a \"Sleep Twins\" matching system using standardized behavioral features and weighted distance. We shipped it into a live pilot at Johns Hopkins with 30 or more users, and the project was selected for the Pava Spark Accelerator and NSF I-Corps. What I took from it is that shipping to real users exposes failure modes no local test does, which is the part I would want to carry into work on interfaces people actually depend on daily.",
-        "observed": "A second example is ClarityAtlas, an iOS health product I co-founded Open Health Intelligence to build and served as technical lead on. I built it end to end in Swift and SwiftUI with a Supabase backend. The hardest technical piece was estimating sleep without a wearable, so I built a passive sleep-estimation system from phone-interaction and motion signals, using HealthKit and Core Motion inputs such as step count, gait speed, and movement patterns. That meant inferring a physiological state from noisy, indirect sensor streams rather than measuring it directly. I also built backend services for behavioral comparison, including a \"Sleep Twins\" matching system using standardized behavioral features and weighted distance. We shipped it into a live pilot at Johns Hopkins with 30 or more users, and the project was selected for the Pava Spark Accelerator and NSF I-Corps. What I took from it is that shipping to real users exposes failure modes no local test does, which is the part I would want to carry into work on interfaces people actually depend on daily.",
-        "match": true
-      },
-      {
-        "canonical_field": "screener:custom:prior_internship_experience",
-        "expected": "Yes",
+        "canonical_field": "degree",
+        "expected": "Bachelor's Degree",
         "observed": {
-          "value": "Yes",
-          "label": "Yes"
+          "value": "Bachelor's Degree",
+          "label": "Bachelor's Degree"
         },
         "match": true
       },
       {
-        "canonical_field": "screener:custom:graduation_year",
-        "expected": "2029",
+        "canonical_field": "major",
+        "expected": "Mathematics",
         "observed": {
-          "value": "2029",
-          "label": "2029"
+          "value": "Mathematics",
+          "label": "Mathematics"
         },
+        "match": true
+      },
+      {
+        "canonical_field": "start_year",
+        "expected": "2025",
+        "observed": "2025",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:school_not_listed_name",
+        "expected": "Johns Hopkins University",
+        "observed": "Johns Hopkins University",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_68581547",
+        "expected": "ACT: 35",
+        "observed": "ACT: 35",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_68581548",
+        "expected": "3.7",
+        "observed": "3.7",
+        "match": true
+      },
+      {
+        "canonical_field": "preferred_name",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "pronouns",
+        "expected": "He/Him",
+        "observed": "He/Him",
         "match": true
       },
       {
@@ -1004,69 +1295,84 @@
         "match": true
       },
       {
-        "canonical_field": "work_authorization",
+        "canonical_field": "essay:generated:question_68581554",
+        "expected": "I don't have a fixed conference schedule for this year, so I'll speak to what I've actually attended. I was a national finalist at the Junior Science and Humanities Symposium for my Valley Fever research, where I presented an SIR-style epidemiological model I built in Python along with a microcontroller-based dust sensor I programmed in C/C++. More recently, ClarityAtlas, the iOS health product I lead technically at Open Health Intelligence, was selected for NSF I-Corps and the Johns Hopkins Pava Spark Accelerator, both of which involved cohort programming and demo events with founders, researchers, and university leadership. On campus, the Johns Hopkins Data Science and AI Institute runs events that pull in a lot of students doing applied ML and systems work, and that community would probably be a useful place for Stripe to recruit.",
+        "observed": "I don't have a fixed conference schedule for this year, so I'll speak to what I've actually attended. I was a national finalist at the Junior Science and Humanities Symposium for my Valley Fever research, where I presented an SIR-style epidemiological model I built in Python along with a microcontroller-based dust sensor I programmed in C/C++. More recently, ClarityAtlas, the iOS health product I lead technically at Open Health Intelligence, was selected for NSF I-Corps and the Johns Hopkins Pava Spark Accelerator, both of which involved cohort programming and demo events with founders, researchers, and university leadership. On campus, the Johns Hopkins Data Science and AI Institute runs events that pull in a lot of students doing applied ML and systems work, and that community would probably be a useful place for Stripe to recruit.",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:second_cohort_flexibility",
+        "expected": "Winter (January - April)",
+        "observed": {
+          "value": "Winter (January - April)",
+          "label": "Winter (January - April)"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_68581556",
+        "expected": "I am open to working in any office",
+        "observed": {
+          "value": "I am open to working in any office",
+          "label": "I am open to working in any office"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_68581557",
+        "expected": "I am open to working in any office",
+        "observed": {
+          "value": "I am open to working in any office",
+          "label": "I am open to working in any office"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:work_authorization",
         "expected": "[REDACTED_SPONSORSHIP]",
         "observed": "[REDACTED_SPONSORSHIP]",
         "match": true
       },
       {
-        "canonical_field": "screener:requires_sponsorship",
+        "canonical_field": "requires_sponsorship",
         "expected": "[REDACTED_SPONSORSHIP]",
         "observed": "[REDACTED_SPONSORSHIP]",
         "match": true
       },
       {
-        "canonical_field": "screener:custom:onsite_requirement_acknowledged",
-        "expected": "Yes",
-        "observed": true,
-        "match": true
-      },
-      {
-        "canonical_field": "screener:custom:onsite_location_preference",
-        "expected": "No preference",
+        "canonical_field": "gender",
+        "expected": "Male",
         "observed": {
-          "value": "No preference",
-          "label": "No preference"
+          "value": "Male",
+          "label": "Male"
         },
         "match": true
       },
       {
-        "canonical_field": "screener:willing_to_relocate",
-        "expected": "Yes",
+        "canonical_field": "hispanic_latino",
+        "expected": "No",
         "observed": {
-          "value": "Yes",
-          "label": "Yes"
+          "value": "No",
+          "label": "No"
         },
         "match": true
       },
       {
-        "canonical_field": "screener:custom:internship_season",
-        "expected": "Winter 2027 (January - April)",
+        "canonical_field": "veteran_status",
+        "expected": "I am not a veteran",
         "observed": {
-          "value": "Winter 2027 (January - April)",
-          "label": "Winter 2027 (January - April)"
+          "value": "I am not a protected veteran",
+          "label": "I am not a protected veteran"
         },
         "match": true
       },
       {
-        "canonical_field": "screener:start_availability",
-        "expected": "Flexible — aligned to the posted term",
-        "observed": "Flexible — aligned to the posted term",
-        "match": true
-      },
-      {
-        "canonical_field": "how_heard",
-        "expected": "LinkedIn",
+        "canonical_field": "disability_status",
+        "expected": "No",
         "observed": {
-          "value": "LinkedIn",
-          "label": "LinkedIn"
+          "value": "No, I do not have a disability and have not had one in the past",
+          "label": "No, I do not have a disability and have not had one in the past"
         },
-        "match": true
-      },
-      {
-        "canonical_field": "screener:custom:prior_experience_details",
-        "expected": "I currently work on applied machine learning at Summer Atlantic Capital / SAC Nexus, where I build the ML core of an anomaly-detection and alert-prioritization system, including the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, and a retrieval-augmented explanation layer. Before that I worked with Intelehealth on AI and data systems for rural telemedicine, including a resource-availability scoring pipeline across 32 villages and an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case clinical standard.",
-        "observed": "I currently work on applied machine learning at Summer Atlantic Capital / SAC Nexus, where I build the ML core of an anomaly-detection and alert-prioritization system, including the event-ingestion pipeline, a versioned FastAPI detection service, temporal",
         "match": true
       }
     ],
@@ -1078,10 +1384,10 @@
       "field": "resume",
       "path": "[REDACTED_PATH]",
       "filename": "[REDACTED_PATH]",
-      "size_bytes": 74509,
+      "size_bytes": 113381,
       "verified": true,
       "evidence": "input files: []; stillAttached=false; chip=true"
     }
   ],
-  "written_at": "2026-08-30T19:25:17.494Z"
+  "written_at": "2026-09-01T01:57:06.542Z"
 }

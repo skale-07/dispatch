@@ -1,0 +1,617 @@
+{
+  "ats": "workday",
+  "url": "https://tiaa.wd1.myworkdayjobs.com/search/job/New-York-NY-USA/Churchill-Summer-Internship--Investment-Infrastructure---Technology--IIT-_R260800515-1",
+  "requested_url": "https://tiaa.wd1.myworkdayjobs.com/search/job/New-York-NY-USA/Churchill-Summer-Internship--Investment-Infrastructure---Technology--IIT-_R260800515-1",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://tiaa.wd1.myworkdayjobs.com/en-US/search/job/New-York%2C-NY%2C-USA/Churchill-Summer-Internship--Investment-Infrastructure---Technology--IIT-_R260800515-1/apply",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 16,
+    "skipped_count": 5,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "source--source",
+      "label": "How Did You Hear About Us?",
+      "type": "select",
+      "canonical_field": "how_heard",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "candidateIsPreviousWorker",
+      "label": "Have you previously been an employee of TIAA or any of the subsidiary affiliate within the TIAA family of companies?",
+      "type": "radio",
+      "canonical_field": "screener:previously_applied_or_worked",
+      "action": "FILL",
+      "reason": "Screener bank answer (synonym_option)"
+    },
+    {
+      "field_id": "f_3",
+      "label": "Have you previously been an employee of TIAA or any of the subsidiary affiliate within the TIAA family of companies?",
+      "type": "text",
+      "canonical_field": "screener:previously_applied_or_worked:f_3",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "name--legalName--firstName",
+      "label": "First Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "name--legalName--middleName",
+      "label": "Middle Name",
+      "type": "text",
+      "canonical_field": "legal_name.middle",
+      "action": "SKIP",
+      "reason": "Profile value empty for legal_name.middle"
+    },
+    {
+      "field_id": "name--legalName--lastName",
+      "label": "Last Name",
+      "type": "text",
+      "canonical_field": "legal_name.last",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "name--preferredCheck",
+      "label": "I have a preferred name",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "address--addressLine1",
+      "label": "Address Line 1",
+      "type": "text",
+      "canonical_field": "address.line1",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "address--addressLine2",
+      "label": "Address Line 2",
+      "type": "text",
+      "canonical_field": "address.line2",
+      "action": "SKIP",
+      "reason": "Profile value empty for address.line2"
+    },
+    {
+      "field_id": "address--city",
+      "label": "City",
+      "type": "text",
+      "canonical_field": "address.city",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f_11",
+      "label": "Address",
+      "type": "text",
+      "canonical_field": "address.line1",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "address--postalCode",
+      "label": "Postal Code",
+      "type": "text",
+      "canonical_field": "address.postal_code",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f_13",
+      "label": "Phone",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phoneNumber--countryPhoneCode",
+      "label": "Country Phone Code",
+      "type": "select",
+      "canonical_field": "address.country",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phoneNumber--phoneNumber",
+      "label": "Phone Number",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phoneNumber--extension",
+      "label": "Phone Extension",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "cr4wq",
+      "label": "I accept the terms above, and would like to receive both one way informational and two-way conversational text (SMS, MMS) messages.",
+      "type": "checkbox",
+      "canonical_field": "screener:custom:sms_consent_opt_in",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "cr4ws",
+      "label": "I accept the terms above, and would like to receive two-way conversational messages via WhatsApp.",
+      "type": "checkbox",
+      "canonical_field": "screener:custom:sms_consent_opt_in:cr4ws",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "country--country",
+      "label": "Country",
+      "type": "select",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "address--countryRegion",
+      "label": "State",
+      "type": "select",
+      "canonical_field": "address.state",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phoneNumber--phoneType",
+      "label": "Phone Device Type",
+      "type": "select",
+      "canonical_field": "screener:custom:phone_device_type",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\workday-live\\form-snapshot-1788208890146.html",
+  "fill": {
+    "filled": [
+      "how_heard",
+      "screener:previously_applied_or_worked",
+      "legal_name.first",
+      "legal_name.last",
+      "address.line1",
+      "address.city",
+      "address.postal_code",
+      "address.country",
+      "phone",
+      "screener:custom:sms_consent_opt_in",
+      "screener:custom:sms_consent_opt_in:cr4ws",
+      "address.state",
+      "screener:custom:phone_device_type"
+    ],
+    "skipped": [
+      "f_3 (screener:previously_applied_or_worked:f_3) — anchorless twin of an anchored canonical (#69)",
+      "f_11 (address.line1) — anchorless twin of an anchored canonical (#69)",
+      "f_13 (phone) — anchorless twin of an anchored canonical (#69)"
+    ],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "source--source",
+        "canonical_field": "how_heard",
+        "control_kind": "combobox",
+        "selected_option": "LinkedIn",
+        "match_via": "exact",
+        "notes": [
+          "already committed \"LinkedIn\""
+        ]
+      },
+      {
+        "field_id": "candidateIsPreviousWorker",
+        "canonical_field": "screener:previously_applied_or_worked",
+        "control_kind": "text",
+        "selected_option": "No"
+      },
+      {
+        "field_id": "name--legalName--firstName",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text",
+        "notes": [
+          "already holds \"Shubham\" — verified in place, not retyped"
+        ]
+      },
+      {
+        "field_id": "name--legalName--lastName",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text",
+        "notes": [
+          "already holds \"Kale\" — verified in place, not retyped"
+        ]
+      },
+      {
+        "field_id": "address--addressLine1",
+        "canonical_field": "address.line1",
+        "control_kind": "text",
+        "notes": [
+          "already holds \"3510 N Charles St\" — verified in place, not retyped"
+        ]
+      },
+      {
+        "field_id": "address--city",
+        "canonical_field": "address.city",
+        "control_kind": "text",
+        "notes": [
+          "already holds \"Baltimore\" — verified in place, not retyped"
+        ]
+      },
+      {
+        "field_id": "address--postalCode",
+        "canonical_field": "address.postal_code",
+        "control_kind": "text",
+        "notes": [
+          "already holds \"21218\" — verified in place, not retyped"
+        ]
+      },
+      {
+        "field_id": "phoneNumber--countryPhoneCode",
+        "canonical_field": "address.country",
+        "control_kind": "combobox",
+        "selected_option": "United States of America (+1)",
+        "match_via": "exact",
+        "notes": [
+          "already committed \"United States of America (+1)\""
+        ]
+      },
+      {
+        "field_id": "phoneNumber--phoneNumber",
+        "canonical_field": "phone",
+        "control_kind": "text",
+        "notes": [
+          "already holds \"(480) 589-7636\" — verified in place, not retyped"
+        ]
+      },
+      {
+        "field_id": "cr4wq",
+        "canonical_field": "screener:custom:sms_consent_opt_in",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "cr4ws",
+        "canonical_field": "screener:custom:sms_consent_opt_in:cr4ws",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "address--countryRegion",
+        "canonical_field": "address.state",
+        "control_kind": "combobox",
+        "selected_option": "Maryland",
+        "match_via": "exact",
+        "notes": [
+          "already committed \"Maryland\""
+        ]
+      },
+      {
+        "field_id": "phoneNumber--phoneType",
+        "canonical_field": "screener:custom:phone_device_type",
+        "control_kind": "combobox",
+        "selected_option": "Mobile",
+        "match_via": "exact",
+        "notes": [
+          "already committed \"Mobile\""
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "how_heard",
+        "expected": "LinkedIn",
+        "observed": {
+          "value": "LinkedIn",
+          "label": "LinkedIn"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:previously_applied_or_worked",
+        "expected": "false",
+        "observed": {
+          "value": "false",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.last",
+        "expected": "Kale",
+        "observed": "Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "address.line1",
+        "expected": "3510 N Charles St",
+        "observed": "3510 N Charles St",
+        "match": true
+      },
+      {
+        "canonical_field": "address.city",
+        "expected": "Baltimore",
+        "observed": "Baltimore",
+        "match": true
+      },
+      {
+        "canonical_field": "address.postal_code",
+        "expected": "21218",
+        "observed": "21218",
+        "match": true
+      },
+      {
+        "canonical_field": "address.country",
+        "expected": "United States",
+        "observed": {
+          "value": "United States of America (+1)",
+          "label": "United States of America (+1)"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:sms_consent_opt_in",
+        "expected": "No",
+        "observed": false,
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:sms_consent_opt_in:cr4ws",
+        "expected": "No",
+        "observed": false,
+        "match": true
+      },
+      {
+        "canonical_field": "address.state",
+        "expected": "Maryland",
+        "observed": {
+          "value": "Maryland",
+          "label": "Maryland"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:phone_device_type",
+        "expected": "[REDACTED_PHONE]",
+        "observed": "[REDACTED]",
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": null,
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: unknown (no signals matched)",
+    "workday page kind at gate: unknown",
+    "login wall on tiaa.wd1.myworkdayjobs.com: no_form_found; fields[email=false password=false confirm=false]",
+    "portal auth: clicked \"Continue Application\" (attempt 1)",
+    "portal auth: Apply / Apply Manually not found on attempt 2",
+    "standing portal login used for tiaa.wd1.myworkdayjobs.com",
+    "portal auth: no sign-in form on this page",
+    "workday page kind after auth: wizard",
+    "option harvest: \"Phone Device Type\" is a combobox but offered no readable options",
+    "option harvest: scraped real options for 2/14 control(s) before planning",
+    "resume on disk but this page has no file input — not an upload miss",
+    "wizard fill error: education-5--lastYearAttended: date widget: Month section not found",
+    "wizard fill error: f_0: control not found on the page (label \"Application Questions 1 of 2\") — failing fast instead of waiting 30s",
+    "wizard fill error: f_1: control not found on the page (label \"Application Questions 1 of 2\") — failing fast instead of waiting 30s",
+    "wizard retype: screener:custom:country_of_residence failed — locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByLabel('Application Questions 1 of 2').and(loc",
+    "wizard retype: screener:custom:country_of_residence:f_1 failed — locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByLabel('Application Questions 1 of 2').and(loc",
+    "wizard fill error: f_0: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByLabel('Personal Data Statement').and(locator('input:not([type=\"hidden\"]), textarea, select, [contenteditable=\"true\"]')).and(locator(':not(input[type=\"checkbox\"]):not(input[type=\"radio\"])')).or(getByLabel('Personal Data Statement').locator('input:not([type=\"hidden\"]), textarea, select, [contenteditable=\"true\"]').and(locator(':not(input[type=\"checkbox\"]):not(input[type=\"radio\"])'))).or(locator('xpath=(//*[@id = //label[contains(normalize-space(.), \"Personal Data Statement\")]/@for])[1]/descendant::*[self::input[not(@type=\"hidden\")] or self::textarea or self::select or @contenteditable=\"true\"][1]').and(locator(':not(input[type=\"checkbox\"]):not(input[type=\"radio\"])'))).first()\u001b[22m\n\u001b[2m    - locator resolved to <input value=\"\" type=\"text\" class=\"css-77hcv\"/>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    9 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n",
+    "wizard fill error: f_1: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByLabel('Personal Data Statement').and(locator('input:not([type=\"hidden\"]), textarea, select, [contenteditable=\"true\"]')).and(locator(':not(input[type=\"checkbox\"]):not(input[type=\"radio\"])')).or(getByLabel('Personal Data Statement').locator('input:not([type=\"hidden\"]), textarea, select, [contenteditable=\"true\"]').and(locator(':not(input[type=\"checkbox\"]):not(input[type=\"radio\"])'))).or(locator('xpath=(//*[@id = //label[contains(normalize-space(.), \"Personal Data Statement\")]/@for])[1]/descendant::*[self::input[not(@type=\"hidden\")] or self::textarea or self::select or @contenteditable=\"true\"][1]').and(locator(':not(input[type=\"checkbox\"]):not(input[type=\"radio\"])'))).first()\u001b[22m\n\u001b[2m    - locator resolved to <input value=\"\" type=\"text\" class=\"css-77hcv\"/>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    9 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n",
+    "wizard fill error: f_0: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByLabel('Personal Data Statement').and(locator('input:not([type=\"hidden\"]), textarea, select, [contenteditable=\"true\"]')).and(locator(':not(input[type=\"checkbox\"]):not(input[type=\"radio\"])')).or(getByLabel('Personal Data Statement').locator('input:not([type=\"hidden\"]), textarea, select, [contenteditable=\"true\"]').and(locator(':not(input[type=\"checkbox\"]):not(input[type=\"radio\"])'))).or(locator('xpath=(//*[@id = //label[contains(normalize-space(.), \"Personal Data Statement\")]/@for])[1]/descendant::*[self::input[not(@type=\"hidden\")] or self::textarea or self::select or @contenteditable=\"true\"][1]').and(locator(':not(input[type=\"checkbox\"]):not(input[type=\"radio\"])'))).first()\u001b[22m\n\u001b[2m    - locator resolved to <input type=\"text\" value=\"false\" class=\"css-77hcv\"/>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    9 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n",
+    "wizard fill error: f_1: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByLabel('Personal Data Statement').and(locator('input:not([type=\"hidden\"]), textarea, select, [contenteditable=\"true\"]')).and(locator(':not(input[type=\"checkbox\"]):not(input[type=\"radio\"])')).or(getByLabel('Personal Data Statement').locator('input:not([type=\"hidden\"]), textarea, select, [contenteditable=\"true\"]').and(locator(':not(input[type=\"checkbox\"]):not(input[type=\"radio\"])'))).or(locator('xpath=(//*[@id = //label[contains(normalize-space(.), \"Personal Data Statement\")]/@for])[1]/descendant::*[self::input[not(@type=\"hidden\")] or self::textarea or self::select or @contenteditable=\"true\"][1]').and(locator(':not(input[type=\"checkbox\"]):not(input[type=\"radio\"])'))).first()\u001b[22m\n\u001b[2m    - locator resolved to <input type=\"text\" value=\"false\" class=\"css-77hcv\"/>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    9 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n",
+    "wizard page error: field \"American Indian or Alaska Native (United States of America)\": Error: The field Please indicate your race. is required and must have a value.",
+    "wizard page error: Error: The field Please indicate your race. is required and must have a value.",
+    "wizard fill error: f_0: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByLabel('Personal Data Statement').and(locator('input:not([type=\"hidden\"]), textarea, select, [contenteditable=\"true\"]')).and(locator(':not(input[type=\"checkbox\"]):not(input[type=\"radio\"])')).or(getByLabel('Personal Data Statement').locator('input:not([type=\"hidden\"]), textarea, select, [contenteditable=\"true\"]').and(locator(':not(input[type=\"checkbox\"]):not(input[type=\"radio\"])'))).or(locator('xpath=(//*[@id = //label[contains(normalize-space(.), \"Personal Data Statement\")]/@for])[1]/descendant::*[self::input[not(@type=\"hidden\")] or self::textarea or self::select or @contenteditable=\"true\"][1]').and(locator(':not(input[type=\"checkbox\"]):not(input[type=\"radio\"])'))).first()\u001b[22m\n\u001b[2m    - locator resolved to <input type=\"text\" value=\"false\" class=\"css-77hcv\"/>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    10 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is not visible\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n",
+    "wizard fill error: f_1: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByLabel('Personal Data Statement').and(locator('input:not([type=\"hidden\"]), textarea, select, [contenteditable=\"true\"]')).and(locator(':not(input[type=\"checkbox\"]):not(input[type=\"radio\"])')).or(getByLabel('Personal Data Statement').locator('input:not([type=\"hidden\"]), textarea, select, [contenteditable=\"true\"]').and(locator(':not(input[type=\"checkbox\"]):not(input[type=\"radio\"])'))).or(locator('xpath=(//*[@id = //label[contains(normalize-space(.), \"Personal Data Statement\")]/@for])[1]/descendant::*[self::input[not(@type=\"hidden\")] or self::textarea or self::select or @contenteditable=\"true\"][1]').and(locator(':not(input[type=\"checkbox\"]):not(input[type=\"radio\"])'))).first()\u001b[22m\n\u001b[2m    - locator resolved to <input type=\"text\" value=\"false\" class=\"css-77hcv\"/>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    9 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n",
+    "wizard page error: field \"American Indian or Alaska Native (United States of America)\": Error: The field Please indicate your race. is required and must have a value.",
+    "wizard page error: Error: The field Please indicate your race. is required and must have a value.",
+    "wizard fill error: f_0: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByLabel('Personal Data Statement').and(locator('input:not([type=\"hidden\"]), textarea, select, [contenteditable=\"true\"]')).and(locator(':not(input[type=\"checkbox\"]):not(input[type=\"radio\"])')).or(getByLabel('Personal Data Statement').locator('input:not([type=\"hidden\"]), textarea, select, [contenteditable=\"true\"]').and(locator(':not(input[type=\"checkbox\"]):not(input[type=\"radio\"])'))).or(locator('xpath=(//*[@id = //label[contains(normalize-space(.), \"Personal Data Statement\")]/@for])[1]/descendant::*[self::input[not(@type=\"hidden\")] or self::textarea or self::select or @contenteditable=\"true\"][1]').and(locator(':not(input[type=\"checkbox\"]):not(input[type=\"radio\"])'))).first()\u001b[22m\n\u001b[2m    - locator resolved to <input type=\"text\" value=\"false\" class=\"css-77hcv\"/>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    9 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n",
+    "wizard fill error: f_1: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByLabel('Personal Data Statement').and(locator('input:not([type=\"hidden\"]), textarea, select, [contenteditable=\"true\"]')).and(locator(':not(input[type=\"checkbox\"]):not(input[type=\"radio\"])')).or(getByLabel('Personal Data Statement').locator('input:not([type=\"hidden\"]), textarea, select, [contenteditable=\"true\"]').and(locator(':not(input[type=\"checkbox\"]):not(input[type=\"radio\"])'))).or(locator('xpath=(//*[@id = //label[contains(normalize-space(.), \"Personal Data Statement\")]/@for])[1]/descendant::*[self::input[not(@type=\"hidden\")] or self::textarea or self::select or @contenteditable=\"true\"][1]').and(locator(':not(input[type=\"checkbox\"]):not(input[type=\"radio\"])'))).first()\u001b[22m\n\u001b[2m    - locator resolved to <input type=\"text\" value=\"false\" class=\"css-77hcv\"/>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    10 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is not visible\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n",
+    "wizard page error: field \"American Indian or Alaska Native (United States of America)\": Error: The field Please indicate your race. is required and must have a value.",
+    "wizard page error: Error: The field Please indicate your race. is required and must have a value.",
+    "wizard fill error: f_0: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByLabel('Personal Data Statement').and(locator('input:not([type=\"hidden\"]), textarea, select, [contenteditable=\"true\"]')).and(locator(':not(input[type=\"checkbox\"]):not(input[type=\"radio\"])')).or(getByLabel('Personal Data Statement').locator('input:not([type=\"hidden\"]), textarea, select, [contenteditable=\"true\"]').and(locator(':not(input[type=\"checkbox\"]):not(input[type=\"radio\"])'))).or(locator('xpath=(//*[@id = //label[contains(normalize-space(.), \"Personal Data Statement\")]/@for])[1]/descendant::*[self::input[not(@type=\"hidden\")] or self::textarea or self::select or @contenteditable=\"true\"][1]').and(locator(':not(input[type=\"checkbox\"]):not(input[type=\"radio\"])'))).first()\u001b[22m\n\u001b[2m    - locator resolved to <input type=\"text\" value=\"false\" class=\"css-77hcv\"/>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    10 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is not visible\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n",
+    "wizard fill error: f_1: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByLabel('Personal Data Statement').and(locator('input:not([type=\"hidden\"]), textarea, select, [contenteditable=\"true\"]')).and(locator(':not(input[type=\"checkbox\"]):not(input[type=\"radio\"])')).or(getByLabel('Personal Data Statement').locator('input:not([type=\"hidden\"]), textarea, select, [contenteditable=\"true\"]').and(locator(':not(input[type=\"checkbox\"]):not(input[type=\"radio\"])'))).or(locator('xpath=(//*[@id = //label[contains(normalize-space(.), \"Personal Data Statement\")]/@for])[1]/descendant::*[self::input[not(@type=\"hidden\")] or self::textarea or self::select or @contenteditable=\"true\"][1]').and(locator(':not(input[type=\"checkbox\"]):not(input[type=\"radio\"])'))).first()\u001b[22m\n\u001b[2m    - locator resolved to <input type=\"text\" value=\"false\" class=\"css-77hcv\"/>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    9 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n",
+    "wizard page error: field \"American Indian or Alaska Native (United States of America)\": Error: The field Please indicate your race. is required and must have a value.",
+    "wizard page error: Error: The field Please indicate your race. is required and must have a value.",
+    "wizard: page 2 never settled on a NEW page (heading still \"Churchill Summer Internship: Investment Infrastructure &amp; Technology (IIT)\") — planning on the current DOM",
+    "wizard: page 2 heading=\"Churchill Summer Internship: Investment \" url…--IIT-_R260800515-1/apply shot=wizard-page-2-1788208704433.png",
+    "wizard: page 3 never settled on a NEW page (heading still \"Churchill Summer Internship: Investment Infrastructure &amp; Technology (IIT)\") — planning on the current DOM",
+    "wizard: page 3 heading=\"Churchill Summer Internship: Investment \" url…--IIT-_R260800515-1/apply shot=wizard-page-3-1788208727731.png",
+    "wizard: page 4 never settled on a NEW page (heading still \"Churchill Summer Internship: Investment Infrastructure &amp; Technology (IIT)\") — planning on the current DOM",
+    "wizard: page 4 heading=\"Churchill Summer Internship: Investment \" url…--IIT-_R260800515-1/apply shot=wizard-page-4-1788208749558.png",
+    "wizard: page 5 never settled on a NEW page (heading still \"Churchill Summer Internship: Investment Infrastructure &amp; Technology (IIT)\") — planning on the current DOM",
+    "wizard: page 5 heading=\"Churchill Summer Internship: Investment \" url…--IIT-_R260800515-1/apply shot=wizard-page-5-1788208768728.png",
+    "wizard: page 6 never settled on a NEW page (heading still \"Churchill Summer Internship: Investment Infrastructure &amp; Technology (IIT)\") — planning on the current DOM",
+    "wizard: page 6 heading=\"Churchill Summer Internship: Investment \" url…--IIT-_R260800515-1/apply shot=wizard-page-6-1788208799455.png",
+    "wizard: page 7 never settled on a NEW page (heading still \"Churchill Summer Internship: Investment Infrastructure &amp; Technology (IIT)\") — planning on the current DOM",
+    "wizard: page 7 heading=\"Churchill Summer Internship: Investment \" url…--IIT-_R260800515-1/apply shot=wizard-page-7-1788208824104.png",
+    "wizard: page 8 never settled on a NEW page (heading still \"Churchill Summer Internship: Investment Infrastructure &amp; Technology (IIT)\") — planning on the current DOM",
+    "wizard: page 8 heading=\"Churchill Summer Internship: Investment \" url…--IIT-_R260800515-1/apply shot=wizard-page-8-1788208848082.png",
+    "wizard: page 9 never settled on a NEW page (heading still \"Churchill Summer Internship: Investment Infrastructure &amp; Technology (IIT)\") — planning on the current DOM",
+    "wizard: page 9 heading=\"Churchill Summer Internship: Investment \" url…--IIT-_R260800515-1/apply shot=wizard-page-9-1788208875849.png",
+    "wizard: filled 8 additional page(s) — wizard:9/10, wizard:15/26, wizard:5/7, wizard:3/5, wizard:3/5, wizard:3/5, wizard:3/5, wizard:3/5",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [
+    {
+      "field_id": "country--country",
+      "label": "Country",
+      "answer_space": "closed",
+      "option_count": 250,
+      "options": [
+        "Select One",
+        "Afghanistan",
+        "Åland Islands",
+        "Albania",
+        "Algeria",
+        "American Samoa",
+        "Andorra",
+        "Angola",
+        "Anguilla",
+        "Antigua and Barbuda",
+        "Argentina",
+        "Armenia",
+        "Aruba",
+        "Australia",
+        "Austria",
+        "Azerbaijan",
+        "Bahamas",
+        "Bahrain",
+        "Bangladesh",
+        "Barbados",
+        "Belarus",
+        "Belgium",
+        "Belize",
+        "Benin",
+        "Bermuda"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "address--countryRegion",
+      "label": "State",
+      "answer_space": "closed",
+      "option_count": 61,
+      "options": [
+        "Select One",
+        "Alabama",
+        "Alaska",
+        "American Samoa",
+        "Arizona",
+        "Arkansas",
+        "Armed Forces Americas",
+        "Armed Forces Europe",
+        "Armed Forces Pacific",
+        "California",
+        "Colorado",
+        "Connecticut",
+        "Delaware",
+        "District of Columbia",
+        "Florida",
+        "Georgia",
+        "Guam",
+        "Hawaii",
+        "Idaho",
+        "Illinois",
+        "Indiana",
+        "Iowa",
+        "Kansas",
+        "Kentucky",
+        "Louisiana"
+      ],
+      "other_option": null
+    }
+  ],
+  "wizard_pages": [
+    {
+      "page": 2,
+      "url": "https://tiaa.wd1.myworkdayjobs.com/en-US/search/job/New-York%2C-NY%2C-USA/Churchill-Summer-Internship--Investment-Infrastructure---Technology--IIT-_R260800515-1/apply",
+      "kind": "wizard",
+      "fillable": 10,
+      "filled": 9,
+      "verify_passed": false
+    },
+    {
+      "page": 3,
+      "url": "https://tiaa.wd1.myworkdayjobs.com/en-US/search/job/New-York%2C-NY%2C-USA/Churchill-Summer-Internship--Investment-Infrastructure---Technology--IIT-_R260800515-1/apply",
+      "kind": "wizard",
+      "fillable": 26,
+      "filled": 15,
+      "verify_passed": false
+    },
+    {
+      "page": 4,
+      "url": "https://tiaa.wd1.myworkdayjobs.com/en-US/search/job/New-York%2C-NY%2C-USA/Churchill-Summer-Internship--Investment-Infrastructure---Technology--IIT-_R260800515-1/apply",
+      "kind": "wizard",
+      "fillable": 7,
+      "filled": 5,
+      "verify_passed": true
+    },
+    {
+      "page": 5,
+      "url": "https://tiaa.wd1.myworkdayjobs.com/en-US/search/job/New-York%2C-NY%2C-USA/Churchill-Summer-Internship--Investment-Infrastructure---Technology--IIT-_R260800515-1/apply",
+      "kind": "wizard",
+      "fillable": 5,
+      "filled": 3,
+      "verify_passed": false
+    },
+    {
+      "page": 6,
+      "url": "https://tiaa.wd1.myworkdayjobs.com/en-US/search/job/New-York%2C-NY%2C-USA/Churchill-Summer-Internship--Investment-Infrastructure---Technology--IIT-_R260800515-1/apply",
+      "kind": "wizard",
+      "fillable": 5,
+      "filled": 3,
+      "verify_passed": false
+    },
+    {
+      "page": 7,
+      "url": "https://tiaa.wd1.myworkdayjobs.com/en-US/search/job/New-York%2C-NY%2C-USA/Churchill-Summer-Internship--Investment-Infrastructure---Technology--IIT-_R260800515-1/apply",
+      "kind": "wizard",
+      "fillable": 5,
+      "filled": 3,
+      "verify_passed": false
+    },
+    {
+      "page": 8,
+      "url": "https://tiaa.wd1.myworkdayjobs.com/en-US/search/job/New-York%2C-NY%2C-USA/Churchill-Summer-Internship--Investment-Infrastructure---Technology--IIT-_R260800515-1/apply",
+      "kind": "wizard",
+      "fillable": 5,
+      "filled": 3,
+      "verify_passed": false
+    },
+    {
+      "page": 9,
+      "url": "https://tiaa.wd1.myworkdayjobs.com/en-US/search/job/New-York%2C-NY%2C-USA/Churchill-Summer-Internship--Investment-Infrastructure---Technology--IIT-_R260800515-1/apply",
+      "kind": "wizard",
+      "fillable": 5,
+      "filled": 3,
+      "verify_passed": false
+    }
+  ],
+  "operator_brief": {
+    "title": "Live fill — workday https://tiaa.wd1.myworkdayjobs.com/search/job/New-York-NY-USA/Churchill-Summer-Internship--Investment-Infrastructure---Technology--IIT-_R260800515-1",
+    "summary": "No open field issues in this report.",
+    "items": [],
+    "ok_count": 13,
+    "fail_count": 0
+  },
+  "written_at": "2026-08-31T20:41:30.193Z"
+}
