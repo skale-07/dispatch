@@ -15,15 +15,15 @@
       "graduation_year": "2029",
       "screener:custom:expected_graduation_date": "Later than Summer 2028",
       "screener:custom:gpa_range": "3.6 or above (out of 4.0)",
-      "screener:custom:predicted:question_37911666002[]": "San Francisco, CA",
+      "screener:custom:preferred_location": "San Francisco, CA",
       "screener:availability_full_time": "Yes",
       "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
       "how_heard": "LinkedIn",
       "work_authorization": "[REDACTED_SPONSORSHIP]",
       "screener:requires_sponsorship": "[REDACTED_SPONSORSHIP]",
       "screener:previously_applied_or_worked": "No",
-      "screener:custom:predicted:question_37893698002[]": "None of the above",
-      "screener:custom:predicted:question_37893699002[]": "Not applicable (i.e., I selected “none of the above” for the prior question)",
+      "screener:custom:sanctions_export_control_status": "None of the above",
+      "screener:custom:sanctions_followup_not_applicable": "Not applicable (i.e., I selected “none of the above” for the prior question)",
       "gender": "Male",
       "hispanic_latino": "No",
       "veteran_status": "I am not a veteran",
@@ -187,10 +187,10 @@
         "field_id": "question_37911666002[]",
         "label": "Please choose the single location that you",
         "type": "checkbox",
-        "canonical_field": "screener:custom:predicted:question_37911666002[]",
+        "canonical_field": "screener:custom:preferred_location",
         "action": "fill",
         "value": "San Francisco, CA",
-        "reason": "Predicted from operator context (llm_predict): Candidate is willing to relocate and San Francisco is the most likely preferred US tech hub given his early-stage startup and AI interests."
+        "reason": "Screener bank answer (exact_option)"
       },
       {
         "field_id": "question_37929335002",
@@ -259,19 +259,19 @@
         "field_id": "question_37893698002[]",
         "label": "Please confirm whether any of the below applies to you. Select all that apply. Note: This information will only be used to ensure compliance with U.S. sanctions and export controls.",
         "type": "checkbox",
-        "canonical_field": "screener:custom:predicted:question_37893698002[]",
+        "canonical_field": "screener:custom:sanctions_export_control_status",
         "action": "fill",
         "value": "None of the above",
-        "reason": "Predicted from operator context (llm_predict): Candidate is U.S.-based in Baltimore, Maryland with U.S. work authorization and no sanctioned-country ties."
+        "reason": "Screener bank answer (exact_option)"
       },
       {
         "field_id": "question_37893699002[]",
         "label": "If you selected a response to the prior question other than “none of the above,” please confirm whether any of the following also applies to you. Select all that apply.",
         "type": "checkbox",
-        "canonical_field": "screener:custom:predicted:question_37893699002[]",
+        "canonical_field": "screener:custom:sanctions_followup_not_applicable",
         "action": "fill",
         "value": "Not applicable (i.e., I selected “none of the above” for the prior question)",
-        "reason": "Predicted from operator context (llm_predict): Since \"None of the above\" was selected on the prior question, the follow-up is not applicable."
+        "reason": "Screener bank answer (exact_option)"
       },
       {
         "field_id": "gender",
@@ -317,13 +317,12 @@
   "submit_attempted": false,
   "notes": [
     "session: handoff (caller-owned page, not closed here)",
-    "popups dismissed: close (aria-label)",
     "landed on a posting (no fields, Apply CTA present); clicking Apply via role=button \"Apply now\"",
     "Apply landed on: posting (no fields, Apply CTA present)",
     "landed on a posting (no fields, Apply CTA present); clicking Apply via role=button \"Apply now\"",
     "Apply landed on: posting (no fields, Apply CTA present)",
     "still on a posting after 2 Apply click(s) — giving up rather than filling the listing page",
-    "application form found in an iframe (31 fields) — hopping to https://job-boards.greenhouse.io/embed/job_app?for=databricks&validityToken=Lt4lHU1U07uVlDqb7utDjExW3QVJQ19ISTWq5Ab7Tf2r7JnG2UZPOKeoJjoGswpcEW0s2pfBC3KCbpxkBq7s747DxPHUJrKuiWT0nROfwRyqojs0ssCyXc-b2CmyQpHN1Efjb99neqjIasZsangirNIxMkZhUAfE5ZGv1hiyDNi8RANGW-6s5jcqTnxKcHyHgfuueBjWaffJg3hqi4ctT8g7H4XL8M5I8dscnfbBk4_tcnmvgeN6b9cS6vqcW39jRiQqzycFjOnH6LOHy0HacyNZpkOJ_GqVl1NQRc39poBAJWOnm2-1OvJVDAIlRthAtP4DtrV4WIb41qaTEqTxIw%3D%3D&token=8732364002",
+    "application form found in an iframe (31 fields) — hopping to https://job-boards.greenhouse.io/embed/job_app?for=databricks&validityToken=IPbp5Rxk4oyLHBKHWMEzY9SOLospWnYMXWZRbpvIL9BiRvpIjch5RhK4S15U0Cnvf3cvbPHgJ5V3JZKZvkwiPgIUvmgz_4Zl9-CRv2Rc8-lYjjvQZG9LDzbQAefKcw-_F-As8kdngRJFPlXY-A0xZ2D5RudHInfN4AOGl7H2IEIHkTvTc2QU6XVjzh3V-7cGU3U8tGgP0ZtOu7AFhhHnLAcqqoVTB7yEGXuxoRLb_kBC_XxGhWV7ae9Z2MFnL1yUymsmtEj8RifmKzxPB8N6YPP_qmipRotiyXw3cy9pZSR72xzyY1HzqSnQZ9G-MI8sqebNhxj9OYH6KzF-wWuoew%3D%3D&token=8732364002",
     "schema diff: 17/20 declared question(s) matched onto 31 DOM field(s); 3 declared-only (3 required); 14 DOM-only",
     "board API declared 20 question(s); matched complete option lists onto 10 field(s)",
     "option harvest: \"Location (City)\" is a combobox but offered no readable options",
@@ -331,10 +330,10 @@
     "frozen after fill→verify→upload — no further field mutation; submit never called"
   ],
   "validation_level": "LIVE_MUTATION_CONFIRMED",
-  "final_url": "https://job-boards.greenhouse.io/embed/job_app?for=databricks&validityToken=Lt4lHU1U07uVlDqb7utDjExW3QVJQ19ISTWq5Ab7Tf2r7JnG2UZPOKeoJjoGswpcEW0s2pfBC3KCbpxkBq7s747DxPHUJrKuiWT0nROfwRyqojs0ssCyXc-b2CmyQpHN1Efjb99neqjIasZsangirNIxMkZhUAfE5ZGv1hiyDNi8RANGW-6s5jcqTnxKcHyHgfuueBjWaffJg3hqi4ctT8g7H4XL8M5I8dscnfbBk4_tcnmvgeN6b9cS6vqcW39jRiQqzycFjOnH6LOHy0HacyNZpkOJ_GqVl1NQRc39poBAJWOnm2-1OvJVDAIlRthAtP4DtrV4WIb41qaTEqTxIw%3D%3D&token=8732364002",
+  "final_url": "https://job-boards.greenhouse.io/embed/job_app?for=databricks&validityToken=IPbp5Rxk4oyLHBKHWMEzY9SOLospWnYMXWZRbpvIL9BiRvpIjch5RhK4S15U0Cnvf3cvbPHgJ5V3JZKZvkwiPgIUvmgz_4Zl9-CRv2Rc8-lYjjvQZG9LDzbQAefKcw-_F-As8kdngRJFPlXY-A0xZ2D5RudHInfN4AOGl7H2IEIHkTvTc2QU6XVjzh3V-7cGU3U8tGgP0ZtOu7AFhhHnLAcqqoVTB7yEGXuxoRLb_kBC_XxGhWV7ae9Z2MFnL1yUymsmtEj8RifmKzxPB8N6YPP_qmipRotiyXw3cy9pZSR72xzyY1HzqSnQZ9G-MI8sqebNhxj9OYH6KzF-wWuoew%3D%3D&token=8732364002",
   "identity_verification": {
     "requestedUrl": "https://boards.greenhouse.io/databricks/jobs/8732364002",
-    "finalUrl": "https://job-boards.greenhouse.io/embed/job_app?for=databricks&validityToken=Lt4lHU1U07uVlDqb7utDjExW3QVJQ19ISTWq5Ab7Tf2r7JnG2UZPOKeoJjoGswpcEW0s2pfBC3KCbpxkBq7s747DxPHUJrKuiWT0nROfwRyqojs0ssCyXc-b2CmyQpHN1Efjb99neqjIasZsangirNIxMkZhUAfE5ZGv1hiyDNi8RANGW-6s5jcqTnxKcHyHgfuueBjWaffJg3hqi4ctT8g7H4XL8M5I8dscnfbBk4_tcnmvgeN6b9cS6vqcW39jRiQqzycFjOnH6LOHy0HacyNZpkOJ_GqVl1NQRc39poBAJWOnm2-1OvJVDAIlRthAtP4DtrV4WIb41qaTEqTxIw%3D%3D&token=8732364002",
+    "finalUrl": "https://job-boards.greenhouse.io/embed/job_app?for=databricks&validityToken=IPbp5Rxk4oyLHBKHWMEzY9SOLospWnYMXWZRbpvIL9BiRvpIjch5RhK4S15U0Cnvf3cvbPHgJ5V3JZKZvkwiPgIUvmgz_4Zl9-CRv2Rc8-lYjjvQZG9LDzbQAefKcw-_F-As8kdngRJFPlXY-A0xZ2D5RudHInfN4AOGl7H2IEIHkTvTc2QU6XVjzh3V-7cGU3U8tGgP0ZtOu7AFhhHnLAcqqoVTB7yEGXuxoRLb_kBC_XxGhWV7ae9Z2MFnL1yUymsmtEj8RifmKzxPB8N6YPP_qmipRotiyXw3cy9pZSR72xzyY1HzqSnQZ9G-MI8sqebNhxj9OYH6KzF-wWuoew%3D%3D&token=8732364002",
     "requestedJobId": "8732364002",
     "observedJobId": "8732364002",
     "company": "databricks",
@@ -738,11 +737,11 @@
         "field_id": "question_37911666002[]",
         "label": "Please choose the single location that you",
         "type": "checkbox",
-        "canonical_field": "screener:custom:predicted:question_37911666002[]",
+        "canonical_field": "screener:custom:preferred_location",
         "action": "FILL",
         "approved": true,
         "value": "San Francisco, CA",
-        "reason": "Predicted from operator context (llm_predict): Candidate is willing to relocate and San Francisco is the most likely preferred US tech hub given his early-stage startup and AI interests."
+        "reason": "Screener bank answer (exact_option)"
       },
       {
         "field_id": "question_37929335002",
@@ -818,21 +817,21 @@
         "field_id": "question_37893698002[]",
         "label": "Please confirm whether any of the below applies to you. Select all that apply. Note: This information will only be used to ensure compliance with U.S. sanctions and export controls.",
         "type": "checkbox",
-        "canonical_field": "screener:custom:predicted:question_37893698002[]",
+        "canonical_field": "screener:custom:sanctions_export_control_status",
         "action": "FILL",
         "approved": true,
         "value": "None of the above",
-        "reason": "Predicted from operator context (llm_predict): Candidate is U.S.-based in Baltimore, Maryland with U.S. work authorization and no sanctioned-country ties."
+        "reason": "Screener bank answer (exact_option)"
       },
       {
         "field_id": "question_37893699002[]",
         "label": "If you selected a response to the prior question other than “none of the above,” please confirm whether any of the following also applies to you. Select all that apply.",
         "type": "checkbox",
-        "canonical_field": "screener:custom:predicted:question_37893699002[]",
+        "canonical_field": "screener:custom:sanctions_followup_not_applicable",
         "action": "FILL",
         "approved": true,
         "value": "Not applicable (i.e., I selected “none of the above” for the prior question)",
-        "reason": "Predicted from operator context (llm_predict): Since \"None of the above\" was selected on the prior question, the follow-up is not applicable."
+        "reason": "Screener bank answer (exact_option)"
       },
       {
         "field_id": "gender",
@@ -887,15 +886,15 @@
       "graduation_year": "2029",
       "screener:custom:expected_graduation_date": "Later than Summer 2028",
       "screener:custom:gpa_range": "3.6 or above (out of 4.0)",
-      "screener:custom:predicted:question_37911666002[]": "San Francisco, CA",
+      "screener:custom:preferred_location": "San Francisco, CA",
       "screener:availability_full_time": "Yes",
       "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
       "how_heard": "LinkedIn Job Posting",
       "work_authorization": "[REDACTED_SPONSORSHIP]",
       "screener:requires_sponsorship": "[REDACTED_SPONSORSHIP]",
       "screener:previously_applied_or_worked": "No",
-      "screener:custom:predicted:question_37893698002[]": "None of the above",
-      "screener:custom:predicted:question_37893699002[]": "Not applicable (i.e., I selected “none of the above” for the prior question)",
+      "screener:custom:sanctions_export_control_status": "None of the above",
+      "screener:custom:sanctions_followup_not_applicable": "Not applicable (i.e., I selected “none of the above” for the prior question)",
       "gender": "Male",
       "hispanic_latino": "No",
       "veteran_status": "I am not a veteran",
@@ -919,15 +918,15 @@
       "graduation_year",
       "screener:custom:expected_graduation_date",
       "screener:custom:gpa_range",
-      "screener:custom:predicted:question_37911666002[]",
+      "screener:custom:preferred_location",
       "screener:availability_full_time",
       "linkedin_url",
       "how_heard",
       "work_authorization",
       "screener:requires_sponsorship",
       "screener:previously_applied_or_worked",
-      "screener:custom:predicted:question_37893698002[]",
-      "screener:custom:predicted:question_37893699002[]",
+      "screener:custom:sanctions_export_control_status",
+      "screener:custom:sanctions_followup_not_applicable",
       "gender",
       "hispanic_latino",
       "veteran_status",
@@ -1034,7 +1033,7 @@
       },
       {
         "field_id": "question_37911666002[]",
-        "canonical_field": "screener:custom:predicted:question_37911666002[]",
+        "canonical_field": "screener:custom:preferred_location",
         "control_kind": "checkbox_group",
         "selected_option": "San Francisco, CA"
       },
@@ -1100,13 +1099,13 @@
       },
       {
         "field_id": "question_37893698002[]",
-        "canonical_field": "screener:custom:predicted:question_37893698002[]",
+        "canonical_field": "screener:custom:sanctions_export_control_status",
         "control_kind": "checkbox_group",
         "selected_option": "None of the above"
       },
       {
         "field_id": "question_37893699002[]",
-        "canonical_field": "screener:custom:predicted:question_37893699002[]",
+        "canonical_field": "screener:custom:sanctions_followup_not_applicable",
         "control_kind": "checkbox_group",
         "selected_option": "Not applicable (i.e., I selected “none of the above” for the prior question)"
       },
@@ -1250,7 +1249,7 @@
         "match": true
       },
       {
-        "canonical_field": "screener:custom:predicted:question_37911666002[]",
+        "canonical_field": "screener:custom:preferred_location",
         "expected": "San Francisco, CA",
         "observed": {
           "value": "San Francisco, CA",
@@ -1304,7 +1303,7 @@
         "match": true
       },
       {
-        "canonical_field": "screener:custom:predicted:question_37893698002[]",
+        "canonical_field": "screener:custom:sanctions_export_control_status",
         "expected": "None of the above",
         "observed": {
           "value": "None of the above",
@@ -1313,7 +1312,7 @@
         "match": true
       },
       {
-        "canonical_field": "screener:custom:predicted:question_37893699002[]",
+        "canonical_field": "screener:custom:sanctions_followup_not_applicable",
         "expected": "Not applicable (i.e., I selected “none of the above” for the prior question)",
         "observed": {
           "value": "Not applicable (i.e., I selected “none of the above” for the prior question)",
@@ -1371,5 +1370,5 @@
       "evidence": "input files: []; stillAttached=false; chip=true"
     }
   ],
-  "written_at": "2026-09-01T13:51:33.386Z"
+  "written_at": "2026-09-01T14:52:30.131Z"
 }
