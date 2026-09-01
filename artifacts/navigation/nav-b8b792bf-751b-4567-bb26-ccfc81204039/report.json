@@ -1,0 +1,43 @@
+{
+  "run_id": "nav-b8b792bf-751b-4567-bb26-ccfc81204039",
+  "application_id": "249b2157-cc0d-4b5e-969c-ed9db26ffb1c",
+  "jobright_job_id": "6a9a7242aceb484d6789d34c",
+  "method": null,
+  "resolved_url": null,
+  "resolved_ats": null,
+  "wall": "submit_risk",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no external anchors"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "unresolved by deterministic phases"
+    },
+    {
+      "phase": "C_agent",
+      "outcome": "wall: submit_risk (turn 1)"
+    }
+  ],
+  "agent": {
+    "turns_used": 1,
+    "steps_used": 3,
+    "domains_visited": []
+  },
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "no standard Apply control found (exact and broad name tiers both empty)",
+    "agent[1] reason: agent stopped: submit_risk"
+  ],
+  "congruence": null,
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-09-01T03:10:38.207Z"
+}

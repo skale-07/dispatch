@@ -1,0 +1,244 @@
+{
+  "ats": "generic",
+  "url": "https://jobs.gem.com/nuvo/am9icG9zdDoEvHD8FE_VslckJ9zes_Cm",
+  "requested_url": "https://jobs.gem.com/nuvo/am9icG9zdDoEvHD8FE_VslckJ9zes_Cm",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://jobs.gem.com/nuvo/am9icG9zdDoEvHD8FE_VslckJ9zes_Cm",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 4,
+    "skipped_count": 0,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "f_0",
+      "label": "First name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f_1",
+      "label": "Last name",
+      "type": "text",
+      "canonical_field": "legal_name.last",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f_2",
+      "label": "Email",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f_3",
+      "label": "LinkedIn URL",
+      "type": "text",
+      "canonical_field": "linkedin_url",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    }
+  ],
+  "form_snapshot_path": null,
+  "fill": {
+    "filled": [],
+    "skipped": [],
+    "errors": [
+      "f_0: control not found on the page (label \"First name\") — failing fast instead of waiting 30s",
+      "f_1: control not found on the page (label \"Last name\") — failing fast instead of waiting 30s",
+      "f_2: control not found on the page (label \"Email\") — failing fast instead of waiting 30s",
+      "f_3: control not found on the page (label \"LinkedIn URL\") — failing fast instead of waiting 30s"
+    ],
+    "field_meta": []
+  },
+  "verify": {
+    "passed": false,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "legal_name.last",
+        "expected": "Kale",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": null,
+        "match": false
+      }
+    ],
+    "uploads": [],
+    "warnings": [
+      "verify legal_name.first: control not found on the page (label \"First name\") — failing fast instead of waiting 30s",
+      "verify legal_name.last: control not found on the page (label \"Last name\") — failing fast instead of waiting 30s",
+      "verify email: control not found on the page (label \"Email\") — failing fast instead of waiting 30s",
+      "verify linkedin_url: control not found on the page (label \"LinkedIn URL\") — failing fast instead of waiting 30s"
+    ]
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 113381,
+      "verified": true,
+      "evidence": "input files: [{\"name\":\"resume-6b5f8e75.pdf\",\"size\":113381}]; stillAttached=true; chip=true"
+    }
+  ],
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: form (4 fillable field(s))",
+    "page error scan: no visible validation errors on the page",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "operator_brief": {
+    "title": "Live fill — generic https://jobs.gem.com/nuvo/am9icG9zdDoEvHD8FE_VslckJ9zes_Cm",
+    "summary": "8 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:legal_name.first",
+        "question": "First name",
+        "field_id": "f_0",
+        "canonical_field": "legal_name.first",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Shubham\"; page shows \"(empty)\"",
+        "expected": "Shubham",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"Shubham\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → legal_name.first",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"legal_name.first\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:legal_name.last",
+        "question": "Last name",
+        "field_id": "f_1",
+        "canonical_field": "legal_name.last",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Kale\"; page shows \"(empty)\"",
+        "expected": "Kale",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"Kale\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → legal_name.last",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"legal_name.last\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:email",
+        "question": "Email",
+        "field_id": "f_2",
+        "canonical_field": "email",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"skale072007@gmail.com\"; page shows \"(empty)\"",
+        "expected": "s***@gmail.com",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"skale072007@gmail.com\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → email",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"email\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:linkedin_url",
+        "question": "LinkedIn URL",
+        "field_id": "f_3",
+        "canonical_field": "linkedin_url",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"https://www.linkedin.com/in/shubham-kale-8ab044288/\"; page shows \"(empty)\"",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"https://www.linkedin.com/in/shubham-kale-8ab044288/\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → linkedin_url",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"linkedin_url\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "fill_error:f_0: control not found on the page (label \"First name\") — failing fast instead o",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "f_0: control not found on the page (label \"First name\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:f_1: control not found on the page (label \"Last name\") — failing fast instead of",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "f_1: control not found on the page (label \"Last name\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:f_2: control not found on the page (label \"Email\") — failing fast instead of wai",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "f_2: control not found on the page (label \"Email\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:f_3: control not found on the page (label \"LinkedIn URL\") — failing fast instead",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "f_3: control not found on the page (label \"LinkedIn URL\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      }
+    ],
+    "ok_count": 0,
+    "fail_count": 8
+  },
+  "written_at": "2026-09-01T02:47:00.151Z"
+}
