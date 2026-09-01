@@ -634,6 +634,7 @@ contract rather than trusted.
 | `ESSAY_REQUIRED_GATE_ENABLED` | `false` | Hard-stop on heuristic essay detection (`ESSAY_REQUIRED`); off until heuristics are better |
 | `OUTLOOK_VERIFICATION_ENABLED` | `false` | Read-only Outlook mailbox scan for submit verification codes (§17) |
 | `ATS_DISCOVERY_ENABLED` | `false` | Enqueue from public ATS board APIs (`discover:ats`, §21) — creates jobs + applications |
+| `SUPABASE_SYNC_ENABLED` | `false` | One-way aggregate status mirror to Supabase (`cloud:sync`, §25) — never PII, never read back |
 
 Console-only (not capability flags): `CONSOLE_HOST` (`127.0.0.1`,
 validated) and `CONSOLE_PORT` (`8899`). The console process `.env` is the
@@ -1793,3 +1794,49 @@ stop before Submit so you review.
 Deliberately absent on `CAPTCHA_REQUIRED`: a challenge is yours to solve,
 not any agent's — that park keeps only "Open the page to solve it" and
 the requeue action (§22).
+
+## 24. Cloud invites — mint test-user codes locally
+
+Split-plane v0 (`docs/roadmap/cloud-deploy.md`): invite codes for cloud
+test users are minted **on this machine** and loaded into Supabase by
+you. Nothing here talks to the network.
+
+```
+npm run invites:mint -- --count 5 --quota 5 --base-url https://your-domain.example
+```
+
+- `--count N` — how many codes (1–200). Required.
+- `--quota M` — completed applications allowed per invite (default 5;
+  mint 5–10 for the September cohort).
+- `--base-url` — your domain; links come out as
+  `<base-url>/redeem?code=JRA-XXXX-XXXX`. Or set `CLOUD_BASE_URL` in
+  `.env` once.
+- `--issuer`, `--note` — optional bookkeeping.
+
+Output: rows in the local `cloud_invites` table (the ledger), plus a
+SQL file and a CSV under `private/cloud/invites/` (gitignored — codes
+are secrets until redeemed; they are deliberately NOT written to
+`artifacts/`, which autopush may publish). Paste the SQL into the
+Supabase SQL editor to make the codes redeemable; share the printed
+links. Redemption, once-only enforcement, and quota accounting are
+cloud-side (`supabase/migrations/`).
+
+## 25. Cloud status mirror — `cloud:sync`
+
+One-shot, one-way push of aggregate application status (company, role,
+state, route, source ATS, timestamps — nothing else; the whitelist is
+`MIRROR_COLUMNS` in `src/cloud/syncMapping.ts`) into Supabase's
+`application_status_mirror`, so the hosted read-only console can show
+progress. Fail-closed: requires all of
+
+```
+SUPABASE_SYNC_ENABLED=true
+SUPABASE_URL=https://<ref>.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=...   # engine machine ONLY, never frontend
+SUPABASE_SYNC_USER_ID=<auth.users uuid the rows belong to>
+```
+
+in `.env`, and refuses loudly naming whichever is missing. Run it after
+a session (or alongside `auto:cycle`); one invocation is one bounded
+pass — there is no polling loop. Nothing is ever read back from the
+cloud, and cloud rows never influence the pipeline.

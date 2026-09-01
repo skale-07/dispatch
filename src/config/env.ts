@@ -12,6 +12,12 @@ import {
  * leftover PowerShell `$env:NAVIGATION_ENABLED=false` cannot mask the
  * file. Flags still default off when the key is absent. Tests wipe the
  * gated keys after this load (fillEnvIsolation).
+ *
+ * Hosted/PaaS escape hatch (docs/roadmap/cloud-deploy.md): platforms
+ * deliver configuration AS process env, so `override: true` would let a
+ * stray baked-in `.env` silently beat the platform. Set
+ * `DOTENV_OVERRIDE=false` there and already-set process env always wins;
+ * unset (local default) keeps today's behavior exactly.
  */
 export const DOTENV_PATH = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
@@ -20,7 +26,10 @@ export const DOTENV_PATH = path.resolve(
   ".env",
 );
 
-dotenv.config({ path: DOTENV_PATH, override: true });
+const dotenvOverride =
+  (process.env["DOTENV_OVERRIDE"] ?? "").trim().toLowerCase() !== "false";
+
+dotenv.config({ path: DOTENV_PATH, override: dotenvOverride });
 
 const boolFromEnv = z
   .union([z.boolean(), z.string()])
@@ -182,6 +191,22 @@ const envSchema = z.object({
   JSONL_EVENTS_PATH: z.string().default("data/events/applications.jsonl"),
   /** chrome = system Google Chrome (needed for Google OAuth). chromium = bundled. */
   BROWSER_CHANNEL: z.string().default("chrome"),
+  /**
+   * Cloud plane (split-plane v0.5, docs/roadmap/cloud-deploy.md): one-way
+   * upsert of aggregate application status to Supabase. Network mutation
+   * of the operator's cloud project ⇒ fail closed. Requires the three
+   * SUPABASE_* settings below; refuses loudly without them.
+   */
+  SUPABASE_SYNC_ENABLED: boolFromEnv.default(false),
+  /** Supabase project URL (https://<ref>.supabase.co). Plain setting. */
+  SUPABASE_URL: z.string().optional(),
+  /**
+   * Service-role key. SECRET: never logged, never artifacted, never
+   * shipped to any frontend — it exists only on the engine machine.
+   */
+  SUPABASE_SERVICE_ROLE_KEY: z.string().optional(),
+  /** auth.users UUID of the cloud account these engine rows belong to. */
+  SUPABASE_SYNC_USER_ID: z.string().optional(),
 });
 
 export type AppConfig = {
@@ -242,6 +267,12 @@ export type AppConfig = {
   defaultResumePath: string;
   jsonlEventsPath: string;
   browserChannel: BrowserChannel;
+  /** One-way status mirror to Supabase (cloud plane). Fail closed. */
+  supabaseSyncEnabled: boolean;
+  supabaseUrl: string | undefined;
+  /** Present only when the operator configured it; consumers must not log it. */
+  supabaseServiceRoleKey: string | undefined;
+  supabaseSyncUserId: string | undefined;
   /** Always false — no send capability exists. */
   emailSendEnabled: false;
 };
@@ -328,6 +359,10 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
     defaultResumePath: path.resolve(parsed.DEFAULT_RESUME_PATH),
     jsonlEventsPath: path.resolve(parsed.JSONL_EVENTS_PATH),
     browserChannel: parseBrowserChannel(parsed.BROWSER_CHANNEL),
+    supabaseSyncEnabled: parsed.SUPABASE_SYNC_ENABLED,
+    supabaseUrl: parsed.SUPABASE_URL,
+    supabaseServiceRoleKey: parsed.SUPABASE_SERVICE_ROLE_KEY,
+    supabaseSyncUserId: parsed.SUPABASE_SYNC_USER_ID,
     emailSendEnabled: false,
   };
 }

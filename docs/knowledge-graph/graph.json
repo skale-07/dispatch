@@ -693,9 +693,57 @@
       "gates": [
         "ATS_DISCOVERY_ENABLED"
       ]
+    },
+    {
+      "id": "cloud",
+      "label": "Cloud plane bridge (invites + Supabase mirror)",
+      "layer": "interface",
+      "purpose": "Split-plane v0 (docs/roadmap/cloud-deploy.md): mint invite codes/links locally with SQL/CSV exports for Supabase, and (behind SUPABASE_SYNC_ENABLED) one-way mirror aggregate application status to the cloud. No PII, resumes, credentials or artifacts ever cross; cloud state never flows back into the engine.",
+      "paths": [
+        "src/cloud",
+        "supabase"
+      ],
+      "key_files": {
+        "src/cloud/invites.ts": "code generation, invite links, local cloud_invites ledger, SQL/CSV export (private/cloud/invites/, never artifacts/)",
+        "src/cloud/invitesMintCli.ts": "npm run invites:mint entrypoint",
+        "src/cloud/syncMapping.ts": "pure engine-row -> mirror-row mapping; MIRROR_COLUMNS is the entire permitted engine->cloud data surface",
+        "src/cloud/syncSupabase.ts": "npm run cloud:sync worker: gate check, SELECT, batched upserts via @supabase/supabase-js",
+        "supabase/migrations/20260901000300_rls_and_redeem.sql": "cloud-side RLS + atomic redeem_invite RPC"
+      },
+      "key_exports": {
+        "src/cloud/invites.ts": [
+          "mintInvites",
+          "persistInvites",
+          "invitesToSupabaseSql",
+          "invitesToCsv"
+        ],
+        "src/cloud/syncMapping.ts": [
+          "toStatusMirrorRow",
+          "MIRROR_COLUMNS"
+        ],
+        "src/cloud/syncSupabase.ts": [
+          "runSupabaseSync",
+          "assertSyncConfigured"
+        ]
+      },
+      "gates": [
+        "SUPABASE_SYNC_ENABLED"
+      ]
     }
   ],
   "edges": [
+    {
+      "from": "cloud",
+      "to": "storage",
+      "kind": "calls",
+      "why": "invite ledger lives in the local SQLite (cloud_invites); the sync worker reads the same aggregate application/job rows the console read models select"
+    },
+    {
+      "from": "cloud",
+      "to": "config",
+      "kind": "reads",
+      "why": "privateDir for exports; SUPABASE_SYNC_ENABLED gate + Supabase keys come from getConfig()"
+    },
     {
       "from": "automation",
       "to": "pipeline",
@@ -943,7 +991,8 @@
     "ESSAY_AUTOFILL_ENABLED": "essays generated from about-me.md fill directly (also unlocked by SCREENER_PREDICT_LLM_ENABLED; validateDraft-checked, recorded on the plan)",
     "ARTIFACT_AUTOPUSH_ENABLED": "git-push run artifacts for the improvement loop",
     "AUTOMATION_ENABLED": "L3 armed sessions kill switch",
-    "ATS_DISCOVERY_ENABLED": "Enqueue from public ATS board APIs (creates jobs + applications). Fail closed."
+    "ATS_DISCOVERY_ENABLED": "Enqueue from public ATS board APIs (creates jobs + applications). Fail closed.",
+    "SUPABASE_SYNC_ENABLED": "One-way aggregate status mirror to Supabase (cloud plane; requires SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY + SUPABASE_SYNC_USER_ID). Fail closed."
   },
   "invariants": [
     "Every mutation capability is behind a fail-closed env flag; never defaulted on, never enabled in tests.",

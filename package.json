@@ -9,6 +9,7 @@
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
+    "build": "tsc -p tsconfig.build.json && node scripts/copy-dist-assets.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
     "migrate": "tsx src/cli/index.ts migrate",
@@ -67,6 +68,8 @@
     "ats:inspect": "tsx src/cli/index.ts ats:inspect",
     "ats:fill": "tsx src/cli/index.ts ats:fill",
     "ats:fill-outcomes": "tsx src/cli/index.ts ats:fill-outcomes",
+    "invites:mint": "tsx src/cloud/invitesMintCli.ts",
+    "cloud:sync": "tsx src/cloud/syncSupabaseCli.ts",
     "hooks:install": "git config core.hooksPath .githooks",
     "check:forbidden": "tsx scripts/check-forbidden.ts",
     "check:secrets": "tsx scripts/check-secrets-staged.ts",
@@ -79,6 +82,7 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.116.0",
+    "@supabase/supabase-js": "^2.112.4",
     "better-sqlite3": "^11.10.0",
     "dotenv": "^16.5.0",
     "openai": "^7.4.0",
