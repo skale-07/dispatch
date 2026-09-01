@@ -59,7 +59,21 @@ export function samePostingPath(finalPath: string, expectedPath: string): boolea
   // the same posting; different ids still diverge inside the prefix.
   const shorter = a.length <= b.length ? a : b;
   const longer = a.length <= b.length ? b : a;
-  return shorter.length >= 30 && longer.startsWith(shorter);
+  if (shorter.length >= 30 && longer.startsWith(shorter)) return true;
+  // #131 (live aws 2026-09-01): amazon.jobs stored slug lost its year
+  // ("…-fall--us" vs the page's "…-fall-2026-us") and the final URL
+  // gained a bare /en locale prefix — but BOTH paths carry the same
+  // numeric job-id segment (/jobs/10412530/). The #81 doctrine
+  // generalized: on an already-trusted host, an identical own-segment
+  // numeric id (≥5 digits) IS the posting identity; the slug around it
+  // is presentation. Different postings have different ids.
+  const idOf = (p: string): string | null => {
+    const m = p.match(/\/(\d{5,})(?:\/|$)/);
+    return m?.[1] ?? null;
+  };
+  const ia = idOf(a);
+  const ib = idOf(b);
+  return ia !== null && ib !== null && ia === ib;
 }
 
 /**

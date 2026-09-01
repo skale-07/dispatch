@@ -222,6 +222,22 @@ Walls, in order (operator co-debugged live):
   shell — launch DETACHED (Start-Process) and verify with real
   connectOverCDP.
 
+## Backlog: amazon.jobs portal (a39259e5, AWS SWE Intern Fall 2026)
+
+- #131 (id-segment conviction) passed the posting gate; Apply now →
+  passport.amazon.jobs LOGIN wall (email/password + federated
+  Amazon/Google/Apple/LinkedIn; screenshot
+  artifacts/probes/night24-aws/apply-landing.png).
+- Needs: amazon.jobs portal-auth wiring (standing account or
+  create-account + email OTP via the existing Gmail code provider).
+  Pieces exist (portalAuth create-account flows, GMAIL_VERIFICATION);
+  wiring is an evening project.
+- Classifier bug observed: the pipeline's Apply-landing classified this
+  login page as "confirmation" (confirmation markers matched) — find and
+  fence whatever copy matched before trusting post-click classification
+  on this host.
+- Parked AMBIGUOUS_FIELD (review) — out of the queue until wired.
+
 ## State snapshot (13:30)
 
 - Sierra 44fb9eb1: run 6 in flight (all four fixes live).

@@ -96,6 +96,25 @@ describe("#129 truncated stored slug (UNIT_CONFIRMED)", () => {
   });
 });
 
+describe("#131 numeric job-id segment convicts identity (UNIT_CONFIRMED)", () => {
+  it("same own-segment id ≥5 digits matches through locale prefixes and slug drift", () => {
+    expect(
+      samePostingPath(
+        "/en/jobs/10412530/software-development-engineer-intern-aws-data-services-fall-2026-us",
+        "/jobs/10412530/software-development-engineer-intern-aws-data-services--fall--us",
+      ),
+    ).toBe(true);
+    expect(
+      samePostingPath(
+        "/en/jobs/10412531/software-development-engineer-intern",
+        "/jobs/10412530/software-development-engineer-intern",
+      ),
+    ).toBe(false);
+    // short numbers (years) never convict
+    expect(samePostingPath("/careers/2026/one", "/careers/2026/two")).toBe(false);
+  });
+});
+
 describe("#120 SmartRecruiters oneclick continuation (UNIT_CONFIRMED)", () => {
   const FINAL =
     "/oneclick-ui/company/BoschGroup/publication/446c4bba-6632-46e1-ab8f-1dfa2b037d1b";
