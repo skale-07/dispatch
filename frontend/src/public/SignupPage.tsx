@@ -28,7 +28,11 @@ export function SignupPage(): JSX.Element {
   const { session, signOut } = useAuth();
 
   const [email, setEmail] = useState("");
-  const [invite, setInvite] = useState(codeParam ?? search.get("invite") ?? "");
+  // Minted invite links are /redeem?code=JRA-XXXX-XXXX (contract);
+  // ?invite= and /invite/:code stay as aliases.
+  const [invite, setInvite] = useState(
+    codeParam ?? search.get("code") ?? search.get("invite") ?? "",
+  );
   const [sending, setSending] = useState(false);
   const [sentTo, setSentTo] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);

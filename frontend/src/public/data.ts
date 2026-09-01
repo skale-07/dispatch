@@ -2,16 +2,19 @@ import { supabase } from "../lib/supabaseClient";
 import {
   CONTRACT,
   type ApplicationRowPublic,
-  type Profile,
+  type EducationEntry,
+  type JobPreferences,
   type ProfileDraft,
+  type ProfileRow,
   type QuotaStatus,
+  EMPTY_PROFILE,
 } from "./contract";
 
 /**
- * Every Supabase read/write in the public app, in one place, all under
- * the launcher-owned schema (names in contract.ts — placeholder until
- * its contract lands). All calls are RLS-scoped to the signed-in user;
- * nothing here can read anyone else's rows even if it wanted to.
+ * Every Supabase read/write in the public app, in one place, against the
+ * launcher-owned schema (names + worked examples:
+ * docs/roadmap/cloud-deploy.md §"Frontend ⇄ Supabase contract"). All
+ * calls are RLS-scoped to the signed-in user.
  *
  * Error posture matches the rest of this repo: throw the real error and
  * let the page render it — no swallowing, no fake success, no retries
@@ -42,7 +45,8 @@ async function currentUserId(): Promise<string | null> {
 /* ── invite redemption across the magic-link hop ─────────────────────
  * The code is entered before the user has a session (magic link goes
  * out, the tab may even be closed). Stash it locally; the first
- * authenticated page attempts redemption exactly once and clears it. */
+ * authenticated page attempts redemption exactly once and clears it.
+ * Server-side the RPC is atomic and idempotent per user. */
 
 const PENDING_INVITE_KEY = "dispatch.pendingInvite";
 
@@ -56,24 +60,39 @@ export function peekInviteCode(): string | null {
 
 export type InviteRedemption =
   | { outcome: "none" }
-  | { outcome: "redeemed"; code: string }
+  | { outcome: "redeemed"; code: string; maxApplications: number | null }
   | { outcome: "failed"; code: string; reason: string };
 
 /**
  * Redeem a stashed invite code, if any. One attempt per stash (the code
  * is cleared before the call so a server error cannot become an
  * unbounded retry loop; the user can re-enter the code by hand).
+ * Server error strings are verbatim contract values ("invalid invite
+ * code" | "invite already redeemed" | "not authenticated") — rendered
+ * as-is, never paraphrased into something the server didn't say.
  */
 export async function redeemPendingInvite(): Promise<InviteRedemption> {
   const code = peekInviteCode();
   if (!code) return { outcome: "none" };
   window.localStorage.removeItem(PENDING_INVITE_KEY);
   try {
-    const { error } = await client().rpc(CONTRACT.redeemInviteRpc, {
-      code,
+    const { data, error } = await client().rpc(CONTRACT.redeemInviteRpc, {
+      [CONTRACT.redeemInviteArg]: code,
     });
     if (error) return { outcome: "failed", code, reason: error.message };
-    return { outcome: "redeemed", code };
+    // Contract: data = { invite_id, max_completed_applications } (a
+    // set-returning function would wrap it in an array — accept both).
+    const row = (Array.isArray(data) ? data[0] : data) as
+      | { max_completed_applications?: number }
+      | null;
+    return {
+      outcome: "redeemed",
+      code,
+      maxApplications:
+        typeof row?.max_completed_applications === "number"
+          ? row.max_completed_applications
+          : null,
+    };
   } catch (err) {
     return {
       outcome: "failed",
@@ -83,9 +102,98 @@ export async function redeemPendingInvite(): Promise<InviteRedemption> {
   }
 }
 
+/* ── profile row ⇄ wizard draft mapping ─────────────────────────────── */
+
+function splitList(commaSeparated: string): string[] {
+  return commaSeparated
+    .split(",")
+    .map((s) => s.trim())
+    .filter((s) => s.length > 0);
+}
+
+function yearOrNull(text: string): number | null {
+  return /^\d{4}$/.test(text.trim()) ? Number(text.trim()) : null;
+}
+
+export function rowToDraft(row: ProfileRow): ProfileDraft {
+  const edu: EducationEntry | undefined = row.education[0];
+  const prefs = row.job_preferences as Partial<JobPreferences>;
+  return {
+    ...EMPTY_PROFILE,
+    full_name: row.full_name ?? "",
+    phone: row.phone ?? "",
+    location_city: row.location_city ?? "",
+    location_region: row.location_region ?? "",
+    location_country: row.location_country ?? "",
+    linkedin_url: row.linkedin_url ?? "",
+    github_url: row.github_url ?? "",
+    portfolio_url: row.portfolio_url ?? "",
+    school: edu?.school ?? "",
+    degree: edu?.degree ?? "",
+    field: edu?.field ?? "",
+    grad_year: edu?.end_year != null ? String(edu.end_year) : "",
+    work_authorization: row.work_authorization ?? "",
+    needs_sponsorship:
+      row.needs_sponsorship === null ? "" : row.needs_sponsorship ? "yes" : "no",
+    resume_object_path: row.resume_object_path,
+    resume_filename: row.resume_filename,
+    titles: (prefs.titles ?? []).join(", "),
+    locations: (prefs.locations ?? []).join(", "),
+    remote: prefs.remote ?? "",
+    employment_types: prefs.employment_types ?? [],
+    min_salary_usd:
+      typeof prefs.min_salary_usd === "number" ? String(prefs.min_salary_usd) : "",
+  };
+}
+
+function draftToRow(
+  userId: string,
+  draft: ProfileDraft,
+): Omit<ProfileRow, "created_at" | "updated_at" | "onboarding_completed_at"> {
+  const education: EducationEntry[] = draft.school.trim()
+    ? [
+        {
+          school: draft.school.trim(),
+          degree: draft.degree.trim(),
+          field: draft.field.trim(),
+          start_year: null,
+          end_year: yearOrNull(draft.grad_year),
+        },
+      ]
+    : [];
+  const salary = Number(draft.min_salary_usd.replace(/[^0-9]/g, ""));
+  const job_preferences: JobPreferences = {
+    titles: splitList(draft.titles),
+    locations: splitList(draft.locations),
+    ...(draft.remote !== "" ? { remote: draft.remote } : {}),
+    employment_types: draft.employment_types,
+    ...(salary > 0 ? { min_salary_usd: salary } : {}),
+  };
+  return {
+    user_id: userId,
+    full_name: draft.full_name.trim() || null,
+    phone: draft.phone.trim() || null,
+    location_city: draft.location_city.trim() || null,
+    location_region: draft.location_region.trim() || null,
+    location_country: draft.location_country.trim() || null,
+    linkedin_url: draft.linkedin_url.trim() || null,
+    github_url: draft.github_url.trim() || null,
+    portfolio_url: draft.portfolio_url.trim() || null,
+    education,
+    work_authorization:
+      draft.work_authorization === "" ? null : draft.work_authorization,
+    needs_sponsorship:
+      draft.needs_sponsorship === "" ? null : draft.needs_sponsorship === "yes",
+    resume_object_path: draft.resume_object_path,
+    resume_filename: draft.resume_filename,
+    resume_uploaded_at: null, // preserved server-side; set by uploadResume
+    job_preferences,
+  };
+}
+
 /* ── profile ────────────────────────────────────────────────────────── */
 
-export async function getMyProfile(): Promise<Profile | null> {
+export async function getMyProfile(): Promise<ProfileRow | null> {
   const uid = await currentUserId();
   if (!uid) return null;
   const { data, error } = await client()
@@ -94,15 +202,25 @@ export async function getMyProfile(): Promise<Profile | null> {
     .eq("user_id", uid)
     .maybeSingle();
   if (error) throw new Error(error.message);
-  return (data as Profile | null) ?? null;
+  return (data as ProfileRow | null) ?? null;
 }
 
+/**
+ * The wizard's final save. Writes the whole mapped row AND stamps
+ * onboarding_completed_at — the engine ignores profiles until that is
+ * non-null (contract), so completing the wizard is exactly what makes
+ * the account actionable.
+ */
 export async function saveMyProfile(draft: ProfileDraft): Promise<void> {
   const uid = await currentUserId();
   if (!uid) throw new Error("not signed in — nothing was saved");
+  const { resume_uploaded_at: _keep, ...row } = draftToRow(uid, draft);
   const { error } = await client()
     .from(CONTRACT.profilesTable)
-    .upsert({ user_id: uid, ...draft }, { onConflict: "user_id" });
+    .upsert(
+      { ...row, onboarding_completed_at: new Date().toISOString() },
+      { onConflict: "user_id" },
+    );
   if (error) throw new Error(error.message);
 }
 
@@ -110,6 +228,13 @@ export async function saveMyProfile(draft: ProfileDraft): Promise<void> {
 
 const MAX_RESUME_BYTES = 5 * 1024 * 1024;
 
+/**
+ * Upload to the private resumes bucket — path MUST start with the
+ * user's own uid (storage RLS enforces it) — then record the pointer on
+ * the profile row immediately (worked example order), so a successful
+ * upload can never become an orphaned object if the user closes the tab
+ * before the final save.
+ */
 export async function uploadResume(
   file: File,
 ): Promise<{ path: string; filename: string }> {
@@ -121,12 +246,27 @@ export async function uploadResume(
   }
   const uid = await currentUserId();
   if (!uid) throw new Error("not signed in — nothing was uploaded");
-  // One canonical path per user: re-upload replaces, never accumulates.
-  const path = `${uid}/resume.pdf`;
+  const path = `${uid}/${file.name}`;
   const { error } = await client()
     .storage.from(CONTRACT.resumesBucket)
     .upload(path, file, { upsert: true, contentType: "application/pdf" });
   if (error) throw new Error(error.message);
+  const { error: recordError } = await client()
+    .from(CONTRACT.profilesTable)
+    .upsert(
+      {
+        user_id: uid,
+        resume_object_path: path,
+        resume_filename: file.name,
+        resume_uploaded_at: new Date().toISOString(),
+      },
+      { onConflict: "user_id" },
+    );
+  if (recordError) {
+    throw new Error(
+      `uploaded, but recording it on your profile failed: ${recordError.message}`,
+    );
+  }
   return { path, filename: file.name };
 }
 
@@ -145,7 +285,7 @@ export async function listMyApplications(): Promise<ApplicationRowPublic[]> {
   const { data, error } = await client()
     .from(CONTRACT.applicationsView)
     .select("*")
-    .order("submitted_at", { ascending: false, nullsFirst: false });
+    .order("engine_updated_at", { ascending: false });
   if (error) throw new Error(error.message);
   return (data as ApplicationRowPublic[]) ?? [];
 }

@@ -3,12 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { Icon } from "../components/Icon";
 import { Skeleton } from "../components/Skeleton";
 import {
+  EMPLOYMENT_TYPE_OPTIONS,
   EMPTY_PROFILE,
+  WORK_AUTH_OPTIONS,
   type ProfileDraft,
 } from "./contract";
 import {
   getMyProfile,
   redeemPendingInvite,
+  rowToDraft,
   saveMyProfile,
   uploadResume,
   type InviteRedemption,
@@ -16,16 +19,18 @@ import {
 
 /**
  * The consumer onboarding wizard — the profile Dispatch will answer
- * employer forms from, written by the user in their own words.
+ * employer forms from, written by the user in their own words, stored
+ * in the launcher-owned user_profiles row (own-row RLS).
  *
  * Product rules carried into the UI:
  * - Work authorization is the user's OWN explicit answer, chosen from
- *   labeled options; there is no default, no inference, and "prefer to
- *   answer per-application" (blank) is a legal state that simply makes
- *   those questions to-dos later.
- * - Saving is one explicit action on the review step. Steps validate
- *   what a form can't work without, and say what's missing instead of
- *   silently disabling buttons.
+ *   the schema's labeled options; there is no default, no inference,
+ *   and "ask me per-application" (null in the row) is a legal state
+ *   that simply makes those questions to-dos later.
+ * - Saving is one explicit action on the review step, and that final
+ *   save stamps onboarding_completed_at — per the contract, the engine
+ *   ignores profiles until it is non-null, so nothing acts on a
+ *   half-finished profile.
  * - Every failure (load, upload, save, invite redemption) renders the
  *   real error. Nothing pretends.
  * - NO demographic/EEO questions (gender, race, veteran status,
@@ -75,12 +80,9 @@ export function ProfileWizardPage(): JSX.Element {
       ),
     );
     void Promise.race([getMyProfile(), timeout])
-      .then((p) => {
+      .then((row) => {
         if (!alive) return;
-        if (p) {
-          const { user_id: _uid, updated_at: _at, ...rest } = p;
-          setDraft({ ...EMPTY_PROFILE, ...rest });
-        }
+        if (row) setDraft(rowToDraft(row));
       })
       .catch((err: unknown) => {
         if (alive) {
@@ -106,7 +108,7 @@ export function ProfileWizardPage(): JSX.Element {
     }
     if (n === 1) {
       if (!draft.school.trim()) return "School is on nearly every form — fill it in.";
-      if (draft.graduation_year && !/^\d{4}$/.test(draft.graduation_year.trim())) {
+      if (draft.grad_year && !/^\d{4}$/.test(draft.grad_year.trim())) {
         return "Graduation year should be a 4-digit year (e.g. 2027).";
       }
     }
@@ -164,7 +166,11 @@ export function ProfileWizardPage(): JSX.Element {
       {invite.outcome === "redeemed" ? (
         <div className="banner ok">
           <Icon name="check" size={14} /> Invite <code>{invite.code}</code>{" "}
-          applied — your dashboard shows the application quota it granted.
+          applied
+          {invite.maxApplications !== null
+            ? ` — it covers ${invite.maxApplications} completed applications`
+            : ""}
+          . Your dashboard tracks the quota.
         </div>
       ) : null}
       {invite.outcome === "failed" ? (
@@ -226,11 +232,51 @@ export function ProfileWizardPage(): JSX.Element {
               />
             </label>
             <label className="field">
-              where you live <span className="faint">(city, state)</span>
+              city
               <input
-                value={draft.location}
-                onChange={(e) => set("location", e.target.value)}
-                placeholder="Pittsburgh, PA"
+                value={draft.location_city}
+                onChange={(e) => set("location_city", e.target.value)}
+                placeholder="Pittsburgh"
+              />
+            </label>
+            <label className="field">
+              state / region
+              <input
+                value={draft.location_region}
+                onChange={(e) => set("location_region", e.target.value)}
+                placeholder="PA"
+              />
+            </label>
+            <label className="field">
+              country
+              <input
+                value={draft.location_country}
+                onChange={(e) => set("location_country", e.target.value)}
+                placeholder="USA"
+              />
+            </label>
+            <label className="field">
+              LinkedIn URL <span className="faint">(optional)</span>
+              <input
+                value={draft.linkedin_url}
+                onChange={(e) => set("linkedin_url", e.target.value)}
+                placeholder="https://linkedin.com/in/…"
+              />
+            </label>
+            <label className="field">
+              GitHub URL <span className="faint">(optional)</span>
+              <input
+                value={draft.github_url}
+                onChange={(e) => set("github_url", e.target.value)}
+                placeholder="https://github.com/…"
+              />
+            </label>
+            <label className="field">
+              portfolio URL <span className="faint">(optional)</span>
+              <input
+                value={draft.portfolio_url}
+                onChange={(e) => set("portfolio_url", e.target.value)}
+                placeholder="https://…"
               />
             </label>
           </div>
@@ -255,18 +301,18 @@ export function ProfileWizardPage(): JSX.Element {
               />
             </label>
             <label className="field">
-              major
+              field of study
               <input
-                value={draft.major}
-                onChange={(e) => set("major", e.target.value)}
+                value={draft.field}
+                onChange={(e) => set("field", e.target.value)}
                 placeholder="Computer Science"
               />
             </label>
             <label className="field">
               graduation year
               <input
-                value={draft.graduation_year}
-                onChange={(e) => set("graduation_year", e.target.value)}
+                value={draft.grad_year}
+                onChange={(e) => set("grad_year", e.target.value)}
                 inputMode="numeric"
                 placeholder="2027"
               />
@@ -283,19 +329,28 @@ export function ProfileWizardPage(): JSX.Element {
               for you instead.
             </p>
             <span className="field">
-              Are you legally authorized to work in the United States?
-              <span className="wizard-options" role="radiogroup" aria-label="Work authorization">
-                {(["yes", "no", ""] as const).map((v) => (
-                  <label key={`auth-${v || "unset"}`} className="wizard-option">
+              Your work authorization in the United States
+              <span className="wizard-options wizard-options-stack" role="radiogroup" aria-label="Work authorization">
+                {WORK_AUTH_OPTIONS.map((opt) => (
+                  <label key={opt.value} className="wizard-option">
                     <input
                       type="radio"
-                      name="work_authorized_us"
-                      checked={draft.work_authorized_us === v}
-                      onChange={() => set("work_authorized_us", v)}
+                      name="work_authorization"
+                      checked={draft.work_authorization === opt.value}
+                      onChange={() => set("work_authorization", opt.value)}
                     />
-                    {v === "yes" ? "Yes" : v === "no" ? "No" : "ask me per-application"}
+                    {opt.label}
                   </label>
                 ))}
+                <label className="wizard-option">
+                  <input
+                    type="radio"
+                    name="work_authorization"
+                    checked={draft.work_authorization === ""}
+                    onChange={() => set("work_authorization", "")}
+                  />
+                  ask me per-application
+                </label>
               </span>
             </span>
             <span className="field">
@@ -319,10 +374,14 @@ export function ProfileWizardPage(): JSX.Element {
 
         {step === 3 ? (
           <ResumeStep
-            path={draft.resume_path}
+            path={draft.resume_object_path}
             filename={draft.resume_filename}
             onUploaded={(path, filename) =>
-              setDraft((d) => ({ ...d, resume_path: path, resume_filename: filename }))
+              setDraft((d) => ({
+                ...d,
+                resume_object_path: path,
+                resume_filename: filename,
+              }))
             }
           />
         ) : null}
@@ -332,25 +391,25 @@ export function ProfileWizardPage(): JSX.Element {
             <label className="field">
               roles you want <span className="faint">(comma-separated)</span>
               <input
-                value={draft.desired_roles}
-                onChange={(e) => set("desired_roles", e.target.value)}
+                value={draft.titles}
+                onChange={(e) => set("titles", e.target.value)}
                 placeholder="Software Engineer Intern, Data Analyst"
               />
             </label>
             <label className="field">
               locations <span className="faint">(comma-separated, or &quot;anywhere&quot;)</span>
               <input
-                value={draft.desired_locations}
-                onChange={(e) => set("desired_locations", e.target.value)}
+                value={draft.locations}
+                onChange={(e) => set("locations", e.target.value)}
                 placeholder="NYC, remote"
               />
             </label>
             <label className="field">
               work style
               <select
-                value={draft.work_style}
+                value={draft.remote}
                 onChange={(e) =>
-                  set("work_style", e.target.value as ProfileDraft["work_style"])
+                  set("remote", e.target.value as ProfileDraft["remote"])
                 }
               >
                 <option value="">no preference</option>
@@ -360,11 +419,36 @@ export function ProfileWizardPage(): JSX.Element {
                 <option value="any">any</option>
               </select>
             </label>
+            <span className="field">
+              employment types
+              <span className="wizard-options">
+                {EMPLOYMENT_TYPE_OPTIONS.map((t) => (
+                  <label key={t} className="wizard-option">
+                    <input
+                      type="checkbox"
+                      checked={draft.employment_types.includes(t)}
+                      onChange={(e) =>
+                        set(
+                          "employment_types",
+                          e.target.checked
+                            ? [...draft.employment_types, t]
+                            : draft.employment_types.filter((x) => x !== t),
+                        )
+                      }
+                    />
+                    {t.replace("_", "-")}
+                  </label>
+                ))}
+              </span>
+            </span>
             <label className="field">
-              earliest start <span className="faint">(free text — &quot;May 2027&quot;, &quot;immediately&quot;)</span>
+              minimum salary, USD/year{" "}
+              <span className="faint">(optional — leave blank to skip)</span>
               <input
-                value={draft.earliest_start}
-                onChange={(e) => set("earliest_start", e.target.value)}
+                value={draft.min_salary_usd}
+                onChange={(e) => set("min_salary_usd", e.target.value)}
+                inputMode="numeric"
+                placeholder="e.g. 70000"
               />
             </label>
           </div>
@@ -375,28 +459,54 @@ export function ProfileWizardPage(): JSX.Element {
             <p className="muted flush-top">
               This is everything Dispatch may put on a form for you.
               Anything blank stays blank on forms and becomes a to-do when
-              required. Nothing is saved until you hit save.
+              required. Saving marks your onboarding complete — that is
+              what tells Dispatch this profile is ready to apply from.
             </p>
             <dl className="kv">
               <dt>name</dt><dd>{draft.full_name || "—"}</dd>
               <dt>phone</dt><dd>{draft.phone || "—"}</dd>
-              <dt>location</dt><dd>{draft.location || "—"}</dd>
+              <dt>location</dt>
+              <dd>
+                {[draft.location_city, draft.location_region, draft.location_country]
+                  .filter(Boolean)
+                  .join(", ") || "—"}
+              </dd>
+              <dt>links</dt>
+              <dd>
+                {[draft.linkedin_url, draft.github_url, draft.portfolio_url]
+                  .filter(Boolean)
+                  .join(" · ") || "—"}
+              </dd>
               <dt>education</dt>
               <dd>
-                {[draft.degree, draft.major].filter(Boolean).join(" ") || "—"}
-                {draft.school ? ` · ${draft.school}` : ""}
-                {draft.graduation_year ? ` · ${draft.graduation_year}` : ""}
+                {[
+                  [draft.degree, draft.field].filter(Boolean).join(" "),
+                  draft.school,
+                  draft.grad_year,
+                ]
+                  .filter(Boolean)
+                  .join(" · ") || "—"}
               </dd>
-              <dt>US work authorization</dt>
-              <dd>{draft.work_authorized_us || "ask me per-application"}</dd>
+              <dt>work authorization</dt>
+              <dd>
+                {WORK_AUTH_OPTIONS.find((o) => o.value === draft.work_authorization)
+                  ?.label ?? "ask me per-application"}
+              </dd>
               <dt>needs sponsorship</dt>
               <dd>{draft.needs_sponsorship || "ask me per-application"}</dd>
               <dt>resume</dt>
               <dd>{draft.resume_filename ?? "none uploaded"}</dd>
-              <dt>roles</dt><dd>{draft.desired_roles || "—"}</dd>
-              <dt>locations</dt><dd>{draft.desired_locations || "—"}</dd>
-              <dt>work style</dt><dd>{draft.work_style || "no preference"}</dd>
-              <dt>earliest start</dt><dd>{draft.earliest_start || "—"}</dd>
+              <dt>roles</dt><dd>{draft.titles || "—"}</dd>
+              <dt>locations</dt><dd>{draft.locations || "—"}</dd>
+              <dt>work style</dt><dd>{draft.remote || "no preference"}</dd>
+              <dt>employment types</dt>
+              <dd>
+                {draft.employment_types.length > 0
+                  ? draft.employment_types.map((t) => t.replace("_", "-")).join(", ")
+                  : "—"}
+              </dd>
+              <dt>minimum salary</dt>
+              <dd>{draft.min_salary_usd ? `$${draft.min_salary_usd}/yr` : "—"}</dd>
             </dl>
           </>
         ) : null}
@@ -418,7 +528,7 @@ export function ProfileWizardPage(): JSX.Element {
               disabled={saving}
             >
               <Icon name="check" size={14} />{" "}
-              {saving ? "saving…" : "save my profile"}
+              {saving ? "saving…" : "save — I'm ready to apply"}
             </button>
           )}
         </div>
@@ -453,8 +563,8 @@ function ResumeStep(props: {
     <div className="wizard-fields">
       <p className="muted flush-top">
         One PDF, up to 5&nbsp;MB. It is stored privately for your account
-        and attached to applications that ask for one; uploading again
-        replaces it.
+        and recorded on your profile the moment the upload succeeds;
+        uploading a file with the same name replaces it.
       </p>
       {error ? <div className="banner warn">{error}</div> : null}
       {props.path ? (

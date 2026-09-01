@@ -92,12 +92,10 @@ export function DashboardPage(): JSX.Element {
         </div>
         <div className="stat">
           <div className="label">quota remaining</div>
-          <div className="value">
-            {quota ? Math.max(quota.granted - quota.used, 0) : "—"}
-          </div>
+          <div className="value">{quota ? quota.remaining : "—"}</div>
           <div className="hint">
             {quota
-              ? `${quota.used} used of ${quota.granted} granted`
+              ? `${quota.completed_applications} completed of ${quota.max_completed_applications} your invite covers`
               : "unknown until your invite is applied"}
           </div>
         </div>
@@ -144,6 +142,7 @@ export function DashboardPage(): JSX.Element {
                   <th>company</th>
                   <th>role</th>
                   <th>status</th>
+                  <th>via</th>
                   <th>submitted</th>
                   <th>receipt</th>
                 </tr>
@@ -160,6 +159,7 @@ export function DashboardPage(): JSX.Element {
                         {a.status.toLowerCase().replace(/_/g, " ")}
                       </span>
                     </td>
+                    <td className="mono">{a.source_ats ?? "—"}</td>
                     <td className="mono">
                       {a.submitted_at
                         ? new Date(a.submitted_at).toLocaleDateString()

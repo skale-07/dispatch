@@ -19,7 +19,8 @@ import { DashboardPage } from "./DashboardPage";
  * Route map:
  *   /            landing (the story + sign-up CTA)
  *   /signup      magic-link sign-up + invite redemption
- *   /invite/:c   invite link entry — lands on signup with the code
+ *   /redeem      minted invite links (?code=JRA-XXXX-XXXX, per contract)
+ *   /invite/:c   invite link entry — alias for the same page
  *   /onboarding  profile wizard (protected)
  *   /dashboard   applications + receipts + quota (protected)
  */
@@ -93,6 +94,7 @@ function PublicChrome(): JSX.Element {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/signup" element={<SignupPage />} />
+          <Route path="/redeem" element={<SignupPage />} />
           <Route path="/invite/:code" element={<SignupPage />} />
           <Route
             path="/onboarding"
