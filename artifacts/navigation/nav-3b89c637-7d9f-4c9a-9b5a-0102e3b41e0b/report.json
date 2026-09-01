@@ -1,0 +1,45 @@
+{
+  "run_id": "nav-3b89c637-7d9f-4c9a-9b5a-0102e3b41e0b",
+  "application_id": "b4619451-03ea-4592-8e13-3a9966c4b411",
+  "jobright_job_id": "6a837cbf379c304e892f7b8e",
+  "method": "apply_click_popup",
+  "resolved_url": "https://bear-robotics.breezy.hr/p/b8d4995f6d23-software-engineering-intern-developer-productivit",
+  "resolved_ats": "generic",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no congruent apply href (11 external links)",
+      "evidence": "bear-robotics.breezy.hr, www.linkedin.com, x.com, www.crunchbase.com, bearrobotics.ai, www.techtimes.com"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "resolved via popup",
+      "evidence": "bear-robotics.breezy.hr"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "phase A: 8 external host(s) seen: bear-robotics.breezy.hr, www.linkedin.com, x.com, www.crunchbase.com, bearrobotics.ai, www.techtimes.com, www.techinasia.com, www.einpresswire.com",
+    "Apply control: autofill CTA (tier 0)",
+    "jobright interstitial: clicked \"Apply Without Customizing\"",
+    "popup captured on attempt 1"
+  ],
+  "congruence": {
+    "verdict": "match",
+    "slug": "bear",
+    "detail": "token \"bear\" ~ slug \"bear\" (from URL tenant)",
+    "expected_company": "Bear Robotics",
+    "url": "https://bear-robotics.breezy.hr/p/b8d4995f6d23-software-engineering-intern-developer-productivit?jr_id=6a837cbf379c304e892f7b8e"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-09-01T18:41:27.911Z"
+}
