@@ -48,7 +48,18 @@ export function samePostingPath(finalPath: string, expectedPath: string): boolea
         .replace(/[,'’.]/g, "")
     );
   };
-  return norm(finalPath) === norm(expectedPath);
+  const a = norm(finalPath);
+  const b = norm(expectedPath);
+  if (a === b) return true;
+  // #129 (live gem 2026-09-01): the STORED slug arrived truncated by one
+  // character ("…-developer-productivit" vs the page's "…-productivity")
+  // — same /p/<id>- posting id, refused on a storage artifact. When one
+  // normalized path is a strict PREFIX of the other and the shorter side
+  // is long enough to be a real slug (id + words, ≥30 chars), they are
+  // the same posting; different ids still diverge inside the prefix.
+  const shorter = a.length <= b.length ? a : b;
+  const longer = a.length <= b.length ? b : a;
+  return shorter.length >= 30 && longer.startsWith(shorter);
 }
 
 /**

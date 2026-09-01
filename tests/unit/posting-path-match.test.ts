@@ -78,6 +78,24 @@ describe("#90b underscore locales (Avature en_US)", () => {
   });
 });
 
+describe("#129 truncated stored slug (UNIT_CONFIRMED)", () => {
+  it("a strict prefix ≥30 chars is the same posting; short prefixes and different ids are not", () => {
+    expect(
+      samePostingPath(
+        "/p/b8d4995f6d23-software-engineering-intern-developer-productivity/apply",
+        "/p/b8d4995f6d23-software-engineering-intern-developer-productivit",
+      ),
+    ).toBe(true);
+    expect(
+      samePostingPath(
+        "/p/OTHERID99999-software-engineering-intern-developer-productivity",
+        "/p/b8d4995f6d23-software-engineering-intern-developer-productivit",
+      ),
+    ).toBe(false);
+    expect(samePostingPath("/jobs/123/senior", "/jobs/123/senior-engineer")).toBe(false);
+  });
+});
+
 describe("#120 SmartRecruiters oneclick continuation (UNIT_CONFIRMED)", () => {
   const FINAL =
     "/oneclick-ui/company/BoschGroup/publication/446c4bba-6632-46e1-ab8f-1dfa2b037d1b";

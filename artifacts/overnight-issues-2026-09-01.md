@@ -197,6 +197,31 @@ Walls, in order (operator co-debugged live):
   wrong" sign-in rejection; the next run rode the re-established session.
 - Outreach: 5 @finastra.com insiders drafting.
 
+## Afternoon general loop (operator: any board, any time, one job/cycle)
+
+- Day/night shift policy added then REVERTED same-day (operator: "attempt
+  any job and improve the system at all times"). discover_max now 1.
+- **Zipline SUBMITTED → COMPLETED** (e2087abe, one 188s cycle). ⚠ JobRight
+  data flag: ghao@zoox.com under Zipline — not drafted.
+- **Bear Robotics (Gem) SUBMITTED → COMPLETED** (b4619451, run 5) — first
+  Gem-board submission. Walls: **#129** stored slug truncated by one char
+  → prefix rule (≥30 chars) in samePostingPath; **#129b** #122 waiver
+  extended to TEXT evidence (cover letter verified at fill, submit read
+  empty/truncated); **#130** radio groups labeled by their own OPTION
+  ("Male" as the gender question, "White (not Hispanic or Latino)" as
+  race) — a demographic group took a wrong-question option pick TWICE,
+  caught by the submit gate both times, never submitted. Collapse now
+  relabels via the semantic shared name (gender, race_ethnicity) ONLY
+  when members carry ≥2 distinct labels (wrapping radios keep their
+  question label — the first #130 cut regressed exactly that and was
+  fixed against tests). Outreach: 3/3 @bearrobotics.ai drafts verified.
+- Suite flake storm reproduced memory's warning: 15 portal-auth + 2
+  automation-worker timeouts while drafts ran concurrently; all pass in
+  isolation. Gate re-run solo: 1470/1470.
+- CDP wedge cure refined: launcher-spawned Chrome dies with the parent
+  shell — launch DETACHED (Start-Process) and verify with real
+  connectOverCDP.
+
 ## State snapshot (13:30)
 
 - Sierra 44fb9eb1: run 6 in flight (all four fixes live).

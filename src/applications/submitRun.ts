@@ -676,7 +676,7 @@ export async function runAtsSubmission(input: {
                    WHERE fill_run_id = (
                      SELECT id FROM fill_runs WHERE application_id = ?
                      ORDER BY created_at DESC LIMIT 1)
-                   AND verify_match = 1 AND selected_option IS NOT NULL`,
+                   AND verify_match = 1`,
                 )
                 .all(applicationId) as typeof committed;
             } catch {
@@ -704,7 +704,7 @@ export async function runAtsSubmission(input: {
                   c.field_id === f.canonical_field ||
                   (planFieldId !== undefined && c.field_id === planFieldId),
               );
-              if (!record?.selected_option) return f;
+              if (!record) return f;
               // observed may be null, "", or an OBJECT ({label,value} from
               // the select reader) — "[object Object]" must not defeat the
               // comparison, and an empty label is an empty control.
@@ -718,24 +718,47 @@ export async function runAtsSubmission(input: {
                 return String(o).trim();
               };
               const observedText = observedToText(f.observed);
+              if (record.selected_option) {
+                if (
+                  observedText !== "" &&
+                  labelsCompatible(record.selected_option, observedText)
+                ) {
+                  waived.push(
+                    `${f.canonical_field}: page shows "${observedText}" — the fill stage committed and verified exactly this (#122)`,
+                  );
+                  return { ...f, match: true };
+                }
+                if (observedText === "") {
+                  // The submit-stage reader cannot see this control's
+                  // committed value (hydrated React-select reads null while
+                  // the display node shows the pick) — the fill run's OWN
+                  // read-back verified it on this page. The
+                  // required-completeness scan before the click reads the
+                  // display nodes and remains the empty-form backstop.
+                  waived.push(
+                    `${f.canonical_field}: unreadable at submit — the fill stage committed and verified "${record.selected_option}" (#122)`,
+                  );
+                  return { ...f, match: true };
+                }
+                return f;
+              }
+              // #129b TEXT evidence (no selected_option — textarea/input
+              // rows, live gem cover letter): the fill run verified this
+              // exact field; an empty or PREFIX-truncated submit-side
+              // read is a reader artifact, not a lost value. Non-empty
+              // DIVERGENT text stays a failure.
+              const expectedText =
+                f.expected === null || f.expected === undefined
+                  ? ""
+                  : String(f.expected).trim();
               if (
-                observedText !== "" &&
-                labelsCompatible(record.selected_option, observedText)
+                observedText === "" ||
+                (expectedText.length >= 40 &&
+                  (expectedText.startsWith(observedText) ||
+                    observedText.startsWith(expectedText)))
               ) {
                 waived.push(
-                  `${f.canonical_field}: page shows "${observedText}" — the fill stage committed and verified exactly this (#122)`,
-                );
-                return { ...f, match: true };
-              }
-              if (observedText === "") {
-                // The submit-stage reader cannot see this control's
-                // committed value (hydrated React-select reads null while
-                // the display node shows the pick) — the fill run's OWN
-                // read-back verified "${selected_option}" on this page.
-                // The required-completeness scan before the click reads
-                // the display nodes and remains the empty-form backstop.
-                waived.push(
-                  `${f.canonical_field}: unreadable at submit — the fill stage committed and verified "${record.selected_option}" (#122)`,
+                  `${f.canonical_field}: fill-stage verified text; submit read ${observedText === "" ? "empty" : "a truncated prefix"} (#129b)`,
                 );
                 return { ...f, match: true };
               }

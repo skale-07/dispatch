@@ -288,6 +288,24 @@ export function discoverFieldsFromHtml(
       if (name === "candidateIsPreviousWorker") {
         label = "Are you a former employee or returning applicant?";
       }
+      // #130 (live gem 2026-09-01): the EEO radios put the question in a
+      // bare <h3> the label ladders miss, so the GROUP got labeled by its
+      // first OPTION — "White (not Hispanic or Latino)" masqueraded as
+      // the question, mis-mapped to hispanic_latino, and a demographic
+      // group took a wrong-question answer (caught by the submit gate,
+      // never submitted). When the resolved label IS one of the group's
+      // option texts and the shared name is a semantic word
+      // (gender, race_ethnicity — not a hex/uuid), the humanized name is
+      // the honest question label.
+      if (
+        name &&
+        /^[a-z][a-z0-9_]{2,30}$/.test(name) &&
+        !/^[0-9a-f]{8,}$/.test(name) &&
+        (label === optionText || label.trim() === "" )
+      ) {
+        const humanized = name.replace(/_+/g, " ").trim();
+        if (humanized.length >= 3) label = humanized;
+      }
       options = [optionText];
     }
 
@@ -680,11 +698,15 @@ function radioOptionText(input: {
 
 function collapseRadioGroups(fields: DiscoveredField[]): DiscoveredField[] {
   const radios = new Map<string, DiscoveredField>();
+  const memberLabels = new Map<string, string[]>();
   const out: DiscoveredField[] = [];
   for (const f of fields) {
     if (f.type === "radio" && f.name) {
       const optionSlice =
         f.options && f.options.length > 0 ? f.options : [f.label];
+      if (f.label) {
+        memberLabels.set(f.name, [...(memberLabels.get(f.name) ?? []), f.label]);
+      }
       const existing = radios.get(f.name);
       if (existing) {
         existing.options = [...(existing.options ?? []), ...optionSlice];
@@ -701,6 +723,31 @@ function collapseRadioGroups(fields: DiscoveredField[]): DiscoveredField[] {
     } else {
       out.push(f);
     }
+  }
+  // #130 (live gem 2026-09-01): a multi-member group whose label is one
+  // of its OWN member labels was never a question — "Male" masqueraded
+  // as the gender question and "White (not Hispanic or Latino)" as race,
+  // mis-mapping a DEMOGRAPHIC group onto the wrong canonical
+  // (hispanic_latino clicked an option on the race group; the submit
+  // gate caught it, nothing submitted). A semantic shared name (gender,
+  // race_ethnicity — not a hex/uuid or numbered placeholder) is the
+  // honest label then.
+  const normed = (s: string | undefined | null): string =>
+    (s ?? "").toLowerCase().replace(/[^a-z0-9]/g, "");
+  for (const [name, group] of radios) {
+    const members = memberLabels.get(name) ?? [];
+    if (members.length < 2) continue;
+    // Wrapping radios share ONE label across members — that shared text
+    // IS the question ("…text communications…"); only DISTINCT member
+    // labels ("Male"/"Female") are options masquerading as the question.
+    const distinct = new Set(members.map(normed));
+    if (distinct.size < 2) continue;
+    if (!members.some((m) => normed(m) === normed(group.label))) continue;
+    if (!/^[a-z][a-z0-9_]{2,30}$/.test(name)) continue;
+    if (/^[0-9a-f]{8,}$/.test(name)) continue;
+    if (/^(q|question|field|input|option|answer)?_?\d*$/.test(name)) continue;
+    group.label = name.replace(/_+/g, " ").trim();
+    delete group.inputId;
   }
   return out;
 }
