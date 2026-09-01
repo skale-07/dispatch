@@ -527,7 +527,7 @@ function cleanLabel(s: string): string {
 }
 
 /** Headings carry entities that a question text must not; decode the common ones. */
-function decodeEntities(s: string): string {
+export function decodeEntities(s: string): string {
   return s
     .replace(/&amp;/gi, "&")
     .replace(/&nbsp;/gi, " ")

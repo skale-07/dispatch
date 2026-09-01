@@ -28,7 +28,11 @@ export type ComboboxFillResult = {
 };
 
 export type OptionPick =
-  | { ok: true; label: string; via: "exact" | "ci_exact" | "unique_substring" | "synonym" }
+  | {
+      ok: true;
+      label: string;
+      via: "exact" | "ci_exact" | "unique_substring" | "synonym" | "other_fallback";
+    }
   | { ok: false; reason: string };
 
 const PLACEHOLDER_RE = /^select\.{0,3}…?$|^select…$|^select\.\.\.$/i;
@@ -1257,7 +1261,7 @@ async function listboxForControl(page: Page, loc: Locator): Promise<Locator> {
 async function clickListedOption(
   listbox: Locator,
   expected: string,
-): Promise<{ label: string; via: "exact" | "ci_exact" | "unique_substring" | "synonym" } | null> {
+): Promise<{ label: string; via: Extract<OptionPick, { ok: true }>["via"] } | null> {
   // Length cap 200, not 80 (live tiaa 2026-08-31 #97): Workday consent
   // prompts offer SENTENCE options ("Yes, I hereby Consent and “Opt-in”
   // to …", ~150 chars) — the 80-char junk filter silently dropped the

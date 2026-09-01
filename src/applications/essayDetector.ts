@@ -119,7 +119,11 @@ export function isDemographicsField(field: DiscoveredField): boolean {
   const n = normalizeFieldLabel(
     `${field.label} ${field.name ?? ""} ${field.inputId ?? ""}`,
   );
-  return /gender|race|ethnicity|veteran|disability|hispanic|latino|transgender|eeo|equal opportunity|decline to (self-)?identify|sexual orientation|pronoun/.test(
+  // pronouns?\b, not bare "pronoun": Sierra's live "Name pronounciation"
+  // (sic) question contains the substring and was deferred to the
+  // demographics policy path — a phonetic-spelling screener is not an
+  // EEO field (2026-09-01, #118).
+  return /gender|race|ethnicity|veteran|disability|hispanic|latino|transgender|eeo|equal opportunity|decline to (self-)?identify|sexual orientation|pronouns?\b/.test(
     n,
   );
 }

@@ -1,5 +1,8 @@
 import type { DiscoveredField } from "../adapter.js";
-import { discoverFieldsFromHtml } from "../../applications/fieldDiscovery.js";
+import {
+  decodeEntities,
+  discoverFieldsFromHtml,
+} from "../../applications/fieldDiscovery.js";
 import { ashbySelectorsV1 } from "./selectors.js";
 
 /**
@@ -22,7 +25,9 @@ export function looksLikeUnrenderedShell(html: string): boolean {
 }
 
 function stripTags(s: string): string {
-  return s.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+  return decodeEntities(s.replace(/<[^>]+>/g, " "))
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 function getAttr(attrs: string, name: string): string | null {
@@ -240,18 +245,106 @@ export function discoverAshbyFieldsetGroups(html: string): {
   return { fields, consumedNames };
 }
 
+/**
+ * Autocomplete questions (live sierra 2026-09-01, #117): Ashby's
+ * `ashby-application-form-input-autocomplete` input has NO id, name, or
+ * label[for] — the question-title label's `for` points at the field's
+ * uuid, which exists only as the wrapper's data-field-path. The generic
+ * pass therefore surfaced the input labeled by its PLACEHOLDER ("Start
+ * typing...", synthetic id f_N), which the bank then mis-mapped (the
+ * Sierra "What University do you currently attend?" question planned a
+ * city). One field per autocomplete: id = the title's `for` uuid (the
+ * data-field-path locator tier resolves it), label = the question text.
+ * Options stay unknown at plan time — the list is fetched as you type.
+ */
+export function discoverAshbyAutocompletes(html: string): {
+  fields: DiscoveredField[];
+  /** Placeholder texts consumed — suppress their generic twins. */
+  placeholders: Set<string>;
+} {
+  const fields: DiscoveredField[] = [];
+  const placeholders = new Set<string>();
+
+  // Question-title label positions, in document order.
+  const titleRe = new RegExp(QUESTION_TITLE_RE.source, "gi");
+  const titles: { index: number; tag: string; text: string }[] = [];
+  let t: RegExpExecArray | null;
+  while ((t = titleRe.exec(html)) !== null) {
+    titles.push({
+      index: t.index,
+      tag: t[0] ?? "",
+      text: stripTags(t[1] ?? "")
+        .replace(/\s*\*\s*$/, "")
+        .trim(),
+    });
+  }
+
+  const inputRe =
+    /<input\b([^>]*class=["'][^"']*input-autocomplete[^"']*["'][^>]*)>/gi;
+  let m: RegExpExecArray | null;
+  while ((m = inputRe.exec(html)) !== null) {
+    // Closest preceding question title within the same field block.
+    let title: { index: number; tag: string; text: string } | null = null;
+    for (const cand of titles) {
+      if (cand.index < m.index) title = cand;
+      else break;
+    }
+    if (!title || !title.text || m.index - title.index > 4_000) continue;
+    const forId = getAttr(title.tag, "for");
+    if (!forId) continue;
+    const placeholder = getAttr(m[1] ?? "", "placeholder");
+    if (placeholder) placeholders.add(placeholder.trim());
+    // No name/inputId on purpose: the input carries neither, and setting
+    // one would send locatorForField down an exact-attribute tier that
+    // matches nothing. The bare uuid id resolves via the
+    // data-field-path wrapper tier.
+    fields.push({
+      id: forId,
+      label: title.text,
+      type: "text",
+      required: /_required_/.test(title.tag),
+    });
+  }
+  return { fields, placeholders };
+}
+
 export function ashbyDiscoverFields(html: string): DiscoveredField[] {
   const groups = discoverAshbyFieldsetGroups(html);
+  const autos = discoverAshbyAutocompletes(html);
+  const autoIds = new Set(autos.fields.map((f) => f.id));
   const generic = discoverFieldsFromHtml(html).filter((f) => {
     // Drop the per-option inputs a fieldset group already represents —
     // they are answers, not questions, and 38 of them drowned the plan.
     if (f.name && groups.consumedNames.has(f.name)) return false;
-    if (groups.consumedNames.has(f.label)) return false;
+    // Label collision is only evidence for OPTION-SHAPED fields
+    // (checkbox/radio members, member ids, synthetic ids). Live sierra
+    // 2026-09-01 (#119): the real "LinkedIn" URL field was swallowed here
+    // because "LinkedIn" is also an option of "How did you hear…" — a
+    // text control with its own uuid id is a question, not an option.
+    if (
+      groups.consumedNames.has(f.label) &&
+      (f.type === "checkbox" ||
+        f.type === "radio" ||
+        /^f_\d+$/.test(f.id) ||
+        /-labeled-(?:checkbox|radio)-\d+$/.test(f.id))
+    ) {
+      return false;
+    }
+    // Drop the placeholder-labeled twin of an autocomplete question
+    // (synthetic f_N id only — a real id/name wins over the rebuild).
+    if (
+      /^f_\d+$/.test(f.id) &&
+      autos.placeholders.has(f.label.trim()) &&
+      !autoIds.has(f.id)
+    ) {
+      return false;
+    }
     return true;
   });
   return [
     ...generic,
     ...groups.fields,
+    ...autos.fields,
     ...discoverAshbyButtonGroups(html),
   ];
 }

@@ -33,6 +33,13 @@ import {
   readAshbyComboboxValue,
 } from "./comboboxFill.js";
 import {
+  fillNativeGroup,
+  locateNativeGroup,
+  readNativeGroupValue,
+  type NativeGroupProbe,
+} from "./nativeGroupFill.js";
+import { isDemographicsField } from "../../applications/essayDetector.js";
+import {
   detectButtonGroup,
   fillButtonGroup,
   readButtonGroupValue,
@@ -140,16 +147,32 @@ export async function ashbyFillFromPlan(
 ): Promise<FillResult> {
   assertFormFillAllowed("ashby.fill");
 
+  // (The 2026-09-01 "lazy mount" scroll sweep was removed: a live probe
+  // of the Sierra form found all 27 data-field-path wrappers mounted
+  // without any scrolling — the real "control not found" fix was the
+  // data-field-path locator tier (#114b) plus the native-group dispatch
+  // below (#116).)
   const groupEntries = entries.filter((e) => isRadioEntry(e, fieldMeta));
   const rest = entries.filter((e) => !isRadioEntry(e, fieldMeta));
+  const nativeEntries: { entry: ExecutableFillEntry; probe: NativeGroupProbe }[] = [];
   const comboboxEntries: ExecutableFillEntry[] = [];
   const delegateEntries: ExecutableFillEntry[] = [];
   for (const e of rest) {
-    if (isApprovedExecutable(e) && (await isComboboxEntry(page, e, fieldMeta))) {
-      comboboxEntries.push(e);
-    } else {
-      delegateEntries.push(e);
+    if (isApprovedExecutable(e)) {
+      // #116: native fieldset radio/checkbox groups first — they carry
+      // type:"select" from discovery, and the combobox ladder can only
+      // fail on them (there is no listbox to open).
+      const probe = await locateNativeGroup(page, e.field_id);
+      if (probe) {
+        nativeEntries.push({ entry: e, probe });
+        continue;
+      }
+      if (await isComboboxEntry(page, e, fieldMeta)) {
+        comboboxEntries.push(e);
+        continue;
+      }
     }
+    delegateEntries.push(e);
   }
 
   const base = await greenhouseFillFromPlan(page, delegateEntries, fieldMeta);
@@ -157,6 +180,38 @@ export async function ashbyFillFromPlan(
   const skipped = [...base.skipped];
   const errors = [...base.errors];
   const field_meta: FieldFillMeta[] = [...(base.field_meta ?? [])];
+
+  for (const { entry, probe } of nativeEntries) {
+    try {
+      assertExecutableApprovedEntry(entry as ApprovedFillPlanEntry);
+    } catch (err) {
+      errors.push(
+        `${entry.field_id}: ${err instanceof Error ? err.message : String(err)}`,
+      );
+      continue;
+    }
+    try {
+      const result = await fillNativeGroup(page, probe.group, entry.value);
+      field_meta.push({
+        field_id: entry.field_id,
+        canonical_field: entry.canonical_field,
+        control_kind: `native_${probe.kind}_group`,
+        selected_option: result.selectedLabel,
+        match_via: result.pickVia ?? null,
+        notes: result.notes,
+      });
+      if (!result.committed) {
+        throw new Error(
+          `native ${probe.kind} group option not committed: ${result.notes.join("; ")}`,
+        );
+      }
+      filled.push(entry.canonical_field ?? entry.field_id);
+    } catch (err) {
+      errors.push(
+        `${entry.field_id}: ${err instanceof Error ? err.message : String(err)}`,
+      );
+    }
+  }
 
   for (const entry of comboboxEntries) {
     try {
@@ -172,6 +227,16 @@ export async function ashbyFillFromPlan(
         page,
         entryLocator(page, entry, fieldMeta),
         entry.value,
+        {
+          // Screener escape hatch only — demographic/EEO fields never
+          // take the form's "Other" (see comboboxFill.ts #117).
+          allowOtherFallback: !isDemographicsField({
+            id: entry.field_id,
+            label: entry.label,
+            type: "text",
+            required: false,
+          }),
+        },
       );
       field_meta.push({
         field_id: entry.field_id,
@@ -258,19 +323,57 @@ export async function ashbyVerifyFromPlan(
 ): Promise<FormVerificationResult> {
   const groupEntries = entries.filter((e) => isRadioEntry(e, fieldMeta));
   const rest = entries.filter((e) => !isRadioEntry(e, fieldMeta));
+  const nativeVerify: { entry: ExecutableFillEntry; probe: NativeGroupProbe }[] = [];
   const comboboxEntries: ExecutableFillEntry[] = [];
   const delegateEntries: ExecutableFillEntry[] = [];
   for (const e of rest) {
-    if (isVerifiableFill(e) && (await isComboboxEntry(page, e, fieldMeta))) {
-      comboboxEntries.push(e);
-    } else {
-      delegateEntries.push(e);
+    if (isVerifiableFill(e)) {
+      const probe = await locateNativeGroup(page, e.field_id);
+      if (probe) {
+        nativeVerify.push({ entry: e, probe });
+        continue;
+      }
+      if (await isComboboxEntry(page, e, fieldMeta)) {
+        comboboxEntries.push(e);
+        continue;
+      }
     }
+    delegateEntries.push(e);
   }
 
   const base = await greenhouseVerifyFromPlan(page, delegateEntries, fieldMeta);
   const fields = [...base.fields];
   const warnings = [...base.warnings];
+
+  for (const { entry, probe } of nativeVerify) {
+    const canonical = entry.canonical_field ?? entry.field_id;
+    try {
+      const observed = await readNativeGroupValue(probe.group);
+      // A checkbox group may legitimately hold extra checked members from
+      // the plan's other values; match when ANY checked label satisfies
+      // the expectation (pickOptionLabel keeps the synonym policy).
+      const checkedLabels = observed === null ? [] : observed.split("; ");
+      const match =
+        checkedLabels.length > 0 &&
+        pickOptionLabel(checkedLabels, String(entry.value)).ok;
+      fields.push({
+        canonical_field: canonical,
+        expected: entry.value,
+        observed,
+        match,
+      });
+    } catch (err) {
+      warnings.push(
+        `verify ${canonical}: ${err instanceof Error ? err.message : String(err)}`,
+      );
+      fields.push({
+        canonical_field: canonical,
+        expected: entry.value,
+        observed: null,
+        match: false,
+      });
+    }
+  }
 
   for (const entry of comboboxEntries) {
     const canonical = entry.canonical_field ?? entry.field_id;
@@ -278,8 +381,23 @@ export async function ashbyVerifyFromPlan(
       const observed = await readAshbyComboboxValue(
         entryLocator(page, entry, fieldMeta),
       );
+      // The screener "Other" escape hatch (comboboxFill.ts #117) commits
+      // the form's own Other when the planned value is not in the list —
+      // accept it here under the same non-demographic gate, or verify
+      // would refuse the very fill the policy sanctioned.
+      const otherAccepted =
+        observed !== null &&
+        /^other(\s*\(please specify\))?$/i.test(observed) &&
+        !isDemographicsField({
+          id: entry.field_id,
+          label: entry.label,
+          type: "text",
+          required: false,
+        });
       const match =
-        observed !== null && pickOptionLabel([observed], String(entry.value)).ok;
+        (observed !== null &&
+          pickOptionLabel([observed], String(entry.value)).ok) ||
+        otherAccepted;
       fields.push({
         canonical_field: canonical,
         expected: entry.value,
