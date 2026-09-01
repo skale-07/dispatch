@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { samePostingPath } from "../../src/ats/shared/preMutationGate.js";
+import {
+  oneclickContinuationConvicted,
+  samePostingPath,
+} from "../../src/ats/shared/preMutationGate.js";
 
 /**
  * Night19 #51 (2026-08-30, Philips careers): the site canonicalised the
@@ -72,5 +75,55 @@ describe("#90b underscore locales (Avature en_US)", () => {
     const { samePostingPath } = await import("../../src/ats/shared/preMutationGate.js");
     expect(samePostingPath("/en_US/careers/JobDetail", "/careers/JobDetail")).toBe(true);
     expect(samePostingPath("/en_US/careers/OtherPage", "/careers/JobDetail")).toBe(false);
+  });
+});
+
+describe("#120 SmartRecruiters oneclick continuation (UNIT_CONFIRMED)", () => {
+  const FINAL =
+    "/oneclick-ui/company/BoschGroup/publication/446c4bba-6632-46e1-ab8f-1dfa2b037d1b";
+  const EXPECTED =
+    "/BoschGroup/744000146546699-calibration-process-data-science-intern-8-months-40-hours-per-week-";
+
+  it("convicts with same company + oneclick shape + requisition id in the page", () => {
+    expect(
+      oneclickContinuationConvicted(
+        FINAL,
+        EXPECTED,
+        "<h1>Calibration Process Data Science Intern</h1> ref 744000146546699",
+      ),
+    ).toBe(true);
+  });
+
+  it("refuses without the requisition id in the page", () => {
+    expect(
+      oneclickContinuationConvicted(FINAL, EXPECTED, "<h1>Some other job</h1>"),
+    ).toBe(false);
+  });
+
+  it("refuses a different company segment", () => {
+    expect(
+      oneclickContinuationConvicted(
+        "/oneclick-ui/company/OtherCo/publication/446c4bba-6632-46e1-ab8f-1dfa2b037d1b",
+        EXPECTED,
+        "744000146546699",
+      ),
+    ).toBe(false);
+  });
+
+  it("refuses when the expected slug carries no requisition id, and non-oneclick paths", () => {
+    expect(
+      oneclickContinuationConvicted(
+        FINAL,
+        "/BoschGroup/some-job-without-req-id",
+        "744000146546699",
+      ),
+    ).toBe(false);
+    expect(
+      oneclickContinuationConvicted(
+        "/BoschGroup/other-posting-path",
+        EXPECTED,
+        "744000146546699",
+      ),
+    ).toBe(false);
   });
 });

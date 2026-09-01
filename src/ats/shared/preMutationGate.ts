@@ -51,6 +51,35 @@ export function samePostingPath(finalPath: string, expectedPath: string): boolea
   return norm(finalPath) === norm(expectedPath);
 }
 
+/**
+ * #120 (live bosch 2026-09-01): SmartRecruiters redirects the validated
+ * slug URL (/BoschGroup/744000146546699-calibration-…) to its "Easy
+ * apply" flow at /oneclick-ui/company/BoschGroup/publication/<uuid> — a
+ * path that can never string-match the slug, so the path gate refused a
+ * page we navigated to OURSELVES from the validated posting. The rescue
+ * is deliberately tight, per the #81 doctrine (the requisition id
+ * convicts): same company segment, oneclick shape, AND the validated
+ * posting's requisition id (the ≥9-digit slug prefix) present in the
+ * rendered page (probe: the id appears in the oneclick HTML alongside
+ * the exact title). No req id in the expected slug ⇒ no rescue.
+ */
+export function oneclickContinuationConvicted(
+  finalPath: string,
+  expectedPath: string,
+  html: string,
+): boolean {
+  const expSegs = expectedPath.split("/").filter((s) => s.length > 0);
+  const company = expSegs[0];
+  const slug = expSegs[1] ?? "";
+  const reqId = slug.match(/^(\d{9,})/)?.[1];
+  if (!company || !reqId) return false;
+  const m = finalPath.match(
+    /^\/oneclick-ui\/company\/([^/]+)\/publication\/[0-9a-f-]+$/i,
+  );
+  if (!m || m[1]?.toLowerCase() !== company.toLowerCase()) return false;
+  return html.includes(reqId);
+}
+
 export type GenericPreMutationGateResult = {
   ok: boolean;
   finalUrl: string;
@@ -144,7 +173,10 @@ export async function verifyPageBeforeMutationGeneric(
         /\/+$/,
         "",
       );
-      if (!samePostingPath(finalPath, expectedPath)) {
+      if (
+        !samePostingPath(finalPath, expectedPath) &&
+        !oneclickContinuationConvicted(finalPath, expectedPath, html)
+      ) {
         return fail(
           "POSTING_MISMATCH",
           `final path ${finalPath} is not the validated posting ${expectedPath} — redirected posting is never filled`,

@@ -77,6 +77,27 @@ walk (fill verified; submit gate: 3 required text fields unanswered — the
   it gets banked and Sierra submits. AskUserQuestion + Gmail MCP are
   permission-blocked in dontAsk mode, so asked via chat text.
 
+## Job: f173d837 Bosch — Calibration Process Data Science Intern
+(SmartRecruiters via generic adapter)
+
+- **#120** POSTING_MISMATCH false refusal: SmartRecruiters redirects the
+  validated slug URL to /oneclick-ui/company/BoschGroup/publication/<uuid>
+  ("Easy apply"), which can never string-match the slug. Probe: the oneclick
+  page carries the requisition id 744000146546699 AND the exact title in
+  the H1. Rescue tier `oneclickContinuationConvicted` (preMutationGate):
+  same company segment + oneclick shape + requisition id present in the
+  rendered page — the #81 doctrine (req id convicts) applied to the page
+  body when the URL cannot carry identity. 9/9 tests. Cycle also
+  self-healed a dead CDP session (restart 1/3) — first live confirmation
+  of the CDP restart path.
+- Rerun with #120: posting gate PASSES, next wall is real — the oneclick
+  page offers ONLY "Apply With Indeed" / "Apply with SEEK" external-account
+  routes (probe: zero direct inputs; screenshot
+  artifacts/probes/night24-bosch/01-oneclick.png). Apply→Indeed OAuth
+  sign-in wall; no Indeed session on file. Parked AUTH_REQUIRED —
+  ⚠ OPERATOR: one manual Indeed sign-in in the debug Chrome (like TIAA),
+  then requeue f173d837; or apply manually.
+
 ## State snapshot (13:30)
 
 - Sierra 44fb9eb1: run 6 in flight (all four fixes live).
