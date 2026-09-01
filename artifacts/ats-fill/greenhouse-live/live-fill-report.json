@@ -1,7 +1,7 @@
 {
   "mode": "executed",
   "ats": "greenhouse",
-  "url": "https://boards.greenhouse.io/stripe/jobs/8128745",
+  "url": "https://boards.greenhouse.io/databricks/jobs/8732364002",
   "plan": {
     "answers": {
       "legal_name.first": "Shubham",
@@ -11,22 +11,19 @@
       "phone": "***-***-7636",
       "address.city": "Baltimore",
       "degree": "Bachelor of Science",
-      "major": "Applied Mathematics and Statistics",
-      "start_year": "2025",
-      "screener:custom:school_not_listed_name": "Johns Hopkins University",
-      "screener:custom:predicted:question_68581547": "ACT: 35",
-      "screener:custom:cumulative_gpa": "3.7",
-      "preferred_name": "Shubham",
-      "pronouns": "He/Him",
+      "graduation_month": "May",
+      "graduation_year": "2029",
+      "screener:custom:expected_graduation_date": "Later than Summer 2028",
+      "screener:custom:gpa_range": "3.6 or above (out of 4.0)",
+      "screener:custom:predicted:question_37911666002[]": "San Francisco, CA",
+      "screener:availability_full_time": "Yes",
       "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
-      "screener:custom:competing_offers": "No",
-      "screener:internship_term": "Summer (May - September)",
-      "screener:custom:second_cohort_flexibility": "Winter (January - April)",
-      "screener:custom:first_location_preference": "I am open to working in any office",
-      "screener:custom:second_location_preference": "I am open to working in any office",
-      "screener:custom:third_location_preference": "I am open to working in any office",
-      "screener:work_authorization": "[REDACTED_SPONSORSHIP]",
-      "requires_sponsorship": "[REDACTED_SPONSORSHIP]",
+      "how_heard": "LinkedIn",
+      "work_authorization": "[REDACTED_SPONSORSHIP]",
+      "screener:requires_sponsorship": "[REDACTED_SPONSORSHIP]",
+      "screener:previously_applied_or_worked": "No",
+      "screener:custom:predicted:question_37893698002[]": "None of the above",
+      "screener:custom:predicted:question_37893699002[]": "Not applicable (i.e., I selected “none of the above” for the prior question)",
       "gender": "Male",
       "hispanic_latino": "No",
       "veteran_status": "I am not a veteran",
@@ -49,6 +46,15 @@
         "canonical_field": "legal_name.last",
         "action": "fill",
         "value": "Kale",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "preferred_name",
+        "label": "Preferred First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "fill",
+        "value": "Shubham",
         "reason": "Mapped from public profile"
       },
       {
@@ -106,15 +112,6 @@
         "reason": "File uploads handled via uploadResume/uploadCoverLetter"
       },
       {
-        "field_id": "cover_letter",
-        "label": "Attach",
-        "type": "file",
-        "canonical_field": null,
-        "action": "skip_file",
-        "value": null,
-        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
-      },
-      {
         "field_id": "school--0",
         "label": "School",
         "type": "text",
@@ -133,52 +130,25 @@
         "reason": "Mapped from public profile; placed onto \"Bachelor's Degree\""
       },
       {
-        "field_id": "discipline--0",
-        "label": "Discipline",
+        "field_id": "end-month--0",
+        "label": "End date month",
         "type": "text",
-        "canonical_field": "major",
+        "canonical_field": "graduation_month",
         "action": "fill",
-        "value": "Mathematics",
-        "reason": "Mapped from public profile; placed onto \"Mathematics\""
-      },
-      {
-        "field_id": "start-year--0",
-        "label": "Start date year",
-        "type": "text",
-        "canonical_field": "start_year",
-        "action": "fill",
-        "value": "2025",
+        "value": "May",
         "reason": "Mapped from public profile"
       },
       {
-        "field_id": "question_68843617",
-        "label": "We are always aiming to keep our school list inclusive of all institutions. If you did not see your University listed in the previous question, please let us know your school name here.",
+        "field_id": "end-year--0",
+        "label": "End date year",
         "type": "text",
-        "canonical_field": "screener:custom:school_not_listed_name",
+        "canonical_field": "graduation_year",
         "action": "fill",
-        "value": "Johns Hopkins University",
-        "reason": "Screener bank answer (free_text)"
+        "value": "2029",
+        "reason": "Mapped from public profile"
       },
       {
-        "field_id": "question_68581547",
-        "label": "As part of our commitment to understanding candidates' backgrounds, we invite you to share your SAT or ACT score if you feel comfortable. This information is optional and will help us in evaluating your application alongside your other qualifications.",
-        "type": "text",
-        "canonical_field": "screener:custom:predicted:question_68581547",
-        "action": "fill",
-        "value": "ACT: 35",
-        "reason": "Predicted from operator context (llm_predict): Exact match to a learned_answers label pair giving the candidate's standardized test score."
-      },
-      {
-        "field_id": "question_68581548",
-        "label": "Similarly, we also invite you to provide your GPA, this can help us further understand your academic experience.",
-        "type": "text",
-        "canonical_field": "screener:custom:cumulative_gpa",
-        "action": "fill",
-        "value": "3.7",
-        "reason": "Screener bank answer (free_text)"
-      },
-      {
-        "field_id": "question_68584724",
+        "field_id": "question_37893689002",
         "label": "Attach",
         "type": "file",
         "canonical_field": null,
@@ -187,26 +157,53 @@
         "reason": "File uploads handled via uploadResume/uploadCoverLetter"
       },
       {
-        "field_id": "question_68581549",
-        "label": "Preferred Name",
-        "type": "text",
-        "canonical_field": "preferred_name",
-        "action": "fill",
-        "value": "Shubham",
-        "reason": "Mapped from public profile"
+        "field_id": "question_37911664002",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "skip_file",
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
       },
       {
-        "field_id": "question_68581550",
-        "label": "Pronouns",
+        "field_id": "question_37893690002",
+        "label": "What is your graduation date?",
         "type": "text",
-        "canonical_field": "pronouns",
+        "canonical_field": "screener:custom:expected_graduation_date",
         "action": "fill",
-        "value": "He/Him",
-        "reason": "Mapped from sensitive profile (operator-supplied)"
+        "value": "Later than Summer 2028",
+        "reason": "Screener bank answer (llm_option)"
       },
       {
-        "field_id": "question_68581551",
-        "label": "LinkedIn Profile, Github, Personal Website, or Portfolio",
+        "field_id": "question_37911665002",
+        "label": "What is your GPA?",
+        "type": "text",
+        "canonical_field": "screener:custom:gpa_range",
+        "action": "fill",
+        "value": "3.6 or above (out of 4.0)",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_37911666002[]",
+        "label": "Please choose the single location that you",
+        "type": "checkbox",
+        "canonical_field": "screener:custom:predicted:question_37911666002[]",
+        "action": "fill",
+        "value": "San Francisco, CA",
+        "reason": "Predicted from operator context (llm_predict): Candidate is willing to relocate and San Francisco is the most likely preferred US tech hub given his early-stage startup and AI interests."
+      },
+      {
+        "field_id": "question_37929335002",
+        "label": "Are you able to work full-time (40 hours) in-person at one of our 3 eligible offices during January-April?",
+        "type": "text",
+        "canonical_field": "screener:availability_full_time",
+        "action": "fill",
+        "value": "Yes",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_37893692002",
+        "label": "LinkedIn Profile",
         "type": "text",
         "canonical_field": "linkedin_url",
         "action": "fill",
@@ -214,85 +211,67 @@
         "reason": "Mapped from public profile"
       },
       {
-        "field_id": "question_68581553",
-        "label": "Do you have an active offer deadline or another recruiting-process deadline we should be aware of? If yes, please share the deadline date and any relevant context.",
-        "type": "textarea",
-        "canonical_field": "screener:custom:competing_offers",
+        "field_id": "question_37893693002",
+        "label": "Website",
+        "type": "text",
+        "canonical_field": "personal_website",
+        "action": "skip_empty",
+        "value": null,
+        "reason": "Profile value empty for personal_website"
+      },
+      {
+        "field_id": "question_37893694002",
+        "label": "How did you hear about this job?",
+        "type": "text",
+        "canonical_field": "how_heard",
+        "action": "fill",
+        "value": "LinkedIn Job Posting",
+        "reason": "Mapped from public profile; placed onto \"LinkedIn Job Posting\""
+      },
+      {
+        "field_id": "question_37893695002",
+        "label": "Are you legally authorized to work in the country in which you are applying?",
+        "type": "text",
+        "canonical_field": "work_authorization",
+        "action": "fill",
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_37893696002",
+        "label": "Do you now or will you in the future need sponsorship for employment visa status in the country in which you are applying?",
+        "type": "text",
+        "canonical_field": "screener:requires_sponsorship",
+        "action": "fill",
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Screener bank answer (profile_derived)"
+      },
+      {
+        "field_id": "question_37893697002",
+        "label": "Do you currently or have you previously worked for Databricks in the past?",
+        "type": "text",
+        "canonical_field": "screener:previously_applied_or_worked",
         "action": "fill",
         "value": "No",
-        "reason": "Screener bank answer (free_text)"
+        "reason": "Screener bank answer (exact_option)"
       },
       {
-        "field_id": "question_68581554",
-        "label": "As Stripe grows, we are always aiming to expand our recruitment presence at conferences and gatherings. Please let us know of any conferences you’re planning to attend this year or have previously attended to help inform our team about future recruitment opportunities.",
-        "type": "textarea",
-        "canonical_field": "essay:generated:question_68581554",
-        "action": "fill",
-        "value": "The gatherings I've attended so far have come out of my own projects rather than a formal conference circuit. I was a national finalist at the Junior Science and Humanities Symposium for my Valley Fever work, where I presented an SIR-style epidemiological model I built in Python along with a microcontroller-based dust sensor I programmed in C/C++. More recently, ClarityAtlas, the iOS health product I lead technically at Open Health Intelligence, was selected for NSF I-Corps and the Johns Hopkins Pava Spark Accelerator, both of which involved cohort programming, customer discovery, and presenting to outside groups. Through that project I also presented to Johns Hopkins President Ron Daniels and leadership from the Hopkins Data Science and AI Institute. I don't have a confirmed conference schedule for this year yet, but the events most likely to reach people like me are university accelerator demo days, NSF I-Corps cohorts, and Hopkins Data Science and AI Institute events, since those are where students who are actually shipping products tend to show up.",
-        "reason": "Essay generated from the operator's about-me context"
-      },
-      {
-        "field_id": "question_68675431[]",
-        "label": "We host cohorts of 12 or 16 week internships over Winter or Summer. The ranges listed here are approximate and, in the case of Summer, offer a range of start dates that best fit your academic calendar that are shared closer to the start of the program. Please choose which cohort works best for you.",
+        "field_id": "question_37893698002[]",
+        "label": "Please confirm whether any of the below applies to you. Select all that apply. Note: This information will only be used to ensure compliance with U.S. sanctions and export controls.",
         "type": "checkbox",
-        "canonical_field": "screener:internship_term",
+        "canonical_field": "screener:custom:predicted:question_37893698002[]",
         "action": "fill",
-        "value": "Summer (May - September)",
-        "reason": "Screener bank answer (llm_option)"
+        "value": "None of the above",
+        "reason": "Predicted from operator context (llm_predict): Candidate is U.S.-based in Baltimore, Maryland with U.S. work authorization and no sanctioned-country ties."
       },
       {
-        "field_id": "question_68675600",
-        "label": "Do you have flexibility to consider a second cohort option? Your answer will not negatively impact your application.",
-        "type": "text",
-        "canonical_field": "screener:custom:second_cohort_flexibility",
+        "field_id": "question_37893699002[]",
+        "label": "If you selected a response to the prior question other than “none of the above,” please confirm whether any of the following also applies to you. Select all that apply.",
+        "type": "checkbox",
+        "canonical_field": "screener:custom:predicted:question_37893699002[]",
         "action": "fill",
-        "value": "Winter (January - April)",
-        "reason": "Screener bank answer (exact_option)"
-      },
-      {
-        "field_id": "question_68675604",
-        "label": "First location preference:",
-        "type": "text",
-        "canonical_field": "screener:custom:first_location_preference",
-        "action": "fill",
-        "value": "I am open to working in any office",
-        "reason": "Screener bank answer (exact_option)"
-      },
-      {
-        "field_id": "question_68581556",
-        "label": "Second location preference",
-        "type": "text",
-        "canonical_field": "screener:custom:second_location_preference",
-        "action": "fill",
-        "value": "I am open to working in any office",
-        "reason": "Screener bank answer (exact_option)"
-      },
-      {
-        "field_id": "question_68581557",
-        "label": "Third location preference",
-        "type": "text",
-        "canonical_field": "screener:custom:third_location_preference",
-        "action": "fill",
-        "value": "I am open to working in any office",
-        "reason": "Screener bank answer (exact_option)"
-      },
-      {
-        "field_id": "question_68702648",
-        "label": "Are you currently eligible to work in the United States?",
-        "type": "text",
-        "canonical_field": "screener:work_authorization",
-        "action": "fill",
-        "value": "[REDACTED_SPONSORSHIP]",
-        "reason": "Screener bank answer (llm_option)"
-      },
-      {
-        "field_id": "question_68581559",
-        "label": "Do you require visa sponsorship, now or in the future, to continue working in the United States?",
-        "type": "text",
-        "canonical_field": "requires_sponsorship",
-        "action": "fill",
-        "value": "[REDACTED_SPONSORSHIP]",
-        "reason": "Mapped from public profile; placed onto \"No, I do not require visa sponsorship now or in the future to continue working in the country where this role is based.\""
+        "value": "Not applicable (i.e., I selected “none of the above” for the prior question)",
+        "reason": "Predicted from operator context (llm_predict): Since \"None of the above\" was selected on the prior question, the follow-up is not applicable."
       },
       {
         "field_id": "gender",
@@ -331,33 +310,37 @@
         "reason": "Mapped from sensitive profile (operator-supplied)"
       }
     ],
-    "fillable_count": 28,
-    "skipped_count": 5,
+    "fillable_count": 25,
+    "skipped_count": 6,
     "review_required_count": 0
   },
   "submit_attempted": false,
   "notes": [
     "session: handoff (caller-owned page, not closed here)",
-    "gate passed but the page has no applicant-identity fields — treating as posting shell (samsara-type chrome), running Apply + hop recovery",
-    "no hopable iframe after landing miss — frames: main https://stripe.com/careers/search?gh_jid=8128745 | https://b.stripecdn.com/stripethirdparty-srv/assets/v33.1/PrivacyCompliance.html?id=0147ff04-e089-409a-bd7e-3a6a6bb80e68&origin=https%3A%2F%2Fstripe.com | https://b.stripecdn.com/stripethirdparty-srv/assets/v33.1/GoogleTagManager.html?id=3bff52f7-16c3-4012-aacf-11d26199a8d8&origin=https%3A%2F%2F",
-    "posting shell without Apply or iframe — navigating to the canonical embed app https://boards.greenhouse.io/embed/job_app?for=stripe&token=8128745",
-    "schema diff: 19/22 declared question(s) matched onto 33 DOM field(s); 3 declared-only (1 required); 14 DOM-only",
-    "board API declared 22 question(s); matched complete option lists onto 7 field(s)",
+    "popups dismissed: close (aria-label)",
+    "landed on a posting (no fields, Apply CTA present); clicking Apply via role=button \"Apply now\"",
+    "Apply landed on: posting (no fields, Apply CTA present)",
+    "landed on a posting (no fields, Apply CTA present); clicking Apply via role=button \"Apply now\"",
+    "Apply landed on: posting (no fields, Apply CTA present)",
+    "still on a posting after 2 Apply click(s) — giving up rather than filling the listing page",
+    "application form found in an iframe (31 fields) — hopping to https://job-boards.greenhouse.io/embed/job_app?for=databricks&validityToken=Lt4lHU1U07uVlDqb7utDjExW3QVJQ19ISTWq5Ab7Tf2r7JnG2UZPOKeoJjoGswpcEW0s2pfBC3KCbpxkBq7s747DxPHUJrKuiWT0nROfwRyqojs0ssCyXc-b2CmyQpHN1Efjb99neqjIasZsangirNIxMkZhUAfE5ZGv1hiyDNi8RANGW-6s5jcqTnxKcHyHgfuueBjWaffJg3hqi4ctT8g7H4XL8M5I8dscnfbBk4_tcnmvgeN6b9cS6vqcW39jRiQqzycFjOnH6LOHy0HacyNZpkOJ_GqVl1NQRc39poBAJWOnm2-1OvJVDAIlRthAtP4DtrV4WIb41qaTEqTxIw%3D%3D&token=8732364002",
+    "schema diff: 17/20 declared question(s) matched onto 31 DOM field(s); 3 declared-only (3 required); 14 DOM-only",
+    "board API declared 20 question(s); matched complete option lists onto 10 field(s)",
     "option harvest: \"Location (City)\" is a combobox but offered no readable options",
-    "option harvest: scraped real options for 8/20 control(s) before planning",
+    "option harvest: scraped real options for 8/17 control(s) before planning",
     "frozen after fill→verify→upload — no further field mutation; submit never called"
   ],
   "validation_level": "LIVE_MUTATION_CONFIRMED",
-  "final_url": "https://job-boards.greenhouse.io/embed/job_app?for=stripe&token=8128745",
+  "final_url": "https://job-boards.greenhouse.io/embed/job_app?for=databricks&validityToken=Lt4lHU1U07uVlDqb7utDjExW3QVJQ19ISTWq5Ab7Tf2r7JnG2UZPOKeoJjoGswpcEW0s2pfBC3KCbpxkBq7s747DxPHUJrKuiWT0nROfwRyqojs0ssCyXc-b2CmyQpHN1Efjb99neqjIasZsangirNIxMkZhUAfE5ZGv1hiyDNi8RANGW-6s5jcqTnxKcHyHgfuueBjWaffJg3hqi4ctT8g7H4XL8M5I8dscnfbBk4_tcnmvgeN6b9cS6vqcW39jRiQqzycFjOnH6LOHy0HacyNZpkOJ_GqVl1NQRc39poBAJWOnm2-1OvJVDAIlRthAtP4DtrV4WIb41qaTEqTxIw%3D%3D&token=8732364002",
   "identity_verification": {
-    "requestedUrl": "https://boards.greenhouse.io/stripe/jobs/8128745",
-    "finalUrl": "https://job-boards.greenhouse.io/embed/job_app?for=stripe&token=8128745",
-    "requestedJobId": "8128745",
-    "observedJobId": "8128745",
-    "company": "stripe",
-    "role": "Job Application for Software Engineer, Intern (Summer or Winter) at Stripe",
+    "requestedUrl": "https://boards.greenhouse.io/databricks/jobs/8732364002",
+    "finalUrl": "https://job-boards.greenhouse.io/embed/job_app?for=databricks&validityToken=Lt4lHU1U07uVlDqb7utDjExW3QVJQ19ISTWq5Ab7Tf2r7JnG2UZPOKeoJjoGswpcEW0s2pfBC3KCbpxkBq7s747DxPHUJrKuiWT0nROfwRyqojs0ssCyXc-b2CmyQpHN1Efjb99neqjIasZsangirNIxMkZhUAfE5ZGv1hiyDNi8RANGW-6s5jcqTnxKcHyHgfuueBjWaffJg3hqi4ctT8g7H4XL8M5I8dscnfbBk4_tcnmvgeN6b9cS6vqcW39jRiQqzycFjOnH6LOHy0HacyNZpkOJ_GqVl1NQRc39poBAJWOnm2-1OvJVDAIlRthAtP4DtrV4WIb41qaTEqTxIw%3D%3D&token=8732364002",
+    "requestedJobId": "8732364002",
+    "observedJobId": "8732364002",
+    "company": "databricks",
+    "role": "Job Application for Software Engineering Intern (2027 Start) - Winter at Databricks",
     "formDetected": true,
-    "fieldCount": 33,
+    "fieldCount": 31,
     "warnings": [
       "login_wall_low: auth_provider_marker"
     ],
@@ -384,23 +367,23 @@
   "failure_code": null,
   "mutation_attempted": true,
   "schema_diff": {
-    "board": "stripe",
-    "job_id": "8128745",
-    "declared_count": 22,
-    "dom_count": 33,
-    "matched": 19,
+    "board": "databricks",
+    "job_id": "8732364002",
+    "declared_count": 20,
+    "dom_count": 31,
+    "matched": 17,
     "api_only": [
       {
         "label": "Resume/CV",
         "required": true
       },
       {
-        "label": "Cover Letter",
-        "required": false
+        "label": "Please provide a recent transcript",
+        "required": true
       },
       {
-        "label": "Please upload your academic record document (e.g. University Transcript, Transcript of Records, Marksheet, or Statement of Marks).",
-        "required": false
+        "label": "Please provide a recent transcript of your graduate studies (if applicable)",
+        "required": true
       }
     ],
     "dom_only": [
@@ -408,11 +391,11 @@
       "Search",
       "Location (City)",
       "Attach",
-      "Attach",
       "School",
       "Degree",
-      "Discipline",
-      "Start date year",
+      "End date month",
+      "End date year",
+      "Attach",
       "Attach",
       "Gender",
       "Are you Hispanic/Latino?",
@@ -465,7 +448,6 @@
         "Aalborg University",
         "Aalto University",
         "Aarhus University",
-        "Abdullah Gul University",
         "Abertay University",
         "Aberystwyth University",
         "Abilene Christian University",
@@ -480,13 +462,14 @@
         "Adelphi University",
         "Adrian College",
         "Adventist University of Health Sciences",
-        "African Leadership University",
-        "African University of Science and Technology",
-        "AGH University of Science and Technology",
         "Agnes Scott College",
-        "Ahmedabad University",
         "AIB College of Business",
-        "Ain Shams University"
+        "Ain Shams University",
+        "Airlangga University",
+        "Ajou University",
+        "Alabama A&M University",
+        "Alabama State University",
+        "Alaska Pacific University"
       ],
       "other_option": null
     },
@@ -510,38 +493,25 @@
       "other_option": "Other"
     },
     {
-      "field_id": "discipline--0",
-      "label": "Discipline",
+      "field_id": "end-month--0",
+      "label": "End date month",
       "answer_space": "closed",
-      "option_count": 73,
+      "option_count": 12,
       "options": [
-        "Accounting",
-        "African Studies",
-        "Agriculture",
-        "Anthropology",
-        "Applied Health Services",
-        "Architecture",
-        "Art",
-        "Asian Studies",
-        "Biology",
-        "Business",
-        "Business Administration",
-        "Chemistry",
-        "Classical Languages",
-        "Communications & Film",
-        "Computer Science",
-        "Data Science",
-        "Dentistry",
-        "Developing Nations",
-        "Discipline Unknown",
-        "Earth Sciences",
-        "Economics",
-        "Education",
-        "Electronics",
-        "Engineering",
-        "English Studies"
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
       ],
-      "other_option": "Other"
+      "other_option": null
     },
     {
       "field_id": "gender",
@@ -615,6 +585,16 @@
         "reason": "Mapped from public profile"
       },
       {
+        "field_id": "preferred_name",
+        "label": "Preferred First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "FILL",
+        "approved": true,
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
         "field_id": "email",
         "label": "Email",
         "type": "text",
@@ -675,16 +655,6 @@
         "reason": "File uploads handled via uploadResume/uploadCoverLetter"
       },
       {
-        "field_id": "cover_letter",
-        "label": "Attach",
-        "type": "file",
-        "canonical_field": null,
-        "action": "SKIP",
-        "approved": false,
-        "value": null,
-        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
-      },
-      {
         "field_id": "school--0",
         "label": "School",
         "type": "text",
@@ -705,57 +675,27 @@
         "reason": "Mapped from public profile; placed onto \"Bachelor's Degree\""
       },
       {
-        "field_id": "discipline--0",
-        "label": "Discipline",
+        "field_id": "end-month--0",
+        "label": "End date month",
         "type": "text",
-        "canonical_field": "major",
+        "canonical_field": "graduation_month",
         "action": "FILL",
         "approved": true,
-        "value": "Mathematics",
-        "reason": "Mapped from public profile; placed onto \"Mathematics\""
-      },
-      {
-        "field_id": "start-year--0",
-        "label": "Start date year",
-        "type": "text",
-        "canonical_field": "start_year",
-        "action": "FILL",
-        "approved": true,
-        "value": "2025",
+        "value": "May",
         "reason": "Mapped from public profile"
       },
       {
-        "field_id": "question_68843617",
-        "label": "We are always aiming to keep our school list inclusive of all institutions. If you did not see your University listed in the previous question, please let us know your school name here.",
+        "field_id": "end-year--0",
+        "label": "End date year",
         "type": "text",
-        "canonical_field": "screener:custom:school_not_listed_name",
+        "canonical_field": "graduation_year",
         "action": "FILL",
         "approved": true,
-        "value": "Johns Hopkins University",
-        "reason": "Screener bank answer (free_text)"
+        "value": "2029",
+        "reason": "Mapped from public profile"
       },
       {
-        "field_id": "question_68581547",
-        "label": "As part of our commitment to understanding candidates' backgrounds, we invite you to share your SAT or ACT score if you feel comfortable. This information is optional and will help us in evaluating your application alongside your other qualifications.",
-        "type": "text",
-        "canonical_field": "screener:custom:predicted:question_68581547",
-        "action": "FILL",
-        "approved": true,
-        "value": "ACT: 35",
-        "reason": "Predicted from operator context (llm_predict): Exact match to a learned_answers label pair giving the candidate's standardized test score."
-      },
-      {
-        "field_id": "question_68581548",
-        "label": "Similarly, we also invite you to provide your GPA, this can help us further understand your academic experience.",
-        "type": "text",
-        "canonical_field": "screener:custom:cumulative_gpa",
-        "action": "FILL",
-        "approved": true,
-        "value": "3.7",
-        "reason": "Screener bank answer (free_text)"
-      },
-      {
-        "field_id": "question_68584724",
+        "field_id": "question_37893689002",
         "label": "Attach",
         "type": "file",
         "canonical_field": null,
@@ -765,28 +705,58 @@
         "reason": "File uploads handled via uploadResume/uploadCoverLetter"
       },
       {
-        "field_id": "question_68581549",
-        "label": "Preferred Name",
-        "type": "text",
-        "canonical_field": "preferred_name",
-        "action": "FILL",
-        "approved": true,
-        "value": "Shubham",
-        "reason": "Mapped from public profile"
+        "field_id": "question_37911664002",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
       },
       {
-        "field_id": "question_68581550",
-        "label": "Pronouns",
+        "field_id": "question_37893690002",
+        "label": "What is your graduation date?",
         "type": "text",
-        "canonical_field": "pronouns",
+        "canonical_field": "screener:custom:expected_graduation_date",
         "action": "FILL",
         "approved": true,
-        "value": "He/Him",
-        "reason": "Mapped from sensitive profile (operator-supplied)"
+        "value": "Later than Summer 2028",
+        "reason": "Screener bank answer (llm_option)"
       },
       {
-        "field_id": "question_68581551",
-        "label": "LinkedIn Profile, Github, Personal Website, or Portfolio",
+        "field_id": "question_37911665002",
+        "label": "What is your GPA?",
+        "type": "text",
+        "canonical_field": "screener:custom:gpa_range",
+        "action": "FILL",
+        "approved": true,
+        "value": "3.6 or above (out of 4.0)",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_37911666002[]",
+        "label": "Please choose the single location that you",
+        "type": "checkbox",
+        "canonical_field": "screener:custom:predicted:question_37911666002[]",
+        "action": "FILL",
+        "approved": true,
+        "value": "San Francisco, CA",
+        "reason": "Predicted from operator context (llm_predict): Candidate is willing to relocate and San Francisco is the most likely preferred US tech hub given his early-stage startup and AI interests."
+      },
+      {
+        "field_id": "question_37929335002",
+        "label": "Are you able to work full-time (40 hours) in-person at one of our 3 eligible offices during January-April?",
+        "type": "text",
+        "canonical_field": "screener:availability_full_time",
+        "action": "FILL",
+        "approved": true,
+        "value": "Yes",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_37893692002",
+        "label": "LinkedIn Profile",
         "type": "text",
         "canonical_field": "linkedin_url",
         "action": "FILL",
@@ -795,94 +765,74 @@
         "reason": "Mapped from public profile"
       },
       {
-        "field_id": "question_68581553",
-        "label": "Do you have an active offer deadline or another recruiting-process deadline we should be aware of? If yes, please share the deadline date and any relevant context.",
-        "type": "textarea",
-        "canonical_field": "screener:custom:competing_offers",
+        "field_id": "question_37893693002",
+        "label": "Website",
+        "type": "text",
+        "canonical_field": "personal_website",
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "Profile value empty for personal_website"
+      },
+      {
+        "field_id": "question_37893694002",
+        "label": "How did you hear about this job?",
+        "type": "text",
+        "canonical_field": "how_heard",
+        "action": "FILL",
+        "approved": true,
+        "value": "LinkedIn Job Posting",
+        "reason": "Mapped from public profile; placed onto \"LinkedIn Job Posting\""
+      },
+      {
+        "field_id": "question_37893695002",
+        "label": "Are you legally authorized to work in the country in which you are applying?",
+        "type": "text",
+        "canonical_field": "work_authorization",
+        "action": "FILL",
+        "approved": true,
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_37893696002",
+        "label": "Do you now or will you in the future need sponsorship for employment visa status in the country in which you are applying?",
+        "type": "text",
+        "canonical_field": "screener:requires_sponsorship",
+        "action": "FILL",
+        "approved": true,
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Screener bank answer (profile_derived)"
+      },
+      {
+        "field_id": "question_37893697002",
+        "label": "Do you currently or have you previously worked for Databricks in the past?",
+        "type": "text",
+        "canonical_field": "screener:previously_applied_or_worked",
         "action": "FILL",
         "approved": true,
         "value": "No",
-        "reason": "Screener bank answer (free_text)"
+        "reason": "Screener bank answer (exact_option)"
       },
       {
-        "field_id": "question_68581554",
-        "label": "As Stripe grows, we are always aiming to expand our recruitment presence at conferences and gatherings. Please let us know of any conferences you’re planning to attend this year or have previously attended to help inform our team about future recruitment opportunities.",
-        "type": "textarea",
-        "canonical_field": "essay:generated:question_68581554",
-        "action": "FILL",
-        "approved": true,
-        "value": "The gatherings I've attended so far have come out of my own projects rather than a formal conference circuit. I was a national finalist at the Junior Science and Humanities Symposium for my Valley Fever work, where I presented an SIR-style epidemiological model I built in Python along with a microcontroller-based dust sensor I programmed in C/C++. More recently, ClarityAtlas, the iOS health product I lead technically at Open Health Intelligence, was selected for NSF I-Corps and the Johns Hopkins Pava Spark Accelerator, both of which involved cohort programming, customer discovery, and presenting to outside groups. Through that project I also presented to Johns Hopkins President Ron Daniels and leadership from the Hopkins Data Science and AI Institute. I don't have a confirmed conference schedule for this year yet, but the events most likely to reach people like me are university accelerator demo days, NSF I-Corps cohorts, and Hopkins Data Science and AI Institute events, since those are where students who are actually shipping products tend to show up.",
-        "reason": "Essay generated from the operator's about-me context"
-      },
-      {
-        "field_id": "question_68675431[]",
-        "label": "We host cohorts of 12 or 16 week internships over Winter or Summer. The ranges listed here are approximate and, in the case of Summer, offer a range of start dates that best fit your academic calendar that are shared closer to the start of the program. Please choose which cohort works best for you.",
+        "field_id": "question_37893698002[]",
+        "label": "Please confirm whether any of the below applies to you. Select all that apply. Note: This information will only be used to ensure compliance with U.S. sanctions and export controls.",
         "type": "checkbox",
-        "canonical_field": "screener:internship_term",
+        "canonical_field": "screener:custom:predicted:question_37893698002[]",
         "action": "FILL",
         "approved": true,
-        "value": "Summer (May - September)",
-        "reason": "Screener bank answer (llm_option)"
+        "value": "None of the above",
+        "reason": "Predicted from operator context (llm_predict): Candidate is U.S.-based in Baltimore, Maryland with U.S. work authorization and no sanctioned-country ties."
       },
       {
-        "field_id": "question_68675600",
-        "label": "Do you have flexibility to consider a second cohort option? Your answer will not negatively impact your application.",
-        "type": "text",
-        "canonical_field": "screener:custom:second_cohort_flexibility",
+        "field_id": "question_37893699002[]",
+        "label": "If you selected a response to the prior question other than “none of the above,” please confirm whether any of the following also applies to you. Select all that apply.",
+        "type": "checkbox",
+        "canonical_field": "screener:custom:predicted:question_37893699002[]",
         "action": "FILL",
         "approved": true,
-        "value": "Winter (January - April)",
-        "reason": "Screener bank answer (exact_option)"
-      },
-      {
-        "field_id": "question_68675604",
-        "label": "First location preference:",
-        "type": "text",
-        "canonical_field": "screener:custom:first_location_preference",
-        "action": "FILL",
-        "approved": true,
-        "value": "I am open to working in any office",
-        "reason": "Screener bank answer (exact_option)"
-      },
-      {
-        "field_id": "question_68581556",
-        "label": "Second location preference",
-        "type": "text",
-        "canonical_field": "screener:custom:second_location_preference",
-        "action": "FILL",
-        "approved": true,
-        "value": "I am open to working in any office",
-        "reason": "Screener bank answer (exact_option)"
-      },
-      {
-        "field_id": "question_68581557",
-        "label": "Third location preference",
-        "type": "text",
-        "canonical_field": "screener:custom:third_location_preference",
-        "action": "FILL",
-        "approved": true,
-        "value": "I am open to working in any office",
-        "reason": "Screener bank answer (exact_option)"
-      },
-      {
-        "field_id": "question_68702648",
-        "label": "Are you currently eligible to work in the United States?",
-        "type": "text",
-        "canonical_field": "screener:work_authorization",
-        "action": "FILL",
-        "approved": true,
-        "value": "[REDACTED_SPONSORSHIP]",
-        "reason": "Screener bank answer (llm_option)"
-      },
-      {
-        "field_id": "question_68581559",
-        "label": "Do you require visa sponsorship, now or in the future, to continue working in the United States?",
-        "type": "text",
-        "canonical_field": "requires_sponsorship",
-        "action": "FILL",
-        "approved": true,
-        "value": "[REDACTED_SPONSORSHIP]",
-        "reason": "Mapped from public profile; placed onto \"No, I do not require visa sponsorship now or in the future to continue working in the country where this role is based.\""
+        "value": "Not applicable (i.e., I selected “none of the above” for the prior question)",
+        "reason": "Predicted from operator context (llm_predict): Since \"None of the above\" was selected on the prior question, the follow-up is not applicable."
       },
       {
         "field_id": "gender",
@@ -933,58 +883,51 @@
       "phone": "***-***-7636",
       "address.city": "Baltimore",
       "degree": "Bachelor's Degree",
-      "major": "Mathematics",
-      "start_year": "2025",
-      "screener:custom:school_not_listed_name": "Johns Hopkins University",
-      "screener:custom:predicted:question_68581547": "ACT: 35",
-      "screener:custom:cumulative_gpa": "3.7",
-      "preferred_name": "Shubham",
-      "pronouns": "He/Him",
+      "graduation_month": "May",
+      "graduation_year": "2029",
+      "screener:custom:expected_graduation_date": "Later than Summer 2028",
+      "screener:custom:gpa_range": "3.6 or above (out of 4.0)",
+      "screener:custom:predicted:question_37911666002[]": "San Francisco, CA",
+      "screener:availability_full_time": "Yes",
       "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
-      "screener:custom:competing_offers": "No",
-      "essay:generated:question_68581554": "The gatherings I've attended so far have come out of my own projects rather than a formal conference circuit. I was a national finalist at the Junior Science and Humanities Symposium for my Valley Fever work, where I presented an SIR-style epidemiological model I built in Python along with a microcontroller-based dust sensor I programmed in C/C++. More recently, ClarityAtlas, the iOS health product I lead technically at Open Health Intelligence, was selected for NSF I-Corps and the Johns Hopkins Pava Spark Accelerator, both of which involved cohort programming, customer discovery, and presenting to outside groups. Through that project I also presented to Johns Hopkins President Ron Daniels and leadership from the Hopkins Data Science and AI Institute. I don't have a confirmed conference schedule for this year yet, but the events most likely to reach people like me are university accelerator demo days, NSF I-Corps cohorts, and Hopkins Data Science and AI Institute events, since those are where students who are actually shipping products tend to show up.",
-      "screener:internship_term": "Summer (May - September)",
-      "screener:custom:second_cohort_flexibility": "Winter (January - April)",
-      "screener:custom:first_location_preference": "I am open to working in any office",
-      "screener:custom:second_location_preference": "I am open to working in any office",
-      "screener:custom:third_location_preference": "I am open to working in any office",
-      "screener:work_authorization": "[REDACTED_SPONSORSHIP]",
-      "requires_sponsorship": "[REDACTED_SPONSORSHIP]",
+      "how_heard": "LinkedIn Job Posting",
+      "work_authorization": "[REDACTED_SPONSORSHIP]",
+      "screener:requires_sponsorship": "[REDACTED_SPONSORSHIP]",
+      "screener:previously_applied_or_worked": "No",
+      "screener:custom:predicted:question_37893698002[]": "None of the above",
+      "screener:custom:predicted:question_37893699002[]": "Not applicable (i.e., I selected “none of the above” for the prior question)",
       "gender": "Male",
       "hispanic_latino": "No",
       "veteran_status": "I am not a veteran",
       "disability_status": "No"
     },
-    "fillable_count": 28,
-    "skipped_count": 5,
+    "fillable_count": 25,
+    "skipped_count": 6,
     "review_required_count": 0
   },
   "fill": {
     "filled": [
       "legal_name.first",
       "legal_name.last",
+      "legal_name.first",
       "email",
       "address.country",
       "phone",
       "address.city",
       "degree",
-      "major",
-      "start_year",
-      "screener:custom:school_not_listed_name",
-      "screener:custom:predicted:question_68581547",
-      "screener:custom:cumulative_gpa",
-      "preferred_name",
-      "pronouns",
+      "graduation_month",
+      "graduation_year",
+      "screener:custom:expected_graduation_date",
+      "screener:custom:gpa_range",
+      "screener:custom:predicted:question_37911666002[]",
+      "screener:availability_full_time",
       "linkedin_url",
-      "screener:custom:competing_offers",
-      "essay:generated:question_68581554",
-      "screener:internship_term",
-      "screener:custom:second_cohort_flexibility",
-      "screener:custom:first_location_preference",
-      "screener:custom:second_location_preference",
-      "screener:custom:third_location_preference",
-      "screener:work_authorization",
-      "requires_sponsorship",
+      "how_heard",
+      "work_authorization",
+      "screener:requires_sponsorship",
+      "screener:previously_applied_or_worked",
+      "screener:custom:predicted:question_37893698002[]",
+      "screener:custom:predicted:question_37893699002[]",
       "gender",
       "hispanic_latino",
       "veteran_status",
@@ -1001,6 +944,11 @@
       {
         "field_id": "last_name",
         "canonical_field": "legal_name.last",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "preferred_name",
+        "canonical_field": "legal_name.first",
         "control_kind": "text"
       },
       {
@@ -1047,132 +995,120 @@
         ]
       },
       {
-        "field_id": "discipline--0",
-        "canonical_field": "major",
+        "field_id": "end-month--0",
+        "canonical_field": "graduation_month",
         "control_kind": "combobox",
-        "selected_option": "Mathematics",
-        "match_via": "synonym",
+        "selected_option": "May",
+        "match_via": "exact",
         "notes": [
           "opened via control click",
-          "picked \"Mathematics\" (synonym) from open list"
+          "picked \"May\" (exact) from open list"
         ]
       },
       {
-        "field_id": "start-year--0",
-        "canonical_field": "start_year",
+        "field_id": "end-year--0",
+        "canonical_field": "graduation_year",
         "control_kind": "text"
       },
       {
-        "field_id": "question_68843617",
-        "canonical_field": "screener:custom:school_not_listed_name",
-        "control_kind": "text"
+        "field_id": "question_37893690002",
+        "canonical_field": "screener:custom:expected_graduation_date",
+        "control_kind": "combobox",
+        "selected_option": "Later than Summer 2028",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Later than Summer 2028\" (exact) from open list"
+        ]
       },
       {
-        "field_id": "question_68581547",
-        "canonical_field": "screener:custom:predicted:question_68581547",
-        "control_kind": "text"
+        "field_id": "question_37911665002",
+        "canonical_field": "screener:custom:gpa_range",
+        "control_kind": "combobox",
+        "selected_option": "3.6 or above (out of 4.0)",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"3.6 or above (out of 4.0)\" (exact) from open list"
+        ]
       },
       {
-        "field_id": "question_68581548",
-        "canonical_field": "screener:custom:cumulative_gpa",
-        "control_kind": "text"
+        "field_id": "question_37911666002[]",
+        "canonical_field": "screener:custom:predicted:question_37911666002[]",
+        "control_kind": "checkbox_group",
+        "selected_option": "San Francisco, CA"
       },
       {
-        "field_id": "question_68581549",
-        "canonical_field": "preferred_name",
-        "control_kind": "text"
+        "field_id": "question_37929335002",
+        "canonical_field": "screener:availability_full_time",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
       },
       {
-        "field_id": "question_68581550",
-        "canonical_field": "pronouns",
-        "control_kind": "text"
-      },
-      {
-        "field_id": "question_68581551",
+        "field_id": "question_37893692002",
         "canonical_field": "linkedin_url",
         "control_kind": "text"
       },
       {
-        "field_id": "question_68581553",
-        "canonical_field": "screener:custom:competing_offers",
-        "control_kind": "text"
+        "field_id": "question_37893694002",
+        "canonical_field": "how_heard",
+        "control_kind": "combobox",
+        "selected_option": "LinkedIn Job Posting",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"LinkedIn Job Posting\" (exact) from open list"
+        ]
       },
       {
-        "field_id": "question_68581554",
-        "canonical_field": "essay:generated:question_68581554",
-        "control_kind": "text"
+        "field_id": "question_37893695002",
+        "canonical_field": "work_authorization",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
       },
       {
-        "field_id": "question_68675431[]",
-        "canonical_field": "screener:internship_term",
+        "field_id": "question_37893696002",
+        "canonical_field": "screener:requires_sponsorship",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_37893697002",
+        "canonical_field": "screener:previously_applied_or_worked",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_37893698002[]",
+        "canonical_field": "screener:custom:predicted:question_37893698002[]",
         "control_kind": "checkbox_group",
-        "selected_option": "Summer (May - September)"
+        "selected_option": "None of the above"
       },
       {
-        "field_id": "question_68675600",
-        "canonical_field": "screener:custom:second_cohort_flexibility",
-        "control_kind": "combobox",
-        "selected_option": "Winter (January - April)",
-        "match_via": "exact",
-        "notes": [
-          "opened via control click",
-          "picked \"Winter (January - April)\" (exact) from open list"
-        ]
-      },
-      {
-        "field_id": "question_68675604",
-        "canonical_field": "screener:custom:first_location_preference",
-        "control_kind": "combobox",
-        "selected_option": "I am open to working in any office",
-        "match_via": "exact",
-        "notes": [
-          "opened via control click",
-          "picked \"I am open to working in any office\" (exact) from open list"
-        ]
-      },
-      {
-        "field_id": "question_68581556",
-        "canonical_field": "screener:custom:second_location_preference",
-        "control_kind": "combobox",
-        "selected_option": "I am open to working in any office",
-        "match_via": "exact",
-        "notes": [
-          "opened via control click",
-          "picked \"I am open to working in any office\" (exact) from open list"
-        ]
-      },
-      {
-        "field_id": "question_68581557",
-        "canonical_field": "screener:custom:third_location_preference",
-        "control_kind": "combobox",
-        "selected_option": "I am open to working in any office",
-        "match_via": "exact",
-        "notes": [
-          "opened via control click",
-          "picked \"I am open to working in any office\" (exact) from open list"
-        ]
-      },
-      {
-        "field_id": "question_68702648",
-        "canonical_field": "screener:work_authorization",
-        "control_kind": "combobox",
-        "selected_option": "Yes, I am currently eligible to work in the location where this role is based.",
-        "match_via": "exact",
-        "notes": [
-          "opened via control click",
-          "picked \"Yes, I am currently eligible to work in the location where this role is based.\" (exact) from open list"
-        ]
-      },
-      {
-        "field_id": "question_68581559",
-        "canonical_field": "requires_sponsorship",
-        "control_kind": "combobox",
-        "selected_option": "No, I do not require visa sponsorship now or in the future to continue working in the country where this role is based.",
-        "match_via": "exact",
-        "notes": [
-          "opened via control click",
-          "picked \"No, I do not require visa sponsorship now or in the future to continue working in the country where this role is based.\" (exact) from open list"
-        ]
+        "field_id": "question_37893699002[]",
+        "canonical_field": "screener:custom:predicted:question_37893699002[]",
+        "control_kind": "checkbox_group",
+        "selected_option": "Not applicable (i.e., I selected “none of the above” for the prior question)"
       },
       {
         "field_id": "gender",
@@ -1236,6 +1172,12 @@
         "match": true
       },
       {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
         "canonical_field": "email",
         "expected": "s***@gmail.com",
         "observed": "s***@gmail.com",
@@ -1275,48 +1217,54 @@
         "match": true
       },
       {
-        "canonical_field": "major",
-        "expected": "Mathematics",
+        "canonical_field": "graduation_month",
+        "expected": "May",
         "observed": {
-          "value": "Mathematics",
-          "label": "Mathematics"
+          "value": "May",
+          "label": "May"
         },
         "match": true
       },
       {
-        "canonical_field": "start_year",
-        "expected": "2025",
-        "observed": "2025",
+        "canonical_field": "graduation_year",
+        "expected": "2029",
+        "observed": "2029",
         "match": true
       },
       {
-        "canonical_field": "screener:custom:school_not_listed_name",
-        "expected": "Johns Hopkins University",
-        "observed": "Johns Hopkins University",
+        "canonical_field": "screener:custom:expected_graduation_date",
+        "expected": "Later than Summer 2028",
+        "observed": {
+          "value": "Later than Summer 2028",
+          "label": "Later than Summer 2028"
+        },
         "match": true
       },
       {
-        "canonical_field": "screener:custom:predicted:question_68581547",
-        "expected": "ACT: 35",
-        "observed": "ACT: 35",
+        "canonical_field": "screener:custom:gpa_range",
+        "expected": "3.6 or above (out of 4.0)",
+        "observed": {
+          "value": "3.6 or above (out of 4.0)",
+          "label": "3.6 or above (out of 4.0)"
+        },
         "match": true
       },
       {
-        "canonical_field": "screener:custom:cumulative_gpa",
-        "expected": "3.7",
-        "observed": "3.7",
+        "canonical_field": "screener:custom:predicted:question_37911666002[]",
+        "expected": "San Francisco, CA",
+        "observed": {
+          "value": "San Francisco, CA",
+          "label": "San Francisco, CA"
+        },
         "match": true
       },
       {
-        "canonical_field": "preferred_name",
-        "expected": "Shubham",
-        "observed": "Shubham",
-        "match": true
-      },
-      {
-        "canonical_field": "pronouns",
-        "expected": "He/Him",
-        "observed": "He/Him",
+        "canonical_field": "screener:availability_full_time",
+        "expected": "Yes",
+        "observed": {
+          "value": "Yes",
+          "label": "Yes"
+        },
         "match": true
       },
       {
@@ -1326,72 +1274,51 @@
         "match": true
       },
       {
-        "canonical_field": "screener:custom:competing_offers",
+        "canonical_field": "how_heard",
+        "expected": "LinkedIn Job Posting",
+        "observed": {
+          "value": "LinkedIn Job Posting",
+          "label": "LinkedIn Job Posting"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "work_authorization",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:requires_sponsorship",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:previously_applied_or_worked",
         "expected": "No",
-        "observed": "No",
-        "match": true
-      },
-      {
-        "canonical_field": "essay:generated:question_68581554",
-        "expected": "The gatherings I've attended so far have come out of my own projects rather than a formal conference circuit. I was a national finalist at the Junior Science and Humanities Symposium for my Valley Fever work, where I presented an SIR-style epidemiological model I built in Python along with a microcontroller-based dust sensor I programmed in C/C++. More recently, ClarityAtlas, the iOS health product I lead technically at Open Health Intelligence, was selected for NSF I-Corps and the Johns Hopkins Pava Spark Accelerator, both of which involved cohort programming, customer discovery, and presenting to outside groups. Through that project I also presented to Johns Hopkins President Ron Daniels and leadership from the Hopkins Data Science and AI Institute. I don't have a confirmed conference schedule for this year yet, but the events most likely to reach people like me are university accelerator demo days, NSF I-Corps cohorts, and Hopkins Data Science and AI Institute events, since those are where students who are actually shipping products tend to show up.",
-        "observed": "The gatherings I've attended so far have come out of my own projects rather than a formal conference circuit. I was a national finalist at the Junior Science and Humanities Symposium for my Valley Fever work, where I presented an SIR-style epidemiological model I built in Python along with a microcontroller-based dust sensor I programmed in C/C++. More recently, ClarityAtlas, the iOS health product I lead technically at Open Health Intelligence, was selected for NSF I-Corps and the Johns Hopkins Pava Spark Accelerator, both of which involved cohort programming, customer discovery, and presenting to outside groups. Through that project I also presented to Johns Hopkins President Ron Daniels and leadership from the Hopkins Data Science and AI Institute. I don't have a confirmed conference schedule for this year yet, but the events most likely to reach people like me are university accelerator demo days, NSF I-Corps cohorts, and Hopkins Data Science and AI Institute events, since those are where students who are actually shipping products tend to show up.",
-        "match": true
-      },
-      {
-        "canonical_field": "screener:internship_term",
-        "expected": "Summer (May - September)",
         "observed": {
-          "value": "Summer (May - September)",
-          "label": "Summer (May - September)"
+          "value": "No",
+          "label": "No"
         },
         "match": true
       },
       {
-        "canonical_field": "screener:custom:second_cohort_flexibility",
-        "expected": "Winter (January - April)",
+        "canonical_field": "screener:custom:predicted:question_37893698002[]",
+        "expected": "None of the above",
         "observed": {
-          "value": "Winter (January - April)",
-          "label": "Winter (January - April)"
+          "value": "None of the above",
+          "label": "None of the above"
         },
         "match": true
       },
       {
-        "canonical_field": "screener:custom:first_location_preference",
-        "expected": "I am open to working in any office",
+        "canonical_field": "screener:custom:predicted:question_37893699002[]",
+        "expected": "Not applicable (i.e., I selected “none of the above” for the prior question)",
         "observed": {
-          "value": "I am open to working in any office",
-          "label": "I am open to working in any office"
+          "value": "Not applicable (i.e., I selected “none of the above” for the prior question)",
+          "label": "Not applicable (i.e., I selected “none of the above” for the prior question)"
         },
-        "match": true
-      },
-      {
-        "canonical_field": "screener:custom:second_location_preference",
-        "expected": "I am open to working in any office",
-        "observed": {
-          "value": "I am open to working in any office",
-          "label": "I am open to working in any office"
-        },
-        "match": true
-      },
-      {
-        "canonical_field": "screener:custom:third_location_preference",
-        "expected": "I am open to working in any office",
-        "observed": {
-          "value": "I am open to working in any office",
-          "label": "I am open to working in any office"
-        },
-        "match": true
-      },
-      {
-        "canonical_field": "screener:work_authorization",
-        "expected": "[REDACTED_SPONSORSHIP]",
-        "observed": "[REDACTED_SPONSORSHIP]",
-        "match": true
-      },
-      {
-        "canonical_field": "requires_sponsorship",
-        "expected": "[REDACTED_SPONSORSHIP]",
-        "observed": "[REDACTED_SPONSORSHIP]",
         "match": true
       },
       {
@@ -1444,5 +1371,5 @@
       "evidence": "input files: []; stillAttached=false; chip=true"
     }
   ],
-  "written_at": "2026-09-01T02:22:14.518Z"
+  "written_at": "2026-09-01T13:51:33.386Z"
 }
