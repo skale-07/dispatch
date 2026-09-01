@@ -154,6 +154,18 @@ re-plans the SAME page and walled four ways:
   andrew.min@scale.com listed under SIERRA insiders — off-domain, not
   drafted.
 
+## Backlog: JPMC Oracle conversational apply (0e32b81d, f66faeba)
+
+jpmc.fa.oraclecloud.com renders the apply flow as an Oracle Digital
+Assistant CHAT (`oda-chat-user-text-input` role=combobox "Ask Me
+Something"; `oda-work-summary-text-area` hidden until the conversation
+reveals it). The generic adapter's flat fill can only time out against it
+(it did — honest refusal, nothing committed). Supporting this needs a
+conversational-apply adapter: drive the chat turn-by-turn, answer from
+the same plan/bank tiers, verify per exchange. BOTH queued JPMC rows hit
+this. Parked in review (AMBIGUOUS_FIELD) — a future night's project, not
+a mid-loop fix.
+
 ## State snapshot (13:30)
 
 - Sierra 44fb9eb1: run 6 in flight (all four fixes live).
