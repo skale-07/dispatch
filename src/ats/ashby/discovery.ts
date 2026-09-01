@@ -308,14 +308,67 @@ export function discoverAshbyAutocompletes(html: string): {
   return { fields, placeholders };
 }
 
+/**
+ * Yes/No button pairs (#132, live valon 2026-09-01): a
+ * `ashby-application-form-input-yesno` container holds two aria-pressed
+ * buttons and ONE HIDDEN CHECKBOX named by the field uuid — the generic
+ * pass surfaced that checkbox labeled by its own uuid ("ea7319ab-…"),
+ * unmappable by any tier, and the required work-authorization question
+ * bounced the submit click. One field per pair: label from the
+ * question-title label[for=uuid], options Yes/No.
+ */
+export function discoverAshbyYesNo(html: string): {
+  fields: DiscoveredField[];
+  consumedNames: Set<string>;
+} {
+  const fields: DiscoveredField[] = [];
+  const consumedNames = new Set<string>();
+  const titleRe = new RegExp(QUESTION_TITLE_RE.source, "gi");
+  const titles: { index: number; tag: string; text: string }[] = [];
+  let t: RegExpExecArray | null;
+  while ((t = titleRe.exec(html)) !== null) {
+    titles.push({
+      index: t.index,
+      tag: t[0] ?? "",
+      text: stripTags(t[1] ?? "")
+        .replace(/\s*\*\s*$/, "")
+        .trim(),
+    });
+  }
+  const boxRe = /<div\b[^>]*class=["'][^"']*input-yesno[^"']*["'][^>]*>/gi;
+  let m: RegExpExecArray | null;
+  while ((m = boxRe.exec(html)) !== null) {
+    let title: { index: number; tag: string; text: string } | null = null;
+    for (const cand of titles) {
+      if (cand.index < m.index) title = cand;
+      else break;
+    }
+    if (!title || !title.text || m.index - title.index > 2_000) continue;
+    const forId = getAttr(title.tag, "for");
+    if (!forId) continue;
+    fields.push({
+      id: forId,
+      label: title.text,
+      type: "select",
+      required: /_required_/.test(title.tag),
+      options: ["Yes", "No"],
+    });
+    consumedNames.add(forId);
+  }
+  return { fields, consumedNames };
+}
+
 export function ashbyDiscoverFields(html: string): DiscoveredField[] {
   const groups = discoverAshbyFieldsetGroups(html);
   const autos = discoverAshbyAutocompletes(html);
+  const yesno = discoverAshbyYesNo(html);
   const autoIds = new Set(autos.fields.map((f) => f.id));
   const generic = discoverFieldsFromHtml(html).filter((f) => {
     // Drop the per-option inputs a fieldset group already represents —
     // they are answers, not questions, and 38 of them drowned the plan.
     if (f.name && groups.consumedNames.has(f.name)) return false;
+    // #132: the yes/no pair's hidden plumbing checkbox (name = field uuid).
+    if (f.name && yesno.consumedNames.has(f.name)) return false;
     // Label collision is only evidence for OPTION-SHAPED fields
     // (checkbox/radio members, member ids, synthetic ids). Live sierra
     // 2026-09-01 (#119): the real "LinkedIn" URL field was swallowed here
@@ -345,6 +398,7 @@ export function ashbyDiscoverFields(html: string): DiscoveredField[] {
     ...generic,
     ...groups.fields,
     ...autos.fields,
+    ...yesno.fields,
     ...discoverAshbyButtonGroups(html),
   ];
 }

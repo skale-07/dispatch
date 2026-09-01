@@ -20,7 +20,7 @@ import { pickOptionLabel } from "../greenhouse/comboboxFill.js";
  * member's checked state, never by trusting the click.
  */
 
-export type NativeGroupKind = "radio" | "checkbox";
+export type NativeGroupKind = "radio" | "checkbox" | "yesno";
 
 export type NativeGroupProbe = {
   group: Locator;
@@ -55,6 +55,15 @@ export async function locateNativeGroup(
   const esc = fieldId.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
   const group = page.locator(`[data-field-path="${esc}"]`).first();
   if ((await group.count().catch(() => 0)) === 0) return null;
+  // #132 (live valon 2026-09-01): Ashby's yes/no BUTTON PAIR
+  // (ashby-application-form-input-yesno: two aria-pressed buttons with
+  // data-option="yes|no" + one hidden uuid-named checkbox). The hidden
+  // checkbox is plumbing; the buttons are the control.
+  const yesno = await group
+    .locator('[class*="input-yesno"] button[data-option]')
+    .count()
+    .catch(() => 0);
+  if (yesno >= 2) return { group, kind: "yesno", optionCount: yesno };
   const radios = await group
     .locator('input[type="radio"]')
     .count()
@@ -68,6 +77,35 @@ export async function locateNativeGroup(
   return null;
 }
 
+/** Yes/No button pair: read pressed state. */
+async function readYesNoOptions(group: Locator): Promise<NativeGroupOption[]> {
+  type Btn = {
+    querySelectorAll: (s: string) => ArrayLike<{
+      getAttribute: (n: string) => string | null;
+      textContent: string | null;
+    }>;
+  };
+  return await group.evaluate((el: Btn) => {
+    const out: {
+      index: number;
+      label: string;
+      checked: boolean;
+      inputId: string | null;
+    }[] = [];
+    const btns = el.querySelectorAll('[class*="input-yesno"] button[data-option]');
+    for (let i = 0; i < btns.length; i++) {
+      const b = btns[i]!;
+      out.push({
+        index: i,
+        label: (b.textContent ?? "").replace(/\s+/g, " ").trim(),
+        checked: b.getAttribute("aria-pressed") === "true",
+        inputId: null,
+      });
+    }
+    return out;
+  });
+}
+
 /**
  * Option inventory with live checked state. Label resolution mirrors the
  * two DOM shapes discovery documented: radio members carry the option
@@ -76,7 +114,9 @@ export async function locateNativeGroup(
  */
 export async function readNativeGroupOptions(
   group: Locator,
+  kind: NativeGroupKind = "radio",
 ): Promise<NativeGroupOption[]> {
+  if (kind === "yesno") return readYesNoOptions(group);
   type El = {
     querySelectorAll: (s: string) => ArrayLike<{
       getAttribute: (n: string) => string | null;
@@ -120,8 +160,9 @@ export async function readNativeGroupOptions(
 /** Labels of the checked members, "; "-joined; null while none checked. */
 export async function readNativeGroupValue(
   group: Locator,
+  kind: NativeGroupKind = "radio",
 ): Promise<string | null> {
-  const options = await readNativeGroupOptions(group);
+  const options = await readNativeGroupOptions(group, kind);
   const checked = options.filter((o) => o.checked && o.label);
   if (checked.length === 0) return null;
   return checked.map((o) => o.label).join("; ");
@@ -131,10 +172,11 @@ export async function fillNativeGroup(
   page: Page,
   group: Locator,
   expected: unknown,
+  kind: NativeGroupKind = "radio",
 ): Promise<NativeGroupFillResult> {
   const notes: string[] = [];
   const expectedText = String(expected);
-  const options = await readNativeGroupOptions(group);
+  const options = await readNativeGroupOptions(group, kind);
   const labels = options.map((o) => o.label).filter((l) => l.length > 0);
   if (labels.length === 0) {
     notes.push("native group has no labeled options");
@@ -163,6 +205,27 @@ export async function fillNativeGroup(
     };
   }
 
+  if (kind === "yesno") {
+    // The visible aria-pressed button IS the control (#132).
+    await group
+      .locator('[class*="input-yesno"] button[data-option]')
+      .nth(target.index)
+      .click({ timeout: 5_000 });
+    notes.push(`picked "${pick.label}" (${pick.via})`);
+    await page.waitForTimeout(150);
+    const after = await readNativeGroupOptions(group, kind);
+    const member = after.find((o) => o.index === target.index);
+    const committed = member?.checked === true;
+    if (!committed) {
+      notes.push("commit not confirmed: button not aria-pressed after click");
+    }
+    return {
+      committed,
+      selectedLabel: committed ? target.label : null,
+      notes,
+      pickVia: pick.via,
+    };
+  }
   // Click the option LABEL — the visible element a person clicks; the
   // input itself is a 24×24 opacity-0 paint target. Fall back to a
   // forced input click when the label is missing.
@@ -179,7 +242,7 @@ export async function fillNativeGroup(
   await page.waitForTimeout(150);
 
   // Independent read-back — the member must now be checked.
-  const after = await readNativeGroupOptions(group);
+  const after = await readNativeGroupOptions(group, kind);
   const member = after.find((o) => o.index === target.index);
   const committed = member?.checked === true;
   if (!committed) {

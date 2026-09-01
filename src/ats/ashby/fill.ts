@@ -191,7 +191,12 @@ export async function ashbyFillFromPlan(
       continue;
     }
     try {
-      const result = await fillNativeGroup(page, probe.group, entry.value);
+      const result = await fillNativeGroup(
+        page,
+        probe.group,
+        entry.value,
+        probe.kind,
+      );
       field_meta.push({
         field_id: entry.field_id,
         canonical_field: entry.canonical_field,
@@ -348,7 +353,7 @@ export async function ashbyVerifyFromPlan(
   for (const { entry, probe } of nativeVerify) {
     const canonical = entry.canonical_field ?? entry.field_id;
     try {
-      const observed = await readNativeGroupValue(probe.group);
+      const observed = await readNativeGroupValue(probe.group, probe.kind);
       // A checkbox group may legitimately hold extra checked members from
       // the plan's other values; match when ANY checked label satisfies
       // the expectation (pickOptionLabel keeps the synonym policy).

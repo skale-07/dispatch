@@ -145,6 +145,36 @@ describe("Ashby autocomplete caption discovery (#117)", () => {
   });
 });
 
+describe("Ashby yes/no button pairs (#132)", () => {
+  const YESNO_FIELD = "ea7319ab-ea6d-431e-a182-3907d9970c17";
+
+  it("discovers the pair by its question title, suppresses the plumbing checkbox (UNIT_CONFIRMED)", () => {
+    const fields = ashbyDiscoverFields(fixtureHtml);
+    const q = fields.find((f) => f.id === YESNO_FIELD);
+    expect(q?.label).toBe(
+      "Are you authorized to work for any employer in the United States of America?",
+    );
+    expect(q?.type).toBe("select");
+    expect(q?.options).toEqual(["Yes", "No"]);
+    expect(q?.required).toBe(true);
+    // The hidden checkbox twin (uuid-labeled) is suppressed.
+    expect(
+      fields.filter((f) => f.id === YESNO_FIELD || f.name === YESNO_FIELD),
+    ).toHaveLength(1);
+  });
+
+  it("locates, fills Yes via the aria-pressed button, and reads back (FIXTURE_CONFIRMED)", async () => {
+    await withFixtureHtmlPage(fixtureHtml, async (page) => {
+      const probe = await locateNativeGroup(page, YESNO_FIELD);
+      expect(probe?.kind).toBe("yesno");
+      const result = await fillNativeGroup(page, probe!.group, "Yes", probe!.kind);
+      expect(result.committed).toBe(true);
+      expect(result.selectedLabel).toBe("Yes");
+      expect(await readNativeGroupValue(probe!.group, probe!.kind)).toBe("Yes");
+    });
+  });
+});
+
 describe("demographics classifier pronoun boundary (#118)", () => {
   const field = (label: string) => ({
     id: "x",

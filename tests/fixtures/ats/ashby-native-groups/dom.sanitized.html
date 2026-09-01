@@ -69,6 +69,15 @@
     </fieldset>
   </div>
 
+  <div class="_fieldEntry_1e3gg_28 ashby-application-form-field-entry" data-field-path="ea7319ab-ea6d-431e-a182-3907d9970c17" data-field-entry-id="e1_ea7319ab">
+    <label class="_heading_f7cvd_52 _required_f7cvd_91 _label_1e3gg_42 ashby-application-form-question-title" for="ea7319ab-ea6d-431e-a182-3907d9970c17">Are you authorized to work for any employer in the United States of America?</label>
+    <div class="_container_1svni_28 _yesno_1e3gg_148 ashby-application-form-input-yesno">
+      <button class="_container_pjyt6_1 _option_1svni_32 ashby-application-form-input-yesno-option" aria-pressed="false" data-option="yes" type="button">Yes</button>
+      <button class="_container_pjyt6_1 _option_1svni_32 ashby-application-form-input-yesno-option" aria-pressed="false" data-option="no" type="button">No</button>
+      <input type="checkbox" class="_input_1svni_78" tabindex="-1" name="ea7319ab-ea6d-431e-a182-3907d9970c17">
+    </div>
+  </div>
+
   <div data-field-path="80177901-416f-48ee-9fea-1d3684620c8c" data-field-entry-id="e1_80177901">
     <fieldset class="_container_wz442_28 _fieldEntry_1e3gg_28">
       <label class="_heading_f7cvd_52 _required_f7cvd_91 _label_1e3gg_42 ashby-application-form-question-title" for="80177901-416f-48ee-9fea-1d3684620c8c">What University&nbsp; do you currently attend?</label>
@@ -79,5 +88,16 @@
     </fieldset>
   </div>
 </form>
+<script>
+  // Mirrors live Ashby yes/no behavior: clicking a pair button presses it
+  // and releases its sibling (React does this on the real page).
+  for (const btn of document.querySelectorAll('[class*="input-yesno"] button[data-option]')) {
+    btn.addEventListener("click", () => {
+      for (const sib of btn.parentElement.querySelectorAll("button[data-option]")) {
+        sib.setAttribute("aria-pressed", String(sib === btn));
+      }
+    });
+  }
+</script>
 </body>
 </html>

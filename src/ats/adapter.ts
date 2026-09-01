@@ -67,6 +67,7 @@ export type FieldFillMeta = {
     | "checkbox_group"
     | "native_radio_group"
     | "native_checkbox_group"
+    | "native_yesno_group"
     | "file"
     | "unknown";
   selected_option?: string | null;
