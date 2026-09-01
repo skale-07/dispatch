@@ -256,6 +256,19 @@ Walls, in order (operator co-debugged live):
   linkedin.com/jobs/view — LinkedIn Easy Apply is unwired (login session
   exists via login:linkedin; the flow is a dedicated project). Parked.
 
+## Backlog: ADP myjobs portal (d59e4a75, Plymouth Rock Data Eng Intern)
+
+- OneTrust banner dismissal WORKS (probe-verified: .onetrust-close-btn-handler,
+  aria Close). Apply → myjobs.adp.com/<tenant>/auth: email-first sign-in /
+  create-profile wall ("If we don't recognize your info, we'll prompt you
+  to create a profile"), screenshot
+  artifacts/probes/night24-adp/03-after-proper-apply.png. Lighter than
+  Amazon passport — a candidate for the portal-auth create-account
+  machinery with an ADP adapter. Classifier called the post-Apply /auth
+  page "posting" — same post-click classification gap as Amazon's.
+- Intel posting (4a03b318) was REMOVED upstream (Workday 404) — parked
+  FAILED_FINAL with probe evidence.
+
 ## State snapshot (13:30)
 
 - Sierra 44fb9eb1: run 6 in flight (all four fixes live).
