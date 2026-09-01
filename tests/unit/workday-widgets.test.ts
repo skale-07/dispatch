@@ -8,6 +8,7 @@ import {
   readComboboxValue,
 } from "../../src/ats/greenhouse/comboboxFill.js";
 import { withFixtureHtmlPage } from "../../src/browser/fixtureSession.js";
+import { useIsolatedFillEnv } from "../helpers/fillEnvIsolation.js";
 import {
   comboboxAlternates,
   dedupeAnchorlessCanonicalTwins,
@@ -104,6 +105,11 @@ describe("workday widget fill/verify (#67, FIXTURE_CONFIRMED)", () => {
 });
 
 describe("#68 overlaid radios + how_heard class fallbacks (FIXTURE_CONFIRMED)", () => {
+  // These its execute greenhouseFillFromPlan, which asserts FORM_FILL_ENABLED.
+  // Without this helper the file silently depended on the operator's .env
+  // having fill enabled (fails in a clean checkout/worktree, where no .env
+  // exists) — tests must set their own fixture env, never inherit flags.
+  useIsolatedFillEnv("fixture_fill");
   it("a VISIBLE radio under a pointer-intercepting overlay is checked via the label[for] tier, not a 30s hang", async () => {
     // Live tiaa #22q: candidateIsPreviousWorker — visible, enabled,
     // stable, and a painted div swallowed every click for 30s.
