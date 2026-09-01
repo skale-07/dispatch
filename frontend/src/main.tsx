@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import { App } from "./App";
 import { MotionRoot } from "./components/Animated";
 import { readTokenFromHash } from "./api/client";
+import { CONSOLE_ENABLED } from "./lib/appConfig";
 // Self-hosted, bundled by vite — never a CDN link. The console is
 // loopback-only and often offline; a webfont that needs the network would
 // silently fall back to system-ui, which is exactly the bug this fixes.
@@ -14,9 +15,11 @@ import "./styles/tokens.css";
 import "./styles/tailwind.css";
 import "./styles/base.css";
 
-// The boot token arrives once in the URL fragment; stash it and strip it
-// from the address bar before anything renders.
-readTokenFromHash();
+// CONSOLE surface only: the boot token arrives once in the URL fragment;
+// stash it and strip it before anything renders. The public app must NOT
+// run this — its magic-link sign-in also travels in the fragment, and a
+// stray strip here would race the auth client reading it.
+if (CONSOLE_ENABLED) readTokenFromHash();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
