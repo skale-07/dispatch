@@ -1,0 +1,648 @@
+{
+  "ats": "workday",
+  "url": "https://finastra.wd3.myworkdayjobs.com/finc/job/Atlanta/AI-Engineer-Intern--Summer-2027-_REQ0826_0038079",
+  "requested_url": "https://finastra.wd3.myworkdayjobs.com/finc/job/Atlanta/AI-Engineer-Intern--Summer-2027-_REQ0826_0038079",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://finastra.wd3.myworkdayjobs.com/en-US/finc/job/Atlanta/AI-Engineer-Intern--Summer-2027-_REQ0826_0038079/apply",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 13,
+    "skipped_count": 5,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "source--source",
+      "label": "How Did You Hear About Us?",
+      "type": "select",
+      "canonical_field": "how_heard",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "candidateIsPreviousWorker",
+      "label": "Are you a former employee or returning applicant?",
+      "type": "radio",
+      "canonical_field": "screener:custom:returning_candidate_details",
+      "action": "FILL",
+      "reason": "Screener bank answer (llm_option)"
+    },
+    {
+      "field_id": "f_3",
+      "label": "field_3",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "name--legalName--firstName",
+      "label": "First Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "name--legalName--lastName",
+      "label": "Last Name",
+      "type": "text",
+      "canonical_field": "legal_name.last",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "name--preferredCheck",
+      "label": "I have a preferred name",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "address--addressLine1",
+      "label": "Address Line 1",
+      "type": "text",
+      "canonical_field": "address.line1",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "address--city",
+      "label": "City",
+      "type": "text",
+      "canonical_field": "address.city",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f_9",
+      "label": "Address",
+      "type": "text",
+      "canonical_field": "address.line1",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "address--postalCode",
+      "label": "Postal Code",
+      "type": "text",
+      "canonical_field": "address.postal_code",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f_11",
+      "label": "Phone",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phoneNumber--countryPhoneCode",
+      "label": "Country Phone Code",
+      "type": "select",
+      "canonical_field": "address.country",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phoneNumber--phoneNumber",
+      "label": "Phone Number",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phoneNumber--extension",
+      "label": "Phone Extension",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "ehqc7",
+      "label": "field_15",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "country--country",
+      "label": "Country",
+      "type": "select",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "address--countryRegion",
+      "label": "State",
+      "type": "select",
+      "canonical_field": "address.state",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phoneNumber--phoneType",
+      "label": "Phone Device Type",
+      "type": "select",
+      "canonical_field": "screener:custom:phone_device_type",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\workday-live\\form-snapshot-1788280796784.html",
+  "fill": {
+    "filled": [
+      "how_heard",
+      "screener:custom:returning_candidate_details",
+      "legal_name.first",
+      "legal_name.last",
+      "address.line1",
+      "address.city",
+      "address.postal_code",
+      "address.country",
+      "phone",
+      "address.state",
+      "screener:custom:phone_device_type"
+    ],
+    "skipped": [
+      "f_9 (address.line1) — anchorless twin of an anchored canonical (#69)",
+      "f_11 (phone) — anchorless twin of an anchored canonical (#69)"
+    ],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "source--source",
+        "canonical_field": "how_heard",
+        "control_kind": "combobox",
+        "selected_option": "LinkedIn",
+        "match_via": "exact",
+        "notes": [
+          "already committed \"LinkedIn\""
+        ]
+      },
+      {
+        "field_id": "candidateIsPreviousWorker",
+        "canonical_field": "screener:custom:returning_candidate_details",
+        "control_kind": "text",
+        "selected_option": "No"
+      },
+      {
+        "field_id": "name--legalName--firstName",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text",
+        "notes": [
+          "already holds \"Shubham\" — verified in place, not retyped"
+        ]
+      },
+      {
+        "field_id": "name--legalName--lastName",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text",
+        "notes": [
+          "already holds \"Kale\" — verified in place, not retyped"
+        ]
+      },
+      {
+        "field_id": "address--addressLine1",
+        "canonical_field": "address.line1",
+        "control_kind": "text",
+        "notes": [
+          "already holds \"3510 N Charles St\" — verified in place, not retyped"
+        ]
+      },
+      {
+        "field_id": "address--city",
+        "canonical_field": "address.city",
+        "control_kind": "text",
+        "notes": [
+          "already holds \"Baltimore\" — verified in place, not retyped"
+        ]
+      },
+      {
+        "field_id": "address--postalCode",
+        "canonical_field": "address.postal_code",
+        "control_kind": "text",
+        "notes": [
+          "already holds \"21218\" — verified in place, not retyped"
+        ]
+      },
+      {
+        "field_id": "phoneNumber--countryPhoneCode",
+        "canonical_field": "address.country",
+        "control_kind": "combobox",
+        "selected_option": "United States of America (+1)",
+        "match_via": "exact",
+        "notes": [
+          "already committed \"United States of America (+1)\""
+        ]
+      },
+      {
+        "field_id": "phoneNumber--phoneNumber",
+        "canonical_field": "phone",
+        "control_kind": "text",
+        "notes": [
+          "already holds \"(480) 589-7636\" — verified in place, not retyped"
+        ]
+      },
+      {
+        "field_id": "address--countryRegion",
+        "canonical_field": "address.state",
+        "control_kind": "combobox",
+        "selected_option": "Maryland",
+        "match_via": "exact",
+        "notes": [
+          "already committed \"Maryland\""
+        ]
+      },
+      {
+        "field_id": "phoneNumber--phoneType",
+        "canonical_field": "screener:custom:phone_device_type",
+        "control_kind": "combobox",
+        "selected_option": "Mobile",
+        "match_via": "exact",
+        "notes": [
+          "already committed \"Mobile\""
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "how_heard",
+        "expected": "LinkedIn",
+        "observed": {
+          "value": "LinkedIn",
+          "label": "LinkedIn"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:returning_candidate_details",
+        "expected": "false",
+        "observed": {
+          "value": "false",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.last",
+        "expected": "Kale",
+        "observed": "Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "address.line1",
+        "expected": "3510 N Charles St",
+        "observed": "3510 N Charles St",
+        "match": true
+      },
+      {
+        "canonical_field": "address.city",
+        "expected": "Baltimore",
+        "observed": "Baltimore",
+        "match": true
+      },
+      {
+        "canonical_field": "address.postal_code",
+        "expected": "21218",
+        "observed": "21218",
+        "match": true
+      },
+      {
+        "canonical_field": "address.country",
+        "expected": "United States",
+        "observed": {
+          "value": "United States of America (+1)",
+          "label": "United States of America (+1)"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "address.state",
+        "expected": "Maryland",
+        "observed": {
+          "value": "Maryland",
+          "label": "Maryland"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:phone_device_type",
+        "expected": "[REDACTED_PHONE]",
+        "observed": "[REDACTED]",
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 113381,
+      "verified": true,
+      "evidence": "input files: []; stillAttached=true; chip=true; resolved via primary"
+    }
+  ],
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: unknown (no signals matched)",
+    "workday page kind at gate: unknown",
+    "login wall on finastra.wd3.myworkdayjobs.com: no_form_found; fields[email=false password=false confirm=false]",
+    "portal auth: Apply / Apply Manually not found on attempt 1",
+    "standing portal login used for finastra.wd3.myworkdayjobs.com",
+    "portal auth: no sign-in form on this page",
+    "workday page kind after auth: unknown",
+    "workday: page header shows Sign In — session is signed OUT",
+    "workday: page after auth is off the apply flow (unknown) — one re-reach from the posting URL",
+    "re-reach login wall on finastra.wd3.myworkdayjobs.com: no_form_found; fields[email=false password=false confirm=false]; submit=[Continue Application]",
+    "re-reach portal auth: clicked \"Continue Application\" (attempt 1)",
+    "re-reach portal auth: Apply / Apply Manually not found on attempt 2",
+    "re-reach standing portal login used for finastra.wd3.myworkdayjobs.com",
+    "re-reach portal auth: no sign-in form on this page",
+    "workday page kind after re-reach: wizard",
+    "option harvest: scraped real options for 3/12 control(s) before planning",
+    "resume on disk but this page has no file input — not an upload miss",
+    "wizard fill error: skills--skills: combobox option not committed: opened via control click; filter yielded no/unmatched options; re-collected unfiltered (residue cleared); scroll-harvested 1 option(s); no option matches \"Python\" (options: No Items.)",
+    "wizard fill: 0 of 1 approved entries filled — skipped: ",
+    "wizard retype: screener:custom:skill_tag re-pick not committed — no option matches \"Python\" (options: No Items.)",
+    "wizard fill error: primaryQuestionnaire--5e4d6987bfbf10013db382ee79f20000: combobox option not committed: opened via control click; filter typing skipped: control is a button (not typeable); button popup already open; picking from it directly; no option matches \"Yes\" (options: )",
+    "wizard fill error: primaryQuestionnaire--5e4d6987bfbf10013db388f1da570001: combobox option not committed: opened via control click; filter typing skipped: control is a button (not typeable); button popup already open; picking from it directly; no option matches \"United States of America\" (options: )",
+    "wizard fill error: primaryQuestionnaire--5e4d6987bfbf10013db3898ba8fb0002: combobox option not committed: opened via control click; filter typing skipped: control is a button (not typeable); button popup already open; picking from it directly; no option matches \"Yes\" (options: )",
+    "wizard retype: work_authorization re-pick not committed — no option matches \"Yes\" (options: )",
+    "wizard retype: screener:custom:country_of_residence re-pick not committed — no option matches \"United States of America\" (options: )",
+    "wizard retype: screener:custom:ai_recruitment_opt_out re-pick not committed — no option matches \"Yes\" (options: )",
+    "wizard fill error: primaryQuestionnaire--5e4d6987bfbf10013db382ee79f20000: combobox option not committed: opened via control click; filter typing skipped: control is a button (not typeable); button popup already open; picking from it directly; no option matches \"Yes\" (options: )",
+    "wizard fill error: primaryQuestionnaire--5e4d6987bfbf10013db388f1da570001: combobox option not committed: opened via control click; filter typing skipped: control is a button (not typeable); button popup already open; picking from it directly; no option matches \"United States of America\" (options: )",
+    "wizard fill error: primaryQuestionnaire--5e4d6987bfbf10013db3898ba8fb0002: combobox option not committed: opened via control click; filter typing skipped: control is a button (not typeable); button popup already open; picking from it directly; no option matches \"Yes\" (options: )",
+    "wizard retype: work_authorization re-pick not committed — no option matches \"Yes\" (options: )",
+    "wizard retype: screener:custom:country_of_residence re-pick not committed — no option matches \"United States of America\" (options: )",
+    "wizard retype: screener:custom:ai_recruitment_opt_out re-pick not committed — no option matches \"Yes\" (options: )",
+    "wizard page error: field \"What is your current U.S. work authorization status?*\": Error: The field What is your current U.S. work authorization status? is required and must have a value.",
+    "wizard page error: field \"By proceeding with this application, you confirm that the re\": Error: The field By proceeding with this application, you confirm that the responses provided to the questions above are accurate and truthful. You acknowledge that you will be required to provide sup",
+    "wizard page error: field \"Do you request to opt-out of the use of artificial intellige\": Error: The field Do you request to opt-out of the use of artificial intelligence in the recruitment process? is required and must have a value.",
+    "wizard page error: Error: The field What is your current U.S. work authorization status? is required and must have a value.",
+    "wizard page error: Error: The field Do you request to opt-out of the use of artificial intelligence in the recruitment process? is required and must have a value.",
+    "wizard fill error: primaryQuestionnaire--5e4d6987bfbf10013db382ee79f20000: combobox option not committed: opened via control click; filter typing skipped: control is a button (not typeable); button popup already open; picking from it directly; no option matches \"Yes\" (options: )",
+    "wizard fill error: primaryQuestionnaire--5e4d6987bfbf10013db388f1da570001: combobox option not committed: opened via control click; filter typing skipped: control is a button (not typeable); button popup already open; picking from it directly; no option matches \"United States of America\" (options: )",
+    "wizard fill error: primaryQuestionnaire--5e4d6987bfbf10013db3898ba8fb0002: combobox option not committed: opened via control click; filter typing skipped: control is a button (not typeable); button popup already open; picking from it directly; no option matches \"Yes\" (options: )",
+    "wizard retype: work_authorization re-pick not committed — no option matches \"Yes\" (options: )",
+    "wizard retype: screener:custom:country_of_residence re-pick not committed — no option matches \"United States of America\" (options: )",
+    "wizard retype: screener:custom:ai_recruitment_opt_out re-pick not committed — no option matches \"Yes\" (options: )",
+    "wizard page error: field \"What is your current U.S. work authorization status?*\": Error: The field What is your current U.S. work authorization status? is required and must have a value.",
+    "wizard page error: field \"By proceeding with this application, you confirm that the re\": Error: The field By proceeding with this application, you confirm that the responses provided to the questions above are accurate and truthful. You acknowledge that you will be required to provide sup",
+    "wizard page error: field \"Do you request to opt-out of the use of artificial intellige\": Error: The field Do you request to opt-out of the use of artificial intelligence in the recruitment process? is required and must have a value.",
+    "wizard page error: Error: The field What is your current U.S. work authorization status? is required and must have a value.",
+    "wizard page error: Error: The field Do you request to opt-out of the use of artificial intelligence in the recruitment process? is required and must have a value.",
+    "wizard fill error: primaryQuestionnaire--5e4d6987bfbf10013db382ee79f20000: combobox option not committed: opened via control click; filter typing skipped: control is a button (not typeable); button popup already open; picking from it directly; no option matches \"Yes\" (options: )",
+    "wizard fill error: primaryQuestionnaire--5e4d6987bfbf10013db388f1da570001: combobox option not committed: opened via control click; filter typing skipped: control is a button (not typeable); button popup already open; picking from it directly; no option matches \"United States of America\" (options: )",
+    "wizard fill error: primaryQuestionnaire--5e4d6987bfbf10013db3898ba8fb0002: combobox option not committed: opened via control click; filter typing skipped: control is a button (not typeable); button popup was closed; reopened for the unfiltered pick; scroll-harvested 2 option(s); drill scan skipped (not a Workday multiselect prompt, or a yes/no answer — flat rows are answers, not categories); no option matches \"Yes\" (options: Select One | I do not wish to opt out | I wish to opt out)",
+    "wizard retype: work_authorization re-pick not committed — no option matches \"Yes\" (options: )",
+    "wizard retype: screener:custom:country_of_residence re-pick not committed — no option matches \"United States of America\" (options: )",
+    "wizard retype: screener:custom:ai_recruitment_opt_out re-pick not committed — no option matches \"Yes\" (options: )",
+    "wizard page error: field \"What is your current U.S. work authorization status?*\": Error: The field What is your current U.S. work authorization status? is required and must have a value.",
+    "wizard page error: field \"By proceeding with this application, you confirm that the re\": Error: The field By proceeding with this application, you confirm that the responses provided to the questions above are accurate and truthful. You acknowledge that you will be required to provide sup",
+    "wizard page error: field \"Do you request to opt-out of the use of artificial intellige\": Error: The field Do you request to opt-out of the use of artificial intelligence in the recruitment process? is required and must have a value.",
+    "wizard page error: Error: The field What is your current U.S. work authorization status? is required and must have a value.",
+    "wizard page error: Error: The field Do you request to opt-out of the use of artificial intelligence in the recruitment process? is required and must have a value.",
+    "wizard fill error: primaryQuestionnaire--5e4d6987bfbf10013db382ee79f20000: combobox option not committed: opened via control click; filter typing skipped: control is a button (not typeable); button popup already open; picking from it directly; no option matches \"Yes\" (options: )",
+    "wizard fill error: primaryQuestionnaire--5e4d6987bfbf10013db388f1da570001: combobox option not committed: opened via control click; filter typing skipped: control is a button (not typeable); button popup already open; picking from it directly; no option matches \"United States of America\" (options: )",
+    "wizard fill error: primaryQuestionnaire--5e4d6987bfbf10013db3898ba8fb0002: combobox option not committed: opened via control click; filter typing skipped: control is a button (not typeable); button popup already open; picking from it directly; no option matches \"Yes\" (options: )",
+    "wizard retype: work_authorization re-pick not committed — no option matches \"Yes\" (options: )",
+    "wizard retype: screener:custom:country_of_residence re-pick not committed — no option matches \"United States of America\" (options: )",
+    "wizard retype: screener:custom:ai_recruitment_opt_out re-pick not committed — no option matches \"Yes\" (options: )",
+    "wizard page error: field \"What is your current U.S. work authorization status?*\": Error: The field What is your current U.S. work authorization status? is required and must have a value.",
+    "wizard page error: field \"By proceeding with this application, you confirm that the re\": Error: The field By proceeding with this application, you confirm that the responses provided to the questions above are accurate and truthful. You acknowledge that you will be required to provide sup",
+    "wizard page error: field \"Do you request to opt-out of the use of artificial intellige\": Error: The field Do you request to opt-out of the use of artificial intelligence in the recruitment process? is required and must have a value.",
+    "wizard page error: Error: The field What is your current U.S. work authorization status? is required and must have a value.",
+    "wizard page error: Error: The field Do you request to opt-out of the use of artificial intelligence in the recruitment process? is required and must have a value.",
+    "wizard fill error: primaryQuestionnaire--5e4d6987bfbf10013db382ee79f20000: combobox option not committed: opened via control click; filter typing skipped: control is a button (not typeable); button popup already open; picking from it directly; no option matches \"Yes\" (options: )",
+    "wizard fill error: primaryQuestionnaire--5e4d6987bfbf10013db388f1da570001: combobox option not committed: opened via control click; filter typing skipped: control is a button (not typeable); button popup already open; picking from it directly; no option matches \"United States of America\" (options: )",
+    "wizard fill error: primaryQuestionnaire--5e4d6987bfbf10013db3898ba8fb0002: combobox option not committed: opened via control click; filter typing skipped: control is a button (not typeable); button popup already open; picking from it directly; no option matches \"Yes\" (options: )",
+    "wizard retype: work_authorization re-pick not committed — no option matches \"Yes\" (options: )",
+    "wizard retype: screener:custom:country_of_residence re-pick not committed — no option matches \"United States of America\" (options: )",
+    "wizard retype: screener:custom:ai_recruitment_opt_out re-pick not committed — no option matches \"Yes\" (options: )",
+    "wizard page error: field \"What is your current U.S. work authorization status?*\": Error: The field What is your current U.S. work authorization status? is required and must have a value.",
+    "wizard page error: field \"By proceeding with this application, you confirm that the re\": Error: The field By proceeding with this application, you confirm that the responses provided to the questions above are accurate and truthful. You acknowledge that you will be required to provide sup",
+    "wizard page error: field \"Do you request to opt-out of the use of artificial intellige\": Error: The field Do you request to opt-out of the use of artificial intelligence in the recruitment process? is required and must have a value.",
+    "wizard page error: Error: The field What is your current U.S. work authorization status? is required and must have a value.",
+    "wizard page error: Error: The field Do you request to opt-out of the use of artificial intelligence in the recruitment process? is required and must have a value.",
+    "wizard fill error: primaryQuestionnaire--5e4d6987bfbf10013db382ee79f20000: combobox option not committed: opened via control click; filter typing skipped: control is a button (not typeable); button popup already open; picking from it directly; no option matches \"Yes\" (options: )",
+    "wizard fill error: primaryQuestionnaire--5e4d6987bfbf10013db388f1da570001: combobox option not committed: opened via control click; filter typing skipped: control is a button (not typeable); button popup already open; picking from it directly; no option matches \"United States of America\" (options: )",
+    "wizard fill error: primaryQuestionnaire--5e4d6987bfbf10013db3898ba8fb0002: combobox option not committed: opened via control click; filter typing skipped: control is a button (not typeable); button popup already open; picking from it directly; no option matches \"Yes\" (options: )",
+    "wizard retype: work_authorization re-pick not committed — no option matches \"Yes\" (options: )",
+    "wizard retype: screener:custom:country_of_residence re-pick not committed — no option matches \"United States of America\" (options: )",
+    "wizard retype: screener:custom:ai_recruitment_opt_out re-pick not committed — no option matches \"Yes\" (options: )",
+    "wizard page error: field \"What is your current U.S. work authorization status?*\": Error: The field What is your current U.S. work authorization status? is required and must have a value.",
+    "wizard page error: field \"By proceeding with this application, you confirm that the re\": Error: The field By proceeding with this application, you confirm that the responses provided to the questions above are accurate and truthful. You acknowledge that you will be required to provide sup",
+    "wizard page error: field \"Do you request to opt-out of the use of artificial intellige\": Error: The field Do you request to opt-out of the use of artificial intelligence in the recruitment process? is required and must have a value.",
+    "wizard page error: Error: The field What is your current U.S. work authorization status? is required and must have a value.",
+    "wizard page error: Error: The field Do you request to opt-out of the use of artificial intelligence in the recruitment process? is required and must have a value.",
+    "wizard: page 2 never settled on a NEW page (heading still \"AI Engineer Intern (Summer 2027)\") — planning on the current DOM",
+    "wizard: page 2 heading=\"AI Engineer Intern (Summer 2027)\" url…27-_REQ0826_0038079/apply shot=wizard-page-2-1788279407765.png",
+    "wizard: page 3 never settled on a NEW page (heading still \"AI Engineer Intern (Summer 2027)\") — planning on the current DOM",
+    "wizard: page 3 heading=\"AI Engineer Intern (Summer 2027)\" url…27-_REQ0826_0038079/apply shot=wizard-page-3-1788279431378.png",
+    "wizard: page 4 never settled on a NEW page (heading still \"AI Engineer Intern (Summer 2027)\") — planning on the current DOM",
+    "wizard: page 4 heading=\"AI Engineer Intern (Summer 2027)\" url…27-_REQ0826_0038079/apply shot=wizard-page-4-1788279632743.png",
+    "wizard: page 5 never settled on a NEW page (heading still \"AI Engineer Intern (Summer 2027)\") — planning on the current DOM",
+    "wizard: page 5 heading=\"AI Engineer Intern (Summer 2027)\" url…27-_REQ0826_0038079/apply shot=wizard-page-5-1788279829722.png",
+    "wizard: page 6 never settled on a NEW page (heading still \"AI Engineer Intern (Summer 2027)\") — planning on the current DOM",
+    "wizard: page 6 heading=\"AI Engineer Intern (Summer 2027)\" url…27-_REQ0826_0038079/apply shot=wizard-page-6-1788280026717.png",
+    "wizard: page 7 never settled on a NEW page (heading still \"AI Engineer Intern (Summer 2027)\") — planning on the current DOM",
+    "wizard: page 7 heading=\"AI Engineer Intern (Summer 2027)\" url…27-_REQ0826_0038079/apply shot=wizard-page-7-1788280206132.png",
+    "wizard: page 8 never settled on a NEW page (heading still \"AI Engineer Intern (Summer 2027)\") — planning on the current DOM",
+    "wizard: page 8 heading=\"AI Engineer Intern (Summer 2027)\" url…27-_REQ0826_0038079/apply shot=wizard-page-8-1788280409548.png",
+    "wizard: page 9 never settled on a NEW page (heading still \"AI Engineer Intern (Summer 2027)\") — planning on the current DOM",
+    "wizard: page 9 heading=\"AI Engineer Intern (Summer 2027)\" url…27-_REQ0826_0038079/apply shot=wizard-page-9-1788280607841.png",
+    "wizard: filled 8 additional page(s) — wizard:0/1, wizard:6/18, wizard:6/17, wizard:6/17, wizard:6/17, wizard:6/17, wizard:6/17, wizard:6/17",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [
+    {
+      "field_id": "country--country",
+      "label": "Country",
+      "answer_space": "closed",
+      "option_count": 250,
+      "options": [
+        "Select One",
+        "Afghanistan",
+        "Åland Islands",
+        "Albania",
+        "Algeria",
+        "American Samoa",
+        "Andorra",
+        "Angola",
+        "Anguilla",
+        "Antigua and Barbuda",
+        "Argentina",
+        "Armenia",
+        "Aruba",
+        "Australia",
+        "Austria",
+        "Azerbaijan",
+        "Bahamas",
+        "Bahrain",
+        "Bangladesh",
+        "Barbados",
+        "Belarus",
+        "Belgium",
+        "Belize",
+        "Benin",
+        "Bermuda"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "address--countryRegion",
+      "label": "State",
+      "answer_space": "closed",
+      "option_count": 61,
+      "options": [
+        "Select One",
+        "Alabama",
+        "Alaska",
+        "American Samoa",
+        "Arizona",
+        "Arkansas",
+        "Armed Forces Americas",
+        "Armed Forces Europe",
+        "Armed Forces Pacific",
+        "California",
+        "Colorado",
+        "Connecticut",
+        "Delaware",
+        "District of Columbia",
+        "Florida",
+        "Georgia",
+        "Guam",
+        "Hawaii",
+        "Idaho",
+        "Illinois",
+        "Indiana",
+        "Iowa",
+        "Kansas",
+        "Kentucky",
+        "Louisiana"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "phoneNumber--phoneType",
+      "label": "Phone Device Type",
+      "answer_space": "closed",
+      "option_count": 4,
+      "options": [
+        "Select One",
+        "Fax",
+        "Landline",
+        "Mobile"
+      ],
+      "other_option": null
+    }
+  ],
+  "wizard_pages": [
+    {
+      "page": 2,
+      "url": "https://finastra.wd3.myworkdayjobs.com/en-US/finc/job/Atlanta/AI-Engineer-Intern--Summer-2027-_REQ0826_0038079/apply",
+      "kind": "wizard",
+      "fillable": 1,
+      "filled": 0,
+      "verify_passed": false
+    },
+    {
+      "page": 3,
+      "url": "https://finastra.wd3.myworkdayjobs.com/en-US/finc/job/Atlanta/AI-Engineer-Intern--Summer-2027-_REQ0826_0038079/apply",
+      "kind": "wizard",
+      "fillable": 18,
+      "filled": 6,
+      "verify_passed": false
+    },
+    {
+      "page": 4,
+      "url": "https://finastra.wd3.myworkdayjobs.com/en-US/finc/job/Atlanta/AI-Engineer-Intern--Summer-2027-_REQ0826_0038079/apply",
+      "kind": "wizard",
+      "fillable": 17,
+      "filled": 6,
+      "verify_passed": false
+    },
+    {
+      "page": 5,
+      "url": "https://finastra.wd3.myworkdayjobs.com/en-US/finc/job/Atlanta/AI-Engineer-Intern--Summer-2027-_REQ0826_0038079/apply",
+      "kind": "wizard",
+      "fillable": 17,
+      "filled": 6,
+      "verify_passed": false
+    },
+    {
+      "page": 6,
+      "url": "https://finastra.wd3.myworkdayjobs.com/en-US/finc/job/Atlanta/AI-Engineer-Intern--Summer-2027-_REQ0826_0038079/apply",
+      "kind": "wizard",
+      "fillable": 17,
+      "filled": 6,
+      "verify_passed": false
+    },
+    {
+      "page": 7,
+      "url": "https://finastra.wd3.myworkdayjobs.com/en-US/finc/job/Atlanta/AI-Engineer-Intern--Summer-2027-_REQ0826_0038079/apply",
+      "kind": "wizard",
+      "fillable": 17,
+      "filled": 6,
+      "verify_passed": false
+    },
+    {
+      "page": 8,
+      "url": "https://finastra.wd3.myworkdayjobs.com/en-US/finc/job/Atlanta/AI-Engineer-Intern--Summer-2027-_REQ0826_0038079/apply",
+      "kind": "wizard",
+      "fillable": 17,
+      "filled": 6,
+      "verify_passed": false
+    },
+    {
+      "page": 9,
+      "url": "https://finastra.wd3.myworkdayjobs.com/en-US/finc/job/Atlanta/AI-Engineer-Intern--Summer-2027-_REQ0826_0038079/apply",
+      "kind": "wizard",
+      "fillable": 17,
+      "filled": 6,
+      "verify_passed": false
+    }
+  ],
+  "operator_brief": {
+    "title": "Live fill — workday https://finastra.wd3.myworkdayjobs.com/finc/job/Atlanta/AI-Engineer-Intern--Summer-2027-_REQ0826_0038079",
+    "summary": "No open field issues in this report.",
+    "items": [],
+    "ok_count": 11,
+    "fail_count": 0
+  },
+  "written_at": "2026-09-01T16:39:57.590Z"
+}

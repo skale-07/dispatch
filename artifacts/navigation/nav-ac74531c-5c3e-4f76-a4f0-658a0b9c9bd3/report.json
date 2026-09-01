@@ -1,0 +1,49 @@
+{
+  "run_id": "nav-ac74531c-5c3e-4f76-a4f0-658a0b9c9bd3",
+  "application_id": "4299f8a0-90fe-440a-af19-fc9d6f059649",
+  "jobright_job_id": "6a970d90e4e60e4b8da5bcb8",
+  "method": "apply_click_popup",
+  "resolved_url": "https://careers-americas.icims.com/jobs/26266/software-engineer-intern%2c-2027-summer-u.s./job",
+  "resolved_ats": "generic",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no congruent apply href (10 external links)",
+      "evidence": "careers-americas.icims.com, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, www.atlassian.com"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "resolved via popup",
+      "evidence": "careers-americas.icims.com"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "phase A: anchor reads as \"americas\" (URL names \"americas\" (tenant), which shares nothing with company \"Atlassian\") — not preferred, deferring to the Apply click",
+    "phase A: 9 external host(s) seen: careers-americas.icims.com, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, www.atlassian.com, www.thehindubusinessline.com, www.brecorder.com, www.marketscreener.com",
+    "Apply control: autofill CTA (tier 0)",
+    "jobright interstitial: clicked \"Apply Without Customizing\"",
+    "popup settled off about:blank after the interstitial",
+    "popup captured on attempt 1",
+    "phase B: captured URL reads as \"americas\" (URL names \"americas\" (tenant), which shares nothing with company \"Atlassian\") — kept, provenance is the Apply click",
+    "congruence: URL names \"americas\", not \"Atlassian\" (URL names \"americas\" (tenant), which shares nothing with company \"Atlassian\") — recorded, not refused"
+  ],
+  "congruence": {
+    "verdict": "mismatch",
+    "slug": "americas",
+    "detail": "URL names \"americas\" (tenant), which shares nothing with company \"Atlassian\"",
+    "expected_company": "Atlassian",
+    "url": "https://careers-americas.icims.com/jobs/26266/software-engineer-intern%2c-2027-summer-u.s./job?jr_id=6a970d90e4e60e4b8da5bcb8"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-09-01T18:24:43.555Z"
+}
