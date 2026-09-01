@@ -337,3 +337,60 @@ that draft; Hugh O'Reilly III hugh@nuvo.com verified).
   has been received" (bounded gap) — the verifier had classed Gem's real
   receipt "unknown" and parked a successful submission as
   SUBMISSION_VERIFICATION_FAILED. Reconciled via review:resolve.
+
+### Job #3 — 4eb2b7ad Mastercard Data Scientist Intern Summer 2027
+(mastercard Workday, R-284879) — five runs, four walls cleared, now
+⚠ OPERATOR-BLOCKED on one datum
+- **#113** posting-identity gate: the apply flow renders the slug with
+  punctuation ("O'Fallon%2C-Missouri" vs validated "OFallon-Missouri") —
+  slug punctuation added to the #81 presentation set (apostrophes/periods;
+  requisition id still convicts). 5/5 tests.
+- **#113b** "Please select date that you will complete your current
+  degree" pattern-matched education_level → "Undergrad" at a DATE widget
+  → page wedged 8 passes. ScreenerDef gains excludePatterns (date/when/
+  month/year fenced for education_level), enforced on BOTH the pattern
+  and keyOverride/LLM paths. LIVE: date now fills 05/01/2029.
+- **#113c** transcript is REQUIRED mid-wizard; the supplemental pass only
+  ran at submit time; plus Workday's dropzone says "Select files"
+  (plural) and the input's nearest div is caption-less — trigger regex
+  pluralized, input-context now walks ancestors, pass wired into the
+  wizard walk (once per walk). LIVE: transcript.pdf uploaded page-side.
+- **#114** completeness scan re-listed all 7 members of the ALREADY
+  ANSWERED race checkbox group (Workday members carry no name — id-suffix
+  token grouping "<hex>-ethnicityMulti", one aria-checked=true member
+  satisfies; Workday's own error panel agreed). Scan now groups by id
+  suffix + accepts aria-checked. 16/16.
+- **Remaining blocker (operator's):** "Have you ever served in the
+  military?" — REQUIRED on the VEVRAA self-ID page; no military-service
+  value in the sensitive profile and house rules forbid inferring one
+  (veteran_status ≠ served). ⚠ OPERATOR: add the military-service answer
+  (sensitive profile) and requeue 4eb2b7ad; everything else on this app
+  fills and verifies.
+
+## Operator directive (2026-09-01 ~00:00, mid-run screenshot): outreach
+for MANUALLY-applied JobRight roles too
+- Applied tab harvested read-only via CDP: Datadog (Winter SWE),
+  J&J (SWE Co-Op Spring 2027), Google (SWE BS Summer 2027), Apple
+  (Applied Data Solutions Summer 2027) + 3 older applied rows
+  (Kognitos, NetApp, CACI). J&J/Google enqueued (rows created for
+  outreach only); insider triage over CDP found 22+ emails across the 7.
+- ⚠ JobRight data flags for operator review before sending:
+  brianmyers@openai.com listed under DATADOG insiders; ad@google.com
+  looks like a stub address.
+- These operator-applied rows must never be auto-applied by the
+  pipeline (double-application risk) — parked out of the queue after
+  outreach (see below).
+- **DONE (00:30 EDT):** all 7 roles drafted — Datadog 9, J&J 4, Google 2,
+  Apple 3, Kognitos 2, NetApp 6, CACI 4 (30 drafts this directive; total
+  Gmail drafts across all apps now 70+). Two mechanical validator bugs
+  found by the batch and fixed:
+  - manual-enqueue rows carried "Unknown company (manual enqueue)"
+    placeholders → model had no company to name → 16 correct rejections;
+    jobs rows backfilled with the real company/role from the Applied tab.
+  - **#115** "CACI" in the subject failed the company check that demanded
+    "CACI International Inc" verbatim — subjectNamesCompany now accepts
+    the legal-suffix-stripped name or the first distinctive token (≥4
+    chars). 23/23 tests.
+- Active operator-applied rows parked via the state machine
+  (FAILED_FINAL, reason "operator applied manually … never auto-apply"):
+  Datadog, Apple, CACI, J&J, Google. Kognitos/NetApp already terminal.

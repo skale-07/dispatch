@@ -69,8 +69,24 @@ export async function attachSupplementalMaterials(
               );
               if (lab?.textContent) label = lab.textContent;
             }
-            const context =
-              el.closest("section, fieldset, div")?.textContent ?? "";
+            // The nearest div can be a bare dropzone ("Drop files here")
+            // — walk up until an ancestor carries real question text
+            // (live mastercard 2026-08-31: the transcript legend sits 3
+            // levels above the hidden input).
+            let context = "";
+            let node = el.closest("section, fieldset, div") as {
+              textContent?: string | null;
+              parentElement: unknown;
+            } | null;
+            for (let depth = 0; depth < 6 && node; depth++) {
+              const t = (node.textContent ?? "").replace(/\s+/g, " ").trim();
+              if (/transcript|resume|\bcv\b|cover\s*letter/i.test(t)) {
+                context = t;
+                break;
+              }
+              if (!context && t) context = t;
+              node = node.parentElement as typeof node;
+            }
             return {
               idname,
               label: label.replace(/\s+/g, " ").trim().slice(0, 120),
@@ -137,7 +153,9 @@ async function attachTranscriptViaChooser(
       const t = triggers.nth(i);
       const text = ((await t.innerText().catch(() => "")) ?? "").trim();
       if (!text || text.length > 40) continue;
-      if (!/^(attach|upload|browse|select file|choose file)$/i.test(text)) {
+      // Plural "Select files" is Workday's dropzone link (live
+      // mastercard 2026-08-31).
+      if (!/^(attach|upload|browse|select files?|choose files?)$/i.test(text)) {
         continue;
       }
       // closest("div") is usually the Attach/Dropbox/Drive button ROW

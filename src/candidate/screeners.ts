@@ -34,6 +34,13 @@ export type ScreenerDef = {
   policy: ScreenerPolicy;
   /** Tested against the normalized label (lowercase, collapsed spaces). */
   patterns: RegExp[];
+  /**
+   * A label matching any of these is NOT this screener even when a
+   * pattern hits (#113b, live mastercard 2026-08-31: "Please select date
+   * that you will complete your current degree" pattern-matched
+   * education_level and "Undergrad" was aimed at a DATE widget).
+   */
+  excludePatterns?: RegExp[];
   /** Option synonyms: bank answer → acceptable page-option spellings. */
   synonyms?: Record<string, string[]>;
 };
@@ -109,6 +116,9 @@ export const SCREENER_REGISTRY: ScreenerDef[] = [
       /degree (level|type|you are pursuing)/,
       /education you are pursuing/,
     ],
+    // A DATE question about the degree ("date that you will complete
+    // your current degree") is graduation timing, not a level (#113b).
+    excludePatterns: [/\b(date|when|month|year)\b/],
     synonyms: {
       Undergrad: ["undergrad", "undergraduate", "bachelor", "bachelors", "bachelor's", "bs", "ba"],
       "Master's/MBA": ["master", "masters", "master's", "mba", "ms", "meng", "master's/mba"],

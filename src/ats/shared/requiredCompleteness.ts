@@ -243,17 +243,31 @@ const SCAN_EXPRESSION = `(() => {
       // One question per group: unanswered only when no member is checked.
       const cname = el.name || "";
       const fs = el.closest("fieldset");
-      const siblings = cname
+      let siblings = cname
         ? Array.from(document.querySelectorAll('input[type="checkbox"][name="' + CSS.escape(cname) + '"]'))
         : [];
+      // #114 (live mastercard 2026-08-31): Workday demographic groups
+      // carry NO name — members share an id SUFFIX token
+      // ("<hex>-ethnicityMulti", the #105 shape). One member was checked
+      // and Workday itself was satisfied, yet per-box reading named all
+      // remaining aria-required members as unanswered questions.
+      const sfx = (el.id || "").match(/-([A-Za-z][A-Za-z0-9_]{2,})$/);
+      if (siblings.length <= 1 && sfx) {
+        const same = Array.from(
+          document.querySelectorAll('input[type="checkbox"]'),
+        ).filter((c) => (c.id || "").endsWith("-" + sfx[1]));
+        if (same.length > 1) siblings = same;
+      }
       const isGroup = siblings.length > 1 || (cname !== "" && fs !== null && fs.querySelector("legend") !== null);
       if (isGroup) {
-        const key = "checkbox:" + cname;
+        const key = "checkbox:" + (cname || (sfx ? "sfx:" + sfx[1] : labelFor(el)));
         if (seenGroups.has(key)) continue;
         seenGroups.add(key);
         const members = siblings.length > 0 ? siblings : [el];
         const groupRequired = members.some((c) => isRequired(c));
-        const anyChecked = members.some((c) => c.checked);
+        const anyChecked = members.some(
+          (c) => c.checked || c.getAttribute("aria-checked") === "true",
+        );
         if (!anyChecked) {
           const legend = fs ? fs.querySelector("legend") : null;
           push(groupRequired, {

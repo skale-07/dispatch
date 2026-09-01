@@ -48,6 +48,25 @@ describe("#81 workday apply-flow presentation differences", () => {
   });
 });
 
+describe("#113 slug punctuation (Mastercard O'Fallon)", () => {
+  it("apostrophes/commas in the rendered slug are presentation, not identity", async () => {
+    const { samePostingPath } = await import("../../src/ats/shared/preMutationGate.js");
+    expect(
+      samePostingPath(
+        "/en-US/campus/job/O'Fallon%2C-Missouri/Data-Scientist-Intern--Summer-2027---St-Louis--MO--US_R-284879/apply/applyManually",
+        "/campus/job/OFallon-Missouri/Data-Scientist-Intern--Summer-2027---St-Louis--MO--US_R-284879",
+      ),
+    ).toBe(true);
+    // A different requisition still mismatches.
+    expect(
+      samePostingPath(
+        "/en-US/campus/job/O'Fallon%2C-Missouri/Data-Scientist-Intern--Summer-2027---St-Louis--MO--US_R-999999/apply/applyManually",
+        "/campus/job/OFallon-Missouri/Data-Scientist-Intern--Summer-2027---St-Louis--MO--US_R-284879",
+      ),
+    ).toBe(false);
+  });
+});
+
 describe("#90b underscore locales (Avature en_US)", () => {
   it("an en_US prefix is presentation; a different jobId path still mismatches", async () => {
     const { samePostingPath } = await import("../../src/ats/shared/preMutationGate.js");

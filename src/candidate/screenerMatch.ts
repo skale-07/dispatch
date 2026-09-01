@@ -31,7 +31,9 @@ export function matchScreenerKey(label: string): ScreenerDef | null {
   const norm = normalizeScreenerLabel(label);
   if (!norm) return null;
   for (const def of SCREENER_REGISTRY) {
-    if (def.patterns.some((p) => p.test(norm))) return def;
+    if (!def.patterns.some((p) => p.test(norm))) continue;
+    if (def.excludePatterns?.some((p) => p.test(norm))) continue;
+    return def;
   }
   return null;
 }
@@ -581,6 +583,12 @@ export function resolveScreenerForField(
 ): ScreenerResolution | null {
   const def = keyOverride ? screenerDef(keyOverride) : matchScreenerKey(field.label);
   if (!def) return null;
+  // #113b: excludes bind every path to the key — an LLM/stored label
+  // mapping must not resurrect a match the registry explicitly fences.
+  if (def.excludePatterns) {
+    const norm = normalizeScreenerLabel(field.label);
+    if (norm && def.excludePatterns.some((p) => p.test(norm))) return null;
+  }
   return resolveScreenerAnswer({
     def,
     bank,

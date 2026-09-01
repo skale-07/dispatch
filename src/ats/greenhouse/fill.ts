@@ -84,18 +84,27 @@ export function locatorForField(
   const CONTROL = 'input:not([type="hidden"]), textarea, select, [contenteditable="true"]';
   const labelledControl = byLabel.and(page.locator(CONTROL));
   const innerControl = byLabel.locator(CONTROL);
+  // #114b (live sierra 2026-09-01): Ashby anchors its extra-question and
+  // demographic fields by `data-field-path="<field id>"` on a WRAPPER div —
+  // no element id, name, or label[for] anywhere, so every tier missed and
+  // four discovered controls were "not found". The wrapper's first control
+  // (or its member boxes) is the target; absent attribute = empty union.
+  const fpEsc = entry.field_id.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+  const fieldPathWrap = page.locator(`[data-field-path="${fpEsc}"]`);
   const vis = (l: Locator): Locator =>
     opts?.visibleOnly ? l.and(page.locator(":visible")) : l;
   if (type === "checkbox" || type === "radio") {
     const boxes = 'input[type="checkbox"], input[type="radio"]';
-    return byLabel
-      .and(page.locator(boxes))
+    return fieldPathWrap
+      .locator(boxes)
+      .or(byLabel.and(page.locator(boxes)))
       .or(byLabel.locator(boxes))
       .first();
   }
   if (type !== undefined && type !== "select") {
     const notBox = ':not(input[type="checkbox"]):not(input[type="radio"])';
-    return vis(labelledControl.and(page.locator(notBox)))
+    return vis(fieldPathWrap.locator(CONTROL).and(page.locator(notBox)))
+      .or(vis(labelledControl.and(page.locator(notBox))))
       .or(vis(innerControl.and(page.locator(notBox))))
       .or(vis(labelForDescend(page, entry.label, CONTROL_XPATH).and(page.locator(notBox))))
       .first();
@@ -103,7 +112,11 @@ export function locatorForField(
   // NOTE: .or() is a union and .first() takes DOCUMENT order — an ancestor
   // wrapper would always beat its inner control. Never include the bare
   // labelled element: only real controls may win.
-  return vis(labelledControl).or(vis(innerControl)).or(vis(labelForDescend(page, entry.label, CONTROL_XPATH))).first();
+  return vis(fieldPathWrap.locator(CONTROL))
+    .or(vis(labelledControl))
+    .or(vis(innerControl))
+    .or(vis(labelForDescend(page, entry.label, CONTROL_XPATH)))
+    .first();
 }
 
 const CONTROL_XPATH =

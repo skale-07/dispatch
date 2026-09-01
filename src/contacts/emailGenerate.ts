@@ -139,6 +139,25 @@ const SENDER_IS_ALUM =
  * actually described. The invented-project check is unaffected: claims must
  * still match a persona project name exactly.
  */
+/**
+ * "CACI" names "CACI International Inc" (#115, live 2026-09-01): the
+ * subject check accepts the full stored name, the name with legal
+ * suffixes stripped, or its first distinctive token (≥4 chars) — natural
+ * prose never carries the legal form.
+ */
+function subjectNamesCompany(subject: string, company: string): boolean {
+  const s = subject.toLowerCase();
+  const full = company.toLowerCase().trim();
+  if (s.includes(full)) return true;
+  const stripped = full
+    .replace(/[,.]/g, "")
+    .replace(/\b(incorporated|inc|llc|llp|ltd|corp|corporation|company|co|plc|group|holdings)\b\.?\s*$/g, "")
+    .trim();
+  if (stripped.length >= 3 && s.includes(stripped)) return true;
+  const firstToken = full.split(/\s+/)[0] ?? "";
+  return firstToken.length >= 4 && s.includes(firstToken);
+}
+
 function projectAppearsInBody(name: string, body: string): boolean {
   if (body.includes(name)) return true;
   return name
@@ -172,7 +191,7 @@ export function validateGeneratedEmail(input: {
   }
   if (
     context.job.company &&
-    !output.subject.toLowerCase().includes(context.job.company.toLowerCase())
+    !subjectNamesCompany(output.subject, context.job.company)
   ) {
     violations.push("subject must name the company");
   }

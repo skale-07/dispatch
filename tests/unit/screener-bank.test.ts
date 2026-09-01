@@ -55,6 +55,14 @@ describe("screener registry + matcher (UNIT_CONFIRMED)", () => {
       "closest_location",
     );
     expect(matchScreenerKey("How did you hear about this role?")?.key).toBe("how_heard");
+    // #113b (live mastercard 2026-08-31): a DATE question about the
+    // degree pattern-matched education_level and "Undergrad" was aimed at
+    // a date widget — excludePatterns fence it.
+    expect(
+      matchScreenerKey(
+        "Please select date that you will complete your current degree",
+      ),
+    ).toBeNull();
     expect(
       matchScreenerKey(
         "(Optional) If you were referred by a Cohere employee, please tell us who!",

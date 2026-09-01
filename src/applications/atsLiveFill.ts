@@ -74,6 +74,7 @@ import { resolveBrowserChannel } from "../browser/launchOptions.js";
 import { detectAtsHandoff } from "../ats/shared/atsHandoff.js";
 import type { Page } from "playwright";
 import { verifyResumePdfFile } from "../jobright/resumeDownload.js";
+import { attachSupplementalMaterials } from "../ats/shared/supplementalMaterials.js";
 import type { PublicProfile } from "../candidate/publicProfile.js";
 import type {
   FillResult,
@@ -1173,6 +1174,13 @@ export async function runAtsLiveFill(input: {
       // walk (workdayWizard.ts) clicks Next → settles → hands each page to
       // this filler; bounded, and NEVER the submit button.
       let wizardVerifyFailed = false;
+      // #113c (live mastercard 2026-08-31): "Please upload your
+      // college/university transcript." is REQUIRED mid-wizard, but the
+      // supplemental pass only ran at submit time — page 2 could never
+      // advance. Attach once per walk, only on a page that names a
+      // transcript (the pass itself is fail-closed: no file on disk or
+      // no matching input ⇒ nothing touched).
+      let wizardTranscriptDone = false;
       if (binding.id === "workday") {
         const walk = await walkWorkdayWizard(page, async ({ html, url }) => {
           const pagePlan = await planApplicationFill({
@@ -1240,6 +1248,23 @@ export async function runAtsLiveFill(input: {
           ) {
             const upload = await wizardAdapter.uploadResume(page, input.resumePath);
             report.uploads = [...(report.uploads ?? []), upload];
+          }
+          // #113c: supplemental materials (transcript) mid-walk, once.
+          if (!wizardTranscriptDone && /transcript/i.test(html)) {
+            const supplemental = await attachSupplementalMaterials(page);
+            if (supplemental.attached.length > 0) {
+              wizardTranscriptDone = true;
+              report.notes.push(
+                ...supplemental.attached.map(
+                  (a) =>
+                    `wizard supplemental: ${a.kind} "${a.label}" ${a.verified ? "verified" : "unverified"}`,
+                ),
+              );
+            } else if (supplemental.notes.length > 0) {
+              report.notes.push(
+                ...supplemental.notes.map((n) => `wizard supplemental: ${n}`),
+              );
+            }
           }
           if (pagePlan.approvedPlan.skipped_count > 0) {
             report.form_snapshot_path = writeFormSnapshot(html);

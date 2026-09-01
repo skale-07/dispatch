@@ -422,6 +422,21 @@ describe("deterministic email validation (UNIT_CONFIRMED)", () => {
     expect(r2.violations.join(" ")).toMatch(/first name/);
   });
 
+  it("subject naming a distinctive company token passes; unrelated subject still fails (#115)", () => {
+    const context = contextFor("beyond");
+    context.job.company = "CACI International Inc";
+    context.contact.company = "CACI International Inc";
+    const output = validOutput("beyond");
+    output.subject = `${NON_ALUM_SUBJECT_PREFIX}CACI Software Developer internship`;
+    const r = validateGeneratedEmail({ output, context });
+    expect(r.violations.join(" ")).not.toMatch(/name the company/);
+
+    const generic = validOutput("beyond");
+    generic.subject = `${NON_ALUM_SUBJECT_PREFIX}your team's open role`;
+    const r2 = validateGeneratedEmail({ output: generic, context });
+    expect(r2.violations.join(" ")).toMatch(/name the company/);
+  });
+
   it("rejects referral claims and false school ties", () => {
     const referral = validOutput("beyond");
     referral.body_text += "\nI was referred by your colleague.";

@@ -40,9 +40,12 @@ export function samePostingPath(finalPath: string, expectedPath: string): boolea
         // /apply(/applyManually). Locale prefixes, commas, and the apply
         // suffix are presentation, not identity; the requisition id +
         // slug (compared below) still convict a real mismatch.
+        // #113 (live mastercard 2026-08-31): same class, apostrophes —
+        // the validated slug says "OFallon-Missouri", the apply flow
+        // renders "O'Fallon,-Missouri". Slug punctuation is presentation.
         .replace(/^\/[a-z]{2}[-_][a-z]{2}(?=\/)/, "")
         .replace(/\/apply(\/[a-z]+)?$/, "")
-        .replace(/,/g, "")
+        .replace(/[,'’.]/g, "")
     );
   };
   return norm(finalPath) === norm(expectedPath);

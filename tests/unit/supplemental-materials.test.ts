@@ -103,6 +103,44 @@ describe("supplemental materials attach (FIXTURE_CONFIRMED)", () => {
     });
   }, 45_000);
 
+  // Live mastercard Workday 2026-08-31 (#113c): the dropzone link reads
+  // "Select files" (plural) and the input's nearest div says only "Drop
+  // files here" — the transcript legend sits levels above.
+  it("Workday dropzone: 'Select files' trigger + distant legend attach (#113c)", async () => {
+    const html = `
+      <form>
+        <div>
+          <p>Please upload your college/university transcript.<span>*</span></p>
+          <div class="zone-wrap">
+            <div class="dropzone">
+              <div>Drop files here</div>
+              <div>or <button id="tr-select" type="button">Select files</button></div>
+            </div>
+          </div>
+          <span id="tr-chip"></span>
+        </div>
+      </form>
+      <script>
+        document.getElementById("tr-select").addEventListener("click", () => {
+          const i = document.createElement("input");
+          i.type = "file"; i.style.display = "none";
+          i.addEventListener("change", () => {
+            document.getElementById("tr-chip").textContent = i.files[0].name;
+            i.remove();
+          });
+          document.body.appendChild(i); i.click();
+        });
+      </script>`;
+    await withFixtureHtmlPage(html, async (page) => {
+      const r = await attachSupplementalMaterials(page, {
+        transcriptPath: tmpTranscript,
+      });
+      expect(r.attached).toHaveLength(1);
+      expect(r.attached[0]!.verified).toBe(true);
+      expect(await page.locator("#tr-chip").innerText()).toContain(".pdf");
+    });
+  }, 45_000);
+
   it("no transcript on disk ⇒ nothing touched, note says so", async () => {
     await withFixtureHtmlPage(APPIAN_SHAPE, async (page) => {
       const r = await attachSupplementalMaterials(page, {

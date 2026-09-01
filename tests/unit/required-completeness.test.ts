@@ -88,6 +88,29 @@ describe("required-completeness scan (FIXTURE_CONFIRMED)", () => {
     });
   }, 45_000);
 
+  it("LIVE mastercard shape (#114): nameless Workday id-suffix checkbox group satisfied by one checked member", async () => {
+    // Members share only the id SUFFIX ("<hex>-ethnicityMulti"), no name,
+    // no fieldset/legend; one is checked and Workday itself is satisfied —
+    // the scan must not name the remaining aria-required members.
+    const html = `<form>
+      <div>Please identify your race or ethnicity.</div>
+      <div><input id="40a306eb-ethnicityMulti" type="checkbox" aria-required="true"><label for="40a306eb-ethnicityMulti">American Indian or Alaska Native</label></div>
+      <div><input id="9d68a3a2-ethnicityMulti" type="checkbox" aria-required="true" checked><label for="9d68a3a2-ethnicityMulti">Asian (Not Hispanic or Latino)</label></div>
+      <div><input id="00b90f77-ethnicityMulti" type="checkbox" aria-required="true"><label for="00b90f77-ethnicityMulti">White (Not Hispanic or Latino)</label></div>
+      <div><input id="cd9a04db-ethnicityMulti" type="checkbox" aria-required="true"><label for="cd9a04db-ethnicityMulti">Prefer Not To Self Identify</label></div>
+    </form>`;
+    await withFixtureHtmlPage(html, async (page) => {
+      const r = await scanRequiredCompleteness(page);
+      expect(r.unanswered.filter((u) => u.control === "checkbox")).toEqual([]);
+      expect(r.unanswered.filter((u) => u.control === "checkbox_group")).toEqual([]);
+      // The UNANSWERED variant still reports (as one group, not members).
+      await page.locator('[id="9d68a3a2-ethnicityMulti"]').uncheck();
+      const empty = await scanRequiredCompleteness(page);
+      expect(empty.unanswered.filter((u) => u.control === "checkbox_group")).toHaveLength(1);
+      expect(empty.unanswered.filter((u) => u.control === "checkbox")).toEqual([]);
+    });
+  }, 45_000);
+
   it("catches the Cohere shape: untouched required radios, select, and essay", async () => {
     const html = `
       <form>
