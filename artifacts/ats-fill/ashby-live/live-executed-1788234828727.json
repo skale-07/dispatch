@@ -1,0 +1,643 @@
+{
+  "ats": "ashby",
+  "url": "https://jobs.ashbyhq.com/sierra/02e1c456-8489-4a74-9fe7-af8845b040e4/application",
+  "requested_url": "https://jobs.ashbyhq.com/sierra/02e1c456-8489-4a74-9fe7-af8845b040e4/application",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://jobs.ashbyhq.com/sierra/02e1c456-8489-4a74-9fe7-af8845b040e4/application",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 21,
+    "skipped_count": 6,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "f_0",
+      "label": "Application",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "_systemfield_name",
+      "label": "Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Single full-name field: composed legal_name.first + legal_name.last (both safe factual canonicals)"
+    },
+    {
+      "field_id": "532ebd58-5ce5-41f3-8b8a-46d1b59930e2",
+      "label": "Name pronounciation",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Demographics deferred to sensitive-profile policy path"
+    },
+    {
+      "field_id": "_systemfield_email",
+      "label": "Email",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "db0d4ac1-ee77-43b0-ad41-af8d375ffb6d",
+      "label": "Phone",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "_systemfield_resume",
+      "label": "Resume",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "3e407d22-fed6-4812-9673-94b4092e1c2a",
+      "label": "GitHub or personal website",
+      "type": "text",
+      "canonical_field": "personal_website",
+      "action": "SKIP",
+      "reason": "Profile value empty for personal_website"
+    },
+    {
+      "field_id": "2eaa23e4-4732-422b-86ef-489f85754aaa",
+      "label": "Why are you excited to join us at Sierra?",
+      "type": "textarea",
+      "canonical_field": "essay:generated:2eaa23e4-4732-422b-86ef-489f85754aaa",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "ec6af36a-a0da-4e9d-a6f5-4479c8174b66",
+      "label": "What qualities do you believe make someone a great Agent Engineer, and how do your skills and experiences make you the best candidate for this role?",
+      "type": "textarea",
+      "canonical_field": "essay:generated:ec6af36a-a0da-4e9d-a6f5-4479c8174b66",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "98267903-96ed-402b-b2e0-4611e4bbb468",
+      "label": "What's your favorite junk food?",
+      "type": "text",
+      "canonical_field": "screener:custom:predicted:98267903-96ed-402b-b2e0-4611e4bbb468",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): Light free-text culture question; a short, concrete one-item answer fits the requested length."
+    },
+    {
+      "field_id": "f_18",
+      "label": "Start typing...",
+      "type": "text",
+      "canonical_field": "screener:custom:location_autocomplete",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "94fbc34b-442a-4fcb-aff9-dfc4ec80a8bb",
+      "label": "What is your GPA?",
+      "type": "text",
+      "canonical_field": "gpa",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "c8f3524c-6193-4239-ab78-cf1d9e3d8d5e",
+      "label": "Anything else? (Optional)",
+      "type": "textarea",
+      "canonical_field": "essay:generated:c8f3524c-6193-4239-ab78-cf1d9e3d8d5e",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "267e8226-bb2f-4e41-91ac-f3900f3018fb",
+      "label": "Which Sierra office would you prefer to work from?",
+      "type": "select",
+      "canonical_field": "screener:custom:predicted:267e8226-bb2f-4e41-91ac-f3900f3018fb",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): Candidate is based in Baltimore, is willing to relocate, and has no stated preference between San Francisco and New York."
+    },
+    {
+      "field_id": "f3b9399a-c81b-42a6-b45f-d32e3c2d60c7",
+      "label": "Are you legally authorized to work in the United States?",
+      "type": "select",
+      "canonical_field": "work_authorization",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "caf2a068-71d0-489f-b73a-0c5788ca4cf5",
+      "label": "Will you now or in the future require visa sponsorship to work in the United States?",
+      "type": "select",
+      "canonical_field": "requires_sponsorship",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "b9dfe79c-4c55-4721-a0d2-f548d08f369c",
+      "label": "What is your ancitipated graduation season?",
+      "type": "select",
+      "canonical_field": "screener:custom:predicted:b9dfe79c-4c55-4721-a0d2-f548d08f369c",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): Candidate graduates May 2029, which is not among the listed seasons, so the not-listed hatch applies."
+    },
+    {
+      "field_id": "4dcac205-dbc0-40a1-816f-accce64bae9f",
+      "label": "Are you a member of, or involved with, any of the following communities or organizations?",
+      "type": "select",
+      "canonical_field": "screener:custom:predicted:4dcac205-dbc0-40a1-816f-accce64bae9f",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): Nothing in the profile indicates membership in any of the listed affinity organizations."
+    },
+    {
+      "field_id": "36f068f2-1680-47ed-8e25-09a4110a8636",
+      "label": "Do you plan to attend any of the following events this recruiting season?",
+      "type": "select",
+      "canonical_field": "screener:custom:predicted:36f068f2-1680-47ed-8e25-09a4110a8636",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): No stated plans to attend any of these conferences."
+    },
+    {
+      "field_id": "b694610e-84fe-4123-83d1-3d55d62d670b",
+      "label": "How did you hear about this opportunity?",
+      "type": "select",
+      "canonical_field": "screener:how_heard",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "8148cfa1-ddd9-461c-a847-92d82ad4a74e",
+      "label": "We use Metaview, an AI notetaking tool, to streamline interviews by recoding and summarizing discussions, enabling interviewers to be fully present without manual notetaking. With your approval, it silently records notes during interviews. Can Metaview transcribe all your interviews?",
+      "type": "select",
+      "canonical_field": "screener:custom:predicted:8148cfa1-ddd9-461c-a847-92d82ad4a74e",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): Standard interview-tooling consent; granting it is the cooperative default."
+    },
+    {
+      "field_id": "cf0f1bc7-7ce6-4eb3-aebc-b6562141cb68",
+      "label": "What is your current age?",
+      "type": "select",
+      "canonical_field": "screener:custom:predicted:cf0f1bc7-7ce6-4eb3-aebc-b6562141cb68",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): Undergraduate in the class of 2029 is clearly under 30."
+    },
+    {
+      "field_id": "8d7dcc65-3a0b-476a-b679-574b869780bb",
+      "label": "What is your gender identity?",
+      "type": "select",
+      "canonical_field": "gender_identity",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "0a90dc7e-908c-449f-9151-95612d844b10",
+      "label": "Do you identify as transgender?",
+      "type": "select",
+      "canonical_field": "transgender",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "a63b6f87-d090-40f0-a462-bf5bb03f5e45",
+      "label": "How do you identify your sexual orientation? Please select all that apply.",
+      "type": "select",
+      "canonical_field": "sexual_orientation",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "1e21d43f-548e-481a-aa5f-f048c73f3de3",
+      "label": "Which ethnicity(ies) do you identify with? Please select all that apply.",
+      "type": "select",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Demographics deferred to sensitive-profile policy path"
+    },
+    {
+      "field_id": "a76e67f9-eeb8-4d06-a9a5-b1596a9726e7",
+      "label": "Which of the following communities do you belong to? Please select all that apply.",
+      "type": "select",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\ashby-live\\form-snapshot-1788234000112.html",
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "email",
+      "phone",
+      "essay:generated:2eaa23e4-4732-422b-86ef-489f85754aaa",
+      "essay:generated:ec6af36a-a0da-4e9d-a6f5-4479c8174b66",
+      "screener:custom:predicted:98267903-96ed-402b-b2e0-4611e4bbb468",
+      "gpa",
+      "essay:generated:c8f3524c-6193-4239-ab78-cf1d9e3d8d5e",
+      "screener:custom:predicted:267e8226-bb2f-4e41-91ac-f3900f3018fb",
+      "work_authorization",
+      "requires_sponsorship",
+      "screener:custom:predicted:b9dfe79c-4c55-4721-a0d2-f548d08f369c",
+      "screener:how_heard",
+      "screener:custom:predicted:8148cfa1-ddd9-461c-a847-92d82ad4a74e",
+      "screener:custom:predicted:cf0f1bc7-7ce6-4eb3-aebc-b6562141cb68",
+      "gender_identity",
+      "transgender"
+    ],
+    "skipped": [],
+    "errors": [
+      "f_18: control not found on the page (label \"Start typing...\") — failing fast instead of waiting 30s",
+      "4dcac205-dbc0-40a1-816f-accce64bae9f: control not found on the page (label \"Are you a member of, or involved with, any of the following \") — failing fast instead of waiting 30s",
+      "36f068f2-1680-47ed-8e25-09a4110a8636: control not found on the page (label \"Do you plan to attend any of the following events this recru\") — failing fast instead of waiting 30s",
+      "a63b6f87-d090-40f0-a462-bf5bb03f5e45: control not found on the page (label \"How do you identify your sexual orientation? Please select a\") — failing fast instead of waiting 30s"
+    ],
+    "field_meta": [
+      {
+        "field_id": "_systemfield_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "_systemfield_email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "db0d4ac1-ee77-43b0-ad41-af8d375ffb6d",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "2eaa23e4-4732-422b-86ef-489f85754aaa",
+        "canonical_field": "essay:generated:2eaa23e4-4732-422b-86ef-489f85754aaa",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "ec6af36a-a0da-4e9d-a6f5-4479c8174b66",
+        "canonical_field": "essay:generated:ec6af36a-a0da-4e9d-a6f5-4479c8174b66",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "98267903-96ed-402b-b2e0-4611e4bbb468",
+        "canonical_field": "screener:custom:predicted:98267903-96ed-402b-b2e0-4611e4bbb468",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "94fbc34b-442a-4fcb-aff9-dfc4ec80a8bb",
+        "canonical_field": "gpa",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "c8f3524c-6193-4239-ab78-cf1d9e3d8d5e",
+        "canonical_field": "essay:generated:c8f3524c-6193-4239-ab78-cf1d9e3d8d5e",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "267e8226-bb2f-4e41-91ac-f3900f3018fb",
+        "canonical_field": "screener:custom:predicted:267e8226-bb2f-4e41-91ac-f3900f3018fb",
+        "control_kind": "button_group",
+        "selected_option": "No preference"
+      },
+      {
+        "field_id": "f3b9399a-c81b-42a6-b45f-d32e3c2d60c7",
+        "canonical_field": "work_authorization",
+        "control_kind": "button_group",
+        "selected_option": "Yes"
+      },
+      {
+        "field_id": "caf2a068-71d0-489f-b73a-0c5788ca4cf5",
+        "canonical_field": "requires_sponsorship",
+        "control_kind": "button_group",
+        "selected_option": "No"
+      },
+      {
+        "field_id": "b9dfe79c-4c55-4721-a0d2-f548d08f369c",
+        "canonical_field": "screener:custom:predicted:b9dfe79c-4c55-4721-a0d2-f548d08f369c",
+        "control_kind": "button_group",
+        "selected_option": "Other"
+      },
+      {
+        "field_id": "b694610e-84fe-4123-83d1-3d55d62d670b",
+        "canonical_field": "screener:how_heard",
+        "control_kind": "button_group",
+        "selected_option": "LinkedIn"
+      },
+      {
+        "field_id": "8148cfa1-ddd9-461c-a847-92d82ad4a74e",
+        "canonical_field": "screener:custom:predicted:8148cfa1-ddd9-461c-a847-92d82ad4a74e",
+        "control_kind": "button_group",
+        "selected_option": "Yes"
+      },
+      {
+        "field_id": "cf0f1bc7-7ce6-4eb3-aebc-b6562141cb68",
+        "canonical_field": "screener:custom:predicted:cf0f1bc7-7ce6-4eb3-aebc-b6562141cb68",
+        "control_kind": "button_group",
+        "selected_option": "Under 30"
+      },
+      {
+        "field_id": "8d7dcc65-3a0b-476a-b679-574b869780bb",
+        "canonical_field": "gender_identity",
+        "control_kind": "button_group",
+        "selected_option": "Man"
+      },
+      {
+        "field_id": "0a90dc7e-908c-449f-9151-95612d844b10",
+        "canonical_field": "transgender",
+        "control_kind": "button_group",
+        "selected_option": "No"
+      }
+    ]
+  },
+  "verify": {
+    "passed": false,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham Kale",
+        "observed": "Shubham Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:2eaa23e4-4732-422b-86ef-489f85754aaa",
+        "expected": "Most of my recent work has been about agents that touch real systems and where automation should stop. I built a Playwright-based job-application agent in TypeScript with SQLite as the single source of truth, an explicit state machine from DISCOVERED through SUBMITTED, and fail-closed flags like SUBMIT_ENABLED that never default on. Free-text essays and demographic fields are architecturally prevented from being auto-filled, because a wrong action there is a real application submitted with a fabricated answer. I also intentionally skip Workday and iCIMS rather than handle them unreliably. Sierra is building agents that talk to actual customers of companies like Uber, CLEAR, and Sutter Health, which means the same problem at much higher stakes: the agent has to be useful and it has to be right, and you need a way to know which one it is before it ships. Evaluation is the part I would most want to work on. At Intelehealth I designed a framework comparing LLM-generated clinical outputs against a 4,169-case standard using stratified sampling to surface systematic failure modes, and that convinced me judging an output is harder than generating one.",
+        "observed": "Most of my recent work has been about agents that touch real systems and where automation should stop. I built a Playwright-based job-application agent in TypeScript with SQLite as the single source of truth, an explicit state machine from DISCOVERED through SUBMITTED, and fail-closed flags like SUBMIT_ENABLED that never default on. Free-text essays and demographic fields are architecturally prevented from being auto-filled, because a wrong action there is a real application submitted with a fabricated answer. I also intentionally skip Workday and iCIMS rather than handle them unreliably. Sierra is building agents that talk to actual customers of companies like Uber, CLEAR, and Sutter Health, which means the same problem at much higher stakes: the agent has to be useful and it has to be right, and you need a way to know which one it is before it ships. Evaluation is the part I would most want to work on. At Intelehealth I designed a framework comparing LLM-generated clinical outputs against a 4,169-case standard using stratified sampling to surface systematic failure modes, and that convinced me judging an output is harder than generating one.",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:ec6af36a-a0da-4e9d-a6f5-4479c8174b66",
+        "expected": "I think a great agent engineer treats reliability as the actual product. Anyone can get an agent to work once against a fixture; the hard part is knowing when it is safe to act, what it should refuse to do, and how you would prove it works before a real customer is on the other end. That means caring about state, failure modes, and evaluation as much as prompting.\n\nMy job-application agent is the clearest evidence I have. I built a validation ladder, UNIT_CONFIRMED to FIXTURE_CONFIRMED to LIVE_READ_ONLY_CONFIRMED to LIVE_MUTATION_CONFIRMED, because a capability should only claim the level of reality it has actually been tested against. I supported Greenhouse fully and Lever and Ashby partially, and deliberately detected and skipped Workday, iCIMS, and Oracle rather than handling them unreliably. I also built an operator console so a human could observe and approve each step.\n\nEvaluation is the other half. At Intelehealth I designed a framework comparing LLM-generated clinical outputs against a 4,169-case standard using stratified sampling to surface systematic failure modes. That work convinced me generating an answer is cheap and deciding whether to trust it is the real engineering problem, which is exactly what customer-facing agents live and die on.",
+        "observed": "I think a great agent engineer treats reliability as the actual product. Anyone can get an agent to work once against a fixture; the hard part is knowing when it is safe to act, what it should refuse to do, and how you would prove it works before a real customer is on the other end. That means caring about state, failure modes, and evaluation as much as prompting.\n\nMy job-application agent is the clearest evidence I have. I built a validation ladder, UNIT_CONFIRMED to FIXTURE_CONFIRMED to LIVE_READ_ONLY_CONFIRMED to LIVE_MUTATION_CONFIRMED, because a capability should only claim the level of reality it has actually been tested against. I supported Greenhouse fully and Lever and Ashby partially, and deliberately detected and skipped Workday, iCIMS, and Oracle rather than handling them unreliably. I also built an operator console so a human could observe and approve each step.\n\nEvaluation is the other half. At Intelehealth I designed a framework comparing LLM-generated clinical outputs against a 4,169-case standard using stratified sampling to surface systematic failure modes. That work convinced me generating an answer is cheap and deciding whether to trust it is the real engineering problem, which is exactly what customer-facing agents live and die on.",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:98267903-96ed-402b-b2e0-4611e4bbb468",
+        "expected": "Cheez-Its",
+        "observed": "Cheez-Its",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:location_autocomplete",
+        "expected": "Baltimore, Maryland, United States",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "gpa",
+        "expected": 3.7,
+        "observed": "3.7",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:c8f3524c-6193-4239-ab78-cf1d9e3d8d5e",
+        "expected": "Two things that don't fit neatly into the other answers. First, most of what I've built has had to survive contact with real users, not just a demo. I co-founded Open Health Intelligence and built ClarityAtlas end to end in Swift and SwiftUI, including a passive sleep-estimation system using HealthKit and Core Motion signals so users didn't need a wearable, and we shipped it into a live Hopkins pilot with 30+ users. Getting it in front of people mattered as much as the code. My cofounders and I once knocked on the doors of Garland Hall until we got to pitch President Daniels, which eventually became a formal meeting.\n\nSecond, I've spent the past year independently researching how research institutions select and evaluate uncertain work, talking to researchers, administrators, and science-policy people. The question I keep landing on is that as AI makes generation cheap, judgment becomes the bottleneck. That is the same question I see in agents: producing a response is easy, deciding whether it should be trusted and sent is the hard part. I'd like to work on that with people who have real customers depending on the answer.",
+        "observed": "Two things that don't fit neatly into the other answers. First, most of what I've built has had to survive contact with real users, not just a demo. I co-founded Open Health Intelligence and built ClarityAtlas end to end in Swift and SwiftUI, including a passive sleep-estimation system using HealthKit and Core Motion signals so users didn't need a wearable, and we shipped it into a live Hopkins pilot with 30+ users. Getting it in front of people mattered as much as the code. My cofounders and I once knocked on the doors of Garland Hall until we got to pitch President Daniels, which eventually became a formal meeting.\n\nSecond, I've spent the past year independently researching how research institutions select and evaluate uncertain work, talking to researchers, administrators, and science-policy people. The question I keep landing on is that as AI makes generation cheap, judgment becomes the bottleneck. That is the same question I see in agents: producing a response is easy, deciding whether it should be trusted and sent is the hard part. I'd like to work on that with people who have real customers depending on the answer.",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:267e8226-bb2f-4e41-91ac-f3900f3018fb",
+        "expected": "No preference",
+        "observed": "No preference",
+        "match": true
+      },
+      {
+        "canonical_field": "work_authorization",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "requires_sponsorship",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:b9dfe79c-4c55-4721-a0d2-f548d08f369c",
+        "expected": "Other",
+        "observed": "Other",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:4dcac205-dbc0-40a1-816f-accce64bae9f",
+        "expected": "None / Prefer not to answer",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "screener:custom:predicted:36f068f2-1680-47ed-8e25-09a4110a8636",
+        "expected": "None / Not sure yet",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "screener:how_heard",
+        "expected": "LinkedIn",
+        "observed": "LinkedIn",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:8148cfa1-ddd9-461c-a847-92d82ad4a74e",
+        "expected": "Yes",
+        "observed": "Yes",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:cf0f1bc7-7ce6-4eb3-aebc-b6562141cb68",
+        "expected": "Under 30",
+        "observed": "Under 30",
+        "match": true
+      },
+      {
+        "canonical_field": "gender_identity",
+        "expected": "Man",
+        "observed": "Man",
+        "match": true
+      },
+      {
+        "canonical_field": "transgender",
+        "expected": "No",
+        "observed": "No",
+        "match": true
+      },
+      {
+        "canonical_field": "sexual_orientation",
+        "expected": "Heterosexual",
+        "observed": null,
+        "match": false
+      }
+    ],
+    "uploads": [],
+    "warnings": [
+      "verify screener:custom:location_autocomplete: control not found on the page (label \"Start typing...\") — failing fast instead of waiting 30s",
+      "verify screener:custom:predicted:4dcac205-dbc0-40a1-816f-accce64bae9f: control not found on the page (label \"Are you a member of, or involved with, any of the following \") — failing fast instead of waiting 30s",
+      "verify screener:custom:predicted:36f068f2-1680-47ed-8e25-09a4110a8636: control not found on the page (label \"Do you plan to attend any of the following events this recru\") — failing fast instead of waiting 30s",
+      "verify sexual_orientation: control not found on the page (label \"How do you identify your sexual orientation? Please select a\") — failing fast instead of waiting 30s"
+    ]
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 113381,
+      "verified": true,
+      "evidence": "input files: [{\"name\":\"resume-6b5f8e75.pdf\",\"size\":113381}]; stillAttached=true; chip=true; resolved via primary"
+    }
+  ],
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: form (61 fillable field(s))",
+    "page error scan: no visible validation errors on the page",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "operator_brief": {
+    "title": "Live fill — ashby https://jobs.ashbyhq.com/sierra/02e1c456-8489-4a74-9fe7-af8845b040e4/application",
+    "summary": "8 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:screener:custom:location_autocomplete",
+        "question": "Start typing...",
+        "field_id": "f_18",
+        "canonical_field": "screener:custom:location_autocomplete",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Baltimore, Maryland, United States\"; page shows \"(empty)\"",
+        "expected": "Baltimore, Maryland, United States",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"Baltimore, Maryland, United States\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:location_autocomplete)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:location_autocomplete\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:custom:predicted:4dcac205-dbc0-40a1-816f-accce64bae9f",
+        "question": "Are you a member of, or involved with, any of the following communities or organizations?",
+        "field_id": "4dcac205-dbc0-40a1-816f-accce64bae9f",
+        "canonical_field": "screener:custom:predicted:4dcac205-dbc0-40a1-816f-accce64bae9f",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"None / Prefer not to answer\"; page shows \"(empty)\"",
+        "expected": "None / Prefer not to answer",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"None / Prefer not to answer\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:predicted:4dcac205-dbc0-40a1-816f-accce64bae9f)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:predicted:4dcac205-dbc0-40a1-816f-accce64bae9f\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:custom:predicted:36f068f2-1680-47ed-8e25-09a4110a8636",
+        "question": "Do you plan to attend any of the following events this recruiting season?",
+        "field_id": "36f068f2-1680-47ed-8e25-09a4110a8636",
+        "canonical_field": "screener:custom:predicted:36f068f2-1680-47ed-8e25-09a4110a8636",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"None / Not sure yet\"; page shows \"(empty)\"",
+        "expected": "None / Not sure yet",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"None / Not sure yet\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:predicted:36f068f2-1680-47ed-8e25-09a4110a8636)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:predicted:36f068f2-1680-47ed-8e25-09a4110a8636\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:sexual_orientation",
+        "question": "How do you identify your sexual orientation? Please select all that apply.",
+        "field_id": "a63b6f87-d090-40f0-a462-bf5bb03f5e45",
+        "canonical_field": "sexual_orientation",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Heterosexual\"; page shows \"(empty)\"",
+        "expected": "Heterosexual",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"Heterosexual\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: sexual_orientation)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"sexual_orientation\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "fill_error:f_18: control not found on the page (label \"Start typing...\") — failing fast ins",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "f_18: control not found on the page (label \"Start typing...\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:4dcac205-dbc0-40a1-816f-accce64bae9f: control not found on the page (label \"Are ",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "4dcac205-dbc0-40a1-816f-accce64bae9f: control not found on the page (label \"Are you a member of, or involved with, any of the following \") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:36f068f2-1680-47ed-8e25-09a4110a8636: control not found on the page (label \"Do y",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "36f068f2-1680-47ed-8e25-09a4110a8636: control not found on the page (label \"Do you plan to attend any of the following events this recru\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:a63b6f87-d090-40f0-a462-bf5bb03f5e45: control not found on the page (label \"How ",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "a63b6f87-d090-40f0-a462-bf5bb03f5e45: control not found on the page (label \"How do you identify your sexual orientation? Please select a\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      }
+    ],
+    "ok_count": 17,
+    "fail_count": 8
+  },
+  "written_at": "2026-09-01T03:53:48.784Z"
+}

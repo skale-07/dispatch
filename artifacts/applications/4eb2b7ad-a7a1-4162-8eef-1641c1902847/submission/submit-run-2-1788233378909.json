@@ -1,0 +1,33 @@
+{
+  "outcome": "FAILED_BEFORE_CLICK",
+  "application_id": "4eb2b7ad-a7a1-4162-8eef-1641c1902847",
+  "submission_id": "860cd73d-3e4d-40ce-9b11-265cefa3b3f9",
+  "attempt": 2,
+  "receipt": null,
+  "review_item_id": null,
+  "reason": "Refusing to click submit: field verification or upload did not pass",
+  "artifact_path": null,
+  "operator_brief": {
+    "title": "Submit blocked — workday app 4eb2b7ad-a7a1-4162-8eef-1641c1902847",
+    "summary": "1 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:screener:education_level",
+        "question": "Please select date that you will complete your current degree. In case you are no longer studying, please select the date of your most recent graduation. If you do not know the specific day, select the 1st of the month you graduated.",
+        "field_id": "[REDACTED]",
+        "canonical_field": "screener:education_level",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Undergrad\"; page shows \"(empty)\"",
+        "expected": "Undergrad",
+        "observed": "",
+        "how_to_answer": [
+          "System expected \"Undergrad\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:education_level)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:education_level\" should match the on-form question text."
+        ]
+      }
+    ],
+    "ok_count": 5,
+    "fail_count": 1
+  }
+}
