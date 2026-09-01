@@ -53,6 +53,14 @@ folder.
 
 ## 0. One-time setup
 
+> **Guided version:** the console ships this section as a splash +
+> onboarding flow — run `npm run console` (§16) and open `/welcome`.
+> It shows the same commands and verifies the results with read-only
+> checks (profile parses, storage state on disk, DB migrated,
+> `/api/onboarding/status`); a check it cannot run reports `unknown`,
+> never ok. It never collects credentials — this section remains the
+> source of truth the UI links to.
+
 ```powershell
 cd C:\dev\jobright-application-agent
 npm install
