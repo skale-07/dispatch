@@ -190,3 +190,82 @@ confirmation_url jobTasks/completed/application)
 - Operator inputs used tonight: major GPA 3.5, highest completed = High
   School, graduation May 2029, degree BS; investigation No + IRCA Yes
   banked with ⚠ review notes; sms marketing opt-ins No (prior directive).
+
+---
+
+# Night23 (2026-08-31 ~20:45 EDT →, same file per date convention)
+
+Handoff executed: CDP preflight (relaunch + attach probe passed), then the
+outreach backfill the shutdown killed, then pipeline restart. Numbering
+continues from #106.
+
+## Outreach backfill — COMPLETE (all submitted apps)
+
+- **TIAA fda27acb**: was 3 drafts + 3 rejections → now **6/6 drafted**
+  (#107/#108 below turned the rejections into validated drafts).
+- **Old Mission 6cb05b18**: was 3/5 → now **5/5 drafted** (Brian Wang was
+  never generated; Akshay Jain's rejection was #107).
+- **Exa 11eba960**: was untouched → insider triage found 3 emails / 5
+  people (#109 below) → **3/3 drafted**. ⚠ JobRight attributes
+  tyler@exa.ai to "Roland Killian" (its own modal says so, with its
+  may-not-be-accurate caveat) — draft greets Roland at tyler@; operator
+  judgement before sending. summer@/hubert@ match their names.
+- **DV Trading 2d517c7a**: insider triage clean result: 1 person, no
+  contact info on JobRight. Nothing to draft — terminal, not an error.
+- **Neuralink 1e213072**: entered via boards.json discovery ⇒ no JobRight
+  job id ⇒ insider triage not applicable BY DESIGN (runPipeline already
+  documents this exact app). No outreach possible from this source.
+- All drafts DRAFTED + verified by Drafts read-back; nothing sent.
+- Resolved rejection review items dismissed via the standing
+  `review:bulk --action dismiss --kind MANUAL --apply` sweep.
+
+### 107. Outreach validator required the FULL compound project name verbatim
+in the body — FIXED (UNIT_CONFIRMED 22/22 + LIVE: 3 rejects regenerated clean)
+- "Summer Atlantic Capital / SAC Nexus Anomaly Detection System" is
+  claimed exactly (as the prompt demands) but written in prose as its
+  distinctive segment; `validateGeneratedEmail`'s `body.includes(name)`
+  then rejected: TIAA ×2 (Ciaran, Kevin), Old Mission ×2 (Akshay, Brian —
+  Brian's first-ever generation failed the same way tonight, proving it
+  mechanical). Fix: a claim counts as present when the body carries the
+  full name or any "/"-segment ≥8 chars verbatim (`projectAppearsInBody`).
+  The anti-invention check is untouched. 2 regression tests.
+
+### 108. Greeting check compared the SCRAPED name case-sensitively — FIXED
+(UNIT_CONFIRMED + LIVE: paola's draft validated)
+- Contact stored as "paola manganiello" (JobRight row-card casing); the
+  model correctly greets "Hi Paola," — `body.includes("paola")` rejected
+  it. Now case-insensitive. 1 regression test.
+
+### 109. Insider triage on Exa: 3 walls in one flow — FIXED
+(FIXTURE_CONFIRMED 7/7 + LIVE_READ_ONLY_CONFIRMED: 5/5 people, 3 emails)
+- Live evidence chain (all read-only CDP probes, pixels first):
+  1. **Launched browser never resolves lookups** — STORAGE_STATE runs
+     timed out on every popup even at 20s while the identical clicks over
+     CDP attach resolved; JobRight throttles launched browsers (night19
+     reCAPTCHA note). `runInsiderTriage` now attaches to the operator's
+     debug Chrome (CDP_ATTACH), mirroring the fill path.
+  2. **Page-wide close-button fallback clicked the app chrome** —
+     `closeTopLayer`'s `[class*="close"]` `.last()` hit
+     `index_job-detail-close-button` and NAVIGATED the SPA to
+     /jobs/recommend mid-walk (why night22's first backfill run died after
+     2 people and every rerun stopped at 1). Three compounding shapes: the
+     email icon's hover TOOLTIP reads "Connect Via Email" (matches the
+     modal pattern); a closed ant-modal keeps its text in a HIDDEN node;
+     and Escape closes the whole job view on this SPA. Close is now a
+     browser-side scoped search: visible carriers only, tooltips excluded,
+     close control must live inside the carrier's own fixed/absolute
+     floating layer, no Escape fallback. Plus a navigation guard that
+     stops the walk with an explicit note instead of blind-clicking a
+     different page.
+  3. **Popup timing + React re-renders** — default popup timeout 8s→20s
+     (Exa's on-demand lookup needs it); found-popup slides in
+     (copilot-panel-enter), so a settle wait precedes Connect Now; tag
+     attributes stripped by re-renders are healed by a bounded per-person
+     re-tag; the display name is read at CLICK time (a late getAttribute
+     on the emptied locator stalled a full auto-wait — also cut the whole
+     fixture suite from 72s to 14s).
+- Progressive-overload fixture `insider-connection-rerender.html` (strips
+  data-dispatch-* attrs on every lookup) + regression test; sticky-found
+  and all prior fixtures green.
+
+## Pipeline restart (step 3)

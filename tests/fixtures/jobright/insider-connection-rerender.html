@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head><title>Software Engineer, Intern - JobRight</title>
+<style>
+  body { font-family: sans-serif; }
+  .panels { display: flex; gap: 16px; }
+  .panel { border: 1px solid #ccd; padding: 12px; width: 30%; }
+  .rows { display: none; }
+  .panel.open .rows { display: block; }
+  .row { display: flex; gap: 8px; align-items: center; margin: 8px 0; }
+  .popup, .modal { position: fixed; background: #fff; border: 1px solid #888; padding: 16px; }
+  .popup { right: 24px; bottom: 24px; }
+  .modal { left: 30%; top: 15%; width: 40%; }
+</style></head>
+<body>
+<h1>Software Engineer, Intern</h1>
+<p>Get 3x more responses when you reach out via email instead of LinkedIn.</p>
+
+<div class="panels">
+  <div class="panel" id="p-beyond">
+    <h3>Beyond Your Network</h3>
+    <button type="button" onclick="document.getElementById('p-beyond').classList.add('open')">View</button>
+    <div class="rows">
+      <div class="row"><span>Alex Yang — Incoming SWE Intern</span>
+        <button type="button" aria-label="email" onclick="lookup('alex')"><svg width="10" height="10"></svg></button>
+        <button type="button" aria-label="linkedin"><svg width="10" height="10"></svg></button></div>
+      <div class="row"><span>Rohit Batra — SWE Intern</span>
+        <button type="button" aria-label="email" onclick="lookup('rohit')"><svg width="10" height="10"></svg></button>
+        <button type="button" aria-label="linkedin"><svg width="10" height="10"></svg></button></div>
+      <div class="row"><span>Claire Bao — Developer</span>
+        <button type="button" aria-label="email" onclick="lookup('claire')"><svg width="10" height="10"></svg></button>
+        <button type="button" aria-label="linkedin"><svg width="10" height="10"></svg></button></div>
+    </div>
+  </div>
+  <div class="panel" id="p-school">
+    <h3>From Your School</h3>
+    <button type="button" onclick="document.getElementById('p-school').classList.add('open')">Find More Connections</button>
+    <div class="rows">
+      <div class="row"><span>Runze Tang — Quantitative Researcher</span>
+        <button type="button" aria-label="email" onclick="lookup('runze')"><svg width="10" height="10"></svg></button>
+        <button type="button" aria-label="linkedin"><svg width="10" height="10"></svg></button></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // #109 progressive-overload: EVERY lookup "re-renders" the panels the way
+  // the live React app does (Exa, 2026-08-31) — all data-dispatch-* tag
+  // attributes vanish, so the triage must re-tag before the next person.
+  const BOOK = {
+    alex:  { email: 'ayang@jumptrading.com', name: 'Alex Yang' },
+    rohit: null, // lookup fails
+    claire:{ email: 'cbao@jumptrading.com', name: 'Claire Bao' },
+    runze: { email: 'rtang@jumptrading.com', name: 'Runze Tang' },
+  };
+  window.__startEmailClicked = false;
+  const clear = () => document.querySelectorAll('.popup, .modal').forEach((e) => e.remove());
+  function stripTags() {
+    for (const el of document.querySelectorAll('*')) {
+      for (const a of Array.from(el.attributes)) {
+        if (a.name.indexOf('data-dispatch-') === 0) el.removeAttribute(a.name);
+      }
+    }
+  }
+  function lookup(id) {
+    clear();
+    const hit = BOOK[id];
+    const pop = document.createElement('div');
+    pop.className = 'popup';
+    if (hit) {
+      pop.innerHTML = '<button class="close" aria-label="close" onclick="this.parentElement.remove()">x</button>' +
+        '<b>Contact Info Found!</b><div>' + hit.name + '</div>' +
+        '<button type="button" onclick="openModal(\'' + id + '\')">Connect Now</button>';
+    } else {
+      pop.innerHTML = '<button class="close" aria-label="close" onclick="this.parentElement.remove()">x</button>' +
+        '<b>Contact Info Not Found!</b><div>Rohit Batra — Developer @Jump Trading Group</div>' +
+        '<button type="button">Connect On LinkedIn</button>';
+    }
+    document.body.appendChild(pop);
+    stripTags();
+  }
+  function openModal(id) {
+    clear();
+    const hit = BOOK[id];
+    const m = document.createElement('div');
+    m.className = 'modal';
+    m.innerHTML = '<b>Connect Via Email</b> (2x higher response rate versus Linkedin)' +
+      '<div>The email contact was retrieved using publicly available information online and may not be 100% accurate.</div>' +
+      '<input value="' + hit.email + '" />' +
+      '<input value="Seeking Your Advice on Software Engineer, Intern Position" />' +
+      '<textarea>Hi, I came across the position... Thank you!</textarea>' +
+      '<button type="button" onclick="this.closest(\'.modal\').remove()">Cancel</button>' +
+      '<button type="button" onclick="window.__startEmailClicked = true">Start Email</button>';
+    document.body.appendChild(m);
+  }
+</script>
+</body>
+</html>

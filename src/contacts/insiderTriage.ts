@@ -208,41 +208,97 @@ function visibleText(page: Page, pattern: RegExp) {
   return page.getByText(pattern).filter({ visible: true });
 }
 
+/**
+ * Close button search SCOPED to the layer carrying the popup/modal text:
+ * a page-wide [class*=close] .last() clicked the app chrome's job-view X
+ * on Exa (live 2026-08-31, #109) and navigated the whole job page away
+ * mid-walk. Walks up from the layer's text carrier only until a container
+ * yields a close/cancel control; never touches Start Email / Connect.
+ */
+const CLOSE_LAYER_FN = `(patternSrcs) => {
+  const visible = (el) => el.getClientRects().length > 0;
+  for (const src of patternSrcs) {
+    const pat = new RegExp(src, "i");
+    // Carriers must be VISIBLE (a closed ant-modal keeps its text in a
+    // hidden node) and never a hover tooltip (the email icon's tooltip
+    // repeats "Connect Via Email") — both live Exa 2026-08-31 failure
+    // paths that ended with a click on the app chrome's job-detail close
+    // button and a navigation to /jobs/recommend.
+    const carriers = Array.from(document.querySelectorAll("*")).filter(
+      (el) =>
+        pat.test(el.textContent || "") &&
+        (el.textContent || "").trim().length < 200 &&
+        visible(el) &&
+        !el.closest('[role="tooltip"], [class*="tooltip" i]'),
+    );
+    const carrier = carriers[carriers.length - 1] || null;
+    if (!carrier) continue;
+    // Popups/modals are floating layers: search close controls ONLY inside
+    // the carrier's fixed/absolute ancestors (innermost first), never in
+    // the page chrome. The found-popup's X is an <svg aria-label="close">,
+    // not a button, so the candidate set takes any close-hinted element;
+    // className can be an SVGAnimatedString — read it via getAttribute.
+    const layers = [];
+    for (let node = carrier; node && node !== document.body; node = node.parentElement) {
+      const posn = getComputedStyle(node).position;
+      if (posn === "fixed" || posn === "absolute") layers.push(node);
+    }
+    for (const layer of layers) {
+      const btns = Array.from(
+        layer.querySelectorAll('button, [role="button"], [aria-label], [class*="close" i]'),
+      );
+      const close = btns.find((b) => {
+        const hint = (
+          (b.getAttribute("aria-label") || "") + " " + (b.getAttribute("class") || "")
+        ).toLowerCase();
+        const text = (b.textContent || "").trim().toLowerCase();
+        return /close/.test(hint) || text === "cancel" || text === "x" || text === "\\u00d7";
+      });
+      if (close && visible(close)) {
+        close.dispatchEvent(
+          new MouseEvent("click", { bubbles: true, cancelable: true }),
+        );
+        return true;
+      }
+    }
+  }
+  return false;
+}`;
+
 /** Best-effort close of whichever popup/modal is on top. Never sends. */
 async function closeTopLayer(page: Page): Promise<void> {
-  const cancel = visibleText(page, insiderSelectorsV1.cancelButton).last();
-  if ((await cancel.count().catch(() => 0)) > 0) {
-    const clicked = await cancel
-      .click({ timeout: 1_500 })
-      .then(() => true)
-      .catch(() => false);
-    if (clicked) return;
-  }
-  const closeBtn = page
-    .locator('[aria-label*="close" i], [class*="close" i]')
-    .filter({ visible: true })
-    .last();
-  if ((await closeBtn.count().catch(() => 0)) > 0) {
-    const clicked = await closeBtn
-      .click({ timeout: 1_500 })
-      .then(() => true)
-      .catch(() => false);
-    if (clicked) return;
-  }
-  await page.keyboard.press("Escape").catch(() => undefined);
+  const patterns = [
+    insiderSelectorsV1.emailModal.source,
+    insiderSelectorsV1.foundPopup.source,
+    insiderSelectorsV1.notFoundPopup.source,
+  ];
+  await page
+    .evaluate(`(${CLOSE_LAYER_FN})(${JSON.stringify(patterns)})`)
+    .catch(() => false);
+  // No Escape fallback: on the live SPA, Escape closes the JOB VIEW and
+  // navigates to /jobs/recommend, killing the rest of the walk (#109).
 }
 
 async function layerVisible(page: Page): Promise<boolean> {
-  const found =
-    (await visibleText(page, insiderSelectorsV1.foundPopup).count().catch(() => 0)) >
-    0;
-  const missing =
-    (await visibleText(page, insiderSelectorsV1.notFoundPopup)
-      .count()
-      .catch(() => 0)) > 0;
-  const modal =
-    (await visibleText(page, insiderSelectorsV1.emailModal).count().catch(() => 0)) >
-    0;
+  // A hover tooltip repeating a layer's text must not count as a layer
+  // (#109) — otherwise dismissAllLayers grinds its full loop per person.
+  const layerCount = async (pattern: RegExp): Promise<number> => {
+    const matches = visibleText(page, pattern);
+    const n = await matches.count().catch(() => 0);
+    for (let i = 0; i < n; i += 1) {
+      const inTooltip = await matches
+        .nth(i)
+        .evaluate(
+          `(el) => !!el.closest('[role="tooltip"], [class*="tooltip" i]')`,
+        )
+        .catch(() => true);
+      if (!inTooltip) return 1;
+    }
+    return 0;
+  };
+  const found = (await layerCount(insiderSelectorsV1.foundPopup)) > 0;
+  const missing = (await layerCount(insiderSelectorsV1.notFoundPopup)) > 0;
+  const modal = (await layerCount(insiderSelectorsV1.emailModal)) > 0;
   return found || missing || modal;
 }
 
@@ -310,7 +366,9 @@ export async function triageInsiderEmails(
   },
 ): Promise<InsiderTriageReport> {
   const maxPeople = opts?.maxPeople ?? 12;
-  const popupTimeout = opts?.popupTimeoutMs ?? 8_000;
+  // 20s: the Exa lookup (live 2026-08-31, #109) resolves on-demand and
+  // regularly needs >8s before either popup appears.
+  const popupTimeout = opts?.popupTimeoutMs ?? 20_000;
   const exclude = new Set(
     (opts?.excludeEmails ?? []).map((e) => e.toLowerCase()),
   );
@@ -353,8 +411,18 @@ export async function triageInsiderEmails(
     ...panels.map((p) => `${p.category}: ${p.buttons} people to check`),
   );
 
+  // If a stray click ever routes the SPA away from the job page (#109's
+  // failure shape), stop instead of blind-clicking a different page.
+  const startUrl = page.url();
+
   for (const panel of panels) {
     for (let i = 0; i < panel.buttons; i += 1) {
+      if (page.url() !== startUrl) {
+        report.notes.push(
+          `stopped: page navigated away mid-walk (${page.url().slice(0, 80)})`,
+        );
+        return report;
+      }
       if (report.people_checked >= maxPeople) {
         report.notes.push(`stopped at the ${maxPeople}-person cap`);
         return report;
@@ -362,9 +430,25 @@ export async function triageInsiderEmails(
       const btn = page.locator(
         `[${EMAIL_BTN_ATTR}="${panel.category}:${i}"]`,
       );
-      if ((await btn.count().catch(() => 0)) === 0) continue;
+      if ((await btn.count().catch(() => 0)) === 0) {
+        // A React re-render after the previous person's popup strips the
+        // tag attributes (live Exa 2026-08-31, #109: 4 of 5 people were
+        // silently skipped). Re-tag ONCE per person; the panel stays
+        // expanded so tagging is deterministic and index-stable.
+        await dismissAllLayers(page);
+        await tagPanelsAndEmailButtons(page);
+        if ((await btn.count().catch(() => 0)) === 0) continue;
+        report.notes.push(`${panel.category}:${i} re-tagged after re-render`);
+      }
       await dismissAllLayers(page);
       report.people_checked += 1;
+      // Display name captured at CLICK time from the person's row card —
+      // a post-popup re-render (#109) can strip the attribute, and a late
+      // getAttribute on the emptied locator stalls a full auto-wait.
+      const rawName = await btn
+        .first()
+        .getAttribute(NAME_ATTR, { timeout: 2_000 })
+        .catch(() => null);
       await btn.first().click({ timeout: 3_000 }).catch(() => undefined);
 
       const found = visibleText(page, insiderSelectorsV1.foundPopup).first();
@@ -406,9 +490,13 @@ export async function triageInsiderEmails(
       }
 
       // Found → Connect Now → modal → scrape email ONLY → Cancel.
+      // The popup slides in (copilot-panel-enter animation, live Exa
+      // 2026-08-31): a cached lookup resolves the waiter mid-animation and
+      // the click then fails Playwright's stability check — settle first.
+      await page.waitForTimeout(700);
       const connectNow = visibleText(page, insiderSelectorsV1.connectNow).last();
       const connected = await connectNow
-        .click({ timeout: 3_000 })
+        .click({ timeout: 5_000 })
         .then(() => true)
         .catch(() => false);
       if (!connected) {
@@ -438,12 +526,8 @@ export async function triageInsiderEmails(
         continue;
       }
       const email = await scrapeModalEmail(page, exclude);
-      // Display name captured at tag time from the person's row card —
-      // never from the modal (its drafted subject/body stay untouched).
-      const rawName = await btn
-        .first()
-        .getAttribute(NAME_ATTR)
-        .catch(() => null);
+      // Name came from the row card at click time — never from the modal
+      // (its drafted subject/body stay untouched).
       const personName =
         rawName && rawName.trim().length > 0 && rawName.trim().length <= 80
           ? rawName.trim()
@@ -522,8 +606,14 @@ export async function runInsiderTriage(input: {
   if (!target.ok) {
     throw new Error(`Cannot resolve stored job: ${target.message}`);
   }
+  // CDP attach (operator's debug Chrome), mirroring the fill path: a
+  // LAUNCHED browser's on-demand email lookups never resolved on Exa
+  // (#109, live 2026-08-31 — popup_timeout even at 20s) while the same
+  // clicks over CDP resolved; JobRight's anti-bot layer throttles
+  // launched browsers (night19 reCAPTCHA note).
   const session = new PlaywrightServiceSession({
     service: "jobright",
+    mode: "CDP_ATTACH",
     headless: input.headless ?? true,
     slowMoMs: 40,
   });

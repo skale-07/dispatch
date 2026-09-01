@@ -121,6 +121,36 @@ describe("insider email triage (FIXTURE_CONFIRMED)", () => {
     });
   }, 60_000);
 
+  it("a React re-render that strips tag attributes mid-walk is healed by a re-tag (#109, live Exa 2026-08-31)", async () => {
+    const rerender = fs.readFileSync(
+      path.join(
+        process.cwd(),
+        "tests",
+        "fixtures",
+        "jobright",
+        "insider-connection-rerender.html",
+      ),
+      "utf8",
+    );
+    await withFixtureHtmlPage(rerender, async (page) => {
+      const report = await triageInsiderEmails(page, {
+        popupTimeoutMs: 4_000,
+      });
+      // Without the heal, every person after the first is silently
+      // skipped (button locator count 0). All four must be checked.
+      expect(report.people_checked).toBe(4);
+      expect(report.emails.sort()).toEqual([
+        "ayang@jumptrading.com",
+        "cbao@jumptrading.com",
+        "rtang@jumptrading.com",
+      ]);
+      expect(report.not_found).toBe(1);
+      expect(report.notes.join(" ")).toMatch(/re-tagged after re-render/);
+      const startEmail = await page.evaluate("window.__startEmailClicked");
+      expect(startEmail).toBe(false);
+    });
+  }, 60_000);
+
   it("the people cap bounds lookups", async () => {
     await withFixtureHtmlPage(FIXTURE, async (page) => {
       const report = await triageInsiderEmails(page, {
