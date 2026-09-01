@@ -1,11 +1,12 @@
 import { Link, NavLink, Route, Routes } from "react-router-dom";
 import { useEffect } from "react";
-import { AuthProvider, RequireAuth } from "../auth/AuthContext";
+import { AuthProvider, RequireAuth, useAuth } from "../auth/AuthContext";
 import { DispatchMark } from "../components/DispatchMark";
 import { useTheme } from "../hooks/useTheme";
 import { LandingPage } from "./LandingPage";
 import { SignupPage } from "./SignupPage";
 import { ProfileWizardPage } from "./ProfileWizardPage";
+import { DashboardPage } from "./DashboardPage";
 
 /**
  * The public consumer app — what a student reaches on the internet.
@@ -15,22 +16,31 @@ import { ProfileWizardPage } from "./ProfileWizardPage";
  * (The console mounts only in a build that sets VITE_CONSOLE_ENABLED;
  * see lib/appConfig.ts.)
  *
- * Route map grows with the build sequence:
+ * Route map:
  *   /            landing (the story + sign-up CTA)
  *   /signup      magic-link sign-up + invite redemption
  *   /invite/:c   invite link entry — lands on signup with the code
- *   /onboarding  profile wizard (protected)        [next milestone]
- *   /dashboard   applications + receipts + quota   [next milestone]
+ *   /onboarding  profile wizard (protected)
+ *   /dashboard   applications + receipts + quota (protected)
  */
 export function PublicApp(): JSX.Element {
+  return (
+    <AuthProvider>
+      <PublicChrome />
+    </AuthProvider>
+  );
+}
+
+/** Shell + routes; a separate component so the nav can read the session. */
+function PublicChrome(): JSX.Element {
   const { theme, cycle } = useTheme();
+  const { session } = useAuth();
 
   useEffect(() => {
     document.title = "Dispatch — job applications, done with receipts";
   }, []);
 
   return (
-    <AuthProvider>
     <div className="public-shell">
       <a className="skip-link" href="#main">
         Skip to content
@@ -46,12 +56,29 @@ export function PublicApp(): JSX.Element {
           <NavLink to="/" end className={({ isActive }) => (isActive ? "active" : "")}>
             How it works
           </NavLink>
-          <NavLink
-            to="/signup"
-            className={({ isActive }) => (isActive ? "active" : "")}
-          >
-            Sign in
-          </NavLink>
+          {session ? (
+            <>
+              <NavLink
+                to="/dashboard"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                Dashboard
+              </NavLink>
+              <NavLink
+                to="/onboarding"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                Profile
+              </NavLink>
+            </>
+          ) : (
+            <NavLink
+              to="/signup"
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
+              Sign in
+            </NavLink>
+          )}
           <button
             className="ghost"
             onClick={cycle}
@@ -76,6 +103,14 @@ export function PublicApp(): JSX.Element {
             }
           />
           <Route
+            path="/dashboard"
+            element={
+              <RequireAuth>
+                <DashboardPage />
+              </RequireAuth>
+            }
+          />
+          <Route
             path="*"
             element={<div className="banner warn">No such page.</div>}
           />
@@ -92,6 +127,5 @@ export function PublicApp(): JSX.Element {
         </span>
       </footer>
     </div>
-    </AuthProvider>
   );
 }
