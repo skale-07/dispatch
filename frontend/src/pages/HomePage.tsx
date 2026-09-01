@@ -303,6 +303,10 @@ export function HomePage(): JSX.Element {
             ))}
           </ul>
           <p className="faint flush-bottom">
+            <Link to="/onboarding">
+              first time? open the setup guide <Icon name="arrow-right" size={13} />
+            </Link>
+            {" · "}
             <Link to="/settings">
               open settings <Icon name="arrow-right" size={13} />
             </Link>

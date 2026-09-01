@@ -167,3 +167,28 @@ export type ArmStatus = {
   /** Whether armed navigation can run the agent phase (shell flag + CDP). */
   agent_phase?: { available: boolean; reason: string };
 };
+
+/** Mirrored from src/console/onboardingStatus.ts. */
+export type OnboardingCheckStatus = "ok" | "todo" | "unknown";
+
+export type OnboardingCheck = {
+  id: string;
+  step: "prerequisites" | "profile" | "sessions";
+  label: string;
+  status: OnboardingCheckStatus;
+  required: boolean;
+  detail: string;
+  fix: string | null;
+};
+
+export type OnboardingStep = {
+  id: "prerequisites" | "profile" | "sessions";
+  status: OnboardingCheckStatus;
+  checks: OnboardingCheck[];
+};
+
+export type OnboardingStatus = {
+  ready: boolean;
+  steps: OnboardingStep[];
+  generated_at: string;
+};

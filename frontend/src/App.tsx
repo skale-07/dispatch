@@ -11,6 +11,8 @@ import { RunDetailPage } from "./pages/RunDetailPage";
 import { EnqueuePage } from "./pages/EnqueuePage";
 import { OutreachPage } from "./pages/OutreachPage";
 import { SettingsPage } from "./pages/SettingsPage";
+import { WelcomePage } from "./pages/WelcomePage";
+import { OnboardingPage } from "./pages/OnboardingPage";
 // Charts (visx + the Bklit components) are the heaviest thing the console
 // ships; the lazy route keeps them out of everyone else's first load.
 const InsightsPage = lazy(() =>
@@ -39,6 +41,9 @@ const PRIMARY_NAV = [
   { to: "/applications", label: "Applications", end: false },
   { to: "/outreach", label: "Outreach", end: false },
   { to: "/settings", label: "Settings", end: false },
+  // First-run splash + guided onboarding; stays in the nav afterwards as
+  // the place to re-verify setup (logins expire, profiles move).
+  { to: "/welcome", label: "Setup guide", end: false },
 ];
 
 const ADVANCED_NAV = [
@@ -175,6 +180,8 @@ export function App(): JSX.Element {
             }
           />
           <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/welcome" element={<WelcomePage />} />
+          <Route path="/onboarding" element={<OnboardingPage />} />
           <Route
             path="*"
             element={<div className="banner warn">No such page.</div>}
