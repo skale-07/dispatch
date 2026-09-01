@@ -15,13 +15,16 @@
       "start_year": "2025",
       "screener:custom:school_not_listed_name": "Johns Hopkins University",
       "screener:custom:predicted:question_68581547": "ACT: 35",
-      "screener:custom:predicted:question_68581548": "3.7",
+      "screener:custom:cumulative_gpa": "3.7",
       "preferred_name": "Shubham",
       "pronouns": "He/Him",
       "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+      "screener:custom:competing_offers": "No",
+      "screener:internship_term": "Summer (May - September)",
       "screener:custom:second_cohort_flexibility": "Winter (January - April)",
-      "screener:custom:predicted:question_68581556": "I am open to working in any office",
-      "screener:custom:predicted:question_68581557": "I am open to working in any office",
+      "screener:custom:first_location_preference": "I am open to working in any office",
+      "screener:custom:second_location_preference": "I am open to working in any office",
+      "screener:custom:third_location_preference": "I am open to working in any office",
       "screener:work_authorization": "[REDACTED_SPONSORSHIP]",
       "requires_sponsorship": "[REDACTED_SPONSORSHIP]",
       "gender": "Male",
@@ -163,16 +166,16 @@
         "canonical_field": "screener:custom:predicted:question_68581547",
         "action": "fill",
         "value": "ACT: 35",
-        "reason": "Predicted from operator context (llm_predict): Learned answer for SAT/ACT score prompts is 'ACT: 35'."
+        "reason": "Predicted from operator context (llm_predict): Exact match to a learned_answers label pair giving the candidate's standardized test score."
       },
       {
         "field_id": "question_68581548",
         "label": "Similarly, we also invite you to provide your GPA, this can help us further understand your academic experience.",
         "type": "text",
-        "canonical_field": "screener:custom:predicted:question_68581548",
+        "canonical_field": "screener:custom:cumulative_gpa",
         "action": "fill",
         "value": "3.7",
-        "reason": "Predicted from operator context (llm_predict): Profile facts and learned answers list GPA as 3.7."
+        "reason": "Screener bank answer (free_text)"
       },
       {
         "field_id": "question_68584724",
@@ -214,10 +217,10 @@
         "field_id": "question_68581553",
         "label": "Do you have an active offer deadline or another recruiting-process deadline we should be aware of? If yes, please share the deadline date and any relevant context.",
         "type": "textarea",
-        "canonical_field": null,
-        "action": "skip_essay",
-        "value": null,
-        "reason": "Essay generation produced no answer"
+        "canonical_field": "screener:custom:competing_offers",
+        "action": "fill",
+        "value": "No",
+        "reason": "Screener bank answer (free_text)"
       },
       {
         "field_id": "question_68581554",
@@ -225,17 +228,17 @@
         "type": "textarea",
         "canonical_field": "essay:generated:question_68581554",
         "action": "fill",
-        "value": "I don't have a fixed conference schedule for this year, so I'll speak to what I've actually attended. I was a national finalist at the Junior Science and Humanities Symposium for my Valley Fever research, where I presented an SIR-style epidemiological model I built in Python along with a microcontroller-based dust sensor I programmed in C/C++. More recently, ClarityAtlas, the iOS health product I lead technically at Open Health Intelligence, was selected for NSF I-Corps and the Johns Hopkins Pava Spark Accelerator, both of which involved cohort programming and demo events with founders, researchers, and university leadership. On campus, the Johns Hopkins Data Science and AI Institute runs events that pull in a lot of students doing applied ML and systems work, and that community would probably be a useful place for Stripe to recruit.",
+        "value": "The gatherings I've attended so far have come out of my own projects rather than a formal conference circuit. I was a national finalist at the Junior Science and Humanities Symposium for my Valley Fever work, where I presented an SIR-style epidemiological model I built in Python along with a microcontroller-based dust sensor I programmed in C/C++. More recently, ClarityAtlas, the iOS health product I lead technically at Open Health Intelligence, was selected for NSF I-Corps and the Johns Hopkins Pava Spark Accelerator, both of which involved cohort programming, customer discovery, and presenting to outside groups. Through that project I also presented to Johns Hopkins President Ron Daniels and leadership from the Hopkins Data Science and AI Institute. I don't have a confirmed conference schedule for this year yet, but the events most likely to reach people like me are university accelerator demo days, NSF I-Corps cohorts, and Hopkins Data Science and AI Institute events, since those are where students who are actually shipping products tend to show up.",
         "reason": "Essay generated from the operator's about-me context"
       },
       {
         "field_id": "question_68675431[]",
         "label": "We host cohorts of 12 or 16 week internships over Winter or Summer. The ranges listed here are approximate and, in the case of Summer, offer a range of start dates that best fit your academic calendar that are shared closer to the start of the program. Please choose which cohort works best for you.",
         "type": "checkbox",
-        "canonical_field": null,
-        "action": "skip_unmapped",
-        "value": null,
-        "reason": "No answer-alias mapping"
+        "canonical_field": "screener:internship_term",
+        "action": "fill",
+        "value": "Summer (May - September)",
+        "reason": "Screener bank answer (llm_option)"
       },
       {
         "field_id": "question_68675600",
@@ -250,28 +253,28 @@
         "field_id": "question_68675604",
         "label": "First location preference:",
         "type": "text",
-        "canonical_field": "screener:closest_location",
-        "action": "review_required",
-        "value": null,
-        "reason": "closest_location: bank answer \"United States\" matches none of the 4 page options — review"
+        "canonical_field": "screener:custom:first_location_preference",
+        "action": "fill",
+        "value": "I am open to working in any office",
+        "reason": "Screener bank answer (exact_option)"
       },
       {
         "field_id": "question_68581556",
         "label": "Second location preference",
         "type": "text",
-        "canonical_field": "screener:custom:predicted:question_68581556",
+        "canonical_field": "screener:custom:second_location_preference",
         "action": "fill",
         "value": "I am open to working in any office",
-        "reason": "Predicted from operator context (llm_predict): Candidate is willing to relocate, so open to any office is the best fit."
+        "reason": "Screener bank answer (exact_option)"
       },
       {
         "field_id": "question_68581557",
         "label": "Third location preference",
         "type": "text",
-        "canonical_field": "screener:custom:predicted:question_68581557",
+        "canonical_field": "screener:custom:third_location_preference",
         "action": "fill",
         "value": "I am open to working in any office",
-        "reason": "Predicted from operator context (llm_predict): Relocation willingness in profile supports openness to any office location."
+        "reason": "Screener bank answer (exact_option)"
       },
       {
         "field_id": "question_68702648",
@@ -328,15 +331,15 @@
         "reason": "Mapped from sensitive profile (operator-supplied)"
       }
     ],
-    "fillable_count": 25,
-    "skipped_count": 7,
-    "review_required_count": 1
+    "fillable_count": 28,
+    "skipped_count": 5,
+    "review_required_count": 0
   },
   "submit_attempted": false,
   "notes": [
     "session: handoff (caller-owned page, not closed here)",
     "gate passed but the page has no applicant-identity fields — treating as posting shell (samsara-type chrome), running Apply + hop recovery",
-    "no hopable iframe after landing miss — frames: main https://stripe.com/careers/search?gh_jid=8128745 | https://b.stripecdn.com/stripethirdparty-srv/assets/v33.1/PrivacyCompliance.html?id=5e457f81-3ffa-4416-aa49-3d4251cde096&origin=https%3A%2F%2Fstripe.com | https://b.stripecdn.com/stripethirdparty-srv/assets/v33.1/GoogleTagManager.html?id=d9d61d76-cb88-4a65-a048-816a6331e1b3&origin=https%3A%2F%2F",
+    "no hopable iframe after landing miss — frames: main https://stripe.com/careers/search?gh_jid=8128745 | https://b.stripecdn.com/stripethirdparty-srv/assets/v33.1/PrivacyCompliance.html?id=0147ff04-e089-409a-bd7e-3a6a6bb80e68&origin=https%3A%2F%2Fstripe.com | https://b.stripecdn.com/stripethirdparty-srv/assets/v33.1/GoogleTagManager.html?id=3bff52f7-16c3-4012-aacf-11d26199a8d8&origin=https%3A%2F%2F",
     "posting shell without Apply or iframe — navigating to the canonical embed app https://boards.greenhouse.io/embed/job_app?for=stripe&token=8128745",
     "schema diff: 19/22 declared question(s) matched onto 33 DOM field(s); 3 declared-only (1 required); 14 DOM-only",
     "board API declared 22 question(s); matched complete option lists onto 7 field(s)",
@@ -739,17 +742,17 @@
         "action": "FILL",
         "approved": true,
         "value": "ACT: 35",
-        "reason": "Predicted from operator context (llm_predict): Learned answer for SAT/ACT score prompts is 'ACT: 35'."
+        "reason": "Predicted from operator context (llm_predict): Exact match to a learned_answers label pair giving the candidate's standardized test score."
       },
       {
         "field_id": "question_68581548",
         "label": "Similarly, we also invite you to provide your GPA, this can help us further understand your academic experience.",
         "type": "text",
-        "canonical_field": "screener:custom:predicted:question_68581548",
+        "canonical_field": "screener:custom:cumulative_gpa",
         "action": "FILL",
         "approved": true,
         "value": "3.7",
-        "reason": "Predicted from operator context (llm_predict): Profile facts and learned answers list GPA as 3.7."
+        "reason": "Screener bank answer (free_text)"
       },
       {
         "field_id": "question_68584724",
@@ -795,11 +798,11 @@
         "field_id": "question_68581553",
         "label": "Do you have an active offer deadline or another recruiting-process deadline we should be aware of? If yes, please share the deadline date and any relevant context.",
         "type": "textarea",
-        "canonical_field": null,
-        "action": "SKIP",
-        "approved": false,
-        "value": null,
-        "reason": "Essay generation produced no answer"
+        "canonical_field": "screener:custom:competing_offers",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Screener bank answer (free_text)"
       },
       {
         "field_id": "question_68581554",
@@ -808,18 +811,18 @@
         "canonical_field": "essay:generated:question_68581554",
         "action": "FILL",
         "approved": true,
-        "value": "I don't have a fixed conference schedule for this year, so I'll speak to what I've actually attended. I was a national finalist at the Junior Science and Humanities Symposium for my Valley Fever research, where I presented an SIR-style epidemiological model I built in Python along with a microcontroller-based dust sensor I programmed in C/C++. More recently, ClarityAtlas, the iOS health product I lead technically at Open Health Intelligence, was selected for NSF I-Corps and the Johns Hopkins Pava Spark Accelerator, both of which involved cohort programming and demo events with founders, researchers, and university leadership. On campus, the Johns Hopkins Data Science and AI Institute runs events that pull in a lot of students doing applied ML and systems work, and that community would probably be a useful place for Stripe to recruit.",
+        "value": "The gatherings I've attended so far have come out of my own projects rather than a formal conference circuit. I was a national finalist at the Junior Science and Humanities Symposium for my Valley Fever work, where I presented an SIR-style epidemiological model I built in Python along with a microcontroller-based dust sensor I programmed in C/C++. More recently, ClarityAtlas, the iOS health product I lead technically at Open Health Intelligence, was selected for NSF I-Corps and the Johns Hopkins Pava Spark Accelerator, both of which involved cohort programming, customer discovery, and presenting to outside groups. Through that project I also presented to Johns Hopkins President Ron Daniels and leadership from the Hopkins Data Science and AI Institute. I don't have a confirmed conference schedule for this year yet, but the events most likely to reach people like me are university accelerator demo days, NSF I-Corps cohorts, and Hopkins Data Science and AI Institute events, since those are where students who are actually shipping products tend to show up.",
         "reason": "Essay generated from the operator's about-me context"
       },
       {
         "field_id": "question_68675431[]",
         "label": "We host cohorts of 12 or 16 week internships over Winter or Summer. The ranges listed here are approximate and, in the case of Summer, offer a range of start dates that best fit your academic calendar that are shared closer to the start of the program. Please choose which cohort works best for you.",
         "type": "checkbox",
-        "canonical_field": null,
-        "action": "SKIP",
-        "approved": false,
-        "value": null,
-        "reason": "No answer-alias mapping"
+        "canonical_field": "screener:internship_term",
+        "action": "FILL",
+        "approved": true,
+        "value": "Summer (May - September)",
+        "reason": "Screener bank answer (llm_option)"
       },
       {
         "field_id": "question_68675600",
@@ -835,31 +838,31 @@
         "field_id": "question_68675604",
         "label": "First location preference:",
         "type": "text",
-        "canonical_field": "screener:closest_location",
-        "action": "REVIEW_REQUIRED",
-        "approved": false,
-        "value": null,
-        "reason": "closest_location: bank answer \"United States\" matches none of the 4 page options — review"
+        "canonical_field": "screener:custom:first_location_preference",
+        "action": "FILL",
+        "approved": true,
+        "value": "I am open to working in any office",
+        "reason": "Screener bank answer (exact_option)"
       },
       {
         "field_id": "question_68581556",
         "label": "Second location preference",
         "type": "text",
-        "canonical_field": "screener:custom:predicted:question_68581556",
+        "canonical_field": "screener:custom:second_location_preference",
         "action": "FILL",
         "approved": true,
         "value": "I am open to working in any office",
-        "reason": "Predicted from operator context (llm_predict): Candidate is willing to relocate, so open to any office is the best fit."
+        "reason": "Screener bank answer (exact_option)"
       },
       {
         "field_id": "question_68581557",
         "label": "Third location preference",
         "type": "text",
-        "canonical_field": "screener:custom:predicted:question_68581557",
+        "canonical_field": "screener:custom:third_location_preference",
         "action": "FILL",
         "approved": true,
         "value": "I am open to working in any office",
-        "reason": "Predicted from operator context (llm_predict): Relocation willingness in profile supports openness to any office location."
+        "reason": "Screener bank answer (exact_option)"
       },
       {
         "field_id": "question_68702648",
@@ -934,14 +937,17 @@
       "start_year": "2025",
       "screener:custom:school_not_listed_name": "Johns Hopkins University",
       "screener:custom:predicted:question_68581547": "ACT: 35",
-      "screener:custom:predicted:question_68581548": "3.7",
+      "screener:custom:cumulative_gpa": "3.7",
       "preferred_name": "Shubham",
       "pronouns": "He/Him",
       "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
-      "essay:generated:question_68581554": "I don't have a fixed conference schedule for this year, so I'll speak to what I've actually attended. I was a national finalist at the Junior Science and Humanities Symposium for my Valley Fever research, where I presented an SIR-style epidemiological model I built in Python along with a microcontroller-based dust sensor I programmed in C/C++. More recently, ClarityAtlas, the iOS health product I lead technically at Open Health Intelligence, was selected for NSF I-Corps and the Johns Hopkins Pava Spark Accelerator, both of which involved cohort programming and demo events with founders, researchers, and university leadership. On campus, the Johns Hopkins Data Science and AI Institute runs events that pull in a lot of students doing applied ML and systems work, and that community would probably be a useful place for Stripe to recruit.",
+      "screener:custom:competing_offers": "No",
+      "essay:generated:question_68581554": "The gatherings I've attended so far have come out of my own projects rather than a formal conference circuit. I was a national finalist at the Junior Science and Humanities Symposium for my Valley Fever work, where I presented an SIR-style epidemiological model I built in Python along with a microcontroller-based dust sensor I programmed in C/C++. More recently, ClarityAtlas, the iOS health product I lead technically at Open Health Intelligence, was selected for NSF I-Corps and the Johns Hopkins Pava Spark Accelerator, both of which involved cohort programming, customer discovery, and presenting to outside groups. Through that project I also presented to Johns Hopkins President Ron Daniels and leadership from the Hopkins Data Science and AI Institute. I don't have a confirmed conference schedule for this year yet, but the events most likely to reach people like me are university accelerator demo days, NSF I-Corps cohorts, and Hopkins Data Science and AI Institute events, since those are where students who are actually shipping products tend to show up.",
+      "screener:internship_term": "Summer (May - September)",
       "screener:custom:second_cohort_flexibility": "Winter (January - April)",
-      "screener:custom:predicted:question_68581556": "I am open to working in any office",
-      "screener:custom:predicted:question_68581557": "I am open to working in any office",
+      "screener:custom:first_location_preference": "I am open to working in any office",
+      "screener:custom:second_location_preference": "I am open to working in any office",
+      "screener:custom:third_location_preference": "I am open to working in any office",
       "screener:work_authorization": "[REDACTED_SPONSORSHIP]",
       "requires_sponsorship": "[REDACTED_SPONSORSHIP]",
       "gender": "Male",
@@ -949,9 +955,9 @@
       "veteran_status": "I am not a veteran",
       "disability_status": "No"
     },
-    "fillable_count": 25,
-    "skipped_count": 7,
-    "review_required_count": 1
+    "fillable_count": 28,
+    "skipped_count": 5,
+    "review_required_count": 0
   },
   "fill": {
     "filled": [
@@ -966,14 +972,17 @@
       "start_year",
       "screener:custom:school_not_listed_name",
       "screener:custom:predicted:question_68581547",
-      "screener:custom:predicted:question_68581548",
+      "screener:custom:cumulative_gpa",
       "preferred_name",
       "pronouns",
       "linkedin_url",
+      "screener:custom:competing_offers",
       "essay:generated:question_68581554",
+      "screener:internship_term",
       "screener:custom:second_cohort_flexibility",
-      "screener:custom:predicted:question_68581556",
-      "screener:custom:predicted:question_68581557",
+      "screener:custom:first_location_preference",
+      "screener:custom:second_location_preference",
+      "screener:custom:third_location_preference",
       "screener:work_authorization",
       "requires_sponsorship",
       "gender",
@@ -1065,7 +1074,7 @@
       },
       {
         "field_id": "question_68581548",
-        "canonical_field": "screener:custom:predicted:question_68581548",
+        "canonical_field": "screener:custom:cumulative_gpa",
         "control_kind": "text"
       },
       {
@@ -1084,9 +1093,20 @@
         "control_kind": "text"
       },
       {
+        "field_id": "question_68581553",
+        "canonical_field": "screener:custom:competing_offers",
+        "control_kind": "text"
+      },
+      {
         "field_id": "question_68581554",
         "canonical_field": "essay:generated:question_68581554",
         "control_kind": "text"
+      },
+      {
+        "field_id": "question_68675431[]",
+        "canonical_field": "screener:internship_term",
+        "control_kind": "checkbox_group",
+        "selected_option": "Summer (May - September)"
       },
       {
         "field_id": "question_68675600",
@@ -1100,8 +1120,19 @@
         ]
       },
       {
+        "field_id": "question_68675604",
+        "canonical_field": "screener:custom:first_location_preference",
+        "control_kind": "combobox",
+        "selected_option": "I am open to working in any office",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"I am open to working in any office\" (exact) from open list"
+        ]
+      },
+      {
         "field_id": "question_68581556",
-        "canonical_field": "screener:custom:predicted:question_68581556",
+        "canonical_field": "screener:custom:second_location_preference",
         "control_kind": "combobox",
         "selected_option": "I am open to working in any office",
         "match_via": "exact",
@@ -1112,7 +1143,7 @@
       },
       {
         "field_id": "question_68581557",
-        "canonical_field": "screener:custom:predicted:question_68581557",
+        "canonical_field": "screener:custom:third_location_preference",
         "control_kind": "combobox",
         "selected_option": "I am open to working in any office",
         "match_via": "exact",
@@ -1271,7 +1302,7 @@
         "match": true
       },
       {
-        "canonical_field": "screener:custom:predicted:question_68581548",
+        "canonical_field": "screener:custom:cumulative_gpa",
         "expected": "3.7",
         "observed": "3.7",
         "match": true
@@ -1295,9 +1326,24 @@
         "match": true
       },
       {
+        "canonical_field": "screener:custom:competing_offers",
+        "expected": "No",
+        "observed": "No",
+        "match": true
+      },
+      {
         "canonical_field": "essay:generated:question_68581554",
-        "expected": "I don't have a fixed conference schedule for this year, so I'll speak to what I've actually attended. I was a national finalist at the Junior Science and Humanities Symposium for my Valley Fever research, where I presented an SIR-style epidemiological model I built in Python along with a microcontroller-based dust sensor I programmed in C/C++. More recently, ClarityAtlas, the iOS health product I lead technically at Open Health Intelligence, was selected for NSF I-Corps and the Johns Hopkins Pava Spark Accelerator, both of which involved cohort programming and demo events with founders, researchers, and university leadership. On campus, the Johns Hopkins Data Science and AI Institute runs events that pull in a lot of students doing applied ML and systems work, and that community would probably be a useful place for Stripe to recruit.",
-        "observed": "I don't have a fixed conference schedule for this year, so I'll speak to what I've actually attended. I was a national finalist at the Junior Science and Humanities Symposium for my Valley Fever research, where I presented an SIR-style epidemiological model I built in Python along with a microcontroller-based dust sensor I programmed in C/C++. More recently, ClarityAtlas, the iOS health product I lead technically at Open Health Intelligence, was selected for NSF I-Corps and the Johns Hopkins Pava Spark Accelerator, both of which involved cohort programming and demo events with founders, researchers, and university leadership. On campus, the Johns Hopkins Data Science and AI Institute runs events that pull in a lot of students doing applied ML and systems work, and that community would probably be a useful place for Stripe to recruit.",
+        "expected": "The gatherings I've attended so far have come out of my own projects rather than a formal conference circuit. I was a national finalist at the Junior Science and Humanities Symposium for my Valley Fever work, where I presented an SIR-style epidemiological model I built in Python along with a microcontroller-based dust sensor I programmed in C/C++. More recently, ClarityAtlas, the iOS health product I lead technically at Open Health Intelligence, was selected for NSF I-Corps and the Johns Hopkins Pava Spark Accelerator, both of which involved cohort programming, customer discovery, and presenting to outside groups. Through that project I also presented to Johns Hopkins President Ron Daniels and leadership from the Hopkins Data Science and AI Institute. I don't have a confirmed conference schedule for this year yet, but the events most likely to reach people like me are university accelerator demo days, NSF I-Corps cohorts, and Hopkins Data Science and AI Institute events, since those are where students who are actually shipping products tend to show up.",
+        "observed": "The gatherings I've attended so far have come out of my own projects rather than a formal conference circuit. I was a national finalist at the Junior Science and Humanities Symposium for my Valley Fever work, where I presented an SIR-style epidemiological model I built in Python along with a microcontroller-based dust sensor I programmed in C/C++. More recently, ClarityAtlas, the iOS health product I lead technically at Open Health Intelligence, was selected for NSF I-Corps and the Johns Hopkins Pava Spark Accelerator, both of which involved cohort programming, customer discovery, and presenting to outside groups. Through that project I also presented to Johns Hopkins President Ron Daniels and leadership from the Hopkins Data Science and AI Institute. I don't have a confirmed conference schedule for this year yet, but the events most likely to reach people like me are university accelerator demo days, NSF I-Corps cohorts, and Hopkins Data Science and AI Institute events, since those are where students who are actually shipping products tend to show up.",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:internship_term",
+        "expected": "Summer (May - September)",
+        "observed": {
+          "value": "Summer (May - September)",
+          "label": "Summer (May - September)"
+        },
         "match": true
       },
       {
@@ -1310,7 +1356,7 @@
         "match": true
       },
       {
-        "canonical_field": "screener:custom:predicted:question_68581556",
+        "canonical_field": "screener:custom:first_location_preference",
         "expected": "I am open to working in any office",
         "observed": {
           "value": "I am open to working in any office",
@@ -1319,7 +1365,16 @@
         "match": true
       },
       {
-        "canonical_field": "screener:custom:predicted:question_68581557",
+        "canonical_field": "screener:custom:second_location_preference",
+        "expected": "I am open to working in any office",
+        "observed": {
+          "value": "I am open to working in any office",
+          "label": "I am open to working in any office"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:third_location_preference",
         "expected": "I am open to working in any office",
         "observed": {
           "value": "I am open to working in any office",
@@ -1389,5 +1444,5 @@
       "evidence": "input files: []; stillAttached=false; chip=true"
     }
   ],
-  "written_at": "2026-09-01T01:57:06.542Z"
+  "written_at": "2026-09-01T02:22:14.518Z"
 }
