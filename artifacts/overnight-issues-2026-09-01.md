@@ -166,6 +166,37 @@ the same plan/bank tiers, verify per exchange. BOTH queued JPMC rows hit
 this. Parked in review (AMBIGUOUS_FIELD) — a future night's project, not
 a mid-loop fix.
 
+## Job: 7ce4b2b0 Finastra — AI Engineer Intern Summer 2027 (Workday wd3) —
+15-run grind → **SUBMITTED → COMPLETED (run 15, 18:05 UTC)**
+
+Walls, in order (operator co-debugged live):
+- **#124** completeness scan false-positived on Workday multiselect SEARCH
+  inputs (empty by design; answer lives in selectedItemList /"N item
+  selected") and MISSED unanswered listbox BUTTONS — both fixed
+  (chips/promptAriaInstruction accepted; button[aria-haspopup=listbox]
+  scanned, Workday's own "must have a value" hint = strongest signal).
+- **#125/#125b** the stock returning-candidate radio
+  (candidateIsPreviousWorker) was labeled "My Information" by the heading
+  fallback → unmappable; id→question map added. Operator directive:
+  returning-candidate = NOT returning (banked "No").
+- **#126/#126b** wizard pages planned with ZERO option data — harvest only
+  ever ran on page 1 (operator-diagnosed: "ensure you're properly scraping
+  the outputs"). Walk now discovers→harvests→plans per page.
+- **#127** four of nine questions-page listboxes render popup rows as
+  [data-automation-id=promptOption] with NO role=option — harvest and fill
+  both read an EMPTY open popup ("no option matches Yes (options: )").
+  Selector added to both readers; next run submitted.
+- Banked (operator-approved): us_work_authorization_status="U.S. Citizen",
+  application_truthfulness_consent="Yes", ai_recruitment_opt_out="Yes"
+  ("always yes no matter what"), returning_candidate_details="No",
+  country-phone-code→address.country alias.
+- CDP wedged 3× (port answers, attach hangs); cure: kill jobright-cdp
+  chrome.exe, relaunch FOREGROUND (background-shell launches die with the
+  parent), verify with real connectOverCDP.
+- Auth note: one run hit the TIAA-class signed-out + "Something went
+  wrong" sign-in rejection; the next run rode the re-established session.
+- Outreach: 5 @finastra.com insiders drafting.
+
 ## State snapshot (13:30)
 
 - Sierra 44fb9eb1: run 6 in flight (all four fixes live).

@@ -286,11 +286,59 @@ const SCAN_EXPRESSION = `(() => {
       continue;
     }
     if (((el.value || "") + "").trim() === "") {
+      // #124 (live finastra 2026-09-01): a Workday multiselect's SEARCH
+      // input is empty by design once a chip is committed — the answer
+      // lives in selectedItemList / "N item(s) selected". Two live
+      // false refusals ("How Did You Hear About Us?", "Country Phone
+      // Code") both carried "1 item selected, …" in the container.
+      const msc = el.closest('[data-automation-id="multiSelectContainer"]');
+      if (msc) {
+        const chips = msc.querySelectorAll(
+          '[data-automation-id="selectedItemList"] li, [data-automation-id="selectedItem"]',
+        );
+        const aria = msc.querySelector('[data-automation-id="promptAriaInstruction"]');
+        const ariaText = aria ? aria.textContent || "" : "";
+        if (chips.length > 0 || /\\d+\\s+items?\\s+selected/i.test(ariaText)) continue;
+      }
       push(required, {
         label: labelFor(el),
         control: el.tagName === "TEXTAREA" ? "textarea" : "text",
       });
     }
+  }
+
+  // #124b: Workday LISTBOX BUTTONS (<button aria-haspopup="listbox">) are
+  // neither inputs nor role=combobox widgets — the live finastra
+  // returning-candidate question sat unanswered (Workday's own "must have
+  // a value" hint in the DOM) while the scan flagged two answered
+  // multiselects instead. Unanswered = placeholder-ish own text.
+  for (const el of Array.from(
+    document.querySelectorAll('button[aria-haspopup="listbox"]'),
+  )) {
+    if (!visible(el)) continue;
+    const label = labelFor(el);
+    if (label === "(unlabeled)") continue;
+    // Workday renders its own inline error next to an unanswered
+    // required prompt — the strongest unanswered signal we have. An
+    // empty/placeholder button (or one whose text is just the label
+    // repeated) is the weaker fallback.
+    const hintUnanswered = /is required and must have a value/i.test(
+      (el.parentElement && el.parentElement.textContent) || "",
+    );
+    const own = clean(el.textContent);
+    const unanswered =
+      hintUnanswered ||
+      !own ||
+      /^(select one|select|choose one|choose)$/i.test(own) ||
+      own === label.replace(/[*\\u2731]\\s*$/, "").trim();
+    if (!unanswered) continue;
+    const required =
+      hintUnanswered ||
+      el.getAttribute("aria-required") === "true" ||
+      /[*\\u2731]\\s*$/.test(label);
+    if (seenGroups.has(label)) continue;
+    seenGroups.add(label);
+    push(required, { label: label, control: "combobox" });
   }
 
   // Widget labels often live on a sibling <label> inside the field

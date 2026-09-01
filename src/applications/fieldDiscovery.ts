@@ -279,6 +279,15 @@ export function discoverFieldsFromHtml(
           ? nearestSectionHeading(html, m.index)
           : null);
       if (question) label = question;
+      // #125b (live finastra 2026-09-01): Workday's STOCK returning-
+      // candidate radio (name=candidateIsPreviousWorker) renders its
+      // question as an unanchored paragraph — the heading fallback
+      // labeled it "My Information" and no bank tier could ever match.
+      // The id is a Workday-wide constant; the semantic label beats a
+      // section heading.
+      if (name === "candidateIsPreviousWorker") {
+        label = "Are you a former employee or returning applicant?";
+      }
       options = [optionText];
     }
 
@@ -320,13 +329,30 @@ export function discoverFieldsFromHtml(
     // (richText — no label[for] anywhere), so the labelMap misses and
     // the questions pages filled 0/N across every tenant. Page-chrome
     // listbox buttons sit outside fieldsets and stay invisible.
-    const btnLabel =
+    const resolved =
       (btnId ? labelMap.get(btnId) : undefined) ??
       enclosingFieldsetLegend(html, bm.index) ??
       undefined;
+    const ownText = cleanLabel(decodeEntities(stripTags(bm[2] ?? "")));
+    // #125 (live finastra 2026-09-01): the returning-candidate prompt is
+    // a listbox button whose label resolves to the SECTION legend ("My
+    // Information") while the QUESTION is the button's own placeholder
+    // text (a full paragraph ending "…providing more information:").
+    // "No answer-alias mapping" ⇒ skipped ⇒ eight Next clicks bounced
+    // off Workday's own required error. A question-shaped own text
+    // (long, or ending ?/:) outranks a missing/short section label; a
+    // short own text ("Current", an option value) never does — that is
+    // the TIAA shape #67 was built on.
+    const questionish = ownText.length >= 40 || /[?:]$/.test(ownText);
+    const useOwnText =
+      questionish &&
+      (!resolved ||
+        isUninformativeLabel(resolved) ||
+        ownText.length > resolved.length * 2);
+    const btnLabel = useOwnText ? ownText : resolved;
     if (!btnId || !btnLabel || isUninformativeLabel(btnLabel)) continue;
     const btnName = getAttr(battrs, "name") ?? undefined;
-    const current = cleanLabel(decodeEntities(stripTags(bm[2] ?? "")));
+    const current = useOwnText ? "" : ownText;
     const field: DiscoveredField = {
       id: btnId,
       label: cleanLabel(btnLabel),

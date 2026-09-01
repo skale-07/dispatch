@@ -981,7 +981,12 @@ export async function readComboboxValue(loc: Locator): Promise<string | null> {
 
 const LISTBOX_SELECTOR =
   '[role="listbox"], [class*="select__menu"], [id$="-dropdown-list-container"]';
-const OPTION_SELECTOR = '[role="option"], [class*="select__option"]';
+// #127 (live finastra 2026-09-01): Workday prompt popups can render
+// [data-automation-id="promptOption"] rows with no role=option — the
+// fill opened the popup and read an EMPTY option list ('no option
+// matches "Yes" (options: )') on four of nine listboxes.
+const OPTION_SELECTOR =
+  '[role="option"], [class*="select__option"], [data-automation-id="promptOption"]';
 
 /**
  * True for Stats / Statistics majors — not for "United States" (/\bstat/ matches

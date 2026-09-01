@@ -123,7 +123,13 @@ const MAX_OPTIONS_PER_FIELD = 500;
 const DEFAULT_BUDGET_MS = 45_000;
 const OPEN_TIMEOUT_MS = 2_500;
 const LISTBOX_SELECTOR = '[role="listbox"], [class*="select__menu"], [class*="menu-list"]';
-const OPTION_SELECTOR = '[role="option"], [class*="select__option"], [class*="option-item"]';
+// #127 (live finastra 2026-09-01): Workday renders SOME prompt popups
+// with [data-automation-id="promptOption"] rows and no role=option —
+// four of the questions page's nine listboxes read as "no readable
+// options" while their siblings harvested fine. The row shape, not the
+// button, is what differed.
+const OPTION_SELECTOR =
+  '[role="option"], [class*="select__option"], [class*="option-item"], [data-automation-id="promptOption"]';
 
 /**
  * Controls worth opening. A file input, a checkbox, or a free-text name

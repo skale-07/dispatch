@@ -615,11 +615,27 @@ export async function runAtsSubmission(input: {
                 ],
               };
             }
+            // #82b (live finastra 2026-09-01): observed can be "" or an
+            // empty {label,value} object on a hydrated Workday listbox the
+            // flat re-verify cannot read — same lesson as #122's
+            // "[object Object]". An unreadable observed is OFF-page
+            // evidence-wise; the walk's per-page verify covered it, and
+            // the #124 completeness scan (multiselect chips + listbox
+            // buttons) still guards the click against truly-empty fields.
+            const observedEmpty = (o: unknown): boolean => {
+              if (o === null || o === undefined) return true;
+              if (typeof o === "object") {
+                const rec = o as { label?: unknown; value?: unknown };
+                const s = rec.label ?? rec.value;
+                return s === null || s === undefined || String(s).trim() === "";
+              }
+              return String(o).trim() === "";
+            };
             const onPageMisses = v.fields.filter(
-              (f) => !f.match && f.observed !== null,
+              (f) => !f.match && !observedEmpty(f.observed),
             );
             const offPage = v.fields.filter(
-              (f) => !f.match && f.observed === null,
+              (f) => !f.match && observedEmpty(f.observed),
             ).length;
             if (onPageMisses.length === 0 && fill.errors.length === 0 && offPage > 0) {
               return {

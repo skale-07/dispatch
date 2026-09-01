@@ -1183,12 +1183,48 @@ export async function runAtsLiveFill(input: {
       let wizardTranscriptDone = false;
       if (binding.id === "workday") {
         const walk = await walkWorkdayWizard(page, async ({ html, url }) => {
+          // #126b (live finastra 2026-09-01, operator-diagnosed): wizard
+          // pages planned with ZERO option data — the harvest only ever
+          // ran on the first page, so the questions page's listbox
+          // answers ("U.S. Citizen", consent Yes, AI-opt-out Yes) had no
+          // option lists for the bank/option-select/predict tiers to map
+          // onto and stayed unfilled through 10 runs. Same
+          // discover→harvest→plan pattern as the greenhouse path.
+          let pageHarvest: Awaited<ReturnType<typeof harvestFieldOptions>> | null =
+            null;
+          try {
+            pageHarvest = await harvestFieldOptions(
+              page,
+              discoverFieldsFromHtml(html),
+            );
+            if (pageHarvest.notes.length > 0) {
+              report.notes.push(
+                ...pageHarvest.notes.slice(0, 4).map((n) => `wizard ${n}`),
+              );
+            }
+            if (pageHarvest.harvested.length > 0) {
+              report.notes.push(
+                `wizard option harvest: ${pageHarvest.harvested
+                  .map((h) => `"${h.label.slice(0, 40)}"×${h.options.length}`)
+                  .slice(0, 6)
+                  .join(", ")}`,
+              );
+            }
+          } catch {
+            // harvest is best-effort; the plan proceeds without options
+          }
           const pagePlan = await planApplicationFill({
             url,
             html,
             postingContext: mergePostingContext(...postingTrail),
             ...(input.profile ? { profile: input.profile } : {}),
             ...(input.capture ? { capture: input.capture } : {}),
+            ...(pageHarvest && pageHarvest.options.size > 0
+              ? {
+                  liveOptions: pageHarvest.options,
+                  answerSpace: pageHarvest.answerSpace,
+                }
+              : {}),
           });
           const wizardAdapter = pagePlan.adapter;
           const fillResult = await wizardAdapter.fill(page, pagePlan.approvedPlan.answers);
@@ -1200,6 +1236,22 @@ export async function runAtsLiveFill(input: {
           if (fillResult.filled.length === 0 && pagePlan.approvedPlan.fillable_count > 0) {
             report.notes.push(
               `wizard fill: 0 of ${pagePlan.approvedPlan.fillable_count} approved entries filled — skipped: ${fillResult.skipped.slice(0, 6).join("; ").slice(0, 300)}`,
+            );
+          }
+          // #126 (live finastra, 10 runs): the questions page held at
+          // 6/17 with ZERO errors — the misses were plan-time SKIPS and
+          // nothing recorded their walk-time labels/reasons, so the gap
+          // between walk-plan and submit-plan mapping was invisible.
+          const pageSkips = pagePlan.approvedPlan.entries.filter(
+            (e) => e.action === "SKIP",
+          );
+          if (pageSkips.length > 0) {
+            report.notes.push(
+              `wizard plan skips (${pageSkips.length}): ${pageSkips
+                .slice(0, 8)
+                .map((e) => `"${e.label.slice(0, 60)}"→${(e.reason ?? "?").slice(0, 50)}`)
+                .join(" | ")
+                .slice(0, 700)}`,
             );
           }
           let verifyResult = await wizardAdapter.verify(page, pagePlan.approvedPlan.answers);
