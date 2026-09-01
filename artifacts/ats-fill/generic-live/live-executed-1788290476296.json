@@ -1,0 +1,195 @@
+{
+  "ats": "generic",
+  "url": "https://bear-robotics.breezy.hr/p/b8d4995f6d23-software-engineering-intern-developer-productivit",
+  "requested_url": "https://bear-robotics.breezy.hr/p/b8d4995f6d23-software-engineering-intern-developer-productivit",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://bear-robotics.breezy.hr/p/b8d4995f6d23-software-engineering-intern-developer-productivity/apply",
+    "page_class": "confirmation"
+  },
+  "plan_summary": {
+    "fillable_count": 6,
+    "skipped_count": 1,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "cName",
+      "label": "Full Name",
+      "type": "text",
+      "canonical_field": "screener:custom:legal_name_if_different",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "cEmail",
+      "label": "Email Address",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "cPhoneNumber",
+      "label": "Phone Number",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "smsConsent",
+      "label": "smsConsent",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cCoverLetter",
+      "label": "Cover Letter",
+      "type": "textarea",
+      "canonical_field": "essay:generated:cCoverLetter",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "race_ethnicity",
+      "label": "race ethnicity",
+      "type": "radio",
+      "canonical_field": "race_ethnicity",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "gender",
+      "label": "gender",
+      "type": "radio",
+      "canonical_field": "gender",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\generic-live\\form-snapshot-1788290472738.html",
+  "fill": {
+    "filled": [
+      "screener:custom:legal_name_if_different",
+      "email",
+      "phone",
+      "essay:generated:cCoverLetter",
+      "race_ethnicity",
+      "gender"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "cName",
+        "canonical_field": "screener:custom:legal_name_if_different",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "cEmail",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "cPhoneNumber",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "cCoverLetter",
+        "canonical_field": "essay:generated:cCoverLetter",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "race_ethnicity",
+        "canonical_field": "race_ethnicity",
+        "control_kind": "text",
+        "selected_option": "Asian (not Hispanic or Latino)"
+      },
+      {
+        "field_id": "gender",
+        "canonical_field": "gender",
+        "control_kind": "text",
+        "selected_option": "Male"
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "screener:custom:legal_name_if_different",
+        "expected": "N/A",
+        "observed": "N/A",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:cCoverLetter",
+        "expected": "The project of mine closest to this role is a Playwright-based job-application agent I built in TypeScript and Node. The problem was that job hunting is mostly repetitive browser work, but a fully autonomous browser agent is dangerous there: one wrong action submits a real application or fills a legal field incorrectly. So I built it as a deterministic, operator-controlled agent. Every application moves through an explicit state machine (DISCOVERED through SUBMITTED and OUTREACH), SQLite is the single source of truth because state diverging across processes is how automation quietly breaks, and every mutating capability sits behind fail-closed flags like SUBMIT_ENABLED that never default on. I also built a validation ladder, from unit-confirmed up to live-mutation-confirmed, because passing against a local fixture does not mean a capability works against reality. Free-text and demographic fields are architecturally prevented from autofilling and always generate a human-review item. It supports Greenhouse, partially Lever and Ashby, and intentionally skips Workday rather than handling it unreliably.\n\nThat is how I would want to approach internal tooling and AI agents at Bear: automate the repetitive parts, make the boundary where a human decides explicit, and validate at the level of reality the tool claims. I also currently build ML and API infrastructure for an anomaly-detection system at Summer Atlantic Capital, including CI scaffolding and a versioned FastAPI service. I am an undergraduate at Johns Hopkins and available to work onsite in Redwood City.",
+        "observed": "The project of mine closest to this role is a Playwright-based job-application agent I built in TypeScript and Node. The problem was that job hunting is mostly repetitive browser work, but a fully autonomous browser agent is dangerous there: one wrong action submits a real application or fills a legal field incorrectly. So I built it as a deterministic, operator-controlled agent. Every application moves through an explicit state machine (DISCOVERED through SUBMITTED and OUTREACH), SQLite is the single source of truth because state diverging across processes is how automation quietly breaks, and every mutating capability sits behind fail-closed flags like SUBMIT_ENABLED that never default on. I also built a validation ladder, from unit-confirmed up to live-mutation-confirmed, because passing against a local fixture does not mean a capability works against reality. Free-text and demographic fields are architecturally prevented from autofilling and always generate a human-review item. It supports Greenhouse, partially Lever and Ashby, and intentionally skips Workday rather than handling it unreliably.\n\nThat is how I would want to approach internal tooling and AI agents at Bear: automate the repetitive parts, make the boundary where a human decides explicit, and validate at the level of reality the tool claims. I also currently build ML and API infrastructure for an anomaly-detection system at Summer Atlantic Capital, including CI scaffolding and a versioned FastAPI service. I am an undergraduate at Johns Hopkins and available to work onsite in Redwood City.",
+        "match": true
+      },
+      {
+        "canonical_field": "race_ethnicity",
+        "expected": "Asian",
+        "observed": {
+          "value": "asian",
+          "label": "Asian (not Hispanic or Latino)"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "gender",
+        "expected": "Male",
+        "observed": {
+          "value": "male",
+          "label": "Male"
+        },
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 76462,
+      "verified": true,
+      "evidence": "input files: [{\"name\":\"resume-db94def0.pdf\",\"size\":76462}]; stillAttached=true; chip=false"
+    }
+  ],
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: posting (no fields, Apply CTA present)",
+    "landed on a posting (no fields, Apply CTA present); clicking Apply via role=link \"Apply To Position\"",
+    "Apply landed on: confirmation (confirmation markers matched)",
+    "form-advance: visible submit after page 1 — leaving it for the gated submit path",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "wizard_pages": [],
+  "written_at": "2026-09-01T19:21:16.336Z"
+}

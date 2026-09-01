@@ -1,0 +1,179 @@
+{
+  "ats": "generic",
+  "url": "https://bear-robotics.breezy.hr/p/b8d4995f6d23-software-engineering-intern-developer-productivit",
+  "requested_url": "https://bear-robotics.breezy.hr/p/b8d4995f6d23-software-engineering-intern-developer-productivit",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://bear-robotics.breezy.hr/p/b8d4995f6d23-software-engineering-intern-developer-productivity/apply",
+    "page_class": "confirmation"
+  },
+  "plan_summary": {
+    "fillable_count": 5,
+    "skipped_count": 2,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "cName",
+      "label": "Full Name",
+      "type": "text",
+      "canonical_field": "screener:custom:legal_name_if_different",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "cEmail",
+      "label": "Email Address",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "cPhoneNumber",
+      "label": "Phone Number",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "smsConsent",
+      "label": "smsConsent",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cCoverLetter",
+      "label": "Cover Letter",
+      "type": "textarea",
+      "canonical_field": "essay:generated:cCoverLetter",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "race_ethnicity",
+      "label": "White (not Hispanic or Latino)",
+      "type": "radio",
+      "canonical_field": "hispanic_latino",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "gender",
+      "label": "Male",
+      "type": "radio",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Demographics deferred to sensitive-profile policy path"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\generic-live\\form-snapshot-1788289960756.html",
+  "fill": {
+    "filled": [
+      "screener:custom:legal_name_if_different",
+      "email",
+      "phone",
+      "essay:generated:cCoverLetter",
+      "hispanic_latino"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "cName",
+        "canonical_field": "screener:custom:legal_name_if_different",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "cEmail",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "cPhoneNumber",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "cCoverLetter",
+        "canonical_field": "essay:generated:cCoverLetter",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "race_ethnicity",
+        "canonical_field": "hispanic_latino",
+        "control_kind": "text",
+        "selected_option": "White (not Hispanic or Latino)"
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "screener:custom:legal_name_if_different",
+        "expected": "N/A",
+        "observed": "N/A",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:cCoverLetter",
+        "expected": "The project that maps most directly onto developer-productivity work at Bear Robotics is a job-application agent I built in TypeScript and Node. The problem was ordinary repetitive browser work: opening ATS pages, refilling the same fields, tracking state. What made it interesting was that a fully autonomous browser agent is dangerous here, since one wrong action submits a real application or fabricates an answer. So I designed it as a deterministic, operator-controlled agent. Every application moves through an explicit state machine from DISCOVERED through SUBMITTED, SQLite is the single source of truth because state diverging across processes is how automation quietly breaks, and every mutating capability sits behind fail-closed flags like SUBMIT_ENABLED that never default on. I also built a validation ladder from UNIT_CONFIRMED to LIVE_MUTATION_CONFIRMED, because a capability passing against a local fixture does not mean it works against reality. Free-text and demographic fields always escalate to human review.\n\nI have also built and shipped things people use: an iOS health product in a live Hopkins pilot with 30+ users, and an ML anomaly-detection service with a versioned FastAPI microservice and CI scaffold I own. I would want to work on the internal tooling and AI agents, and on making them trustworthy enough that engineers actually turn them on.",
+        "observed": "The project that maps most directly onto developer-productivity work at Bear Robotics is a job-application agent I built in TypeScript and Node. The problem was ordinary repetitive browser work: opening ATS pages, refilling the same fields, tracking state. What made it interesting was that a fully autonomous browser agent is dangerous here, since one wrong action submits a real application or fabricates an answer. So I designed it as a deterministic, operator-controlled agent. Every application moves through an explicit state machine from DISCOVERED through SUBMITTED, SQLite is the single source of truth because state diverging across processes is how automation quietly breaks, and every mutating capability sits behind fail-closed flags like SUBMIT_ENABLED that never default on. I also built a validation ladder from UNIT_CONFIRMED to LIVE_MUTATION_CONFIRMED, because a capability passing against a local fixture does not mean it works against reality. Free-text and demographic fields always escalate to human review.\n\nI have also built and shipped things people use: an iOS health product in a live Hopkins pilot with 30+ users, and an ML anomaly-detection service with a versioned FastAPI microservice and CI scaffold I own. I would want to work on the internal tooling and AI agents, and on making them trustworthy enough that engineers actually turn them on.",
+        "match": true
+      },
+      {
+        "canonical_field": "hispanic_latino",
+        "expected": "No",
+        "observed": {
+          "value": "white",
+          "label": "White (not Hispanic or Latino)"
+        },
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 76462,
+      "verified": true,
+      "evidence": "input files: [{\"name\":\"resume-db94def0.pdf\",\"size\":76462}]; stillAttached=true; chip=false"
+    }
+  ],
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: posting (no fields, Apply CTA present)",
+    "landed on a posting (no fields, Apply CTA present); clicking Apply via role=link \"Apply To Position\"",
+    "Apply landed on: confirmation (confirmation markers matched)",
+    "form-advance: visible submit after page 1 — leaving it for the gated submit path",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "wizard_pages": [],
+  "written_at": "2026-09-01T19:12:44.463Z"
+}
