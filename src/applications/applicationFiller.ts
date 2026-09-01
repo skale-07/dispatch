@@ -496,6 +496,57 @@ export async function planApplicationFill(input: {
     }
   }
 
+  // #111 (live stripe 0a2dbfa6): "First location preference" held
+  // closest_location's country-grained bank answer; against an OFFICE
+  // list the literal matcher and the option-select model both rightly
+  // refused — "United States" cannot disambiguate three US offices. A
+  // mismatch still parked after option-select is released to the predict
+  // tier, which carries the operator context (city) and must still answer
+  // VERBATIM from the page's own options (validatePrediction). Abstention
+  // keeps the review park. Demographics never take this path.
+  {
+    const releasable = [...screenerResolutions.entries()]
+      .filter(([, r]) => isOptionMismatchReview(r))
+      .map(([id]) => mapped.find((f) => f.id === id))
+      .filter(
+        (f): f is NonNullable<typeof f> =>
+          !!f && (f.options?.length ?? 0) > 0 && !screenerIsDemographic(f),
+      );
+    if (releasable.length > 0) {
+      try {
+        const predicted = await predictAnswersForQuestions(
+          releasable.map((f) => ({
+            id: f.id,
+            label: f.label,
+            options: f.options,
+          })),
+          input.llmClient,
+          input.url,
+        );
+        for (const [id, p] of predicted) {
+          screenerResolutions.set(id, {
+            status: "fill",
+            key: `custom:predicted:${id}`,
+            value: p.value,
+            basis: p.intended ? "other_option" : "llm_predict",
+            rationale: p.basis,
+          });
+          if (p.intended) {
+            const field = releasable.find((f) => f.id === id);
+            otherFallbacks.push({
+              field_id: id,
+              label: field?.label ?? id,
+              chose: p.value,
+              intended: p.intended,
+            });
+          }
+        }
+      } catch {
+        // best-effort: a model error keeps the review park exactly as before
+      }
+    }
+  }
+
   // "Other" escape hatch (operator directive 2026-08-14). A CLOSED field
   // whose answer space we scraped, whose true answer is genuinely not on
   // the list, and which offers "Other" — that is the form telling us what

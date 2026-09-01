@@ -269,3 +269,38 @@ in the body — FIXED (UNIT_CONFIRMED 22/22 + LIVE: 3 rejects regenerated clean)
   and all prior fixtures green.
 
 ## Pipeline restart (step 3)
+
+### ✅✅ Job #1 — 0a2dbfa6 Stripe Software Engineering Intern (Greenhouse,
+boards.greenhouse.io/stripe/8128745) — 02:22 UTC — SUBMITTED → VERIFIED →
+COMPLETED (LIVE_MUTATION_CONFIRMED; greenhouse confirmation URL on the
+submissions row). Four runs, one wall each; outreach done (2 insider
+emails → 2 drafts; Andrew Rojas draft read-back raced, verified:false —
+draft exists via Gmail autosave; Meng Zhao verified).
+
+### 110. Bare "Location" alias claimed "Third location preference" — FIXED
+(UNIT_CONFIRMED 8/8 + LIVE: run 2 lost the mismatch)
+- Run 1 verify: First Name showed "Baltimore" (!) and the preference
+  combobox stayed empty — the alias-planned Baltimore typing leaked into
+  the first text input when the dynamic-option widget rejected it.
+  `releaseUnplaceableProfileMappings` can't catch it (options are lazy, 0
+  discovered at plan time). Fence: a single-word alias never claims a
+  question containing preference/ranking wording — identity facts don't
+  answer choice questions; the screener/predict tier picks from the page's
+  own options. (fieldNormalization.ts, next to the #103 word-boundary rule.)
+
+### 111. Option-mismatch parks now release to the predict tier — FIXED
+(gate green + LIVE: run 3→4 filled "New York" class answer, wall gone)
+- `closest_location`'s bank answer is country-grained ("United States");
+  against Stripe's OFFICE list the literal matcher and the option-select
+  model both rightly refuse (can't disambiguate 3 US offices). New tier in
+  applicationFiller after option-select: still-parked option-mismatch
+  resolutions go to predictAnswersForQuestions, which has the operator
+  context (city) and must answer verbatim from the page options
+  (validatePrediction); abstention keeps the park; demographics fenced out.
+
+### Run-4 pair (no number, small): "please choose/pick" added to the
+checkbox capture-worthy imperatives (Stripe's required cohort group
+"Please choose which cohort works best for you." was invisible to the
+screener tiers); Stripe's offer-deadline textarea label attached to the
+existing operator-approved `competing_offers` = "No" bank entry (same
+fact, new wording — the #100 short-textarea path then fills it).

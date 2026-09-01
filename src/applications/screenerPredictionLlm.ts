@@ -264,7 +264,10 @@ export function isCaptureWorthyQuestion(q: {
     // neuralink 2026-08-30, required one-member group) is an acknowledgement
     // question the bank answers — it carries no "?" and none of the older
     // phrasings, so it never became a candidate and stayed skip_unmapped.
-    return /\?|(do you|have you|are you|i (agree|certify|acknowledge|confirm|understand|am aware|accept)|please (select|indicate|check|confirm))/i.test(
+    // "Please choose which cohort works best for you." (live stripe
+    // 0a2dbfa6 2026-08-31, required checkbox group) — "choose"/"pick"
+    // are the same imperative as select/indicate.
+    return /\?|(do you|have you|are you|i (agree|certify|acknowledge|confirm|understand|am aware|accept)|please (select|indicate|check|confirm|choose|pick))/i.test(
       label,
     );
   }

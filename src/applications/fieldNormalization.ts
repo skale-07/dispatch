@@ -96,6 +96,15 @@ function matchCanonicalFieldInner(
           if (!new RegExp(`(^|[^a-z0-9])${escaped}([^a-z0-9]|$)`, "i").test(normalized)) {
             continue;
           }
+          // #110 (live stripe 0a2dbfa6): "Third location preference" is a
+          // CHOICE among offices, not the candidate's city — bare
+          // "Location" claimed it and typed Baltimore at a dynamic-option
+          // widget (which then leaked into First Name on the refill pass).
+          // An identity fact never answers a preference/ranking question;
+          // the screener/predict tier picks from the page's own options.
+          if (/\b(preferences?|ranking)\b/.test(normalized)) {
+            continue;
+          }
         }
         score = 100 + p.length;
       } else if (p.includes(normalized) && normalized.length >= 4) {

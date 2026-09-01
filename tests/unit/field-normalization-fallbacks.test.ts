@@ -68,6 +68,28 @@ describe("matchCanonicalField name/id fallbacks", () => {
     expect(matchCanonicalField(field("Degree type"), aliases)).toBe("degree");
   });
 
+  // Live stripe 0a2dbfa6 (2026-08-31, #110): "Third location preference"
+  // is an office CHOICE, not the candidate's city — bare "Location"
+  // claimed it and the fill typed Baltimore at a dynamic-option widget.
+  // Identity facts never answer preference/ranking questions; short labels
+  // keep matching.
+  it("single-word aliases never claim preference/ranking questions (#110)", () => {
+    const aliases = { "address.city": ["City", "Location", "Current location"] };
+    const field = (label: string) => ({
+      id: "q1",
+      label,
+      type: "select" as const,
+      required: true,
+      name: "",
+    });
+    expect(matchCanonicalField(field("Third location preference"), aliases)).toBeNull();
+    expect(matchCanonicalField(field("First location preference"), aliases)).toBeNull();
+    expect(matchCanonicalField(field("Location ranking"), aliases)).toBeNull();
+    // Plain labels still map.
+    expect(matchCanonicalField(field("Location"), aliases)).toBe("address.city");
+    expect(matchCanonicalField(field("Current location"), aliases)).toBe("address.city");
+  });
+
   // Live tiaa.wd1 2026-08-30 (#22g): Workday's "I have a preferred name"
   // is a reveal TOGGLE checkbox; preferred_name mapped onto it and the
   // fill tried to "check" the profile's name into it. Checkbox-typed
