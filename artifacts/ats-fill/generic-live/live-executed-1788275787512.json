@@ -1,0 +1,194 @@
+{
+  "ats": "generic",
+  "url": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210773759",
+  "requested_url": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210773759",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210773759/apply/email",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 4,
+    "skipped_count": 0,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "oda-work-summary-text-area|input",
+      "label": "Work Summary",
+      "type": "textarea",
+      "canonical_field": "essay:generated:oda-work-summary-text-area|input",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "primary-email-0",
+      "label": "Email Address",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "legal-disclaimer-checkbox",
+      "label": "I agree with the terms and conditions",
+      "type": "checkbox",
+      "canonical_field": "application_consent:legal-disclaimer-checkbox",
+      "action": "FILL",
+      "reason": "Application terms/confirmation checkbox"
+    },
+    {
+      "field_id": "oda-chat-user-text-input",
+      "label": "Ask Me Something",
+      "type": "textarea",
+      "canonical_field": "essay:generated:oda-chat-user-text-input",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    }
+  ],
+  "form_snapshot_path": null,
+  "fill": {
+    "filled": [
+      "email",
+      "application_consent:legal-disclaimer-checkbox"
+    ],
+    "skipped": [],
+    "errors": [
+      "oda-work-summary-text-area|input: locator.fill: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[id=\"oda-work-summary-text-area|input\"]').first()\u001b[22m\n\u001b[2m    - locator resolved to <textarea placeholder=\"\" data-oj-internal=\"\" aria-required=\"true\" id=\"oda-work-summary-text-area|input\" class=\"oj-textarea-input oj-text-field-input oj-component-initnode\">↵            </textarea>\u001b[22m\n\u001b[2m    - fill(\"I'm an undergraduate at Johns Hopkins studying Applied Mathematics & Statistics and Economics, class of 2029, and most of my work has been building software and machine-learning systems for health and workflow problems.\u001b[22m\n\n\u001b[2mRight now I work on applied machine learning at Summer Atlantic Capital / SAC Nexus, where I own major parts of the ML core of an anomaly-detection and alert-prioritization system: the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, a learning-to-rank layer for prioritizing alerts, and a retrieval-augmented explanation layer so analysts can act on the output. Before that I worked with Intelehealth on AI and data systems for rural telemedicine, including a Python resource-availability scoring pipeline across 32 villages and an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case clinical standard.\u001b[22m\n\n\u001b[2mI also co-founded Open Health Intelligence and am the technical lead for ClarityAtlas, an iOS health app I built end to end in Swift/SwiftUI with Supabase, including passive sleep estimation from HealthKit and Core Motion signals. We shipped it into a live Hopkins pilot with 30+ users.\")\u001b[22m\n\u001b[2m  - attempting fill action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying fill action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying fill action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    58 × waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m       - element is not visible\u001b[22m\n\u001b[2m     - retrying fill action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n",
+      "oda-chat-user-text-input: locator.click: Element is not visible\nCall log:\n\u001b[2m  - waiting for locator('[id=\"oda-chat-user-text-input\"]').first().locator('xpath=ancestor-or-self::*[contains(@class,\"select__control\") or contains(@class,\"select-shell\") or @role=\"combobox\"][1]').first()\u001b[22m\n\u001b[2m    - locator resolved to <textarea rows=\"1\" dir=\"auto\" role=\"combobox\" autocomplete=\"off\" enterkeyhint=\"send\" aria-expanded=\"false\" aria-autocomplete=\"list\" id=\"oda-chat-user-text-input\" placeholder=\"Ask Me Something\" aria-controls=\"oda-chat-suggestions-list\" class=\"oda-chat-user-input oda-chat-disabled\"></textarea>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n"
+    ],
+    "field_meta": [
+      {
+        "field_id": "primary-email-0",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "legal-disclaimer-checkbox",
+        "canonical_field": "application_consent:legal-disclaimer-checkbox",
+        "control_kind": "text"
+      }
+    ]
+  },
+  "verify": {
+    "passed": false,
+    "fields": [
+      {
+        "canonical_field": "essay:generated:oda-work-summary-text-area|input",
+        "expected": "I'm an undergraduate at Johns Hopkins studying Applied Mathematics & Statistics and Economics, class of 2029, and most of my work has been building software and machine-learning systems for health and workflow problems.\n\nRight now I work on applied machine learning at Summer Atlantic Capital / SAC Nexus, where I own major parts of the ML core of an anomaly-detection and alert-prioritization system: the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, a learning-to-rank layer for prioritizing alerts, and a retrieval-augmented explanation layer so analysts can act on the output. Before that I worked with Intelehealth on AI and data systems for rural telemedicine, including a Python resource-availability scoring pipeline across 32 villages and an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case clinical standard.\n\nI also co-founded Open Health Intelligence and am the technical lead for ClarityAtlas, an iOS health app I built end to end in Swift/SwiftUI with Supabase, including passive sleep estimation from HealthKit and Core Motion signals. We shipped it into a live Hopkins pilot with 30+ users.",
+        "observed": "",
+        "match": false
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "application_consent:legal-disclaimer-checkbox",
+        "expected": true,
+        "observed": true,
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:oda-chat-user-text-input",
+        "expected": "Ask me how we got a meeting with the president of Johns Hopkins. My cofounders and I had been building ClarityAtlas, an iOS health product I led technically, and we wanted institutional support. During Lighting of the Quads we realized President Daniels was nearby. We walked over to Garland Hall, saw him through the locked doors, and knocked until someone let us pitch. That conversation eventually turned into a formal meeting months later, and we also presented to leadership from the Hopkins Data Science and AI Institute.\n\nI bring it up because the technical work was only part of it. I built the app end to end in Swift and SwiftUI with Supabase, including a passive sleep-estimation system using HealthKit and Core Motion signals so users would not need a wearable. But shipping it into a live pilot with 30+ Hopkins users took recruiting, stakeholder conversations, and repeatedly explaining why the thing should exist. That is the part I underestimated.",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "match": false
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": null,
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: posting (Apply CTA present and none of the 3 field(s) ask who you are — page furniture, not an application)",
+    "popups dismissed: Accept",
+    "landed on a posting (Apply CTA present and none of the 3 field(s) ask who you are — page furniture, not an application); clicking Apply via role=button \"APPLY NOW\"",
+    "Apply landed on: form (4 fillable field(s))",
+    "page error scan: no visible validation errors on the page",
+    "resume on disk but this page has no file input — not an upload miss",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "operator_brief": {
+    "title": "Live fill — generic https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210773759/apply/email",
+    "summary": "4 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:essay:generated:oda-work-summary-text-area|input",
+        "question": "Work Summary",
+        "field_id": "oda-work-summary-text-area|input",
+        "canonical_field": "essay:generated:oda-work-summary-text-area|input",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"I'm an undergraduate at Johns Hopkins studying Applied Mathematics & Statistics and Economics, class of 2029, and most of my work has been building software and machine-learning systems for health and workflow problems.\n\nRight now I work on applied machine learning at Summer Atlantic Capital / SAC Nexus, where I own major parts of the ML core of an anomaly-detection and alert-prioritization system: the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, a learning-to-rank layer for prioritizing alerts, and a retrieval-augmented explanation layer so analysts can act on the output. Before that I worked with Intelehealth on AI and data systems for rural telemedicine, including a Python resource-availability scoring pipeline across 32 villages and an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case clinical standard.\n\nI also co-founded Open Health Intelligence and am the technical lead for ClarityAtlas, an iOS health app I built end to end in Swift/SwiftUI with Supabase, including passive sleep estimation from HealthKit and Core Motion signals. We shipped it into a live Hopkins pilot with 30+ users.\"; page shows \"(empty)\"",
+        "expected": "I'm an undergraduate at Johns Hopkins studying Applied Mathematics & Statistics and Economics, class of 2029, and most of my work has been building software and machine-learning systems for health and workflow problems.\n\nRight now I work on applied machine learning at Summer Atlantic Capital / SAC Nexus, where I own major parts of the ML core of an anomaly-detection and alert-prioritization system: the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, a learning-to-rank layer for prioritizing alerts, and a retrieval-augmented explanation layer so analysts can act on the output. Before that I worked with Intelehealth on AI and data systems for rural telemedicine, including a Python resource-availability scoring pipeline across 32 villages and an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case clinical standard.\n\nI also co-founded Open Health Intelligence and am the technical lead for ClarityAtlas, an iOS health app I built end to end in Swift/SwiftUI with Supabase, including passive sleep estimation from HealthKit and Core Motion signals. We shipped it into a live Hopkins pilot with 30+ users.",
+        "observed": "",
+        "how_to_answer": [
+          "System expected \"I'm an undergraduate at Johns Hopkins studying Applied Mathematics & Statistics and Economics, class of 2029, and most of my work has been building software and machine-learning systems for health and workflow problems.\n\nRight now I work on applied machine learning at Summer Atlantic Capital / SAC Nexus, where I own major parts of the ML core of an anomaly-detection and alert-prioritization system: the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, a learning-to-rank layer for prioritizing alerts, and a retrieval-augmented explanation layer so analysts can act on the output. Before that I worked with Intelehealth on AI and data systems for rural telemedicine, including a Python resource-availability scoring pipeline across 32 villages and an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case clinical standard.\n\nI also co-founded Open Health Intelligence and am the technical lead for ClarityAtlas, an iOS health app I built end to end in Swift/SwiftUI with Supabase, including passive sleep estimation from HealthKit and Core Motion signals. We shipped it into a live Hopkins pilot with 30+ users.\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: essay:generated:oda-work-summary-text-area|input)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"essay:generated:oda-work-summary-text-area|input\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:essay:generated:oda-chat-user-text-input",
+        "question": "Ask Me Something",
+        "field_id": "oda-chat-user-text-input",
+        "canonical_field": "essay:generated:oda-chat-user-text-input",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Ask me how we got a meeting with the president of Johns Hopkins. My cofounders and I had been building ClarityAtlas, an iOS health product I led technically, and we wanted institutional support. During Lighting of the Quads we realized President Daniels was nearby. We walked over to Garland Hall, saw him through the locked doors, and knocked until someone let us pitch. That conversation eventually turned into a formal meeting months later, and we also presented to leadership from the Hopkins Data Science and AI Institute.\n\nI bring it up because the technical work was only part of it. I built the app end to end in Swift and SwiftUI with Supabase, including a passive sleep-estimation system using HealthKit and Core Motion signals so users would not need a wearable. But shipping it into a live pilot with 30+ Hopkins users took recruiting, stakeholder conversations, and repeatedly explaining why the thing should exist. That is the part I underestimated.\"; page shows \"(empty)\"",
+        "expected": "Ask me how we got a meeting with the president of Johns Hopkins. My cofounders and I had been building ClarityAtlas, an iOS health product I led technically, and we wanted institutional support. During Lighting of the Quads we realized President Daniels was nearby. We walked over to Garland Hall, saw him through the locked doors, and knocked until someone let us pitch. That conversation eventually turned into a formal meeting months later, and we also presented to leadership from the Hopkins Data Science and AI Institute.\n\nI bring it up because the technical work was only part of it. I built the app end to end in Swift and SwiftUI with Supabase, including a passive sleep-estimation system using HealthKit and Core Motion signals so users would not need a wearable. But shipping it into a live pilot with 30+ Hopkins users took recruiting, stakeholder conversations, and repeatedly explaining why the thing should exist. That is the part I underestimated.",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "how_to_answer": [
+          "System expected \"Ask me how we got a meeting with the president of Johns Hopkins. My cofounders and I had been building ClarityAtlas, an iOS health product I led technically, and we wanted institutional support. During Lighting of the Quads we realized President Daniels was nearby. We walked over to Garland Hall, saw him through the locked doors, and knocked until someone let us pitch. That conversation eventually turned into a formal meeting months later, and we also presented to leadership from the Hopkins Data Science and AI Institute.\n\nI bring it up because the technical work was only part of it. I built the app end to end in Swift and SwiftUI with Supabase, including a passive sleep-estimation system using HealthKit and Core Motion signals so users would not need a wearable. But shipping it into a live pilot with 30+ Hopkins users took recruiting, stakeholder conversations, and repeatedly explaining why the thing should exist. That is the part I underestimated.\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: essay:generated:oda-chat-user-text-input)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"essay:generated:oda-chat-user-text-input\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "fill_error:oda-work-summary-text-area|input: locator.fill: Timeout 30000ms exceeded.\nCall l",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "oda-work-summary-text-area|input: locator.fill: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[id=\"oda-work-summary-text-area|input\"]').first()\u001b[22m\n\u001b[2m    - locator resolved to <textarea placeholder=\"\" data-oj-internal=\"\" aria-required=\"true\" id=\"oda-work-summary-text-area|input\" class=\"oj-textarea-input oj-text-field-input oj-component-initnode\">↵            </textarea>\u001b[22m\n\u001b[2m    - fill(\"I'm an undergraduate at Johns Hopkins studying Applied Mathematics & Statistics and Economics, class of 2029, and most of my work has been building software and machine-learning systems for health and workflow problems.\u001b[22m\n\n\u001b[2mRight now I work on applied machine learning at Summer Atlantic Capital / SAC Nexus, where I own major parts of the ML core of an anomaly-detection and alert-prioritization system: the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, a learning-to-rank layer for prioritizing alerts, and a retrieval-augmented explanation layer so analysts can act on the output. Before that I worked with Intelehealth on AI and data systems for rural telemedicine, including a Python resource-availability scoring pipeline across 32 villages and an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case clinical standard.\u001b[22m\n\n\u001b[2mI also co-founded Open Health Intelligence and am the technical lead for ClarityAtlas, an iOS health app I built end to end in Swift/SwiftUI with Supabase, including passive sleep estimation from HealthKit and Core Motion signals. We shipped it into a live Hopkins pilot with 30+ users.\")\u001b[22m\n\u001b[2m  - attempting fill action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying fill action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying fill action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    58 × waiting for element to be visible, enabled and editable\u001b[22m\n\u001b[2m       - element is not visible\u001b[22m\n\u001b[2m     - retrying fill action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:oda-chat-user-text-input: locator.click: Element is not visible\nCall log:\n\u001b[2m  ",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "oda-chat-user-text-input: locator.click: Element is not visible\nCall log:\n\u001b[2m  - waiting for locator('[id=\"oda-chat-user-text-input\"]').first().locator('xpath=ancestor-or-self::*[contains(@class,\"select__control\") or contains(@class,\"select-shell\") or @role=\"combobox\"][1]').first()\u001b[22m\n\u001b[2m    - locator resolved to <textarea rows=\"1\" dir=\"auto\" role=\"combobox\" autocomplete=\"off\" enterkeyhint=\"send\" aria-expanded=\"false\" aria-autocomplete=\"list\" id=\"oda-chat-user-text-input\" placeholder=\"Ask Me Something\" aria-controls=\"oda-chat-suggestions-list\" class=\"oda-chat-user-input oda-chat-disabled\"></textarea>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      }
+    ],
+    "ok_count": 2,
+    "fail_count": 4
+  },
+  "written_at": "2026-09-01T15:16:27.532Z"
+}
