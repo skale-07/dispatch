@@ -131,6 +131,24 @@ const SENDER_IS_ALUM =
   /\bi(?:'m| am) (?:a |an )?(?:jhu|hopkins|johns hopkins)\s+alum/i;
 
 /**
+ * Compound persona project names ("Summer Atlantic Capital / SAC Nexus
+ * Anomaly Detection System") are written as one segment in natural prose, so
+ * a used-project claim counts as present when the body carries the full name
+ * or any "/"-separated segment verbatim. Segments under 8 chars don't count
+ * on their own — a short acronym in passing is not evidence the project was
+ * actually described. The invented-project check is unaffected: claims must
+ * still match a persona project name exactly.
+ */
+function projectAppearsInBody(name: string, body: string): boolean {
+  if (body.includes(name)) return true;
+  return name
+    .split("/")
+    .map((segment) => segment.trim())
+    .filter((segment) => segment.length >= 8)
+    .some((segment) => body.includes(segment));
+}
+
+/**
  * Deterministic post-generation checks. The model's output is never trusted:
  * every rule the prompt states is re-verified here, and a violation means
  * REJECTED — no draft, review item instead.
@@ -168,7 +186,7 @@ export function validateGeneratedEmail(input: {
     }
     if (
       personaProjectNames.has(used) &&
-      !output.body_text.includes(used)
+      !projectAppearsInBody(used, output.body_text)
     ) {
       violations.push(`project "${used}" claimed as used but absent from body`);
     }
@@ -190,8 +208,13 @@ export function validateGeneratedEmail(input: {
   ) {
     violations.push("body claims a school tie for a non-school contact");
   }
+  // Case-insensitive: contact names arrive as scraped ("paola manganiello")
+  // while the model correctly greets "Hi Paola," (#108).
   const firstName = context.contact.name?.split(/\s+/)[0] ?? "";
-  if (firstName && !output.body_text.includes(firstName)) {
+  if (
+    firstName &&
+    !output.body_text.toLowerCase().includes(firstName.toLowerCase())
+  ) {
     violations.push("body does not greet the contact by first name");
   }
   if (!firstName && !/^hi there,/im.test(output.body_text)) {

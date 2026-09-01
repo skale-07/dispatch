@@ -356,6 +356,72 @@ describe("deterministic email validation (UNIT_CONFIRMED)", () => {
     expect(r.violations.join(" ")).toMatch(/invented/);
   });
 
+  it("accepts a compound project name written as one segment in the body (#107, live 2026-08-31: Old Mission rejections)", () => {
+    const compoundPersona = personaSchema.parse({
+      ...testPersona,
+      projects: [
+        ...testPersona.projects,
+        {
+          name: "Summer Atlantic Capital / SAC Nexus Anomaly Detection System",
+          summary: "Anomaly detection ML core",
+          tools: ["Python", "FastAPI"],
+          relevance_tags: ["ml"],
+        },
+      ],
+    });
+    const context = { ...contextFor("beyond"), persona: compoundPersona };
+    const output = validOutput("beyond");
+    output.persona_projects_used = [
+      ...output.persona_projects_used,
+      "Summer Atlantic Capital / SAC Nexus Anomaly Detection System",
+    ];
+    output.body_text = output.body_text.replace(
+      "A few quick points on my background:",
+      "A few quick points on my background:\n- For the SAC Nexus Anomaly Detection System, I built the ML core with Python and FastAPI.",
+    );
+    const r = validateGeneratedEmail({ output, context });
+    expect(r.violations).toEqual([]);
+    expect(r.valid).toBe(true);
+  });
+
+  it("still rejects a compound project claim when no segment appears in the body", () => {
+    const compoundPersona = personaSchema.parse({
+      ...testPersona,
+      projects: [
+        ...testPersona.projects,
+        {
+          name: "Summer Atlantic Capital / SAC Nexus Anomaly Detection System",
+          summary: "Anomaly detection ML core",
+          tools: ["Python", "FastAPI"],
+          relevance_tags: ["ml"],
+        },
+      ],
+    });
+    const context = { ...contextFor("beyond"), persona: compoundPersona };
+    const output = validOutput("beyond");
+    output.persona_projects_used = [
+      ...output.persona_projects_used,
+      "Summer Atlantic Capital / SAC Nexus Anomaly Detection System",
+    ];
+    const r = validateGeneratedEmail({ output, context });
+    expect(r.valid).toBe(false);
+    expect(r.violations.join(" ")).toMatch(/absent from body/);
+  });
+
+  it("greeting check is case-insensitive against the scraped name (#108, live 2026-08-31: 'paola manganiello' vs 'Hi Paola,')", () => {
+    const context = contextFor("beyond");
+    context.contact.name = "jordan rivera";
+    const output = validOutput("beyond"); // greets "Hi Jordan,"
+    const r = validateGeneratedEmail({ output, context });
+    expect(r.violations).toEqual([]);
+
+    const missing = validOutput("beyond");
+    missing.body_text = missing.body_text.replace("Hi Jordan,", "Hi there,");
+    const r2 = validateGeneratedEmail({ output: missing, context });
+    expect(r2.valid).toBe(false);
+    expect(r2.violations.join(" ")).toMatch(/first name/);
+  });
+
   it("rejects referral claims and false school ties", () => {
     const referral = validOutput("beyond");
     referral.body_text += "\nI was referred by your colleague.";
