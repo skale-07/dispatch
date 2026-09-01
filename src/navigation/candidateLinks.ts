@@ -71,6 +71,14 @@ export function looksLikeApplicationUrl(url: string): boolean {
     return false;
   }
   const haystack = `${parsed.hostname}${parsed.pathname}`;
+  // #134 (live clearwater 2026-09-01): a NEWS article
+  // (financialit.net/news/…-job-security-…-clearwater-analytics) passed
+  // the word test on "job" inside its slug and beat the real apply link
+  // on congruence (the company name was in the article slug too).
+  // Editorial paths are never application URLs.
+  if (/\/(news|blog|blogs|articles?|press|media|insights|stories)\//i.test(parsed.pathname)) {
+    return false;
+  }
   return ATS_HINT_RE.test(haystack) || /careers?|jobs?|apply|talent|recruit/i.test(haystack);
 }
 

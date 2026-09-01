@@ -70,13 +70,30 @@ export class PlaywrightServiceSession implements ServiceSession {
       } catch (err) {
         // The live failure this names: the debug port answers HTTP (so the
         // availability probe passes) but the websocket handshake hangs —
-        // a wedged Chrome. The raw Playwright timeout text told the
-        // operator nothing actionable.
-        const raw = err instanceof Error ? err.message : String(err);
-        throw new Error(
-          `Debug Chrome at ${cdpUrl} is unresponsive (port answers but the CDP session won't attach). ` +
-            `Close ALL Chrome windows, re-run chrome:debug:jobright, and retry. [${raw.slice(0, 120)}]`,
-        );
+        // a wedged Chrome. #133 (6 wedges on 2026-09-01 alone): the
+        // automation worker already had a bounded restart-and-verify
+        // path; DIRECT runs died here instead. One restart attempt,
+        // then the actionable error.
+        try {
+          const { restartCdpChrome } = await import(
+            "../automation/cdpChrome.js"
+          );
+          const restart = await restartCdpChrome({});
+          if (restart.reachable) {
+            this.browser = await chromium.connectOverCDP(cdpUrl, {
+              timeout: 20_000,
+            });
+          }
+        } catch {
+          // fall through to the actionable error below
+        }
+        if (!this.browser) {
+          const raw = err instanceof Error ? err.message : String(err);
+          throw new Error(
+            `Debug Chrome at ${cdpUrl} is unresponsive (port answers but the CDP session won't attach). ` +
+              `Close ALL Chrome windows, re-run chrome:debug:jobright, and retry. [${raw.slice(0, 120)}]`,
+          );
+        }
       }
       this.context =
         this.browser.contexts()[0] ?? (await this.browser.newContext());

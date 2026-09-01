@@ -238,6 +238,24 @@ Walls, in order (operator co-debugged live):
   on this host.
 - Parked AMBIGUOUS_FIELD (review) — out of the queue until wired.
 
+## Evening loop additions
+
+- **Valon (Ashby) SUBMITTED → COMPLETED** — **#132** Ashby yes/no BUTTON
+  PAIRS (input-yesno: two aria-pressed buttons + hidden uuid checkbox);
+  discovered by question title, filled by clicking the real button.
+  Outreach: 6 drafts (5 verified). REJECTED_AFTER_CLICK on run 1 was the
+  honest post-click classifier catching the form's own error — the alias
+  "authorized to work for any employer" also added.
+- **#133** serviceSession CDP attach now self-heals (one bounded
+  restartCdpChrome + re-attach) — direct runs no longer die on the wedge
+  the worker already survived. First live save: Clearwater's rerun.
+- **#134** looksLikeApplicationUrl vetoes editorial paths (/news/, /blog/,
+  /press/…) — a financialit.net article about Clearwater beat the real
+  apply link via "job" in its slug + company-name congruence.
+- Backlog: **Clearwater Analytics (9d70d002)** applies via
+  linkedin.com/jobs/view — LinkedIn Easy Apply is unwired (login session
+  exists via login:linkedin; the flow is a dedicated project). Parked.
+
 ## State snapshot (13:30)
 
 - Sierra 44fb9eb1: run 6 in flight (all four fixes live).
