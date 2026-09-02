@@ -19,7 +19,8 @@ const MIGRATIONS = path.resolve(
 function read(name: string): string {
   const f = listMigrationFiles(MIGRATIONS).find((m) => m.name === name);
   if (!f) throw new Error(`migration ${name} not found`);
-  return fs.readFileSync(f.path, "utf8");
+  // Checkouts with core.autocrlf hand back CRLF; the markers below assume LF.
+  return fs.readFileSync(f.path, "utf8").replace(/\r\n/g, "\n");
 }
 
 describe("referral invites migration (UNIT_CONFIRMED — static contract)", () => {
