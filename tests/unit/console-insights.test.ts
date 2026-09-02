@@ -38,7 +38,10 @@ describe("buildInsightsView (UNIT_CONFIRMED)", () => {
   });
 
   it("aggregates fill runs, pipeline states, sources, and captcha incidents", () => {
-    enqueueJobRightJobs(db, ["6a76229767a1ad0bc53c8e9f"]);
+    enqueueJobRightJobs(db, [
+      "6a76229767a1ad0bc53c8e9f",
+      "6a76229767a1ad0bc53c8ea0",
+    ]);
     db.prepare(
       `INSERT INTO fill_runs (
          id, created_at, mode, source, ats, job_url, job_host, company, role,
@@ -55,6 +58,21 @@ describe("buildInsightsView (UNIT_CONFIRMED)", () => {
        ) VALUES (?, ?, 'execute', 'test', 'greenhouse', 'https://x.test', 'x.test',
                  'Acme', 'SWE', 1, 'UNVERIFIED', ?, 3, 1, 1, 'test')`,
     ).run(randomUUID(), "2026-08-25T11:00:00.000Z", 0);
+
+    const appIds = (
+      db.prepare(`SELECT id FROM applications ORDER BY id`).all() as Array<{
+        id: string;
+      }>
+    ).map((r) => r.id);
+    const submitEvent = db.prepare(
+      `INSERT INTO application_events (id, application_id, next_state, timestamp)
+       VALUES (?, ?, 'SUBMITTED', ?)`,
+    );
+    // Same application twice on one day (a re-walked transition) must
+    // count once; a second application the next day counts separately.
+    submitEvent.run(randomUUID(), appIds[0], "2026-08-30T09:00:00.000Z");
+    submitEvent.run(randomUUID(), appIds[0], "2026-08-30T09:05:00.000Z");
+    submitEvent.run(randomUUID(), appIds[1], "2026-08-31T18:00:00.000Z");
 
     const reportDir = path.join(artifactsDir, "ats-fill", "generic-live");
     fs.mkdirSync(reportDir, { recursive: true });
@@ -82,9 +100,13 @@ describe("buildInsightsView (UNIT_CONFIRMED)", () => {
     expect(view.fill_runs_daily).toEqual([
       { date: "2026-08-25", attempted: 2, verified: 1, failed: 1 },
     ]);
-    expect(view.pipeline_states.find((s) => s.state === "QUEUED")?.count).toBe(1);
+    expect(view.submissions_daily).toEqual([
+      { date: "2026-08-30", submitted: 1 },
+      { date: "2026-08-31", submitted: 1 },
+    ]);
+    expect(view.pipeline_states.find((s) => s.state === "QUEUED")?.count).toBe(2);
     const jr = view.discovery_sources.find((s) => s.source === "jobright");
-    expect(jr).toMatchObject({ jobs: 1, applications: 1, completed: 0 });
+    expect(jr).toMatchObject({ jobs: 2, applications: 2, completed: 0 });
     expect(view.captcha_incidents).toEqual([
       {
         host: "job-boards.greenhouse.io",
@@ -99,6 +121,7 @@ describe("buildInsightsView (UNIT_CONFIRMED)", () => {
   it("fails open on an empty database and a missing artifacts dir", () => {
     const view = buildInsightsView(db, path.join(artifactsDir, "nope"));
     expect(view.fill_runs_daily).toEqual([]);
+    expect(view.submissions_daily).toEqual([]);
     expect(view.pipeline_states).toEqual([]);
     expect(view.captcha_incidents).toEqual([]);
   });

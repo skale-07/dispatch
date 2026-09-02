@@ -18,6 +18,14 @@ export type InsightsView = {
     verified: number;
     failed: number;
   }>;
+  /**
+   * True submissions per day, straight from the state machine's
+   * SUBMITTED transitions (application_events) — the series the
+   * frontend's TimeSaved chart pairs with its "applications submitted"
+   * tile. DISTINCT application_id so a re-walked transition can never
+   * double-count an application.
+   */
+  submissions_daily: Array<{ date: string; submitted: number }>;
   pipeline_states: Array<{ state: string; count: number }>;
   discovery_sources: Array<{
     source: string;
@@ -62,6 +70,20 @@ export function buildInsightsView(db: Db, artifactsDir: string): InsightsView {
       failed: r.attempted - (r.verified ?? 0),
     }));
 
+  const submissionsDaily = (
+    db
+      .prepare(
+        `SELECT substr(timestamp, 1, 10) AS date,
+                COUNT(DISTINCT application_id) AS submitted
+         FROM application_events
+         WHERE next_state = 'SUBMITTED'
+         GROUP BY substr(timestamp, 1, 10)
+         ORDER BY date DESC
+         LIMIT 30`,
+      )
+      .all() as Array<{ date: string; submitted: number }>
+  ).reverse();
+
   const pipelineStates = db
     .prepare(
       `SELECT state, COUNT(*) AS count FROM applications
@@ -90,6 +112,7 @@ export function buildInsightsView(db: Db, artifactsDir: string): InsightsView {
 
   return {
     fill_runs_daily: fillDaily,
+    submissions_daily: submissionsDaily,
     pipeline_states: pipelineStates,
     discovery_sources: discoverySources.map((d) => ({
       ...d,
