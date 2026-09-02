@@ -728,7 +728,8 @@
       ],
       "key_files": {
         "src/cloud/invites.ts": "code generation, invite links, local cloud_invites ledger, SQL/CSV export (private/cloud/invites/, never artifacts/)",
-        "src/cloud/invitesMintCli.ts": "npm run invites:mint entrypoint",
+        "src/cloud/invitesMintCli.ts": "npm run invites:mint entrypoint (--load POSTs codes to public.invites behind SUPABASE_SYNC_ENABLED)",
+        "src/cloud/inviteRoundTrip.ts": "npm run invites:roundtrip: self-cleaning live proof of load -> redeem (real user JWT) -> quota decrement -> exhausted -> second account refused -> RLS, plus loadInvitesToSupabase; behind SUPABASE_SYNC_ENABLED",
         "src/cloud/syncMapping.ts": "pure engine-row -> mirror-row mapping; MIRROR_COLUMNS is the entire permitted engine->cloud data surface",
         "src/cloud/syncSupabase.ts": "npm run cloud:sync worker: gate check, SELECT, batched upserts via @supabase/supabase-js",
         "src/cloud/schema.ts": "npm run cloud:schema: apply supabase/migrations/ via the Management API (SUPABASE_ACCESS_TOKEN, behind SUPABASE_SYNC_ENABLED) + deterministic REST/Storage read-back of every expected table/view/RPC/bucket (the validation evidence)",
@@ -758,6 +759,11 @@
           "applyMigrations",
           "listMigrationFiles",
           "EXPECTED_TABLES"
+        ],
+        "src/cloud/inviteRoundTrip.ts": [
+          "loadInvitesToSupabase",
+          "runInviteRoundTrip",
+          "assertCloudWriteConfigured"
         ]
       },
       "gates": [
@@ -1026,7 +1032,7 @@
     "ARTIFACT_AUTOPUSH_ENABLED": "git-push run artifacts for the improvement loop",
     "AUTOMATION_ENABLED": "L3 armed sessions kill switch",
     "ATS_DISCOVERY_ENABLED": "Enqueue from public ATS board APIs (creates jobs + applications). Fail closed.",
-    "SUPABASE_SYNC_ENABLED": "One-way aggregate status mirror to Supabase (cloud plane; requires SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY + SUPABASE_SYNC_USER_ID). Also gates cloud:schema apply (DDL). Fail closed.",
+    "SUPABASE_SYNC_ENABLED": "One-way aggregate status mirror to Supabase (cloud plane; requires SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY + SUPABASE_SYNC_USER_ID). Also gates cloud:schema apply (DDL), invites:mint --load, and invites:roundtrip. Fail closed.",
     "CONSOLE_HOSTED_MODE_ENABLED": "Console may bind a public interface: hostname allowlist + Supabase JWT (JWKS-verified) on EVERY /api request + allowlisted user ids + read-only. Off = local model byte-for-byte. Requires SUPABASE_URL + CONSOLE_HOSTED_ALLOWED_HOSTS + CONSOLE_HOSTED_ALLOWED_USER_IDS or refuses to boot."
   },
   "invariants": [

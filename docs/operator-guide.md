@@ -634,7 +634,7 @@ contract rather than trusted.
 | `ESSAY_REQUIRED_GATE_ENABLED` | `false` | Hard-stop on heuristic essay detection (`ESSAY_REQUIRED`); off until heuristics are better |
 | `OUTLOOK_VERIFICATION_ENABLED` | `false` | Read-only Outlook mailbox scan for submit verification codes (§17) |
 | `ATS_DISCOVERY_ENABLED` | `false` | Enqueue from public ATS board APIs (`discover:ats`, §21) — creates jobs + applications |
-| `SUPABASE_SYNC_ENABLED` | `false` | One-way aggregate status mirror to Supabase (`cloud:sync`, §25) — never PII, never read back; also gates `cloud:schema -- apply` (§26) |
+| `SUPABASE_SYNC_ENABLED` | `false` | One-way aggregate status mirror to Supabase (`cloud:sync`, §25) — never PII, never read back; also gates `cloud:schema -- apply` (§26), `invites:mint --load` and `invites:roundtrip` (§24) |
 | `CONSOLE_HOSTED_MODE_ENABLED` | `false` | Console may bind a public interface: Supabase JWT on every `/api` request + hostname/user allowlists + read-only (§16, "Hosted mode"). Never on the engine machine's local console |
 
 Console-only (not capability flags): `CONSOLE_HOST` (`127.0.0.1`,
@@ -1835,6 +1835,35 @@ are secrets until redeemed; they are deliberately NOT written to
 Supabase SQL editor to make the codes redeemable; share the printed
 links. Redemption, once-only enforcement, and quota accounting are
 cloud-side (`supabase/migrations/`).
+
+- `--load` — skip the paste: POST the codes straight into
+  `public.invites` (idempotent on `code`) and read them back. This is a
+  cloud write, so it is fail-closed behind `SUPABASE_SYNC_ENABLED=true`
+  + `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY`; the gate is checked
+  BEFORE minting, so a refusal leaves no orphaned codes. Needs the
+  schema applied (§26) — otherwise it names `public.invites` as missing.
+
+### 24.1 Live proof — `invites:roundtrip`
+
+```
+npm run invites:roundtrip [-- --quota N]     # default quota 2
+```
+
+Self-cleaning end-to-end check on the real project (same gate as
+`--load`): mints ONE throwaway invite, loads it, creates two throwaway
+auth users (`invite-roundtrip-*@example.com`, no email is sent), redeems
+with the first user's real session JWT (so RLS and the SECURITY DEFINER
+RPC run exactly as the app would), inserts COMPLETED status-mirror rows
+one at a time and reads `user_quota_status` after each (decrement),
+adds one more (clamps at 0 — exhausted), re-redeems as the same user
+(idempotent), tries the second user (`invite already redeemed`), checks
+the second user can see neither the invite nor the quota row (RLS),
+then deletes the invite and both users. Prints JSON: one `steps[]` entry
+per read-back plus `cleanup[]`; `validation_level` is
+`LIVE_MUTATION_CONFIRMED` only when every step and every cleanup
+succeeded, else `UNVERIFIED` with the failing step named. Exit 1 unless
+fully confirmed. Never touches the local SQLite database. Evidence log:
+`docs/roadmap/invite-round-trip-2026-09-02.md`.
 
 ## 25. Cloud sync — `cloud:sync` (status + receipts up, profiles down)
 

@@ -9,16 +9,21 @@ import {
   mintInvites,
   persistInvites,
 } from "./invites.js";
+import { assertCloudWriteConfigured, loadInvitesToSupabase } from "./inviteRoundTrip.js";
 
 /**
  * `npm run invites:mint -- --count N [--quota M] [--base-url URL]
- *    [--issuer NAME] [--note TEXT]`
+ *    [--issuer NAME] [--note TEXT] [--load]`
  *
  * Mints invite codes + shareable links, records them in the local
  * `cloud_invites` table, and writes SQL + CSV exports under
  * `private/cloud/invites/` (gitignored — codes are secrets until
- * redeemed) for loading into Supabase. Local-only: no network, no
- * capability flag. Base URL comes from --base-url or CLOUD_BASE_URL.
+ * redeemed) for loading into Supabase. Without `--load` it is local-only:
+ * no network, no capability flag. `--load` additionally POSTs the codes
+ * into `public.invites` on the project and is fail-closed behind
+ * SUPABASE_SYNC_ENABLED + SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY (the
+ * gate is checked BEFORE anything is minted, so a refusal leaves no
+ * orphaned codes). Base URL comes from --base-url or CLOUD_BASE_URL.
  */
 
 function parseFlags(argv: string[]): Record<string, string> {
@@ -38,8 +43,9 @@ function parseFlags(argv: string[]): Record<string, string> {
   return flags;
 }
 
-function main(): void {
+async function main(): Promise<void> {
   const flags = parseFlags(process.argv.slice(2));
+  const load = flags["load"] === "true";
   const count = Number(flags["count"] ?? "");
   const quota = flags["quota"] !== undefined ? Number(flags["quota"]) : DEFAULT_QUOTA;
   const baseUrl = flags["base-url"] ?? process.env["CLOUD_BASE_URL"];
@@ -56,6 +62,16 @@ function main(): void {
         "Invite links embed it: <base-url>/redeem?code=<CODE>",
     );
     process.exit(2);
+  }
+
+  let target: ReturnType<typeof assertCloudWriteConfigured> | undefined;
+  if (load) {
+    try {
+      target = assertCloudWriteConfigured(getConfig());
+    } catch (err) {
+      console.error(`--load refused: ${err instanceof Error ? err.message : String(err)}`);
+      process.exit(1);
+    }
   }
 
   const minted = mintInvites({
@@ -93,9 +109,21 @@ function main(): void {
     console.log(`  ${inv.code}  ${inv.link}`);
   }
   console.log("");
-  console.log(
-    "Load the SQL into Supabase (SQL editor or psql). Links are shareable as-is.",
-  );
+  if (target !== undefined) {
+    const result = await loadInvitesToSupabase({ target, invites: minted });
+    console.log(
+      `Loaded into Supabase public.invites: inserted=${result.inserted} ` +
+        `skipped_existing=${result.skipped_existing} read_back_ok=${result.read_back_ok}`,
+    );
+    if (!result.read_back_ok) process.exit(1);
+  } else {
+    console.log(
+      "Load the SQL into Supabase (SQL editor or psql), or re-run with --load. Links are shareable as-is.",
+    );
+  }
 }
 
-main();
+main().catch((err) => {
+  console.error(err instanceof Error ? err.message : String(err));
+  process.exit(1);
+});
