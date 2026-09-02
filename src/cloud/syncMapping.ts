@@ -97,6 +97,53 @@ export function toStatusMirrorRows(
   return rows.map((row) => toStatusMirrorRow(row, userId, now));
 }
 
+// ── Engine heartbeat (engine_status, migration 20260902000500) ────────
+// Written on EVERY sync tick so the dashboard's "engine running" is a
+// real signal. Timestamps, counts, a git short-sha — nothing else.
+
+export type EngineStatusRow = {
+  user_id: string;
+  last_seen_at: string;
+  engine_version: string | null;
+  last_sync_attempted: number;
+  last_sync_upserted: number;
+  last_sync_duration_ms: number;
+  last_error: string | null;
+};
+
+/** Exact upsert column set — asserted in tests so the boundary cannot drift. */
+export const ENGINE_STATUS_COLUMNS = [
+  "user_id",
+  "last_seen_at",
+  "engine_version",
+  "last_sync_attempted",
+  "last_sync_upserted",
+  "last_sync_duration_ms",
+  "last_error",
+] as const;
+
+export function toEngineStatusRow(input: {
+  userId: string;
+  now: Date;
+  engineVersion: string | null | undefined;
+  attempted: number;
+  upserted: number;
+  durationMs: number;
+  error: string | null | undefined;
+}): EngineStatusRow {
+  if (input.userId.trim() === "") throw new Error("engine status requires a cloud user id");
+  const nonNegInt = (n: number): number => (Number.isFinite(n) && n > 0 ? Math.floor(n) : 0);
+  return {
+    user_id: input.userId,
+    last_seen_at: input.now.toISOString(),
+    engine_version: clampText(input.engineVersion),
+    last_sync_attempted: nonNegInt(input.attempted),
+    last_sync_upserted: nonNegInt(input.upserted),
+    last_sync_duration_ms: nonNegInt(input.durationMs),
+    last_error: clampText(input.error),
+  };
+}
+
 // ── Receipts push (v0 public app, operator direction 2026-09-01) ──────
 // A submitted application's screenshot receipt + submission metadata are
 // the USER'S OWN application evidence — permitted engine → cloud. The

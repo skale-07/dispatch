@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import {
   chunkRows,
+  ENGINE_STATUS_COLUMNS,
+  toEngineStatusRow,
   joinOnboardedUsers,
   MIRROR_COLUMNS,
   toReceiptUpload,
@@ -99,6 +101,49 @@ describe("cloud sync mapping (UNIT_CONFIRMED)", () => {
     expect(chunkRows(rows, 2).map((c) => c.length)).toEqual([2, 1]);
     expect(chunkRows([], 5)).toEqual([]);
     expect(() => chunkRows(rows, 0)).toThrow(/positive integer/);
+  });
+});
+
+describe("engine heartbeat mapping (UNIT_CONFIRMED)", () => {
+  const now = new Date("2026-09-02T12:00:00.000Z");
+
+  it("maps a tick onto exactly the engine_status columns", () => {
+    const row = toEngineStatusRow({
+      userId: "u1",
+      now,
+      engineVersion: "d9d61429abcd",
+      attempted: 335,
+      upserted: 335,
+      durationMs: 1234.7,
+      error: null,
+    });
+    expect(Object.keys(row).sort()).toEqual([...ENGINE_STATUS_COLUMNS].sort());
+    expect(row).toEqual({
+      user_id: "u1",
+      last_seen_at: "2026-09-02T12:00:00.000Z",
+      engine_version: "d9d61429abcd",
+      last_sync_attempted: 335,
+      last_sync_upserted: 335,
+      last_sync_duration_ms: 1234,
+      last_error: null,
+    });
+  });
+
+  it("records a failed push honestly and never negative or non-integer counts", () => {
+    const row = toEngineStatusRow({
+      userId: "u1",
+      now,
+      engineVersion: undefined,
+      attempted: -3,
+      upserted: Number.NaN,
+      durationMs: 5,
+      error: "  Supabase upsert failed: Could not find the table  ",
+    });
+    expect(row.engine_version).toBeNull();
+    expect(row.last_sync_attempted).toBe(0);
+    expect(row.last_sync_upserted).toBe(0);
+    expect(row.last_error).toBe("Supabase upsert failed: Could not find the table");
+    expect(() => toEngineStatusRow({ userId: " ", now, engineVersion: null, attempted: 0, upserted: 0, durationMs: 0, error: null })).toThrow(/user id/);
   });
 });
 

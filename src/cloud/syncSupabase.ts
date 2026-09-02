@@ -3,9 +3,11 @@ import path from "node:path";
 import { getConfig, type AppConfig } from "../config/index.js";
 import { logger } from "../logging/logger.js";
 import type { Db } from "../storage/db/client.js";
+import { codeVersion } from "../storage/codeVersion.js";
 import {
   chunkRows,
   joinOnboardedUsers,
+  toEngineStatusRow,
   toReceiptUpload,
   toStatusMirrorRows,
   type CloudAppUserRow,
@@ -41,6 +43,8 @@ export type SupabaseSyncResult = {
   upserted: number;
   batches: number;
   duration_ms: number;
+  /** engine_status heartbeat written for this tick (true on every tick that reached the cloud). */
+  heartbeat: boolean;
 };
 
 /**
@@ -130,6 +134,7 @@ export async function runSupabaseSync(options: {
   const client = await makeClient(url, serviceRoleKey);
 
   let upserted = 0;
+  let pushError: string | null = null;
   const batches = chunkRows(rows, SYNC_BATCH_SIZE);
   for (const batch of batches) {
     const { error } = await client
@@ -137,16 +142,41 @@ export async function runSupabaseSync(options: {
       .upsert(batch, { onConflict: "user_id,engine_application_id" });
     if (error) {
       // error.message is Supabase's own text — never the key.
-      throw new Error(`Supabase upsert failed: ${error.message}`);
+      pushError = `Supabase upsert failed: ${error.message}`;
+      break;
     }
     upserted += batch.length;
   }
+
+  // Heartbeat on EVERY tick, success or not: the dashboard's "engine
+  // running" indicator reads engine_status.last_seen_at. Written after
+  // the push so the counts describe this tick; a failed push is
+  // recorded in last_error rather than hidden by an early throw.
+  const heartbeat = toEngineStatusRow({
+    userId,
+    now: new Date(),
+    engineVersion: codeVersion(),
+    attempted: rows.length,
+    upserted,
+    durationMs: Date.now() - started,
+    error: pushError,
+  });
+  const { error: hbError } = await client
+    .from("engine_status")
+    .upsert(heartbeat, { onConflict: "user_id" });
+  if (hbError) {
+    throw new Error(
+      `${pushError ? `${pushError}; ` : ""}engine_status heartbeat failed: ${hbError.message}`,
+    );
+  }
+  if (pushError) throw new Error(pushError);
 
   const result: SupabaseSyncResult = {
     attempted: rows.length,
     upserted,
     batches: batches.length,
     duration_ms: Date.now() - started,
+    heartbeat: true,
   };
   logger.info("supabase status mirror synced", {
     service: "cloud",
