@@ -415,7 +415,10 @@ parentheses.
    `supabase/migrations/`, then hand over the **project URL + anon
    key** for the frontend. The **service-role key stays on the engine
    machine only** — it goes in the engine `.env`, never in frontend
-   config, never in this repo. (v0)
+   config, never in this repo. (v0) — DONE 2026-09-02: project exists,
+   all 9 migrations applied and read back, 10 cohort codes loaded.
+   Still needed from this item: **`SUPABASE_SYNC_USER_ID`** (your own
+   `auth.users` uuid, after your first sign-in) for `cloud:sync`.
 3. **Buy/choose the domain** and report the name — invite links bake
    the base URL (`invites:mint --base-url`). (~$10/yr, the only v0
    cash) (v0)
@@ -427,29 +430,29 @@ parentheses.
 | # | Deliverable | Validation |
 | --- | --- | --- |
 | 1 | This roadmap | n/a (doc) |
-| 2 | `supabase/` SQL migrations (users, invites, waitlist, mirror, RLS, `redeem_invite`, quota view) | applied on a fresh Supabase project by the operator; SQL reviewed |
+| 2 | `supabase/` SQL migrations (users, invites, waitlist, mirror, RLS, `redeem_invite`, quota view) | LIVE_MUTATION_CONFIRMED 2026-09-02: applied by `cloud:schema -- apply`, `verify` → `complete: true` |
 | 3 | `invites:mint` CLI + local `cloud_invites` table + SQL/CSV export to `private/cloud/invites/` | UNIT_CONFIRMED (code gen, link building, SQL/CSV emit) |
 | 4 | `src/cloud/syncSupabase.ts` behind `SUPABASE_SYNC_ENABLED` + `DOTENV_OVERRIDE` fix | UNIT_CONFIRMED (pure mapping); live sync is LIVE_MUTATION (cloud-only) once keys exist |
 | 5 | `deploy/` Dockerfile + first-deploy runbook; `npm run build` (tsc → dist, no tsx at runtime) | image builds + console serves locally (docker available on this box) |
-| 6 | v0 public-app schema (`user_profiles`, storage buckets + policies, `application_receipts`) + two-way sync (receipts push, profiles pull) + this roadmap's v0 reframe | UNIT_CONFIRMED (mappers/joins); cloud-side LIVE once operator keys exist |
-| 7 | `cloud:schema` — apply `supabase/migrations/` via the Management API (`SUPABASE_ACCESS_TOKEN`, behind `SUPABASE_SYNC_ENABLED`) + deterministic REST/Storage read-back | UNIT_CONFIRMED; LIVE_READ_ONLY_CONFIRMED that the project is reachable and EMPTY (2026-09-02) |
+| 6 | v0 public-app schema (`user_profiles`, storage buckets + policies, `application_receipts`) + two-way sync (receipts push, profiles pull) + this roadmap's v0 reframe | UNIT_CONFIRMED (mappers/joins); schema LIVE_MUTATION_CONFIRMED (applied + read back 2026-09-02); sync itself still blocked on `SUPABASE_SYNC_USER_ID` |
+| 7 | `cloud:schema` — apply `supabase/migrations/` via the Management API (`SUPABASE_ACCESS_TOKEN`, behind `SUPABASE_SYNC_ENABLED`) + deterministic REST/Storage read-back | LIVE_MUTATION_CONFIRMED 2026-09-02: `apply` ran all 9 migrations (`failed: null`), independent `verify` → 8 tables / 3 views / 4 RPCs / 2 buckets `present` |
 | 8 | Hosted console auth behind `CONSOLE_HOSTED_MODE_ENABLED` (Supabase JWT via JWKS on every `/api`, host + user allowlists, read-only; local mode unchanged) | UNIT_CONFIRMED; LIVE_READ_ONLY_CONFIRMED (real user JWT accepted, stranger 403, service key 401, tampered 401) |
-| 9 | `invites:roundtrip` live proof + `invites:mint --load` | UNIT_CONFIRMED (in-memory project); live BLOCKED on schema (`docs/roadmap/invite-round-trip-2026-09-02.md`) |
-| 10 | Referral invites: `referral_settings()`, `invites.issued_by`, `my_referral_invites`, `mint_referral_invite()`, `redeem_invite` self/second-redemption refusals (`20260902000300`) | UNIT_CONFIRMED (static SQL contract + round-trip fake); SQL behaviour UNVERIFIED until applied, then `invites:roundtrip` steps `referral_*` |
-| 11 | Two-sided quota bonus: `referral_bonuses`, `app_users.bonus_completed_applications`, `user_quota_status` = base + bonus, AFTER trigger on COMPLETED mirror rows (`20260902000400`) | same as 10 (`referral_bonus_*` steps) |
-| 12 | `engine_status` heartbeat table + `cloud:sync` writes it every tick (`20260902000500`, `toEngineStatusRow`) | UNIT_CONFIRMED (mapper, worker result `heartbeat`, round-trip own-row step); live with schema + `SUPABASE_SYNC_USER_ID` |
-| 13 | `invites.redeemed_by` ON DELETE CASCADE (`20260902000600`) — resolves the FK cycle that made members undeletable | UNIT_CONFIRMED (fake models both constraints; old "invite first" cleanup now provably 409s); live: the round trip's `delete_user` cleanup |
+| 9 | `invites:roundtrip` live proof + `invites:mint --load` | LIVE_MUTATION_CONFIRMED 2026-09-02: 23/23 steps + 5/5 cleanups on the real project, nothing left behind; 10 cohort codes loaded and read back (`docs/roadmap/invite-round-trip-2026-09-02.md`) |
+| 10 | Referral invites: `referral_settings()`, `invites.issued_by`, `my_referral_invites`, `mint_referral_invite()`, `redeem_invite` self/second-redemption refusals (`20260902000300`) | LIVE_MUTATION_CONFIRMED 2026-09-02: round-trip steps `referral_settings`, `referral_mint_as_a`, `referral_view_as_a`, `referral_view_hidden_from_b`, `referral_self_redeem_refused`, `referral_redeem_as_b`, `referral_view_shows_redeemed`, `referral_cap_enforced` all `ok` |
+| 11 | Two-sided quota bonus: `referral_bonuses`, `app_users.bonus_completed_applications`, `user_quota_status` = base + bonus, AFTER trigger on COMPLETED mirror rows (`20260902000400`) | LIVE_MUTATION_CONFIRMED 2026-09-02: `referral_bonus_granted_to_inviter` (A max 2 → 12), `referral_bonus_idempotent` (stays 12), `referral_bonus_row_visible_to_inviter` (`[{bonus:10}]`) |
+| 12 | `engine_status` heartbeat table + `cloud:sync` writes it every tick (`20260902000500`, `toEngineStatusRow`) | table + RLS LIVE_MUTATION_CONFIRMED (`engine_status_own_row_only`: A 1 row, B 0); the worker's write is still BLOCKED on `SUPABASE_SYNC_USER_ID` (refuses by name) |
+| 13 | `invites.redeemed_by` ON DELETE CASCADE (`20260902000600`) — resolves the FK cycle that made members undeletable | LIVE_MUTATION_CONFIRMED 2026-09-02: `delete_user` ×2 succeeded with redeemed invites still pointing at them; `invites`/`app_users` `*/0` afterwards |
 
 ## Status — 2026-09-02 (launcher agent, deterministic read-backs only)
 
 | Item | Status | Level | Exact operator input to unblock |
 | --- | --- | --- | --- |
 | Supabase project reachable with the engine `.env` keys | DONE | LIVE_READ_ONLY_CONFIRMED | — |
-| Schema applied on the project | **BLOCKED** | every expected object `absent` | EITHER put a personal access token in the engine `.env` as `SUPABASE_ACCESS_TOKEN` (supabase.com → Account → Access Tokens) and run `SUPABASE_SYNC_ENABLED=true npm run cloud:schema -- apply`, OR paste `supabase/migrations/*.sql` in filename order into the SQL Editor and run `npm run cloud:schema -- verify` (expect `complete: true`). Neither the service key nor the MCP server (needs an interactive OAuth) can run DDL. |
-| Invite lifecycle proof (redeem → decrement → exhausted → refused → referral → bonus → cap → heartbeat) | BUILT, live BLOCKED | UNIT_CONFIRMED | schema above, then `SUPABASE_SYNC_ENABLED=true npm run invites:roundtrip` (self-cleaning; ~15 s) |
-| Referral loop + engine heartbeat schema (`20260902000300`–`000600`) | BUILT, live BLOCKED | UNIT_CONFIRMED (static contract); SQL UNVERIFIED | applied with the rest of `supabase/migrations/`; `cloud:schema -- verify` lists `referral_bonuses`, `engine_status`, `my_referral_invites`, `referral_settings`, `mint_referral_invite`, `grant_referral_bonus_if_activated` |
-| 10 invite codes for the cohort | DONE (local only) | codes minted; not loaded | `private/invites-2026-09-02.csv` (main checkout). Links carry the placeholder base `https://<domain>` — report the domain, then `sed` it in or mint a fresh `--load` batch |
-| Status-mirror sync (`cloud:sync`) live | **BLOCKED** | gate refuses by name; with a throwaway user id it fails on `application_status_mirror` missing | schema above + `SUPABASE_SYNC_USER_ID` (Authentication → Users → your uuid; the account you sign into the app with) in the engine `.env`. Dry evidence: a read-only snapshot of the engine DB has 335 applications the worker would attempt |
+| Schema applied on the project | DONE (2026-09-02 ~14:19 UTC) | LIVE_MUTATION_CONFIRMED — `apply`: 9 applied, `failed: null`; `verify`: `complete: true` | — (future migrations: same command; already-applied ones are skipped via the CLI ledger) |
+| Invite lifecycle proof (redeem → decrement → exhausted → refused → referral → bonus → cap → heartbeat) | DONE | LIVE_MUTATION_CONFIRMED — 23/23 steps, 5/5 cleanups, 0 rows / 0 users left | — (re-run any time; self-cleaning) |
+| Referral loop + engine heartbeat schema (`20260902000300`–`000600`) | DONE | LIVE_MUTATION_CONFIRMED (every RPC/view/trigger/RLS rule exercised by the round trip; see milestones 10–13) | — |
+| 10 invite codes for the cohort | DONE (loaded) | LIVE_MUTATION_CONFIRMED — `inserted 10, read_back_ok true`; read-back: 10 live, unredeemed, operator-issued | Links in `private/invites-2026-09-02.csv` still carry the placeholder base `https://<domain>`; the codes are final. Report the domain, then `sed` it into the CSV (no reload needed) |
+| Status-mirror sync + `engine_status` heartbeat (`cloud:sync`) live | **BLOCKED on user id** | refusal verbatim: `Supabase sync is enabled but unconfigured — missing SUPABASE_SYNC_USER_ID. All three live in the engine .env; the service-role key must never be deployed anywhere else.` (exit 1, before any DB/network access) | Sign into the app once (needs the Vercel deploy below, or a magic link from the dashboard), then Authentication → Users → copy your uuid into the engine `.env` as `SUPABASE_SYNC_USER_ID`, then `npm run cloud:sync`. Dry evidence: a read-only snapshot of the engine DB has 335 applications the worker would attempt |
 | Vercel deploy of `frontend/` | **BLOCKED** | no Vercel login / token on this box | Vercel → New Project → import repo, root `frontend/`, preset Vite, env `VITE_SUPABASE_URL` + `VITE_SUPABASE_ANON_KEY` (publishable key), Domains → add — `deploy/first-deploy.md` A2. Or `vercel login` here and tell the queen |
 | Console Docker image | BUILT, image BLOCKED | Dockerfile unchanged; daemon not running | Start Docker Desktop, then `docker build -f deploy/Dockerfile -t dispatch-console .` (C1). Not started by the agent: this box runs the live browser pipeline |
 | Console artifacts (`dist/` + `frontend/dist/`) run as the image's CMD | DONE | LIVE_READ_ONLY_CONFIRMED (native, snapshot DB) | — (transcript in `deploy/first-deploy.md` C1: local 200/403/200; hosted 401/401/403/403/200; boot refusal without allowlists) |
