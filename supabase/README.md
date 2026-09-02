@@ -37,6 +37,22 @@ What they create (see `docs/roadmap/cloud-deploy.md` for the architecture):
   user read-only) + `application_receipts` metadata rows (engine-written
   via service role; users select their own) + the `my_applications`
   dashboard view (status joined to latest receipt, security_invoker).
+- `20260902000300` — referral invites: `referral_settings()` (every loop
+  constant, anon-callable), `invites.issued_by` (null = operator, SET
+  NULL on issuer deletion), the `my_referral_invites` own-rows view,
+  `mint_referral_invite()` (member-only, max 3 unredeemed, quota 5,
+  issuer = caller), and `redeem_invite` now refusing
+  `cannot redeem your own invite` / `already a member`.
+- `20260902000400` — two-sided bonus: `referral_bonuses` (one row per
+  invitee, ever; inviter-readable), `app_users.bonus_completed_applications`,
+  `user_quota_status.max_completed_applications` becomes base + bonus
+  (two columns appended), `grant_referral_bonus_if_activated(uuid)` +
+  an AFTER trigger on COMPLETED `application_status_mirror` rows.
+- `20260902000500` — `engine_status`: one heartbeat row per user written
+  by `cloud:sync` every tick (own-row select, service-role writes).
+- `20260902000600` — `invites.redeemed_by` ON DELETE CASCADE: a deleted
+  account's invite is spent; without it no deletion order could remove a
+  member (see `docs/roadmap/cloud-deploy.md`, "redeemed_by ON DELETE").
 
 Key handling: the **anon key** goes to the frontend (RLS is the guard).
 The **service-role key** stays in the engine machine's `.env` only — it is

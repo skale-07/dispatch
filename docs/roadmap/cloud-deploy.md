@@ -139,12 +139,21 @@ const { data, error } = await supabase.rpc("redeem_invite", {
 // data: { invite_id: string; max_completed_applications: number }
 // error.message on failure is one of:
 //   "invalid invite code" | "invite already redeemed" | "not authenticated"
+//   | "cannot redeem your own invite" | "already a member"   (20260902000300)
 
 // 4. Own account + quota (RLS: only your rows)
 const { data: me } = await supabase.from("app_users").select("*").single();
 const { data: quota } = await supabase
   .from("user_quota_status")           // view: used vs max
   .select("*").single();
+// quota columns (20260902000400 appends the last two; the first four are
+// unchanged in name/type/order):
+//   user_id: string
+//   max_completed_applications: number   // EFFECTIVE quota = base + bonus
+//   completed_applications: number
+//   remaining: number                     // greatest(max - completed, 0)
+//   base_max_completed_applications: number   // the invite's own quota
+//   bonus_completed_applications: number      // earned via referrals
 
 // 5. Onboarding wizard — one user_profiles row, upsert as steps complete.
 //    Columns (see supabase/migrations/20260902000100_user_profiles.sql):
@@ -190,6 +199,49 @@ const { data: receipts } = await supabase
 const { data: signed } = await supabase.storage
   .from("receipts")
   .createSignedUrl(receipts[0].object_path, 3600);
+
+// 9. Referrals (migrations 20260902000300/400; frontend/src/public/referral.ts).
+//    View: own issued codes only (RLS "own issued invites"; operator-minted
+//    codes have issued_by = null and never appear here).
+//      my_referral_invites: { code: string; max_completed_applications: number;
+//                             redeemed_at: string | null; created_at: string }
+const { data: mine } = await supabase
+  .from("my_referral_invites")
+  .select("code, max_completed_applications, redeemed_at")
+  .order("redeemed_at", { ascending: true, nullsFirst: true });
+//    RPC: mint one code for the caller (issuer = auth.uid(), quota =
+//    referral_code_quota). No arguments.
+const { data: minted, error: mintErr } = await supabase.rpc("mint_referral_invite");
+// minted: { code: string; max_completed_applications: number;
+//           redeemed_at: null; created_at: string;
+//           active_unredeemed: number; max_active_referral_codes: number }
+// mintErr.message is one of:
+//   "not authenticated" | "not a member yet" | "referral cap reached"
+//    Constants (anon-callable, immutable; render "3 codes, 5 apps each,
+//    +10 for you when a friend completes 5, up to +100" from these, never
+//    hardcode them):
+const { data: settings } = await supabase.rpc("referral_settings");
+// settings: { max_active_referral_codes: 3; referral_code_quota: 5;
+//             activation_completed_applications: 5;
+//             inviter_bonus_per_activation: 10; inviter_bonus_cap: 100 }
+//    Bonus ledger (RLS: rows where you are the inviter; read-only):
+//      referral_bonuses: { invitee_user_id: string; inviter_user_id: string;
+//                          invite_id: string | null; bonus: number; granted_at: string }
+//    The bonus itself is already folded into user_quota_status (above);
+//    the ledger is for "you earned +10 from a friend on <date>" copy.
+
+// 10. Engine heartbeat (20260902000500). One row per user, written by the
+//     engine's sync worker every tick; RLS: own row, read-only.
+//       engine_status: { user_id: string; last_seen_at: string;
+//                        engine_version: string | null;
+//                        last_sync_attempted: number; last_sync_upserted: number;
+//                        last_sync_duration_ms: number; last_error: string | null }
+const { data: engine } = await supabase.from("engine_status").select("*").maybeSingle();
+// "engine running" = engine !== null &&
+//   Date.now() - Date.parse(engine.last_seen_at) < 2 * SYNC_INTERVAL_MS
+// (the operator runs cloud:sync after each session / alongside auto:cycle;
+//  no row yet = "not connected", stale row = "offline since <last_seen_at>",
+//  fresh row with last_error = "running, last push failed").
 ```
 
 Invite link shape minted by the CLI: `<base-url>/redeem?code=<CODE>`,
@@ -202,6 +254,36 @@ code format `JRA-` + 2×4 crockford-base32 groups (e.g.
 `application_status_mirror`. The `user_quota_status` view computes
 used/remaining; enforcement in v0 is operational (the operator stops
 running that user's queue at quota), becomes automatic in v1.
+
+**Referral loop (college-launch §4, built 2026-09-02):** a member holds
+at most 3 unredeemed referral codes (quota 5 each); one redemption per
+account (`already a member`); when an invitee's COMPLETED count reaches
+5 an AFTER trigger on `application_status_mirror` grants the inviter
++10 (`app_users.bonus_completed_applications`), keyed on the invitee so
+it happens once ever, lifetime cap +100, never for self-referral or
+operator-minted codes (`issued_by` null). Activation is a receipt-backed
+COMPLETED row the engine wrote, so the loop is not farmable from the
+browser.
+
+**`invites.redeemed_by` ON DELETE — decided: CASCADE**
+(`20260902000600_invites_redeemed_by_cascade.sql`). The original
+schema left it NO ACTION, and because `app_users.invite_id -> invites`
+is also NO ACTION while `app_users.id -> auth.users` cascades, no
+deletion order could remove a member — the user delete tripped on the
+invite, the invite delete tripped on `app_users`. Options weighed:
+(a) SET NULL on `redeemed_by` — violates the
+`(redeemed_by is null) = (redeemed_at is null)` check unless a trigger
+nulls `redeemed_at` too, and then the code is redeemable again, i.e. a
+quota reset by deleting and recreating an account; (b) a
+`delete_account()` procedure that nulls both columns first — same
+replay problem plus a second code path the dashboard's Delete button
+would bypass; (c) CASCADE — the invite row leaves with the account, the
+code can never be replayed, the inviter's banked bonus is untouched
+(`referral_bonuses.invite_id` is SET NULL, the bonus is a counter on
+`app_users`), and the inviter's `my_referral_invites` drops that one
+row, which is the honest state. (c) is one `alter table` pair and is
+what shipped. `issued_by` stays SET NULL so an issuer leaving does not
+revoke codes already handed out.
 
 ## The engine sync — two-way, one flag, whitelisted both directions
 
@@ -353,6 +435,10 @@ parentheses.
 | 7 | `cloud:schema` — apply `supabase/migrations/` via the Management API (`SUPABASE_ACCESS_TOKEN`, behind `SUPABASE_SYNC_ENABLED`) + deterministic REST/Storage read-back | UNIT_CONFIRMED; LIVE_READ_ONLY_CONFIRMED that the project is reachable and EMPTY (2026-09-02) |
 | 8 | Hosted console auth behind `CONSOLE_HOSTED_MODE_ENABLED` (Supabase JWT via JWKS on every `/api`, host + user allowlists, read-only; local mode unchanged) | UNIT_CONFIRMED; LIVE_READ_ONLY_CONFIRMED (real user JWT accepted, stranger 403, service key 401, tampered 401) |
 | 9 | `invites:roundtrip` live proof + `invites:mint --load` | UNIT_CONFIRMED (in-memory project); live BLOCKED on schema (`docs/roadmap/invite-round-trip-2026-09-02.md`) |
+| 10 | Referral invites: `referral_settings()`, `invites.issued_by`, `my_referral_invites`, `mint_referral_invite()`, `redeem_invite` self/second-redemption refusals (`20260902000300`) | UNIT_CONFIRMED (static SQL contract + round-trip fake); SQL behaviour UNVERIFIED until applied, then `invites:roundtrip` steps `referral_*` |
+| 11 | Two-sided quota bonus: `referral_bonuses`, `app_users.bonus_completed_applications`, `user_quota_status` = base + bonus, AFTER trigger on COMPLETED mirror rows (`20260902000400`) | same as 10 (`referral_bonus_*` steps) |
+| 12 | `engine_status` heartbeat table + `cloud:sync` writes it every tick (`20260902000500`, `toEngineStatusRow`) | UNIT_CONFIRMED (mapper, worker result `heartbeat`, round-trip own-row step); live with schema + `SUPABASE_SYNC_USER_ID` |
+| 13 | `invites.redeemed_by` ON DELETE CASCADE (`20260902000600`) — resolves the FK cycle that made members undeletable | UNIT_CONFIRMED (fake models both constraints; old "invite first" cleanup now provably 409s); live: the round trip's `delete_user` cleanup |
 
 ## Status — 2026-09-02 (launcher agent, deterministic read-backs only)
 
@@ -360,7 +446,8 @@ parentheses.
 | --- | --- | --- | --- |
 | Supabase project reachable with the engine `.env` keys | DONE | LIVE_READ_ONLY_CONFIRMED | — |
 | Schema applied on the project | **BLOCKED** | every expected object `absent` | EITHER put a personal access token in the engine `.env` as `SUPABASE_ACCESS_TOKEN` (supabase.com → Account → Access Tokens) and run `SUPABASE_SYNC_ENABLED=true npm run cloud:schema -- apply`, OR paste `supabase/migrations/*.sql` in filename order into the SQL Editor and run `npm run cloud:schema -- verify` (expect `complete: true`). Neither the service key nor the MCP server (needs an interactive OAuth) can run DDL. |
-| Invite lifecycle proof (redeem → decrement → exhausted → refused) | BUILT, live BLOCKED | UNIT_CONFIRMED | schema above, then `SUPABASE_SYNC_ENABLED=true npm run invites:roundtrip` (self-cleaning; ~10 s) |
+| Invite lifecycle proof (redeem → decrement → exhausted → refused → referral → bonus → cap → heartbeat) | BUILT, live BLOCKED | UNIT_CONFIRMED | schema above, then `SUPABASE_SYNC_ENABLED=true npm run invites:roundtrip` (self-cleaning; ~15 s) |
+| Referral loop + engine heartbeat schema (`20260902000300`–`000600`) | BUILT, live BLOCKED | UNIT_CONFIRMED (static contract); SQL UNVERIFIED | applied with the rest of `supabase/migrations/`; `cloud:schema -- verify` lists `referral_bonuses`, `engine_status`, `my_referral_invites`, `referral_settings`, `mint_referral_invite`, `grant_referral_bonus_if_activated` |
 | 10 invite codes for the cohort | DONE (local only) | codes minted; not loaded | `private/invites-2026-09-02.csv` (main checkout). Links carry the placeholder base `https://<domain>` — report the domain, then `sed` it in or mint a fresh `--load` batch |
 | Status-mirror sync (`cloud:sync`) live | **BLOCKED** | gate refuses by name; with a throwaway user id it fails on `application_status_mirror` missing | schema above + `SUPABASE_SYNC_USER_ID` (Authentication → Users → your uuid; the account you sign into the app with) in the engine `.env`. Dry evidence: a read-only snapshot of the engine DB has 335 applications the worker would attempt |
 | Vercel deploy of `frontend/` | **BLOCKED** | no Vercel login / token on this box | Vercel → New Project → import repo, root `frontend/`, preset Vite, env `VITE_SUPABASE_URL` + `VITE_SUPABASE_ANON_KEY` (publishable key), Domains → add — `deploy/first-deploy.md` A2. Or `vercel login` here and tell the queen |

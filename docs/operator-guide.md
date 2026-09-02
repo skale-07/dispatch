@@ -1843,6 +1843,21 @@ cloud-side (`supabase/migrations/`).
   BEFORE minting, so a refusal leaves no orphaned codes. Needs the
   schema applied (§26) — otherwise it names `public.invites` as missing.
 
+Members mint their own referral codes in the app (no CLI involved):
+`mint_referral_invite()` (migration `20260902000300`) issues a
+`JRA-XXXX-XXXX` code with quota `referral_code_quota` (5) to the
+calling user, at most `max_active_referral_codes` (3) unredeemed at a
+time, and `my_referral_invites` shows a user only the codes they
+issued. Operator-minted codes have `issued_by = null`. When an invitee
+reaches `activation_completed_applications` (5) COMPLETED applications,
+the inviter's quota grows by `inviter_bonus_per_activation` (10), once
+per invitee, lifetime cap `inviter_bonus_cap` (100) — the two-sided
+loop from `docs/marketing/college-launch.md` §4. All five constants
+live in `referral_settings()` (migration `20260902000300`); change them
+there, nowhere else. Deleting an account (dashboard → Authentication →
+Users → Delete) deletes the invite it redeemed — a spent code never
+comes back (`20260902000600`).
+
 ### 24.1 Live proof — `invites:roundtrip`
 
 ```
@@ -1858,7 +1873,16 @@ one at a time and reads `user_quota_status` after each (decrement),
 adds one more (clamps at 0 — exhausted), re-redeems as the same user
 (idempotent), tries the second user (`invite already redeemed`), checks
 the second user can see neither the invite nor the quota row (RLS),
-then deletes the invite and both users. Prints JSON: one `steps[]` entry
+then walks the referral loop: the first user mints a referral code
+(`mint_referral_invite`), sees it in `my_referral_invites` while the
+second user sees nothing, is refused on their own code (`cannot redeem
+your own invite`), the second user redeems it, five COMPLETED rows for
+the second user grow the first user's quota by the bonus exactly once,
+the inviter sees their `referral_bonuses` row, minting past the cap is
+refused (`referral cap reached`), and an `engine_status` heartbeat row
+is visible only to its owner. Cleanup deletes the users' unredeemed
+codes, both users (cascades everything they redeemed or earned), then
+the loaded invite. Prints JSON: one `steps[]` entry
 per read-back plus `cleanup[]`; `validation_level` is
 `LIVE_MUTATION_CONFIRMED` only when every step and every cleanup
 succeeded, else `UNVERIFIED` with the failing step named. Exit 1 unless
@@ -1887,6 +1911,16 @@ npm run cloud:sync -- --no-receipts  # status only
   to their invite quota, snapshotted to
   `private/cloud/users/onboarded-<ts>.json` (user PII ⇒ `private/`,
   never `artifacts/`). Half-finished onboarding never comes down.
+- **Heartbeat:** every status push ends by upserting ONE row into
+  `engine_status` for `SUPABASE_SYNC_USER_ID` — `last_seen_at`, the
+  engine's git short-sha, how many rows the tick attempted/upserted,
+  its duration, and the push error text if the push failed (the
+  heartbeat is still written so the dashboard shows "running, but
+  erroring" rather than "offline"). Whitelist: `ENGINE_STATUS_COLUMNS`
+  in `src/cloud/syncMapping.ts` — no hostnames, paths, or candidate
+  data. The dashboard's "engine running" indicator is
+  `now - last_seen_at` under about twice your sync interval; the result
+  JSON reports `heartbeat: true` once the row landed.
 
 Fail-closed: requires all of
 
@@ -1912,9 +1946,14 @@ npm run cloud:schema -- apply      # run supabase/migrations/ then verify
 
 - **verify** needs only `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY`.
   It lists every table / view / RPC / storage bucket the migrations
-  create as `present` / `absent` / `error` and exits 1 unless all are
-  present. This read-back IS the evidence: `LIVE_MUTATION_CONFIRMED`
-  for the schema means this command printed `complete: true`.
+  create (8 tables, 3 views, 4 RPCs, 2 buckets as of `20260902000600`;
+  the list is `EXPECTED_*` in `src/cloud/schema.ts`) as `present` /
+  `absent` / `error` and exits 1 unless all are present. RPCs are
+  probed with harmless arguments (`RPC_PROBE_ARGS`): an unauthenticated
+  call that answers "not authenticated" or "invalid invite code" proves
+  the function exists without minting or redeeming anything. This
+  read-back IS the evidence: `LIVE_MUTATION_CONFIRMED` for the schema
+  means this command printed `complete: true`.
 - **apply** additionally needs `SUPABASE_SYNC_ENABLED=true` (cloud DDL
   is a mutation) and `SUPABASE_ACCESS_TOKEN` (supabase.com → Account →
   Access Tokens; a personal token, engine `.env` only). It runs each

@@ -729,11 +729,15 @@
       "key_files": {
         "src/cloud/invites.ts": "code generation, invite links, local cloud_invites ledger, SQL/CSV export (private/cloud/invites/, never artifacts/)",
         "src/cloud/invitesMintCli.ts": "npm run invites:mint entrypoint (--load POSTs codes to public.invites behind SUPABASE_SYNC_ENABLED)",
-        "src/cloud/inviteRoundTrip.ts": "npm run invites:roundtrip: self-cleaning live proof of load -> redeem (real user JWT) -> quota decrement -> exhausted -> second account refused -> RLS, plus loadInvitesToSupabase; behind SUPABASE_SYNC_ENABLED",
-        "src/cloud/syncMapping.ts": "pure engine-row -> mirror-row mapping; MIRROR_COLUMNS is the entire permitted engine->cloud data surface",
-        "src/cloud/syncSupabase.ts": "npm run cloud:sync worker: gate check, SELECT, batched upserts via @supabase/supabase-js",
+        "src/cloud/inviteRoundTrip.ts": "npm run invites:roundtrip: self-cleaning live proof of load -> redeem (real user JWT) -> quota decrement -> exhausted -> second account refused -> RLS -> referral mint/view/self-redeem refused -> inviter bonus (once) -> mint cap -> engine_status own-row; plus loadInvitesToSupabase; behind SUPABASE_SYNC_ENABLED",
+        "src/cloud/syncMapping.ts": "pure engine-row -> mirror-row mapping; MIRROR_COLUMNS + ENGINE_STATUS_COLUMNS are the entire permitted engine->cloud data surface",
+        "src/cloud/syncSupabase.ts": "npm run cloud:sync worker: gate check, SELECT, batched upserts via @supabase/supabase-js, then an engine_status heartbeat row every tick (the dashboard's 'engine running' signal)",
         "src/cloud/schema.ts": "npm run cloud:schema: apply supabase/migrations/ via the Management API (SUPABASE_ACCESS_TOKEN, behind SUPABASE_SYNC_ENABLED) + deterministic REST/Storage read-back of every expected table/view/RPC/bucket (the validation evidence)",
-        "supabase/migrations/20260901000300_rls_and_redeem.sql": "cloud-side RLS + atomic redeem_invite RPC"
+        "supabase/migrations/20260901000300_rls_and_redeem.sql": "cloud-side RLS + atomic redeem_invite RPC",
+        "supabase/migrations/20260902000300_referral_invites.sql": "referral_settings() constants, invites.issued_by, my_referral_invites view (own rows), mint_referral_invite() RPC (member-only, capped), redeem_invite refuses self/second redemption",
+        "supabase/migrations/20260902000400_referral_bonus.sql": "two-sided quota bonus: referral_bonuses (one per invitee), app_users.bonus_completed_applications, user_quota_status = base + bonus, AFTER trigger on COMPLETED mirror rows",
+        "supabase/migrations/20260902000500_engine_status.sql": "engine_status heartbeat table (one row per user, own-row select, service-role writes only)",
+        "supabase/migrations/20260902000600_invites_redeemed_by_cascade.sql": "invites.redeemed_by ON DELETE CASCADE: a deleted account's invite is spent (breaks the app_users.invite_id / redeemed_by FK cycle that made accounts undeletable)"
       },
       "key_exports": {
         "src/cloud/invites.ts": [
@@ -745,6 +749,8 @@
         "src/cloud/syncMapping.ts": [
           "toStatusMirrorRow",
           "MIRROR_COLUMNS",
+          "toEngineStatusRow",
+          "ENGINE_STATUS_COLUMNS",
           "toReceiptUpload",
           "joinOnboardedUsers"
         ],
@@ -758,7 +764,8 @@
           "probeSchema",
           "applyMigrations",
           "listMigrationFiles",
-          "EXPECTED_TABLES"
+          "EXPECTED_TABLES",
+          "RPC_PROBE_ARGS"
         ],
         "src/cloud/inviteRoundTrip.ts": [
           "loadInvitesToSupabase",
