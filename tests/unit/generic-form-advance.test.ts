@@ -313,6 +313,70 @@ describe("generic form-page advance (FIXTURE_CONFIRMED)", () => {
     });
   }, 30_000);
 
+  it("#145c releases an editor whose Save is refused via Cancel, then continues", async () => {
+    const html = `<!DOCTYPE html><html><body>
+      <div id="s1">
+        <button data-automation="primary-action-button" aria-label="Add Work Experience">+</button>
+        <div class="editor" style="display:none">
+          <label>Employer<input id="Employer" required /></label>
+          <div class="error" role="alert" style="display:none">Employer is required</div>
+          <button data-automation="save-button">Save</button>
+          <button id="cancel1">Cancel</button>
+        </div>
+      </div>
+      <div id="s2">
+        <button data-automation="primary-action-button" aria-label="Edit Skills">✎</button>
+        <div class="editor" style="display:none">
+          <label>Skills<input id="Skills" /></label>
+          <button data-automation="save-button">Save</button>
+        </div>
+      </div>
+      <script>
+        const pencils = [...document.querySelectorAll('[data-automation="primary-action-button"]')];
+        const setOthers = (self, disabled) =>
+          pencils.forEach((p) => { if (p !== self) p.disabled = disabled; });
+        pencils.forEach((p) => {
+          const section = p.parentElement;
+          const editor = section.querySelector('.editor');
+          const close = () => { editor.style.display = 'none'; p.disabled = false; setOthers(p, false); };
+          p.addEventListener('click', () => { editor.style.display = 'block'; p.disabled = true; setOthers(p, true); });
+          editor.querySelector('[data-automation="save-button"]').addEventListener('click', () => {
+            const req = editor.querySelector('[required]');
+            if (req && !req.value) { editor.querySelector('.error').style.display = 'block'; return; }
+            close();
+            globalThis.__saved = (globalThis.__saved || 0) + 1;
+          });
+          const c = editor.querySelector('#cancel1');
+          if (c) c.addEventListener('click', () => { close(); globalThis.__cancelled = true; });
+        });
+      </script></body></html>`;
+    await withFixtureHtmlPage(html, async (page) => {
+      const walk = await walkSectionEditors(
+        page,
+        async ({ page: p }) => {
+          // Only Skills is fillable from the profile; Employer stays empty.
+          const skills = p.locator("#Skills");
+          const filled = (await skills.isVisible()) ? 1 : 0;
+          if (filled) await skills.fill("x");
+          return { fillable: 1, filled, verifyPassed: filled === 1 };
+        },
+        genericSelectorsV1.sectionEditors,
+        { settleMs: 0 },
+      );
+      expect(walk.editors).toBe(2);
+      expect(walk.notes.join(" ")).toMatch(/save did not close the editor — page says: Employer is required/);
+      expect(walk.notes.join(" ")).toMatch(/released the stuck editor via Cancel/);
+      expect(
+        await page.evaluate(() => (globalThis as unknown as { __cancelled?: boolean }).__cancelled),
+      ).toBe(true);
+      expect(
+        await page.evaluate(() => (globalThis as unknown as { __saved?: number }).__saved),
+      ).toBe(1);
+      // Every pencil is enabled again — nothing left the page wedged.
+      expect(await page.locator('[aria-label="Edit Skills"]').isDisabled()).toBe(false);
+    });
+  }, 30_000);
+
   it("does not click when a real submit control is already visible", async () => {
     const html = `<form>
       <input name="first_name" />

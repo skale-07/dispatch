@@ -7,6 +7,7 @@ import {
   resolveSubmitControl,
 } from "../ats/shared/submitControl.js";
 import { classifyPage } from "../ats/shared/pageClassify.js";
+import { readPageValidationErrors } from "./pageErrors.js";
 import {
   expandCollapsedSections,
   openSectionEditors,
@@ -122,6 +123,34 @@ export async function walkSectionEditors(
     }).catch(() => null);
     if (saved && saved.clicked > 0) notes.push(...saved.notes);
     else notes.push("section-editor: no save control found after fill — editor left open");
+    // A Save the section's own validation refuses leaves the editor open
+    // — and every other pencil disabled, the page submit blocked. Record
+    // the page's reason and release the editor via its Cancel so the walk
+    // (and the submit path) can continue; the section keeps its previous
+    // saved state, nothing is invented.
+    const stillOpen = await page
+      .locator(cfg.save)
+      .first()
+      .isVisible()
+      .catch(() => false);
+    if (stillOpen) {
+      const pageErrors = await readPageValidationErrors(page).catch(() => []);
+      notes.push(
+        `section-editor: save did not close the editor${
+          pageErrors.length > 0 ? ` — page says: ${pageErrors.slice(0, 3).join("; ")}` : ""
+        }`,
+      );
+      const cancel = page.getByRole("button", { name: /^cancel$/i }).first();
+      const released = await cancel
+        .click({ timeout: 2_000 })
+        .then(() => true, () => false);
+      notes.push(
+        released
+          ? "section-editor: released the stuck editor via Cancel"
+          : "section-editor: no Cancel control — editor left open",
+      );
+      if (released && options.settleMs !== 0) await page.waitForTimeout(500);
+    }
   }
   if (editors > 0) {
     notes.unshift(`section-editor walk: cycled ${editors} editor(s)`);
