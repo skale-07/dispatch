@@ -57,7 +57,10 @@ VOLUME /app/data
 EXPOSE 8899
 # NOTE: the console binds CONSOLE_HOST=127.0.0.1 by design (loopback-only
 # security model). Inside a container that means `docker exec`/sidecar
-# access only — port publishing reaches it once a hosted mode (new
-# fail-closed flag, roadmap "hosted-auth design") lands. This is
-# intentional: the image must not silently weaken the local security model.
+# access only. To publish a port, run the image in HOSTED mode
+# (CONSOLE_HOSTED_MODE_ENABLED=true + CONSOLE_HOST=0.0.0.0 + SUPABASE_URL +
+# CONSOLE_HOSTED_ALLOWED_HOSTS + CONSOLE_HOSTED_ALLOWED_USER_IDS, all as
+# injected env — deploy/first-deploy.md Part C2): every /api request then
+# needs a verified Supabase JWT and the console is read-only. Nothing is
+# baked in here, so the image cannot silently weaken the local model.
 CMD ["node", "dist/cli/index.js", "console"]

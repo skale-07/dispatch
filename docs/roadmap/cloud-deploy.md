@@ -350,3 +350,21 @@ parentheses.
 | 4 | `src/cloud/syncSupabase.ts` behind `SUPABASE_SYNC_ENABLED` + `DOTENV_OVERRIDE` fix | UNIT_CONFIRMED (pure mapping); live sync is LIVE_MUTATION (cloud-only) once keys exist |
 | 5 | `deploy/` Dockerfile + first-deploy runbook; `npm run build` (tsc → dist, no tsx at runtime) | image builds + console serves locally (docker available on this box) |
 | 6 | v0 public-app schema (`user_profiles`, storage buckets + policies, `application_receipts`) + two-way sync (receipts push, profiles pull) + this roadmap's v0 reframe | UNIT_CONFIRMED (mappers/joins); cloud-side LIVE once operator keys exist |
+| 7 | `cloud:schema` — apply `supabase/migrations/` via the Management API (`SUPABASE_ACCESS_TOKEN`, behind `SUPABASE_SYNC_ENABLED`) + deterministic REST/Storage read-back | UNIT_CONFIRMED; LIVE_READ_ONLY_CONFIRMED that the project is reachable and EMPTY (2026-09-02) |
+| 8 | Hosted console auth behind `CONSOLE_HOSTED_MODE_ENABLED` (Supabase JWT via JWKS on every `/api`, host + user allowlists, read-only; local mode unchanged) | UNIT_CONFIRMED; LIVE_READ_ONLY_CONFIRMED (real user JWT accepted, stranger 403, service key 401, tampered 401) |
+| 9 | `invites:roundtrip` live proof + `invites:mint --load` | UNIT_CONFIRMED (in-memory project); live BLOCKED on schema (`docs/roadmap/invite-round-trip-2026-09-02.md`) |
+
+## Status — 2026-09-02 (launcher agent, deterministic read-backs only)
+
+| Item | Status | Level | Exact operator input to unblock |
+| --- | --- | --- | --- |
+| Supabase project reachable with the engine `.env` keys | DONE | LIVE_READ_ONLY_CONFIRMED | — |
+| Schema applied on the project | **BLOCKED** | every expected object `absent` | EITHER put a personal access token in the engine `.env` as `SUPABASE_ACCESS_TOKEN` (supabase.com → Account → Access Tokens) and run `SUPABASE_SYNC_ENABLED=true npm run cloud:schema -- apply`, OR paste `supabase/migrations/*.sql` in filename order into the SQL Editor and run `npm run cloud:schema -- verify` (expect `complete: true`). Neither the service key nor the MCP server (needs an interactive OAuth) can run DDL. |
+| Invite lifecycle proof (redeem → decrement → exhausted → refused) | BUILT, live BLOCKED | UNIT_CONFIRMED | schema above, then `SUPABASE_SYNC_ENABLED=true npm run invites:roundtrip` (self-cleaning; ~10 s) |
+| 10 invite codes for the cohort | DONE (local only) | codes minted; not loaded | `private/invites-2026-09-02.csv` (main checkout). Links carry the placeholder base `https://<domain>` — report the domain, then `sed` it in or mint a fresh `--load` batch |
+| Status-mirror sync (`cloud:sync`) live | **BLOCKED** | gate refuses by name; with a throwaway user id it fails on `application_status_mirror` missing | schema above + `SUPABASE_SYNC_USER_ID` (Authentication → Users → your uuid; the account you sign into the app with) in the engine `.env`. Dry evidence: a read-only snapshot of the engine DB has 335 applications the worker would attempt |
+| Vercel deploy of `frontend/` | **BLOCKED** | no Vercel login / token on this box | Vercel → New Project → import repo, root `frontend/`, preset Vite, env `VITE_SUPABASE_URL` + `VITE_SUPABASE_ANON_KEY` (publishable key), Domains → add — `deploy/first-deploy.md` A2. Or `vercel login` here and tell the queen |
+| Console Docker image | BUILT, image BLOCKED | Dockerfile unchanged; daemon not running | Start Docker Desktop, then `docker build -f deploy/Dockerfile -t dispatch-console .` (C1). Not started by the agent: this box runs the live browser pipeline |
+| Console artifacts (`dist/` + `frontend/dist/`) run as the image's CMD | DONE | LIVE_READ_ONLY_CONFIRMED (native, snapshot DB) | — (transcript in `deploy/first-deploy.md` C1: local 200/403/200; hosted 401/401/403/403/200; boot refusal without allowlists) |
+| Hosted console on Fly.io | optional, not v0 | — | `deploy/first-deploy.md` C2 |
+| Storefront contract for hosted mode | request filed | — | SPA sends `Authorization: Bearer <supabase access_token>` on every `/api` call when hosted; console is read-only there |

@@ -103,7 +103,13 @@ resumes, and ATS credentials never leave this machine.
    (your own account first; per-user engines make this per-container in v1).
 2. `npm run cloud:sync` — expect a JSON result with `attempted/upserted`
    counts. With the flag off or any key missing it refuses loudly by
-   name; that refusal is the fail-closed design working.
+   name; that refusal is the fail-closed design working. Observed
+   2026-09-02 against a read-only snapshot of the engine database
+   (335 applications): flag off → `SUPABASE_SYNC_ENABLED is false`;
+   flag on, no user id → `missing SUPABASE_SYNC_USER_ID`; flag on with
+   a throwaway id and no schema → `Could not find the table
+   'public.application_status_mirror'`. Nothing was written locally or
+   cloud-side; the live proof waits on Part A1 step 3 + the user id.
 3. Verify in Supabase Table Editor → `application_status_mirror`, and
    confirm the columns are ONLY status strings + company/role +
    timestamps. That column set is the whole permitted surface
@@ -130,13 +136,40 @@ Host-header pin + per-boot token — is preserved byte-for-byte), so a
 published port must NOT reach it yet. `docker run -p 8899:8899` failing
 to connect from the host is the correct, expected result.
 
-No Docker on the machine? The same artifacts validate natively:
+No Docker daemon on the machine? The same artifacts validate natively
+(this is exactly the image's CMD against the same `dist/` +
+`frontend/dist/`; done 2026-09-02, `LIVE_READ_ONLY_CONFIRMED` on a
+read-only snapshot of the engine database, never the live file):
 
 ```
-npm run build          # tsc -> dist + copies migrations (no tsx at runtime)
-npm run frontend:build
-node dist/cli/index.js console
+npm run build                      # tsc -> dist + copies migrations (no tsx at runtime)
+npm ci --prefix frontend && npm run frontend:build
+DATABASE_PATH=<snapshot.sqlite> CONSOLE_PORT=8931 node dist/cli/index.js console
+curl -s -o /dev/null -w "%{http_code}
+" http://127.0.0.1:8931/api/summary            # 200
+curl -s -o /dev/null -w "%{http_code}
+" -H "Host: evil.example" http://127.0.0.1:8931/api/summary   # 403
+curl -s -o /dev/null -w "%{http_code}
+" http://127.0.0.1:8931/                       # 200 (SPA)
 ```
+
+Hosted-mode smoke on the same build (what the Fly container will do):
+
+```
+CONSOLE_HOSTED_MODE_ENABLED=true node dist/cli/index.js console
+#   -> refuses to boot: "requires CONSOLE_HOSTED_ALLOWED_HOSTS, CONSOLE_HOSTED_ALLOWED_USER_IDS"
+CONSOLE_HOSTED_MODE_ENABLED=true CONSOLE_HOST=0.0.0.0 SUPABASE_URL=https://<ref>.supabase.co   CONSOLE_HOSTED_ALLOWED_HOSTS=127.0.0.1 CONSOLE_HOSTED_ALLOWED_USER_IDS=<uuid>   CONSOLE_PORT=8932 node dist/cli/index.js console
+curl -s http://127.0.0.1:8932/api/summary                                  # 401 {"error":"missing bearer token"}
+curl -s -H "Authorization: Bearer x.y.z" http://127.0.0.1:8932/api/summary # 401 {"error":"malformed token"}
+curl -s -X POST http://127.0.0.1:8932/api/summary                          # 403 {"error":"hosted console is read-only"}
+curl -s -H "Host: other.example" http://127.0.0.1:8932/api/summary         # 403 {"error":"forbidden host"}
+curl -s -o /dev/null -w "%{http_code}
+" http://127.0.0.1:8932/           # 200 (SPA, public)
+```
+
+`CONSOLE_HOSTED_ALLOWED_HOSTS` is a list of HOSTNAMES — the port is
+stripped before matching, so `console.example.com`, not
+`console.example.com:8899`.
 
 ### C2. Fly.io deploy (hosted mode — optional, NOT needed for v0)
 
