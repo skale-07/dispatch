@@ -138,20 +138,29 @@ npm run frontend:build
 node dist/cli/index.js console
 ```
 
-### C2. Fly.io deploy (LATER — intentionally blocked)
+### C2. Fly.io deploy (hosted mode — optional, NOT needed for v0)
 
-Do not do this until the hosted-auth flag from the roadmap
-("hosted-auth design": `CONSOLE_HOSTED_MODE_ENABLED`, Supabase JWT on
-every request, 0.0.0.0 bind) exists — today the image would boot but be
-unreachable from outside, which is the fail-closed intent. When it lands:
+The hosted-auth flag exists now (`CONSOLE_HOSTED_MODE_ENABLED`,
+operator-guide §16 "Hosted mode"): with it the image binds `0.0.0.0`,
+verifies a Supabase Auth JWT on every `/api` request, pins the Host
+header to your deployed hostname, allows only your own user id, and
+refuses every mutation. v0 users never touch this — they get the public
+SPA + Supabase (Part A). Deploy it only if you want YOUR console readable
+from another machine:
 
 1. `fly launch --no-deploy --dockerfile deploy/Dockerfile` (creates `fly.toml`;
    set `internal_port = 8899`).
-2. `fly volumes create dispatch_data --size 1` and mount at `/app/data`.
-3. `fly secrets set CONSOLE_HOSTED_MODE_ENABLED=true SUPABASE_URL=... `
-   (JWT verification config; still NO service-role key in the cloud
-   plane, and no mutation flags — the hosted console is read-only).
+2. `fly volumes create dispatch_data --size 1` and mount at `/app/data`
+   (the read-only console needs a copy of `data/app.sqlite` there — this
+   is the operator's own state, not user PII).
+3. `fly secrets set CONSOLE_HOSTED_MODE_ENABLED=true CONSOLE_HOST=0.0.0.0 \
+     SUPABASE_URL=https://<ref>.supabase.co \
+     CONSOLE_HOSTED_ALLOWED_HOSTS=console.<domain> \
+     CONSOLE_HOSTED_ALLOWED_USER_IDS=<your auth.users uuid>`
+   — still NO service-role key, NO secret key, NO mutation flags in the
+   cloud plane. The container refuses to boot if any of the three
+   hosted settings is missing.
 4. `fly deploy`, then attach the domain (`fly certs add console.<domain>`).
-
-Until then the hosted read surface is v0.5's design: static frontend +
-Supabase direct reads. There is nothing to deploy for it beyond Part A.
+5. The SPA must send `Authorization: Bearer <supabase session
+   access_token>` on every `/api` call in this mode (storefront
+   contract); a browser hitting `/api/...` directly gets 401 by design.

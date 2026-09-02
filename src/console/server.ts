@@ -22,6 +22,7 @@ import {
 } from "./readModels.js";
 import { buildInsightsView } from "./insights.js";
 import { checkBearerToken, checkHostHeader, generateBootToken } from "./security.js";
+import { checkAllowedHost, HostedAuthenticator } from "./hostedAuth.js";
 import { buildMutationRoutes } from "./mutations.js";
 import { buildAutomationRoutes } from "./automationRoutes.js";
 import { getArmStatus, sweepStaleArmSessions } from "../automation/armSession.js";
@@ -55,6 +56,12 @@ export type ConsoleDeps = {
   gmailBroker?: GmailAuthBroker;
   /** Escape hatch for tests that need a route the console does not ship. */
   extraRoutes?: Route[];
+  /**
+   * Present only when CONSOLE_HOSTED_MODE_ENABLED: replaces the local Host
+   * pin + per-boot token with a hostname allowlist + Supabase JWT on every
+   * /api request, and refuses mutations. Absent ⇒ local mode, unchanged.
+   */
+  hosted?: { auth: HostedAuthenticator; allowedHosts: string[] };
 };
 
 function json(res: ServerResponse, status: number, body: unknown): void {
@@ -155,7 +162,76 @@ export function createConsoleHandler(
     ...(deps.extraRoutes ?? []),
   ];
 
-  return (req, res) => handle(req, res);
+  const hosted = deps.hosted;
+  return hosted ? (req, res) => handleHosted(hosted, req, res) : (req, res) => handle(req, res);
+
+  /**
+   * Hosted mode (CONSOLE_HOSTED_MODE_ENABLED). Order of checks: hostname
+   * allowlist → method → JWT on every /api request → read-only. The static
+   * bundle (non-/api GETs) is public — it holds no data, and a browser
+   * navigation cannot attach a bearer header. Nothing here consults the
+   * per-boot token.
+   */
+  async function handleHosted(
+    mode: { auth: HostedAuthenticator; allowedHosts: string[] },
+    req: IncomingMessage,
+    res: ServerResponse,
+  ): Promise<void> {
+    try {
+      if (!checkAllowedHost(req, mode.allowedHosts)) {
+        json(res, 403, { error: "forbidden host" });
+        return;
+      }
+      const method = req.method ?? "GET";
+      if (method !== "GET" && method !== "POST") {
+        json(res, 405, { error: "GET and POST only" });
+        return;
+      }
+      let pathname: string;
+      let searchParams: URLSearchParams;
+      try {
+        const url = new URL(req.url ?? "/", "http://127.0.0.1");
+        pathname = url.pathname;
+        searchParams = url.searchParams;
+      } catch {
+        json(res, 400, { error: "bad request" });
+        return;
+      }
+      if (pathname.startsWith("/api/")) {
+        if (method !== "GET") {
+          json(res, 403, { error: "hosted console is read-only" });
+          return;
+        }
+        const auth = await mode.auth.authenticate(req);
+        if (!auth.ok) {
+          json(res, auth.status, { error: auth.error });
+          return;
+        }
+        const match = findRoute(routes, method, pathname);
+        if (match) {
+          await match.route.handler({ req, res, params: match.params, searchParams });
+          return;
+        }
+        json(res, 404, { error: `no such route: ${method} ${pathname}` });
+        return;
+      }
+      if (method !== "GET") {
+        json(res, 404, { error: `no such route: ${method} ${pathname}` });
+        return;
+      }
+      serveStatic(res, deps.distDir, pathname);
+    } catch (err) {
+      if (res.headersSent) {
+        res.end();
+        return;
+      }
+      if (err instanceof BodyError) {
+        json(res, err.statusCode, { error: err.message });
+        return;
+      }
+      json(res, 500, { error: err instanceof Error ? err.message : String(err) });
+    }
+  }
 
   async function handle(req: IncomingMessage, res: ServerResponse): Promise<void> {
     try {
@@ -253,9 +329,21 @@ function serveArtifact(res: ServerResponse, artifactsDir: string, rel: string): 
 export function startConsole(input: {
   db: Db;
   distDir?: string;
-}): Promise<{ server: Server; url: string; token: string }> {
+}): Promise<{ server: Server; url: string; token: string; hosted: boolean }> {
   const cfg = getConfig();
   const token = generateBootToken();
+  // Hosted mode: config already refused to load without SUPABASE_URL + both
+  // allowlists (loadConfig), so building the authenticator cannot half-work.
+  const hosted = cfg.consoleHostedModeEnabled
+    ? {
+        auth: new HostedAuthenticator({
+          supabaseUrl: cfg.supabaseUrl!,
+          allowedHosts: cfg.consoleHostedAllowedHosts,
+          allowedUserIds: cfg.consoleHostedAllowedUserIds,
+        }),
+        allowedHosts: cfg.consoleHostedAllowedHosts,
+      }
+    : undefined;
   const distDir =
     input.distDir ?? path.resolve(process.cwd(), "frontend", "dist");
   const runManager = new RunManager({
@@ -285,6 +373,7 @@ export function startConsole(input: {
     artifactsDir: cfg.artifactsDir,
     runManager,
     gmailBroker: new GmailAuthBroker(),
+    ...(hosted ? { hosted } : {}),
   });
   const server = http.createServer(handler);
   server.once("close", () => {
@@ -305,9 +394,13 @@ export function startConsole(input: {
       logger.info("console listening", {
         service: "console",
         action: "listen",
-        metadata: { url },
+        metadata: {
+          url,
+          hosted: hosted !== undefined,
+          ...(hosted ? { allowed_hosts: hosted.allowedHosts, read_only: true } : {}),
+        },
       });
-      resolve({ server, url, token });
+      resolve({ server, url, token, hosted: hosted !== undefined });
     });
   });
 }

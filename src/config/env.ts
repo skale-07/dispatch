@@ -175,6 +175,21 @@ const envSchema = z.object({
   /** Operator console (frontend + guarded mutation API). Localhost only. */
   CONSOLE_HOST: z.string().default("127.0.0.1"),
   CONSOLE_PORT: z.coerce.number().int().positive().default(8899),
+  /**
+   * Hosted console (docs/roadmap/cloud-deploy.md "Hosted-auth design").
+   * Off (default): local security model byte-for-byte — loopback bind
+   * assertion, Host pin, per-boot token. On: the console may bind a
+   * public interface; EVERY /api request needs a Supabase Auth JWT
+   * (verified against the project JWKS) whose `sub` is allowlisted, the
+   * Host header must match CONSOLE_HOSTED_ALLOWED_HOSTS, and mutations
+   * are refused (read-only). Requires SUPABASE_URL + both lists below;
+   * refuses to boot otherwise.
+   */
+  CONSOLE_HOSTED_MODE_ENABLED: boolFromEnv.default(false),
+  /** Comma-separated deployed hostnames accepted in the Host header (hosted mode). */
+  CONSOLE_HOSTED_ALLOWED_HOSTS: z.string().default(""),
+  /** Comma-separated auth.users UUIDs allowed to read this console (hosted mode). */
+  CONSOLE_HOSTED_ALLOWED_USER_IDS: z.string().default(""),
   CANDIDATE_DATA_KEY_NAME: z
     .string()
     .default("jobright-application-agent/candidate-data-key"),
@@ -267,6 +282,10 @@ export type AppConfig = {
   dashboardPort: number;
   consoleHost: string;
   consolePort: number;
+  /** Hosted console: Supabase-JWT auth + host allowlist + read-only. Fail closed. */
+  consoleHostedModeEnabled: boolean;
+  consoleHostedAllowedHosts: string[];
+  consoleHostedAllowedUserIds: string[];
   candidateDataKeyName: string;
   artifactsDir: string;
   privateDir: string;
@@ -287,6 +306,11 @@ export type AppConfig = {
 
 let cached: AppConfig | undefined;
 
+/** Comma/whitespace-separated list → trimmed, lowercased, de-duplicated. */
+function splitList(raw: string): string[] {
+  return [...new Set(raw.split(/[,\s]+/).map((s) => s.trim().toLowerCase()).filter(Boolean))];
+}
+
 export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
   const parsed = envSchema.parse(env);
 
@@ -295,10 +319,27 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
       `DASHBOARD_HOST must be 127.0.0.1 or localhost (got ${parsed.DASHBOARD_HOST})`,
     );
   }
-  if (parsed.CONSOLE_HOST !== "127.0.0.1" && parsed.CONSOLE_HOST !== "localhost") {
-    throw new Error(
-      `CONSOLE_HOST must be 127.0.0.1 or localhost (got ${parsed.CONSOLE_HOST})`,
-    );
+  const hostedAllowedHosts = splitList(parsed.CONSOLE_HOSTED_ALLOWED_HOSTS);
+  const hostedAllowedUserIds = splitList(parsed.CONSOLE_HOSTED_ALLOWED_USER_IDS);
+  if (!parsed.CONSOLE_HOSTED_MODE_ENABLED) {
+    // Local mode: the loopback assertion, unchanged.
+    if (parsed.CONSOLE_HOST !== "127.0.0.1" && parsed.CONSOLE_HOST !== "localhost") {
+      throw new Error(
+        `CONSOLE_HOST must be 127.0.0.1 or localhost (got ${parsed.CONSOLE_HOST})`,
+      );
+    }
+  } else {
+    // Hosted mode is additive and fail-closed: a public bind with any of
+    // its inputs missing must not boot at all.
+    const missing: string[] = [];
+    if (!parsed.SUPABASE_URL) missing.push("SUPABASE_URL");
+    if (hostedAllowedHosts.length === 0) missing.push("CONSOLE_HOSTED_ALLOWED_HOSTS");
+    if (hostedAllowedUserIds.length === 0) missing.push("CONSOLE_HOSTED_ALLOWED_USER_IDS");
+    if (missing.length > 0) {
+      throw new Error(
+        `CONSOLE_HOSTED_MODE_ENABLED=true requires ${missing.join(", ")} (hosted console is fail-closed)`,
+      );
+    }
   }
 
   const forbiddenSendFlag = ["EMAIL", "SEND", "ENABLED"].join("_");
@@ -361,6 +402,9 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
     dashboardPort: parsed.DASHBOARD_PORT,
     consoleHost: parsed.CONSOLE_HOST,
     consolePort: parsed.CONSOLE_PORT,
+    consoleHostedModeEnabled: parsed.CONSOLE_HOSTED_MODE_ENABLED,
+    consoleHostedAllowedHosts: hostedAllowedHosts,
+    consoleHostedAllowedUserIds: hostedAllowedUserIds,
     candidateDataKeyName: parsed.CANDIDATE_DATA_KEY_NAME,
     artifactsDir: path.resolve(parsed.ARTIFACTS_DIR),
     privateDir: path.resolve(parsed.PRIVATE_DIR),

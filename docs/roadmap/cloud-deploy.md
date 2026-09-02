@@ -240,25 +240,35 @@ bearer token, `CONSOLE_HOST` 127.0.0.1 assertion in
 surface is ever built on it. Users get the public SPA + Supabase under
 RLS; nothing localhost-shaped reaches them.
 
-### Hosted-auth design (documented now, built only when needed)
+### Hosted-auth design (BUILT 2026-09-02 — `src/console/hostedAuth.ts`)
 
-If a hosted API server ever becomes necessary (v1 engine control
-plane), the design is:
-
-- New fail-closed flag `CONSOLE_HOSTED_MODE_ENABLED=false`. Off ⇒
-  today's behavior byte-for-byte (Host pin, per-boot token, loopback
-  bind assertion).
-- On ⇒ the server binds `0.0.0.0`, **disables nothing**: instead of
-  the per-boot token it verifies a Supabase Auth JWT (`Authorization:
-  Bearer <jwt>`) against the project's JWKS on **every** request (GET
-  included — hosted mode has no "reads are safe because loopback"
-  assumption), maps `sub` → user, and scopes every query by user id.
-  Mutation routes additionally require an operator-role claim.
-- The Host-header check becomes an allowlist pinned to the deployed
-  hostname (config, not code). CSRF stays impossible: bearer-only, no
-  cookies.
-- This is additive: local mode never gains a network listener, and
-  hosted mode never learns the local per-boot token path.
+- Fail-closed flag `CONSOLE_HOSTED_MODE_ENABLED=false`. Off ⇒ today's
+  behavior byte-for-byte (Host pin, per-boot token, loopback bind
+  assertion) — `src/console/security.ts` is untouched and the local
+  handler path in `server.ts` is unchanged.
+- On ⇒ the server may bind `0.0.0.0` and a SEPARATE handler path
+  (`handleHosted`) runs: the Host header must match
+  `CONSOLE_HOSTED_ALLOWED_HOSTS` (config, not code); every `/api`
+  request (GET included — no "reads are safe because loopback"
+  assumption) must carry a Supabase Auth JWT verified against the
+  project JWKS (ES256/RS256 via `node:crypto`, no dependency; issuer
+  `<SUPABASE_URL>/auth/v1`, audience `authenticated`, `exp` with 30 s
+  leeway; JWKS cached 10 min with a rate-limited refetch on unknown
+  `kid`), and its `sub` must be in `CONSOLE_HOSTED_ALLOWED_USER_IDS`
+  (the engine DB is single-tenant: the operator's own cloud account).
+- v0 hosted console is **read-only**: every `POST /api` is refused
+  (403) regardless of credential. An operator-role claim for hosted
+  mutations is a later, separate milestone.
+- CSRF stays impossible: bearer-only, no cookies. The static bundle is
+  public (a navigation cannot attach a bearer; it holds no data).
+- Boot is fail-closed: `loadConfig` refuses when the flag is on
+  without `SUPABASE_URL` + both allowlists.
+- Validation: UNIT_CONFIRMED (`tests/unit/console-hosted-auth.test.ts`
+  — throwaway ES256 keypair; both modes through `createConsoleHandler`);
+  LIVE_READ_ONLY_CONFIRMED against the operator's real project
+  (2026-09-02: a real Supabase session JWT for a throwaway auth user
+  verified against the live JWKS; wrong user ⇒ 403, service key or
+  tampered signature ⇒ 401; user deleted afterwards).
 
 ## Phase v1 — per-user containerized engines (the $10k AWS credits)
 

@@ -634,11 +634,12 @@ contract rather than trusted.
 | `ESSAY_REQUIRED_GATE_ENABLED` | `false` | Hard-stop on heuristic essay detection (`ESSAY_REQUIRED`); off until heuristics are better |
 | `OUTLOOK_VERIFICATION_ENABLED` | `false` | Read-only Outlook mailbox scan for submit verification codes (§17) |
 | `ATS_DISCOVERY_ENABLED` | `false` | Enqueue from public ATS board APIs (`discover:ats`, §21) — creates jobs + applications |
-| `SUPABASE_SYNC_ENABLED` | `false` | One-way aggregate status mirror to Supabase (`cloud:sync`, §25) — never PII, never read back |
+| `SUPABASE_SYNC_ENABLED` | `false` | One-way aggregate status mirror to Supabase (`cloud:sync`, §25) — never PII, never read back; also gates `cloud:schema -- apply` (§26) |
+| `CONSOLE_HOSTED_MODE_ENABLED` | `false` | Console may bind a public interface: Supabase JWT on every `/api` request + hostname/user allowlists + read-only (§16, "Hosted mode"). Never on the engine machine's local console |
 
 Console-only (not capability flags): `CONSOLE_HOST` (`127.0.0.1`,
-validated) and `CONSOLE_PORT` (`8899`). The console process `.env` is the
-ceiling for every flag above — see §16.
+validated unless hosted mode is on) and `CONSOLE_PORT` (`8899`). The
+console process `.env` is the ceiling for every flag above — see §16.
 
 The banned send-style APIs have no flag — they are impossible, enforced by
 `npm run check:forbidden` (Outlook send identifiers AND Gmail
@@ -897,6 +898,20 @@ Two security properties hold on every request: the server binds
 `Host` header naming anything but localhost is refused 403 — that is what
 stops a hostile page in your browser from reaching the API by DNS
 rebinding.
+
+**Hosted mode** (`CONSOLE_HOSTED_MODE_ENABLED=true`; for a deployed
+container, never the machine you run the pipeline on). The two local
+properties are REPLACED, not relaxed: the `Host` header must match
+`CONSOLE_HOSTED_ALLOWED_HOSTS`, every `/api` request (reads included)
+must carry `Authorization: Bearer <Supabase Auth JWT>` that verifies
+against `SUPABASE_URL`'s JWKS (ES256/RS256; issuer, audience
+`authenticated`, expiry) with a `sub` in `CONSOLE_HOSTED_ALLOWED_USER_IDS`
+(your own cloud account), and every `POST` is refused — the hosted
+console is read-only. The `#token=` URL does not exist in this mode; the
+static bundle is served without a token (it holds no data). Missing any
+of the three settings ⇒ the process refuses to start. The SPA must send
+the Supabase session's `access_token` as the bearer for hosted API calls
+(frontend contract; see `deploy/first-deploy.md` Part C2).
 
 The read-only dashboard (§12) is unchanged and still GET-only. The console
 is a separate server; run either or both.

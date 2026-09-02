@@ -2188,7 +2188,15 @@ async function main(): Promise<void> {
     case "console": {
       const db = openDatabase();
       migrate(db);
-      const { url, token } = await startConsole({ db });
+      const { url, token, hosted } = await startConsole({ db });
+      if (hosted) {
+        console.log(`Operator console (HOSTED MODE, read-only): ${url}`);
+        console.log(
+          "Every /api request needs a Supabase Auth JWT for an allowlisted user;",
+        );
+        console.log("no per-boot token exists in this mode. Ctrl+C to stop.");
+        return;
+      }
       console.log(`Operator console: ${url}#token=${token}`);
       console.log(
         "Open the full URL above — the #token fragment authorizes mutations",
