@@ -5,6 +5,7 @@ import { Skeleton } from "../components/Skeleton";
 import {
   EMPLOYMENT_TYPE_OPTIONS,
   EMPTY_PROFILE,
+  REDEEM_ERRORS,
   WORK_AUTH_OPTIONS,
   type ProfileDraft,
 } from "./contract";
@@ -17,6 +18,23 @@ import {
   type InviteRedemption,
 } from "./data";
 import { usePageTitle } from "./usePageTitle";
+
+/**
+ * What to do next, keyed on the server's verbatim redeem_invite error.
+ * The reason itself is always shown as the server said it; this only
+ * adds the advice that is TRUE for that reason (re-entering a code you
+ * cannot use would just fail again).
+ */
+function redeemAdvice(reason: string): string {
+  switch (reason) {
+    case REDEEM_ERRORS.alreadyMember:
+      return "Your account already has an invite, and quota comes from one invite only — the way to earn more is the invite-a-friend panel on your dashboard. Your account and profile are unaffected.";
+    case REDEEM_ERRORS.ownInvite:
+      return "That is one of your own referral codes — it only works for someone else. Send it to a friend; your account and profile are unaffected.";
+    default:
+      return "You can re-enter it on the sign-in page — your account and profile are unaffected.";
+  }
+}
 
 /** "$70,000" — the review step reads like a form, not like a database. */
 function formatUsd(raw: string): string {
@@ -185,8 +203,7 @@ export function ProfileWizardPage(): JSX.Element {
       {invite.outcome === "failed" ? (
         <div className="banner warn" role="alert">
           Your invite code <code>{invite.code}</code> could not be applied:{" "}
-          {invite.reason}. You can re-enter it on the sign-in page — your
-          account and profile are unaffected.
+          {invite.reason}. {redeemAdvice(invite.reason)}
         </div>
       ) : null}
       {loadError ? (

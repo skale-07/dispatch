@@ -68,8 +68,9 @@ export type InviteRedemption =
  * Redeem a stashed invite code, if any. One attempt per stash (the code
  * is cleared before the call so a server error cannot become an
  * unbounded retry loop; the user can re-enter the code by hand).
- * Server error strings are verbatim contract values ("invalid invite
- * code" | "invite already redeemed" | "not authenticated") — rendered
+ * Server error strings are verbatim contract values (REDEEM_ERRORS:
+ * "invalid invite code" | "invite already redeemed" | "not authenticated"
+ * | "cannot redeem your own invite" | "already a member") — rendered
  * as-is, never paraphrased into something the server didn't say.
  */
 export async function redeemPendingInvite(): Promise<InviteRedemption> {

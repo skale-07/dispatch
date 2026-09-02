@@ -27,6 +27,20 @@ export const CONTRACT = {
   receiptsBucket: "receipts",
   /** Insert-only mailbox for students without an invite (anon may insert; nobody client-side may read). */
   waitlistTable: "waitlist",
+
+  /* ── referral loop (migrations 20260902000300/400) ──────────────── */
+  /** Immutable constants the loop runs on; anon-callable. Render copy from these, never literals. */
+  referralSettingsRpc: "referral_settings",
+  /** View: codes the signed-in user ISSUED (operator-minted codes never appear). */
+  referralInvitesView: "my_referral_invites",
+  /** RPC, no args: mint one code for the caller; member-only, capped server-side. */
+  mintReferralInviteRpc: "mint_referral_invite",
+  /** Ledger of bonuses the signed-in user EARNED as inviter; read-only. */
+  referralBonusesTable: "referral_bonuses",
+
+  /* ── engine heartbeat (migration 20260902000500) ────────────────── */
+  /** One row per user, written by the engine's sync worker every tick; own row, read-only. */
+  engineStatusTable: "engine_status",
 } as const;
 
 /** Postgres unique-violation SQLSTATE — the waitlist's "already on it" signal. */
@@ -37,6 +51,17 @@ export const REDEEM_ERRORS = {
   invalid: "invalid invite code",
   alreadyRedeemed: "invite already redeemed",
   notAuthenticated: "not authenticated",
+  /** 20260902000300: a member cannot burn one of their own referral codes. */
+  ownInvite: "cannot redeem your own invite",
+  /** 20260902000300: one redemption per account; quota comes from ONE invite. */
+  alreadyMember: "already a member",
+} as const;
+
+/** Verbatim server error strings from mint_referral_invite. */
+export const MINT_ERRORS = {
+  notAuthenticated: "not authenticated",
+  notMember: "not a member yet",
+  capReached: "referral cap reached",
 } as const;
 
 /* ── user_profiles row shapes (migration 20260902000100) ───────────── */
@@ -95,10 +120,73 @@ export type ProfileRow = {
 
 export type QuotaStatus = {
   user_id: string;
-  /** Applications the invite covers (counts COMPLETED, not submitted). */
+  /**
+   * EFFECTIVE quota = the invite's own quota + referral bonus (counts
+   * COMPLETED, not submitted). `remaining` is computed from this number.
+   */
   max_completed_applications: number;
   completed_applications: number;
   remaining: number;
+  /** The invite's own quota (20260902000400 appended these two). */
+  base_max_completed_applications: number;
+  /** Earned via friends who activated; folded into max_completed_applications. */
+  bonus_completed_applications: number;
+};
+
+/* ── referral loop read models ─────────────────────────────────────── */
+
+/** referral_settings(): every constant the loop depends on, from one place. */
+export type ReferralSettings = {
+  /** Unredeemed codes a member may hold at once (mint refuses past this). */
+  max_active_referral_codes: number;
+  /** Completed applications each referral code grants the invitee. */
+  referral_code_quota: number;
+  /** Invitee completions that count as an activation. */
+  activation_completed_applications: number;
+  /** Inviter's quota bonus per activated invitee. */
+  inviter_bonus_per_activation: number;
+  /** Lifetime cap on bonus quota per inviter. */
+  inviter_bonus_cap: number;
+};
+
+/** A row of my_referral_invites (own issued codes). */
+export type ReferralInviteRow = {
+  code: string;
+  max_completed_applications: number;
+  redeemed_at: string | null;
+  created_at: string;
+};
+
+/** mint_referral_invite() result: the new row plus where the cap stands. */
+export type MintedReferralInvite = ReferralInviteRow & {
+  redeemed_at: null;
+  active_unredeemed: number;
+  max_active_referral_codes: number;
+};
+
+/** A referral_bonuses row where the signed-in user is the inviter. */
+export type ReferralBonusRow = {
+  invitee_user_id: string;
+  inviter_user_id: string;
+  /** SET NULL when the invitee's account (and its invite) is deleted. */
+  invite_id: string | null;
+  bonus: number;
+  granted_at: string;
+};
+
+/* ── engine heartbeat read model ───────────────────────────────────── */
+
+/** engine_status row: timestamps, counts and a short sha — never candidate data. */
+export type EngineStatusRow = {
+  user_id: string;
+  /** When the sync worker last completed a tick for this user. */
+  last_seen_at: string;
+  engine_version: string | null;
+  last_sync_attempted: number;
+  last_sync_upserted: number;
+  last_sync_duration_ms: number;
+  /** Error text when the tick failed AFTER the heartbeat. */
+  last_error: string | null;
 };
 
 export type ApplicationRowPublic = {

@@ -88,12 +88,38 @@ const APPS = [
   { id: "a6", company: "Duolingo", role: "Software Engineer Intern", status: "QUEUED", route: "ats", source_ats: "workday", engine_updated_at: day(2), submitted_at: null, receipt_path: null },
   { id: "a7", company: null, role: null, status: "DISCOVERED", route: null, source_ats: null, engine_updated_at: day(2), submitted_at: null, receipt_path: null },
 ];
-const QUOTA = (completed, max = 15) => ({
+/** user_quota_status row (20260902000400 shape): max is EFFECTIVE = base + bonus. */
+const QUOTA = (completed, base = 15, bonus = 0) => ({
   user_id: USER.id,
-  max_completed_applications: max,
+  max_completed_applications: base + bonus,
   completed_applications: completed,
-  remaining: Math.max(0, max - completed),
+  remaining: Math.max(0, base + bonus - completed),
+  base_max_completed_applications: base,
+  bonus_completed_applications: bonus,
 });
+/** referral_settings() — the launcher's shipped constants (20260902000300). */
+const SETTINGS = { max_active_referral_codes: 3, referral_code_quota: 5, activation_completed_applications: 5, inviter_bonus_per_activation: 10, inviter_bonus_cap: 100 };
+const CODE = (code, redeemed_at = null, created = day(1)) => ({ code, max_completed_applications: SETTINGS.referral_code_quota, redeemed_at, created_at: created });
+const CODES_ONE = [CODE("JRA-9C3T-HX5D")];
+const CODES_MIXED = [CODE("JRA-4N7P-2WQ8", "2026-08-30T15:00:00Z"), CODE("JRA-9C3T-HX5D")];
+const CODES_CAPPED = [CODE("JRA-9C3T-HX5D"), CODE("JRA-2M7W-K4RP", null, day(2)), CODE("JRA-X8Q3-D6TN", null, day(2)), CODE("JRA-4N7P-2WQ8", "2026-08-30T15:00:00Z")];
+const MINTED = { ...CODE("JRA-7V2H-QN8B", null, new Date().toISOString()), active_unredeemed: 1, max_active_referral_codes: SETTINGS.max_active_referral_codes };
+const BONUSES = [
+  { invitee_user_id: "aaaaaaaa-0000-4000-8000-000000000001", inviter_user_id: USER.id, invite_id: "inv-r1", bonus: 10, granted_at: "2026-08-30T15:00:00Z" },
+  { invitee_user_id: "aaaaaaaa-0000-4000-8000-000000000002", inviter_user_id: USER.id, invite_id: null, bonus: 10, granted_at: day(1) },
+];
+/** engine_status rows (20260902000500); freshness is judged against a 5-minute sync interval, so
+ * the timestamp is computed at REQUEST time (a run takes minutes; a row built at startup drifts). */
+const ENGINE = (agoMs, last_error = null) => ({
+  user_id: USER.id,
+  last_seen_at: new Date(Date.now() - agoMs).toISOString(),
+  engine_version: "f13308a8",
+  last_sync_attempted: 7,
+  last_sync_upserted: last_error ? 0 : 7,
+  last_sync_duration_ms: 842,
+  last_error,
+});
+const pgError = (status, message, code = "P0001") => () => ({ status, contentType: "application/json", body: JSON.stringify({ code, message, details: null, hint: null }) });
 const PROFILE = {
   user_id: USER.id,
   full_name: "Maya Okafor",
@@ -150,26 +176,50 @@ function fixtureResponder(mode) {
 }
 const ok = (body) => () => ({ status: 200, contentType: "application/json", body: JSON.stringify(body) });
 
+/**
+ * A signed-in member's baseline: profile, quota, apps, the referral
+ * loop's constants, one unredeemed code, no bonuses yet, engine never
+ * connected. Scenes override the one object they are about.
+ */
+const member = (over = {}) => ({
+  user_profiles: ok([PROFILE]), user_quota_status: ok([QUOTA(4)]), my_applications: ok(APPS),
+  "rpc/referral_settings": ok(SETTINGS), my_referral_invites: ok(CODES_ONE), referral_bonuses: ok([]),
+  "rpc/mint_referral_invite": ok(MINTED), engine_status: ok([]),
+  ...over,
+});
+/** Signed in, invite just redeemed (or not), blank profile, no app_users row yet. */
+const fresh = (over = {}) => ({
+  user_profiles: ok([]), "rpc/redeem_invite": ok({ invite_id: "inv-1", max_completed_applications: 15 }), user_quota_status: ok([]), my_applications: ok([]),
+  "rpc/referral_settings": ok(SETTINGS), my_referral_invites: ok([]), referral_bonuses: ok([]),
+  "rpc/mint_referral_invite": pgError(400, "not a member yet"), engine_status: ok([]),
+  ...over,
+});
+
 const MODES = {
   signedOut: { default: "404" },
   otpOk: { otp: ok({}) },
   otpRateLimited: {
     otp: () => ({ status: 429, contentType: "application/json", body: JSON.stringify({ code: 429, error_code: "over_email_send_rate_limit", msg: "For security purposes, you can only request this after 58 seconds." }) }),
   },
-  freshUser: { user_profiles: ok([]), "rpc/redeem_invite": ok({ invite_id: "inv-1", max_completed_applications: 15 }), user_quota_status: ok([]), my_applications: ok([]) },
-  inviteFailed: { user_profiles: ok([]), "rpc/redeem_invite": () => ({ status: 400, contentType: "application/json", body: JSON.stringify({ code: "P0001", message: "invite already redeemed", details: null, hint: null }) }) },
-  returningUser: { user_profiles: ok([PROFILE]), user_quota_status: ok([QUOTA(4)]), my_applications: ok(APPS) },
-  lowQuota: { user_profiles: ok([PROFILE]), user_quota_status: ok([QUOTA(13)]), my_applications: ok(APPS) },
-  exhausted: { user_profiles: ok([PROFILE]), user_quota_status: ok([QUOTA(15)]), my_applications: ok(APPS) },
-  // Proposed referral view (frontend/src/public/referral.ts) — what the
-  // panel looks like once the launcher ships it. Not in the contract yet.
-  referralCodes: {
-    user_profiles: ok([PROFILE]), user_quota_status: ok([QUOTA(4)]), my_applications: ok(APPS),
-    my_referral_invites: ok([
-      { code: "JRA-4N7P-2WQ8", max_completed_applications: 15, redeemed_at: "2026-08-30T15:00:00Z" },
-      { code: "JRA-9C3T-HX5D", max_completed_applications: 15, redeemed_at: null },
-    ]),
-  },
+  freshUser: fresh(),
+  inviteFailed: fresh({ "rpc/redeem_invite": pgError(400, "invite already redeemed") }),
+  // 20260902000300: the two new verbatim redeem_invite refusals.
+  inviteOwn: fresh({ "rpc/redeem_invite": pgError(400, "cannot redeem your own invite") }),
+  inviteMember: member({ "rpc/redeem_invite": pgError(400, "already a member") }),
+  returningUser: member(),
+  lowQuota: member({ user_quota_status: ok([QUOTA(13)]) }),
+  exhausted: member({ user_quota_status: ok([QUOTA(15)]) }),
+  // 20260902000400: quota tile with an earned bonus (base 15 + 20 from two activated friends).
+  quotaBonus: member({ user_quota_status: ok([QUOTA(4, 15, 20)]), referral_bonuses: ok(BONUSES), my_referral_invites: ok(CODES_MIXED) }),
+  // Referral panel states (cloud-deploy §9).
+  referralNone: member({ my_referral_invites: ok([]) }),
+  referralMixed: member({ my_referral_invites: ok(CODES_MIXED) }),
+  referralCapped: member({ my_referral_invites: ok(CODES_CAPPED), "rpc/mint_referral_invite": pgError(400, "referral cap reached") }),
+  referralViewDown: member({ my_referral_invites: pgError(500, "fixture: service unavailable", "XX000") }),
+  // Engine heartbeat states (cloud-deploy §10; SYNC_INTERVAL_MS = 5 min => stale after 10).
+  engineRunning: member({ engine_status: () => ok([ENGINE(45_000)])() }),
+  enginePushFailed: member({ engine_status: () => ok([ENGINE(70_000, "upsert application_status_mirror: 401 invalid service key")])() }),
+  engineOffline: member({ engine_status: () => ok([ENGINE(3 * 3600_000)])() }),
   waitlistOk: { waitlist: () => ({ status: 201, contentType: "application/json", body: "" }) },
   waitlistDup: { waitlist: () => ({ status: 409, contentType: "application/json", body: JSON.stringify({ code: "23505", message: 'duplicate key value violates unique constraint "waitlist_email_key"', details: "Key (email)=(maya@pitt.edu) already exists.", hint: null }) }) },
   serviceDown: { default: "500" },
@@ -268,6 +318,8 @@ async function main() {
     await scene("11-onboarding-1-about-invite-applied", { viewport, url: "/onboarding", session: true, mode: "freshUser", invite: "JRA-7K2M-9QXF" });
     await scene("11-onboarding-1-validation", { viewport, url: "/onboarding", session: true, mode: "freshUser", act: async (page) => { await page.getByRole("button", { name: /^next/ }).click(); await page.locator(".banner.warn").waitFor(); } });
     await scene("11-onboarding-invite-failed", { viewport, url: "/onboarding", session: true, mode: "inviteFailed", invite: "JRA-7K2M-9QXF" });
+    await scene("11-onboarding-invite-own", { viewport, url: "/onboarding", session: true, mode: "inviteOwn", invite: "JRA-9C3T-HX5D", fullPage: false });
+    await scene("11-onboarding-invite-already-member", { viewport, url: "/onboarding", session: true, mode: "inviteMember", invite: "JRA-7K2M-9QXF", fullPage: false });
     await scene("12-onboarding-2-education", { viewport, url: "/onboarding", session: true, mode: "freshUser", act: toStep(1) });
     await scene("13-onboarding-3-workauth", { viewport, url: "/onboarding", session: true, mode: "freshUser", act: toStep(2) });
     await scene("13-onboarding-3-workauth-chosen", {
@@ -287,14 +339,31 @@ async function main() {
     await scene("21-dashboard-populated.dark", { viewport, url: "/dashboard", session: true, mode: "returningUser", theme: "dark" });
     await scene("22-dashboard-quota-low", { viewport, url: "/dashboard", session: true, mode: "lowQuota", fullPage: false });
     await scene("22-dashboard-quota-exhausted", { viewport, url: "/dashboard", session: true, mode: "exhausted" });
-    await scene("24-dashboard-invite-panel-stub", {
-      viewport, url: "/dashboard", session: true, mode: "returningUser", fullPage: false, keepScroll: true,
-      act: async (page) => { await page.locator("#invite").scrollIntoViewIfNeeded(); },
+    await scene("22-dashboard-quota-bonus", {
+      viewport, url: "/dashboard", session: true, mode: "quotaBonus", fullPage: false,
+      act: async (page) => { await page.locator(".quota-bonus").waitFor(); },
     });
-    await scene("24-dashboard-invite-panel-codes", {
-      viewport, url: "/dashboard", session: true, mode: "referralCodes", fullPage: false, keepScroll: true,
-      act: async (page) => { await page.locator("#invite code").waitFor(); await page.locator("#invite").scrollIntoViewIfNeeded(); },
+
+    // ── invite-a-friend panel: 0 / 1 / mixed / capped codes, mint, not a member, view down ──
+    const atInvite = (ready) => async (page) => { await page.locator(ready).first().waitFor(); await page.locator("#invite").scrollIntoViewIfNeeded(); };
+    await scene("24-invite-panel-none", { viewport, url: "/dashboard", session: true, mode: "referralNone", fullPage: false, keepScroll: true, act: atInvite("#invite .empty-state") });
+    await scene("24-invite-panel-one", { viewport, url: "/dashboard", session: true, mode: "returningUser", fullPage: false, keepScroll: true, act: atInvite("#invite .code-list code") });
+    await scene("24-invite-panel-mixed", { viewport, url: "/dashboard", session: true, mode: "referralMixed", fullPage: false, keepScroll: true, act: atInvite("#invite .code-list code") });
+    await scene("24-invite-panel-capped", { viewport, url: "/dashboard", session: true, mode: "referralCapped", fullPage: false, keepScroll: true, act: atInvite("#mint-blocked-reason") });
+    await scene("24-invite-panel-minted", {
+      viewport, url: "/dashboard", session: true, mode: "referralNone", fullPage: false, keepScroll: true,
+      act: async (page) => { await page.locator("#invite .empty-state").waitFor(); await page.getByRole("button", { name: /mint a code/i }).click(); await page.locator("#invite .code-list code").waitFor(); await page.locator("#invite").scrollIntoViewIfNeeded(); },
     });
+    await scene("24-invite-panel-not-member", { viewport, url: "/dashboard", session: true, mode: "freshUser", fullPage: false, keepScroll: true, act: atInvite("#mint-blocked-reason") });
+    await scene("24-invite-panel-view-down", { viewport, url: "/dashboard", session: true, mode: "referralViewDown", fullPage: false, keepScroll: true, act: atInvite("#invite .empty-state") });
+    await scene("24-invite-panel-bonus", { viewport, url: "/dashboard", session: true, mode: "quotaBonus", fullPage: false, keepScroll: true, act: atInvite("#invite .referral-bonus-line") });
+
+    // ── engine heartbeat: not connected / running / running-push-failed / offline ──
+    const atEngine = async (page) => { await page.locator(".engine-line").waitFor(); await page.locator(".engine-line").scrollIntoViewIfNeeded(); };
+    await scene("25-engine-not-connected", { viewport, url: "/dashboard", session: true, mode: "returningUser", fullPage: false, keepScroll: true, act: atEngine });
+    await scene("25-engine-running", { viewport, url: "/dashboard", session: true, mode: "engineRunning", fullPage: false, keepScroll: true, act: atEngine });
+    await scene("25-engine-push-failed", { viewport, url: "/dashboard", session: true, mode: "enginePushFailed", fullPage: false, keepScroll: true, act: atEngine });
+    await scene("25-engine-offline", { viewport, url: "/dashboard", session: true, mode: "engineOffline", fullPage: false, keepScroll: true, act: atEngine });
     await scene("23-dashboard-error", { viewport, url: "/dashboard", session: true, mode: "serviceDown" });
     await scene("23-dashboard-loading", { viewport, url: "/dashboard", session: true, mode: "serviceHang", fullPage: false });
 

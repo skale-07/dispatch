@@ -1432,6 +1432,90 @@ a.evidence-frame:hover {
   margin: var(--space-3) 0;
   white-space: pre-wrap;
 }
+/* Own issued codes: one row each, state badge at the end. */
+.code-list {
+  list-style: none;
+  margin: var(--space-3) 0 var(--space-2);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.code-list li {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--space-2);
+}
+.code-list li code {
+  font-size: var(--text-md);
+  padding: 0.35rem 0.6rem;
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--bg-inset);
+  letter-spacing: 0.06em;
+}
+.code-list li.redeemed code {
+  border-style: solid;
+  color: var(--text-dim);
+}
+.code-list li .badge {
+  justify-self: end;
+}
+.mint-control {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+.referral-bonus-line > svg {
+  vertical-align: -0.14em;
+  color: var(--accent);
+}
+/* Quota tile: the referral bonus is a second line under the count. */
+.stat .hint .quota-bonus {
+  display: block;
+  color: var(--accent);
+  margin-top: var(--space-1);
+}
+.quota-bonus > svg {
+  vertical-align: -0.14em;
+}
+
+/* ── engine heartbeat line (engine_status) ─────────────────────── */
+.engine-line {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+.engine-line > span:last-child {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.engine-dot {
+  flex: none;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 999px;
+  background: var(--text-faint);
+  transform: translateY(-0.05rem);
+}
+.engine-dot.ok {
+  background: var(--ok);
+  box-shadow: 0 0 0 3px var(--ok-dim);
+}
+.engine-dot.warn {
+  background: var(--warn);
+  box-shadow: 0 0 0 3px var(--warn-dim);
+}
+.engine-dot.danger {
+  background: var(--danger);
+  box-shadow: 0 0 0 3px var(--danger-dim);
+}
+.engine-dot.neutral {
+  background: var(--text-faint);
+}
 
 /* ── onboarding wizard (public surface) ─────────────────────────── */
 
@@ -1611,6 +1695,18 @@ a.evidence-frame:hover {
   }
   .stat-row .stat:first-child {
     grid-column: 1 / -1;
+  }
+  /* Invite codes: code + state on one line, the quota note beneath. */
+  .code-list li {
+    grid-template-columns: 1fr auto;
+  }
+  .code-list li > .faint {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    margin-top: -0.25rem;
+  }
+  .mint-control {
+    width: 100%;
   }
 }
 

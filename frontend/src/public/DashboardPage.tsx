@@ -8,6 +8,7 @@ import {
   type ApplicationRowPublic,
   type ProfileRow,
   type QuotaStatus,
+  type ReferralBonusRow,
 } from "./contract";
 import {
   getMyProfile,
@@ -15,7 +16,14 @@ import {
   listMyApplications,
   receiptUrl,
 } from "./data";
+import {
+  classifyEngine,
+  getEngineStatus,
+  SYNC_INTERVAL_MS,
+  type EngineIndicator,
+} from "./engineStatus";
 import { InvitePanel } from "./InvitePanel";
+import { listMyReferralBonuses } from "./referral";
 import { usePageTitle } from "./usePageTitle";
 
 /**
@@ -47,6 +55,9 @@ export function DashboardPage(): JSX.Element {
   const [profile, setProfile] = useState<ProfileRow | null | "unknown">(
     "unknown",
   );
+  const [engine, setEngine] = useState<EngineIndicator | null>(null);
+  const [bonuses, setBonuses] = useState<ReferralBonusRow[] | null>(null);
+  const [quotaLoaded, setQuotaLoaded] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -57,10 +68,27 @@ export function DashboardPage(): JSX.Element {
       getMyQuota(),
       listMyApplications(),
       getMyProfile(),
-    ]).then(([q, a, p]) => {
-      if (q.status === "fulfilled") setQuota(q.value);
+      getEngineStatus(),
+      listMyReferralBonuses(),
+    ]).then(([q, a, p, e, b]) => {
+      if (q.status === "fulfilled") {
+        setQuota(q.value);
+        setQuotaLoaded(true);
+      }
       if (a.status === "fulfilled") setApps(a.value);
       if (p.status === "fulfilled") setProfile(p.value);
+      // The ledger only decorates the bonus copy; unreadable = "friends".
+      setBonuses(b.status === "fulfilled" ? b.value : null);
+      // The heartbeat read failing is shown on the indicator itself, not
+      // as a page banner: it is a status line, not user data.
+      setEngine(
+        e.status === "fulfilled"
+          ? classifyEngine(e.value)
+          : {
+              state: "unknown",
+              reason: e.reason instanceof Error ? e.reason.message : String(e.reason),
+            },
+      );
       // The profile is advice-only; its failure never blocks the page and
       // is not worth a banner of its own.
       const reasons = [q, a]
@@ -80,7 +108,11 @@ export function DashboardPage(): JSX.Element {
   const lowQuota = quota !== null && !exhausted && quota.remaining <= LOW_QUOTA;
   const onboardingDone =
     profile !== "unknown" && profile !== null && profile.onboarding_completed_at !== null;
-  const lastEngineTouch = latestIso(apps?.map((a) => a.engine_updated_at) ?? []);
+  // Membership = an app_users row, which is exactly when the quota view
+  // has a row. Unknown until the read succeeds (mint stays enabled and
+  // the server decides).
+  const member: boolean | null = quota !== null ? true : quotaLoaded ? false : null;
+  const bonus = quota?.bonus_completed_applications ?? 0;
 
   return (
     <>
@@ -150,6 +182,17 @@ export function DashboardPage(): JSX.Element {
                 : error
                   ? "could not load"
                   : "unknown until an invite is applied"}
+            {quota && bonus > 0 ? (
+              <span className="quota-bonus">
+                <Icon name="sparkle" size={11} /> +{bonus} from{" "}
+                {bonuses === null
+                  ? "friends"
+                  : bonuses.length === 1
+                    ? "a friend"
+                    : `${bonuses.length} friends`}{" "}
+                who activated
+              </span>
+            ) : null}
           </div>
         </div>
         <div className="stat">
@@ -163,12 +206,7 @@ export function DashboardPage(): JSX.Element {
 
       <div className="card">
         <h2>Every application, accounted for</h2>
-        {lastEngineTouch ? (
-          <p className="faint flush-top" style={{ marginBottom: "0.75rem" }}>
-            <Icon name="clock" size={12} /> engine last touched your queue{" "}
-            <time dateTime={lastEngineTouch}>{relativeTime(lastEngineTouch)}</time>
-          </p>
-        ) : null}
+        <EngineLine indicator={engine} loading={loading} />
         {loading && apps === null ? (
           <div className="skeleton-lines" role="status" aria-live="polite">
             <Skeleton width="70%" />
@@ -274,8 +312,94 @@ export function DashboardPage(): JSX.Element {
 
       <InvitePanel
         headline={savedBanner ? "You're set — now invite a friend" : "Invite a friend"}
+        member={member}
+        bonuses={bonuses}
       />
     </>
+  );
+}
+
+/**
+ * The engine indicator: a real heartbeat row (engine_status), classified
+ * against the sync cadence — never inferred from application rows.
+ * Four honest states plus "the read failed", each with its evidence.
+ */
+function EngineLine({
+  indicator,
+  loading,
+}: {
+  indicator: EngineIndicator | null;
+  loading: boolean;
+}): JSX.Element {
+  const minutes = Math.round(SYNC_INTERVAL_MS / 60000);
+  let tone: "neutral" | "ok" | "warn" | "danger" = "neutral";
+  let body: JSX.Element;
+  if (indicator === null) {
+    body = <>{loading ? "checking whether your engine is running…" : "engine status unknown"}</>;
+  } else {
+    switch (indicator.state) {
+      case "not-connected":
+        body = (
+          <>
+            engine not connected — no heartbeat has been recorded for your
+            account yet. Applications land here once an engine picks up your
+            profile.
+          </>
+        );
+        break;
+      case "running":
+        tone = "ok";
+        body = (
+          <>
+            engine running · last sync{" "}
+            <time dateTime={indicator.row.last_seen_at}>
+              {relativeTime(indicator.row.last_seen_at)}
+            </time>
+            {indicator.row.engine_version ? (
+              <>
+                {" "}
+                · <span className="mono">{indicator.row.engine_version}</span>
+              </>
+            ) : null}
+          </>
+        );
+        break;
+      case "running-push-failed":
+        tone = "warn";
+        body = (
+          <>
+            engine running, last push failed{" "}
+            <time dateTime={indicator.row.last_seen_at}>
+              {relativeTime(indicator.row.last_seen_at)}
+            </time>
+            : <span className="mono">{indicator.row.last_error}</span>. Rows
+            here may lag until the next sync succeeds.
+          </>
+        );
+        break;
+      case "offline":
+        tone = "danger";
+        body = (
+          <>
+            engine offline since{" "}
+            <time dateTime={indicator.row.last_seen_at}>
+              {relativeTime(indicator.row.last_seen_at)}
+            </time>{" "}
+            (no heartbeat in {2 * minutes} min). Nothing is being applied for
+            you right now; everything below stays with its receipt.
+          </>
+        );
+        break;
+      case "unknown":
+        body = <>engine status could not be read ({indicator.reason})</>;
+        break;
+    }
+  }
+  return (
+    <p className="faint flush-top engine-line" role="status">
+      <span className={`engine-dot ${tone}`} aria-hidden />
+      <span>{body}</span>
+    </p>
   );
 }
 
@@ -292,19 +416,7 @@ function hours(count: number, minutesPer: number): string {
   return h >= 10 ? String(Math.round(h)) : (Math.round(h * 10) / 10).toString();
 }
 
-function latestIso(values: Array<string | null>): string | null {
-  let best: string | null = null;
-  for (const v of values) {
-    if (v && (best === null || v > best)) best = v;
-  }
-  return best;
-}
-
-/**
- * "3 hours ago" from an ISO timestamp — the honest engine-activity
- * indicator: derived from rows the engine wrote, never a heartbeat the
- * frontend invents.
- */
+/** "3 hours ago" from an ISO timestamp the server wrote. */
 function relativeTime(iso: string, now = Date.now()): string {
   const ms = now - new Date(iso).getTime();
   if (!Number.isFinite(ms)) return iso;
