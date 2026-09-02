@@ -10,6 +10,7 @@ import {
   EXPECTED_RPCS,
   EXPECTED_TABLES,
   EXPECTED_VIEWS,
+  RPC_PROBE_ARGS,
   listMigrationFiles,
   MANAGEMENT_API_BASE,
   managementQuery,
@@ -123,6 +124,12 @@ describe("cloud schema tooling (UNIT_CONFIRMED)", () => {
     }
     const rpc = calls.find((c) => c.method === "POST");
     expect(rpc?.body).toContain("JRA-PROBE-ONLY");
+    // Every RPC is probed with its declared read-only arguments (zero-arg
+    // functions get {} — a stray invite_code would answer PGRST202).
+    for (const fn of EXPECTED_RPCS) {
+      const call = calls.find((c) => c.method === "POST" && c.url.endsWith(`/rpc/${fn}`));
+      expect(JSON.parse(call?.body ?? "null")).toEqual(RPC_PROBE_ARGS[fn]);
+    }
     expect(calls.every((c) => c.auth === "Bearer sb_secret_test")).toBe(true);
   });
 

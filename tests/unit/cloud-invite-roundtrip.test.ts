@@ -18,19 +18,35 @@ type Invite = {
   note: string | null;
   redeemed_by: string | null;
   redeemed_at: string | null;
+  issued_by: string | null;
+};
+
+/** Mirrors referral_settings() in 20260902000300_referral_invites.sql. */
+const SETTINGS = {
+  max_active_referral_codes: 3,
+  referral_code_quota: 5,
+  activation_completed_applications: 5,
+  inviter_bonus_per_activation: 10,
+  inviter_bonus_cap: 100,
 };
 
 /**
  * In-memory stand-in for the slice of PostgREST + GoTrue the round trip
- * touches, with the RLS/RPC semantics of supabase/migrations encoded.
+ * touches, with the RLS/RPC/trigger semantics of supabase/migrations
+ * encoded (invites, redeem_invite, referral mint/view, bonus trigger,
+ * engine_status). It proves the RUNNER's read-backs, not the SQL — the
+ * SQL is proven live by `invites:roundtrip` once applied.
  */
 function fakeProject(opts: { schema: boolean } = { schema: true }) {
   const invites: Invite[] = [];
   const users = new Map<string, string>(); // id -> email
-  const appUsers = new Map<string, string>(); // user id -> invite code
+  const appUsers = new Map<string, { code: string; bonus: number }>();
   const mirror: Array<{ user_id: string; state: string; engine_application_id: string }> = [];
+  const bonuses: Array<{ invitee: string; inviter: string; bonus: number }> = [];
+  const engineStatus = new Map<string, Record<string, unknown>>();
   const calls: string[] = [];
   let nextUser = 1;
+  let nextCode = 0;
 
   const reply = (status: number, body: unknown) => ({
     status,
@@ -38,6 +54,24 @@ function fakeProject(opts: { schema: boolean } = { schema: true }) {
   });
   const missing = () =>
     reply(404, { code: "PGRST205", message: "Could not find the table in the schema cache" });
+  // Same alphabet as generate_invite_code() (no 0/O/1/I/L/U).
+  const newCode = () => `JRA-${String(2222 + nextCode++).replace(/[01]/g, "7")}-ABCD`;
+
+  // grant_referral_bonus_if_activated(p_invitee)
+  const grantBonus = (invitee: string): void => {
+    if (bonuses.some((b) => b.invitee === invitee)) return;
+    const completed = mirror.filter((m) => m.user_id === invitee && m.state === "COMPLETED").length;
+    if (completed < SETTINGS.activation_completed_applications) return;
+    const au = appUsers.get(invitee);
+    const inv = au ? invites.find((i) => i.code === au.code) : undefined;
+    const inviter = inv?.issued_by ?? null;
+    if (!inviter || inviter === invitee) return;
+    const current = bonuses.filter((b) => b.inviter === inviter).reduce((s, b) => s + b.bonus, 0);
+    const bonus = Math.min(SETTINGS.inviter_bonus_per_activation, SETTINGS.inviter_bonus_cap - current);
+    if (bonus <= 0) return;
+    bonuses.push({ invitee, inviter, bonus });
+    appUsers.get(inviter)!.bonus += bonus;
+  };
 
   const fetch: FetchLike = async (input, init) => {
     const u = new globalThis.URL(input);
@@ -66,18 +100,47 @@ function fakeProject(opts: { schema: boolean } = { schema: true }) {
     const del = u.pathname.match(/^\/auth\/v1\/admin\/users\/(.+)$/);
     if (del && method === "DELETE") {
       const id = del[1]!;
-      if (invites.some((i) => i.redeemed_by === id)) {
-        return reply(500, "FK violation: invites.redeemed_by references this user");
-      }
+      // 20260902000600: invites.redeemed_by cascades; issued_by sets null.
+      for (let i = invites.length - 1; i >= 0; i -= 1) if (invites[i]!.redeemed_by === id) invites.splice(i, 1);
+      for (const i of invites) if (i.issued_by === id) i.issued_by = null;
       users.delete(id);
       appUsers.delete(id);
+      engineStatus.delete(id);
       for (let i = mirror.length - 1; i >= 0; i -= 1) if (mirror[i]!.user_id === id) mirror.splice(i, 1);
+      for (let i = bonuses.length - 1; i >= 0; i -= 1) {
+        if (bonuses[i]!.invitee === id || bonuses[i]!.inviter === id) bonuses.splice(i, 1);
+      }
       return reply(200, {});
     }
 
     if (!opts.schema && u.pathname.startsWith("/rest/v1/")) return missing();
 
-    // --- rpc ---
+    // --- rpcs ---
+    if (u.pathname === "/rest/v1/rpc/referral_settings") return reply(200, SETTINGS);
+    if (u.pathname === "/rest/v1/rpc/mint_referral_invite") {
+      if (!asUser) return reply(400, { message: "not authenticated" });
+      if (!appUsers.has(asUser)) return reply(400, { message: "not a member yet" });
+      const active = invites.filter((i) => i.issued_by === asUser && i.redeemed_by === null).length;
+      if (active >= SETTINGS.max_active_referral_codes) return reply(400, { message: "referral cap reached" });
+      const inv: Invite = {
+        code: newCode(),
+        issuer: asUser,
+        max_completed_applications: SETTINGS.referral_code_quota,
+        note: "referral",
+        redeemed_by: null,
+        redeemed_at: null,
+        issued_by: asUser,
+      };
+      invites.push(inv);
+      return reply(200, {
+        code: inv.code,
+        max_completed_applications: inv.max_completed_applications,
+        redeemed_at: null,
+        created_at: "2026-09-02T00:00:00Z",
+        active_unredeemed: active + 1,
+        max_active_referral_codes: SETTINGS.max_active_referral_codes,
+      });
+    }
     if (u.pathname === "/rest/v1/rpc/redeem_invite") {
       if (!asUser) return reply(400, { message: "not authenticated" });
       const inv = invites.find((i) => i.code === String(body.invite_code).toUpperCase());
@@ -86,9 +149,11 @@ function fakeProject(opts: { schema: boolean } = { schema: true }) {
         return reply(400, { message: "invite already redeemed" });
       }
       if (!inv.redeemed_by) {
+        if (inv.issued_by === asUser) return reply(400, { message: "cannot redeem your own invite" });
+        if (appUsers.has(asUser)) return reply(400, { message: "already a member" });
         inv.redeemed_by = asUser;
         inv.redeemed_at = "2026-09-02T00:00:00Z";
-        appUsers.set(asUser, inv.code);
+        appUsers.set(asUser, { code: inv.code, bonus: 0 });
       }
       return reply(200, { invite_id: "x", max_completed_applications: inv.max_completed_applications });
     }
@@ -100,32 +165,49 @@ function fakeProject(opts: { schema: boolean } = { schema: true }) {
         const inserted: unknown[] = [];
         for (const row of body as Invite[]) {
           if (invites.some((i) => i.code === row.code)) continue;
-          const inv = { ...row, redeemed_by: null, redeemed_at: null };
+          const inv = { ...row, redeemed_by: null, redeemed_at: null, issued_by: null };
           invites.push(inv);
           inserted.push(inv);
         }
         return reply(201, inserted);
       }
       const codeEq = u.searchParams.get("code") ?? "";
+      const issuedEq = u.searchParams.get("issued_by") ?? "";
+      const redeemedEq = u.searchParams.get("redeemed_by") ?? "";
       let rows = invites;
       if (codeEq.startsWith("eq.")) rows = rows.filter((i) => i.code === codeEq.slice(3));
       if (codeEq.startsWith("in.(")) {
         const set = new Set(codeEq.slice(4, -1).split(",").map((c) => c.replace(/"/g, "")));
         rows = rows.filter((i) => set.has(i.code));
       }
-      if (asUser) rows = rows.filter((i) => i.redeemed_by === asUser); // RLS "own redeemed invite"
+      if (issuedEq.startsWith("eq.")) rows = rows.filter((i) => i.issued_by === issuedEq.slice(3));
+      if (redeemedEq === "is.null") rows = rows.filter((i) => i.redeemed_by === null);
+      // RLS: "own redeemed invite" OR "own issued invites"
+      if (asUser) rows = rows.filter((i) => i.redeemed_by === asUser || i.issued_by === asUser);
       if (method === "DELETE") {
         if (!isService) return reply(401, "permission denied");
+        // app_users.invite_id -> invites is NO ACTION: a member's invite cannot go first.
+        const referenced = rows.find((r) => [...appUsers.values()].some((au) => au.code === r.code));
+        if (referenced) return reply(409, { code: "23503", message: `app_users.invite_id references ${referenced.code}` });
         for (const r of rows) invites.splice(invites.indexOf(r), 1);
         return reply(204, "");
       }
       return reply(200, rows);
     }
 
-    // --- mirror ---
+    // --- my_referral_invites (security_invoker) ---
+    if (u.pathname === "/rest/v1/my_referral_invites") {
+      const rows = invites
+        .filter((i) => asUser !== null && i.issued_by === asUser)
+        .map((i) => ({ code: i.code, max_completed_applications: i.max_completed_applications, redeemed_at: i.redeemed_at }));
+      return reply(200, rows);
+    }
+
+    // --- mirror (+ bonus trigger) ---
     if (u.pathname === "/rest/v1/application_status_mirror" && method === "POST") {
       if (!isService) return reply(401, "permission denied");
       mirror.push(body);
+      if (body.state === "COMPLETED") grantBonus(body.user_id);
       return reply(201, "");
     }
 
@@ -133,21 +215,42 @@ function fakeProject(opts: { schema: boolean } = { schema: true }) {
     if (u.pathname === "/rest/v1/user_quota_status") {
       const rows = [...appUsers.entries()]
         .filter(([uid]) => isService || uid === asUser)
-        .map(([uid, code]) => {
-          const inv = invites.find((i) => i.code === code)!;
+        .map(([uid, au]) => {
+          const inv = invites.find((i) => i.code === au.code)!;
           const completed = mirror.filter((m) => m.user_id === uid && m.state === "COMPLETED").length;
+          const max = inv.max_completed_applications + au.bonus;
           return {
-            max_completed_applications: inv.max_completed_applications,
+            max_completed_applications: max,
             completed_applications: completed,
-            remaining: Math.max(inv.max_completed_applications - completed, 0),
+            remaining: Math.max(max - completed, 0),
+            base_max_completed_applications: inv.max_completed_applications,
+            bonus_completed_applications: au.bonus,
           };
         });
+      return reply(200, rows);
+    }
+
+    // --- referral_bonuses (RLS: inviter's own) ---
+    if (u.pathname === "/rest/v1/referral_bonuses") {
+      return reply(200, bonuses.filter((b) => isService || b.inviter === asUser).map((b) => ({ bonus: b.bonus })));
+    }
+
+    // --- engine_status ---
+    if (u.pathname === "/rest/v1/engine_status") {
+      if (method === "POST") {
+        if (!isService) return reply(401, "permission denied");
+        engineStatus.set(body.user_id, body);
+        return reply(201, "");
+      }
+      const rows = [...engineStatus.entries()]
+        .filter(([uid]) => isService || uid === asUser)
+        .map(([, r]) => ({ last_seen_at: r["last_seen_at"], engine_version: r["engine_version"] }));
       return reply(200, rows);
     }
     return reply(404, { code: "PGRST205", message: `unknown ${u.pathname}` });
   };
 
-  return { fetch, invites, users, mirror, calls };
+  return { fetch, invites, users, mirror, bonuses, engineStatus, calls };
 }
 
 const target = { url: URL, serviceRoleKey: SERVICE };
@@ -171,7 +274,7 @@ describe("invite round trip (UNIT_CONFIRMED against an in-memory project)", () =
     ).rejects.toThrow(/public\.invites does not exist.*cloud:schema/);
   });
 
-  it("proves redeem -> decrement -> exhausted -> refused, then cleans up", async () => {
+  it("proves redeem -> decrement -> exhausted -> refused -> referral -> bonus -> cap -> heartbeat, then cleans up", async () => {
     const p = fakeProject();
     const [invite] = mintInvites({ count: 1, quota: 2, baseUrl: "https://x.example" });
     const r = await runInviteRoundTrip({ target, invite: invite!, fetch: p.fetch, now: () => 1 });
@@ -190,20 +293,39 @@ describe("invite round trip (UNIT_CONFIRMED against an in-memory project)", () =
       "redeem_again_as_a_idempotent",
       "redeem_as_b_refused",
       "rls_hides_other_users_rows",
+      "referral_settings",
+      "referral_mint_as_a",
+      "referral_view_as_a",
+      "referral_view_hidden_from_b",
+      "referral_self_redeem_refused",
+      "referral_redeem_as_b",
+      "referral_view_shows_redeemed",
+      "referral_bonus_granted_to_inviter",
+      "referral_bonus_idempotent",
+      "referral_bonus_row_visible_to_inviter",
+      "referral_cap_enforced",
+      "engine_status_own_row_only",
     ]);
     expect(r.steps.find((s) => s.step === "quota_after_completed_2")?.detail).toContain('"remaining":0');
     expect(r.steps.find((s) => s.step === "redeem_as_b_refused")?.detail).toContain("invite already redeemed");
-    // Cleanup: invite deleted first (FK), then both users; nothing left behind.
+    expect(r.steps.find((s) => s.step === "referral_bonus_granted_to_inviter")?.detail).toBe("A max 2 -> 12 (expected +10)");
+    expect(r.steps.find((s) => s.step === "referral_cap_enforced")?.detail).toContain("referral cap reached");
+    // Cleanup in FK order: unredeemed issued codes, then both users
+    // (cascade takes the redeemed invites), then the loaded code (no-op).
     expect(r.cleanup.map((c) => [c.step, c.ok])).toEqual([
+      ["delete_issued_invites", true],
+      ["delete_issued_invites", true],
+      ["delete_user", true],
+      ["delete_user", true],
       ["delete_invite", true],
-      ["delete_user", true],
-      ["delete_user", true],
     ]);
     expect(p.invites).toEqual([]);
     expect(p.users.size).toBe(0);
     expect(p.mirror).toEqual([]);
+    expect(p.bonuses).toEqual([]);
+    expect(p.engineStatus.size).toBe(0);
     // Redeem + quota reads went through the USER's JWT, not the service role.
-    expect(p.calls.filter((c) => c.includes("rpc/redeem_invite")).length).toBe(3);
+    expect(p.calls.filter((c) => c.includes("rpc/redeem_invite")).length).toBe(5);
   });
 
   it("demotes to UNVERIFIED and still cleans up when a read-back fails", async () => {
@@ -223,6 +345,34 @@ describe("invite round trip (UNIT_CONFIRMED against an in-memory project)", () =
     expect(r.cleanup.every((c) => c.ok)).toBe(true);
     expect(p.invites).toEqual([]);
     expect(p.users.size).toBe(0);
+  });
+
+  it("models the FK cycle the cascade migration resolves: a member's invite cannot be deleted first", async () => {
+    const p = fakeProject();
+    const [invite] = mintInvites({ count: 1, quota: 2, baseUrl: "https://x.example" });
+    await loadInvitesToSupabase({ target, invites: [invite!], fetch: p.fetch });
+    const created = await p.fetch(`${URL}/auth/v1/admin/users`, {
+      method: "POST",
+      headers: { apikey: SERVICE, Authorization: `Bearer ${SERVICE}` },
+      body: JSON.stringify({ email: "m@example.com" }),
+    });
+    const { id } = JSON.parse(await created.text()) as { id: string };
+    await p.fetch(`${URL}/rest/v1/rpc/redeem_invite`, {
+      method: "POST",
+      headers: { apikey: SERVICE, Authorization: `Bearer jwt-${id}` },
+      body: JSON.stringify({ invite_code: invite!.code }),
+    });
+    const first = await p.fetch(`${URL}/rest/v1/invites?code=eq.${invite!.code}`, {
+      method: "DELETE",
+      headers: { apikey: SERVICE, Authorization: `Bearer ${SERVICE}` },
+    });
+    expect(first.status).toBe(409); // app_users.invite_id is NO ACTION
+    const user = await p.fetch(`${URL}/auth/v1/admin/users/${id}`, {
+      method: "DELETE",
+      headers: { apikey: SERVICE, Authorization: `Bearer ${SERVICE}` },
+    });
+    expect(user.status).toBe(200); // redeemed_by cascades (20260902000600)
+    expect(p.invites).toEqual([]);
   });
 
   it("refuses without the flag, and by name without the keys (fail-closed)", () => {

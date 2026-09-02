@@ -396,17 +396,141 @@ export async function runInviteRoundTrip(input: {
     const bQuota = await readQuota(client, b.accessToken);
     const rlsOk = Array.isArray(bInv.json) && bInv.json.length === 0 && bQuota === null;
     record("rls_hides_other_users_rows", rlsOk, `B sees invites=${Array.isArray(bInv.json) ? bInv.json.length : "?"} quota_rows=${bQuota === null ? 0 : 1}`);
+    if (!rlsOk) throw new Error("RLS leaked another user's rows");
+
+    // ── Referral loop (migrations 20260902000300/400/500) ────────────
+    // 10. A (a member) mints a referral code; B (not a member) sees nothing.
+    const settingsRes = await client.call("/rest/v1/rpc/referral_settings", { method: "POST", body: {} }, "referral_settings");
+    const settings = settingsRes.json as Json;
+    const refQuota = Number(settings["referral_code_quota"]);
+    const activation = Number(settings["activation_completed_applications"]);
+    const bonusPer = Number(settings["inviter_bonus_per_activation"]);
+    const refCap = Number(settings["max_active_referral_codes"]);
+    record("referral_settings", [refQuota, activation, bonusPer, refCap].every(Number.isFinite), JSON.stringify(settings));
+
+    const minted = await client.call(
+      "/rest/v1/rpc/mint_referral_invite",
+      { method: "POST", bearer: a.accessToken, body: {} },
+      "mint_referral_invite as A",
+    );
+    const mintedJson = minted.json as Json;
+    const refCode = String(mintedJson["code"] ?? "");
+    const mintOk = /^JRA-[2-9A-HJKMNP-TV-Z]{4}-[2-9A-HJKMNP-TV-Z]{4}$/.test(refCode) &&
+      Number(mintedJson["max_completed_applications"]) === refQuota;
+    record("referral_mint_as_a", mintOk, `code shape ok=${/^JRA-/.test(refCode)} quota=${mintedJson["max_completed_applications"]}`);
+    if (!mintOk) throw new Error("mint_referral_invite returned an unexpected shape");
+
+    const viewA = await client.call(
+      "/rest/v1/my_referral_invites?select=code,max_completed_applications,redeemed_at",
+      { bearer: a.accessToken },
+      "my_referral_invites as A",
+    );
+    const viewARows = Array.isArray(viewA.json) ? (viewA.json as Json[]) : [];
+    const viewAOk = viewARows.length === 1 && viewARows[0]?.["code"] === refCode && viewARows[0]?.["redeemed_at"] === null;
+    record("referral_view_as_a", viewAOk, `rows=${viewARows.length}`);
+    const viewB = await client.call("/rest/v1/my_referral_invites?select=code", { bearer: b.accessToken }, "my_referral_invites as B");
+    record("referral_view_hidden_from_b", Array.isArray(viewB.json) && viewB.json.length === 0, `rows=${Array.isArray(viewB.json) ? viewB.json.length : "?"}`);
+
+    // 11. Self-redemption refused; B redeems A's code.
+    let selfRefused = false;
+    let selfDetail = "";
+    try {
+      await client.call("/rest/v1/rpc/redeem_invite", { method: "POST", bearer: a.accessToken, body: { invite_code: refCode } }, "self-redeem as A");
+      selfDetail = "A redeemed their own code";
+    } catch (err) {
+      selfRefused = err instanceof RestError && /cannot redeem your own invite/.test(err.body);
+      selfDetail = err instanceof RestError ? `HTTP ${err.status} ${truncate(err.body)}` : String(err);
+    }
+    record("referral_self_redeem_refused", selfRefused, selfDetail);
+
+    const bRedeem = await client.call(
+      "/rest/v1/rpc/redeem_invite",
+      { method: "POST", bearer: b.accessToken, body: { invite_code: refCode } },
+      "redeem referral as B",
+    );
+    const bRedeemOk = Number((bRedeem.json as Json)["max_completed_applications"]) === refQuota;
+    record("referral_redeem_as_b", bRedeemOk, `max_completed_applications=${(bRedeem.json as Json)["max_completed_applications"]}`);
+    if (!bRedeemOk) throw new Error("B could not redeem A's referral code");
+
+    const viewA2 = await client.call("/rest/v1/my_referral_invites?select=redeemed_at", { bearer: a.accessToken }, "my_referral_invites as A (after)");
+    const viewA2Rows = Array.isArray(viewA2.json) ? (viewA2.json as Json[]) : [];
+    record("referral_view_shows_redeemed", viewA2Rows.length === 1 && typeof viewA2Rows[0]?.["redeemed_at"] === "string", JSON.stringify(viewA2Rows));
+
+    // 12. Bonus: B activates (activation COMPLETED rows) => A's quota +bonusPer, once.
+    const qaBefore = await readQuota(client, a.accessToken);
+    for (let n = 1; n <= activation; n += 1) {
+      await client.call(
+        "/rest/v1/application_status_mirror",
+        {
+          method: "POST",
+          body: { user_id: b.userId, engine_application_id: `roundtrip-${now}-b-${n}`, company: "Round Trip Co", role: `Invitee ${n}`, state: "COMPLETED" },
+          prefer: "return=minimal",
+        },
+        `mirror COMPLETED for B #${n}`,
+      );
+    }
+    const qaAfter = await readQuota(client, a.accessToken);
+    const bonusOk = qaBefore !== null && qaAfter !== null && qaAfter.max === qaBefore.max + bonusPer;
+    record("referral_bonus_granted_to_inviter", bonusOk, `A max ${qaBefore?.max} -> ${qaAfter?.max} (expected +${bonusPer})`);
+    if (!bonusOk) throw new Error("inviter bonus not granted");
+
+    await client.call(
+      "/rest/v1/application_status_mirror",
+      {
+        method: "POST",
+        body: { user_id: b.userId, engine_application_id: `roundtrip-${now}-b-extra`, company: "Round Trip Co", role: "Invitee extra", state: "COMPLETED" },
+        prefer: "return=minimal",
+      },
+      "mirror COMPLETED for B extra",
+    );
+    const qaAgain = await readQuota(client, a.accessToken);
+    record("referral_bonus_idempotent", qaAgain !== null && qaAfter !== null && qaAgain.max === qaAfter.max, `A max stays ${qaAgain?.max}`);
+    const bonuses = await client.call("/rest/v1/referral_bonuses?select=bonus", { bearer: a.accessToken }, "referral_bonuses as A");
+    record("referral_bonus_row_visible_to_inviter", Array.isArray(bonuses.json) && bonuses.json.length === 1, JSON.stringify(bonuses.json));
+
+    // 13. Cap: A may hold at most refCap unredeemed codes (the first one is redeemed now).
+    for (let n = 1; n <= refCap; n += 1) {
+      await client.call("/rest/v1/rpc/mint_referral_invite", { method: "POST", bearer: a.accessToken, body: {} }, `mint #${n}`);
+    }
+    let capped = false;
+    let capDetail = "";
+    try {
+      await client.call("/rest/v1/rpc/mint_referral_invite", { method: "POST", bearer: a.accessToken, body: {} }, "mint past cap");
+      capDetail = "mint succeeded past the cap";
+    } catch (err) {
+      capped = err instanceof RestError && /referral cap reached/.test(err.body);
+      capDetail = err instanceof RestError ? `HTTP ${err.status} ${truncate(err.body)}` : String(err);
+    }
+    record("referral_cap_enforced", capped, capDetail);
+
+    // 14. engine_status heartbeat is own-row readable only (the sync worker writes it).
+    await client.call(
+      "/rest/v1/engine_status?on_conflict=user_id",
+      { method: "POST", body: { user_id: a.userId, last_seen_at: new Date(now).toISOString(), engine_version: "roundtrip" }, prefer: "resolution=merge-duplicates,return=minimal" },
+      "engine_status upsert",
+    );
+    const hbA = await client.call("/rest/v1/engine_status?select=last_seen_at,engine_version", { bearer: a.accessToken }, "engine_status as A");
+    const hbB = await client.call("/rest/v1/engine_status?select=last_seen_at", { bearer: b.accessToken }, "engine_status as B");
+    const hbOk = Array.isArray(hbA.json) && hbA.json.length === 1 && Array.isArray(hbB.json) && hbB.json.length === 0;
+    record("engine_status_own_row_only", hbOk, `A rows=${Array.isArray(hbA.json) ? hbA.json.length : "?"} B rows=${Array.isArray(hbB.json) ? hbB.json.length : "?"}`);
   } catch (err) {
     record("aborted", false, err instanceof Error ? err.message : String(err));
   } finally {
-    // Cleanup in FK order: mirror rows + app_users cascade from the user,
-    // but invites.redeemed_by has no cascade, so the invite goes first.
-    if (loaded) {
+    // Cleanup in FK order (20260902000600 makes invites.redeemed_by cascade):
+    //  1. UNREDEEMED codes the throwaway users issued — nothing references
+    //     them, and deleting the issuer would only SET NULL issued_by and
+    //     orphan them.
+    //  2. the users — cascades app_users, mirror rows, engine_status,
+    //     referral_bonuses and every invite they redeemed (the loaded code
+    //     and A's referral code redeemed by B).
+    //  3. the loaded invite — a no-op after (2) unless the run aborted
+    //     before A redeemed it.
+    for (const id of createdUserIds) {
       try {
-        await client.call(`/rest/v1/invites?code=eq.${code}`, { method: "DELETE" }, "delete invite");
-        cleanup.push({ step: "delete_invite", ok: true, detail: code });
+        await client.call(`/rest/v1/invites?issued_by=eq.${id}&redeemed_by=is.null`, { method: "DELETE" }, "delete issued invites");
+        cleanup.push({ step: "delete_issued_invites", ok: true, detail: id });
       } catch (err) {
-        cleanup.push({ step: "delete_invite", ok: false, detail: String(err) });
+        cleanup.push({ step: "delete_issued_invites", ok: false, detail: `${id}: ${String(err)}` });
       }
     }
     for (const id of createdUserIds) {
@@ -415,6 +539,14 @@ export async function runInviteRoundTrip(input: {
         cleanup.push({ step: "delete_user", ok: true, detail: id });
       } catch (err) {
         cleanup.push({ step: "delete_user", ok: false, detail: `${id}: ${String(err)}` });
+      }
+    }
+    if (loaded) {
+      try {
+        await client.call(`/rest/v1/invites?code=eq.${code}`, { method: "DELETE" }, "delete invite");
+        cleanup.push({ step: "delete_invite", ok: true, detail: code });
+      } catch (err) {
+        cleanup.push({ step: "delete_invite", ok: false, detail: String(err) });
       }
     }
   }

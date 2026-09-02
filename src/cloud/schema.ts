@@ -25,7 +25,7 @@ import path from "node:path";
 
 export const MANAGEMENT_API_BASE = "https://api.supabase.com";
 
-/** Every object the five migrations create — the read-back checklist. */
+/** Every object the migrations create — the read-back checklist. */
 export const EXPECTED_TABLES = [
   "invites",
   "app_users",
@@ -33,9 +33,33 @@ export const EXPECTED_TABLES = [
   "application_status_mirror",
   "user_profiles",
   "application_receipts",
+  "referral_bonuses",
+  "engine_status",
 ] as const;
-export const EXPECTED_VIEWS = ["user_quota_status", "my_applications"] as const;
-export const EXPECTED_RPCS = ["redeem_invite"] as const;
+export const EXPECTED_VIEWS = [
+  "user_quota_status",
+  "my_applications",
+  "my_referral_invites",
+] as const;
+export const EXPECTED_RPCS = [
+  "redeem_invite",
+  "referral_settings",
+  "mint_referral_invite",
+  "grant_referral_bonus_if_activated",
+] as const;
+/**
+ * Read-only probe arguments per RPC. Called with the service role
+ * (auth.uid() is null) so the mutating ones refuse before touching a row:
+ * redeem_invite/mint_referral_invite raise 'not authenticated' (400 ⇒
+ * present); grant_referral_bonus_if_activated for a uuid with no rows
+ * answers {granted:false}; referral_settings is immutable.
+ */
+export const RPC_PROBE_ARGS: Record<(typeof EXPECTED_RPCS)[number], Record<string, string>> = {
+  redeem_invite: { invite_code: "JRA-PROBE-ONLY" },
+  referral_settings: {},
+  mint_referral_invite: {},
+  grant_referral_bonus_if_activated: { p_invitee: "00000000-0000-4000-8000-000000000000" },
+};
 export const EXPECTED_BUCKETS = ["resumes", "receipts"] as const;
 
 export type MigrationFile = {
@@ -153,7 +177,7 @@ export async function probeSchema(input: {
       const r = await f(`${base}/rest/v1/rpc/${fn}`, {
         method: "POST",
         headers: { ...headers, "Content-Type": "application/json" },
-        body: JSON.stringify({ invite_code: "JRA-PROBE-ONLY" }),
+        body: JSON.stringify(RPC_PROBE_ARGS[fn]),
       });
       const body = await r.text();
       const presence = classifyRestProbe(r.status, body);
