@@ -28,12 +28,25 @@ resumes, and ATS credentials never leave this machine.
      **in filename order** → Run.
    - CLI: `supabase link --project-ref <ref>` then `supabase db push`.
 4. Auth settings: Authentication → Providers → Email → enable **Email
-   OTP / magic link** (no password provider needed for v0).
-5. Collect keys (Project Settings → API):
+   OTP / magic link** (no password provider needed for v0). Then
+   Authentication → **URL Configuration**: set **Site URL** to the
+   production origin (`https://<domain>`) and add every origin the magic
+   links may return to under **Redirect URLs** — at minimum
+   `https://<domain>/**`, `http://localhost:5173/**` (Vite dev), and the
+   Vercel preview origin(s) once known. A magic link to an unlisted
+   origin silently falls back to the Site URL.
+5. Collect keys (Project Settings → **API Keys**). New projects show the
+   NEW key style; both styles are drop-ins for supabase-js v2:
    - **Project URL** (`https://<ref>.supabase.co`) → frontend AND engine `.env`.
-   - **anon key** → frontend only. Safe in the bundle; RLS is the guard.
-   - **service_role key** → engine `.env` ONLY. Never in the frontend,
-     never in this repo, never in Vercel env.
+   - **Publishable key** (`sb_publishable_...`; legacy name: anon key) →
+     frontend only (`VITE_SUPABASE_ANON_KEY`). Safe in the bundle; RLS is
+     the guard.
+   - **Secret key** (`sb_secret_...`; legacy name: service_role — under
+     "Secret keys", create/reveal one) → engine `.env` ONLY, pasted into
+     `SUPABASE_SERVICE_ROLE_KEY` as-is. Bypasses RLS. Never in the
+     frontend, never in this repo, never in Vercel env. Caveat: secret
+     keys are not JWTs — fine for supabase-js, but they cannot be used
+     anywhere expecting a decodable JWT.
 
 ### A2. Domain + Vercel (~20 min)
 
