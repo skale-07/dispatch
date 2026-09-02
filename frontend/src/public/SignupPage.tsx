@@ -8,6 +8,7 @@ import {
 } from "../lib/appConfig";
 import { supabase } from "../lib/supabaseClient";
 import { stashInviteCode } from "./data";
+import { usePageTitle } from "./usePageTitle";
 
 /**
  * One page for sign-up and sign-in — both are the same magic-link flow,
@@ -36,6 +37,16 @@ export function SignupPage(): JSX.Element {
   const [sending, setSending] = useState(false);
   const [sentTo, setSentTo] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const arrivedWithInvite = invite.trim().length > 0 && !sentTo;
+  usePageTitle(
+    session
+      ? "Signed in"
+      : sentTo
+        ? "Check your email"
+        : arrivedWithInvite
+          ? "Redeem your invite"
+          : "Sign up or sign in",
+  );
 
   // Captured once past the guard so the async submit closure keeps the
   // non-null narrowing.
@@ -44,7 +55,9 @@ export function SignupPage(): JSX.Element {
     return (
       <div className="card">
         <h1 className="hero-title">Sign in</h1>
-        <div className="banner warn">{SUPABASE_UNCONFIGURED_REASON}</div>
+        <div className="banner warn" role="alert">
+          {SUPABASE_UNCONFIGURED_REASON}
+        </div>
         <p className="muted flush-bottom">
           If you run this deployment: set <code>VITE_SUPABASE_URL</code> and{" "}
           <code>VITE_SUPABASE_ANON_KEY</code> at build time. Until then the
@@ -56,17 +69,17 @@ export function SignupPage(): JSX.Element {
 
   if (session) {
     return (
-      <div className="card">
+      <div className="card" style={{ maxWidth: "30rem" }}>
         <h1 className="hero-title">You&apos;re signed in</h1>
         <p className="muted">
           Signed in as <strong>{session.user.email ?? "your account"}</strong>.
         </p>
-        <div className="toolbar" style={{ margin: "0.6rem 0" }}>
-          <Link to="/onboarding" className="btn">
-            finish your profile
-          </Link>
+        <div className="toolbar stack-actions" style={{ margin: "0.6rem 0" }}>
           <Link to="/dashboard" className="btn">
-            open your dashboard
+            <Icon name="arrow-right" size={13} /> open your dashboard
+          </Link>
+          <Link to="/onboarding" className="btn">
+            edit your profile
           </Link>
           <button className="ghost" onClick={() => void signOut()}>
             sign out
@@ -78,24 +91,24 @@ export function SignupPage(): JSX.Element {
 
   if (sentTo) {
     return (
-      <div className="card">
+      <div className="card" style={{ maxWidth: "30rem" }}>
         <h1 className="hero-title">Check your email</h1>
-        <div className="banner ok">
+        <div className="banner ok" role="status" aria-live="polite">
           <Icon name="mail" size={14} /> A sign-in link is on its way to{" "}
           <strong>{sentTo}</strong>.
         </div>
         <p className="muted">
-          Open it on this device and you&apos;ll land in onboarding.
-          Nothing arrives within a couple of minutes? Check spam, then{" "}
-          <button className="ghost" onClick={() => setSentTo(null)}>
+          Open it on this device and you&apos;ll land in onboarding. Nothing
+          within a couple of minutes? Check spam, or{" "}
+          <button className="link-btn" onClick={() => setSentTo(null)}>
             try a different address
           </button>
           .
         </p>
         {invite.trim() ? (
           <p className="faint flush-bottom">
-            Your invite code is saved on this device and will be applied
-            when you&apos;re signed in.
+            Your invite code <code>{invite.trim()}</code> is saved on this
+            device and will be applied when you&apos;re signed in.
           </p>
         ) : null}
       </div>
@@ -129,13 +142,30 @@ export function SignupPage(): JSX.Element {
 
   return (
     <div className="card" style={{ maxWidth: "30rem" }}>
-      <h1 className="hero-title">Sign up or sign in</h1>
+      <h1 className="hero-title">
+        {arrivedWithInvite ? "You're invited" : "Sign up or sign in"}
+      </h1>
       <p className="muted flush-top">
-        No password. Enter your email and we send a one-time sign-in
-        link. Have an invite code? It sets how many applications your
-        account starts with — the number is on the invite itself.
+        {arrivedWithInvite ? (
+          <>
+            Your invite code is filled in below. Add your email and we send
+            a one-time sign-in link — no password, ever. The invite sets how
+            many applications your account starts with; the number is on
+            the invite itself.
+          </>
+        ) : (
+          <>
+            No password. Enter your email and we send a one-time sign-in
+            link. Have an invite code? It sets how many applications your
+            account starts with — the number is on the invite itself.
+          </>
+        )}
       </p>
-      {error ? <div className="banner danger">{error}</div> : null}
+      {error ? (
+        <div className="banner danger" role="alert">
+          {error}
+        </div>
+      ) : null}
       <form onSubmit={(e) => void submit(e)} className="signup-form">
         <label className="field">
           email
@@ -143,21 +173,26 @@ export function SignupPage(): JSX.Element {
             type="email"
             required
             autoComplete="email"
+            inputMode="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="you@school.edu"
           />
         </label>
         <label className="field">
-          invite code <span className="faint">(optional if you already have an account)</span>
+          invite code{" "}
+          <span className="faint">(optional if you already have an account)</span>
           <input
             type="text"
+            autoComplete="off"
+            autoCapitalize="characters"
+            spellCheck={false}
             value={invite}
             onChange={(e) => setInvite(e.target.value)}
-            placeholder="from your invite link"
+            placeholder="JRA-XXXX-XXXX"
           />
         </label>
-        <div className="toolbar" style={{ margin: "0.35rem 0 0" }}>
+        <div className="toolbar stack-actions" style={{ margin: "0.35rem 0 0" }}>
           <button className="primary" type="submit" disabled={sending}>
             <Icon name="mail" size={14} />{" "}
             {sending ? "sending…" : "email me a sign-in link"}

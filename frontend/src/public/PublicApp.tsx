@@ -1,12 +1,13 @@
 import { Link, NavLink, Route, Routes } from "react-router-dom";
-import { useEffect } from "react";
 import { AuthProvider, RequireAuth, useAuth } from "../auth/AuthContext";
 import { DispatchMark } from "../components/DispatchMark";
+import { Icon } from "../components/Icon";
 import { useTheme } from "../hooks/useTheme";
 import { LandingPage } from "./LandingPage";
 import { SignupPage } from "./SignupPage";
 import { ProfileWizardPage } from "./ProfileWizardPage";
 import { DashboardPage } from "./DashboardPage";
+import { usePageTitle } from "./usePageTitle";
 
 /**
  * The public consumer app — what a student reaches on the internet.
@@ -37,10 +38,6 @@ function PublicChrome(): JSX.Element {
   const { theme, cycle } = useTheme();
   const { session } = useAuth();
 
-  useEffect(() => {
-    document.title = "Dispatch — job applications, done with receipts";
-  }, []);
-
   return (
     <div className="public-shell">
       <a className="skip-link" href="#main">
@@ -53,10 +50,11 @@ function PublicChrome(): JSX.Element {
           </span>
           dispatch
         </Link>
+        {/* Two links, never more: on a 390px phone a third item wrapped the
+            bar onto two rows with the brand stranded on its own line (QA
+            2026-09-02, D-01). Signed in, the brand mark is the way back to
+            the story; the theme switch lives in the footer. */}
         <nav aria-label="Primary" className="public-nav">
-          <NavLink to="/" end className={({ isActive }) => (isActive ? "active" : "")}>
-            How it works
-          </NavLink>
           {session ? (
             <>
               <NavLink
@@ -73,20 +71,18 @@ function PublicChrome(): JSX.Element {
               </NavLink>
             </>
           ) : (
-            <NavLink
-              to="/signup"
-              className={({ isActive }) => (isActive ? "active" : "")}
-            >
-              Sign in
-            </NavLink>
+            <>
+              <NavLink to="/" end className={({ isActive }) => (isActive ? "active" : "")}>
+                How it works
+              </NavLink>
+              <NavLink
+                to="/signup"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                Sign in
+              </NavLink>
+            </>
           )}
-          <button
-            className="ghost"
-            onClick={cycle}
-            aria-label={`Theme: ${theme}. Click to change.`}
-          >
-            theme: {theme}
-          </button>
         </nav>
       </header>
 
@@ -112,22 +108,57 @@ function PublicChrome(): JSX.Element {
               </RequireAuth>
             }
           />
-          <Route
-            path="*"
-            element={<div className="banner warn">No such page.</div>}
-          />
+          <Route path="*" element={<NotFoundPage signedIn={session !== null} />} />
         </Routes>
       </main>
 
       <footer className="public-foot">
-        <span>
-          receipts for everything · your words, never its guesses
-        </span>
+        <span>receipts for everything · your words, never its guesses</span>
         <span className="faint">
           Dispatch drafts outreach emails for you to send — it can never
           send mail in your name.
         </span>
+        <button
+          className="ghost public-theme"
+          onClick={cycle}
+          aria-label={`Theme: ${theme}. Click to change.`}
+        >
+          theme: {theme}
+        </button>
       </footer>
+    </div>
+  );
+}
+
+/**
+ * A wrong URL is the most likely first page a student sees from a
+ * mistyped invite link, so it gets a heading, a way home, and the two
+ * places they were probably headed — not a bare yellow banner (D-08).
+ */
+function NotFoundPage({ signedIn }: { signedIn: boolean }): JSX.Element {
+  usePageTitle("Page not found");
+  return (
+    <div className="card" style={{ maxWidth: "30rem" }}>
+      <h1 className="hero-title">There&apos;s no page here</h1>
+      <p className="muted flush-top">
+        The link may be incomplete. Invite links look like{" "}
+        <code>/redeem?code=JRA-XXXX-XXXX</code> — if yours was cut off, ask
+        the person who sent it to resend the whole thing.
+      </p>
+      <div className="toolbar stack-actions flush-bottom">
+        {signedIn ? (
+          <Link to="/dashboard" className="btn">
+            <Icon name="arrow-right" size={13} /> your dashboard
+          </Link>
+        ) : (
+          <Link to="/signup" className="btn">
+            <Icon name="arrow-right" size={13} /> sign up or sign in
+          </Link>
+        )}
+        <Link to="/" className="btn-link">
+          how Dispatch works
+        </Link>
+      </div>
     </div>
   );
 }

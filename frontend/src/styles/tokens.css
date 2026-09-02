@@ -90,6 +90,10 @@
      custom property, so base.css repeats the number literally — the token
      test asserts the two agree. */
   --breakpoint-compact: 960px;
+  /* Below this the public surface is a phone held in one hand: 16px
+     inputs (no iOS zoom), 44px tap targets, one column everywhere.
+     Same literal-repeat caveat as --breakpoint-compact. */
+  --breakpoint-phone: 640px;
 }
 
 /* Dark palette. Declared twice on purpose — once for the OS preference and

@@ -4,21 +4,39 @@ import { useAuth } from "../auth/AuthContext";
 import { EmptyState } from "../components/EmptyState";
 import { Icon } from "../components/Icon";
 import { Skeleton } from "../components/Skeleton";
-import { type ApplicationRowPublic, type QuotaStatus } from "./contract";
-import { getMyQuota, listMyApplications, receiptUrl } from "./data";
+import {
+  type ApplicationRowPublic,
+  type ProfileRow,
+  type QuotaStatus,
+} from "./contract";
+import {
+  getMyProfile,
+  getMyQuota,
+  listMyApplications,
+  receiptUrl,
+} from "./data";
+import { InvitePanel } from "./InvitePanel";
+import { usePageTitle } from "./usePageTitle";
 
 /**
  * The user's dashboard: what was submitted for them, the receipt for
  * each, and how much of their quota remains. Reads are RLS-scoped
- * Supabase queries through the contract seam (placeholder names until
- * the launcher schema lands).
+ * Supabase queries through the contract seam.
  *
  * Honesty rules, same as everywhere: every number is a real row or
  * absent — quota unknown renders "unknown", never a guess; hours-back
  * is labeled as the derived 20–40min range it is; a failed read shows
- * the failure and a manual refresh, not a retry loop.
+ * the failure and a manual refresh, not a retry loop. The empty state
+ * distinguishes "nothing yet" from "could not load" (they used to share
+ * one headline — QA 2026-09-02, D-15) and tailors its advice to whether
+ * the profile is actually finished (D-16).
  */
+
+/** Below this many remaining, the quota stat starts talking (D-14). */
+const LOW_QUOTA = 3;
+
 export function DashboardPage(): JSX.Element {
+  usePageTitle("Your applications");
   const { user, signOut } = useAuth();
   const location = useLocation();
   const savedBanner =
@@ -26,30 +44,43 @@ export function DashboardPage(): JSX.Element {
 
   const [quota, setQuota] = useState<QuotaStatus | null>(null);
   const [apps, setApps] = useState<ApplicationRowPublic[] | null>(null);
+  const [profile, setProfile] = useState<ProfileRow | null | "unknown">(
+    "unknown",
+  );
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   const load = useCallback((): void => {
     setLoading(true);
     setError(null);
-    void Promise.allSettled([getMyQuota(), listMyApplications()]).then(
-      ([q, a]) => {
-        if (q.status === "fulfilled") setQuota(q.value);
-        if (a.status === "fulfilled") setApps(a.value);
-        const reasons = [q, a]
-          .filter((r): r is PromiseRejectedResult => r.status === "rejected")
-          .map((r) =>
-            r.reason instanceof Error ? r.reason.message : String(r.reason),
-          );
-        if (reasons.length > 0) setError([...new Set(reasons)].join(" · "));
-        setLoading(false);
-      },
-    );
+    void Promise.allSettled([
+      getMyQuota(),
+      listMyApplications(),
+      getMyProfile(),
+    ]).then(([q, a, p]) => {
+      if (q.status === "fulfilled") setQuota(q.value);
+      if (a.status === "fulfilled") setApps(a.value);
+      if (p.status === "fulfilled") setProfile(p.value);
+      // The profile is advice-only; its failure never blocks the page and
+      // is not worth a banner of its own.
+      const reasons = [q, a]
+        .filter((r): r is PromiseRejectedResult => r.status === "rejected")
+        .map((r) =>
+          r.reason instanceof Error ? r.reason.message : String(r.reason),
+        );
+      if (reasons.length > 0) setError([...new Set(reasons)].join(" · "));
+      setLoading(false);
+    });
   }, []);
 
   useEffect(load, [load]);
 
   const submitted = apps?.filter((a) => a.submitted_at !== null).length ?? null;
+  const exhausted = quota !== null && quota.remaining <= 0;
+  const lowQuota = quota !== null && !exhausted && quota.remaining <= LOW_QUOTA;
+  const onboardingDone =
+    profile !== "unknown" && profile !== null && profile.onboarding_completed_at !== null;
+  const lastEngineTouch = latestIso(apps?.map((a) => a.engine_updated_at) ?? []);
 
   return (
     <>
@@ -57,26 +88,40 @@ export function DashboardPage(): JSX.Element {
         <h1>Your applications</h1>
         <div className="sub">
           {user?.email ?? "your account"} ·{" "}
-          <button className="ghost" onClick={() => void signOut()}>
+          <button className="link-btn" onClick={() => void signOut()}>
             sign out
           </button>
         </div>
       </div>
 
       {savedBanner ? (
-        <div className="banner ok">
+        <div className="banner ok" role="status">
           <Icon name="check" size={14} /> Profile saved. Dispatch applies
           only from what you wrote — edit it any time in{" "}
-          <Link to="/onboarding">onboarding</Link>.
+          <Link to="/onboarding">your profile</Link>.
         </div>
       ) : null}
 
       {error ? (
-        <div className="banner warn">
+        <div className="banner warn" role="alert">
           Some of your data could not be loaded ({error}).{" "}
-          <button className="ghost" onClick={load}>
+          <button className="link-btn" onClick={load}>
             try again
           </button>
+        </div>
+      ) : null}
+
+      {exhausted ? (
+        <div className="banner warn quota-banner" role="status">
+          <Icon name="alert" size={14} />
+          <span>
+            <strong>Your invite&apos;s quota is used up</strong> —{" "}
+            {quota.completed_applications} of {quota.max_completed_applications}{" "}
+            completed applications. Dispatch has stopped applying for you;
+            everything already submitted stays here with its receipt. A new
+            invite code extends the quota — redeem one on the{" "}
+            <Link to="/signup">sign-in page</Link>.
+          </span>
         </div>
       ) : null}
 
@@ -86,8 +131,12 @@ export function DashboardPage(): JSX.Element {
           <div className="value">{submitted ?? "—"}</div>
           <div className="hint">
             {submitted === null
-              ? "not loaded"
-              : "each with a screenshot receipt below"}
+              ? loading
+                ? "loading"
+                : "could not load"
+              : submitted === 0
+                ? "none yet — receipts appear here as they land"
+                : "each with a screenshot receipt below"}
           </div>
         </div>
         <div className="stat">
@@ -95,8 +144,12 @@ export function DashboardPage(): JSX.Element {
           <div className="value">{quota ? quota.remaining : "—"}</div>
           <div className="hint">
             {quota
-              ? `${quota.completed_applications} completed of ${quota.max_completed_applications} your invite covers`
-              : "unknown until your invite is applied"}
+              ? `${quota.completed_applications} of ${quota.max_completed_applications} completed${lowQuota ? " — almost there" : ""}`
+              : loading
+                ? "loading"
+                : error
+                  ? "could not load"
+                  : "unknown until an invite is applied"}
           </div>
         </div>
         <div className="stat">
@@ -110,82 +163,158 @@ export function DashboardPage(): JSX.Element {
 
       <div className="card">
         <h2>Every application, accounted for</h2>
+        {lastEngineTouch ? (
+          <p className="faint flush-top" style={{ marginBottom: "0.75rem" }}>
+            <Icon name="clock" size={12} /> engine last touched your queue{" "}
+            <time dateTime={lastEngineTouch}>{relativeTime(lastEngineTouch)}</time>
+          </p>
+        ) : null}
         {loading && apps === null ? (
-          <div className="skeleton-lines">
+          <div className="skeleton-lines" role="status" aria-live="polite">
             <Skeleton width="70%" />
             <Skeleton width="50%" />
+            <p className="faint">loading your applications…</p>
           </div>
         ) : null}
-        {!loading && (apps === null || apps.length === 0) ? (
+        {!loading && apps === null ? (
+          <EmptyState
+            icon="alert"
+            title="Couldn't load your applications"
+            body="The numbers above show only what did load — never a guess. Try again in a moment; if it keeps failing, the account service is the thing to check, not your profile."
+            action={
+              <button className="btn" onClick={load}>
+                try again
+              </button>
+            }
+          />
+        ) : null}
+        {!loading && apps !== null && apps.length === 0 ? (
           <EmptyState
             icon="inbox"
             title="Nothing here yet"
             body={
-              apps === null
-                ? "Your application list could not be loaded — the numbers above are only what did load, never a guess."
-                : "Once your profile is finished, applications submitted for you appear here with their receipts."
+              onboardingDone
+                ? "Your profile is finished. Dispatch's next run picks it up and each application it submits lands here with a screenshot receipt — nothing is counted until it really happened."
+                : "Applications appear here — each with a screenshot receipt — once your profile is finished. Dispatch does not apply from a half-finished profile."
             }
             action={
-              apps !== null ? (
+              onboardingDone ? undefined : (
                 <Link to="/onboarding" className="btn">
                   finish your profile
                 </Link>
-              ) : undefined
+              )
             }
           />
         ) : null}
         {apps !== null && apps.length > 0 ? (
-          <div className="table-wrap" style={{ border: "none" }}>
-            <table>
-              <thead>
-                <tr>
-                  <th>company</th>
-                  <th>role</th>
-                  <th>status</th>
-                  <th>via</th>
-                  <th>submitted</th>
-                  <th>receipt</th>
-                </tr>
-              </thead>
-              <tbody>
-                {apps.map((a) => (
-                  <tr key={a.id}>
-                    <td>{a.company ?? "—"}</td>
-                    <td>{a.role ?? "—"}</td>
-                    <td>
-                      <span
-                        className={`badge ${a.submitted_at ? "ok" : "neutral"}`}
-                      >
-                        {a.status.toLowerCase().replace(/_/g, " ")}
-                      </span>
-                    </td>
-                    <td className="mono">{a.source_ats ?? "—"}</td>
-                    <td className="mono">
-                      {a.submitted_at
-                        ? new Date(a.submitted_at).toLocaleDateString()
-                        : "—"}
-                    </td>
-                    <td>
-                      {a.receipt_path ? (
-                        <ReceiptLink path={a.receipt_path} />
-                      ) : (
-                        <span className="faint">none stored</span>
-                      )}
-                    </td>
+          <>
+            <ul className="app-list">
+              {apps.map((a) => (
+                <li key={a.id}>
+                  <span className="app-company">{a.company ?? "—"}</span>
+                  <span className="app-role">{a.role ?? "—"}</span>
+                  <StatusBadge row={a} />
+                  <span className="app-meta">
+                    {a.source_ats ?? "—"}
+                    {a.submitted_at
+                      ? ` · submitted ${new Date(a.submitted_at).toLocaleDateString()}`
+                      : ""}
+                  </span>
+                  <span className="app-receipt">
+                    {a.receipt_path ? (
+                      <ReceiptLink path={a.receipt_path} />
+                    ) : (
+                      <span className="faint">no receipt stored</span>
+                    )}
+                  </span>
+                </li>
+              ))}
+            </ul>
+            <div className="table-wrap app-table" style={{ border: "none" }}>
+              <table>
+                <thead>
+                  <tr>
+                    <th>company</th>
+                    <th>role</th>
+                    <th>status</th>
+                    <th>via</th>
+                    <th>submitted</th>
+                    <th>receipt</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {apps.map((a) => (
+                    <tr key={a.id}>
+                      <td>{a.company ?? "—"}</td>
+                      <td>{a.role ?? "—"}</td>
+                      <td>
+                        <StatusBadge row={a} />
+                      </td>
+                      <td className="mono">{a.source_ats ?? "—"}</td>
+                      <td className="mono">
+                        {a.submitted_at
+                          ? new Date(a.submitted_at).toLocaleDateString()
+                          : "—"}
+                      </td>
+                      <td>
+                        {a.receipt_path ? (
+                          <ReceiptLink path={a.receipt_path} />
+                        ) : (
+                          <span className="faint">none stored</span>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
         ) : null}
       </div>
+
+      <InvitePanel
+        headline={savedBanner ? "You're set — now invite a friend" : "Invite a friend"}
+      />
     </>
+  );
+}
+
+function StatusBadge({ row }: { row: ApplicationRowPublic }): JSX.Element {
+  return (
+    <span className={`badge app-status ${row.submitted_at ? "ok" : "neutral"}`}>
+      {row.status.toLowerCase().replace(/_/g, " ")}
+    </span>
   );
 }
 
 function hours(count: number, minutesPer: number): string {
   const h = (count * minutesPer) / 60;
   return h >= 10 ? String(Math.round(h)) : (Math.round(h * 10) / 10).toString();
+}
+
+function latestIso(values: Array<string | null>): string | null {
+  let best: string | null = null;
+  for (const v of values) {
+    if (v && (best === null || v > best)) best = v;
+  }
+  return best;
+}
+
+/**
+ * "3 hours ago" from an ISO timestamp — the honest engine-activity
+ * indicator: derived from rows the engine wrote, never a heartbeat the
+ * frontend invents.
+ */
+function relativeTime(iso: string, now = Date.now()): string {
+  const ms = now - new Date(iso).getTime();
+  if (!Number.isFinite(ms)) return iso;
+  const min = Math.round(ms / 60000);
+  if (min < 1) return "just now";
+  if (min < 60) return `${min} min ago`;
+  const h = Math.round(min / 60);
+  if (h < 48) return `${h} hour${h === 1 ? "" : "s"} ago`;
+  const d = Math.round(h / 24);
+  return `${d} days ago`;
 }
 
 /**
@@ -211,10 +340,19 @@ function ReceiptLink({ path }: { path: string }): JSX.Element {
 
   return (
     <>
-      <button className="ghost" onClick={() => void open()} disabled={busy}>
+      <button
+        className="ghost receipt-btn"
+        onClick={() => void open()}
+        disabled={busy}
+      >
         <Icon name="file" size={13} /> {busy ? "opening…" : "view screenshot"}
       </button>
-      {error ? <span className="faint"> {error}</span> : null}
+      {error ? (
+        <span className="faint" role="alert">
+          {" "}
+          {error}
+        </span>
+      ) : null}
     </>
   );
 }

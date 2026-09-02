@@ -25,7 +25,12 @@ export const CONTRACT = {
   resumesBucket: "resumes",
   /** Private bucket, engine-written; read via createSignedUrl. */
   receiptsBucket: "receipts",
+  /** Insert-only mailbox for students without an invite (anon may insert; nobody client-side may read). */
+  waitlistTable: "waitlist",
 } as const;
+
+/** Postgres unique-violation SQLSTATE — the waitlist's "already on it" signal. */
+export const PG_UNIQUE_VIOLATION = "23505";
 
 /** Verbatim server error strings from redeem_invite (match, don't paraphrase). */
 export const REDEEM_ERRORS = {

@@ -16,6 +16,13 @@ import {
   uploadResume,
   type InviteRedemption,
 } from "./data";
+import { usePageTitle } from "./usePageTitle";
+
+/** "$70,000" — the review step reads like a form, not like a database. */
+function formatUsd(raw: string): string {
+  const n = Number(raw.replace(/[^0-9]/g, ""));
+  return n > 0 ? `$${n.toLocaleString("en-US")}` : raw;
+}
 
 /**
  * The consumer onboarding wizard — the profile Dispatch will answer
@@ -59,6 +66,7 @@ export function ProfileWizardPage(): JSX.Element {
   const [saving, setSaving] = useState(false);
   const [invite, setInvite] = useState<InviteRedemption>({ outcome: "none" });
   const redeemed = useRef(false);
+  usePageTitle(`Profile · ${STEPS[step]}`);
 
   useEffect(() => {
     let alive = true;
@@ -146,9 +154,10 @@ export function ProfileWizardPage(): JSX.Element {
 
   if (loading) {
     return (
-      <div className="skeleton-lines">
+      <div className="skeleton-lines" role="status" aria-live="polite">
         <Skeleton width="40%" />
         <Skeleton width="70%" />
+        <p className="faint">loading your saved profile…</p>
       </div>
     );
   }
@@ -164,7 +173,7 @@ export function ProfileWizardPage(): JSX.Element {
       </div>
 
       {invite.outcome === "redeemed" ? (
-        <div className="banner ok">
+        <div className="banner ok" role="status">
           <Icon name="check" size={14} /> Invite <code>{invite.code}</code>{" "}
           applied
           {invite.maxApplications !== null
@@ -174,16 +183,17 @@ export function ProfileWizardPage(): JSX.Element {
         </div>
       ) : null}
       {invite.outcome === "failed" ? (
-        <div className="banner warn">
+        <div className="banner warn" role="alert">
           Your invite code <code>{invite.code}</code> could not be applied:{" "}
           {invite.reason}. You can re-enter it on the sign-in page — your
           account and profile are unaffected.
         </div>
       ) : null}
       {loadError ? (
-        <div className="banner warn">
-          Could not load a saved profile ({loadError}) — starting blank.
-          Saving still works if the service is reachable.
+        <div className="banner warn" role="alert">
+          Could not load a saved profile ({loadError}) — starting blank. If
+          you had saved one before, saving now would replace it with what you
+          enter here; reload the page first to check.
         </div>
       ) : null}
 
@@ -203,14 +213,25 @@ export function ProfileWizardPage(): JSX.Element {
               }
             }}
             aria-current={i === step ? "step" : undefined}
+            aria-label={`Step ${i + 1} of ${STEPS.length}: ${label}`}
           >
-            <span className="wizard-step-n">{i + 1}</span> {label}
+            <span className="wizard-step-n" aria-hidden>
+              {i + 1}
+            </span>{" "}
+            <span className="wizard-step-label">{label}</span>
           </button>
         ))}
       </nav>
 
       <div className="card">
-        {stepError ? <div className="banner warn">{stepError}</div> : null}
+        <p className="faint" style={{ margin: "0 0 0.75rem" }}>
+          step {step + 1} of {STEPS.length} · {STEPS[step]}
+        </p>
+        {stepError ? (
+          <div className="banner warn" role="alert">
+            {stepError}
+          </div>
+        ) : null}
 
         {step === 0 ? (
           <div className="wizard-fields">
@@ -225,10 +246,12 @@ export function ProfileWizardPage(): JSX.Element {
             <label className="field">
               phone <span className="faint">(many forms require one)</span>
               <input
+                type="tel"
+                inputMode="tel"
                 value={draft.phone}
                 onChange={(e) => set("phone", e.target.value)}
                 autoComplete="tel"
-                placeholder="+1 555 555 5555"
+                placeholder="e.g. +1 412 555 0100"
               />
             </label>
             <label className="field">
@@ -236,7 +259,8 @@ export function ProfileWizardPage(): JSX.Element {
               <input
                 value={draft.location_city}
                 onChange={(e) => set("location_city", e.target.value)}
-                placeholder="Pittsburgh"
+                autoComplete="address-level2"
+                placeholder="e.g. Pittsburgh"
               />
             </label>
             <label className="field">
@@ -244,7 +268,8 @@ export function ProfileWizardPage(): JSX.Element {
               <input
                 value={draft.location_region}
                 onChange={(e) => set("location_region", e.target.value)}
-                placeholder="PA"
+                autoComplete="address-level1"
+                placeholder="e.g. PA"
               />
             </label>
             <label className="field">
@@ -252,12 +277,16 @@ export function ProfileWizardPage(): JSX.Element {
               <input
                 value={draft.location_country}
                 onChange={(e) => set("location_country", e.target.value)}
-                placeholder="USA"
+                autoComplete="country-name"
+                placeholder="e.g. USA"
               />
             </label>
             <label className="field">
               LinkedIn URL <span className="faint">(optional)</span>
               <input
+                type="url"
+                inputMode="url"
+                autoCapitalize="none"
                 value={draft.linkedin_url}
                 onChange={(e) => set("linkedin_url", e.target.value)}
                 placeholder="https://linkedin.com/in/…"
@@ -266,6 +295,9 @@ export function ProfileWizardPage(): JSX.Element {
             <label className="field">
               GitHub URL <span className="faint">(optional)</span>
               <input
+                type="url"
+                inputMode="url"
+                autoCapitalize="none"
                 value={draft.github_url}
                 onChange={(e) => set("github_url", e.target.value)}
                 placeholder="https://github.com/…"
@@ -274,6 +306,9 @@ export function ProfileWizardPage(): JSX.Element {
             <label className="field">
               portfolio URL <span className="faint">(optional)</span>
               <input
+                type="url"
+                inputMode="url"
+                autoCapitalize="none"
                 value={draft.portfolio_url}
                 onChange={(e) => set("portfolio_url", e.target.value)}
                 placeholder="https://…"
@@ -289,7 +324,8 @@ export function ProfileWizardPage(): JSX.Element {
               <input
                 value={draft.school}
                 onChange={(e) => set("school", e.target.value)}
-                placeholder="University of …"
+                autoComplete="organization"
+                placeholder="e.g. University of Pittsburgh"
               />
             </label>
             <label className="field">
@@ -297,7 +333,7 @@ export function ProfileWizardPage(): JSX.Element {
               <input
                 value={draft.degree}
                 onChange={(e) => set("degree", e.target.value)}
-                placeholder="B.S."
+                placeholder="e.g. B.S."
               />
             </label>
             <label className="field">
@@ -305,7 +341,7 @@ export function ProfileWizardPage(): JSX.Element {
               <input
                 value={draft.field}
                 onChange={(e) => set("field", e.target.value)}
-                placeholder="Computer Science"
+                placeholder="e.g. Computer Science"
               />
             </label>
             <label className="field">
@@ -314,7 +350,9 @@ export function ProfileWizardPage(): JSX.Element {
                 value={draft.grad_year}
                 onChange={(e) => set("grad_year", e.target.value)}
                 inputMode="numeric"
-                placeholder="2027"
+                pattern="[0-9]{4}"
+                maxLength={4}
+                placeholder="e.g. 2027"
               />
             </label>
           </div>
@@ -506,12 +544,25 @@ export function ProfileWizardPage(): JSX.Element {
                   : "—"}
               </dd>
               <dt>minimum salary</dt>
-              <dd>{draft.min_salary_usd ? `$${draft.min_salary_usd}/yr` : "—"}</dd>
+              <dd>
+                {draft.min_salary_usd
+                  ? `${formatUsd(draft.min_salary_usd)} / year`
+                  : "—"}
+              </dd>
             </dl>
+            {loadError ? (
+              <p className="faint" style={{ marginBottom: 0 }}>
+                Your saved profile could not be loaded, so saving replaces
+                whatever was on file with the answers above.
+              </p>
+            ) : null}
           </>
         ) : null}
 
-        <div className="toolbar" style={{ marginTop: "1rem", marginBottom: 0 }}>
+        <div
+          className="toolbar stack-actions"
+          style={{ marginTop: "1rem", marginBottom: 0 }}
+        >
           {step > 0 ? (
             <button onClick={back}>
               <Icon name="arrow-left" size={13} /> back
@@ -528,7 +579,11 @@ export function ProfileWizardPage(): JSX.Element {
               disabled={saving}
             >
               <Icon name="check" size={14} />{" "}
-              {saving ? "saving…" : "save — I'm ready to apply"}
+              {saving
+                ? "saving…"
+                : loadError
+                  ? "save anyway — I'm ready to apply"
+                  : "save — I'm ready to apply"}
             </button>
           )}
         </div>
@@ -566,7 +621,11 @@ function ResumeStep(props: {
         and recorded on your profile the moment the upload succeeds;
         uploading a file with the same name replaces it.
       </p>
-      {error ? <div className="banner warn">{error}</div> : null}
+      {error ? (
+        <div className="banner warn" role="alert">
+          {error}
+        </div>
+      ) : null}
       {props.path ? (
         <p>
           <span className="badge ok">on file</span>{" "}
@@ -584,7 +643,11 @@ function ResumeStep(props: {
           onChange={(e) => void pick(e.target.files?.[0])}
         />
       </label>
-      {busy ? <p className="faint">uploading…</p> : null}
+      {busy ? (
+        <p className="faint" role="status">
+          uploading…
+        </p>
+      ) : null}
     </div>
   );
 }

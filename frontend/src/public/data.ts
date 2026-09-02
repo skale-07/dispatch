@@ -8,6 +8,7 @@ import {
   type ProfileRow,
   type QuotaStatus,
   EMPTY_PROFILE,
+  PG_UNIQUE_VIOLATION,
 } from "./contract";
 
 /**
@@ -288,6 +289,26 @@ export async function listMyApplications(): Promise<ApplicationRowPublic[]> {
     .order("engine_updated_at", { ascending: false });
   if (error) throw new Error(error.message);
   return (data as ApplicationRowPublic[]) ?? [];
+}
+
+/* ── waitlist (signed-out, anon insert) ─────────────────────────────── */
+
+export type WaitlistOutcome = "joined" | "already";
+
+/**
+ * Join the waitlist. Anon may insert and nothing client-side may read
+ * the table (RLS), so the only two honest outcomes are "row written" and
+ * "that address is already there" (the unique constraint). Any other
+ * error is thrown verbatim.
+ */
+export async function joinWaitlist(email: string): Promise<WaitlistOutcome> {
+  const addr = email.trim().toLowerCase();
+  const { error } = await client()
+    .from(CONTRACT.waitlistTable)
+    .insert({ email: addr });
+  if (!error) return "joined";
+  if (error.code === PG_UNIQUE_VIOLATION) return "already";
+  throw new Error(error.message);
 }
 
 /** Short-lived signed URL for a receipt screenshot (private bucket). */
