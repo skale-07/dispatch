@@ -141,7 +141,8 @@
         "src/auth/loginFlow.ts": "interactive login capture",
         "src/browser/fixtureSession.ts": "withFixtureHtmlPage / withPublicUrlPage / openPublicUrlSession (pipeline --submit holds the fill browser for the click)",
         "src/browser/obstructions.ts": "cookie/promo popup dismisser (never-click screened)",
-        "src/accounts/vault.ts": "per-host ATS account vault (operator-seeded)"
+        "src/accounts/vault.ts": "per-host ATS account vault (operator-seeded)",
+        "src/browser/liveHtml.ts": "readLiveHtml (#150) — page HTML with LIVE control state (value / selected / checked) written onto a detached clone; script-bound forms hold values in properties page.content() never sees. Plan reads use this."
       },
       "key_exports": {
         "src/auth/serviceSession.ts": [
@@ -154,6 +155,9 @@
         ],
         "src/browser/obstructions.ts": [
           "dismissPageObstructions"
+        ],
+        "src/browser/liveHtml.ts": [
+          "readLiveHtml"
         ]
       }
     },
@@ -284,7 +288,8 @@
         "src/ats/shared/frameHop.ts": "findApplicationFrameUrl — hop into an iframe whose document has fillable fields (https, or loopback http for the operator sandbox). Greenhouse embed/job_app URLs hop even when the child document is still empty/unreadable.",
         "src/ats/shared/pageClassify.ts": "classifyPage is the landing authority: password or emailed-code wall → auth, identity fields → form, Apply without identity → posting unless the URL path is already /apply, else unknown. Fill recovers from page_class, not the collapsed gate code.",
         "src/ats/greenhouse/questionsApi.ts": "fetchGreenhouseQuestions — the board's PUBLIC JSON declares every question and its COMPLETE option list; authoritative answer space, one request, fail-open to the DOM harvest",
-        "src/ats/ashby/discovery.ts": "ashbyDiscoverFields — generic pass + radiogroup pass + fieldset question groups (question-title label + per-option inputs → ONE field with options[]; per-option fields suppressed)"
+        "src/ats/ashby/discovery.ts": "ashbyDiscoverFields — generic pass + radiogroup pass + fieldset question groups (question-title label + per-option inputs → ONE field with options[]; per-option fields suppressed)",
+        "src/ats/shared/dependentSelects.ts": "fillRevealedProfileSelects (#149) — after a fill, one bounded profile-tier pass over native selects the parent pick revealed (State after Country); deterministic, verbatim option match, never demographics, never LLM"
       },
       "key_exports": {
         "src/ats/shared/urlValidationDispatch.ts": [
@@ -346,6 +351,10 @@
           "reachGreenhouseApplicationForm",
           "verifyPageBeforeMutation",
           "failedApprovedEntries"
+        ],
+        "src/ats/shared/dependentSelects.ts": [
+          "fillRevealedProfileSelects",
+          "REVEALED_SELECT_CAP"
         ]
       }
     },

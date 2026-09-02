@@ -60,7 +60,57 @@ export function matchCanonicalField(
   ) {
     return null;
   }
+  // #150 (live UKG run 17, resume-review page): the resume parse renders
+  // FIVE work-experience rows (NewWorkExperience_JobTitle0..4). Bare
+  // "Company" / "Organization" / "Month" in rows 1-4 claimed the profile's
+  // ONE current_company / graduation_month, and the fill overwrote the
+  // parsed start month of row 0 with the graduation month. The profile
+  // holds a single current job and a single education; a history fact
+  // never claims a later row, and an education date never claims an
+  // employment row (nor the reverse).
+  if (matched && HISTORY_FACT.test(matched)) {
+    const group = historyGroupOf(field);
+    if (group) {
+      if (group.index >= 1) return null;
+      const educationFact = EDUCATION_FACT.test(matched);
+      if (educationFact && group.kind === "employment") return null;
+      if (!educationFact && group.kind === "education") return null;
+    }
+  }
   return matched;
+}
+
+/** Singular history facts — the profile holds one current job and one education. */
+const HISTORY_FACT =
+  /^(current_company|current_job_title|school|degree|major|gpa|graduation_month|graduation_year|start_month|start_year)$/;
+const EDUCATION_FACT = /^(school|degree|major|gpa|graduation_month|graduation_year|start_month|start_year)$/;
+const EMPLOYMENT_HINT = /(work|employ|job|position|experience|company|employer)/i;
+const EDUCATION_HINT = /(education|school|degree|academic|university)/i;
+
+/**
+ * #150: a control that belongs to an indexed history row (work experience
+ * or education), read from its id/name — `NewWorkExperience_JobTitle3`,
+ * `job_application[educations_attributes][1][school_name_id]`. Only
+ * attributes that name a history group count: a Lever screener
+ * `cards[uuid][field1]` or a generated `f_58` is not a history row.
+ */
+export function historyGroupOf(field: {
+  inputId?: string;
+  name?: string;
+}): { kind: "employment" | "education"; index: number } | null {
+  // The form's own prefix ("job_application[...]") is not a history hint,
+  // and an indexed custom QUESTION (Greenhouse
+  // `job_application_answers_attributes_3_text_value`) is a screener row.
+  const source = `${field.inputId ?? ""} ${field.name ?? ""}`.replace(/job[_ ]?application/gi, "");
+  if (/(answer|question)/i.test(source)) return null;
+  const employment = EMPLOYMENT_HINT.test(source);
+  const education = EDUCATION_HINT.test(source);
+  if (!employment && !education) return null;
+  const indexes = Array.from(source.matchAll(/(\d{1,2})(?=[\]_.\-\s]|$)/g)).map((m) =>
+    Number(m[1]),
+  );
+  if (indexes.length === 0) return null;
+  return { kind: education && !employment ? "education" : "employment", index: indexes[indexes.length - 1]! };
 }
 
 function matchCanonicalFieldInner(

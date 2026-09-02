@@ -328,6 +328,22 @@ export function discoverFieldsFromHtml(
     if (inputId) field.inputId = inputId;
     if (maxLengthRaw) field.maxLength = Number(maxLengthRaw);
     if (minLengthRaw) field.minLength = Number(minLengthRaw);
+    // #150: what the control already holds, when the HTML says so — a
+    // text box's value attribute, a select's <option selected> text
+    // (readLiveHtml serializes live state into exactly these attributes).
+    // Radios/checkboxes carry option values, not answers; left alone.
+    if (tag === "select") {
+      const selected = parseSelectedOption(inner);
+      if (selected) field.currentValue = selected;
+    } else if (
+      fieldType !== "radio" &&
+      fieldType !== "checkbox" &&
+      fieldType !== "file" &&
+      valueAttr != null &&
+      valueAttr.trim() !== ""
+    ) {
+      field.currentValue = decodeEntities(valueAttr).trim();
+    }
 
     fields.push(field);
     idx++;
@@ -636,6 +652,21 @@ function parseSelectOptions(inner: string): string[] {
     if (t) opts.push(t);
   }
   return opts;
+}
+
+/** Text of the <option selected> (#150) — empty when none or a placeholder. */
+function parseSelectedOption(inner: string): string {
+  const re = /<option\b([^>]*)>([\s\S]*?)<\/option>/gi;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(inner)) !== null) {
+    if (!/\bselected\b/i.test(m[1] ?? "")) continue;
+    const t = stripTags(m[2] ?? "").trim();
+    if (!t || /^(select|choose|please (select|choose)|-{2,}|—|none$)/i.test(t)) {
+      return "";
+    }
+    return decodeEntities(t);
+  }
+  return "";
 }
 
 function inferGreenhouseLabel(name: string, fallback: string): string | null {

@@ -12,7 +12,7 @@ import {
 } from "../candidate/sensitiveProfileIO.js";
 import { locationTypeaheadQuery, shouldComposeCityTypeahead } from "./locationQuery.js";
 import type { ScreenerResolution } from "../candidate/screenerMatch.js";
-import { normalizeFieldLabel } from "./fieldNormalization.js";
+import { historyGroupOf, normalizeFieldLabel } from "./fieldNormalization.js";
 import {
   consentCanonicalFor,
   isApplicationConsentField,
@@ -165,6 +165,45 @@ export function buildFillPlan(
         reason: "conditional follow-up skipped — parent answer is No",
       });
       continue;
+    }
+
+    // #150 (live UKG run 17): the resume parse populates the history rows
+    // (five work-experience entries, each with its own title/employer/
+    // dates). The plan then re-answered them from the ONE profile job and
+    // the "Job Title" bank entry — the submit-stage verify refused on 13
+    // mismatches against the parsed values. A history row that already
+    // holds a value is the resume's own datum: kept. Rows after the first
+    // never take a bank/predict answer either (the profile has one job).
+    const historyGroup = historyGroupOf(field);
+    if (historyGroup) {
+      const held = String(field.currentValue ?? "").trim();
+      const heldReal =
+        held !== "" && !/^(select( one)?|choose|please select|--|—|none)$/i.test(held);
+      const screenerHit = opts.screenerResolutions?.get(field.id);
+      if (heldReal) {
+        entries.push({
+          field_id: field.id,
+          label: field.label,
+          type: field.type,
+          canonical_field: field.canonical_field,
+          action: "skip_unmapped",
+          value: null,
+          reason: `${historyGroup.kind} row ${historyGroup.index} already holds "${held.slice(0, 40)}" (resume parse) — kept`,
+        });
+        continue;
+      }
+      if (historyGroup.index >= 1 && !field.canonical_field && screenerHit?.status === "fill") {
+        entries.push({
+          field_id: field.id,
+          label: field.label,
+          type: field.type,
+          canonical_field: null,
+          action: "skip_unmapped",
+          value: null,
+          reason: `${historyGroup.kind} row ${historyGroup.index} — the profile holds one entry; not answered from the bank`,
+        });
+        continue;
+      }
     }
 
     if (essayIds.has(field.id) || field.type === "textarea") {

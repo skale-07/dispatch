@@ -92,6 +92,37 @@ import {
   printOperatorFieldBrief,
 } from "./operatorFieldBrief.js";
 import type { ApprovedFillPlan } from "./approvedFillPlan.js";
+import { fillRevealedProfileSelects } from "../ats/shared/dependentSelects.js";
+import { readLiveHtml } from "../browser/liveHtml.js";
+
+/**
+ * #149: one deterministic pass over selects the fill itself revealed
+ * (Country → State/Province). Verified picks join the filled list so the
+ * artifact records what the employer received; every note is kept.
+ */
+async function sweepRevealedSelects(
+  page: Page,
+  report: { fill: FillResult | null; notes: string[] },
+  profile?: PublicProfile,
+): Promise<void> {
+  const revealed = await fillRevealedProfileSelects({
+    page,
+    ...(profile ? { profile } : {}),
+  }).catch((err: unknown) => ({
+    outcomes: [],
+    notes: [
+      `revealed-select: pass failed: ${err instanceof Error ? err.message.slice(0, 80) : String(err)}`,
+    ],
+  }));
+  report.notes.push(...revealed.notes);
+  const verified = revealed.outcomes.filter((o) => o.verified);
+  if (verified.length > 0 && report.fill) {
+    report.fill = {
+      ...report.fill,
+      filled: [...report.fill.filled, ...verified.map((o) => o.canonical_field)],
+    };
+  }
+}
 
 async function attemptSandboxSubmit(args: {
   page: Page;
@@ -705,7 +736,7 @@ export async function runAtsLiveFill(input: {
           // Gate HTML is the posting/login we arrived on. Plan AFTER
           // sign-in. Do not treat POSTING_MISMATCH as fatal — apply URL
           // paths often diverge from the normalized posting.
-          planHtml = await page.content();
+          planHtml = await readLiveHtml(page);
           planUrl = page.url();
           if (binding.id === "workday") {
             let kind = classifyWorkdayPage(planHtml);
@@ -759,7 +790,7 @@ export async function runAtsLiveFill(input: {
               report.notes.push(
                 ...reReach.notes.map((n) => `re-reach ${n}`),
               );
-              planHtml = await page.content();
+              planHtml = await readLiveHtml(page);
               planUrl = page.url();
               kind = classifyWorkdayPage(planHtml);
               report.notes.push(`workday page kind after re-reach: ${kind}`);
@@ -908,7 +939,7 @@ export async function runAtsLiveFill(input: {
             ...activation.notes,
           );
           if (activation.activated) {
-            planHtml = await page.content();
+            planHtml = await readLiveHtml(page);
           }
         }
       }
@@ -922,7 +953,7 @@ export async function runAtsLiveFill(input: {
         const expanded = await expandCollapsedSections(page).catch(() => null);
         if (expanded && expanded.clicked > 0) {
           report.notes.push(...expanded.notes);
-          planHtml = await page.content();
+          planHtml = await readLiveHtml(page);
         }
       }
 
@@ -1133,6 +1164,10 @@ export async function runAtsLiveFill(input: {
         report.other_specify = specified;
         report.notes.push(...specified.map((s) => `other-specify: ${s.note}`));
       }
+      // #149: dependent selects (Country → State/Province) reveal their
+      // option list only after the parent pick — one deterministic
+      // profile-tier pass over selects still at their placeholder.
+      await sweepRevealedSelects(page, report, input.profile);
       report.verify = await adapter.verify(page, approvedPlan.answers);
       // #66b: a verify miss reading EMPTY on a text control is the one
       // moment we know React state never took the fill — one keystroke
@@ -1390,12 +1425,22 @@ export async function runAtsLiveFill(input: {
             formPage,
             pagePlan.approvedPlan.answers,
           );
+          // #149: same dependent-select pass as the base fill.
+          const revealed = await fillRevealedProfileSelects({
+            page: formPage,
+            ...(input.profile ? { profile: input.profile } : {}),
+          }).catch(() => ({ outcomes: [], notes: [] }));
+          report.notes.push(...revealed.notes);
           const verifyResult = await pagePlan.adapter.verify(
             formPage,
             pagePlan.approvedPlan.answers,
           );
           report.fill = {
-            filled: [...(report.fill?.filled ?? []), ...fillResult.filled],
+            filled: [
+              ...(report.fill?.filled ?? []),
+              ...fillResult.filled,
+              ...revealed.outcomes.filter((o) => o.verified).map((o) => o.canonical_field),
+            ],
             skipped: [...(report.fill?.skipped ?? []), ...fillResult.skipped],
             errors: [...(report.fill?.errors ?? []), ...fillResult.errors],
             field_meta: [

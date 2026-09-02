@@ -1,6 +1,7 @@
 import type { Page } from "playwright";
 import { performTransition } from "../browser/transition.js";
 import { discoverFieldsFromHtml } from "./fieldDiscovery.js";
+import { readLiveHtml } from "../browser/liveHtml.js";
 import { genericSelectorsV1 } from "../ats/generic/selectors.js";
 import {
   resolveAdvanceControl,
@@ -52,12 +53,12 @@ export const GENERIC_ADVANCE_PAGE_CAP = 3;
  * settle budget bounds it (settleMs 0 ⇒ single fresh read).
  */
 async function settledFormHtml(page: Page, timeoutMs: number): Promise<string> {
-  let html = await page.content();
+  let html = await readLiveHtml(page);
   let count = discoverFieldsFromHtml(html).length;
   const deadline = Date.now() + timeoutMs;
   while (Date.now() < deadline) {
     await page.waitForTimeout(700);
-    const next = await page.content();
+    const next = await readLiveHtml(page);
     const nextCount = discoverFieldsFromHtml(next).length;
     if (nextCount === count) return next;
     html = next;
