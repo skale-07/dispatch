@@ -184,6 +184,53 @@ describe("#73 skills label mapping", () => {
   });
 });
 
+// Live UKG Pro run 16 (2026-09-01): "Secondary Phone" took the primary
+// number, "Address 2" took the street (bare "Address" alias), and the
+// Hispanic/Latino select ("Ethnic Origin", id HispanicOrigin) stayed
+// unmapped. Twins of a contact fact are different data; line 2 is line 2;
+// the hispanic id is the deterministic tell.
+describe("#148 contact twins, address line 2, hispanic id hint", () => {
+  const aliases = {
+    phone: ["Phone", "Phone Number", "Primary Phone"],
+    email: ["Email", "Email Address"],
+    "address.line1": ["Address", "Street address", "Address line 1"],
+    "address.line2": ["Address line 2", "Apt"],
+  };
+  const text = (id: string, label: string) => ({
+    id,
+    label,
+    type: "text" as const,
+    required: false,
+    name: id,
+  });
+  it("secondary/alternate contact twins stay unmapped; primaries still map", () => {
+    expect(matchCanonicalField(text("Phone", "Primary Phone"), aliases)).toBe("phone");
+    expect(matchCanonicalField(text("SecondaryPhone", "Secondary Phone"), aliases)).toBeNull();
+    expect(matchCanonicalField(text("AltEmail", "Alternate Email Address"), aliases)).toBeNull();
+    expect(matchCanonicalField(text("Email", "Email Address"), aliases)).toBe("email");
+  });
+  it("Address 2 is address.line2, Address 1 stays line1", () => {
+    expect(matchCanonicalField(text("AddressLine1", "Address 1"), aliases)).toBe("address.line1");
+    expect(matchCanonicalField(text("AddressLine2", "Address 2"), aliases)).toBe("address.line2");
+    expect(matchCanonicalField(text("a2", "Street Address Line 2"), aliases)).toBe("address.line2");
+  });
+  it("a HispanicOrigin id/name maps the 'Ethnic Origin' select to hispanic_latino", () => {
+    expect(
+      matchCanonicalField(
+        { id: "HispanicOrigin", label: "Ethnic Origin", type: "select", required: true, name: "" },
+        aliases,
+      ),
+    ).toBe("hispanic_latino");
+    // A race select keeps its own canonical.
+    expect(
+      matchCanonicalField(
+        { id: "EthnicOrigin", label: "Race", type: "select", required: true, name: "" },
+        aliases,
+      ),
+    ).toBe("race_ethnicity");
+  });
+});
+
 describe("#85c gpa never claims option controls", () => {
   it("a Yes/No select asking about GPA threshold is not canonical gpa; text GPA fields still map", () => {
     const aliases = { gpa: ["GPA", "cumulative GPA"] };

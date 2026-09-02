@@ -280,6 +280,7 @@
         "src/ats/shared/optionHarvest.ts": "harvestFieldOptions — opens each live control and scrapes its REAL option list before planning; classifies CLOSED (choose only) vs OPEN (type anything)",
         "src/ats/shared/otherSpecify.ts": "fillOtherSpecify — fills the free-text box a form reveals after \"Other\" is chosen",
         "src/ats/shared/postingAdvance.ts": "advancePastPosting — classify the landing; if it is a job posting, click Apply and look again (any ATS, bounded at 2 hops)",
+        "src/ats/shared/sectionExpand.ts": "expandCollapsedSections (#143, collapsed accordion toggles, action-named controls never clicked) + openSectionEditors / saveOpenSectionEditors (#145, Edit/Add section editors and their Save — a section commit, never the application submit); all bounded",
         "src/ats/shared/frameHop.ts": "findApplicationFrameUrl — hop into an iframe whose document has fillable fields (https, or loopback http for the operator sandbox). Greenhouse embed/job_app URLs hop even when the child document is still empty/unreadable.",
         "src/ats/shared/pageClassify.ts": "classifyPage is the landing authority: password or emailed-code wall → auth, identity fields → form, Apply without identity → posting unless the URL path is already /apply, else unknown. Fill recovers from page_class, not the collapsed gate code.",
         "src/ats/greenhouse/questionsApi.ts": "fetchGreenhouseQuestions — the board's PUBLIC JSON declares every question and its COMPLETE option list; authoritative answer space, one request, fail-open to the DOM harvest",
@@ -314,6 +315,11 @@
         "src/ats/shared/postingAdvance.ts": [
           "advancePastPosting",
           "findApplyControl"
+        ],
+        "src/ats/shared/sectionExpand.ts": [
+          "expandCollapsedSections",
+          "openSectionEditors",
+          "saveOpenSectionEditors"
         ],
         "src/ats/shared/frameHop.ts": [
           "findApplicationFrameUrl",
@@ -359,7 +365,7 @@
         "src/applications/submitRun.ts": "runAtsSubmission — greenhouse landing recovery then identity gate; same-run --submit reuses the filled page (no cold re-fill); click gate + unattended budget consumption",
         "src/applications/fieldDiscovery.ts": "discoverFieldsFromHtml (also the pre-mutation gate's field count)",
         "src/applications/atsBindings.ts": "ATS_BINDINGS: per-vendor gate/fill/submit fns",
-        "src/applications/genericFormAdvance.ts": "walkGenericFormPages — after a passing generic fill, click Next/Continue (never Submit), re-plan, fill; bounded",
+        "src/applications/genericFormAdvance.ts": "walkGenericFormPages — after a passing generic fill, click Next/Continue (never Submit), re-plan, fill; bounded. walkSectionEditors (#145c) — one-at-a-time section editors (UKG Pro): open Edit/Add → re-plan+fill → Save (section commit, never the application submit); bounded, dedupes by name",
         "src/applications/essayAutofill.ts": "essay generate-and-fill from about-me (ESSAY_AUTOFILL_ENABLED or SCREENER_PREDICT_LLM_ENABLED; validateDraft-checked)",
         "src/applications/screenerOptionSelect.ts": "LLM chooses from the page's own options, validated verbatim"
       },
@@ -384,7 +390,8 @@
           "ATS_BINDINGS"
         ],
         "src/applications/genericFormAdvance.ts": [
-          "walkGenericFormPages"
+          "walkGenericFormPages",
+          "walkSectionEditors"
         ]
       },
       "gates": [

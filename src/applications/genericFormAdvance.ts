@@ -7,7 +7,11 @@ import {
   resolveSubmitControl,
 } from "../ats/shared/submitControl.js";
 import { classifyPage } from "../ats/shared/pageClassify.js";
-import { expandCollapsedSections } from "../ats/shared/sectionExpand.js";
+import {
+  expandCollapsedSections,
+  openSectionEditors,
+  saveOpenSectionEditors,
+} from "../ats/shared/sectionExpand.js";
 
 /**
  * Generic multi-page forms (Paycom lead-capture "Continue to application",
@@ -59,6 +63,70 @@ async function settledFormHtml(page: Page, timeoutMs: number): Promise<string> {
     count = nextCount;
   }
   return html;
+}
+
+/** Section editors per page — UKG has 8; a runaway Add loop must stop. */
+export const SECTION_EDITOR_CAP = 8;
+
+/**
+ * #145c (live UKG OpportunityApply, runs 15-16): the application is ONE
+ * page of section EDITORS, strictly one open at a time (other pencils are
+ * disabled while an editor is open). Cycle: open the next unopened
+ * "Edit <Section>"/"Add <Thing>" editor → re-plan+fill the now-visible
+ * controls (same closure the page walk uses) → Save (the section commit —
+ * never the application submit) → repeat. Bounded, dedupes by accessible
+ * name so an Add that re-renders cannot loop.
+ */
+export async function walkSectionEditors(
+  page: Page,
+  fillCurrentPage: (input: {
+    page: Page;
+    html: string;
+    url: string;
+  }) => Promise<{ fillable: number; filled: number; verifyPassed: boolean }>,
+  cfg: {
+    trigger: string;
+    triggerNamePattern: RegExp;
+    save: string;
+    saveNamePattern: RegExp;
+  },
+  options: { settleMs?: number } = {},
+): Promise<{ editors: number; notes: string[] }> {
+  const notes: string[] = [];
+  const settleTimeoutMs =
+    options.settleMs === 0 ? 0 : (options.settleMs ?? 8_000);
+  const alreadyOpened = new Set<string>();
+  let editors = 0;
+  for (let i = 0; i < SECTION_EDITOR_CAP; i++) {
+    const opened = await openSectionEditors(page, cfg, {
+      maxOpens: 1,
+      alreadyOpened,
+      settleMs: options.settleMs === 0 ? 0 : 500,
+    }).catch(() => null);
+    if (!opened || opened.clicked === 0) break;
+    editors += 1;
+    notes.push(...opened.notes);
+    const html = await settledFormHtml(page, settleTimeoutMs).catch(() =>
+      page.content(),
+    );
+    const result = await fillCurrentPage({
+      page,
+      html: await Promise.resolve(html),
+      url: page.url(),
+    });
+    notes.push(
+      `section-editor: filled ${result.filled}/${result.fillable} (verify ${result.verifyPassed ? "passed" : "failed"})`,
+    );
+    const saved = await saveOpenSectionEditors(page, cfg, {
+      settleMs: options.settleMs === 0 ? 0 : 600,
+    }).catch(() => null);
+    if (saved && saved.clicked > 0) notes.push(...saved.notes);
+    else notes.push("section-editor: no save control found after fill — editor left open");
+  }
+  if (editors > 0) {
+    notes.unshift(`section-editor walk: cycled ${editors} editor(s)`);
+  }
+  return { editors, notes };
 }
 
 export async function walkGenericFormPages(

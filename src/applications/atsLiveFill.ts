@@ -8,7 +8,10 @@ import { classifyWorkdayPage } from "../ats/workday/pageKind.js";
 import { workdaySelectorsV1 } from "../ats/workday/selectors.js";
 import { readPageValidationErrors } from "./pageErrors.js";
 import { walkWorkdayWizard } from "./workdayWizard.js";
-import { walkGenericFormPages } from "./genericFormAdvance.js";
+import {
+  walkGenericFormPages,
+  walkSectionEditors,
+} from "./genericFormAdvance.js";
 import { discoverFieldsFromHtml } from "./fieldDiscovery.js";
 import { scrubHtmlForSnapshot } from "./htmlScrub.js";
 import {
@@ -39,6 +42,7 @@ import { findApplicationFrameUrl } from "../ats/shared/frameHop.js";
 import { inventoryFileInputs } from "../ats/shared/uploadResolve.js";
 import { advancePastPosting } from "../ats/shared/postingAdvance.js";
 import { expandCollapsedSections } from "../ats/shared/sectionExpand.js";
+import { genericSelectorsV1 } from "../ats/generic/selectors.js";
 import {
   extractPostingContext,
   mergePostingContext,
@@ -1362,15 +1366,19 @@ export async function runAtsLiveFill(input: {
         report.wizard_pages = walk.pages;
         report.notes.push(...walk.notes);
         wizardVerifyFailed = walk.verifyFailed;
-      } else if (
-        binding.id === "generic" &&
-        report.verify.passed &&
-        report.fill.errors.length === 0
-      ) {
-        // Paycom-class lead-capture and in-form Next: the submit cascade
-        // correctly refuses "Continue"/"Next" so --submit cannot fake a
-        // receipt. After this page verifies, click that CTA, re-plan, fill.
-        const walk = await walkGenericFormPages(page, async ({ page: formPage, html, url }) => {
+      } else if (binding.id === "generic") {
+        // Shared re-plan+fill+verify closure — the section-editor walk
+        // (#145c, same-page editors) and the page walk (Paycom-class
+        // Next/Continue) both hand each newly revealed form state here.
+        const fillCurrentGenericPage = async ({
+          page: formPage,
+          html,
+          url,
+        }: {
+          page: Page;
+          html: string;
+          url: string;
+        }) => {
           const pagePlan = await planApplicationFill({
             url,
             html,
@@ -1415,11 +1423,31 @@ export async function runAtsLiveFill(input: {
             filled: fillResult.filled.length,
             verifyPassed: verifyResult.passed && fillResult.errors.length === 0,
           };
-        });
-        page = walk.page;
-        report.wizard_pages = walk.pages;
-        report.notes.push(...walk.notes);
-        wizardVerifyFailed = walk.verifyFailed;
+        };
+
+        // #145c: cycle the page's section editors (open → fill → save),
+        // one at a time — UKG disables every other pencil while an editor
+        // is open. Runs even when the base verify failed: the failures ARE
+        // the hidden section fields the editors reveal.
+        const editorWalk = await walkSectionEditors(
+          page,
+          fillCurrentGenericPage,
+          genericSelectorsV1.sectionEditors,
+        );
+        if (editorWalk.editors > 0) {
+          report.notes.push(...editorWalk.notes);
+        }
+
+        if (report.verify.passed && report.fill.errors.length === 0) {
+          // Paycom-class lead-capture and in-form Next: the submit cascade
+          // correctly refuses "Continue"/"Next" so --submit cannot fake a
+          // receipt. After this page verifies, click that CTA, re-plan, fill.
+          const walk = await walkGenericFormPages(page, fillCurrentGenericPage);
+          page = walk.page;
+          report.wizard_pages = walk.pages;
+          report.notes.push(...walk.notes);
+          wizardVerifyFailed = walk.verifyFailed;
+        }
       }
 
       report.validation_level =

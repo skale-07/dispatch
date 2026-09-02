@@ -1054,6 +1054,43 @@ export async function greenhouseFillFromPlan(
           loc = unfiltered;
         }
       }
+      if (type !== "checkbox" && type !== "radio" && type !== "file") {
+        // #147 (live UKG run 16 → #145c): a control that exists but is NOT
+        // painted (collapsed section, unopened section editor, hidden
+        // wizard step) makes fill()/selectOption() burn their full
+        // timeout each — eight hidden address/phone inputs cost 4 minutes
+        // and the app deadline. id/name tiers resolve hidden controls
+        // exactly (no visible filter), so probe here after resolution:
+        // give a late mount 1.5s, then skip with the real reason. The
+        // section/editor walks re-plan the page once the controls are
+        // painted. Painted-invisible checkbox/radio inputs keep their
+        // JS-click path — judged by the RESOLVED element's type (a plan
+        // typed 'text' can still land on a Workday radio member).
+        const resolvedBox = await loc
+          .first()
+          .evaluate((el: { type?: string }) =>
+            el.type === "radio" || el.type === "checkbox" || el.type === "file",
+          )
+          .catch(() => false);
+        const paintedSoon =
+          resolvedBox ||
+          (await loc
+            .first()
+            .waitFor({ state: "visible", timeout: 1_500 })
+            .then(() => true, () => false));
+        if (!paintedSoon) {
+          skipped.push(
+            `${entry.field_id} — control is not visible (collapsed section or unopened editor)`,
+          );
+          field_meta.push({
+            field_id: entry.field_id,
+            canonical_field: entry.canonical_field,
+            control_kind: "text",
+            notes: ["hidden control — skipped fast, not filled"],
+          });
+          continue;
+        }
+      }
       if (type === "select" && Array.isArray(entry.value)) {
         // #73 (operator directive): multi-VALUE pickers — Workday Skills.
         // Each value is picked option-verified; values the taxonomy does
@@ -1382,6 +1419,35 @@ export async function greenhouseFillFromPlan(
                   ],
                 });
                 filled.push(entry.canonical_field ?? entry.field_id);
+                continue;
+              }
+              // #146 (live UKG run 15): PreferredName/FormerName are
+              // readonly BY DESIGN (account-owned names; the page says
+              // change them on "My presence") — fill() on a readonly
+              // control burns its full 30s timeout. Skip fast with the
+              // real reason instead.
+              const lockedShaped = await loc
+                .evaluate(
+                  (el: {
+                    readOnly?: boolean;
+                    disabled?: boolean;
+                    getAttribute: (n: string) => string | null;
+                  }) =>
+                    el.readOnly === true ||
+                    el.disabled === true ||
+                    el.getAttribute("aria-readonly") === "true",
+                )
+                .catch(() => false);
+              if (lockedShaped) {
+                skipped.push(
+                  `${entry.field_id} — control is readonly/disabled (page-owned value)`,
+                );
+                field_meta.push({
+                  field_id: entry.field_id,
+                  canonical_field: entry.canonical_field,
+                  control_kind: "text",
+                  notes: ["readonly/disabled — skipped, the page owns this value"],
+                });
                 continue;
               }
               if (opts.keystrokeText && v.length <= 80 && v.length > 0) {
@@ -1715,6 +1781,42 @@ export async function greenhouseVerifyFromPlan(
           labelsCompatible(expected, observed)
         ) {
           match = true;
+        }
+      }
+      if (!match) {
+        // #146 (live UKG run 15): readonly/disabled controls are
+        // PAGE-OWNED (PreferredName/FormerName say "change it on My
+        // presence") — our planned value cannot apply, and a mismatch
+        // there parked a form whose fillable fields all verified. Accept
+        // in place with a warning; the submit completeness scan still
+        // guards required emptiness on its own read.
+        const lockLoc = locatorForField(
+          page,
+          {
+            field_id: entry.field_id,
+            label: entry.label,
+            ...(meta?.name ? { name: meta.name } : {}),
+            ...(meta?.inputId ? { inputId: meta.inputId } : {}),
+          },
+          entry.type,
+        );
+        const locked = await lockLoc
+          .evaluate(
+            (el: {
+              readOnly?: boolean;
+              disabled?: boolean;
+              getAttribute: (n: string) => string | null;
+            }) =>
+              el.readOnly === true ||
+              el.disabled === true ||
+              el.getAttribute("aria-readonly") === "true",
+          )
+          .catch(() => false);
+        if (locked) {
+          match = true;
+          warnings.push(
+            `verify ${canonical}: control is readonly/disabled — page-owned value accepted in place`,
+          );
         }
       }
       fields.push({

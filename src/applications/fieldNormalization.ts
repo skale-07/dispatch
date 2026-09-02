@@ -37,12 +37,29 @@ export function matchCanonicalField(
   // canonicals).
   const optionControl =
     field.type === "select" || field.type === "checkbox" || field.type === "radio";
+  // #148 (live UKG run 16): "Address 2" is the second address line, not a
+  // second copy of the street — bare "Address" claimed it and the street
+  // was typed twice. Line-2 shapes map to address.line2 (empty ⇒ skip).
+  if (/^(street |mailing |home )?(address|street)( line)? ?2$/.test(normalized)) {
+    return "address.line2";
+  }
+
   const matched = matchCanonicalFieldInner(field, aliases, normalized, nameHint);
   // #85c (live stryker): "Is your current cumulative GPA 3.0 or above?"
   // — a Yes/No SELECT — matched canonical `gpa` and was fed "3.7". A
   // free-value fact (number/text) can never answer an option control;
   // unmapped, the screener path answers it from the page's own options.
   if ((matched === "phone" || matched === "gpa") && optionControl) return null;
+  // #148 (live UKG run 16): "Secondary Phone" took the primary number —
+  // a secondary/alternate/additional twin of a contact fact is a DIFFERENT
+  // datum; the profile holds one of each. Leave the twin unmapped (empty).
+  if (
+    matched &&
+    /^(phone|email|address\.line1|address\.city|linkedin_url)$/.test(matched) &&
+    /^(secondary|alternate|alternative|additional|second|other)\b/.test(normalized)
+  ) {
+    return null;
+  }
   return matched;
 }
 
@@ -141,6 +158,12 @@ function matchCanonicalFieldInner(
     return "race_ethnicity";
   if (/eeo\[?\s*veteran|eeo\[veteran\]/i.test(nameHint) || /eeo\[veteran\]/i.test(normalized))
     return "veteran_status";
+  // #148 (live UKG run 16): the Hispanic/Latino question is labelled
+  // "Ethnic Origin" but its control is named/id'd HispanicOrigin — the
+  // attribute is the deterministic tell. Sensitive-profile path only.
+  if (/hispanic/i.test(nameHint) || /hispanic/i.test(field.id ?? "")) {
+    return "hispanic_latino";
+  }
   if (
     nameHint === "org" ||
     /^(current )?company$/.test(normalized) ||

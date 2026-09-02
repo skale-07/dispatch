@@ -124,6 +124,78 @@ describe("label collision (FIXTURE_CONFIRMED)", () => {
     });
   }, 45_000);
 
+  // #146 (live UKG run 15): PreferredName/FormerName are readonly BY
+  // DESIGN (account-owned; "change it on My presence") — fill burned 30s
+  // timeouts and verify parked a form whose fillable fields all matched.
+  it("a readonly control is skipped fast and verify accepts it in place (#146)", async () => {
+    const html = `<!DOCTYPE html><html><body><form>
+      <label for="PreferredName">Preferred Name</label>
+      <input id="PreferredName" readonly value="" />
+    </form></body></html>`;
+    await withFixtureHtmlPage(html, async (page) => {
+      const e = entry({
+        field_id: "PreferredName",
+        label: "Preferred Name",
+        type: "text",
+        value: "Shubham",
+        canonical_field: "preferred_name",
+      });
+      const meta = new Map<string, FieldMeta>([
+        ["PreferredName", { type: "text", inputId: "PreferredName" }],
+      ]);
+      const t0 = Date.now();
+      const fill = await greenhouseFillFromPlan(page, [e], meta);
+      expect(Date.now() - t0).toBeLessThan(10_000);
+      expect(fill.errors).toEqual([]);
+      expect(fill.skipped.join(" ")).toMatch(/readonly\/disabled/);
+      const verify = await greenhouseVerifyFromPlan(page, [e], meta);
+      expect(verify.fields[0]?.match).toBe(true);
+      expect(verify.warnings.join(" ")).toMatch(/page-owned value accepted in place/);
+    });
+  }, 45_000);
+
+  // #147 (live UKG run 16 → #145c): controls inside a collapsed section /
+  // unopened editor exist but are not painted — fill() burned 30s each.
+  // Skip fast with the real reason; a visible sibling still fills.
+  it("a hidden text control is skipped fast, a visible one still fills (#147)", async () => {
+    const html = `<!DOCTYPE html><html><body><form>
+      <div style="display:none">
+        <label for="AddressLine1">Address Line 1</label>
+        <input id="AddressLine1" />
+      </div>
+      <label for="City">City</label>
+      <input id="City" />
+    </form></body></html>`;
+    await withFixtureHtmlPage(html, async (page) => {
+      const hidden = entry({
+        field_id: "AddressLine1",
+        label: "Address Line 1",
+        type: "text",
+        value: "1 Main St",
+        canonical_field: "address.line1",
+      });
+      const shown = entry({
+        field_id: "City",
+        label: "City",
+        type: "text",
+        value: "Baltimore",
+        canonical_field: "address.city",
+      });
+      const meta = new Map<string, FieldMeta>([
+        ["AddressLine1", { type: "text", inputId: "AddressLine1" }],
+        ["City", { type: "text", inputId: "City" }],
+      ]);
+      const t0 = Date.now();
+      const fill = await greenhouseFillFromPlan(page, [hidden, shown], meta);
+      expect(Date.now() - t0).toBeLessThan(10_000);
+      expect(fill.errors).toEqual([]);
+      expect(fill.skipped.join(" ")).toMatch(/AddressLine1 — control is not visible/);
+      expect(fill.filled).toEqual(["address.city"]);
+      expect(await page.locator("#City").inputValue()).toBe("Baltimore");
+      expect(await page.locator("#AddressLine1").inputValue()).toBe("");
+    });
+  }, 45_000);
+
   // #112 (live nuvo on jobs.gem.com 2026-08-31): captions are bare spans
   // and inputs carry NO id/name/label/aria/placeholder — every earlier
   // locator tier finds nothing. The caption rung finds the caption text

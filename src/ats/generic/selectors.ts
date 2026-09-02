@@ -21,6 +21,23 @@ export const genericSelectorsV1 = {
     excludePattern:
       /(save|draft|cancel|back|previous|next|continue|sign in|log ?in|create account|upload|browse|attach|add|remove|search|filter|share|print|withdraw)/i,
   },
+  /**
+   * #145: section-EDITOR forms (UKG Pro OpportunityApply, live 2026-09-01):
+   * each section is read-only until its "Edit <Section>" / "Add <Thing>"
+   * button opens a focused editor with the real controls plus Save/Cancel.
+   * Attribute tier first (UKG stamps data-automation), accessible-name
+   * pattern as the vendor-blind fallback. Live run 16 showed editors are
+   * strictly ONE at a time (every other pencil disables while one is
+   * open), so walkSectionEditors (#145c) cycles open → re-plan+fill →
+   * Save per editor instead of a blanket open pass.
+   */
+  sectionEditors: {
+    trigger:
+      "button[data-automation='primary-action-button'], collapsible-panel-button button",
+    triggerNamePattern: /^(edit|add)\b/i,
+    save: "button[data-automation='save-button']",
+    saveNamePattern: /^save$/i,
+  },
   /** Upload resolution seeds; uploadResolve falls back to keyword + lone input. */
   resume:
     "input[type='file'][name*='resume' i], input[type='file'][name*='cv' i], input[type='file'][id*='resume' i], input[type='file']",
