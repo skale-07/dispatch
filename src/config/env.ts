@@ -207,6 +207,12 @@ const envSchema = z.object({
   SUPABASE_SERVICE_ROLE_KEY: z.string().optional(),
   /** auth.users UUID of the cloud account these engine rows belong to. */
   SUPABASE_SYNC_USER_ID: z.string().optional(),
+  /**
+   * Supabase personal access token (Account → Access Tokens). SECRET, used
+   * only by `npm run cloud:schema -- apply` to run supabase/migrations/
+   * through the Management API. Never logged; engine machine only.
+   */
+  SUPABASE_ACCESS_TOKEN: z.string().optional(),
 });
 
 export type AppConfig = {
@@ -273,6 +279,8 @@ export type AppConfig = {
   /** Present only when the operator configured it; consumers must not log it. */
   supabaseServiceRoleKey: string | undefined;
   supabaseSyncUserId: string | undefined;
+  /** Present only when the operator configured it; consumers must not log it. */
+  supabaseAccessToken: string | undefined;
   /** Always false — no send capability exists. */
   emailSendEnabled: false;
 };
@@ -363,6 +371,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
     supabaseUrl: parsed.SUPABASE_URL,
     supabaseServiceRoleKey: parsed.SUPABASE_SERVICE_ROLE_KEY,
     supabaseSyncUserId: parsed.SUPABASE_SYNC_USER_ID,
+    supabaseAccessToken: parsed.SUPABASE_ACCESS_TOKEN,
     emailSendEnabled: false,
   };
 }

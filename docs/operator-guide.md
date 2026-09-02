@@ -1858,3 +1858,25 @@ a session (or alongside `auto:cycle`); there is no polling loop. Cloud
 rows never mutate pipeline state directly — you act on the pulled
 snapshot deliberately. Your own `private/` candidate data, vault
 entries, and ATS credentials never go up.
+
+## 26. Cloud schema — `cloud:schema` (apply migrations, read back)
+
+```
+npm run cloud:schema -- verify     # read-only: which expected objects exist
+npm run cloud:schema -- apply      # run supabase/migrations/ then verify
+```
+
+- **verify** needs only `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY`.
+  It lists every table / view / RPC / storage bucket the migrations
+  create as `present` / `absent` / `error` and exits 1 unless all are
+  present. This read-back IS the evidence: `LIVE_MUTATION_CONFIRMED`
+  for the schema means this command printed `complete: true`.
+- **apply** additionally needs `SUPABASE_SYNC_ENABLED=true` (cloud DDL
+  is a mutation) and `SUPABASE_ACCESS_TOKEN` (supabase.com → Account →
+  Access Tokens; a personal token, engine `.env` only). It runs each
+  `supabase/migrations/*.sql` not yet recorded in
+  `supabase_migrations.schema_migrations` (the Supabase CLI's own
+  ledger, so `supabase db push` later agrees), in filename order,
+  stopping at the first failure — then runs the same read-back.
+- No token? Paste the files into the dashboard SQL Editor in filename
+  order, then run `verify`.

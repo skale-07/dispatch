@@ -715,6 +715,7 @@
         "src/cloud/invitesMintCli.ts": "npm run invites:mint entrypoint",
         "src/cloud/syncMapping.ts": "pure engine-row -> mirror-row mapping; MIRROR_COLUMNS is the entire permitted engine->cloud data surface",
         "src/cloud/syncSupabase.ts": "npm run cloud:sync worker: gate check, SELECT, batched upserts via @supabase/supabase-js",
+        "src/cloud/schema.ts": "npm run cloud:schema: apply supabase/migrations/ via the Management API (SUPABASE_ACCESS_TOKEN, behind SUPABASE_SYNC_ENABLED) + deterministic REST/Storage read-back of every expected table/view/RPC/bucket (the validation evidence)",
         "supabase/migrations/20260901000300_rls_and_redeem.sql": "cloud-side RLS + atomic redeem_invite RPC"
       },
       "key_exports": {
@@ -735,6 +736,12 @@
           "runReceiptsPush",
           "runProfilesPull",
           "assertSyncConfigured"
+        ],
+        "src/cloud/schema.ts": [
+          "probeSchema",
+          "applyMigrations",
+          "listMigrationFiles",
+          "EXPECTED_TABLES"
         ]
       },
       "gates": [

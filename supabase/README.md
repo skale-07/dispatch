@@ -1,6 +1,13 @@
 # Supabase migrations (cloud plane)
 
-Plain SQL, applied in filename order. Two ways to run them:
+Plain SQL, applied in filename order. Three ways to run them:
+
+**From this repo (no CLI install):** `npm run cloud:schema -- apply`
+with `SUPABASE_SYNC_ENABLED=true` + `SUPABASE_ACCESS_TOKEN` (personal
+access token) in the engine `.env`. Records versions in the CLI's own
+`supabase_migrations.schema_migrations` ledger. Then / or standalone:
+`npm run cloud:schema -- verify` reads back every expected object over
+REST + Storage (operator-guide §26).
 
 **Dashboard (no CLI needed):** Supabase project → SQL Editor → paste each
 file from `migrations/` in order → Run.
