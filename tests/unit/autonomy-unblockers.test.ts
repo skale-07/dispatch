@@ -336,6 +336,23 @@ describe("label resolution for machine-named fields (UNIT_CONFIRMED)", () => {
     expect(discoverFieldsFromHtml(html)[0]?.label).toBe("First Name");
   });
 
+  it("#137 resolves aria-labelledby to the referenced element's text (UKG ukg-label)", () => {
+    // Live Bennett Thrasher 2026-09-01 (gusea1p01.rec.pro.ukg.net
+    // AuthCode/Register): no <label>, no aria-label, placeholder="" — the
+    // question lives in a <ukg-label> custom element the input references
+    // via aria-labelledby. Both names discovered with label "" and the
+    // plan skipped them "No answer-alias mapping".
+    const html = `<form id="registrationDetailsForm">
+      <ukg-label slot="label" data-automation="registrationDetails-firstName-label" id="ukg-label-id-veej6pzoa" aria-required="true">First name</ukg-label>
+      <input aria-labelledby="ukg-label-id-veej6pzoa" class="ukg-native-input" maxlength="100" name="firstName" placeholder="" required type="text">
+      <ukg-label slot="label" id="ukg-label-id-uws0kobcx" aria-required="true">Last name</ukg-label>
+      <input aria-labelledby="ukg-label-id-uws0kobcx" class="ukg-native-input" maxlength="100" name="lastName" placeholder="" required type="text">
+    </form>`;
+    const fields = discoverFieldsFromHtml(html);
+    expect(fields.map((f) => f.label)).toEqual(["First name", "Last name"]);
+    expect(fields.every((f) => f.required)).toBe(true);
+  });
+
   it("returns null rather than guessing when nothing informative precedes", () => {
     const html = `<form><input name="cards[abc][field0]" /></form>`;
     expect(nearestSectionHeading(html, html.indexOf("<input"))).toBeNull();

@@ -7,6 +7,7 @@ import {
   resolveSubmitControl,
 } from "../ats/shared/submitControl.js";
 import { classifyPage } from "../ats/shared/pageClassify.js";
+import { expandCollapsedSections } from "../ats/shared/sectionExpand.js";
 
 /**
  * Generic multi-page forms (Paycom lead-capture "Continue to application",
@@ -38,6 +39,27 @@ export type GenericAdvanceWalkResult = {
 
 /** Extra pages beyond the landing page. */
 export const GENERIC_ADVANCE_PAGE_CAP = 3;
+
+/**
+ * #142: the landed page's HTML once its field count stops growing — a
+ * hydrating SPA mounts sections over several seconds and an early capture
+ * plans a fraction of the form. One stable interval ends the wait; the
+ * settle budget bounds it (settleMs 0 ⇒ single fresh read).
+ */
+async function settledFormHtml(page: Page, timeoutMs: number): Promise<string> {
+  let html = await page.content();
+  let count = discoverFieldsFromHtml(html).length;
+  const deadline = Date.now() + timeoutMs;
+  while (Date.now() < deadline) {
+    await page.waitForTimeout(700);
+    const next = await page.content();
+    const nextCount = discoverFieldsFromHtml(next).length;
+    if (nextCount === count) return next;
+    html = next;
+    count = nextCount;
+  }
+  return html;
+}
 
 export async function walkGenericFormPages(
   page: Page,
@@ -97,7 +119,23 @@ export async function walkGenericFormPages(
       );
     }
 
-    const html = transition.html;
+    // #143: expand collapsed sections BEFORE the settle-and-plan — the
+    // landed page's fields include everything behind accordion headers,
+    // and the #142 stability poll below then waits for what expansion
+    // mounts.
+    const expand = await expandCollapsedSections(current).catch(() => null);
+    if (expand && expand.clicked > 0) notes.push(...expand.notes);
+
+    // #142 (live UKG OpportunityApply 2026-09-01, same class as #138):
+    // transition.html is captured at the FIRST DOM change — the landed
+    // SPA renders its sections seconds later, so page 2's plan saw only
+    // the two early-mounted name fields while required Job Title/Skills
+    // questions were still mounting. A bare form marker matches the early
+    // paint too; poll until the DISCOVERED FIELD COUNT is stable across
+    // one interval (bounded by the settle budget) and plan from that.
+    const html = await settledFormHtml(current, settleTimeoutMs).catch(
+      () => transition.html,
+    );
     const classification = classifyPage({
       html,
       url: current.url(),

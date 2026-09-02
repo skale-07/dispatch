@@ -163,6 +163,21 @@ export const ADVANCE_NAME_RE =
   /^(next|save and continue|continue(\s+to(\s+the)?\s+(application|apply))?)$/i;
 
 /**
+ * #141 (live UKG Pro AuthCode/Register 2026-09-01): mid-flow ACCOUNT-SETUP
+ * pages ("Almost there! Please provide your name to set up your account")
+ * continue via a submit-shaped button named "Create account" — not a
+ * Next/Continue, and rightly excluded from the application-submit cascade.
+ * It is the same click class portalAuth already performs on create-account
+ * walls (NAVIGATION_ENABLED), so the walk may take it as a page advance —
+ * but ONLY when the page itself says it is account setup and carries no
+ * file input (a real application's upload page is never this).
+ */
+export const ACCOUNT_SETUP_NAME_RE =
+  /^(create( my| an| your)? account|sign ?up|register)$/i;
+export const ACCOUNT_SETUP_PAGE_RE =
+  /set ?up your account|create (your|an) account to (apply|continue)|finish creating your account/i;
+
+/**
  * The control that advances this form page. Returns not-found when a
  * final submit is already visible — the gated submit path owns that click.
  */
@@ -192,6 +207,36 @@ export async function resolveAdvanceControl(
     }
     notes.push(`resolved advance: "${text.slice(0, 40)}"`);
     return { found: true, control: candidate, via: "advance-name", notes };
+  }
+  // #141 account-setup continuation tier — see ACCOUNT_SETUP_NAME_RE above.
+  const bodyText = await page
+    .locator("body")
+    .innerText({ timeout: 3_000 })
+    .catch(() => "");
+  const fileInputs = await page
+    .locator("input[type='file']")
+    .count()
+    .catch(() => 0);
+  if (ACCOUNT_SETUP_PAGE_RE.test(bodyText) && fileInputs === 0) {
+    // Page-wide on purpose: UKG's <ukg-button> is associated to the form
+    // via its form= attribute but MOUNTS outside the <form> element. The
+    // page marker + strict name + no-file-input guards carry the scoping.
+    const setupLoc = page.getByRole("button", { name: ACCOUNT_SETUP_NAME_RE });
+    const m = Math.min(await setupLoc.count().catch(() => 0), CANDIDATE_CAP);
+    for (let i = 0; i < m; i++) {
+      const candidate = setupLoc.nth(i);
+      const text = await accessibleText(candidate);
+      await candidate.scrollIntoViewIfNeeded().catch(() => undefined);
+      if (!(await candidate.isVisible().catch(() => false))) continue;
+      if (await candidate.isDisabled().catch(() => false)) {
+        notes.push(`account-setup candidate "${text.slice(0, 40)}" is disabled`);
+        continue;
+      }
+      notes.push(
+        `resolved advance: account-setup continuation "${text.slice(0, 40)}" (page says account setup, no file input)`,
+      );
+      return { found: true, control: candidate, via: "account-setup", notes };
+    }
   }
   notes.push("no Next/Continue advance control matched");
   return { found: false, notes, inventory: [] };

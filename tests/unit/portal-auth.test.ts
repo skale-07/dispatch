@@ -612,6 +612,66 @@ describe("workday portal auth (FIXTURE_CONFIRMED)", () => {
     }
   }, 30_000);
 
+  it("#136 Auth0 signup route: the form's own Continue submit is the create submit (UKG live shape)", async () => {
+    // Live Bennett Thrasher 2026-09-01 (signin-us.ukg.net): Apply lands on
+    // Auth0's /u/login (email+password+Continue, "Sign up" link). The
+    // create-before-sign-in route click reaches /u/signup whose ONLY
+    // submit also says "Continue" — no create-labeled control exists, so
+    // the create attempt used to bail with "no create submit control
+    // found" and park AUTH_REQUIRED.
+    const LOGIN_HTML = `<!DOCTYPE html><html><body>
+      <h1>Log in to continue</h1>
+      <form action="/u/login" method="post">
+        <input name="email" id="email" type="text" inputmode="email" required />
+        <input name="password" id="password" type="password" required />
+        <button type="submit" name="action">Continue</button>
+      </form>
+      <p>Don't have an account? <a href="/u/signup?state=x">Sign up</a></p>
+    </body></html>`;
+    const SIGNUP_HTML = `<!DOCTYPE html><html><body>
+      <h1>Create your account</h1>
+      <form action="/u/signup" method="post">
+        <input name="email" id="email" type="text" inputmode="email" required />
+        <input name="password" id="password" type="password" required />
+        <button type="submit" name="action">Continue</button>
+      </form>
+      <p>Already have an account? <a href="/u/login?state=x">Log in</a></p>
+    </body></html>`;
+    const DONE_HTML = `<html><body><p>Checking your application…</p></body></html>`;
+    applyControlledFillEnv({ NAVIGATION_ENABLED: "true" });
+    process.env.PORTAL_LOGIN_EMAIL = "candidate@fixture.test";
+    process.env.PORTAL_LOGIN_PASSWORD = "StandingPass1!";
+    resetConfigCache();
+    const context = await browser.newContext();
+    const page = await context.newPage();
+    await context.route("**/*", (route) => {
+      const u = new URL(route.request().url());
+      const body = u.pathname.startsWith("/u/signup")
+        ? route.request().method() === "POST"
+          ? DONE_HTML
+          : SIGNUP_HTML
+        : LOGIN_HTML;
+      void route.fulfill({ body, contentType: "text/html" });
+    });
+    await page.goto("https://signin-us.ukg.net/u/login?state=x", {
+      waitUntil: "domcontentloaded",
+    });
+    try {
+      const r = await authenticateAtsPortal(page, { settleMs: 0 });
+      expect(r.notes.join(" ")).toMatch(
+        /taking "Sign up" first \(create-before-sign-in\)/,
+      );
+      expect(r.notes.join(" ")).toMatch(
+        /signup-route page has no create-labeled submit — using the form's own submit/,
+      );
+      expect(r.status).toBe("account_created");
+    } finally {
+      applySafeFillEnv();
+      resetConfigCache();
+      await context.close().catch(() => undefined);
+    }
+  }, 30_000);
+
   it('#64 the portal answering "already exists" is the sanctioned flip to sign-in (signed_in, not account_created)', async () => {
     const EXISTS_HTML = `<!DOCTYPE html><html><body>
       <p id="err"></p>

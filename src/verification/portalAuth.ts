@@ -466,7 +466,7 @@ export async function authenticateAtsPortal(
     // on the PAGE belonged to the form behind the modal).
     const root = await authScope(page);
     if (root !== page) notes.push(`portal auth ${kind}: targeting the visible auth dialog`);
-    const submit =
+    let submit =
       (await firstVisible(
         root,
         kind === "create" ? sel.createAccountSubmit : sel.signInSubmit,
@@ -477,6 +477,32 @@ export async function authenticateAtsPortal(
           ? /create account|sign up|register/i
           : /^(sign in|log ?in|continue|submit)$/i,
       ));
+    if (!submit && kind === "create") {
+      // Auth0-style universal login (UKG signin-us.ukg.net, live Bennett
+      // Thrasher 2026-09-01): the Sign up route lands on /u/signup whose
+      // ONLY submit says "Continue" — no create-labeled control exists
+      // anywhere. When the URL path itself says signup/register, the
+      // form's own submit IS the create submit; the path check keeps this
+      // from ever grabbing a sign-in form's Continue.
+      const path = ((): string => {
+        try {
+          return new URL(page.url()).pathname;
+        } catch {
+          return "";
+        }
+      })();
+      if (/\b(sign-?up|register|create-?account)\b/i.test(path)) {
+        submit = await firstVisible(
+          root,
+          "button[type='submit'], input[type='submit']",
+        );
+        if (submit) {
+          notes.push(
+            "portal auth create: signup-route page has no create-labeled submit — using the form's own submit",
+          );
+        }
+      }
+    }
     if (!submit) {
       notes.push(`portal auth: no ${kind} submit control found`);
       return { diag: await diagnoseLoginWall(page), formGone: false };

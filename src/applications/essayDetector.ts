@@ -123,7 +123,13 @@ export function isDemographicsField(field: DiscoveredField): boolean {
   // (sic) question contains the substring and was deferred to the
   // demographics policy path — a phonetic-spelling screener is not an
   // EEO field (2026-09-01, #118).
-  return /gender|race|ethnicity|veteran|disability|hispanic|latino|transgender|eeo|equal opportunity|decline to (self-)?identify|sexual orientation|pronouns?\b/.test(
+  // "disabled": UKG live 2026-09-01 (#144) names the ADA self-ID radio
+  // group AreYouDisabled while its visible label is the boilerplate
+  // "Please choose one of the options below" — the question reached the
+  // predict tier (it produced nothing, but demographics must never take
+  // that path). camelCase names survive normalization concatenated, so
+  // substring, not \b.
+  return /gender|race|ethnicity|veteran|disabilit|disabled|hispanic|latino|transgender|eeo|equal opportunity|decline to (self-)?identify|sexual orientation|pronouns?\b/.test(
     n,
   );
 }

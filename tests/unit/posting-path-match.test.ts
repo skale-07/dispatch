@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   oneclickContinuationConvicted,
+  returnUrlContinuationConvicted,
   samePostingPath,
 } from "../../src/ats/shared/preMutationGate.js";
 
@@ -160,6 +161,56 @@ describe("#120 SmartRecruiters oneclick continuation (UNIT_CONFIRMED)", () => {
         "/BoschGroup/other-posting-path",
         EXPECTED,
         "744000146546699",
+      ),
+    ).toBe(false);
+  });
+});
+
+/**
+ * #140 (live UKG Pro 2026-09-01, Bennett Thrasher 4e47f9ae): the apply
+ * flow's registration step rides the posting along in the QUERY
+ * (AuthCode/Register?state=returnUrl%3D%2F…OpportunityApply%3F
+ * opportunityId%3D<uuid>) — the path gate refused a page the fill had
+ * just LIVE_MUTATION_CONFIRMED.
+ */
+describe("returnUrlContinuationConvicted (UNIT_CONFIRMED)", () => {
+  const EXPECTED_UKG =
+    "https://btcpa.rec.pro.ukg.net/BEN1022BTLL/JobBoard/702a70c1-c1f7-4971-8626-bb99571a35a2/OpportunityDetail?opportunityId=4d519358-fb57-46be-8018-838c26e1bf4a";
+  const FINAL_UKG =
+    "https://gusea1p01.rec.pro.ukg.net/BEN1022BTLL/AuthCode/Register?state=returnUrl%3D%2FBEN1022BTLL%2FJobBoard%2F702a70c1-c1f7-4971-8626-bb99571a35a2%2FOpportunityApply%3FopportunityId%3D4d519358-fb57-46be-8018-838c26e1bf4a%7Cta%3DBEN1022BTLL";
+
+  it("convicts when every expected uuid rides the encoded final query", () => {
+    expect(returnUrlContinuationConvicted(FINAL_UKG, EXPECTED_UKG)).toBe(true);
+  });
+
+  it("refuses when the final URL carries a DIFFERENT opportunity id", () => {
+    const otherOpp = FINAL_UKG.replace(
+      "4d519358-fb57-46be-8018-838c26e1bf4a",
+      "99999999-aaaa-bbbb-cccc-000000000000",
+    );
+    expect(returnUrlContinuationConvicted(otherOpp, EXPECTED_UKG)).toBe(false);
+  });
+
+  it("refuses when the expected URL has no identifiers to convict with", () => {
+    expect(
+      returnUrlContinuationConvicted(
+        FINAL_UKG,
+        "https://example.com/careers/some-job",
+      ),
+    ).toBe(false);
+  });
+
+  it("numeric ids convict too, and partial matches do not", () => {
+    expect(
+      returnUrlContinuationConvicted(
+        "https://x.example/auth?return=%2Fjobs%2F10412530%2Fapply",
+        "https://x.example/jobs/10412530/swe-intern",
+      ),
+    ).toBe(true);
+    expect(
+      returnUrlContinuationConvicted(
+        "https://x.example/auth?return=%2Fjobs%2F999%2Fapply",
+        "https://x.example/jobs/10412530/swe-intern",
       ),
     ).toBe(false);
   });

@@ -38,6 +38,7 @@ import { ATS_BINDINGS, type AtsBinding } from "./atsBindings.js";
 import { findApplicationFrameUrl } from "../ats/shared/frameHop.js";
 import { inventoryFileInputs } from "../ats/shared/uploadResolve.js";
 import { advancePastPosting } from "../ats/shared/postingAdvance.js";
+import { expandCollapsedSections } from "../ats/shared/sectionExpand.js";
 import {
   extractPostingContext,
   mergePostingContext,
@@ -633,10 +634,16 @@ export async function runAtsLiveFill(input: {
           report.notes.push(...advance.notes);
           if (advance.hops > 0) {
             page = advance.page;
-            planHtml = advance.html;
-            planUrl = advance.url;
             gate = await binding.gate(page, advance.url, advance.url);
             landing = applyGateToReport(report, gate);
+            // #138 (live UKG AuthCode/Register 2026-09-01): advance.html
+            // is the click's settle snapshot; a hydrating SPA mounts its
+            // native inputs SECONDS later (<ukg-input> web components), so
+            // the plan discovered 0 fields from stale HTML while the
+            // re-gate above already saw the real form. Plan from the
+            // re-gate's fresh read, never the click snapshot.
+            planHtml = gate.html;
+            planUrl = gate.finalUrl;
           }
           // Apply landed on a DIFFERENT recognised ATS (careers site →
           // Workday/Greenhouse/…): hand the application to that adapter
@@ -899,6 +906,19 @@ export async function runAtsLiveFill(input: {
           if (activation.activated) {
             planHtml = await page.content();
           }
+        }
+      }
+
+      // #143: expand collapsed accordion sections BEFORE harvest/plan —
+      // a page that lands with its fields behind Bootstrap-style panels
+      // (UKG OpportunityApply) otherwise plans fills that can only time
+      // out "waiting for element to be visible". Execute-only: expansion
+      // clicks are interaction. Refresh the plan HTML when it changed.
+      if (input.execute) {
+        const expanded = await expandCollapsedSections(page).catch(() => null);
+        if (expanded && expanded.clicked > 0) {
+          report.notes.push(...expanded.notes);
+          planHtml = await page.content();
         }
       }
 

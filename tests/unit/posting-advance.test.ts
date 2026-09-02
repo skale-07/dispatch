@@ -371,6 +371,47 @@ describe("advancePastPosting (FIXTURE_CONFIRMED)", () => {
     });
   }, 45_000);
 
+  it("clicks a shadow-DOM web-component Apply button whose label is slotted (UKG)", async () => {
+    // Live 2026-09-01 (btcpa.rec.pro.ukg.net, Bennett Thrasher): the only
+    // Apply control is <ukg-button>Apply now</ukg-button> — a custom
+    // element whose native <button> lives in a shadow root and shows the
+    // host's text through a <slot>. The role engine finds it by accessible
+    // name, but the node's own innerText/textContent/aria-label are empty,
+    // so the self-text re-check used to reject it and the run parked
+    // FORM_NOT_REACHED with "no Apply control found".
+    const html = `<!DOCTYPE html><html><body>
+      <div id="stage">
+        <h1>IT Intern - AI &amp; Automation</h1>
+        <input id="q" placeholder="Search by job title, ID, or keyword" />
+        <ukg-button id="apply-host">Apply now</ukg-button>
+      </div>
+      <script>
+        customElements.define('ukg-button', class extends HTMLElement {
+          connectedCallback() {
+            const root = this.attachShadow({ mode: 'open' });
+            root.innerHTML = '<button type="button" role="button"><span><slot></slot></span></button>';
+          }
+        });
+        document.getElementById('apply-host').addEventListener('click', () => {
+          document.getElementById('stage').innerHTML =
+            '<form><label>First Name<input name="first_name"/></label>' +
+            '<label>Email<input type="email" name="email"/></label></form>';
+        });
+      </script></body></html>`;
+    await withFixtureHtmlPage(html, async (page) => {
+      const r = await advancePastPosting({
+        page,
+        html,
+        url: page.url(),
+        settleTimeoutMs: 5_000,
+      });
+      expect(r.advanced).toBe(true);
+      expect(r.page_class).toBe("form");
+      expect(r.hops).toBe(1);
+      expect(r.notes.join(" ")).toMatch(/accessible name is Apply/);
+    });
+  }, 45_000);
+
   it("reports honestly when a posting has no Apply control at all", async () => {
     const html = `<html><body>
       <input id="q" placeholder="Search by job title, ID, or keyword" />

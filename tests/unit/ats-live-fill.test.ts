@@ -329,6 +329,64 @@ describe("runAtsLiveFill (W5)", () => {
   );
 
   it(
+    "#138 plans from the re-gate's fresh read when the post-Apply page hydrates late (FIXTURE_CONFIRMED)",
+    async () => {
+      // Live UKG AuthCode/Register 2026-09-01: the Apply click's settle
+      // snapshot is taken at the FIRST DOM change — the page's web
+      // components mount their native inputs seconds later, so the plan
+      // discovered 0 fields from stale HTML while the re-gate had already
+      // seen the real form (verify then failed, AMBIGUOUS_FIELD). The
+      // fixture clicks Apply into an empty shell that grows the form
+      // 2.2s later.
+      applyFixtureFillEnv();
+      const report = await runAtsLiveFill({
+        binding: ATS_BINDINGS.generic,
+        url: "http://localhost:4599/portal",
+        execute: true,
+        profile: PROFILE,
+        fixtureHtml: `<!doctype html><html><body>
+          <h1>AI Engineer Intern</h1>
+          <input placeholder="Search by job title, ID, or keyword" />
+          <button type="button" id="apply">Apply</button>
+          <script>
+            document.getElementById('apply').addEventListener('click', function () {
+              document.body.replaceChildren();
+              var shell = document.createElement('div');
+              shell.textContent = 'Almost there!';
+              document.body.appendChild(shell);
+              setTimeout(function () {
+                var form = document.createElement('form');
+                function add(name, type, labelText) {
+                  var lab = document.createElement('label');
+                  lab.htmlFor = name;
+                  lab.textContent = labelText;
+                  var inp = document.createElement('input');
+                  inp.id = name;
+                  inp.name = name;
+                  inp.type = type;
+                  form.appendChild(lab);
+                  form.appendChild(inp);
+                }
+                add('first_name', 'text', 'First Name');
+                add('email', 'email', 'Email');
+                document.body.appendChild(form);
+              }, 2200);
+            });
+          </script>
+        </body></html>`,
+      });
+      expect(report.notes.join(" ")).toMatch(/landed on a posting/);
+      expect(report.gate.ok).toBe(true);
+      expect(report.mode).toBe("executed");
+      // The plan must come from the hydrated read: both fields present.
+      const planIds = (report.plan_fields ?? []).map((f) => f.field_id);
+      expect(planIds).toContain("first_name");
+      expect(planIds).toContain("email");
+    },
+    45_000,
+  );
+
+  it(
     "execute on a posting that reveals a login wall refuses LOGIN_WALL, not the auth form (FIXTURE_CONFIRMED)",
     async () => {
       applyFixtureFillEnv();

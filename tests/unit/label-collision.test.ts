@@ -92,6 +92,38 @@ describe("label collision (FIXTURE_CONFIRMED)", () => {
     });
   }, 45_000);
 
+  // #139 (live UKG AuthCode/Register 2026-09-01): web-component hosts
+  // MIRROR the name attribute — `<ukg-input name="firstName">` wraps the
+  // native `<input name="firstName">`; the bare [name=…].first() resolved
+  // the HOST (document order) and both fill and verify errored
+  // "Element is not an <input>…".
+  it("a name shared by a web-component host and its native input resolves to the input (#139)", async () => {
+    const UKG_HTML = `<!DOCTYPE html><html><body>
+      <form id="registrationDetailsForm">
+        <ukg-input value="" type="text" name="firstName" data-tag-name="input" class="hydrated">
+          <ukg-label id="ukg-label-id-a">First name</ukg-label>
+          <input aria-labelledby="ukg-label-id-a" class="ukg-native-input" name="firstName" required type="text">
+        </ukg-input>
+      </form></body></html>`;
+    await withFixtureHtmlPage(UKG_HTML, async (page) => {
+      const e = entry({
+        field_id: "firstName",
+        label: "First name",
+        type: "text",
+        value: "Ada",
+        canonical_field: "legal_name.first",
+      });
+      const meta = new Map<string, FieldMeta>([
+        ["firstName", { type: "text", name: "firstName" }],
+      ]);
+      const fill = await greenhouseFillFromPlan(page, [e], meta);
+      expect(fill.errors).toEqual([]);
+      expect(await page.locator("input.ukg-native-input").inputValue()).toBe("Ada");
+      const verify = await greenhouseVerifyFromPlan(page, [e], meta);
+      expect(verify.fields[0]?.match).toBe(true);
+    });
+  }, 45_000);
+
   // #112 (live nuvo on jobs.gem.com 2026-08-31): captions are bare spans
   // and inputs carry NO id/name/label/aria/placeholder — every earlier
   // locator tier finds nothing. The caption rung finds the caption text

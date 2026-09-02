@@ -84,6 +84,27 @@ function isApplyCtaLabel(raw: string): boolean {
 
 /** Visible Apply control a human would click. Exported so fill can wait on it. */
 export async function findApplyControl(page: Page) {
+  // Strict accessible-name tier first. Web-component buttons (UKG's
+  // <ukg-button>, live Bennett Thrasher 2026-09-01) render the real
+  // <button> in a shadow root and slot the label in from the host: the
+  // role engine computes the name "Apply now" from the flattened tree,
+  // but the matched node's own innerText/textContent/aria-label are all
+  // EMPTY, so the loose tier's self-text re-check can only reject it.
+  // When the WHOLE accessible name matches the anchored Apply regex, the
+  // role match is the evidence — "Apply filters"/"Apply and save"/"Apply
+  // with Indeed" all fail the anchor and never reach here.
+  for (const role of ["button", "link"] as const) {
+    const strict = page.getByRole(role, { name: APPLY_TEXT_RE });
+    const n = Math.min(await strict.count().catch(() => 0), 8);
+    for (let i = 0; i < n; i++) {
+      const candidate = strict.nth(i);
+      if (!(await candidate.isVisible().catch(() => false))) continue;
+      return {
+        loc: await preferHrefAncestor(candidate),
+        how: `role=${role} accessible name is Apply`,
+      };
+    }
+  }
   for (const role of ["button", "link"] as const) {
     const named = page.getByRole(role, { name: /^apply\b/i });
     const n = Math.min(await named.count().catch(() => 0), 8);

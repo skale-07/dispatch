@@ -192,4 +192,26 @@ describe("demographics classifier pronoun boundary (#118)", () => {
     expect(isDemographicsField(field("Pronouns"))).toBe(true);
     expect(isDemographicsField(field("Preferred pronoun"))).toBe(true);
   });
+  it("#144 a camelCase disability NAME with a boilerplate label is demographics (UNIT_CONFIRMED)", () => {
+    // UKG live 2026-09-01: the ADA self-ID radio group is named
+    // AreYouDisabled while its visible label is generic — it must be
+    // fenced onto the sensitive-profile path, never the predict tier.
+    expect(
+      isDemographicsField({
+        id: "x",
+        label: "Please choose one of the options below",
+        name: "AreYouDisabled",
+        type: "radio" as const,
+        required: true,
+      } as never),
+    ).toBe(true);
+    expect(
+      isDemographicsField({
+        id: "x",
+        label: "Do you consider yourself disabled?",
+        type: "radio" as const,
+        required: false,
+      } as never),
+    ).toBe(true);
+  });
 });

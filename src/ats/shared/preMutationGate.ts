@@ -105,6 +105,42 @@ export function oneclickContinuationConvicted(
   return html.includes(reqId);
 }
 
+/**
+ * #140 (live UKG Pro 2026-09-01, Bennett Thrasher): the apply flow's own
+ * auth/registration steps carry the validated posting along in the URL
+ * QUERY — /BEN1022BTLL/AuthCode/Register?state=returnUrl%3D%2F…%2F
+ * OpportunityApply%3FopportunityId%3D<uuid>. The path can never match the
+ * posting, so the path gate refused a page whose two name fields the fill
+ * had just verified (LIVE_MUTATION_CONFIRMED). Per the #81 doctrine the
+ * posting's own identifiers convict: EVERY uuid / long numeric id in the
+ * EXPECTED posting URL must reappear in the percent-decoded final URL.
+ * No identifiers on the expected URL ⇒ no rescue; a redirect to a
+ * different posting lacks ours by construction.
+ */
+export function returnUrlContinuationConvicted(
+  finalUrl: string,
+  expectedUrl: string,
+): boolean {
+  const ids = (
+    expectedUrl.match(
+      /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|\d{7,}/gi,
+    ) ?? []
+  ).map((s) => s.toLowerCase());
+  if (ids.length === 0) return false;
+  let hay = finalUrl;
+  for (let i = 0; i < 3; i++) {
+    try {
+      const decoded = decodeURIComponent(hay);
+      if (decoded === hay) break;
+      hay = decoded;
+    } catch {
+      break;
+    }
+  }
+  const lower = hay.toLowerCase();
+  return ids.every((id) => lower.includes(id));
+}
+
 export type GenericPreMutationGateResult = {
   ok: boolean;
   finalUrl: string;
@@ -200,7 +236,8 @@ export async function verifyPageBeforeMutationGeneric(
       );
       if (
         !samePostingPath(finalPath, expectedPath) &&
-        !oneclickContinuationConvicted(finalPath, expectedPath, html)
+        !oneclickContinuationConvicted(finalPath, expectedPath, html) &&
+        !returnUrlContinuationConvicted(finalUrl, options.expectedUrl)
       ) {
         return fail(
           "POSTING_MISMATCH",

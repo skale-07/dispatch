@@ -504,11 +504,19 @@ export async function planApplicationFill(input: {
         const field = mapped.find((f) => f.id === c.key);
         if (field) {
           try {
-            rememberPredictedScreenerAnswer({
-              key: `custom:option:${normalizeScreenerLabel(field.label).slice(0, 60).replace(/\s+/g, "_")}`,
-              answer: c.option,
-              label: field.label,
-            });
+            // Bank custom keys are BARE snake_case (parse enforces on
+            // load, not write — a bad key here poisoned the whole bank
+            // on 2026-09-01 and crashed every later plan).
+            const key = `opt_${normalizeScreenerLabel(field.label)
+              .replace(/[^a-z0-9]+/g, "_")
+              .replace(/^_+|_+$/g, "")}`.slice(0, 60);
+            if (/^[a-z0-9_]{2,60}$/.test(key)) {
+              rememberPredictedScreenerAnswer({
+                key,
+                answer: c.option,
+                label: field.label,
+              });
+            }
           } catch {
             // bank persist is best-effort; a write error must not drop a fill
           }

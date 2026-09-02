@@ -73,7 +73,19 @@ export function locatorForField(
     return page.locator(`[id="${escaped}"]`).first();
   }
   if (entry.name) {
-    return page.locator(`[name="${entry.name.replace(/"/g, '\\"')}"]`).first();
+    const byName = page.locator(`[name="${entry.name.replace(/"/g, '\\"')}"]`);
+    // #139 (live UKG AuthCode/Register 2026-09-01): web-component hosts
+    // MIRROR the name attribute — `<ukg-input name="firstName">` wraps the
+    // native `<input name="firstName">`, and the bare [name=…].first()
+    // resolved the HOST (document order), which Playwright cannot fill or
+    // read. Prefer the match that IS a control, else descend into the
+    // host; plain pages resolve exactly as before.
+    const NAME_CONTROL =
+      'input:not([type="hidden"]), textarea, select, [contenteditable="true"]';
+    return byName
+      .and(page.locator(NAME_CONTROL))
+      .or(byName.locator(NAME_CONTROL))
+      .first();
   }
   const byLabel = page.getByLabel(entry.label, { exact: false });
   // Workday (live huntington 2026-08-30 #54): <label for> points at a

@@ -183,6 +183,10 @@ export function discoverFieldsFromHtml(
     const name = getAttr(attrs, "name") ?? undefined;
     const inputId = getAttr(attrs, "id") ?? undefined;
     const ariaLabel = getAttr(attrs, "aria-label") ?? undefined;
+    const labelledbyIds = getAttr(attrs, "aria-labelledby") ?? undefined;
+    const labelledby = labelledbyIds
+      ? ariaLabelledbyText(html, labelledbyIds)
+      : undefined;
     const placeholder = getAttr(attrs, "placeholder") ?? undefined;
     const dataFor = getAttr(attrs, "data-for") ?? undefined;
     const required =
@@ -191,6 +195,7 @@ export function discoverFieldsFromHtml(
 
     let label =
       (inputId ? labelMap.get(inputId) : undefined) ??
+      labelledby ??
       ariaLabel ??
       placeholder ??
       dataFor ??
@@ -548,6 +553,31 @@ function buildLabelMap(html: string): Map<string, string> {
     if (forId && body) map.set(forId, body);
   }
   return map;
+}
+
+/**
+ * aria-labelledby resolution — the ARIA-standard third leg the ladder was
+ * missing. UKG Pro's registration page (live Bennett Thrasher 2026-09-01)
+ * labels its inputs with `<ukg-label id="ukg-label-id-…">First name</ukg-label>`
+ * + `aria-labelledby` on the input: no <label> element, no aria-label, an
+ * EMPTY placeholder — so firstName/lastName discovered with label "" and
+ * planned as SKIP "No answer-alias mapping". The referenced element can be
+ * ANY tag (ukg-label, span, div); take its immediate text.
+ */
+function ariaLabelledbyText(html: string, idList: string): string | undefined {
+  const parts: string[] = [];
+  for (const id of idList.trim().split(/\s+/).slice(0, 4)) {
+    if (!id) continue;
+    const escaped = id.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const re = new RegExp(
+      `<[a-z][a-z0-9-]*\\b[^>]*(?:^|\\s)id\\s*=\\s*["']${escaped}["'][^>]*>([^<]{0,200})`,
+      "i",
+    );
+    const text = re.exec(html)?.[1]?.trim();
+    if (text) parts.push(text);
+  }
+  const joined = cleanLabel(parts.join(" "));
+  return joined.length > 0 ? joined : undefined;
 }
 
 function getAttr(attrs: string, name: string): string | null {
