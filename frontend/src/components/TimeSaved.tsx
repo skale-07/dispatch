@@ -13,11 +13,15 @@ import { Skeleton } from "./Skeleton";
  *
  * Submitted count comes from /api/summary (the same states the rest of
  * the console calls "submitted"); the per-day series is /api/insights'
- * verified fill runs. Hours are DERIVED, and say so on the tile: a manual
- * application runs about 20-40 minutes, so the range is submitted x 20min
- * to submitted x 40min — a range, not a made-up precision. Two measures,
- * one unit family, so no dual axis: the chart draws the count and the
- * stat tiles carry the derived headline (dataviz form rule).
+ * submissions_daily — TRUE submissions per day, so the chart finally
+ * measures the same thing as the tile. A console predating that field
+ * falls back to verified fill runs per day, relabeled honestly (the
+ * caption always names the series actually drawn). Hours are DERIVED,
+ * and say so on the tile: a manual application runs about 20-40 minutes,
+ * so the range is submitted x 20min to submitted x 40min — a range, not
+ * a made-up precision. Two measures, one unit family, so no dual axis:
+ * the chart draws the count and the stat tiles carry the derived
+ * headline (dataviz form rule).
  *
  * Fail-closed honesty: console unreachable or zero data renders an empty
  * state that says which, never a fabricated chart.
@@ -30,6 +34,8 @@ type InsightsSlice = {
     verified: number;
     failed: number;
   }>;
+  /** True submissions per day (console >= bacff7ab); absent on older consoles. */
+  submissions_daily?: Array<{ date: string; submitted: number }>;
 };
 
 const MANUAL_MINUTES_LOW = 20;
@@ -80,11 +86,18 @@ export function TimeSaved(): JSX.Element {
     );
   }
 
-  const daily = insights.data?.fill_runs_daily ?? [];
-  const chartData = daily.map((d) => ({
-    name: d.date.slice(5),
-    verified: d.verified,
-  }));
+  // Prefer the true series; fall back (relabeled) for an older console.
+  const submissionsDaily = insights.data?.submissions_daily;
+  const trueSeries = submissionsDaily !== undefined;
+  const chartData = trueSeries
+    ? submissionsDaily.map((d) => ({ name: d.date.slice(5), count: d.submitted }))
+    : (insights.data?.fill_runs_daily ?? []).map((d) => ({
+        name: d.date.slice(5),
+        count: d.verified,
+      }));
+  const caption = trueSeries
+    ? "applications submitted per day — the same count as the tile above"
+    : "forms filled and read back verified, per day — this console predates the per-day submissions series";
 
   return (
     <>
@@ -113,18 +126,17 @@ export function TimeSaved(): JSX.Element {
             animationDuration={600}
           >
             <Grid horizontal />
-            <Bar dataKey="verified" fill="var(--accent)" />
+            <Bar dataKey="count" fill="var(--accent)" />
           </BarChart>
           <p className="faint" style={{ margin: "0.5rem 0 0" }}>
-            forms filled and read back verified, per day — from your own run
-            history
+            {caption}
           </p>
         </>
       ) : (
         <p className="faint" style={{ margin: "0.5rem 0 0" }}>
           {insights.error
             ? "per-day history unavailable right now — the totals above are still real"
-            : "per-day history appears after the first recorded fill run"}
+            : "per-day history appears after the first recorded submission"}
         </p>
       )}
     </>

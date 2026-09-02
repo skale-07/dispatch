@@ -8,13 +8,24 @@ import { describe, expect, it } from "vitest";
  * attributes in total, and no landmark was labelled. Claims a project
  * makes about itself should be executable, so these are.
  *
+ * Since the public/console surface split (operator direction
+ * 2026-09-01), App.tsx is only the surface switch — the shell markup
+ * lives in the two surface roots. The landmark contract binds BOTH:
+ * a student on the public app and an operator in the console each get
+ * the skip link, the main landmark, and a labelled primary nav. A new
+ * surface root added to SHELLS below inherits the same bar.
+ *
  * Text-level, like the other frontend contracts here — frontend/ is a
  * separate TS project the backend tsconfig cannot compile.
  * UNIT_CONFIRMED.
  */
 
 const SRC = path.join(process.cwd(), "frontend", "src");
-const APP = fs.readFileSync(path.join(SRC, "App.tsx"), "utf8");
+/** Every app-surface shell; each must carry the full landmark set. */
+const SHELLS = ["public/PublicApp.tsx", "ConsoleApp.tsx"].map((rel) => ({
+  rel,
+  text: fs.readFileSync(path.join(SRC, rel), "utf8"),
+}));
 
 function walk(dir: string): string[] {
   const out: string[] = [];
@@ -26,10 +37,16 @@ function walk(dir: string): string[] {
   return out;
 }
 
-describe("console accessibility contract (UNIT_CONFIRMED)", () => {
-  it("a keyboard can skip the navigation", () => {
-    expect(APP).toMatch(/className="skip-link"\s+href="#main"/);
-    expect(APP).toMatch(/<main[^>]*id="main"/);
+describe("app accessibility contract, both surfaces (UNIT_CONFIRMED)", () => {
+  it("a keyboard can skip the navigation on every surface", () => {
+    for (const shell of SHELLS) {
+      expect(shell.text, `${shell.rel} skip link`).toMatch(
+        /className="skip-link"\s+href="#main"/,
+      );
+      expect(shell.text, `${shell.rel} main landmark`).toMatch(
+        /<main[^>]*id="main"/,
+      );
+    }
     const base = fs.readFileSync(path.join(SRC, "styles", "base.css"), "utf8");
     // Off-screen until focused, on-screen when focused: both halves are
     // required — one without the other is either invisible or always visible.
@@ -37,8 +54,13 @@ describe("console accessibility contract (UNIT_CONFIRMED)", () => {
     expect(base).toMatch(/\.skip-link:focus\s*\{[^}]*left:/);
   });
 
-  it("the primary navigation is a labelled landmark", () => {
-    expect(APP).toMatch(/<nav aria-label="Primary">/);
+  it("the primary navigation is a labelled landmark on every surface", () => {
+    for (const shell of SHELLS) {
+      // Attribute order is a formatting choice, not a contract.
+      expect(shell.text, `${shell.rel} labelled nav`).toMatch(
+        /<nav[^>]*aria-label="Primary"/,
+      );
+    }
   });
 
   it("every interactive element has a visible focus state", () => {
