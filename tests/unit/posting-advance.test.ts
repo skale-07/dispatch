@@ -59,9 +59,34 @@ describe("posting vs form discrimination (UNIT_CONFIRMED)", () => {
       html: LISTING_WITH_SEARCH_CHROME,
       url: "https://microsoft.eightfold.ai/careers?pid=197",
     });
+    // The invariant this test exists for, unchanged: a listing page with
+    // search chrome must never be treated as an application form.
     expect(c.page_class).toBe("posting");
-    // The fields are still counted and reported — they exist, they are just
-    // not an application.
+    // #157/#162 changed HOW: the chrome is now dropped at discovery rather
+    // than counted and then rejected, so the page is simply fieldless and
+    // takes the no-fields posting path. (All three widgets here — both
+    // searches and "Turn on job alerts for this search" — are chrome.)
+    expect(c.field_count).toBe(0);
+    expect(c.evidence).toMatch(/no fields, Apply CTA present/);
+  });
+
+  it("still rejects a page whose only fields are non-identity furniture", () => {
+    // Keeps the ORIGINAL discriminator covered: furniture that #157/#162
+    // do not recognise is counted, and the "nothing asks who you are"
+    // branch is what refuses the page.
+    const html = `<html><body>
+      <h1>Software Engineer</h1>
+      <label for="lang">Language</label>
+      <select id="lang" name="site_language"><option>English</option></select>
+      <label for="fs">Font size</label>
+      <select id="fs" name="font_size"><option>Large</option></select>
+      <button>Apply now</button>
+    </body></html>`;
+    const c = classifyPage({
+      html,
+      url: "https://careers.example.com/jobs/197",
+    });
+    expect(c.page_class).toBe("posting");
     expect(c.field_count).toBeGreaterThan(0);
     expect(c.evidence).toMatch(/none of the .* ask who you are/);
   });
