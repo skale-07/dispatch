@@ -149,6 +149,17 @@ export type GenericPreMutationGateResult = {
   title: string;
   failureCode: string | null;
   reason: string | null;
+  /**
+   * #160: how the render wait ended. Null when the first paint already
+   * classified (no wait happened). A park on `unknown` reads this to say
+   * what it actually saw instead of only "no signals matched".
+   */
+  renderWait?: {
+    polls: number;
+    waitedMs: number;
+    settledAs: "marker" | "classified" | "timeout";
+    htmlChars: number;
+  } | null;
 };
 
 /**
@@ -163,13 +174,67 @@ export async function waitForRenderedContent(
   timeoutMs = 10_000,
   intervalMs = 500,
 ): Promise<string> {
-  const deadline = Date.now() + timeoutMs;
+  return (await waitForRenderedContentDetailed(page, marker, timeoutMs, intervalMs))
+    .html;
+}
+
+/**
+ * #160: the same wait, but it also reports HOW it ended — the evidence a
+ * park on `unknown` needs and never had.
+ *
+ * Two changes, both from the 2026-09-03 cycles where 7 apps parked
+ * UNKNOWN_LANDING and nothing in the artifact said what the gate saw:
+ *
+ * - It now also stops once the page CLASSIFIES as form or posting, not
+ *   only when the form marker matches. A posting-resolving SPA satisfies
+ *   no form marker, so it used to burn the whole timeout and then be
+ *   judged on whatever the last poll happened to catch.
+ * - It returns the poll count and the reason it stopped, so the caller can
+ *   say "waited 10s over 20 polls, marker never matched, final html 2.1MB"
+ *   instead of "no signals matched".
+ *
+ * Read-only: it never mutates the page, and the html it returns is the
+ * same last-read html the marker path would have returned.
+ */
+export async function waitForRenderedContentDetailed(
+  page: Page,
+  marker: RegExp,
+  timeoutMs = 10_000,
+  intervalMs = 500,
+): Promise<{
+  html: string;
+  polls: number;
+  waitedMs: number;
+  settledAs: "marker" | "classified" | "timeout";
+}> {
+  const startedAt = Date.now();
+  const deadline = startedAt + timeoutMs;
   let html = await readLiveHtml(page);
-  while (!marker.test(html) && Date.now() < deadline) {
+  let polls = 1;
+  const done = (
+    settledAs: "marker" | "classified" | "timeout",
+  ): {
+    html: string;
+    polls: number;
+    waitedMs: number;
+    settledAs: "marker" | "classified" | "timeout";
+  } => ({ html, polls, waitedMs: Date.now() - startedAt, settledAs });
+
+  const classified = (h: string): boolean => {
+    const c = classifyPage({ html: h, url: page.url() }).page_class;
+    return c === "form" || c === "posting";
+  };
+
+  if (marker.test(html)) return done("marker");
+  if (classified(html)) return done("classified");
+  while (Date.now() < deadline) {
     await page.waitForTimeout(intervalMs);
     html = await readLiveHtml(page);
+    polls++;
+    if (marker.test(html)) return done("marker");
+    if (classified(html)) return done("classified");
   }
-  return html;
+  return done("timeout");
 }
 
 export async function verifyPageBeforeMutationGeneric(
@@ -198,17 +263,27 @@ export async function verifyPageBeforeMutationGeneric(
     html: htmlImmediate,
     url: page.url(),
   }).page_class;
-  const html0 =
+  const settle =
     firstClass === "posting" || firstClass === "form"
-      ? htmlImmediate
-      : await waitForRenderedContent(
+      ? null
+      : await waitForRenderedContentDetailed(
           page,
           options.formMarkers,
           options.renderTimeoutMs ?? 10_000,
         );
+  const html0 = settle ? settle.html : htmlImmediate;
   const finalUrl = page.url();
   const html = html0;
   const title = await page.title().catch(() => "");
+
+  const renderWait = settle
+    ? {
+        polls: settle.polls,
+        waitedMs: settle.waitedMs,
+        settledAs: settle.settledAs,
+        htmlChars: settle.html.length,
+      }
+    : null;
 
   const fail = (
     failureCode: string,
@@ -220,6 +295,7 @@ export async function verifyPageBeforeMutationGeneric(
     title,
     failureCode,
     reason,
+    renderWait,
   });
 
   if (!options.isTrustedHost(finalUrl)) {
@@ -304,12 +380,28 @@ export async function verifyPageBeforeMutationGeneric(
         html,
       )
     ) {
-      return { ok: true, finalUrl, html, title, failureCode: null, reason: null };
+      return {
+        ok: true,
+        finalUrl,
+        html,
+        title,
+        failureCode: null,
+        reason: null,
+        renderWait,
+      };
     }
     return fail(
       "NO_APPLICATION_FORM",
       "form markers matched but the page has no fillable fields — this is a posting/description page, not the application form",
     );
   }
-  return { ok: true, finalUrl, html, title, failureCode: null, reason: null };
+  return {
+    ok: true,
+    finalUrl,
+    html,
+    title,
+    failureCode: null,
+    reason: null,
+    renderWait,
+  };
 }

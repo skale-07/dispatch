@@ -53,6 +53,18 @@ export type AtsBindingGateResult = {
   html: string;
   failureCode?: string | null;
   reason?: string | null;
+  /**
+   * #160: how the gate's render wait ended, when the binding performed one.
+   * Optional because only the generic gate reports it today; a park on
+   * `unknown` prints it so a slow SPA is distinguishable from an
+   * iframe-served posting without a live re-probe.
+   */
+  renderWait?: {
+    polls: number;
+    waitedMs: number;
+    settledAs: "marker" | "classified" | "timeout";
+    htmlChars: number;
+  } | null;
 };
 
 export type AtsBinding = {

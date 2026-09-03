@@ -905,6 +905,28 @@ export async function runAtsLiveFill(input: {
           report.notes.push(
             `parked: page class unknown (${landing.evidence}) — not a form, posting, or login wall`,
           );
+          // #160: say what the gate actually saw. Seven apps parked here
+          // in the 2026-09-03 cycles across five hosts and the artifact
+          // named none of it, so telling a slow SPA (still painting) from
+          // an iframe-served posting (#159) needed a live re-probe.
+          const rw = gate.renderWait;
+          report.notes.push(
+            rw
+              ? `render wait: ${rw.settledAs} after ${rw.polls} poll(s) / ${rw.waitedMs}ms, final html ${rw.htmlChars} chars`
+              : "render wait: skipped — the first paint already classified",
+          );
+          const frameUrls = page
+            .frames()
+            .map((f) => f.url())
+            .filter((u) => u && u !== "about:blank" && u !== page.url());
+          report.notes.push(
+            frameUrls.length === 0
+              ? "child frames: none — the posting is not iframe-served"
+              : `child frames (${frameUrls.length}): ${frameUrls
+                  .slice(0, 3)
+                  .map((u) => u.slice(0, 80))
+                  .join(" | ")}`,
+          );
         } else if (landing.page_class === "confirmation") {
           report.gate.failure_code = "ALREADY_CONFIRMED";
           report.notes.push("refused — page already shows an application confirmation");
