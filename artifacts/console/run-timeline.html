@@ -60,22 +60,82 @@
 </style></head>
 <body><div class="wrap">
 <h1>Dispatch run timeline</h1>
-<p class="sub">Generated 2026-09-03T05:44:12.978Z · 40 navigation run(s) · read-only view of artifacts/</p>
-<div class="stats"><span class="stat"><b>26</b> resolved</span><span class="stat"><b>6</b> duplicate_url</span><span class="stat"><b>3</b> closed</span><span class="stat"><b>2</b> auth</span><span class="stat"><b>2</b> budget</span><span class="stat"><b>1</b> submit_risk</span></div>
+<p class="sub">Generated 2026-09-03T06:10:59.904Z · 40 navigation run(s) · read-only view of artifacts/</p>
+<div class="stats"><span class="stat"><b>26</b> resolved</span><span class="stat"><b>5</b> duplicate_url</span><span class="stat"><b>3</b> auth</span><span class="stat"><b>3</b> closed</span><span class="stat"><b>2</b> budget</span><span class="stat"><b>1</b> submit_risk</span></div>
 <section class="cycle">
   <h2>Latest cycle</h2>
   <dl>
-    <div><dt>Started</dt><dd>2026-09-03T04:47:34.277Z</dd></div>
+    <div><dt>Started</dt><dd>2026-09-03T05:47:33.964Z</dd></div>
     <div><dt>Outcome</dt><dd>completed</dd></div>
     <div><dt>Agent leg</dt><dd>available</dd></div>
     <div><dt>Default resume</dt><dd>ready (C:\dev\jobright-application-agent\private\candidate\resumes\jake_swe.pdf)</dd></div>
-    <div><dt>Apps started</dt><dd>30</dd></div>
-    <div><dt>Submits used</dt><dd>2</dd></div>
-    <div><dt>Stopped</dt><dd>apps_cap</dd></div>
+    <div><dt>Apps started</dt><dd>22</dd></div>
+    <div><dt>Submits used</dt><dd>0</dd></div>
+    <div><dt>Stopped</dt><dd>queue_drained</dd></div>
   </dl>
-  <h3>Session notes</h3><ul class="notes"><li>nav audit: 1 wrong-employer URL(s) cleared for re-navigation, 0 parked for review</li><li>discover: 1 inspected, 0 eligible, 1 already known, 0 filtered out, 0 already submitted</li><li>discover: 1 inspected, 0 eligible, 1 already known, 0 filtered out, 0 already submitted</li><li>outreach a17dd04a-6157-47ab-9f5e-408cc5bb52e3: skipped — end_state COMPLETED (no contacts extracted)</li><li>discover: 1 inspected, 0 eligible, 1 already known, 0 filtered out, 0 already submitted</li><li>discover: 1 inspected, 0 eligible, 1 already known, 0 filtered out, 0 already submitted</li><li>discover: 1 inspected, 1 eligible, 0 already known, 0 filtered out, 0 already submitted</li><li>discover: 1 inspected, 0 eligible, 1 already known, 0 filtered out, 0 already submitted</li><li>discover: 1 inspected, 0 eligible, 1 already known, 0 filtered out, 0 already submitted</li><li>prediction rejected &quot;Please choose one of the options below:&quot;: no answer</li><li>prediction rejected &quot;Secondary Phone&quot;: no answer</li><li>prediction rejected &quot;Password&quot;: no answer</li><li>prediction rejected &quot;Link to This Job&quot;: no answer</li><li>artifact autopush: 361 file(s) pushed to master as a8cf51e1</li></ul>
+  <h3>Session notes</h3><ul class="notes"><li>discover: 1 inspected, 1 eligible, 0 already known, 0 filtered out, 0 already submitted</li><li>discover: 1 inspected, 0 eligible, 1 already known, 0 filtered out, 0 already submitted</li><li>discover: 1 inspected, 0 eligible, 1 already known, 0 filtered out, 0 already submitted</li><li>discover: 1 inspected, 0 eligible, 1 already known, 0 filtered out, 0 already submitted</li><li>discover: 1 inspected, 0 eligible, 1 already known, 0 filtered out, 0 already submitted</li><li>discover: 1 inspected, 0 eligible, 1 already known, 0 filtered out, 0 already submitted</li><li>prediction rejected &quot;Link to This Job&quot;: no answer</li><li>artifact autopush: 68 file(s) pushed to master as e41216aa</li></ul>
 </section>
 <h2>Applications</h2>
+<details class="app warn">
+  <summary>
+    <span class="id">4299f8a0</span>
+    <span class="co">—</span>
+    <span class="badge">wall: auth</span>
+    
+    
+    <span class="chip">agent 1t/4s</span>
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no congruent apply href (10 external links)<span class="ev">careers-americas.icims.com, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, www.atlassian.com</span></li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — wall: auth (turn 1)</li></ol>
+    <h4>Notes</h4><ul class="notes"><li>phase A: anchor reads as &quot;careersamericas&quot; (URL names &quot;careersamericas&quot; (tenant), which shares nothing with company &quot;Atlassian&quot;) — not preferred, deferring to the Apply click</li><li>phase A: 9 external host(s) seen: careers-americas.icims.com, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, www.atlassian.com, www.thehindubusinessline.com, www.brecorder.com, www.marketscreener.com</li><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent allowed_domains widened with job-page hosts: careers-americas.icims.com, www.atlassian.com, www.thehindubusinessline.com, www.brecorder.com, www.marketscreener.com</li><li>agent goal seeded with 4 candidate link(s) from the job page</li><li>agent[1]: agent visited 1 off-domain URL(s) — noted, not fatal: bah.wd1.myworkdayjobs.com</li><li>agent[1]: elapsed 166s, steps 4</li><li>agent[1] reason: agent stopped: auth</li></ul>
+    <h4>Hosts visited</h4><p class="hosts">bah.wd1.myworkdayjobs.com → careers-americas.icims.com</p>
+  </div>
+</details>
+<details class="app ok">
+  <summary>
+    <span class="id">f2a73e9f</span>
+    <span class="co">Booz Allen Hamilton</span>
+    <span class="badge">resolved</span>
+    <span class="chip">anchor_href</span>
+    <span class="chip">workday</span>
+    
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — resolved (10 candidates, employer match)<span class="ev">bah.wd1.myworkdayjobs.com</span></li></ol>
+    <h4>Notes</h4><ul class="notes"><li>none</li></ul>
+    
+  </div>
+</details>
+<details class="app ok">
+  <summary>
+    <span class="id">fb4472dd</span>
+    <span class="co">WD</span>
+    <span class="badge">resolved</span>
+    <span class="chip">anchor_href</span>
+    <span class="chip">generic</span>
+    
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — resolved (12 candidates, employer match)<span class="ev">jobs.smartrecruiters.com</span></li></ol>
+    <h4>Notes</h4><ul class="notes"><li>none</li></ul>
+    
+  </div>
+</details>
+<details class="app ok">
+  <summary>
+    <span class="id">4ea3a8ed</span>
+    <span class="co">Tesla</span>
+    <span class="badge">resolved</span>
+    <span class="chip">anchor_href</span>
+    <span class="chip">generic</span>
+    
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — resolved (11 candidates, employer match)<span class="ev">www.tesla.com</span></li></ol>
+    <h4>Notes</h4><ul class="notes"><li>none</li></ul>
+    
+  </div>
+</details>
 <details class="app ok">
   <summary>
     <span class="id">93eff173</span>
@@ -613,66 +673,6 @@
   <div class="body">
     <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no congruent apply href (11 external links)<span class="ev">sjobs.brassring.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com.au, www.bioworld.com, www.einpresswire.com</span></li><li><b>B_apply_click</b> — resolved via popup<span class="ev">sjobs.brassring.com</span></li></ol>
     <h4>Notes</h4><ul class="notes"><li>phase A: 7 external host(s) seen: sjobs.brassring.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com.au, www.bioworld.com, www.einpresswire.com, www.globenewswire.com</li><li>Apply control: autofill CTA (tier 0)</li><li>jobright interstitial: clicked &quot;Apply Without Customizing&quot;</li><li>popup settled off about:blank after the interstitial</li><li>popup captured on attempt 1</li><li>phase B: landing shows a sign-in wall — stored anyway; fill owns portal auth</li><li>employer congruence unverifiable (no employer name decodable from URL (host and path are generic)) — recorded</li><li>employer URL already held by 1 other application(s): 0bdd1810 (MicroVention-Terumo — Intern, Supply Chain Planning, NATIVE_AUTOFILL_RUNNING)</li></ul>
-    
-  </div>
-</details>
-<details class="app ok">
-  <summary>
-    <span class="id">b1baf935</span>
-    <span class="co">Persona AI</span>
-    <span class="badge">resolved</span>
-    <span class="chip">anchor_href</span>
-    <span class="chip">ashby</span>
-    
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — resolved (8 candidates, employer match)<span class="ev">jobs.ashbyhq.com</span></li></ol>
-    <h4>Notes</h4><ul class="notes"><li>none</li></ul>
-    
-  </div>
-</details>
-<details class="app ok">
-  <summary>
-    <span class="id">955b210b</span>
-    <span class="co">Neuropath Behavioral Healthcare</span>
-    <span class="badge">resolved</span>
-    <span class="chip">apply_click_popup</span>
-    <span class="chip">generic</span>
-    
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no congruent apply href (7 external links)<span class="ev">recruitingbypaycor.com, www.linkedin.com, x.com, www.crunchbase.com, neuropathbhc.org</span></li><li><b>B_apply_click</b> — resolved via popup<span class="ev">recruitingbypaycor.com</span></li></ol>
-    <h4>Notes</h4><ul class="notes"><li>phase A: anchor reads as &quot;recruitingbypaycor&quot; (URL names &quot;recruitingbypaycor&quot; (host), which shares nothing with company &quot;Neuropath Behavioral Healthcare&quot;) — not preferred, deferring to the Apply click</li><li>phase A: 5 external host(s) seen: recruitingbypaycor.com, www.linkedin.com, x.com, www.crunchbase.com, neuropathbhc.org</li><li>Apply control matched via broad name tier</li><li>popup captured on attempt 1</li><li>phase B: captured URL reads as &quot;recruitingbypaycor&quot; (URL names &quot;recruitingbypaycor&quot; (host), which shares nothing with company &quot;Neuropath Behavioral Healthcare&quot;) — kept, provenance is the Apply click</li><li>congruence: URL names &quot;recruitingbypaycor&quot;, not &quot;Neuropath Behavioral Healthcare&quot; (URL names &quot;recruitingbypaycor&quot; (host), which shares nothing with company &quot;Neuropath Behavioral Healthcare&quot;) — recorded, not refused</li></ul>
-    
-  </div>
-</details>
-<details class="app bad">
-  <summary>
-    <span class="id">eac348f8</span>
-    <span class="co">MicroVention-Terumo</span>
-    <span class="badge">wall: duplicate_url</span>
-    
-    
-    
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no congruent apply href (11 external links)<span class="ev">sjobs.brassring.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com.au, www.bioworld.com, www.einpresswire.com</span></li><li><b>B_apply_click</b> — resolved via popup<span class="ev">sjobs.brassring.com</span></li></ol>
-    <h4>Notes</h4><ul class="notes"><li>phase A: 7 external host(s) seen: sjobs.brassring.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com.au, www.bioworld.com, www.einpresswire.com, www.globenewswire.com</li><li>Apply control: autofill CTA (tier 0)</li><li>jobright interstitial: clicked &quot;Apply Without Customizing&quot;</li><li>popup settled off about:blank after the interstitial</li><li>popup captured on attempt 1</li><li>phase B: landing shows a sign-in wall — stored anyway; fill owns portal auth</li><li>employer congruence unverifiable (no employer name decodable from URL (host and path are generic)) — recorded</li><li>employer URL already held by 1 other application(s): 0bdd1810 (MicroVention-Terumo — Intern, Supply Chain Planning, NATIVE_AUTOFILL_RUNNING)</li></ul>
-    
-  </div>
-</details>
-<details class="app ok">
-  <summary>
-    <span class="id">0bdd1810</span>
-    <span class="co">MicroVention-Terumo</span>
-    <span class="badge">resolved</span>
-    <span class="chip">apply_click_popup</span>
-    <span class="chip">generic</span>
-    
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no congruent apply href (12 external links)<span class="ev">sjobs.brassring.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com.au, www.bioworld.com, www.einpresswire.com</span></li><li><b>B_apply_click</b> — resolved via popup<span class="ev">sjobs.brassring.com</span></li></ol>
-    <h4>Notes</h4><ul class="notes"><li>phase A: 7 external host(s) seen: sjobs.brassring.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com.au, www.bioworld.com, www.einpresswire.com, www.globenewswire.com</li><li>Apply control: autofill CTA (tier 0)</li><li>jobright interstitial: clicked &quot;Apply Without Customizing&quot;</li><li>popup settled off about:blank after the interstitial</li><li>popup captured on attempt 1</li><li>phase B: landing shows a sign-in wall — stored anyway; fill owns portal auth</li><li>employer congruence unverifiable (no employer name decodable from URL (host and path are generic)) — recorded</li></ul>
     
   </div>
 </details>
