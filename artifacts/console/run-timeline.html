@@ -60,22 +60,67 @@
 </style></head>
 <body><div class="wrap">
 <h1>Dispatch run timeline</h1>
-<p class="sub">Generated 2026-09-03T06:10:59.904Z · 40 navigation run(s) · read-only view of artifacts/</p>
-<div class="stats"><span class="stat"><b>26</b> resolved</span><span class="stat"><b>5</b> duplicate_url</span><span class="stat"><b>3</b> auth</span><span class="stat"><b>3</b> closed</span><span class="stat"><b>2</b> budget</span><span class="stat"><b>1</b> submit_risk</span></div>
+<p class="sub">Generated 2026-09-03T06:45:59.404Z · 40 navigation run(s) · read-only view of artifacts/</p>
+<div class="stats"><span class="stat"><b>25</b> resolved</span><span class="stat"><b>6</b> duplicate_url</span><span class="stat"><b>3</b> auth</span><span class="stat"><b>3</b> closed</span><span class="stat"><b>2</b> budget</span><span class="stat"><b>1</b> submit_risk</span></div>
 <section class="cycle">
   <h2>Latest cycle</h2>
   <dl>
-    <div><dt>Started</dt><dd>2026-09-03T05:47:33.964Z</dd></div>
+    <div><dt>Started</dt><dd>2026-09-03T06:17:24.898Z</dd></div>
     <div><dt>Outcome</dt><dd>completed</dd></div>
     <div><dt>Agent leg</dt><dd>available</dd></div>
     <div><dt>Default resume</dt><dd>ready (C:\dev\jobright-application-agent\private\candidate\resumes\jake_swe.pdf)</dd></div>
-    <div><dt>Apps started</dt><dd>22</dd></div>
+    <div><dt>Apps started</dt><dd>30</dd></div>
     <div><dt>Submits used</dt><dd>0</dd></div>
-    <div><dt>Stopped</dt><dd>queue_drained</dd></div>
+    <div><dt>Stopped</dt><dd>apps_cap</dd></div>
   </dl>
-  <h3>Session notes</h3><ul class="notes"><li>discover: 1 inspected, 1 eligible, 0 already known, 0 filtered out, 0 already submitted</li><li>discover: 1 inspected, 0 eligible, 1 already known, 0 filtered out, 0 already submitted</li><li>discover: 1 inspected, 0 eligible, 1 already known, 0 filtered out, 0 already submitted</li><li>discover: 1 inspected, 0 eligible, 1 already known, 0 filtered out, 0 already submitted</li><li>discover: 1 inspected, 0 eligible, 1 already known, 0 filtered out, 0 already submitted</li><li>discover: 1 inspected, 0 eligible, 1 already known, 0 filtered out, 0 already submitted</li><li>prediction rejected &quot;Link to This Job&quot;: no answer</li><li>artifact autopush: 68 file(s) pushed to master as e41216aa</li></ul>
+  <h3>Session notes</h3><ul class="notes"><li>discover: 1 inspected, 0 eligible, 1 already known, 0 filtered out, 0 already submitted</li><li>discover: 1 inspected, 0 eligible, 0 already known, 1 filtered out, 0 already submitted</li><li>discover: 1 inspected, 0 eligible, 0 already known, 1 filtered out, 0 already submitted</li><li>discover: 1 inspected, 0 eligible, 0 already known, 1 filtered out, 0 already submitted</li><li>discover: 1 inspected, 0 eligible, 0 already known, 1 filtered out, 0 already submitted</li><li>discover: 1 inspected, 0 eligible, 0 already known, 1 filtered out, 0 already submitted</li><li>discover: 1 inspected, 0 eligible, 0 already known, 1 filtered out, 0 already submitted</li><li>artifact autopush: 146 file(s) pushed to master as e7298459</li></ul>
 </section>
 <h2>Applications</h2>
+<details class="app ok">
+  <summary>
+    <span class="id">db0b6800</span>
+    <span class="co">ByteDance</span>
+    <span class="badge">resolved</span>
+    <span class="chip">apply_click_popup</span>
+    <span class="chip">generic</span>
+    
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no congruent apply href (9 external links)<span class="ev">joinbytedance.com, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, www.biometricupdate.com</span></li><li><b>B_apply_click</b> — resolved via popup<span class="ev">joinbytedance.com</span></li></ol>
+    <h4>Notes</h4><ul class="notes"><li>phase A: 8 external host(s) seen: joinbytedance.com, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, www.biometricupdate.com, thehackernews.com, www.inquirer.com</li><li>Apply control: autofill CTA (tier 0)</li><li>jobright interstitial: clicked &quot;Apply Without Customizing&quot;</li><li>popup settled off about:blank after the interstitial</li><li>popup captured on attempt 1</li></ul>
+    
+  </div>
+</details>
+<details class="app bad">
+  <summary>
+    <span class="id">de803481</span>
+    <span class="co">Neuralink</span>
+    <span class="badge">wall: duplicate_url</span>
+    
+    
+    
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — resolved (10 candidates, employer match)<span class="ev">boards.greenhouse.io</span></li></ol>
+    <h4>Notes</h4><ul class="notes"><li>phase A: token-only greenhouse embed anchor resolved to board &quot;neuralink&quot; (job 6569018003) via one read-only GET</li><li>employer URL already held by 1 other application(s): 2e3cfd5c (Neuralink — Software Engineer Intern, Implant, AMBIGUOUS_FIELD)</li></ul>
+    
+  </div>
+</details>
+<details class="app bad">
+  <summary>
+    <span class="id">bc6f5e33</span>
+    <span class="co">ByteDance</span>
+    <span class="badge">wall: duplicate_url</span>
+    
+    
+    
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no congruent apply href (10 external links)<span class="ev">joinbytedance.com, www.linkedin.com, x.com, www.crunchbase.com, www.glassdoor.com, www.biometricupdate.com</span></li><li><b>B_apply_click</b> — resolved via popup<span class="ev">joinbytedance.com</span></li></ol>
+    <h4>Notes</h4><ul class="notes"><li>phase A: 8 external host(s) seen: joinbytedance.com, www.linkedin.com, x.com, www.crunchbase.com, www.glassdoor.com, www.biometricupdate.com, thehackernews.com, www.inquirer.com</li><li>Apply control: autofill CTA (tier 0)</li><li>jobright interstitial: clicked &quot;Apply Without Customizing&quot;</li><li>popup settled off about:blank after the interstitial</li><li>popup captured on attempt 1</li><li>employer URL already held by 1 other application(s): d7059081 (ByteDance — Self-Built Engineer Intern (CDN Platform) - 2027 Summer, FAILED_RETRYABLE)</li></ul>
+    
+  </div>
+</details>
 <details class="app warn">
   <summary>
     <span class="id">4299f8a0</span>
@@ -628,51 +673,6 @@
   <div class="body">
     <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no congruent apply href (10 external links)<span class="ev">recruitingbypaycor.com, www.linkedin.com, www.crunchbase.com, www.morningstar.com, www.prnewswire.com</span></li><li><b>B_apply_click</b> — resolved via popup<span class="ev">careers.advisorsexcel.com</span></li></ol>
     <h4>Notes</h4><ul class="notes"><li>phase A: anchor reads as &quot;recruitingbypaycor&quot; (URL names &quot;recruitingbypaycor&quot; (host), which shares nothing with company &quot;Advisors Excel&quot;) — not preferred, deferring to the Apply click</li><li>phase A: 5 external host(s) seen: recruitingbypaycor.com, www.linkedin.com, www.crunchbase.com, www.morningstar.com, www.prnewswire.com</li><li>Apply control matched via broad name tier</li><li>jobright interstitial: clicked &quot;Apply Without Customizing&quot;</li><li>popup settled off about:blank after the interstitial</li><li>popup captured on attempt 1</li></ul>
-    
-  </div>
-</details>
-<details class="app ok">
-  <summary>
-    <span class="id">11cb81ce</span>
-    <span class="co">Dannible &amp; McKee, LLP</span>
-    <span class="badge">resolved</span>
-    <span class="chip">apply_click_popup</span>
-    <span class="chip">generic</span>
-    
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no congruent apply href (9 external links)<span class="ev">secure4.saashr.com, www.linkedin.com, www.crunchbase.com, www.cnybj.com, www.syracuse.com</span></li><li><b>B_apply_click</b> — resolved via popup<span class="ev">secure7.saashr.com</span></li></ol>
-    <h4>Notes</h4><ul class="notes"><li>phase A: 5 external host(s) seen: secure4.saashr.com, www.linkedin.com, www.crunchbase.com, www.cnybj.com, www.syracuse.com</li><li>Apply control matched via broad name tier</li><li>jobright interstitial: clicked &quot;Apply Without Customizing&quot;</li><li>popup settled off about:blank after the interstitial</li><li>popup captured on attempt 1</li><li>employer congruence unverifiable (URL carries no employer name specific enough to verify against &quot;Dannible &amp; McKee, LLP&quot;) — recorded</li></ul>
-    
-  </div>
-</details>
-<details class="app ok">
-  <summary>
-    <span class="id">cef4cad3</span>
-    <span class="co">Epic Games</span>
-    <span class="badge">resolved</span>
-    <span class="chip">anchor_href</span>
-    <span class="chip">greenhouse</span>
-    
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — resolved (11 candidates, employer match)<span class="ev">boards.greenhouse.io</span></li></ol>
-    <h4>Notes</h4><ul class="notes"><li>phase A: token-only greenhouse embed anchor resolved to board &quot;epicgames&quot; (job 6147156004) via one read-only GET</li></ul>
-    
-  </div>
-</details>
-<details class="app bad">
-  <summary>
-    <span class="id">dc907d8d</span>
-    <span class="co">MicroVention-Terumo</span>
-    <span class="badge">wall: duplicate_url</span>
-    
-    
-    
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no congruent apply href (11 external links)<span class="ev">sjobs.brassring.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com.au, www.bioworld.com, www.einpresswire.com</span></li><li><b>B_apply_click</b> — resolved via popup<span class="ev">sjobs.brassring.com</span></li></ol>
-    <h4>Notes</h4><ul class="notes"><li>phase A: 7 external host(s) seen: sjobs.brassring.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com.au, www.bioworld.com, www.einpresswire.com, www.globenewswire.com</li><li>Apply control: autofill CTA (tier 0)</li><li>jobright interstitial: clicked &quot;Apply Without Customizing&quot;</li><li>popup settled off about:blank after the interstitial</li><li>popup captured on attempt 1</li><li>phase B: landing shows a sign-in wall — stored anyway; fill owns portal auth</li><li>employer congruence unverifiable (no employer name decodable from URL (host and path are generic)) — recorded</li><li>employer URL already held by 1 other application(s): 0bdd1810 (MicroVention-Terumo — Intern, Supply Chain Planning, NATIVE_AUTOFILL_RUNNING)</li></ul>
     
   </div>
 </details>
