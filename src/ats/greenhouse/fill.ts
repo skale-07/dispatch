@@ -846,6 +846,61 @@ function valuesMatch(
   return false;
 }
 
+/**
+ * #147: the evidence line for a control that resolved but never painted.
+ * Says WHICH rung matched it and what the DOM element actually is, so a
+ * "hidden control — skipped fast" note can be read back without a rerun.
+ * Read-only and never throws: a diagnostic must not fail a fill.
+ */
+async function describeHiddenResolution(
+  loc: Locator,
+  idArgs: { field_id: string; label: string; name?: string; inputId?: string },
+  type: string,
+): Promise<string> {
+  const rung = idArgs.inputId
+    ? `id=${idArgs.inputId}`
+    : idArgs.name
+      ? `name=${idArgs.name}`
+      : `label="${idArgs.label.slice(0, 40)}"`;
+  const shape = await loc
+    .first()
+    .evaluate(
+      (el: {
+        tagName: string;
+        type?: string;
+        closest: (s: string) => unknown;
+      }) => {
+        const style = (
+          globalThis as unknown as {
+            getComputedStyle?: (n: unknown) => {
+              display: string;
+              visibility: string;
+            };
+          }
+        ).getComputedStyle?.(el);
+        return {
+          tag: el.tagName.toLowerCase(),
+          type: typeof el.type === "string" ? el.type : "",
+          display: style?.display ?? "",
+          visibility: style?.visibility ?? "",
+          // An unopened editor hides the ANCESTOR, not the control itself.
+          hiddenAncestor: el.closest("[hidden], [aria-hidden='true']") != null,
+        };
+      },
+    )
+    .catch(() => null);
+  const count = await loc.count().catch(() => -1);
+  if (!shape) {
+    return `resolved by ${rung} (planned ${type}), ${count} match(es); DOM shape unreadable`;
+  }
+  return (
+    `resolved by ${rung} (planned ${type}), ${count} match(es): ` +
+    `<${shape.tag}${shape.type ? ` type=${shape.type}` : ""}> ` +
+    `display=${shape.display} visibility=${shape.visibility}` +
+    (shape.hiddenAncestor ? " inside a hidden ancestor" : "")
+  );
+}
+
 function isApprovedExecutable(
   entry: ExecutableFillEntry,
 ): entry is ApprovedFillPlanEntry & { approved: true; action: "FILL" } {
@@ -1086,7 +1141,10 @@ export async function greenhouseFillFromPlan(
             field_id: entry.field_id,
             canonical_field: entry.canonical_field,
             control_kind: "text",
-            notes: ["hidden control — skipped fast, not filled"],
+            notes: [
+              "hidden control — skipped fast, not filled",
+              await describeHiddenResolution(loc, idArgs, type),
+            ],
           });
           continue;
         }

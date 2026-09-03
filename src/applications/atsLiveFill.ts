@@ -1033,6 +1033,7 @@ export async function runAtsLiveFill(input: {
           ),
         });
       }
+      const planStartedAt = Date.now();
       const { adapter, plan, approvedPlan, fields: plannedFields, otherFallbacks } =
         await planApplicationFill({
           url: planUrl,
@@ -1100,6 +1101,8 @@ export async function runAtsLiveFill(input: {
 
       assertFormFillAllowed(`atsLiveFill.${binding.id}.execute`);
       report.mode = "executed";
+      const planMs = Date.now() - planStartedAt;
+      const fillStartedAt = Date.now();
       const knownFieldIds = new Set(plannedFields.map((f) => f.id));
       // Gap restriction (X3): when the extension activated, read the form
       // back BEFORE typing anything — every planned answer the page
@@ -1168,7 +1171,18 @@ export async function runAtsLiveFill(input: {
       // option list only after the parent pick — one deterministic
       // profile-tier pass over selects still at their placeholder.
       await sweepRevealedSelects(page, report, input.profile);
+      const fillMs = Date.now() - fillStartedAt;
+      const verifyStartedAt = Date.now();
       report.verify = await adapter.verify(page, approvedPlan.answers);
+      // Where the minutes go (live UKG runs 20-21 took 16-25 min): one
+      // note per planned page so a slow stage is visible in the artifact.
+      report.notes.push(
+        timingNote("base page", approvedPlan.entries.length, {
+          plan: planMs,
+          fill: fillMs,
+          verify: Date.now() - verifyStartedAt,
+        }),
+      );
       // #66b: a verify miss reading EMPTY on a text control is the one
       // moment we know React state never took the fill — one keystroke
       // retype (adapter-provided), then verify decides again.
@@ -1414,6 +1428,7 @@ export async function runAtsLiveFill(input: {
           html: string;
           url: string;
         }) => {
+          const pagePlanStartedAt = Date.now();
           const pagePlan = await planApplicationFill({
             url,
             html,
@@ -1421,6 +1436,8 @@ export async function runAtsLiveFill(input: {
             ...(input.profile ? { profile: input.profile } : {}),
             ...(input.capture ? { capture: input.capture } : {}),
           });
+          const pagePlanMs = Date.now() - pagePlanStartedAt;
+          const pageFillStartedAt = Date.now();
           const fillResult = await pagePlan.adapter.fill(
             formPage,
             pagePlan.approvedPlan.answers,
@@ -1431,9 +1448,18 @@ export async function runAtsLiveFill(input: {
             ...(input.profile ? { profile: input.profile } : {}),
           }).catch(() => ({ outcomes: [], notes: [] }));
           report.notes.push(...revealed.notes);
+          const pageFillMs = Date.now() - pageFillStartedAt;
+          const pageVerifyStartedAt = Date.now();
           const verifyResult = await pagePlan.adapter.verify(
             formPage,
             pagePlan.approvedPlan.answers,
+          );
+          report.notes.push(
+            timingNote("revealed page", pagePlan.approvedPlan.entries.length, {
+              plan: pagePlanMs,
+              fill: pageFillMs,
+              verify: Date.now() - pageVerifyStartedAt,
+            }),
           );
           report.fill = {
             filled: [
@@ -1531,6 +1557,15 @@ export async function runAtsLiveFill(input: {
       return persist(report, { plan, approvedPlan });
     },
   );
+
+  function timingNote(
+    what: string,
+    fieldCount: number,
+    ms: { plan: number; fill: number; verify: number },
+  ): string {
+    const s = (n: number) => `${Math.round(n / 1000)}s`;
+    return `timing: ${what} (${fieldCount} planned) — plan ${s(ms.plan)}, fill ${s(ms.fill)}, verify ${s(ms.verify)}`;
+  }
 
   /**
    * Persist a value-scrubbed copy of the page HTML for offline discovery

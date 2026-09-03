@@ -10,6 +10,7 @@ import { detectErrorPageSignals } from "../greenhouse/identityVerification.js";
 import { discoverFieldsFromHtml } from "../../applications/fieldDiscovery.js";
 import { genericSelectorsV1 } from "./selectors.js";
 import { resolveSubmitControl } from "../shared/submitControl.js";
+import { dismissPageObstructions } from "../../browser/obstructions.js";
 import {
   SubmissionUncertainError,
   detectVisibleValidationError,
@@ -120,6 +121,13 @@ export async function genericSubmit(
   const control = resolution.control;
   if (await control.isDisabled().catch(() => false)) {
     return { clicked: false, notes: [...notes, "submit control disabled"] };
+  }
+
+  // #153: an inactivity keep-alive dialog that mounted while the fill
+  // ran would swallow the submit click (and then end the session).
+  const swept = await dismissPageObstructions(page).catch(() => null);
+  if (swept && swept.dismissed.length > 0) {
+    notes.push(`cleared before submit: ${swept.dismissed.join(", ")}`);
   }
 
   const before = fieldFingerprint(await page.content().catch(() => ""));

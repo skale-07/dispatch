@@ -120,6 +120,57 @@ describe("obstruction dismisser (FIXTURE_CONFIRMED)", () => {
   );
 
   it(
+    "#153: an inactivity keep-alive dialog is cleared via its keep-alive control, never Log out (live UKG run 21)",
+    async () => {
+      // UKG's "Are you still there?" — id-only container (no role, no
+      // modal class), Stay logged in / Log out; it intercepts every click
+      // beneath it and expiring it ends the session.
+      const html = `<html><body>
+        <div id="timeout-modal-container" style="position:fixed;inset:0;background:rgba(0,0,0,.4)">
+          <h2>Are you still there?</h2>
+          <p>You will be logged out in 01:11</p>
+          <button id="extend" onclick="document.getElementById('timeout-modal-container').remove();window.__kept=true">Stay logged in</button>
+          <button id="signout" onclick="window.__loggedOut=true">Log out</button>
+        </div>
+        <button id="save">Save</button>
+      </body></html>`;
+      await withFixtureHtmlPage(html, async (page) => {
+        const r = await dismissPageObstructions(page, { settleMs: 50 });
+        expect(r.dismissed).toEqual(["keep-alive: Stay logged in"]);
+        expect(await page.evaluate("window.__kept")).toBe(true);
+        expect(await page.evaluate("window.__loggedOut")).toBeUndefined();
+        expect(await page.locator("#timeout-modal-container").count()).toBe(0);
+        expect(await page.locator("#save").count()).toBe(1);
+      });
+    },
+    45_000,
+  );
+
+  it(
+    "#153: 'Continue session' qualifies as keep-alive while a bare Continue dialog stays untouched",
+    async () => {
+      const html = `<html><body>
+        <div role="dialog" id="idle">
+          Your session is about to expire.
+          <button onclick="document.getElementById('idle').remove()">Continue session</button>
+          <button>Sign out</button>
+        </div>
+        <div role="dialog" id="flow">
+          Ready to continue your application?
+          <button>Continue</button>
+        </div>
+      </body></html>`;
+      await withFixtureHtmlPage(html, async (page) => {
+        const r = await dismissPageObstructions(page, { settleMs: 50 });
+        expect(r.dismissed).toEqual(["keep-alive: Continue session"]);
+        expect(await page.locator("#idle").count()).toBe(0);
+        expect(await page.locator("#flow").count()).toBe(1);
+      });
+    },
+    45_000,
+  );
+
+  it(
     "a clean page returns fast with nothing dismissed",
     async () => {
       await withFixtureHtmlPage(

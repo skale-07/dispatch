@@ -377,6 +377,123 @@ describe("generic form-page advance (FIXTURE_CONFIRMED)", () => {
     });
   }, 30_000);
 
+  // Live UKG run 18 (#151): the resume parser emitted a fragment
+  // work-experience row (employer "Gloria", no title); Save refused with
+  // "Experience job title must not be empty." and the Cancel release then
+  // discarded every correct row. The fragment row is removed with the
+  // page's own "Delete Work Experience 4", Save retried, editor closes.
+  it("#151 removes a parsed history row whose required control nothing can fill, then Save succeeds", async () => {
+    const html = `<!DOCTYPE html><html><body>
+      <div id="s1">
+        <button data-automation="primary-action-button" aria-label="Edit Contact Information">✎</button>
+        <div class="editor" style="display:none">
+          <div class="row">
+            <label>Job Title<input id="NewWorkExperience_JobTitle0" required value="Software Engineer" /></label>
+            <label>Company / Organization<input id="NewWorkExperience_Organization0" required value="Summer Atlantic" /></label>
+            <button type="button" data-automation="remove-button" aria-label="Delete Work Experience 1">x</button>
+          </div>
+          <div class="row">
+            <label>Job Title<input id="NewWorkExperience_JobTitle1" required /></label>
+            <label>Company / Organization<input id="NewWorkExperience_Organization1" required value="Gloria" /></label>
+            <button type="button" data-automation="remove-button" aria-label="Delete Work Experience 2">x</button>
+          </div>
+          <div class="error" role="alert" style="display:none">Experience job title must not be empty.</div>
+          <button data-automation="save-button">Save and continue</button>
+          <button id="cancel1">Cancel</button>
+        </div>
+      </div>
+      <script>
+        const pencil = document.querySelector('[data-automation="primary-action-button"]');
+        const editor = document.querySelector('.editor');
+        const close = () => { editor.style.display = 'none'; pencil.disabled = false; };
+        pencil.addEventListener('click', () => { editor.style.display = 'block'; pencil.disabled = true; });
+        editor.querySelector('[data-automation="save-button"]').addEventListener('click', () => {
+          const empty = [...editor.querySelectorAll('[required]')].find((r) => !r.value);
+          if (empty) { editor.querySelector('.error').style.display = 'block'; return; }
+          close();
+          globalThis.__saved = (globalThis.__saved || 0) + 1;
+        });
+        editor.querySelectorAll('[data-automation="remove-button"]').forEach((b) => {
+          b.addEventListener('click', () => {
+            b.closest('.row').remove();
+            globalThis.__removed = [...(globalThis.__removed || []), b.getAttribute('aria-label')];
+          });
+        });
+        editor.querySelector('#cancel1').addEventListener('click', () => { close(); globalThis.__cancelled = true; });
+      </script></body></html>`;
+    await withFixtureHtmlPage(html, async (page) => {
+      const walk = await walkSectionEditors(
+        page,
+        async () => ({ fillable: 0, filled: 0, verifyPassed: true }),
+        genericSelectorsV1.sectionEditors,
+        { settleMs: 0 },
+      );
+      expect(walk.editors).toBe(1);
+      const joined = walk.notes.join(" ");
+      expect(joined).toMatch(/page says: Experience job title must not be empty/);
+      expect(joined).toMatch(/removed employment row 1 via "Delete Work Experience 2"/);
+      expect(joined).toMatch(/save succeeded after removing the incomplete row/);
+      expect(joined).not.toMatch(/via Cancel/);
+      const state = await page.evaluate(() => {
+        const g = globalThis as unknown as { __saved?: number; __removed?: string[]; __cancelled?: boolean };
+        return { saved: g.__saved, removed: g.__removed, cancelled: g.__cancelled };
+      });
+      expect(state).toEqual({ saved: 1, removed: ["Delete Work Experience 2"], cancelled: undefined });
+      // The complete row stands.
+      expect(await page.locator("#NewWorkExperience_JobTitle0").count()).toBe(1);
+    });
+  }, 30_000);
+
+  // Live UKG run 20 (#152): the resume-review page shows "Add Experience"
+  // beside four parsed rows; the walk clicked it and a blank row nothing
+  // truthful could fill was born. An Add is only for an EMPTY section.
+  it("#152 skips an Add trigger whose section already holds entries, still opens an empty section's Add", async () => {
+    const html = `<!DOCTYPE html><html><body>
+      <div id="work">
+        <button data-automation="primary-action-button" aria-label="Add Experience">+</button>
+        <div class="row">
+          <label>Job Title<input id="NewWorkExperience_JobTitle0" value="Software Engineer" /></label>
+          <button type="button" data-automation="remove-button" aria-label="Delete Work Experience 1">x</button>
+        </div>
+        <div class="entry">Co-Founder, Open Health Intelligence
+          <button type="button" data-automation="edit-button" aria-label="Edit Experience Item 2">✎</button>
+        </div>
+      </div>
+      <div id="edu">
+        <button data-automation="primary-action-button" aria-label="Add Education">+</button>
+        <div class="editor" style="display:none">
+          <label>School<input id="NewEducation_SchoolId0" /></label>
+          <button data-automation="save-button">Save</button>
+        </div>
+      </div>
+      <script>
+        document.querySelector('[aria-label="Add Experience"]').addEventListener('click', () => { globalThis.__addedRow = true; });
+        const edu = document.querySelector('#edu');
+        edu.querySelector('[aria-label="Add Education"]').addEventListener('click', () => { edu.querySelector('.editor').style.display = 'block'; });
+        edu.querySelector('[data-automation="save-button"]').addEventListener('click', () => { edu.querySelector('.editor').style.display = 'none'; globalThis.__saved = 1; });
+      </script></body></html>`;
+    await withFixtureHtmlPage(html, async (page) => {
+      const walk = await walkSectionEditors(
+        page,
+        async ({ page: p }) => {
+          await p.locator("#NewEducation_SchoolId0").fill("Johns Hopkins University");
+          return { fillable: 1, filled: 1, verifyPassed: true };
+        },
+        genericSelectorsV1.sectionEditors,
+        { settleMs: 0 },
+      );
+      expect(walk.editors).toBe(1);
+      const joined = walk.notes.join(" ");
+      expect(joined).toMatch(/skipped "Add Experience" — the employment section already holds 2 entry/);
+      expect(joined).toMatch(/opened "Add Education"/);
+      const state = await page.evaluate(() => {
+        const g = globalThis as unknown as { __addedRow?: boolean; __saved?: number };
+        return { addedRow: g.__addedRow, saved: g.__saved };
+      });
+      expect(state).toEqual({ addedRow: undefined, saved: 1 });
+    });
+  }, 30_000);
+
   it("does not click when a real submit control is already visible", async () => {
     const html = `<form>
       <input name="first_name" />

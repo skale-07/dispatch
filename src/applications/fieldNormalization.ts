@@ -113,6 +113,18 @@ export function historyGroupOf(field: {
   return { kind: education && !employment ? "education" : "employment", index: indexes[indexes.length - 1]! };
 }
 
+/**
+ * The history kind a visible label names ("Add Experience", "Delete
+ * Education 1", "Remove job") — same hints as {@link historyGroupOf},
+ * without an index.
+ */
+export function historyKindOfText(text: string): "employment" | "education" | null {
+  const employment = EMPLOYMENT_HINT.test(text);
+  const education = EDUCATION_HINT.test(text);
+  if (!employment && !education) return null;
+  return education && !employment ? "education" : "employment";
+}
+
 function matchCanonicalFieldInner(
   field: DiscoveredField,
   aliases: Record<string, string[]>,

@@ -1,6 +1,7 @@
 import OpenAI from "openai";
 import Anthropic from "@anthropic-ai/sdk";
 import { getConfig, type AppConfig } from "../config/index.js";
+import { withLlmCallLedger } from "./llmCallLedger.js";
 
 /**
  * One of the sanctioned LLM boundaries in this codebase — all of which
@@ -177,12 +178,20 @@ export const LLM_KEY_HINT =
  */
 export function makeLlmClient(): EmailLlmClient {
   const cfg = getConfig();
-  if (cfg.llmProvider === "anthropic") return new AnthropicLlmClient();
-  if (cfg.llmProvider === "openai") return new OpenAiEmailClient();
-  if (cfg.llmProvider === "kimi") return new KimiLlmClient();
-  if (cfg.anthropicApiKey) return new AnthropicLlmClient();
-  if (cfg.openaiApiKey) return new OpenAiEmailClient();
-  if (cfg.moonshotApiKey) return new KimiLlmClient();
+  const ledger = (client: EmailLlmClient, provider: string, model: string) =>
+    withLlmCallLedger(client, provider, model);
+  if (cfg.llmProvider === "anthropic")
+    return ledger(new AnthropicLlmClient(), "anthropic", cfg.anthropicLlmModel);
+  if (cfg.llmProvider === "openai")
+    return ledger(new OpenAiEmailClient(), "openai", cfg.emailLlmModel);
+  if (cfg.llmProvider === "kimi")
+    return ledger(new KimiLlmClient(), "kimi", cfg.kimiLlmModel);
+  if (cfg.anthropicApiKey)
+    return ledger(new AnthropicLlmClient(), "anthropic", cfg.anthropicLlmModel);
+  if (cfg.openaiApiKey)
+    return ledger(new OpenAiEmailClient(), "openai", cfg.emailLlmModel);
+  if (cfg.moonshotApiKey)
+    return ledger(new KimiLlmClient(), "kimi", cfg.kimiLlmModel);
   throw new Error(
     `no LLM provider key configured — set ${LLM_KEY_HINT} in .env`,
   );

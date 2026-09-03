@@ -20,7 +20,7 @@ import type { Page } from "playwright";
 export const obstructionSelectorsV1 = {
   /** Overlay-ish containers worth inspecting. */
   containers:
-    "[role='dialog'], [aria-modal='true'], [class*='modal' i], [id*='cookie' i], [class*='cookie' i], [id*='consent' i], [class*='consent' i], [class*='popup' i], [id*='onetrust' i], [data-automation-id*='legalnotice' i]",
+    "[role='dialog'], [aria-modal='true'], [class*='modal' i], [id*='modal' i], [id*='timeout' i], [id*='cookie' i], [class*='cookie' i], [id*='consent' i], [class*='consent' i], [class*='popup' i], [id*='onetrust' i], [data-automation-id*='legalnotice' i]",
   /** Accessible names that mean "make this go away". */
   dismissNamePattern:
     /^(accept( all)?( cookies)?|got it|ok(ay)?|close|dismiss|no,? thanks?|maybe later|not now|skip( for now)?|reject( all)?|decline|i (understand|agree)|allow all|later|✕|×|x)$/i,
@@ -33,7 +33,19 @@ export const obstructionSelectorsV1 = {
    * modal on some sites; these words are how we never touch it.
    */
   neverClickPattern:
-    /submit|apply|continue|next|save|send|sign|log ?in|create|delete|remove|unsubscribe|buy|upgrade|pay|start|finish|confirm/i,
+    /submit|apply|continue|next|save|send|sign|log ?in|log ?out|create|delete|remove|unsubscribe|buy|upgrade|pay|start|finish|confirm/i,
+  /**
+   * #153 (live UKG run 21): an inactivity dialog ("Are you still there?"
+   * — Stay logged in / Log out, ~2 min countdown) mounts during a long
+   * plan phase and intercepts every pointer event under it; letting it
+   * expire ends the session. Its keep-alive control is the ONE
+   * progression-shaped name the sweep clicks: the whole accessible name
+   * must be a keep-alive phrase, checked before the flow-dialog and
+   * never-click screens (so "Continue session" qualifies while a bare
+   * "Continue" never does). The Log out sibling is never-click.
+   */
+  keepAlivePattern:
+    /^(stay (logged|signed) in|keep me (logged|signed) in|(continue|extend|keep) (my )?session|i'?m still here|yes,? (i'?m|i am) (still )?here|stay (here|connected|on this page))$/i,
   /**
    * A dialog whose controls carry APPLICATION-FLOW semantics is part of
    * the flow, never dismissed — not even via its close-X (#75: the sweep
@@ -80,14 +92,40 @@ export async function dismissPageObstructions(
         // itself (the walk then found no Apply Manually, ever). A dialog
         // whose controls carry progression semantics is flow, not
         // chrome: never dismissed, not even via its X.
-        const containerButtonNames = (
-          await container
-            .locator("button, [role='button'], a")
-            .allTextContents()
-            .catch(() => [] as string[])
-        )
-          .map((t) => t.replace(/\s+/g, " ").trim())
-          .filter((t) => t.length > 0 && t.length <= 40);
+        const containerButtons = await container
+          .locator("button, [role='button'], a")
+          .all()
+          .catch(() => []);
+        const containerButtonNames: string[] = [];
+        let keepAlive: (typeof containerButtons)[number] | null = null;
+        let keepAliveName = "";
+        for (const b of containerButtons.slice(0, 12)) {
+          const name = (
+            ((await b.textContent().catch(() => null)) ?? "") ||
+            ((await b.getAttribute("aria-label").catch(() => null)) ?? "")
+          )
+            .replace(/\s+/g, " ")
+            .trim();
+          if (!name || name.length > 40) continue;
+          containerButtonNames.push(name);
+          if (!keepAlive && sel.keepAlivePattern.test(name)) {
+            keepAlive = b;
+            keepAliveName = name;
+          }
+        }
+        // #153: a session keep-alive dialog is cleared by its own
+        // keep-alive control — the only thing on it that keeps the
+        // application alive (its sibling is Log out).
+        if (keepAlive) {
+          const label = `keep-alive: ${keepAliveName.slice(0, 24)}`;
+          await keepAlive.click({ timeout: 2_000 }).catch(() => {
+            notes.push(`dismiss click failed: ${label}`);
+          });
+          dismissed.push(label);
+          clickedThisRound = true;
+          await page.waitForTimeout(settleMs);
+          continue;
+        }
         if (containerButtonNames.some((n) => sel.flowDialogPattern.test(n))) {
           continue;
         }

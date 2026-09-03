@@ -1,7 +1,9 @@
 import type { Page } from "playwright";
 import { performTransition } from "../browser/transition.js";
+import { dismissPageObstructions } from "../browser/obstructions.js";
 import { discoverFieldsFromHtml } from "./fieldDiscovery.js";
 import { readLiveHtml } from "../browser/liveHtml.js";
+import { removeIncompleteHistoryRows } from "../ats/shared/incompleteRows.js";
 import { genericSelectorsV1 } from "../ats/generic/selectors.js";
 import {
   resolveAdvanceControl,
@@ -71,6 +73,39 @@ async function settledFormHtml(page: Page, timeoutMs: number): Promise<string> {
 export const SECTION_EDITOR_CAP = 8;
 
 /**
+ * #151b (live UKG run 20): right after a Save click the control is hidden
+ * while the request is in flight, then re-rendered when the section's
+ * validation refuses — one instant read said "closed" and the walk went
+ * on to the next trigger with the editor still open. Closed means the
+ * control stays gone across a quiet window inside a bounded budget; a
+ * reappearance inside it is a refusal. settle 0 ⇒ single read (fixtures).
+ */
+async function saveControlGone(
+  page: Page,
+  save: string,
+  budgetMs: number,
+): Promise<boolean> {
+  const visible = () =>
+    page
+      .locator(save)
+      .filter({ visible: true })
+      .first()
+      .isVisible()
+      .catch(() => false);
+  if (budgetMs === 0) return !(await visible());
+  const quietMs = Math.min(2_500, budgetMs);
+  const deadline = Date.now() + budgetMs;
+  let quietSince: number | null = null;
+  while (Date.now() < deadline) {
+    if (await visible()) return false;
+    quietSince ??= Date.now();
+    if (Date.now() - quietSince >= quietMs) return true;
+    await page.waitForTimeout(250);
+  }
+  return true;
+}
+
+/**
  * #145c (live UKG OpportunityApply, runs 15-16): the application is ONE
  * page of section EDITORS, strictly one open at a time (other pencils are
  * disabled while an editor is open). Cycle: open the next unopened
@@ -99,7 +134,19 @@ export async function walkSectionEditors(
     options.settleMs === 0 ? 0 : (options.settleMs ?? 8_000);
   const alreadyOpened = new Set<string>();
   let editors = 0;
+  // #153: a plan phase runs minutes; an inactivity keep-alive dialog that
+  // mounted meanwhile intercepts the next editor/save click. Sweep before
+  // every click that has to land.
+  const sweep = async (when: string) => {
+    const swept = await dismissPageObstructions(page, {
+      settleMs: options.settleMs === 0 ? 0 : 400,
+    }).catch(() => null);
+    if (swept && swept.dismissed.length > 0) {
+      notes.push(`section-editor: cleared ${swept.dismissed.join(", ")} before ${when}`);
+    }
+  };
   for (let i = 0; i < SECTION_EDITOR_CAP; i++) {
+    await sweep("open");
     const opened = await openSectionEditors(page, cfg, {
       maxOpens: 1,
       alreadyOpened,
@@ -119,6 +166,7 @@ export async function walkSectionEditors(
     notes.push(
       `section-editor: filled ${result.filled}/${result.fillable} (verify ${result.verifyPassed ? "passed" : "failed"})`,
     );
+    await sweep("save");
     const saved = await saveOpenSectionEditors(page, cfg, {
       settleMs: options.settleMs === 0 ? 0 : 600,
     }).catch(() => null);
@@ -129,11 +177,8 @@ export async function walkSectionEditors(
     // the page's reason and release the editor via its Cancel so the walk
     // (and the submit path) can continue; the section keeps its previous
     // saved state, nothing is invented.
-    const stillOpen = await page
-      .locator(cfg.save)
-      .first()
-      .isVisible()
-      .catch(() => false);
+    const saveBudgetMs = options.settleMs === 0 ? 0 : 8_000;
+    const stillOpen = !(await saveControlGone(page, cfg.save, saveBudgetMs));
     if (stillOpen) {
       const pageErrors = await readPageValidationErrors(page).catch(() => []);
       notes.push(
@@ -141,6 +186,33 @@ export async function walkSectionEditors(
           pageErrors.length > 0 ? ` — page says: ${pageErrors.slice(0, 3).join("; ")}` : ""
         }`,
       );
+      // #151: a parsed history row with an empty REQUIRED control nothing
+      // truthful can fill (resume fragment) blocks the whole form. Remove
+      // that row with the page's own row control and retry Save once
+      // before giving the editor up via Cancel.
+      const dropped = await removeIncompleteHistoryRows(page, {
+        ...(options.settleMs === 0 ? { settleMs: 0 } : {}),
+      }).catch(() => ({ removed: 0, notes: [] }));
+      notes.push(...dropped.notes);
+      if (dropped.removed > 0) {
+        const retried = await saveOpenSectionEditors(page, cfg, {
+          settleMs: options.settleMs === 0 ? 0 : 600,
+        }).catch(() => null);
+        if (retried && retried.clicked > 0) {
+          const closed = await saveControlGone(page, cfg.save, saveBudgetMs);
+          const retryErrors = closed
+            ? []
+            : await readPageValidationErrors(page).catch(() => []);
+          notes.push(
+            closed
+              ? "section-editor: save succeeded after removing the incomplete row(s)"
+              : `section-editor: save still refused after removing the incomplete row(s)${
+                  retryErrors.length > 0 ? ` — page says: ${retryErrors.slice(0, 3).join("; ")}` : ""
+                }`,
+          );
+          if (closed) continue;
+        }
+      }
       const cancel = page.getByRole("button", { name: /^cancel$/i }).first();
       const released = await cancel
         .click({ timeout: 2_000 })

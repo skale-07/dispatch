@@ -1,4 +1,8 @@
 import type { Page } from "playwright";
+import {
+  historyGroupOf,
+  historyKindOfText,
+} from "../../applications/fieldNormalization.js";
 
 /**
  * #143 (live UKG Pro OpportunityApply 2026-09-01): the application is one
@@ -32,6 +36,62 @@ export type SectionExpandResult = {
   clicked: number;
   notes: string[];
 };
+
+/**
+ * #152 (live UKG run 20): the resume-review page carries "Add Experience"
+ * / "Add Education" beside rows the resume parse already filled. An Add
+ * trigger creates a BLANK history row, and the profile holds one entry of
+ * each kind — already on the page — so nothing truthful can complete the
+ * new row and the section's own validation then refuses Save. An Add is
+ * only useful while its section is EMPTY; read the page for entries of
+ * that kind (per-entry Delete/Remove/Edit controls named with an ordinal,
+ * or held indexed history controls).
+ */
+const ADD_TRIGGER_RE = /^add\b/i;
+
+const SECTION_ENTRIES_FN = `(() => {
+  const visible = (el) => el.offsetParent !== null;
+  const entryNames = [];
+  for (const el of Array.from(document.querySelectorAll('button, [role="button"]'))) {
+    if (!visible(el)) continue;
+    const t = (el.getAttribute('aria-label') || el.textContent || '').replace(/\\s+/g, ' ').trim();
+    // A per-entry control: Delete/Remove/Edit naming a 1-based ordinal
+    // ("Delete Work Experience 4", "Edit Experience Item 2"). A section
+    // pencil ("Edit Contact Information") carries no ordinal.
+    if (/^(delete|remove|edit)\\b/i.test(t) && /\\b\\d{1,2}$/.test(t)) entryNames.push(t.slice(0, 60));
+  }
+  const held = [];
+  for (const el of Array.from(document.querySelectorAll('input, select, textarea'))) {
+    if (!visible(el)) continue;
+    const type = (el.getAttribute('type') || 'text').toLowerCase();
+    if (type === 'hidden' || type === 'file' || type === 'checkbox' || type === 'radio') continue;
+    if (String(el.value || '').trim() === '') continue;
+    held.push({ id: el.id || '', name: el.getAttribute('name') || '' });
+  }
+  return { entryNames, held };
+})()`;
+
+async function sectionEntryCount(
+  page: Page,
+  kind: "employment" | "education",
+): Promise<number> {
+  let scan: { entryNames: string[]; held: Array<{ id: string; name: string }> };
+  try {
+    scan = (await page.evaluate(SECTION_ENTRIES_FN)) as typeof scan;
+  } catch {
+    return 0;
+  }
+  const byEntry = scan.entryNames.filter((n) => historyKindOfText(n) === kind).length;
+  const rows = new Set<number>();
+  for (const h of scan.held) {
+    const group = historyGroupOf({
+      ...(h.id ? { inputId: h.id } : {}),
+      ...(h.name ? { name: h.name } : {}),
+    });
+    if (group && group.kind === kind) rows.add(group.index);
+  }
+  return Math.max(byEntry, rows.size);
+}
 
 /**
  * #145: open every section EDITOR before planning (UKG Pro live
@@ -82,6 +142,17 @@ export async function openSectionEditors(
           .trim();
       if (!cfg.triggerNamePattern.test(name)) continue;
       if (opened.has(name)) continue;
+      if (ADD_TRIGGER_RE.test(name)) {
+        const kind = historyKindOfText(name);
+        const entries = kind ? await sectionEntryCount(page, kind) : 0;
+        if (kind && entries > 0) {
+          opened.add(name);
+          notes.push(
+            `section-editor: skipped "${name.slice(0, 44)}" — the ${kind} section already holds ${entries} entry(ies); a new blank row has nothing truthful to fill`,
+          );
+          continue;
+        }
+      }
       const ok = await c.click({ timeout: 2_000 }).then(() => true, () => false);
       if (!ok) continue;
       opened.add(name);
@@ -111,7 +182,10 @@ export async function saveOpenSectionEditors(
   let clicked = 0;
   // Saves collapse their editor and re-render — re-query each round.
   for (let round = 0; round < CLICK_CAP; round++) {
-    const byAttr = page.locator(cfg.save).first();
+    // #152b (live UKG run 20): every closed editor keeps its own hidden
+    // Save in the DOM — an unfiltered first() lands on a hidden one and
+    // reads "no save control". The visible one is the open editor's.
+    const byAttr = page.locator(cfg.save).filter({ visible: true }).first();
     const byName = page
       .getByRole("button", { name: cfg.saveNamePattern })
       .first();
@@ -121,12 +195,24 @@ export async function saveOpenSectionEditors(
         ? byName
         : null;
     if (!target) break;
+    const handle = await target.elementHandle({ timeout: 1_000 }).catch(() => null);
     const ok = await target
       .click({ timeout: 2_000 })
       .then(() => true, () => false);
     if (!ok) break;
     clicked += 1;
     await page.waitForTimeout(settle);
+    // #151: a Save the section's validation REFUSES leaves the very same
+    // control on screen — re-clicking it CLICK_CAP times ("saved 12 open
+    // editor(s)" on UKG) is noise. A successful save closes its editor,
+    // so the next round's Save belongs to a different editor.
+    const sameStillVisible = handle
+      ? await handle.isVisible().catch(() => false)
+      : false;
+    if (sameStillVisible) {
+      notes.push("section-editor: save control still on screen after the click — the section refused it");
+      break;
+    }
   }
   if (clicked > 0) {
     notes.push(`section-editor: saved ${clicked} open editor(s)`);
