@@ -1,4 +1,4 @@
-import type { Locator, Page } from "playwright";
+import type { Frame, Locator, Page } from "playwright";
 import { performTransition } from "../../browser/transition.js";
 import { classifyPage } from "./pageClassify.js";
 
@@ -45,8 +45,12 @@ const APPLY_SELECTORS = [
 // "without saving" — Gem postings (live nuvo 2026-08-31) offer
 // "Apply and save" / "Apply without saving"; only the latter is accepted
 // on purpose: same form, no third-party account or data retention.
+// "online" (#159, live iCIMS 2026-09-03): the link reads "Apply for this
+// job online", which the anchored regex rejected for the trailing word —
+// so even once the frame was reachable the control was refused. Scoped to
+// the "for this job/role/position" arm; "Apply filters" et al still fail.
 const APPLY_TEXT_RE =
-  /^\s*apply(\s+now|\s+here|\s+for this (job|role|position)|\s+without saving|\s+to .{1,32})?\s*$/i;
+  /^\s*apply(\s+now|\s+here|\s+for this (job|role|position)(\s+online)?|\s+without saving|\s+to .{1,32})?\s*$/i;
 
 export type PostingAdvanceResult = {
   /** The page the flow should continue on (a popup, if the click opened one). */
@@ -83,7 +87,41 @@ function isApplyCtaLabel(raw: string): boolean {
 }
 
 /** Visible Apply control a human would click. Exported so fill can wait on it. */
-export async function findApplyControl(page: Page) {
+/**
+ * #159: iCIMS serves the posting — and its "Apply for this job online"
+ * link — from a SAME-ORIGIN child frame, leaving the top document with no
+ * fields and no Apply CTA. `page.getByRole` does not descend into frames,
+ * so three Rivian apps parked UNKNOWN_LANDING with the application never
+ * opened.
+ *
+ * Hopping by navigation does NOT work here (tried first, live 2026-09-03):
+ * the frame URL is the shell's own path plus `?in_iframe=1`, and loading
+ * it top-level just re-renders the 276KB shell. Clicking the link INSIDE
+ * the frame does work — it navigates the TOP-LEVEL page to the posting's
+ * /login application entry, verified live.
+ *
+ * Same-origin only: a cross-origin ad/tracker frame (doubleclick, live
+ * philips) must never be clicked into.
+ */
+export async function findApplyControlAnyFrame(page: Page) {
+  const direct = await findApplyControl(page).catch(() => null);
+  if (direct) return direct;
+  for (const frame of page.frames()) {
+    if (frame === page.mainFrame()) continue;
+    let sameOrigin = false;
+    try {
+      sameOrigin = new URL(frame.url()).origin === new URL(page.url()).origin;
+    } catch {
+      sameOrigin = false;
+    }
+    if (!sameOrigin) continue;
+    const hit = await findApplyControl(frame).catch(() => null);
+    if (hit) return { loc: hit.loc, how: `${hit.how} (same-origin iframe)` };
+  }
+  return null;
+}
+
+export async function findApplyControl(page: Page | Frame) {
   // Strict accessible-name tier first. Web-component buttons (UKG's
   // <ukg-button>, live Bennett Thrasher 2026-09-01) render the real
   // <button> in a shadow root and slot the label in from the host: the
@@ -191,7 +229,7 @@ export async function advancePastPosting(input: {
   if (classification.page_class !== "posting") {
     const applyAnyway =
       classification.page_class === "unknown"
-        ? await findApplyControl(page).catch(() => null)
+        ? await findApplyControlAnyFrame(page).catch(() => null)
         : null;
     if (!applyAnyway) {
       return {
@@ -215,7 +253,7 @@ export async function advancePastPosting(input: {
   }
 
   while (classification.page_class === "posting" && hops < ADVANCE_CAP) {
-    const control = await findApplyControl(page).catch(() => null);
+    const control = await findApplyControlAnyFrame(page).catch(() => null);
     if (!control) {
       const seen = await inventoryApplyish(page).catch(() => []);
       notes.push(

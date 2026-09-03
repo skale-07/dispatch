@@ -572,11 +572,7 @@ export async function runAtsLiveFill(input: {
         const frameForm = await findApplicationFrameUrl(page);
         if (frameForm) {
           report.notes.push(
-            frameForm.fieldCount > 0
-              ? `application form found in an iframe (${frameForm.fieldCount} fields) — hopping to ${frameForm.url}`
-              : // #159: a posting frame carries no fields by definition —
-                // saying "form found (0 fields)" would misreport the hop.
-                `posting served from an iframe (no fields; Apply lives there) — hopping to ${frameForm.url}`,
+            `application form found in an iframe (${frameForm.fieldCount} fields) — hopping to ${frameForm.url}`,
           );
           await page
             .goto(frameForm.url, { waitUntil: "domcontentloaded" })
@@ -663,7 +659,18 @@ export async function runAtsLiveFill(input: {
         // chooser, which classifyPage cannot name — do not steal that.
         const workdayOwnsWalk = binding.id === "workday" && canAuth();
 
-        if (!workdayOwnsWalk && landing.page_class === "posting") {
+        // #159: `unknown` gets the advance attempt too. iCIMS serves the
+        // posting and its Apply link from a same-origin child frame, so the
+        // top document has no fields and no CTA and classifies `unknown` —
+        // and the park below then refused a page whose Apply control was
+        // one frame away. advancePastPosting already owns this case (it
+        // treats an unknown landing as a posting ONLY when it finds a
+        // visible Apply control) and no-ops otherwise, so the attempt is
+        // free: no control ⇒ advanced:false and the same park as before.
+        if (
+          !workdayOwnsWalk &&
+          (landing.page_class === "posting" || landing.page_class === "unknown")
+        ) {
           postingTrail.push(extractPostingContext(planHtml));
           const advance = await advancePastPosting({
             page,

@@ -457,3 +457,100 @@ describe("advancePastPosting (FIXTURE_CONFIRMED)", () => {
     });
   }, 45_000);
 });
+
+/**
+ * #159 (live internal-careers-rivian.icims.com 2026-09-03): iCIMS serves
+ * the posting AND its "Apply for this job online" link from a same-origin
+ * child frame, leaving the top document with no fields and no Apply CTA.
+ * `page.getByRole` does not descend into frames, so three Rivian apps
+ * parked UNKNOWN_LANDING with the application never opened.
+ *
+ * Navigating to the frame's URL does NOT work (tried live first): it is
+ * the shell's own path plus `?in_iframe=1` and re-renders the 276KB shell.
+ * Clicking INSIDE the frame navigates the top-level page to the posting's
+ * application entry — verified live before this was written.
+ * FIXTURE_CONFIRMED.
+ */
+describe("#159 Apply control inside a same-origin iframe", () => {
+  useIsolatedFillEnv("safe");
+
+  const INNER = `<!DOCTYPE html><html><body>
+    <h1>Software Engineering Intern, Infotainment</h1>
+    <!-- target=_top: live iCIMS navigates the TOP-LEVEL page, verified by
+         probe (page.url() became .../login). A frame-only navigation is a
+         different shape this fix does not claim to handle. -->
+    <a href="/jobs/27405/login" target="_top">Apply for this job online</a>
+  </body></html>`;
+
+  const shell = (frameUrl: string): string => `<!DOCTYPE html><html><head>
+    <script src="/script/portal/apply.js"></script></head><body>
+    <iframe src="${frameUrl}"></iframe></body></html>`;
+
+  it("finds and clicks the Apply link served from the child frame", async () => {
+    const base = "https://internal-careers-rivian.icims.com";
+    const pageUrl = `${base}/jobs/27405/software-engineering-intern/job`;
+    const frameUrl = `${pageUrl}?in_iframe=1`;
+    await withFixtureHtmlPage("<html><body></body></html>", async (page) => {
+      await page.context().route("**/*", (route) => {
+        const u = route.request().url();
+        if (u.includes("/login")) {
+          return route.fulfill({
+            body: `<html><body><form>
+              <label>Email<input type="email" name="email"/></label>
+              <label>Password<input type="password" name="password"/></label>
+            </form></body></html>`,
+            contentType: "text/html",
+          });
+        }
+        return route.fulfill({
+          body: u.includes("in_iframe=1") ? INNER : shell(frameUrl),
+          contentType: "text/html",
+        });
+      });
+      await page.goto(pageUrl, { waitUntil: "domcontentloaded" });
+      await page.waitForTimeout(500);
+
+      const html = await page.content();
+      const r = await advancePastPosting({
+        page,
+        html,
+        url: pageUrl,
+        settleTimeoutMs: 3_000,
+      });
+
+      // The top document alone is unknown: no fields, no Apply CTA (its
+      // only "apply" is a <script src>, which classifyPage strips).
+      expect(r.notes.join(" ")).toMatch(/same-origin iframe/);
+      expect(r.advanced).toBe(true);
+      expect(r.page.url()).toContain("/login");
+    });
+  }, 45_000);
+
+  it("does not reach into a CROSS-ORIGIN frame", async () => {
+    // Live careers.philips.com ships one child frame: a doubleclick pixel.
+    const pageUrl = "https://www.careers.philips.com/na/en/job/PHIL1/x";
+    const tracker = "https://4788909.fls.doubleclick.net/activityi";
+    await withFixtureHtmlPage("<html><body></body></html>", async (page) => {
+      await page.context().route("**/*", (route) =>
+        route.fulfill({
+          body: route.request().url().includes("doubleclick")
+            ? `<html><body><a href="/x">Apply now</a></body></html>`
+            : `<html><body><h1>Role</h1><iframe src="${tracker}"></iframe></body></html>`,
+          contentType: "text/html",
+        }),
+      );
+      await page.goto(pageUrl, { waitUntil: "domcontentloaded" });
+      await page.waitForTimeout(500);
+
+      const r = await advancePastPosting({
+        page,
+        html: await page.content(),
+        url: pageUrl,
+        settleTimeoutMs: 3_000,
+      });
+      expect(r.advanced).toBe(false);
+      expect(r.notes.join(" ")).not.toMatch(/same-origin iframe/);
+      expect(r.page.url()).toBe(pageUrl);
+    });
+  }, 45_000);
+});
