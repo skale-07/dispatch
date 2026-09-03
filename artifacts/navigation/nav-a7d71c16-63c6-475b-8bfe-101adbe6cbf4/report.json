@@ -1,0 +1,47 @@
+{
+  "run_id": "nav-a7d71c16-63c6-475b-8bfe-101adbe6cbf4",
+  "application_id": "e16379c4-391d-4b06-aa2b-1bdaa03edadf",
+  "jobright_job_id": "6a8efacbf841e649a718ff06",
+  "method": "apply_click_popup",
+  "resolved_url": "https://sjhl.bamboohr.com/careers/106",
+  "resolved_ats": "generic",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no congruent apply href (8 external links)",
+      "evidence": "sjhl.bamboohr.com, www.linkedin.com, x.com, www.crunchbase.com"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "resolved via popup",
+      "evidence": "sjhl.bamboohr.com"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "phase A: 4 external host(s) seen: sjhl.bamboohr.com, www.linkedin.com, x.com, www.crunchbase.com",
+    "Apply control: autofill CTA (tier 0)",
+    "jobright interstitial: clicked \"Apply Without Customizing\"",
+    "popup settled off about:blank after the interstitial",
+    "popup captured on attempt 1",
+    "employer congruence unverifiable (URL carries no employer name specific enough to verify against \"Swindoll, Janzen, Hawk & Loyd, LLC\") — recorded"
+  ],
+  "congruence": {
+    "verdict": "unknown",
+    "slug": "sjhl",
+    "detail": "URL carries no employer name specific enough to verify against \"Swindoll, Janzen, Hawk & Loyd, LLC\"",
+    "expected_company": "Swindoll, Janzen, Hawk & Loyd, LLC",
+    "url": "https://sjhl.bamboohr.com/careers/106?jr_id=6a8efacbf841e649a718ff06"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-09-03T05:23:26.893Z"
+}

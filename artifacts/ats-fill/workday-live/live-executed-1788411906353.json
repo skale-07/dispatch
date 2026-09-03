@@ -1,0 +1,457 @@
+{
+  "ats": "workday",
+  "url": "https://mastercard.wd1.myworkdayjobs.com/campus/job/OFallon-Missouri/Data-Engineering-Intern--Summer-2027---St-Louis--MO--US_R-284901",
+  "requested_url": "https://mastercard.wd1.myworkdayjobs.com/campus/job/OFallon-Missouri/Data-Engineering-Intern--Summer-2027---St-Louis--MO--US_R-284901",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://mastercard.wd1.myworkdayjobs.com/en-US/campus/job/O'Fallon%2C-Missouri/Data-Engineering-Intern--Summer-2027---St-Louis--MO--US_R-284901/apply/applyManually",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 9,
+    "skipped_count": 2,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "candidateIsPreviousWorker",
+      "label": "Are you a former employee or returning applicant?",
+      "type": "radio",
+      "canonical_field": "screener:custom:returning_candidate_details",
+      "action": "FILL",
+      "reason": "Screener bank answer (llm_option)"
+    },
+    {
+      "field_id": "f_2",
+      "label": "Have you ever worked for Mastercard as an employee or provided services as a contingent worker (contractor, consultant)?",
+      "type": "text",
+      "canonical_field": "screener:previously_applied_or_worked",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "name--legalName--firstName",
+      "label": "First Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "name--legalName--lastName",
+      "label": "Last Name",
+      "type": "text",
+      "canonical_field": "legal_name.last",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "address--addressLine1",
+      "label": "Address Line 1",
+      "type": "text",
+      "canonical_field": "address.line1",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "address--city",
+      "label": "City",
+      "type": "text",
+      "canonical_field": "address.city",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f_7",
+      "label": "Address",
+      "type": "text",
+      "canonical_field": "address.line1",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "address--postalCode",
+      "label": "Postal Code",
+      "type": "text",
+      "canonical_field": "address.postal_code",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "glc5d",
+      "label": "Phone",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "country--country",
+      "label": "Country",
+      "type": "select",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "address--countryRegion",
+      "label": "State",
+      "type": "select",
+      "canonical_field": "address.state",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\workday-live\\form-snapshot-1788411906347.html",
+  "fill": {
+    "filled": [
+      "screener:custom:returning_candidate_details",
+      "screener:previously_applied_or_worked",
+      "legal_name.first",
+      "legal_name.last",
+      "address.line1",
+      "address.city",
+      "address.postal_code",
+      "address.state"
+    ],
+    "skipped": [
+      "f_7 (address.line1) — anchorless twin of an anchored canonical (#69)"
+    ],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "candidateIsPreviousWorker",
+        "canonical_field": "screener:custom:returning_candidate_details",
+        "control_kind": "text",
+        "selected_option": "No"
+      },
+      {
+        "field_id": "f_2",
+        "canonical_field": "screener:previously_applied_or_worked",
+        "control_kind": "text",
+        "selected_option": "No"
+      },
+      {
+        "field_id": "name--legalName--firstName",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "name--legalName--lastName",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "address--addressLine1",
+        "canonical_field": "address.line1",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "address--city",
+        "canonical_field": "address.city",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "address--postalCode",
+        "canonical_field": "address.postal_code",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "address--countryRegion",
+        "canonical_field": "address.state",
+        "control_kind": "combobox",
+        "selected_option": "Maryland",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Maryland\" (exact) from open list"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "screener:custom:returning_candidate_details",
+        "expected": "false",
+        "observed": {
+          "value": "false",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:previously_applied_or_worked",
+        "expected": "No",
+        "observed": {
+          "value": "false",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.last",
+        "expected": "Kale",
+        "observed": "Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "address.line1",
+        "expected": "3510 N Charles St",
+        "observed": "3510 N Charles St",
+        "match": true
+      },
+      {
+        "canonical_field": "address.city",
+        "expected": "Baltimore",
+        "observed": "Baltimore",
+        "match": true
+      },
+      {
+        "canonical_field": "address.postal_code",
+        "expected": "21218",
+        "observed": "21218",
+        "match": true
+      },
+      {
+        "canonical_field": "address.state",
+        "expected": "Maryland",
+        "observed": {
+          "value": "Maryland",
+          "label": "Maryland"
+        },
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 113381,
+      "verified": true,
+      "evidence": "input files: []; stillAttached=true; chip=true; resolved via primary"
+    }
+  ],
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: unknown (no signals matched)",
+    "workday page kind at gate: unknown",
+    "login wall on mastercard.wd1.myworkdayjobs.com: no_form_found; fields[email=false password=false confirm=false]; submit=[Sign In]",
+    "portal auth: Apply / Apply Manually not found on attempt 1",
+    "standing portal login used for mastercard.wd1.myworkdayjobs.com",
+    "portal auth: no sign-in form on this page",
+    "workday page kind after auth: unknown",
+    "workday: page header shows Sign In — session is signed OUT",
+    "workday: page after auth is off the apply flow (unknown) — one re-reach from the posting URL",
+    "re-reach login wall on mastercard.wd1.myworkdayjobs.com: no_form_found; fields[email=false password=false confirm=false]; submit=[Sign In]",
+    "re-reach portal auth: clicked \"Apply\" (attempt 1)",
+    "re-reach portal auth: clicked Apply Manually (attempt 2)",
+    "re-reach portal auth: account form rendered after Apply Manually",
+    "re-reach standing portal login used for mastercard.wd1.myworkdayjobs.com",
+    "re-reach portal auth: flipped Create Account → Sign In (standing credentials)",
+    "re-reach portal auth sign_in: form cleared",
+    "workday page kind after re-reach: wizard",
+    "section-expand: expanded 2 collapsed section(s)",
+    "section-expand: expanded \"Settings\"",
+    "section-expand: expanded \"skale072007@gmail.com\"",
+    "option harvest: scraped real options for 2/7 control(s) before planning",
+    "timing: base page (11 planned) — plan 2s, fill 6s, verify 1s",
+    "resume on disk but this page has no file input — not an upload miss",
+    "wizard option harvest: \"Phone Device Type\" is a combobox but offered no readable options",
+    "wizard option harvest: scraped real options for 2/12 control(s) before planning",
+    "wizard option harvest: \"Country\"×250, \"State\"×61",
+    "wizard plan skips (3): \"Phone Extension\"→Predict produced no usable answer | \"field_14\"→No answer-alias mapping | \"Country\"→No answer-alias mapping",
+    "wizard option harvest: scraped real options for 1/6 control(s) before planning",
+    "wizard option harvest: \"Degree\"×9",
+    "wizard plan skips (7): \"School or University\"→education row 98 — the profile holds one entry; no | \"Field of Study\"→education row 98 — the profile holds one entry; no | \"Overall Result (GPA)\"→education row 98 — the profile holds one entry; no | \"From\"→No answer-alias mapping | \"To (Actual or Expected)\"→education row 98 — the profile holds one entry; no | \"Select files\"→File uploads handled via uploadResume/uploadCoverL | \"Degree\"→No answer-alias mapping",
+    "wizard option harvest: scraped real options for 1/6 control(s) before planning",
+    "wizard option harvest: \"Degree\"×9",
+    "wizard plan skips (7): \"School or University\"→education row 98 already holds \"Johns Hopkins Univ | \"Field of Study\"→education row 98 — the profile holds one entry; no | \"Overall Result (GPA)\"→education row 98 — the profile holds one entry; no | \"From\"→No answer-alias mapping | \"To (Actual or Expected)\"→education row 98 — the profile holds one entry; no | \"Select files\"→File uploads handled via uploadResume/uploadCoverL | \"Degree\"→No answer-alias mapping",
+    "wizard option harvest: scraped real options for 1/6 control(s) before planning",
+    "wizard option harvest: \"Degree\"×9",
+    "wizard plan skips (7): \"School or University\"→education row 98 already holds \"Johns Hopkins Univ | \"Field of Study\"→education row 98 — the profile holds one entry; no | \"Overall Result (GPA)\"→education row 98 — the profile holds one entry; no | \"From\"→No answer-alias mapping | \"To (Actual or Expected)\"→education row 98 — the profile holds one entry; no | \"Select files\"→File uploads handled via uploadResume/uploadCoverL | \"Degree\"→No answer-alias mapping",
+    "wizard option harvest: scraped real options for 1/6 control(s) before planning",
+    "wizard option harvest: \"Degree\"×9",
+    "wizard plan skips (7): \"School or University\"→education row 98 already holds \"Johns Hopkins Univ | \"Field of Study\"→education row 98 — the profile holds one entry; no | \"Overall Result (GPA)\"→education row 98 — the profile holds one entry; no | \"From\"→No answer-alias mapping | \"To (Actual or Expected)\"→education row 98 — the profile holds one entry; no | \"Select files\"→File uploads handled via uploadResume/uploadCoverL | \"Degree\"→No answer-alias mapping",
+    "wizard option harvest: scraped real options for 1/6 control(s) before planning",
+    "wizard option harvest: \"Degree\"×9",
+    "wizard plan skips (7): \"School or University\"→education row 98 already holds \"Johns Hopkins Univ | \"Field of Study\"→education row 98 — the profile holds one entry; no | \"Overall Result (GPA)\"→education row 98 — the profile holds one entry; no | \"From\"→No answer-alias mapping | \"To (Actual or Expected)\"→education row 98 — the profile holds one entry; no | \"Select files\"→File uploads handled via uploadResume/uploadCoverL | \"Degree\"→No answer-alias mapping",
+    "wizard option harvest: scraped real options for 1/6 control(s) before planning",
+    "wizard option harvest: \"Degree\"×9",
+    "wizard plan skips (7): \"School or University\"→education row 98 already holds \"Johns Hopkins Univ | \"Field of Study\"→education row 98 — the profile holds one entry; no | \"Overall Result (GPA)\"→education row 98 — the profile holds one entry; no | \"From\"→No answer-alias mapping | \"To (Actual or Expected)\"→education row 98 — the profile holds one entry; no | \"Select files\"→File uploads handled via uploadResume/uploadCoverL | \"Degree\"→No answer-alias mapping",
+    "wizard option harvest: scraped real options for 1/6 control(s) before planning",
+    "wizard option harvest: \"Degree\"×9",
+    "wizard plan skips (7): \"School or University\"→education row 98 already holds \"Johns Hopkins Univ | \"Field of Study\"→education row 98 — the profile holds one entry; no | \"Overall Result (GPA)\"→education row 98 — the profile holds one entry; no | \"From\"→No answer-alias mapping | \"To (Actual or Expected)\"→education row 98 — the profile holds one entry; no | \"Select files\"→File uploads handled via uploadResume/uploadCoverL | \"Degree\"→No answer-alias mapping",
+    "wizard: page 2 never settled on a NEW page (heading still \"Data Engineering Intern, Summer 2027 – St. Louis, MO, US\") — planning on the current DOM",
+    "wizard: page 2 heading=\"Data Engineering Intern, Summer 2027 – S\" url…84901/apply/applyManually shot=wizard-page-2-1788411783756.png",
+    "wizard: page 3 never settled on a NEW page (heading still \"Data Engineering Intern, Summer 2027 – St. Louis, MO, US\") — planning on the current DOM",
+    "wizard: page 3 heading=\"Data Engineering Intern, Summer 2027 – S\" url…84901/apply/applyManually shot=wizard-page-3-1788411818042.png",
+    "wizard: page 4 never settled on a NEW page (heading still \"Data Engineering Intern, Summer 2027 – St. Louis, MO, US\") — planning on the current DOM",
+    "wizard: page 4 heading=\"Data Engineering Intern, Summer 2027 – S\" url…84901/apply/applyManually shot=wizard-page-4-1788411837268.png",
+    "wizard: page 5 never settled on a NEW page (heading still \"Data Engineering Intern, Summer 2027 – St. Louis, MO, US\") — planning on the current DOM",
+    "wizard: page 5 heading=\"Data Engineering Intern, Summer 2027 – S\" url…84901/apply/applyManually shot=wizard-page-5-1788411850339.png",
+    "wizard: page 6 never settled on a NEW page (heading still \"Data Engineering Intern, Summer 2027 – St. Louis, MO, US\") — planning on the current DOM",
+    "wizard: page 6 heading=\"Data Engineering Intern, Summer 2027 – S\" url…84901/apply/applyManually shot=wizard-page-6-1788411863939.png",
+    "wizard: page 7 never settled on a NEW page (heading still \"Data Engineering Intern, Summer 2027 – St. Louis, MO, US\") — planning on the current DOM",
+    "wizard: page 7 heading=\"Data Engineering Intern, Summer 2027 – S\" url…84901/apply/applyManually shot=wizard-page-7-1788411877117.png",
+    "wizard: page 8 never settled on a NEW page (heading still \"Data Engineering Intern, Summer 2027 – St. Louis, MO, US\") — planning on the current DOM",
+    "wizard: page 8 heading=\"Data Engineering Intern, Summer 2027 – S\" url…84901/apply/applyManually shot=wizard-page-8-1788411890323.png",
+    "wizard: page 9 never settled on a NEW page (heading still \"Data Engineering Intern, Summer 2027 – St. Louis, MO, US\") — planning on the current DOM",
+    "wizard: page 9 heading=\"Data Engineering Intern, Summer 2027 – S\" url…84901/apply/applyManually shot=wizard-page-9-1788411903398.png",
+    "wizard: filled 8 additional page(s) — wizard:12/14, wizard:1/1, wizard:1/1, wizard:1/1, wizard:1/1, wizard:1/1, wizard:1/1, wizard:1/1",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [
+    {
+      "field_id": "country--country",
+      "label": "Country",
+      "answer_space": "closed",
+      "option_count": 250,
+      "options": [
+        "Select One",
+        "Afghanistan",
+        "Åland Islands",
+        "Albania",
+        "Algeria",
+        "American Samoa",
+        "Andorra",
+        "Angola",
+        "Anguilla",
+        "Antigua and Barbuda",
+        "Argentina",
+        "Armenia",
+        "Aruba",
+        "Australia",
+        "Austria",
+        "Azerbaijan",
+        "Bahamas",
+        "Bahrain",
+        "Bangladesh",
+        "Barbados",
+        "Belarus",
+        "Belgium",
+        "Belize",
+        "Benin",
+        "Bermuda"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "address--countryRegion",
+      "label": "State",
+      "answer_space": "closed",
+      "option_count": 61,
+      "options": [
+        "Select One",
+        "Alabama",
+        "Alaska",
+        "American Samoa",
+        "Arizona",
+        "Arkansas",
+        "Armed Forces Americas",
+        "Armed Forces Europe",
+        "Armed Forces Pacific",
+        "California",
+        "Colorado",
+        "Connecticut",
+        "Delaware",
+        "District of Columbia",
+        "Florida",
+        "Georgia",
+        "Guam",
+        "Hawaii",
+        "Idaho",
+        "Illinois",
+        "Indiana",
+        "Iowa",
+        "Kansas",
+        "Kentucky",
+        "Louisiana"
+      ],
+      "other_option": null
+    }
+  ],
+  "wizard_pages": [
+    {
+      "page": 2,
+      "url": "https://mastercard.wd1.myworkdayjobs.com/en-US/campus/job/O'Fallon%2C-Missouri/Data-Engineering-Intern--Summer-2027---St-Louis--MO--US_R-284901/apply/applyManually",
+      "kind": "wizard",
+      "fillable": 14,
+      "filled": 12,
+      "verify_passed": true
+    },
+    {
+      "page": 3,
+      "url": "https://mastercard.wd1.myworkdayjobs.com/en-US/campus/job/O'Fallon%2C-Missouri/Data-Engineering-Intern--Summer-2027---St-Louis--MO--US_R-284901/apply/applyManually",
+      "kind": "wizard",
+      "fillable": 1,
+      "filled": 1,
+      "verify_passed": true
+    },
+    {
+      "page": 4,
+      "url": "https://mastercard.wd1.myworkdayjobs.com/en-US/campus/job/O'Fallon%2C-Missouri/Data-Engineering-Intern--Summer-2027---St-Louis--MO--US_R-284901/apply/applyManually",
+      "kind": "wizard",
+      "fillable": 1,
+      "filled": 1,
+      "verify_passed": true
+    },
+    {
+      "page": 5,
+      "url": "https://mastercard.wd1.myworkdayjobs.com/en-US/campus/job/O'Fallon%2C-Missouri/Data-Engineering-Intern--Summer-2027---St-Louis--MO--US_R-284901/apply/applyManually",
+      "kind": "wizard",
+      "fillable": 1,
+      "filled": 1,
+      "verify_passed": true
+    },
+    {
+      "page": 6,
+      "url": "https://mastercard.wd1.myworkdayjobs.com/en-US/campus/job/O'Fallon%2C-Missouri/Data-Engineering-Intern--Summer-2027---St-Louis--MO--US_R-284901/apply/applyManually",
+      "kind": "wizard",
+      "fillable": 1,
+      "filled": 1,
+      "verify_passed": true
+    },
+    {
+      "page": 7,
+      "url": "https://mastercard.wd1.myworkdayjobs.com/en-US/campus/job/O'Fallon%2C-Missouri/Data-Engineering-Intern--Summer-2027---St-Louis--MO--US_R-284901/apply/applyManually",
+      "kind": "wizard",
+      "fillable": 1,
+      "filled": 1,
+      "verify_passed": true
+    },
+    {
+      "page": 8,
+      "url": "https://mastercard.wd1.myworkdayjobs.com/en-US/campus/job/O'Fallon%2C-Missouri/Data-Engineering-Intern--Summer-2027---St-Louis--MO--US_R-284901/apply/applyManually",
+      "kind": "wizard",
+      "fillable": 1,
+      "filled": 1,
+      "verify_passed": true
+    },
+    {
+      "page": 9,
+      "url": "https://mastercard.wd1.myworkdayjobs.com/en-US/campus/job/O'Fallon%2C-Missouri/Data-Engineering-Intern--Summer-2027---St-Louis--MO--US_R-284901/apply/applyManually",
+      "kind": "wizard",
+      "fillable": 1,
+      "filled": 1,
+      "verify_passed": true
+    }
+  ],
+  "written_at": "2026-09-03T05:05:06.383Z"
+}
