@@ -1,0 +1,56 @@
+{
+  "run_id": "nav-0a6e0a55-7e0f-4f7d-a58b-2aa88f37dc30",
+  "application_id": "18a31cd4-da22-41ea-bfcc-04ea7521c716",
+  "jobright_job_id": "6a92f70b8e5968545337a37d",
+  "method": null,
+  "resolved_url": null,
+  "resolved_ats": null,
+  "wall": "duplicate_url",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no congruent apply href (12 external links)",
+      "evidence": "sjobs.brassring.com, www.linkedin.com, x.com, www.crunchbase.com, www.glassdoor.com, www.businesswire.com"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "resolved via popup",
+      "evidence": "sjobs.brassring.com"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "phase A: 8 external host(s) seen: sjobs.brassring.com, www.linkedin.com, x.com, www.crunchbase.com, www.glassdoor.com, www.businesswire.com, www.bizjournals.com, www.marketscreener.com",
+    "Apply control: autofill CTA (tier 0)",
+    "jobright interstitial: clicked \"Apply Without Customizing\"",
+    "popup settled off about:blank after the interstitial",
+    "popup captured on attempt 1",
+    "phase B: landing shows a sign-in wall — stored anyway; fill owns portal auth",
+    "employer congruence unverifiable (no employer name decodable from URL (host and path are generic)) — recorded",
+    "employer URL already held by 1 other application(s): 0bdd1810 (MicroVention-Terumo — Intern, Supply Chain Planning, NATIVE_AUTOFILL_RUNNING)"
+  ],
+  "congruence": {
+    "verdict": "unknown",
+    "slug": null,
+    "detail": "no employer name decodable from URL (host and path are generic)",
+    "expected_company": "Dollar Bank",
+    "url": "https://sjobs.brassring.com/TGnewUI/Search/home/HomeWithPreLoad?partnerid=25950&siteid=5192&PageType=JobDetails&jobid=859049&jr_id=6a92f70b8e5968545337a37d"
+  },
+  "duplicates": [
+    {
+      "application_id": "0bdd1810-2ea2-4d15-ab37-5527d9e61f04",
+      "state": "NATIVE_AUTOFILL_RUNNING",
+      "company": "MicroVention-Terumo",
+      "role": "Intern, Supply Chain Planning"
+    }
+  ],
+  "login_wall": null,
+  "written_at": "2026-09-03T04:25:02.458Z"
+}

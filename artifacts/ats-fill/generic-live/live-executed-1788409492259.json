@@ -1,0 +1,475 @@
+{
+  "ats": "generic",
+  "url": "https://clevelandresearch.applytojob.com/apply/zy7WHaTRsu/Hedge-Fund-Sales-Consultant-Intern-Summer-2027",
+  "requested_url": "https://clevelandresearch.applytojob.com/apply/zy7WHaTRsu/Hedge-Fund-Sales-Consultant-Intern-Summer-2027",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://clevelandresearch.applytojob.com/apply/zy7WHaTRsu/Hedge-Fund-Sales-Consultant-Intern-Summer-2027",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 16,
+    "skipped_count": 6,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "resumator-firstname-value",
+      "label": "First Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "resumator-lastname-value",
+      "label": "Last Name",
+      "type": "text",
+      "canonical_field": "legal_name.last",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "resumator-email-value",
+      "label": "Email Address",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "resumator-phone-value",
+      "label": "Phone",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "resumator-address-value",
+      "label": "Address",
+      "type": "text",
+      "canonical_field": "address.line1",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "resumator-city-value",
+      "label": "City",
+      "type": "text",
+      "canonical_field": "address.city",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "resumator-state-value",
+      "label": "State/Province",
+      "type": "text",
+      "canonical_field": "address.state",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "resumator-postal-value",
+      "label": "Postal",
+      "type": "text",
+      "canonical_field": "address.postal_code",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "resumator-resume-value",
+      "label": "Resume",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "resumator-resumetext-value",
+      "label": "resumator-resumetext-value",
+      "type": "textarea",
+      "canonical_field": "essay:generated:resumator-resumetext-value",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "resumator-xml-value",
+      "label": "resumator-xml-value",
+      "type": "textarea",
+      "canonical_field": "essay:generated:resumator-xml-value",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "resumator-coverletter-value",
+      "label": "Cover Letter",
+      "type": "textarea",
+      "canonical_field": "essay:generated:resumator-coverletter-value",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "resumator-referral-value",
+      "label": "Who referred you to this position? Enter their first and last name here.",
+      "type": "text",
+      "canonical_field": "screener:referral_name",
+      "action": "SKIP",
+      "reason": "referral_name empty in bank — optional, skipped"
+    },
+    {
+      "field_id": "resumator-citizen-value",
+      "label": "What's your citizenship / employment eligibility?",
+      "type": "select",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "already answered on the form (\"No answer\") — prediction not applied"
+    },
+    {
+      "field_id": "resumator-education-value",
+      "label": "What's your highest level of education completed?",
+      "type": "select",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "already answered on the form (\"No answer\") — prediction not applied"
+    },
+    {
+      "field_id": "resumator-college-value",
+      "label": "College or University",
+      "type": "text",
+      "canonical_field": "school",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "resumator-gpa-value",
+      "label": "GPA",
+      "type": "text",
+      "canonical_field": "gpa",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "resumator-linkedin-value",
+      "label": "LinkedIn Profile URL:",
+      "type": "text",
+      "canonical_field": "linkedin_url",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "resumator-wmyu-value",
+      "label": "In 150 characters or fewer, tell us what makes you unique. Try to be creative and say something that will catch our eye!",
+      "type": "textarea",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Essay generation produced no answer"
+    },
+    {
+      "field_id": "resumator-references-value",
+      "label": "References: Please enter names and contact information:",
+      "type": "textarea",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Essay generation produced no answer"
+    },
+    {
+      "field_id": "resumator-questionnaire-q2837482",
+      "label": "Why are you interested in CRC?",
+      "type": "textarea",
+      "canonical_field": "essay:generated:resumator-questionnaire-q2837482",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "resumator-questionnaire-q2837484",
+      "label": "If you are a non citizen, will you require sponsorship now or at any point in the future?",
+      "type": "select",
+      "canonical_field": "requires_sponsorship",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\generic-live\\form-snapshot-1788409481291.html",
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "legal_name.last",
+      "email",
+      "phone",
+      "address.line1",
+      "address.city",
+      "address.state",
+      "address.postal_code",
+      "essay:generated:resumator-coverletter-value",
+      "school",
+      "gpa",
+      "linkedin_url",
+      "essay:generated:resumator-questionnaire-q2837482",
+      "requires_sponsorship"
+    ],
+    "skipped": [
+      "resumator-resumetext-value — control is not visible (collapsed section or unopened editor)",
+      "resumator-xml-value — control is not visible (collapsed section or unopened editor)"
+    ],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "resumator-firstname-value",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "resumator-lastname-value",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "resumator-email-value",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "resumator-phone-value",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "resumator-address-value",
+        "canonical_field": "address.line1",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "resumator-city-value",
+        "canonical_field": "address.city",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "resumator-state-value",
+        "canonical_field": "address.state",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "resumator-postal-value",
+        "canonical_field": "address.postal_code",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "resumator-resumetext-value",
+        "canonical_field": "essay:generated:resumator-resumetext-value",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled",
+          "resolved by id=resumator-resumetext-value (planned textarea), 1 match(es): <textarea type=textarea> display=block visibility=visible"
+        ]
+      },
+      {
+        "field_id": "resumator-xml-value",
+        "canonical_field": "essay:generated:resumator-xml-value",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled",
+          "resolved by id=resumator-xml-value (planned textarea), 1 match(es): <textarea type=textarea> display=none visibility=visible"
+        ]
+      },
+      {
+        "field_id": "resumator-coverletter-value",
+        "canonical_field": "essay:generated:resumator-coverletter-value",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "resumator-college-value",
+        "canonical_field": "school",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "resumator-gpa-value",
+        "canonical_field": "gpa",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "resumator-linkedin-value",
+        "canonical_field": "linkedin_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "resumator-questionnaire-q2837482",
+        "canonical_field": "essay:generated:resumator-questionnaire-q2837482",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "resumator-questionnaire-q2837484",
+        "canonical_field": "requires_sponsorship",
+        "control_kind": "native_select",
+        "selected_option": "No",
+        "match_via": "exact"
+      }
+    ]
+  },
+  "verify": {
+    "passed": false,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.last",
+        "expected": "Kale",
+        "observed": "Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "address.line1",
+        "expected": "3510 N Charles St",
+        "observed": "3510 N Charles St",
+        "match": true
+      },
+      {
+        "canonical_field": "address.city",
+        "expected": "Baltimore",
+        "observed": "Baltimore",
+        "match": true
+      },
+      {
+        "canonical_field": "address.state",
+        "expected": "Maryland",
+        "observed": "Maryland",
+        "match": true
+      },
+      {
+        "canonical_field": "address.postal_code",
+        "expected": "21218",
+        "observed": "21218",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:resumator-resumetext-value",
+        "expected": "Johns Hopkins University, B.S. Applied Mathematics & Statistics and Economics, Class of 2029.\n\nSummer Atlantic Capital / SAC Nexus, Machine Learning: build the ML core of an anomaly-detection and alert-prioritization system, including the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, a learning-to-rank layer for alert prioritization, and a retrieval-augmented explanation layer for analysts.\n\nOpen Health Intelligence / ClarityAtlas, Co-founder and Technical Lead: built an iOS health product end to end in Swift, SwiftUI, and Supabase, including passive sleep estimation from phone motion and interaction signals. Shipped into a live Hopkins pilot with 30+ users. Selected for the Pava Spark Accelerator and NSF I-Corps; received a non-binding indication of roughly $75,000 for about 7-8% equity.\n\nIntelehealth: built a Python resource-availability scoring pipeline across 32 villages and designed an evaluation framework comparing AI-generated clinical outputs against a 4,169-case clinical standard.\n\nGates Foundation / Johns Hopkins / SAMRC health equity project, lead model developer: XGBoost models on roughly 10 million survey records, SHAP-based interpretation, and G-formula causal simulations.\n\nSnapSort, Founder: AI photo-sorting product built on Flask and AWS, 300+ users, ~$5,000 non-dilutive funding, led a small cross-functional team.\n\nValley Fever research: SIR-style epidemiological model in Python plus a microcontroller dust sensor in C/C++; sole-author publication in the Journal of Student Research and national JSHS finalist.\n\nSkills: Python, TypeScript, Swift, SQL, machine learning, statistics, causal inference, product and go-to-market.",
+        "observed": "",
+        "match": false
+      },
+      {
+        "canonical_field": "essay:generated:resumator-xml-value",
+        "expected": "Johns Hopkins University, B.S. Applied Mathematics & Statistics and Economics, Class of 2029.\n\nSummer Atlantic Capital / SAC Nexus, Machine Learning: build the ML core of an anomaly-detection and alert-prioritization system, including the repository and CI scaffold, event-ingestion pipeline, versioned FastAPI microservice and public detection API, temporal sequence models over event streams, a learning-to-rank layer for alert prioritization, and a retrieval-augmented LLM explanation layer for human analysts.\n\nOpen Health Intelligence / ClarityAtlas, Co-founder and Technical Lead: built an iOS health product end to end in Swift, SwiftUI, and Supabase, including passive sleep estimation from HealthKit and Core Motion signals; shipped into a live Johns Hopkins pilot with 30+ users; selected for the Pava Spark Accelerator and NSF I-Corps; presented to Johns Hopkins President Ron Daniels.\n\nIntelehealth: built a resource-availability scoring pipeline in Python across 32 villages and designed an evaluation framework comparing AI-generated clinical outputs against a 4,169-case clinical standard.\n\nJohns Hopkins / South African Medical Research Council (Gates Foundation funded), Lead Model Developer: XGBoost models on roughly 10 million survey records, SHAP-based interpretation, G-formula causal simulations.\n\nSnapSort, Founder: AI photo-sorting product built on Flask and AWS, 300+ users, ~$5,000 non-dilutive funding.",
+        "observed": "",
+        "match": false
+      },
+      {
+        "canonical_field": "essay:generated:resumator-coverletter-value",
+        "expected": "I'm an Applied Mathematics & Statistics and Economics student at Johns Hopkins, class of 2029, and most of what I've done has come from building things around problems I ran into directly. I co-founded Open Health Intelligence and led the technical work on ClarityAtlas, an iOS health product we shipped into a live Hopkins pilot with 30+ users. The part of that project I learned the most from was not the code. It was recruiting users, explaining repeatedly why the product should exist, and getting in front of people who could support it. At one point my cofounders and I saw President Ron Daniels through the locked doors of Garland Hall during Lighting of the Quads and knocked until we got a chance to pitch him. That turned into a formal meeting months later.\n\nWhat draws me to Cleveland Research is that your model depends on gathering primary information and turning it into a view someone will act on. I've done a version of that on the research side, spending the past year interviewing researchers, administrators, and science-policy people about how research gets funded, and changing my thesis when the interviews contradicted it. I don't need to already know the business to work hard at learning it.",
+        "observed": "I'm an Applied Mathematics & Statistics and Economics student at Johns Hopkins, class of 2029, and most of what I've done has come from building things around problems I ran into directly. I co-founded Open Health Intelligence and led the technical work on ClarityAtlas, an iOS health product we shipped into a live Hopkins pilot with 30+ users. The part of that project I learned the most from was not the code. It was recruiting users, explaining repeatedly why the product should exist, and getting in front of people who could support it. At one point my cofounders and I saw President Ron Daniels through the locked doors of Garland Hall during Lighting of the Quads and knocked until we got a chance to pitch him. That turned into a formal meeting months later.\n\nWhat draws me to Cleveland Research is that your model depends on gathering primary information and turning it into a view someone will act on. I've done a version of that on the research side, spending the past year interviewing researchers, administrators, and science-policy people about how research gets funded, and changing my thesis when the interviews contradicted it. I don't need to already know the business to work hard at learning it.",
+        "match": true
+      },
+      {
+        "canonical_field": "school",
+        "expected": "Johns Hopkins University",
+        "observed": "Johns Hopkins University",
+        "match": true
+      },
+      {
+        "canonical_field": "gpa",
+        "expected": 3.7,
+        "observed": "3.7",
+        "match": true
+      },
+      {
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:resumator-questionnaire-q2837482",
+        "expected": "What draws me to CRC is that the whole business rests on doing original primary research rather than repackaging what is already public, and then convincing people the work is worth listening to. That is close to how I already work. I built tSearch, a talent-discovery system that starts from public GitHub and Substack work rather than school or employer prestige, and one of its core rules is that missing evidence is not treated as negative evidence. At Intelehealth I designed an evaluation framework over a 4,169-case clinical benchmark to find where model outputs actually failed against a clinical standard. Both taught me that gathering information is the easy part and judging what it supports is the hard part, which seems like the daily question in a research firm selling a differentiated view to hedge fund clients. I also like that CRC hires for aptitude and trains its own discipline. My cofounders and I once knocked on locked doors at Garland Hall to pitch the Hopkins president, and that eventually became a formal meeting. I want a seat where research quality and persuading people both matter.",
+        "observed": "What draws me to CRC is that the whole business rests on doing original primary research rather than repackaging what is already public, and then convincing people the work is worth listening to. That is close to how I already work. I built tSearch, a talent-discovery system that starts from public GitHub and Substack work rather than school or employer prestige, and one of its core rules is that missing evidence is not treated as negative evidence. At Intelehealth I designed an evaluation framework over a 4,169-case clinical benchmark to find where model outputs actually failed against a clinical standard. Both taught me that gathering information is the easy part and judging what it supports is the hard part, which seems like the daily question in a research firm selling a differentiated view to hedge fund clients. I also like that CRC hires for aptitude and trains its own discipline. My cofounders and I once knocked on locked doors at Garland Hall to pitch the Hopkins president, and that eventually became a formal meeting. I want a seat where research quality and persuading people both matter.",
+        "match": true
+      },
+      {
+        "canonical_field": "requires_sponsorship",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 113381,
+      "verified": true,
+      "evidence": "input files: [{\"name\":\"resume-6b5f8e75.pdf\",\"size\":113381}]; stillAttached=true; chip=false"
+    }
+  ],
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: form (22 fillable field(s))",
+    "popups dismissed: close (aria-label)",
+    "timing: base page (22 planned) — plan 58s, fill 9s, verify 1s",
+    "page error scan: no visible validation errors on the page",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "operator_brief": {
+    "title": "Live fill — generic https://clevelandresearch.applytojob.com/apply/zy7WHaTRsu/Hedge-Fund-Sales-Consultant-Intern-Summer-2027",
+    "summary": "2 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:essay:generated:resumator-resumetext-value",
+        "question": "resumator-resumetext-value",
+        "field_id": "resumator-resumetext-value",
+        "canonical_field": "essay:generated:resumator-resumetext-value",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Johns Hopkins University, B.S. Applied Mathematics & Statistics and Economics, Class of 2029.\n\nSummer Atlantic Capital / SAC Nexus, Machine Learning: build the ML core of an anomaly-detection and alert-prioritization system, including the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, a learning-to-rank layer for alert prioritization, and a retrieval-augmented explanation layer for analysts.\n\nOpen Health Intelligence / ClarityAtlas, Co-founder and Technical Lead: built an iOS health product end to end in Swift, SwiftUI, and Supabase, including passive sleep estimation from phone motion and interaction signals. Shipped into a live Hopkins pilot with 30+ users. Selected for the Pava Spark Accelerator and NSF I-Corps; received a non-binding indication of roughly $75,000 for about 7-8% equity.\n\nIntelehealth: built a Python resource-availability scoring pipeline across 32 villages and designed an evaluation framework comparing AI-generated clinical outputs against a 4,169-case clinical standard.\n\nGates Foundation / Johns Hopkins / SAMRC health equity project, lead model developer: XGBoost models on roughly 10 million survey records, SHAP-based interpretation, and G-formula causal simulations.\n\nSnapSort, Founder: AI photo-sorting product built on Flask and AWS, 300+ users, ~$5,000 non-dilutive funding, led a small cross-functional team.\n\nValley Fever research: SIR-style epidemiological model in Python plus a microcontroller dust sensor in C/C++; sole-author publication in the Journal of Student Research and national JSHS finalist.\n\nSkills: Python, TypeScript, Swift, SQL, machine learning, statistics, causal inference, product and go-to-market.\"; page shows \"(empty)\"",
+        "expected": "Johns Hopkins University, B.S. Applied Mathematics & Statistics and Economics, Class of 2029.\n\nSummer Atlantic Capital / SAC Nexus, Machine Learning: build the ML core of an anomaly-detection and alert-prioritization system, including the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, a learning-to-rank layer for alert prioritization, and a retrieval-augmented explanation layer for analysts.\n\nOpen Health Intelligence / ClarityAtlas, Co-founder and Technical Lead: built an iOS health product end to end in Swift, SwiftUI, and Supabase, including passive sleep estimation from phone motion and interaction signals. Shipped into a live Hopkins pilot with 30+ users. Selected for the Pava Spark Accelerator and NSF I-Corps; received a non-binding indication of roughly $75,000 for about 7-8% equity.\n\nIntelehealth: built a Python resource-availability scoring pipeline across 32 villages and designed an evaluation framework comparing AI-generated clinical outputs against a 4,169-case clinical standard.\n\nGates Foundation / Johns Hopkins / SAMRC health equity project, lead model developer: XGBoost models on roughly 10 million survey records, SHAP-based interpretation, and G-formula causal simulations.\n\nSnapSort, Founder: AI photo-sorting product built on Flask and AWS, 300+ users, ~$5,000 non-dilutive funding, led a small cross-functional team.\n\nValley Fever research: SIR-style epidemiological model in Python plus a microcontroller dust sensor in C/C++; sole-author publication in the Journal of Student Research and national JSHS finalist.\n\nSkills: Python, TypeScript, Swift, SQL, machine learning, statistics, causal inference, product and go-to-market.",
+        "observed": "",
+        "how_to_answer": [
+          "System expected \"Johns Hopkins University, B.S. Applied Mathematics & Statistics and Economics, Class of 2029.\n\nSummer Atlantic Capital / SAC Nexus, Machine Learning: build the ML core of an anomaly-detection and alert-prioritization system, including the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, a learning-to-rank layer for alert prioritization, and a retrieval-augmented explanation layer for analysts.\n\nOpen Health Intelligence / ClarityAtlas, Co-founder and Technical Lead: built an iOS health product end to end in Swift, SwiftUI, and Supabase, including passive sleep estimation from phone motion and interaction signals. Shipped into a live Hopkins pilot with 30+ users. Selected for the Pava Spark Accelerator and NSF I-Corps; received a non-binding indication of roughly $75,000 for about 7-8% equity.\n\nIntelehealth: built a Python resource-availability scoring pipeline across 32 villages and designed an evaluation framework comparing AI-generated clinical outputs against a 4,169-case clinical standard.\n\nGates Foundation / Johns Hopkins / SAMRC health equity project, lead model developer: XGBoost models on roughly 10 million survey records, SHAP-based interpretation, and G-formula causal simulations.\n\nSnapSort, Founder: AI photo-sorting product built on Flask and AWS, 300+ users, ~$5,000 non-dilutive funding, led a small cross-functional team.\n\nValley Fever research: SIR-style epidemiological model in Python plus a microcontroller dust sensor in C/C++; sole-author publication in the Journal of Student Research and national JSHS finalist.\n\nSkills: Python, TypeScript, Swift, SQL, machine learning, statistics, causal inference, product and go-to-market.\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: essay:generated:resumator-resumetext-value)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"essay:generated:resumator-resumetext-value\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:essay:generated:resumator-xml-value",
+        "question": "resumator-xml-value",
+        "field_id": "resumator-xml-value",
+        "canonical_field": "essay:generated:resumator-xml-value",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Johns Hopkins University, B.S. Applied Mathematics & Statistics and Economics, Class of 2029.\n\nSummer Atlantic Capital / SAC Nexus, Machine Learning: build the ML core of an anomaly-detection and alert-prioritization system, including the repository and CI scaffold, event-ingestion pipeline, versioned FastAPI microservice and public detection API, temporal sequence models over event streams, a learning-to-rank layer for alert prioritization, and a retrieval-augmented LLM explanation layer for human analysts.\n\nOpen Health Intelligence / ClarityAtlas, Co-founder and Technical Lead: built an iOS health product end to end in Swift, SwiftUI, and Supabase, including passive sleep estimation from HealthKit and Core Motion signals; shipped into a live Johns Hopkins pilot with 30+ users; selected for the Pava Spark Accelerator and NSF I-Corps; presented to Johns Hopkins President Ron Daniels.\n\nIntelehealth: built a resource-availability scoring pipeline in Python across 32 villages and designed an evaluation framework comparing AI-generated clinical outputs against a 4,169-case clinical standard.\n\nJohns Hopkins / South African Medical Research Council (Gates Foundation funded), Lead Model Developer: XGBoost models on roughly 10 million survey records, SHAP-based interpretation, G-formula causal simulations.\n\nSnapSort, Founder: AI photo-sorting product built on Flask and AWS, 300+ users, ~$5,000 non-dilutive funding.\"; page shows \"(empty)\"",
+        "expected": "Johns Hopkins University, B.S. Applied Mathematics & Statistics and Economics, Class of 2029.\n\nSummer Atlantic Capital / SAC Nexus, Machine Learning: build the ML core of an anomaly-detection and alert-prioritization system, including the repository and CI scaffold, event-ingestion pipeline, versioned FastAPI microservice and public detection API, temporal sequence models over event streams, a learning-to-rank layer for alert prioritization, and a retrieval-augmented LLM explanation layer for human analysts.\n\nOpen Health Intelligence / ClarityAtlas, Co-founder and Technical Lead: built an iOS health product end to end in Swift, SwiftUI, and Supabase, including passive sleep estimation from HealthKit and Core Motion signals; shipped into a live Johns Hopkins pilot with 30+ users; selected for the Pava Spark Accelerator and NSF I-Corps; presented to Johns Hopkins President Ron Daniels.\n\nIntelehealth: built a resource-availability scoring pipeline in Python across 32 villages and designed an evaluation framework comparing AI-generated clinical outputs against a 4,169-case clinical standard.\n\nJohns Hopkins / South African Medical Research Council (Gates Foundation funded), Lead Model Developer: XGBoost models on roughly 10 million survey records, SHAP-based interpretation, G-formula causal simulations.\n\nSnapSort, Founder: AI photo-sorting product built on Flask and AWS, 300+ users, ~$5,000 non-dilutive funding.",
+        "observed": "",
+        "how_to_answer": [
+          "System expected \"Johns Hopkins University, B.S. Applied Mathematics & Statistics and Economics, Class of 2029.\n\nSummer Atlantic Capital / SAC Nexus, Machine Learning: build the ML core of an anomaly-detection and alert-prioritization system, including the repository and CI scaffold, event-ingestion pipeline, versioned FastAPI microservice and public detection API, temporal sequence models over event streams, a learning-to-rank layer for alert prioritization, and a retrieval-augmented LLM explanation layer for human analysts.\n\nOpen Health Intelligence / ClarityAtlas, Co-founder and Technical Lead: built an iOS health product end to end in Swift, SwiftUI, and Supabase, including passive sleep estimation from HealthKit and Core Motion signals; shipped into a live Johns Hopkins pilot with 30+ users; selected for the Pava Spark Accelerator and NSF I-Corps; presented to Johns Hopkins President Ron Daniels.\n\nIntelehealth: built a resource-availability scoring pipeline in Python across 32 villages and designed an evaluation framework comparing AI-generated clinical outputs against a 4,169-case clinical standard.\n\nJohns Hopkins / South African Medical Research Council (Gates Foundation funded), Lead Model Developer: XGBoost models on roughly 10 million survey records, SHAP-based interpretation, G-formula causal simulations.\n\nSnapSort, Founder: AI photo-sorting product built on Flask and AWS, 300+ users, ~$5,000 non-dilutive funding.\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: essay:generated:resumator-xml-value)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"essay:generated:resumator-xml-value\" should match the on-form question text."
+        ]
+      }
+    ],
+    "ok_count": 14,
+    "fail_count": 2
+  },
+  "written_at": "2026-09-03T04:24:52.274Z"
+}

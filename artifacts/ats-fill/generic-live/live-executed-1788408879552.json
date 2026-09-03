@@ -1,0 +1,89 @@
+{
+  "ats": "generic",
+  "url": "https://joinbytedance.com/search/7673617571165620533",
+  "requested_url": "https://joinbytedance.com/search/7673617571165620533",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://jobs.bytedance.com/en/login?redirect_path=%2Fposition%2Fapplication",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 1,
+    "skipped_count": 2,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "email",
+      "label": "Email",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "password",
+      "label": "Password",
+      "type": "unknown",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "f_2",
+      "label": "field_2",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\generic-live\\form-snapshot-1788408878689.html",
+  "fill": {
+    "filled": [
+      "email"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": null,
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: posting (no fields, Apply CTA present)",
+    "landed on a posting (no fields, Apply CTA present); clicking Apply via role=button accessible name is Apply",
+    "Apply landed on: unknown (no signals matched)",
+    "page class is form — proceeding despite missing <form> marker",
+    "timing: base page (3 planned) — plan 2s, fill 1s, verify 0s",
+    "resume on disk but this page has no file input — not an upload miss",
+    "form-advance: no Next/Continue after page 1 — stopping",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "wizard_pages": [],
+  "written_at": "2026-09-03T04:14:39.559Z"
+}

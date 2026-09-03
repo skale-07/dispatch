@@ -357,6 +357,95 @@ Two process notes for the next session:
   run.
 - A live browser is NOT the only thing that contends with the gate.
 
+## Cycle 2026-09-03 04:04Z — 23 apps, 1 SUBMITTED
+
+`npm run auto:cycle -- --no-update --headed --duration 240 --max-apps 25
+--max-submits 15 --app-deadline 600`, log
+`artifacts/console/auto-cycle-2026-09-03.log`.
+
+**SUBMITTED_VERIFIED: b1baf935 Persona AI — Software Engineering
+Internship, Manipulation (Ashby).** 17 planned fields, verify passed,
+submit gate satisfied, state COMPLETED. LIVE_MUTATION_CONFIRMED.
+
+Outcome tally over 23 apps:
+
+```
+  7 verification failed                     4 duplicate employer URL
+  5 FAILED_BEFORE_CLICK (submit gate)       1 NO_APPLICATION_FORM
+  1 ALREADY_CONFIRMED   1 AUTH_REQUIRED     1 FORM_NOT_REACHED
+  1 UNKNOWN_LANDING     1 wrong-ATS URL     1 COMPLETED (not advanceable)
+```
+
+Field-level failures across the 18 fill artifacts, ranked — this is what
+made "verification failed" the top bucket:
+
+```
+  6  screener:custom:job_search_keywords / …:location-search   icims  (#157)
+  2  essay:generated:resumator-{resumetext,xml}-value          jazzhr
+  1  essay:generated:oda-work-summary-text-area                oracle
+  1  veteran_status                                            greenhouse
+```
+
+## #157 — the job board's own SEARCH BOX was filled as an application field
+
+Three apps (rivian icims 27486 / 27405 / 27480) died the same way. The
+POSTING page's only two inputs are the site's search widgets, `keyword-
+search` and `location-search`, whose placeholders ship as untranslated
+i18n keys (`JOBS.KEYWORD_SEARCH_PLACEHOLDER`). So `fieldCount` was 2, the
+page classified as a **form**, the screener bank answered the keyword box
+and an LLM call **invented "United States"** for the location box. Both
+read back empty, verification failed, AMBIGUOUS_FIELD — with the real
+application never opened and a plain Apply link sitting unclicked.
+
+`pageClassify` already refuses exactly this shape (its comment cites the
+2026-08-14 eightfold listing page), but only when it ALSO finds an Apply
+CTA. This iCIMS page did not satisfy that regex, so the guard never ran.
+
+Fixed one layer earlier, at discovery: `isJobSearchChrome` drops the
+widget before it can be discovered, so the page has zero fields and
+classifies as a posting on the existing no-fields path — the Apply click
+happens regardless of whether the CTA regex matches. Also folded
+untranslated i18n keys into `isUninformativeLabel` (whole-label
+SCREAMING_CASE with a dot is never a question).
+
+Deliberately narrow, and the narrowness is tested: bare "search" is NOT
+enough, because Workday's option pickers are `<input placeholder="Search">`
+inside real applications (#67) and must keep flowing. The rule needs the
+job-board PAIRING (keyword/location/title/job + search) or one of the
+named listing placeholders. 5 tests in `job-search-chrome.test.ts`,
+including the classification flip to `posting`. FIXTURE_CONFIRMED.
+
+## #158 — the advance resolver threw away its own evidence on failure
+
+Three UltiPro apps (WES1022 / SCR1003 / HER1001) stopped on
+`form-advance: no Next/Continue after page 1`. What actually happened,
+from the notes: Apply hit a login wall, the standing credentials were
+REJECTED, the run took the "Sign up" route and **created an account**,
+and the "3-field form" it then filled (First name / Last name / Phone)
+was the post-signup `AuthCode/Register` profile page — not the
+application. The returnUrl back to `OpportunityApply` was sitting in the
+URL the whole time.
+
+There is already a #141 tier for this exact page. Why it missed was
+undiagnosable: `resolveAdvanceControl` builds notes, but
+`genericFormAdvance` only pushed `advance.notes` on the SUCCESS branch
+and dropped them on failure, and no form snapshot was written. The
+artifact said only "no Next/Continue" — so the next step would have been
+another live run, which is the pattern that cost this repo 22 runs on one
+UKG job.
+
+Fixed both halves: the failing branch keeps the resolver's notes, and the
+resolver now states which guard missed (account-setup page marker
+matched or not, file-input count) and inventories the page's visible
+enabled CTAs by name. The next occurrence names the button it should have
+clicked instead of costing a run. Diagnostic only — no control-clicking
+behavior changed. UNIT_CONFIRMED (typecheck + 15/15 advance tests).
+
+**Still open from this cycle** (evidence captured, not yet fixed): the
+JazzHR pair `resumator-resumetext-value` / `resumator-xml-value` are
+HIDDEN machine payload fields holding the parsed resume, and an essay was
+generated into them — the same class of mistake as #157, one layer down.
+
 ## State snapshot
 
 _Updated at each job boundary._

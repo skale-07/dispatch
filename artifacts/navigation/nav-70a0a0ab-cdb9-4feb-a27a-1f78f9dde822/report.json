@@ -1,0 +1,47 @@
+{
+  "run_id": "nav-70a0a0ab-cdb9-4feb-a27a-1f78f9dde822",
+  "application_id": "11cb81ce-5c14-480c-ae0f-76d5ca2461e3",
+  "jobright_job_id": "6a7e9ff019ce4e6e9d933d19",
+  "method": "apply_click_popup",
+  "resolved_url": "https://secure7.saashr.com/ta/6215453.careers?ShowJob=570939080&lang=en-US",
+  "resolved_ats": "generic",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no congruent apply href (9 external links)",
+      "evidence": "secure4.saashr.com, www.linkedin.com, www.crunchbase.com, www.cnybj.com, www.syracuse.com"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "resolved via popup",
+      "evidence": "secure7.saashr.com"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "phase A: 5 external host(s) seen: secure4.saashr.com, www.linkedin.com, www.crunchbase.com, www.cnybj.com, www.syracuse.com",
+    "Apply control matched via broad name tier",
+    "jobright interstitial: clicked \"Apply Without Customizing\"",
+    "popup settled off about:blank after the interstitial",
+    "popup captured on attempt 1",
+    "employer congruence unverifiable (URL carries no employer name specific enough to verify against \"Dannible & McKee, LLP\") — recorded"
+  ],
+  "congruence": {
+    "verdict": "unknown",
+    "slug": "ta",
+    "detail": "URL carries no employer name specific enough to verify against \"Dannible & McKee, LLP\"",
+    "expected_company": "Dannible & McKee, LLP",
+    "url": "https://secure7.saashr.com/ta/6215453.careers?ShowJob=570939080&lang=en-US&jr_id=6a7e9ff019ce4e6e9d933d19"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-09-03T04:22:52.937Z"
+}

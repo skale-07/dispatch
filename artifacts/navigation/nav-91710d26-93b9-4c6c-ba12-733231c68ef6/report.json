@@ -1,0 +1,48 @@
+{
+  "run_id": "nav-91710d26-93b9-4c6c-ba12-733231c68ef6",
+  "application_id": "0bdd1810-2ea2-4d15-ab37-5527d9e61f04",
+  "jobright_job_id": "6a931e44d18f75674827d953",
+  "method": "apply_click_popup",
+  "resolved_url": "https://sjobs.brassring.com/TGnewUI/Search/home/HomeWithPreLoad?partnerid=25987&siteid=5297&PageType=JobDetails&jobid=907868",
+  "resolved_ats": "generic",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no congruent apply href (12 external links)",
+      "evidence": "sjobs.brassring.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com.au, www.bioworld.com, www.einpresswire.com"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "resolved via popup",
+      "evidence": "sjobs.brassring.com"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "phase A: 7 external host(s) seen: sjobs.brassring.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com.au, www.bioworld.com, www.einpresswire.com, www.globenewswire.com",
+    "Apply control: autofill CTA (tier 0)",
+    "jobright interstitial: clicked \"Apply Without Customizing\"",
+    "popup settled off about:blank after the interstitial",
+    "popup captured on attempt 1",
+    "phase B: landing shows a sign-in wall — stored anyway; fill owns portal auth",
+    "employer congruence unverifiable (no employer name decodable from URL (host and path are generic)) — recorded"
+  ],
+  "congruence": {
+    "verdict": "unknown",
+    "slug": null,
+    "detail": "no employer name decodable from URL (host and path are generic)",
+    "expected_company": "MicroVention-Terumo",
+    "url": "https://sjobs.brassring.com/TGnewUI/Search/home/HomeWithPreLoad?partnerid=25987&siteid=5297&PageType=JobDetails&jobid=907868&jr_id=6a931e44d18f75674827d953"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-09-03T04:17:33.286Z"
+}

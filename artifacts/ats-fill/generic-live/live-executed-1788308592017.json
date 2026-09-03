@@ -1,0 +1,756 @@
+{
+  "ats": "generic",
+  "url": "https://btcpa.rec.pro.ukg.net/BEN1022BTLL/JobBoard/702a70c1-c1f7-4971-8626-bb99571a35a2/OpportunityDetail?opportunityId=4d519358-fb57-46be-8018-838c26e1bf4a",
+  "requested_url": "https://btcpa.rec.pro.ukg.net/BEN1022BTLL/JobBoard/702a70c1-c1f7-4971-8626-bb99571a35a2/OpportunityDetail?opportunityId=4d519358-fb57-46be-8018-838c26e1bf4a",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://btcpa.rec.pro.ukg.net/BEN1022BTLL/JobBoard/702a70c1-c1f7-4971-8626-bb99571a35a2/OpportunityApply?opportunityId=4d519358-fb57-46be-8018-838c26e1bf4a",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 22,
+    "skipped_count": 9,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "FileUpload_yjdt2efowh",
+      "label": "Upload Resume DOC, DOCX, or PDF (Max file size 6MB).",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "Prefix",
+      "label": "Title",
+      "type": "select",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "FirstName",
+      "label": "First Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "PreferredName",
+      "label": "Preferred Name",
+      "type": "text",
+      "canonical_field": "preferred_name",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "MiddleName",
+      "label": "Middle",
+      "type": "text",
+      "canonical_field": "legal_name.middle",
+      "action": "SKIP",
+      "reason": "Profile value empty for legal_name.middle"
+    },
+    {
+      "field_id": "FamilyName",
+      "label": "Last Name",
+      "type": "text",
+      "canonical_field": "legal_name.last",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "Suffix",
+      "label": "Suffix",
+      "type": "select",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "FormerName",
+      "label": "Former Name",
+      "type": "text",
+      "canonical_field": "screener:custom:former_name",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "Phone",
+      "label": "Primary Phone",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "SecondaryPhone",
+      "label": "Secondary Phone",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "Country",
+      "label": "Country",
+      "type": "select",
+      "canonical_field": "address.country",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "AddressLine1",
+      "label": "Address 1",
+      "type": "text",
+      "canonical_field": "address.line1",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "AddressLine2",
+      "label": "Address 2",
+      "type": "text",
+      "canonical_field": "address.line1",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "City",
+      "label": "City",
+      "type": "text",
+      "canonical_field": "address.city",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "PostalCode",
+      "label": "Zip / Postal Code",
+      "type": "text",
+      "canonical_field": "address.postal_code",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "WillingToRelocate",
+      "label": "Willing to relocate",
+      "type": "checkbox",
+      "canonical_field": "relocation",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f_16",
+      "label": "Skills",
+      "type": "text",
+      "canonical_field": "skills",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f_17",
+      "label": "Behaviors What is your work style?",
+      "type": "select",
+      "canonical_field": "screener:custom:work_style",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_18",
+      "label": "Motivations What gets you out of bed in the morning?",
+      "type": "select",
+      "canonical_field": "screener:custom:primary_motivation",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "FileUpload_lbnrnk4bcd",
+      "label": "Upload a file DOC, DOCX, PDF, JPG or PNG (Max file size 6MB).",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "ApplicantSource",
+      "label": "How did you hear about this opportunity?",
+      "type": "select",
+      "canonical_field": "screener:how_heard",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "employeereferral",
+      "label": "Were you referred by a current employee?",
+      "type": "radio",
+      "canonical_field": "screener:referral_name",
+      "action": "SKIP",
+      "reason": "referral_name empty in bank — optional, skipped"
+    },
+    {
+      "field_id": "MultipleChoiceResponse0",
+      "label": "Will you now or in the future require Bennett Thrasher to commence (sponsor) an immigration case in order to employ you (for example, H-1B or other employment-based immigration case)?",
+      "type": "radio",
+      "canonical_field": "screener:requires_sponsorship",
+      "action": "FILL",
+      "reason": "Screener bank answer (profile_derived)"
+    },
+    {
+      "field_id": "MultipleChoiceResponse1",
+      "label": "Are you authorized to work lawfully in the United States?",
+      "type": "radio",
+      "canonical_field": "work_authorization",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "Gender",
+      "label": "Gender",
+      "type": "select",
+      "canonical_field": "gender",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "f_28",
+      "label": "I decline to say Gender",
+      "type": "checkbox",
+      "canonical_field": "gender",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "HispanicOrigin",
+      "label": "Ethnic Origin",
+      "type": "select",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Demographics deferred to sensitive-profile policy path"
+    },
+    {
+      "field_id": "f_30",
+      "label": "I decline to say Ethnic Origin",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "EthnicOrigin",
+      "label": "Race",
+      "type": "select",
+      "canonical_field": "race_ethnicity",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "f_32",
+      "label": "I decline to say Race",
+      "type": "checkbox",
+      "canonical_field": "race_ethnicity",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "AreYouDisabled",
+      "label": "Please choose one of the options below:",
+      "type": "radio",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Demographics deferred to sensitive-profile policy path"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\generic-live\\form-snapshot-1788308530863.html",
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "legal_name.last",
+      "phone",
+      "phone",
+      "address.country",
+      "address.line1",
+      "address.line1",
+      "address.city",
+      "address.postal_code",
+      "relocation",
+      "screener:how_heard",
+      "screener:requires_sponsorship",
+      "work_authorization",
+      "gender"
+    ],
+    "skipped": [
+      "f_28 (gender) — anchorless twin of an anchored canonical (#69)",
+      "f_32 (race_ethnicity) — anchorless twin of an anchored canonical (#69)",
+      "PreferredName — control is readonly/disabled (page-owned value)",
+      "FormerName — control is readonly/disabled (page-owned value)"
+    ],
+    "errors": [
+      "f_16: locator.click: Element is not visible\nCall log:\n\u001b[2m  - waiting for locator('[data-field-path=\"f_16\"]').locator('input:not([type=\"hidden\"]), textarea, select, [contenteditable=\"true\"]').and(locator(':not(input[type=\"checkbox\"]):not(input[type=\"radio\"])')).or(getByLabel('Skills').and(locator('input:not([type=\"hidden\"]), textarea, select, [contenteditable=\"true\"]')).and(locator(':not(input[type=\"checkbox\"]):not(input[type=\"radio\"])'))).or(getByLabel('Skills').locator('input:not([type=\"hidden\"]), textarea, select, [contenteditable=\"true\"]').and(locator(':not(input[type=\"checkbox\"]):not(input[type=\"radio\"])'))).or(locator('xpath=(//*[@id = //label[contains(normalize-space(.), \"Skills\")]/@for])[1]/descendant::*[self::input[not(@type=\"hidden\")] or self::textarea or self::select or @contenteditable=\"true\"][1]').and(locator(':not(input[type=\"checkbox\"]):not(input[type=\"radio\"])'))).first().locator('xpath=ancestor-or-self::*[contains(@class,\"select__control\") or contains(@class,\"select-shell\") or @role=\"combobox\"][1]').first()\u001b[22m\n\u001b[2m    - locator resolved to <input dir=\"auto\" type=\"text\" required=\"\" maxlength=\"80\" role=\"combobox\" autocomplete=\"off\" spellcheck=\"false\" aria-label=\"Skills\" aria-autocomplete=\"list\" data-automation=\"item-typeahead\" class=\"form-control focus-on-edit typeahead-control tt-input\" data-bind=\"value: typeaheadTextValue, typeahead: { source: choices, items: 10, value: 'Name', option: 'Name', minLength: 0, autoselect: false }, onSelected: typeaheadSelected.bind($data), attr: { 'aria-label': $.t(title) }\"/>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n",
+      "f_17: locator.selectOption: Timeout 2000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-field-path=\"f_17\"]').locator('input:not([type=\"hidden\"]), textarea, select, [contenteditable=\"true\"]').or(getByLabel('Behaviors What is your work style?').and(locator('input:not([type=\"hidden\"]), textarea, select, [contenteditable=\"true\"]'))).or(getByLabel('Behaviors What is your work style?').locator('input:not([type=\"hidden\"]), textarea, select, [contenteditable=\"true\"]')).or(locator('xpath=(//*[@id = //label[contains(normalize-space(.), \"Behaviors What is your work style?\")]/@for])[1]/descendant::*[self::input[not(@type=\"hidden\")] or self::textarea or self::select or @contenteditable=\"true\"][1]')).first()\u001b[22m\n\u001b[2m    - locator resolved to <select data-automation=\"item-dropdown\" class=\"form-control focus-on-edit\" aria-label=\"Behaviors What is your work style?\" data-bind=\"options: availableChoices, enable: allowAdd, optionsText: 'Name', value: dropdownSelectedChoice, attr: { 'aria-label': $.t('Candidate.ViewPresence.TitleWithSubTitle', { Title: $.t(title), SubTitle: $.t(subtitle) }) }\">…</select>\u001b[22m\n\u001b[2m  - attempting select option action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying select option action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying select option action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    3 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying select option action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n",
+      "f_18: locator.selectOption: Timeout 2000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-field-path=\"f_18\"]').locator('input:not([type=\"hidden\"]), textarea, select, [contenteditable=\"true\"]').or(getByLabel('Motivations What gets you out of bed in the morning?').and(locator('input:not([type=\"hidden\"]), textarea, select, [contenteditable=\"true\"]'))).or(getByLabel('Motivations What gets you out of bed in the morning?').locator('input:not([type=\"hidden\"]), textarea, select, [contenteditable=\"true\"]')).or(locator('xpath=(//*[@id = //label[contains(normalize-space(.), \"Motivations What gets you out of bed in the morning?\")]/@for])[1]/descendant::*[self::input[not(@type=\"hidden\")] or self::textarea or self::select or @contenteditable=\"true\"][1]')).first()\u001b[22m\n\u001b[2m    - locator resolved to <select data-automation=\"item-dropdown\" class=\"form-control focus-on-edit\" aria-label=\"Motivations What gets you out of bed in the morning?\" data-bind=\"options: availableChoices, enable: allowAdd, optionsText: 'Name', value: dropdownSelectedChoice, attr: { 'aria-label': $.t('Candidate.ViewPresence.TitleWithSubTitle', { Title: $.t(title), SubTitle: $.t(subtitle) }) }\">…</select>\u001b[22m\n\u001b[2m  - attempting select option action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying select option action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying select option action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    3 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying select option action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n",
+      "EthnicOrigin: locator.selectOption: Timeout 2000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[id=\"EthnicOrigin\"]').first()\u001b[22m\n\u001b[2m    - locator resolved to <select required=\"\" id=\"EthnicOrigin\" aria-describedby=\"EthnicError\" data-automation=\"country-questions-race\" class=\"form-control mozilla-no-validate\" data-bind=\"value: race, options: raceOptions, optionsCaption: $.t('Common.Forms.Select.Empty.Choose'), optionsText: 'Text', optionsValue: 'Value', attr: { 'aria-describedby': 'EthnicError' }\">…</select>\u001b[22m\n\u001b[2m  - attempting select option action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying select option action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying select option action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    4 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying select option action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n"
+    ],
+    "field_meta": [
+      {
+        "field_id": "FirstName",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text",
+        "notes": [
+          "already holds \"Shubham\" — verified in place, not retyped"
+        ]
+      },
+      {
+        "field_id": "PreferredName",
+        "canonical_field": "preferred_name",
+        "control_kind": "text",
+        "notes": [
+          "readonly/disabled — skipped, the page owns this value"
+        ]
+      },
+      {
+        "field_id": "FamilyName",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text",
+        "notes": [
+          "already holds \"Kale\" — verified in place, not retyped"
+        ]
+      },
+      {
+        "field_id": "FormerName",
+        "canonical_field": "screener:custom:former_name",
+        "control_kind": "text",
+        "notes": [
+          "readonly/disabled — skipped, the page owns this value"
+        ]
+      },
+      {
+        "field_id": "Phone",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "SecondaryPhone",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "Country",
+        "canonical_field": "address.country",
+        "control_kind": "native_select",
+        "selected_option": "United States",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "AddressLine1",
+        "canonical_field": "address.line1",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "AddressLine2",
+        "canonical_field": "address.line1",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "City",
+        "canonical_field": "address.city",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "PostalCode",
+        "canonical_field": "address.postal_code",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "WillingToRelocate",
+        "canonical_field": "relocation",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "ApplicantSource",
+        "canonical_field": "screener:how_heard",
+        "control_kind": "native_select",
+        "selected_option": "LinkedIn",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "MultipleChoiceResponse0",
+        "canonical_field": "screener:requires_sponsorship",
+        "control_kind": "text",
+        "selected_option": "No"
+      },
+      {
+        "field_id": "MultipleChoiceResponse1",
+        "canonical_field": "work_authorization",
+        "control_kind": "text",
+        "selected_option": "Yes"
+      },
+      {
+        "field_id": "Gender",
+        "canonical_field": "gender",
+        "control_kind": "native_select",
+        "selected_option": "Male",
+        "match_via": "exact"
+      }
+    ]
+  },
+  "verify": {
+    "passed": false,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "preferred_name",
+        "expected": "Shubham",
+        "observed": "",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.last",
+        "expected": "Kale",
+        "observed": "Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:former_name",
+        "expected": "N/A",
+        "observed": "",
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "address.country",
+        "expected": "United States",
+        "observed": {
+          "value": "78755a9e-9055-4731-b11f-f9fc7d1fb7cd",
+          "label": "United States"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "address.line1",
+        "expected": "3510 N Charles St",
+        "observed": "3510 N Charles St",
+        "match": true
+      },
+      {
+        "canonical_field": "address.line1",
+        "expected": "3510 N Charles St",
+        "observed": "3510 N Charles St",
+        "match": true
+      },
+      {
+        "canonical_field": "address.city",
+        "expected": "Baltimore",
+        "observed": "Baltimore",
+        "match": true
+      },
+      {
+        "canonical_field": "address.postal_code",
+        "expected": "21218",
+        "observed": "21218",
+        "match": true
+      },
+      {
+        "canonical_field": "relocation",
+        "expected": "Yes",
+        "observed": true,
+        "match": true
+      },
+      {
+        "canonical_field": "skills",
+        "expected": [
+          "Python",
+          "TypeScript",
+          "JavaScript",
+          "SQL",
+          "Java",
+          "C++",
+          "R",
+          "Swift",
+          "React",
+          "Node.js",
+          "Express",
+          "Flask",
+          "FastAPI",
+          "REST APIs",
+          "PostgreSQL",
+          "SQLite",
+          "AWS",
+          "Google Cloud",
+          "Machine Learning",
+          "PyTorch",
+          "Large Language Models (LLM)",
+          "Retrieval-Augmented Generation (RAG)",
+          "Neo4j",
+          "Git",
+          "GitHub",
+          "CI/CD",
+          "Playwright",
+          "Software Testing",
+          "Technical Documentation",
+          "Data Science"
+        ],
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "match": false
+      },
+      {
+        "canonical_field": "screener:custom:work_style",
+        "expected": "Innovative",
+        "observed": {
+          "value": "",
+          "label": "Dedicated"
+        },
+        "match": false
+      },
+      {
+        "canonical_field": "screener:custom:primary_motivation",
+        "expected": "Ability to Make an Impact",
+        "observed": {
+          "value": "",
+          "label": "Ability to Make an Impact"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:how_heard",
+        "expected": "LinkedIn",
+        "observed": {
+          "value": "fcce6542-64b3-48b2-b0c8-8e53a9655bb2",
+          "label": "LinkedIn"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:requires_sponsorship",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "work_authorization",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "gender",
+        "expected": "Male",
+        "observed": {
+          "value": "Male",
+          "label": "Male"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "race_ethnicity",
+        "expected": "Asian",
+        "observed": {
+          "value": "",
+          "label": "Choose..."
+        },
+        "match": false
+      }
+    ],
+    "uploads": [],
+    "warnings": [
+      "verify preferred_name: control is readonly/disabled — page-owned value accepted in place",
+      "verify screener:custom:former_name: control is readonly/disabled — page-owned value accepted in place"
+    ]
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 113381,
+      "verified": true,
+      "evidence": "input files: [{\"name\":\"resume-6b5f8e75.pdf\",\"size\":113381}]; stillAttached=true; chip=false"
+    }
+  ],
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: posting (no fields, Apply CTA present)",
+    "landed on a posting (no fields, Apply CTA present); clicking Apply via role=button accessible name is Apply",
+    "Apply landed on: form (31 fillable field(s))",
+    "section-editor: opened 1 editor(s)",
+    "section-editor: opened \"Edit Contact Information\"",
+    "page error scan: no visible validation errors on the page",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "operator_brief": {
+    "title": "Live fill — generic https://btcpa.rec.pro.ukg.net/BEN1022BTLL/JobBoard/702a70c1-c1f7-4971-8626-bb99571a35a2/OpportunityApply?opportunityId=4d519358-fb57-46be-8018-838c26e1bf4a",
+    "summary": "7 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:skills",
+        "question": "Skills",
+        "field_id": "f_16",
+        "canonical_field": "skills",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"[\"Python\",\"TypeScript\",\"JavaScript\",\"SQL\",\"Java\",\"C++\",\"R\",\"Swift\",\"React\",\"Node.js\",\"Express\",\"Flask\",\"FastAPI\",\"REST APIs\",\"PostgreSQL\",\"SQLite\",\"AWS\",\"Google Cloud\",\"Machine Learning\",\"PyTorch\",\"Large Language Models (LLM)\",\"Retrieval-Augmented Generation (RAG)\",\"Neo4j\",\"Git\",\"GitHub\",\"CI/CD\",\"Playwright\",\"Software Testing\",\"Technical Documentation\",\"Data Science\"]\"; page shows \"(empty)\"",
+        "expected": [
+          "Python",
+          "TypeScript",
+          "JavaScript",
+          "SQL",
+          "Java",
+          "C++",
+          "R",
+          "Swift",
+          "React",
+          "Node.js",
+          "Express",
+          "Flask",
+          "FastAPI",
+          "REST APIs",
+          "PostgreSQL",
+          "SQLite",
+          "AWS",
+          "Google Cloud",
+          "Machine Learning",
+          "PyTorch",
+          "Large Language Models (LLM)",
+          "Retrieval-Augmented Generation (RAG)",
+          "Neo4j",
+          "Git",
+          "GitHub",
+          "CI/CD",
+          "Playwright",
+          "Software Testing",
+          "Technical Documentation",
+          "Data Science"
+        ],
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "how_to_answer": [
+          "System expected \"[\"Python\",\"TypeScript\",\"JavaScript\",\"SQL\",\"Java\",\"C++\",\"R\",\"Swift\",\"React\",\"Node.js\",\"Express\",\"Flask\",\"FastAPI\",\"REST APIs\",\"PostgreSQL\",\"SQLite\",\"AWS\",\"Google Cloud\",\"Machine Learning\",\"PyTorch\",\"Large Language Models (LLM)\",\"Retrieval-Augmented Generation (RAG)\",\"Neo4j\",\"Git\",\"GitHub\",\"CI/CD\",\"Playwright\",\"Software Testing\",\"Technical Documentation\",\"Data Science\"]\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: skills)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"skills\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:custom:work_style",
+        "question": "Behaviors What is your work style?",
+        "field_id": "f_17",
+        "canonical_field": "screener:custom:work_style",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Innovative\"; page shows \"Dedicated\"",
+        "expected": "Innovative",
+        "observed": {
+          "value": "",
+          "label": "Dedicated"
+        },
+        "how_to_answer": [
+          "DOM shows \"Dedicated\" but plan expected \"Innovative\". Correct the value on the form or fix profile/aliases so the plan matches the real answer.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:work_style)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:work_style\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:race_ethnicity",
+        "question": "I decline to say Race",
+        "field_id": "f_32",
+        "canonical_field": "race_ethnicity",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Asian\"; page shows \"Choose...\"",
+        "expected": "Asian",
+        "observed": {
+          "value": "",
+          "label": "Choose..."
+        },
+        "how_to_answer": [
+          "DOM shows \"Choose...\" but plan expected \"Asian\". Correct the value on the form or fix profile/aliases so the plan matches the real answer.",
+          "Profile source: private/candidate/public-profile.json (key: race_ethnicity)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"race_ethnicity\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "fill_error:f_16: locator.click: Element is not visible\nCall log:\n\u001b[2m  - waiting for locato",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "f_16: locator.click: Element is not visible\nCall log:\n\u001b[2m  - waiting for locator('[data-field-path=\"f_16\"]').locator('input:not([type=\"hidden\"]), textarea, select, [contenteditable=\"true\"]').and(locator(':not(input[type=\"checkbox\"]):not(input[type=\"radio\"])')).or(getByLabel('Skills').and(locator('input:not([type=\"hidden\"]), textarea, select, [contenteditable=\"true\"]')).and(locator(':not(input[type=\"checkbox\"]):not(input[type=\"radio\"])'))).or(getByLabel('Skills').locator('input:not([type=\"hidden\"]), textarea, select, [contenteditable=\"true\"]').and(locator(':not(input[type=\"checkbox\"]):not(input[type=\"radio\"])'))).or(locator('xpath=(//*[@id = //label[contains(normalize-space(.), \"Skills\")]/@for])[1]/descendant::*[self::input[not(@type=\"hidden\")] or self::textarea or self::select or @contenteditable=\"true\"][1]').and(locator(':not(input[type=\"checkbox\"]):not(input[type=\"radio\"])'))).first().locator('xpath=ancestor-or-self::*[contains(@class,\"select__control\") or contains(@class,\"select-shell\") or @role=\"combobox\"][1]').first()\u001b[22m\n\u001b[2m    - locator resolved to <input dir=\"auto\" type=\"text\" required=\"\" maxlength=\"80\" role=\"combobox\" autocomplete=\"off\" spellcheck=\"false\" aria-label=\"Skills\" aria-autocomplete=\"list\" data-automation=\"item-typeahead\" class=\"form-control focus-on-edit typeahead-control tt-input\" data-bind=\"value: typeaheadTextValue, typeahead: { source: choices, items: 10, value: 'Name', option: 'Name', minLength: 0, autoselect: false }, onSelected: typeaheadSelected.bind($data), attr: { 'aria-label': $.t(title) }\"/>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:f_17: locator.selectOption: Timeout 2000ms exceeded.\nCall log:\n\u001b[2m  - waiting f",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "f_17: locator.selectOption: Timeout 2000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-field-path=\"f_17\"]').locator('input:not([type=\"hidden\"]), textarea, select, [contenteditable=\"true\"]').or(getByLabel('Behaviors What is your work style?').and(locator('input:not([type=\"hidden\"]), textarea, select, [contenteditable=\"true\"]'))).or(getByLabel('Behaviors What is your work style?').locator('input:not([type=\"hidden\"]), textarea, select, [contenteditable=\"true\"]')).or(locator('xpath=(//*[@id = //label[contains(normalize-space(.), \"Behaviors What is your work style?\")]/@for])[1]/descendant::*[self::input[not(@type=\"hidden\")] or self::textarea or self::select or @contenteditable=\"true\"][1]')).first()\u001b[22m\n\u001b[2m    - locator resolved to <select data-automation=\"item-dropdown\" class=\"form-control focus-on-edit\" aria-label=\"Behaviors What is your work style?\" data-bind=\"options: availableChoices, enable: allowAdd, optionsText: 'Name', value: dropdownSelectedChoice, attr: { 'aria-label': $.t('Candidate.ViewPresence.TitleWithSubTitle', { Title: $.t(title), SubTitle: $.t(subtitle) }) }\">…</select>\u001b[22m\n\u001b[2m  - attempting select option action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying select option action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying select option action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    3 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying select option action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:f_18: locator.selectOption: Timeout 2000ms exceeded.\nCall log:\n\u001b[2m  - waiting f",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "f_18: locator.selectOption: Timeout 2000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-field-path=\"f_18\"]').locator('input:not([type=\"hidden\"]), textarea, select, [contenteditable=\"true\"]').or(getByLabel('Motivations What gets you out of bed in the morning?').and(locator('input:not([type=\"hidden\"]), textarea, select, [contenteditable=\"true\"]'))).or(getByLabel('Motivations What gets you out of bed in the morning?').locator('input:not([type=\"hidden\"]), textarea, select, [contenteditable=\"true\"]')).or(locator('xpath=(//*[@id = //label[contains(normalize-space(.), \"Motivations What gets you out of bed in the morning?\")]/@for])[1]/descendant::*[self::input[not(@type=\"hidden\")] or self::textarea or self::select or @contenteditable=\"true\"][1]')).first()\u001b[22m\n\u001b[2m    - locator resolved to <select data-automation=\"item-dropdown\" class=\"form-control focus-on-edit\" aria-label=\"Motivations What gets you out of bed in the morning?\" data-bind=\"options: availableChoices, enable: allowAdd, optionsText: 'Name', value: dropdownSelectedChoice, attr: { 'aria-label': $.t('Candidate.ViewPresence.TitleWithSubTitle', { Title: $.t(title), SubTitle: $.t(subtitle) }) }\">…</select>\u001b[22m\n\u001b[2m  - attempting select option action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying select option action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying select option action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    3 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying select option action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:EthnicOrigin: locator.selectOption: Timeout 2000ms exceeded.\nCall log:\n\u001b[2m  - w",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "EthnicOrigin: locator.selectOption: Timeout 2000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[id=\"EthnicOrigin\"]').first()\u001b[22m\n\u001b[2m    - locator resolved to <select required=\"\" id=\"EthnicOrigin\" aria-describedby=\"EthnicError\" data-automation=\"country-questions-race\" class=\"form-control mozilla-no-validate\" data-bind=\"value: race, options: raceOptions, optionsCaption: $.t('Common.Forms.Select.Empty.Choose'), optionsText: 'Text', optionsValue: 'Value', attr: { 'aria-describedby': 'EthnicError' }\">…</select>\u001b[22m\n\u001b[2m  - attempting select option action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying select option action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying select option action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    4 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying select option action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      }
+    ],
+    "ok_count": 17,
+    "fail_count": 7
+  },
+  "written_at": "2026-09-02T00:23:12.048Z"
+}

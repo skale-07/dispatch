@@ -288,6 +288,205 @@ Walls, in order (operator co-debugged live):
   when backlogged — formally parked AMBIGUOUS_FIELD too, so cycles stop
   re-picking a known-unwired flow.
 
+### Cycle 1: 091945b8 → FILTERED_OUT (posting closed on JobRight — honest terminal)
+
+### Job: 4e47f9ae Bennett Thrasher (Barbacane/Thornton listing) — IT Intern AI & Automation (UKG Pro)
+
+- Cycle 2 wall: FORM_NOT_REACHED on btcpa.rec.pro.ukg.net OpportunityDetail —
+  "posting page but no Apply control found; visible apply-ish: div 'Apply now'".
+- Probe (tmp-probe-ukg*.ts, pixels artifacts/probes/night25-ukg/01-posting.png):
+  the only Apply control is `<ukg-button data-automation="apply-now-button">
+  Apply now</ukg-button>` — web component, native button inside an OPEN shadow
+  root, label slotted from the host. getByRole('button', /^apply/i) FINDS it
+  (count 1, visible) but innerText/textContent/aria-label are all "" — the
+  loose tier's self-text re-check rejected the only real match.
+- **#135 strict accessible-name tier**: findApplyControl now tries
+  getByRole(button|link, { name: APPLY_TEXT_RE }) FIRST — whole-name match
+  against the anchored Apply regex needs no self-text re-check (and still
+  excludes "Apply filters"/"Apply and save"/"Apply with Indeed" by anchor).
+  Fixture test reproduces the shadow/slot shape; 20/20 posting-advance tests,
+  typecheck green. Serves every web-component board (UKG family is large).
+- Rerun in flight (night25-job-4e47f9ae-run2.log).
+- Run 2: #135 CONFIRMED live ("clicking Apply via role=button accessible
+  name is Apply") → next wall AUTH_REQUIRED: signin-us.ukg.net Auth0
+  universal login. Portal auth correctly took "Sign up"
+  (create-before-sign-in) but bailed "no create submit control found" —
+  the /u/signup form's only submit says "Continue" (probe: email+password+
+  button[type=submit name=action], pixels 02-signin.png/03-signup.png).
+- **#136 signup-route submit fallback**: attempt("create") now accepts the
+  form's own type=submit when the URL path is a signup/register/
+  create-account route and no create-labeled control exists. Path check
+  keeps it off sign-in forms. Fixture test mirrors the live Auth0 pair;
+  22/22 portal-auth tests, typecheck green.
+- Run 3: #136 CONFIRMED live — "using the form's own submit" → "form
+  cleared" → account CREATED and vault-recorded for signin-us.ukg.net.
+  Redirect landed on gusea1p01.rec.pro.ukg.net /AuthCode/Register: page
+  classed form, but firstName/lastName both discovered with label "" and
+  planned SKIP "No answer-alias mapping" → verify failed → AMBIGUOUS_FIELD.
+- Snapshot: inputs carry NO label/aria-label and placeholder="" — the
+  question text lives in `<ukg-label id="ukg-label-id-…">First name
+  </ukg-label>` referenced via aria-labelledby (ARIA-standard, ladder never
+  resolved it).
+- **#137 aria-labelledby resolution**: fieldDiscovery ladder now resolves
+  aria-labelledby (any tag, up to 4 ids, immediate text) between
+  label[for] and aria-label. Test mirrors the live markup; 24/24
+  autonomy-unblockers, typecheck green.
+- Run 4: requeue resumed mid-state (FIELD_VERIFICATION → submit on a fresh
+  unfilled page) — submit gate refused correctly (Sierra-run-4 pattern);
+  `retry` re-routed through the fill leg.
+- Run 5: full walk, signed-in session rode straight to AuthCode/Register —
+  but plan discovered 0 FIELDS and verify failed. Probe: the register form
+  (firstName/lastName + ukg-button "Create account") IS there after ~8s;
+  run 5's plan HTML was the Apply click's settle snapshot, taken at the
+  FIRST DOM change — before the ukg web components mounted their native
+  inputs. The re-gate had already re-read the page fresh; the plan kept
+  the stale advance.html.
+- **#138 plan-from-fresh-read**: after advancePastPosting hops, planHtml/
+  planUrl now come from the re-gate's read (which waits for form markers
+  on unknown first paints), never the click snapshot. Deterministic
+  fixture test (Apply → empty shell → form mounts 2.2s later, discriminates
+  because performTransition's settle returns on FIRST change); 20/20
+  ats-live-fill, typecheck green.
+- Run 6: MY error — used requeue-one-ambiguous again, which resumes at
+  FIELD_VERIFICATION → submit walked a fresh unfilled page → gate refused
+  (exactly the run-4 trap). LESSON: after an AMBIGUOUS_FIELD park whose fix
+  changes the FILL, always requeue with `retry` (full walk), not the
+  ambiguous resolver. Run 7 (retry → full walk) in flight.
+- Run 7: #137+#138 CONFIRMED live — gate class form, plan firstName/
+  lastName both "Mapped from public profile". Last wall: `[name=firstName]`
+  resolves the `<ukg-input>` HOST (web-component hosts MIRROR name=; host
+  precedes the native input in document order) — fill and verify both
+  errored "Element is not an <input>…".
+- **#139 name-tier control preference**: locatorForField's name tier now
+  prefers the [name] match that IS a native control and otherwise descends
+  into the host (`byName.and(CONTROL).or(byName.locator(CONTROL))`) —
+  plain pages resolve identically. Fixture test with the ukg-input mirror
+  shape; 9/9 label-collision, typecheck green. Run 8 in flight.
+- Run 8 was a NO-OP: stopped on run 7's still-OPEN review item ("open
+  review item: AMBIGUOUS_FIELD") — `retry` alone does not resolve review
+  items. The artifact I first read as "run 8" was run 7's. FULL requeue
+  recipe for an AMBIGUOUS_FIELD park whose fix changes the fill:
+  requeue-one-ambiguous (resolves the item) → retry (full walk) → run.
+  Run 9 launched with that sequence.
+- Run 9 corrected the recipe again: `retry` is a NO-OP unless the row is
+  FAILED_RETRYABLE — chained right after requeue-one-ambiguous (state
+  FIELD_VERIFICATION) it did nothing, the run submit-walked a fresh page
+  and failed the identity gate into FAILED_RETRYABLE. FINAL recipe:
+  requeue-one-ambiguous → run once (burns the mid-state resume into
+  FAILED_RETRYABLE) → retry → run; or straight retry when already
+  FAILED_RETRYABLE. Run 10 (retry from FAILED_RETRYABLE → full walk) in
+  flight — first run that will actually exercise #139 live.
+- Run 10: **#139 LIVE_MUTATION_CONFIRMED** — firstName/lastName filled AND
+  verified (observed Shubham/Kale on the page). Next wall at submit: the
+  shared identity gate refused POSTING_MISMATCH — /AuthCode/Register can
+  never path-match /OpportunityDetail, but the final URL's state param
+  EMBEDS returnUrl=/…/OpportunityApply?opportunityId=<our uuid> (plus the
+  board uuid).
+- **#140 returnUrl continuation conviction**: preMutationGate rescue —
+  every uuid/≥7-digit id in the EXPECTED posting URL must reappear in the
+  percent-decoded FINAL URL (query included); no ids ⇒ no rescue; a
+  different posting lacks ours by construction (#81 doctrine applied to
+  the query string). 15/15 posting-path tests, typecheck green. Run 11 in
+  flight.
+- Run 11: #140 passed the identity gate; fill verified again (2 filled,
+  held for submit). Submit refused honestly: upload_failed — "0 file
+  inputs on page". Structural read: AuthCode/Register is an ACCOUNT-SETUP
+  step; the real application (with the resume input) is BEHIND its
+  "Create account" button, which is submit-shaped ("no Next/Continue after
+  page 1") and rightly excluded from the submit cascade.
+- **#141 account-setup continuation tier**: resolveAdvanceControl now
+  takes a strict-named "Create account|Sign up|Register" button as a page
+  ADVANCE — ONLY when the page's own text says account setup
+  (ACCOUNT_SETUP_PAGE_RE) AND the page has no file input. Page-wide scope
+  on purpose (ukg-button mounts outside the form, associated via form=).
+  Same click class portalAuth already performs under NAVIGATION_ENABLED.
+  4/4 generic-form-advance tests incl. a no-marker guard; typecheck green.
+  Run 12 in flight.
+- Run 12: #141 CONFIRMED live ("resolved advance: account-setup
+  continuation 'Create account'") — the walk reached the REAL application
+  (OpportunityApply) and "filled" page 2… but only re-planned the two
+  name fields (form:2/2). Submit refused: required "Job Title"/"Skills"
+  unanswered. Probe (07-app-form.png): OpportunityApply is a large SPA —
+  resume-parse offer, Contact/Work Experience/Education/Skills/Questions/
+  EEO sections, most controls mounting late (names prefilled from the
+  account). The walk's fillCurrentPage received transition.html — the
+  FIRST-change snapshot again (same class as #138, this time inside the
+  walk).
+- **#142 stable-field-count settle**: walkGenericFormPages now plans each
+  landed page from settledFormHtml() — poll page.content() until the
+  discovered-field count is stable across one 700ms interval (bounded by
+  the settle budget) — instead of the click snapshot. 4/4 tests, typecheck
+  green. Run 13 in flight. Expected next walls: collapsed accordion
+  sections (controls vis=false until expanded), how_heard select,
+  MultipleChoiceResponse radios, EEO from sensitive profile.
+- Run 13: #142 CONFIRMED (plan 2 → 31 rows; 22 fillable). 7 fills landed
+  live incl. how_heard (bank exact_option), sponsorship, work-auth,
+  gender. 13 fills timed out "waiting for element to be visible" — ALL in
+  collapsed Bootstrap panels (probe 08-sections.png: h2
+  .collapsible-panel-title headers over div.collapse display:none bodies;
+  AddressLine1's hidden ancestor chain confirms).
+- **#143 section expansion**: new shared expandCollapsedSections() —
+  clicks visible collapsed toggles ([data-toggle=collapse],
+  aria-expanded=false buttons, .collapsible-panel-title wrapping a
+  collapsed chevron), skips action-named controls (submit/apply/delete/…),
+  cap 12 / 2 rounds. Wired: atsLiveFill before harvest/plan (execute
+  only, planHtml refreshed) and walkGenericFormPages before the #142
+  settle. Fixture test incl. the action-name guard.
+- **#144 demographics fence by camelCase NAME**: AreYouDisabled (visible
+  label = boilerplate "Please choose one of the options below") reached
+  the PREDICT tier — produced nothing, but demographics must never route
+  there. isDemographicsField regex now matches "disabilit|disabled"
+  (substring — camelCase names survive normalization concatenated).
+  Unit tests added. Typecheck + 18/18 green. Run 14 in flight
+  (tmp-requeue-full.ts: resolve review item → FAILED_RETRYABLE → retry).
+- Run 14: Apply now rides the session STRAIGHT to OpportunityApply (no
+  register page — account complete). Same 7 fills / 13 hidden-control
+  timeouts; #143 clicked 0. Probe chain (09/10-*.png):
+  - The h2.collapsible-panel-title is INERT (data-bind text only); the
+    chevron i[aria-expanded] is neither inside the h2 nor its parent.
+  - #143b: collapsed check extended to the parent container (general),
+    fixture updated with the sibling-chevron shape — but the REAL UKG
+    toggle is `collapsible-panel-button` → button[data-automation=
+    primary-action-button] (pencil): clicking it opens the section in
+    EDIT mode (10-after-pencil.png — Contact Information open: Title
+    select, email, required fields; rest of page dimmed).
+  - Structural read: UKG sections are a per-section EDIT WORKFLOW
+    (pencil → fill → save/check), not a Bootstrap accordion. Needs a
+    section-edit walker (Workday-wizard analog, #126 class) — the last
+    wall class on this board.
+- Gate running solo (browser idle) to bank the #135-#144 batch per queen
+  check-in; section-edit walker attempt follows the commit.
+- **Batch COMMITTED + pushed: dde925b0** (19 files, #135-#144 + bank-key
+  guard). Gate: typecheck, 1514/1516 (2 fails = console-a11y at HEAD,
+  pre-existing/foreign — queen notified), forbidden, secrets all green.
+- Editor probe (11-editor-open.png): pencil = "Edit Contact Information"
+  (data-automation=primary-action-button); opening mounts ALL contact
+  controls (Prefix…WillingToRelocate) + Save (save-button) / Cancel;
+  editors coexist; page submit = ukg-button btn-submit. Questions + EEO
+  were always visible — that's why exactly 7 fills landed.
+- **#145 section-editor pass**: genericSelectorsV1.sectionEditors
+  (attribute tier + /^(edit|add)\b/ name pattern); openSectionEditors runs
+  in the pre-plan block (planHtml refreshed), saveOpenSectionEditors after
+  verify+uploads with a post-save page-error read. Save is a SECTION
+  commit — btn-submit stays with the gated submit path. 6/6 tests,
+  typecheck green. Run 15 in flight.
+- Run 15: #145 partial CONFIRMED — Contact editor opened, filled 7→14
+  (phones, country, full address) and the RESUME UPLOADED VERIFIED
+  (first upload on this board). Two mechanical gaps:
+  - only ONE editor opened — each open re-renders and shifts nth()
+    indexes. **#145b**: rounds — re-query per click, dedupe by accessible
+    name, break when nothing new opens.
+  - PreferredName/FormerName are READONLY by design (account-owned;
+    "change it on My presence") — two 30s fill timeouts + verify misses.
+    **#146**: fill skips readonly/disabled fast with the real reason;
+    verify accepts a locked control in place with a warning (submit
+    completeness still guards required emptiness). 16/16 tests, typecheck
+    green. Run 16 in flight.
+- Aside: fixture-suite runs persist live-*.json into artifacts/ats-fill/
+  generic-live/ (localhost URLs, "test seam" note) — they can shadow the
+  newest REAL artifact during diagnosis. Read the url field before
+  trusting. (Cosmetic; not fixed mid-loop.)
+
 ## State snapshot (13:30)
 
 - Sierra 44fb9eb1: run 6 in flight (all four fixes live).

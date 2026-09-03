@@ -1,0 +1,457 @@
+{
+  "ats": "ashby",
+  "url": "https://jobs.ashbyhq.com/persona.ai/1e8d195c-e28e-423d-a06a-9eeb401ed4fc/application",
+  "requested_url": "https://jobs.ashbyhq.com/persona.ai/1e8d195c-e28e-423d-a06a-9eeb401ed4fc/application",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://jobs.ashbyhq.com/persona.ai/1e8d195c-e28e-423d-a06a-9eeb401ed4fc/application",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 17,
+    "skipped_count": 2,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "f_0",
+      "label": "Application",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "_systemfield_name",
+      "label": "Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Single full-name field: composed legal_name.first + legal_name.last (both safe factual canonicals)"
+    },
+    {
+      "field_id": "_systemfield_email",
+      "label": "Email",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "c042dff4-3d7d-4155-954b-92e31150b329",
+      "label": "Phone Number",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "_systemfield_resume",
+      "label": "Resume",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "e0bce084-81d8-4475-bb90-8ea4710063b2",
+      "label": "Are you willing to work onsite?",
+      "type": "text",
+      "canonical_field": "screener:willing_to_relocate",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "807cd993-7560-4a39-a2d6-62127ebcaa39",
+      "label": "LinkedIn Profile",
+      "type": "text",
+      "canonical_field": "linkedin_url",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "e8489845-e544-42d8-a618-ba8da82ec24d",
+      "label": "Explain your foundational knowledge of motion planning, control theory, and optimization.",
+      "type": "textarea",
+      "canonical_field": "essay:generated:e8489845-e544-42d8-a618-ba8da82ec24d",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "a453fd30-af8d-4605-a9bb-a562065afe1c",
+      "label": "Tell us about a robotics project that completely failed on the first try. What failed, how did you debug it, and what did you learn from the recovery process?",
+      "type": "textarea",
+      "canonical_field": "essay:generated:a453fd30-af8d-4605-a9bb-a562065afe1c",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "fa5d4a05-b7ce-4c3b-8e89-9b77000c1b6a",
+      "label": "Have you worked directly with physical robotic manipulators, end-effectors, or custom test rigs? What was the most challenging physical setup or calibration step you had to execute?",
+      "type": "textarea",
+      "canonical_field": "essay:generated:fa5d4a05-b7ce-4c3b-8e89-9b77000c1b6a",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "6f146c8d-0ffe-4851-9c9f-d7b45996a67a",
+      "label": "For which term are you applying?",
+      "type": "select",
+      "canonical_field": "screener:custom:predicted:6f146c8d-0ffe-4851-9c9f-d7b45996a67a",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): Candidate targets summer internship terms (saved preference Summer 2026) and graduates May 2029, so the listed Summer 2027 term is the closest fit."
+    },
+    {
+      "field_id": "_systemfield_eeoc_gender",
+      "label": "Gender",
+      "type": "select",
+      "canonical_field": "gender",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "_systemfield_eeoc_race",
+      "label": "Race",
+      "type": "select",
+      "canonical_field": "race_ethnicity",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "_systemfield_eeoc_veteran_status",
+      "label": "Veteran Status",
+      "type": "select",
+      "canonical_field": "veteran_status",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "c114bb34-73d7-477d-b177-f1f9e597dcf7",
+      "label": "Will you now or in the future require sponsorship for employment visa status (e.g., H-1B visa status)?",
+      "type": "select",
+      "canonical_field": "requires_sponsorship",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "98c72cbe-6cd3-45a9-b1d7-73fe16646f58",
+      "label": "Do you currently reside in Houston, TX?",
+      "type": "select",
+      "canonical_field": "screener:custom:predicted:98c72cbe-6cd3-45a9-b1d7-73fe16646f58",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): Profile lists Baltimore, Maryland as current city."
+    },
+    {
+      "field_id": "cf2dae68-4461-4b30-9446-a9295c681626",
+      "label": "Do you have experience in robotics?",
+      "type": "select",
+      "canonical_field": "screener:custom:predicted:cf2dae68-4461-4b30-9446-a9295c681626",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): Work spans ML, full-stack, and health systems; only embedded microcontroller sensor work, not robotics."
+    },
+    {
+      "field_id": "7adf26bf-5026-47f2-a484-0cdc0f68f1eb",
+      "label": "Do you have experience with humanoids?",
+      "type": "select",
+      "canonical_field": "screener:custom:predicted:7adf26bf-5026-47f2-a484-0cdc0f68f1eb",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): No humanoid robotics work appears anywhere in the candidate's background."
+    },
+    {
+      "field_id": "16ce074c-5f9f-4887-bf58-f07fee37f994",
+      "label": "Do you have experience with dexterous manipulation?",
+      "type": "select",
+      "canonical_field": "screener:custom:predicted:16ce074c-5f9f-4887-bf58-f07fee37f994",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): No robotic manipulation experience is described in the candidate's projects."
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\ashby-live\\form-snapshot-1788409134707.html",
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "email",
+      "phone",
+      "screener:willing_to_relocate",
+      "linkedin_url",
+      "essay:generated:e8489845-e544-42d8-a618-ba8da82ec24d",
+      "essay:generated:a453fd30-af8d-4605-a9bb-a562065afe1c",
+      "essay:generated:fa5d4a05-b7ce-4c3b-8e89-9b77000c1b6a",
+      "screener:custom:predicted:6f146c8d-0ffe-4851-9c9f-d7b45996a67a",
+      "gender",
+      "race_ethnicity",
+      "veteran_status",
+      "requires_sponsorship",
+      "screener:custom:predicted:98c72cbe-6cd3-45a9-b1d7-73fe16646f58",
+      "screener:custom:predicted:cf2dae68-4461-4b30-9446-a9295c681626",
+      "screener:custom:predicted:7adf26bf-5026-47f2-a484-0cdc0f68f1eb",
+      "screener:custom:predicted:16ce074c-5f9f-4887-bf58-f07fee37f994"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "_systemfield_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "_systemfield_email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "c042dff4-3d7d-4155-954b-92e31150b329",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "e0bce084-81d8-4475-bb90-8ea4710063b2",
+        "canonical_field": "screener:willing_to_relocate",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "807cd993-7560-4a39-a2d6-62127ebcaa39",
+        "canonical_field": "linkedin_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "e8489845-e544-42d8-a618-ba8da82ec24d",
+        "canonical_field": "essay:generated:e8489845-e544-42d8-a618-ba8da82ec24d",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "a453fd30-af8d-4605-a9bb-a562065afe1c",
+        "canonical_field": "essay:generated:a453fd30-af8d-4605-a9bb-a562065afe1c",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "fa5d4a05-b7ce-4c3b-8e89-9b77000c1b6a",
+        "canonical_field": "essay:generated:fa5d4a05-b7ce-4c3b-8e89-9b77000c1b6a",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "6f146c8d-0ffe-4851-9c9f-d7b45996a67a",
+        "canonical_field": "screener:custom:predicted:6f146c8d-0ffe-4851-9c9f-d7b45996a67a",
+        "control_kind": "native_radio_group",
+        "selected_option": "Summer 2027 (May - August)",
+        "match_via": "exact",
+        "notes": [
+          "picked \"Summer 2027 (May - August)\" (exact)"
+        ]
+      },
+      {
+        "field_id": "_systemfield_eeoc_gender",
+        "canonical_field": "gender",
+        "control_kind": "native_radio_group",
+        "selected_option": "Male",
+        "match_via": "exact",
+        "notes": [
+          "picked \"Male\" (exact)"
+        ]
+      },
+      {
+        "field_id": "_systemfield_eeoc_race",
+        "canonical_field": "race_ethnicity",
+        "control_kind": "native_radio_group",
+        "selected_option": "Asian (Not Hispanic or Latino)",
+        "match_via": "unique_substring",
+        "notes": [
+          "picked \"Asian (Not Hispanic or Latino)\" (unique_substring)"
+        ]
+      },
+      {
+        "field_id": "_systemfield_eeoc_veteran_status",
+        "canonical_field": "veteran_status",
+        "control_kind": "native_radio_group",
+        "selected_option": "I am not a protected veteran",
+        "match_via": "synonym",
+        "notes": [
+          "picked \"I am not a protected veteran\" (synonym)"
+        ]
+      },
+      {
+        "field_id": "c114bb34-73d7-477d-b177-f1f9e597dcf7",
+        "canonical_field": "requires_sponsorship",
+        "control_kind": "native_yesno_group",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "picked \"No\" (exact)"
+        ]
+      },
+      {
+        "field_id": "98c72cbe-6cd3-45a9-b1d7-73fe16646f58",
+        "canonical_field": "screener:custom:predicted:98c72cbe-6cd3-45a9-b1d7-73fe16646f58",
+        "control_kind": "native_yesno_group",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "picked \"No\" (exact)"
+        ]
+      },
+      {
+        "field_id": "cf2dae68-4461-4b30-9446-a9295c681626",
+        "canonical_field": "screener:custom:predicted:cf2dae68-4461-4b30-9446-a9295c681626",
+        "control_kind": "native_yesno_group",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "picked \"No\" (exact)"
+        ]
+      },
+      {
+        "field_id": "7adf26bf-5026-47f2-a484-0cdc0f68f1eb",
+        "canonical_field": "screener:custom:predicted:7adf26bf-5026-47f2-a484-0cdc0f68f1eb",
+        "control_kind": "native_yesno_group",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "picked \"No\" (exact)"
+        ]
+      },
+      {
+        "field_id": "16ce074c-5f9f-4887-bf58-f07fee37f994",
+        "canonical_field": "screener:custom:predicted:16ce074c-5f9f-4887-bf58-f07fee37f994",
+        "control_kind": "native_yesno_group",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "picked \"No\" (exact)"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham Kale",
+        "observed": "Shubham Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:willing_to_relocate",
+        "expected": "Yes",
+        "observed": "Yes",
+        "match": true
+      },
+      {
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:e8489845-e544-42d8-a618-ba8da82ec24d",
+        "expected": "I'll be direct about where I actually stand. My foundation is applied mathematics and statistics at Johns Hopkins, so the underlying math is familiar: linear algebra, differential equations, probability, and numerical optimization. For my Valley Fever research I built an SIR-style epidemiological model in Python starting from the differential equations themselves rather than a packaged solver, which is where I got comfortable reasoning about state, dynamics, and how a system evolves under changing inputs. On the optimization side, most of my hands-on work has been in machine learning: gradient-boosted models on a roughly 10 million record survey dataset, a CNN trained in PyTorch to about 95% PCK for facial landmark prediction, and a learning-to-rank layer for alert prioritization in the anomaly-detection system I work on now. I've also worked close to hardware and sensor data, programming a microcontroller-based dust sensor in C/C++ and building a passive sleep-estimation system from Core Motion signals like gait speed and movement patterns. I have not taken formal motion planning or control theory coursework yet. That's the gap I'd be closing in this internship, and I learn fastest by building against a real system with real failure modes.",
+        "observed": "I'll be direct about where I actually stand. My foundation is applied mathematics and statistics at Johns Hopkins, so the underlying math is familiar: linear algebra, differential equations, probability, and numerical optimization. For my Valley Fever research I built an SIR-style epidemiological model in Python starting from the differential equations themselves rather than a packaged solver, which is where I got comfortable reasoning about state, dynamics, and how a system evolves under changing inputs. On the optimization side, most of my hands-on work has been in machine learning: gradient-boosted models on a roughly 10 million record survey dataset, a CNN trained in PyTorch to about 95% PCK for facial landmark prediction, and a learning-to-rank layer for alert prioritization in the anomaly-detection system I work on now. I've also worked close to hardware and sensor data, programming a microcontroller-based dust sensor in C/C++ and building a passive sleep-estimation system from Core Motion signals like gait speed and movement patterns. I have not taken formal motion planning or control theory coursework yet. That's the gap I'd be closing in this internship, and I learn fastest by building against a real system with real failure modes.",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:a453fd30-af8d-4605-a9bb-a562065afe1c",
+        "expected": "Honestly, I don't have a robotics project to point to here. The closest hardware work I've done is programming a microcontroller-based dust sensor in C/C++ for my Valley Fever research, alongside an SIR-style model I built in Python from the differential equations, and I'd be overstating things to call that robotics.\n\nWhere I can speak to failure is in software that touches the real world. Building my Playwright job-application agent, the thing that kept biting me was that a capability passing a local fixture told me almost nothing about whether it worked against a live page. So I stopped trusting green tests and built an explicit validation ladder: UNIT_CONFIRMED, FIXTURE_CONFIRMED, LIVE_READ_ONLY_CONFIRMED, LIVE_MUTATION_CONFIRMED. Nothing gets called working until it has been validated at the level of reality it claims to support, and every mutating action sits behind a fail-closed flag so a bug can't quietly do something irreversible.\n\nI expect manipulation to punish simulation-only confidence in the same way, and that's the part I want to learn firsthand.",
+        "observed": "Honestly, I don't have a robotics project to point to here. The closest hardware work I've done is programming a microcontroller-based dust sensor in C/C++ for my Valley Fever research, alongside an SIR-style model I built in Python from the differential equations, and I'd be overstating things to call that robotics.\n\nWhere I can speak to failure is in software that touches the real world. Building my Playwright job-application agent, the thing that kept biting me was that a capability passing a local fixture told me almost nothing about whether it worked against a live page. So I stopped trusting green tests and built an explicit validation ladder: UNIT_CONFIRMED, FIXTURE_CONFIRMED, LIVE_READ_ONLY_CONFIRMED, LIVE_MUTATION_CONFIRMED. Nothing gets called working until it has been validated at the level of reality it claims to support, and every mutating action sits behind a fail-closed flag so a bug can't quietly do something irreversible.\n\nI expect manipulation to punish simulation-only confidence in the same way, and that's the part I want to learn firsthand.",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:fa5d4a05-b7ce-4c3b-8e89-9b77000c1b6a",
+        "expected": "No. I have not worked with robotic manipulators, end-effectors, or custom test rigs, and I don't want to stretch what I've done into something it isn't.\n\nThe only physical hardware I've built with is a microcontroller-based dust sensor I programmed in C/C++ for my Valley Fever research. That work was about getting real environmental readings into a model: I built an SIR-style epidemiological model in Python from its differential equations and connected the disease dynamics to environmental variables related to dust and agriculture. The hard part for me was less the physical assembly than trusting the signal, since a sensor reading that looks plausible but is wrong quietly corrupts everything downstream.\n\nThe closest thing to sensor calibration in my more recent work is the passive sleep-estimation system I built for ClarityAtlas, using HealthKit and Core Motion signals like step count, gait speed, and movement patterns to infer sleep without a wearable, then validating that inference against real users in a Hopkins pilot with 30+ people.\n\nI'd be starting from zero on physical manipulation setups, and I'd rather say that plainly.",
+        "observed": "No. I have not worked with robotic manipulators, end-effectors, or custom test rigs, and I don't want to stretch what I've done into something it isn't.\n\nThe only physical hardware I've built with is a microcontroller-based dust sensor I programmed in C/C++ for my Valley Fever research. That work was about getting real environmental readings into a model: I built an SIR-style epidemiological model in Python from its differential equations and connected the disease dynamics to environmental variables related to dust and agriculture. The hard part for me was less the physical assembly than trusting the signal, since a sensor reading that looks plausible but is wrong quietly corrupts everything downstream.\n\nThe closest thing to sensor calibration in my more recent work is the passive sleep-estimation system I built for ClarityAtlas, using HealthKit and Core Motion signals like step count, gait speed, and movement patterns to infer sleep without a wearable, then validating that inference against real users in a Hopkins pilot with 30+ people.\n\nI'd be starting from zero on physical manipulation setups, and I'd rather say that plainly.",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:6f146c8d-0ffe-4851-9c9f-d7b45996a67a",
+        "expected": "Summer 2027 (May - August)",
+        "observed": "Summer 2027 (May - August)",
+        "match": true
+      },
+      {
+        "canonical_field": "gender",
+        "expected": "Male",
+        "observed": "Male",
+        "match": true
+      },
+      {
+        "canonical_field": "race_ethnicity",
+        "expected": "Asian",
+        "observed": "Asian (Not Hispanic or Latino)",
+        "match": true
+      },
+      {
+        "canonical_field": "veteran_status",
+        "expected": "I am not a veteran",
+        "observed": "I am not a protected veteran",
+        "match": true
+      },
+      {
+        "canonical_field": "requires_sponsorship",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:98c72cbe-6cd3-45a9-b1d7-73fe16646f58",
+        "expected": "No",
+        "observed": "No",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:cf2dae68-4461-4b30-9446-a9295c681626",
+        "expected": "No",
+        "observed": "No",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:7adf26bf-5026-47f2-a484-0cdc0f68f1eb",
+        "expected": "No",
+        "observed": "No",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:16ce074c-5f9f-4887-bf58-f07fee37f994",
+        "expected": "No",
+        "observed": "No",
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 113381,
+      "verified": true,
+      "evidence": "input files: [{\"name\":\"resume-6b5f8e75.pdf\",\"size\":113381}]; stillAttached=true; chip=true; resolved via primary"
+    }
+  ],
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: form (19 fillable field(s))",
+    "timing: base page (19 planned) — plan 50s, fill 7s, verify 1s",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "written_at": "2026-09-03T04:19:02.877Z"
+}

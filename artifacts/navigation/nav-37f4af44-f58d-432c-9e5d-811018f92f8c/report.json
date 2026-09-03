@@ -1,0 +1,37 @@
+{
+  "run_id": "nav-37f4af44-f58d-432c-9e5d-811018f92f8c",
+  "application_id": "cef4cad3-a0d2-4085-b109-916bcd81aad1",
+  "jobright_job_id": "6a8e5703e3efd719bf57d0b4",
+  "method": "anchor_href",
+  "resolved_url": "https://boards.greenhouse.io/epicgames/jobs/6147156004",
+  "resolved_ats": "greenhouse",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "resolved (11 candidates, employer match)",
+      "evidence": "boards.greenhouse.io"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "phase A: token-only greenhouse embed anchor resolved to board \"epicgames\" (job 6147156004) via one read-only GET"
+  ],
+  "congruence": {
+    "verdict": "match",
+    "slug": "epicgames",
+    "detail": "token \"epic\" ~ slug \"epicgames\"",
+    "expected_company": "Epic Games",
+    "url": "https://boards.greenhouse.io/embed/job_app?for=epicgames&token=6147156004"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-09-03T04:20:41.094Z"
+}

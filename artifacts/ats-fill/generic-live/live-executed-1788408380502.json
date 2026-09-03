@@ -1,0 +1,181 @@
+{
+  "ats": "generic",
+  "url": "https://recruiting2.ultipro.com/her1001acfin/JobBoard/ab33798a-3521-417b-8db8-a8e435c475fa/OpportunityDetail?opportunityId=3d8a72b0-b464-4ff8-bd58-555a1e640ef7",
+  "requested_url": "https://recruiting2.ultipro.com/her1001acfin/JobBoard/ab33798a-3521-417b-8db8-a8e435c475fa/OpportunityDetail?opportunityId=3d8a72b0-b464-4ff8-bd58-555a1e640ef7",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://recruiting2.ultipro.com/HER1001ACFIN/AuthCode/Register?state=returnUrl%3D%2Fher1001acfin%2FJobBoard%2Fab33798a-3521-417b-8db8-a8e435c475fa%2FOpportunityApply%3FopportunityId%3D3d8a72b0-b464-4ff8-bd58-555a1e640ef7%7Cta%3DHER1001ACFIN",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 3,
+    "skipped_count": 0,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "firstName",
+      "label": "First name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "lastName",
+      "label": "Last name",
+      "type": "text",
+      "canonical_field": "legal_name.last",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phoneNumber",
+      "label": "Phone number",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "firstName",
+      "label": "First name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "lastName",
+      "label": "Last name",
+      "type": "text",
+      "canonical_field": "legal_name.last",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phoneNumber",
+      "label": "Phone number",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    }
+  ],
+  "form_snapshot_path": null,
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "legal_name.last",
+      "phone",
+      "legal_name.first",
+      "legal_name.last",
+      "phone"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "firstName",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "lastName",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "phoneNumber",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "firstName",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text",
+        "notes": [
+          "already holds \"Shubham\" — verified in place, not retyped"
+        ]
+      },
+      {
+        "field_id": "lastName",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text",
+        "notes": [
+          "already holds \"Kale\" — verified in place, not retyped"
+        ]
+      },
+      {
+        "field_id": "phoneNumber",
+        "canonical_field": "phone",
+        "control_kind": "text",
+        "notes": [
+          "already holds \"4805897636\" — verified in place, not retyped"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.last",
+        "expected": "Kale",
+        "observed": "Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": null,
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: posting (no fields, Apply CTA present)",
+    "landed on a posting (no fields, Apply CTA present); clicking Apply via role=button accessible name is Apply",
+    "Apply landed on: auth (login wall: final_url_auth_path,auth_provider_marker,password_input_visible_in_dom,email_and_password_inputs)",
+    "login wall on signin-us.ultipro.com: sign_in_form; fields[email=true password=true confirm=false]; submit=[Sign in]; create-route=\"Sign up\"",
+    "standing portal login used for signin-us.ultipro.com",
+    "portal auth: no account on record for signin-us.ultipro.com — taking \"Sign up\" first (create-before-sign-in)",
+    "portal auth create: signup-route page has no create-labeled submit — using the form's own submit",
+    "portal auth create: form cleared",
+    "portal auth: created account recorded in the vault for signin-us.ultipro.com",
+    "timing: base page (3 planned) — plan 0s, fill 1s, verify 0s",
+    "resume on disk but this page has no file input — not an upload miss",
+    "timing: revealed page (3 planned) — plan 0s, fill 0s, verify 0s",
+    "resolved advance: account-setup continuation \"Create account\" (page says account setup, no file input)",
+    "form-advance: no Next/Continue after page 2 — stopping",
+    "form-advance: filled 1 additional page(s) — form:3/3",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "wizard_pages": [
+    {
+      "page": 2,
+      "url": "https://recruiting2.ultipro.com/HER1001ACFIN/AuthCode/Register?state=returnUrl%3D%2Fher1001acfin%2FJobBoard%2Fab33798a-3521-417b-8db8-a8e435c475fa%2FOpportunityApply%3FopportunityId%3D3d8a72b0-b464-4ff8-bd58-555a1e640ef7%7Cta%3DHER1001ACFIN",
+      "kind": "form",
+      "fillable": 3,
+      "filled": 3,
+      "verify_passed": true
+    }
+  ],
+  "written_at": "2026-09-03T04:06:20.519Z"
+}

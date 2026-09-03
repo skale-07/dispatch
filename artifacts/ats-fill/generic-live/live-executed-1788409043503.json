@@ -1,0 +1,150 @@
+{
+  "ats": "generic",
+  "url": "https://internal-careers-rivian.icims.com/jobs/27480/software-engineering-intern%2c-vehicle-controls---summer-2026/job?in_iframe=1",
+  "requested_url": "https://internal-careers-rivian.icims.com/jobs/27480/software-engineering-intern%2c-vehicle-controls---summer-2026/job?in_iframe=1",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://internal-careers-rivian.icims.com/jobs/27480/software-engineering-intern%2c-vehicle-controls---summer-2026/job",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 2,
+    "skipped_count": 0,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "keyword-search",
+      "label": "JOBS.KEYWORD_SEARCH_PLACEHOLDER",
+      "type": "text",
+      "canonical_field": "screener:custom:job_search_keywords",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "location-search",
+      "label": "JOBS.LOCATION_SEARCH_PLACEHOLDER",
+      "type": "text",
+      "canonical_field": "screener:custom:job_search_keywords:location-search",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    }
+  ],
+  "form_snapshot_path": null,
+  "fill": {
+    "filled": [],
+    "skipped": [
+      "keyword-search — control is not visible (collapsed section or unopened editor)",
+      "location-search — control is not visible (collapsed section or unopened editor)"
+    ],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "keyword-search",
+        "canonical_field": "screener:custom:job_search_keywords",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled",
+          "resolved by id=keyword-search (planned text), 1 match(es): <input type=text> display=inline-block visibility=visible"
+        ]
+      },
+      {
+        "field_id": "location-search",
+        "canonical_field": "screener:custom:job_search_keywords:location-search",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled",
+          "resolved by id=location-search (planned text), 1 match(es): <input type=text> display=inline-block visibility=visible"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": false,
+    "fields": [
+      {
+        "canonical_field": "screener:custom:job_search_keywords",
+        "expected": "Software Engineer Intern",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "match": false
+      },
+      {
+        "canonical_field": "screener:custom:job_search_keywords:location-search",
+        "expected": "Software Engineer Intern",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "match": false
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": null,
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: form (2 fillable field(s))",
+    "option harvest: \"JOBS.KEYWORD_SEARCH_PLACEHOLDER\" could not be opened (locator.click: Element is not visible\nCall log:\n\u001b[2m  - waiting for locator('[id)",
+    "option harvest: \"JOBS.LOCATION_SEARCH_PLACEHOLDER\" could not be opened (locator.click: Element is not visible\nCall log:\n\u001b[2m  - waiting for locator('[id)",
+    "timing: base page (2 planned) — plan 0s, fill 3s, verify 0s",
+    "page error scan: no visible validation errors on the page",
+    "resume on disk but this page has no file input — not an upload miss",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "operator_brief": {
+    "title": "Live fill — generic https://internal-careers-rivian.icims.com/jobs/27480/software-engineering-intern%2c-vehicle-controls---summer-2026/job",
+    "summary": "2 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:screener:custom:job_search_keywords",
+        "question": "JOBS.KEYWORD_SEARCH_PLACEHOLDER",
+        "field_id": "keyword-search",
+        "canonical_field": "screener:custom:job_search_keywords",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Software Engineer Intern\"; page shows \"(empty)\"",
+        "expected": "Software Engineer Intern",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "how_to_answer": [
+          "System expected \"Software Engineer Intern\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:job_search_keywords)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:job_search_keywords\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:custom:job_search_keywords:location-search",
+        "question": "JOBS.LOCATION_SEARCH_PLACEHOLDER",
+        "field_id": "location-search",
+        "canonical_field": "screener:custom:job_search_keywords:location-search",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Software Engineer Intern\"; page shows \"(empty)\"",
+        "expected": "Software Engineer Intern",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "how_to_answer": [
+          "Type the intended value on the form (planned: Software Engineer Intern). If a places/autocomplete list appears, select a matching suggestion; plain city text is enough when no list opens.",
+          "System expected \"Software Engineer Intern\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:job_search_keywords:location-search)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:job_search_keywords:location-search\" should match the on-form question text."
+        ]
+      }
+    ],
+    "ok_count": 0,
+    "fail_count": 2
+  },
+  "written_at": "2026-09-03T04:17:23.513Z"
+}

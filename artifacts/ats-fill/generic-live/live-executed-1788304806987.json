@@ -1,0 +1,148 @@
+{
+  "ats": "generic",
+  "url": "https://btcpa.rec.pro.ukg.net/BEN1022BTLL/JobBoard/702a70c1-c1f7-4971-8626-bb99571a35a2/OpportunityDetail?opportunityId=4d519358-fb57-46be-8018-838c26e1bf4a",
+  "requested_url": "https://btcpa.rec.pro.ukg.net/BEN1022BTLL/JobBoard/702a70c1-c1f7-4971-8626-bb99571a35a2/OpportunityDetail?opportunityId=4d519358-fb57-46be-8018-838c26e1bf4a",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://gusea1p01.rec.pro.ukg.net/BEN1022BTLL/AuthCode/Register?state=returnUrl%3D%2FBEN1022BTLL%2FJobBoard%2F702a70c1-c1f7-4971-8626-bb99571a35a2%2FOpportunityApply%3FopportunityId%3D4d519358-fb57-46be-8018-838c26e1bf4a%7Cta%3DBEN1022BTLL",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 2,
+    "skipped_count": 0,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "firstName",
+      "label": "First name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "lastName",
+      "label": "Last name",
+      "type": "text",
+      "canonical_field": "legal_name.last",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    }
+  ],
+  "form_snapshot_path": null,
+  "fill": {
+    "filled": [],
+    "skipped": [],
+    "errors": [
+      "firstName: locator.fill: Error: Element is not an <input>, <textarea>, <select> or [contenteditable] and does not have a role allowing [aria-readonly]\nCall log:\n\u001b[2m  - waiting for locator('[name=\"firstName\"]').first()\u001b[22m\n\u001b[2m    - locator resolved to <ukg-input value=\"\" type=\"text\" slot=\"input\" required=\"true\" maxlength=\"100\" name=\"firstName\" data-tag-name=\"input\" data-automation=\"registrationDetails-firstName-input\" class=\"sc-ukg-card sc-ukg-input-h sc-ukg-input-s hydrated\">…</ukg-input>\u001b[22m\n\u001b[2m    - fill(\"Shubham\")\u001b[22m\n\u001b[2m  - attempting fill action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and editable\u001b[22m\n",
+      "lastName: locator.fill: Error: Element is not an <input>, <textarea>, <select> or [contenteditable] and does not have a role allowing [aria-readonly]\nCall log:\n\u001b[2m  - waiting for locator('[name=\"lastName\"]').first()\u001b[22m\n\u001b[2m    - locator resolved to <ukg-input value=\"\" type=\"text\" slot=\"input\" required=\"true\" name=\"lastName\" maxlength=\"100\" data-tag-name=\"input\" data-automation=\"registrationDetails-lastName-input\" class=\"sc-ukg-card sc-ukg-input-h sc-ukg-input-s hydrated\">…</ukg-input>\u001b[22m\n\u001b[2m    - fill(\"Kale\")\u001b[22m\n\u001b[2m  - attempting fill action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and editable\u001b[22m\n"
+    ],
+    "field_meta": []
+  },
+  "verify": {
+    "passed": false,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "legal_name.last",
+        "expected": "Kale",
+        "observed": null,
+        "match": false
+      }
+    ],
+    "uploads": [],
+    "warnings": [
+      "verify legal_name.first: locator.inputValue: Error: Node is not an <input>, <textarea> or <select> element\nCall log:\n\u001b[2m  - waiting for locator('[name=\"firstName\"]').first()\u001b[22m\n",
+      "verify legal_name.last: locator.inputValue: Error: Node is not an <input>, <textarea> or <select> element\nCall log:\n\u001b[2m  - waiting for locator('[name=\"lastName\"]').first()\u001b[22m\n"
+    ]
+  },
+  "uploads": null,
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: posting (no fields, Apply CTA present)",
+    "landed on a posting (no fields, Apply CTA present); clicking Apply via role=button accessible name is Apply",
+    "Apply landed on: form (2 fillable field(s))",
+    "page error scan: no visible validation errors on the page",
+    "resume on disk but this page has no file input — not an upload miss",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "operator_brief": {
+    "title": "Live fill — generic https://gusea1p01.rec.pro.ukg.net/BEN1022BTLL/AuthCode/Register?state=returnUrl%3D%2FBEN1022BTLL%2FJobBoard%2F702a70c1-c1f7-4971-8626-bb99571a35a2%2FOpportunityApply%3FopportunityId%3D4d519358-fb57-46be-8018-838c26e1bf4a%7Cta%3DBEN1022BTLL",
+    "summary": "4 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:legal_name.first",
+        "question": "First name",
+        "field_id": "firstName",
+        "canonical_field": "legal_name.first",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Shubham\"; page shows \"(empty)\"",
+        "expected": "Shubham",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"Shubham\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → legal_name.first",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"legal_name.first\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:legal_name.last",
+        "question": "Last name",
+        "field_id": "lastName",
+        "canonical_field": "legal_name.last",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Kale\"; page shows \"(empty)\"",
+        "expected": "Kale",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"Kale\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → legal_name.last",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"legal_name.last\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "fill_error:firstName: locator.fill: Error: Element is not an <input>, <textarea>, <select> ",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "firstName: locator.fill: Error: Element is not an <input>, <textarea>, <select> or [contenteditable] and does not have a role allowing [aria-readonly]\nCall log:\n\u001b[2m  - waiting for locator('[name=\"firstName\"]').first()\u001b[22m\n\u001b[2m    - locator resolved to <ukg-input value=\"\" type=\"text\" slot=\"input\" required=\"true\" maxlength=\"100\" name=\"firstName\" data-tag-name=\"input\" data-automation=\"registrationDetails-firstName-input\" class=\"sc-ukg-card sc-ukg-input-h sc-ukg-input-s hydrated\">…</ukg-input>\u001b[22m\n\u001b[2m    - fill(\"Shubham\")\u001b[22m\n\u001b[2m  - attempting fill action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and editable\u001b[22m\n",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:lastName: locator.fill: Error: Element is not an <input>, <textarea>, <select> o",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "lastName: locator.fill: Error: Element is not an <input>, <textarea>, <select> or [contenteditable] and does not have a role allowing [aria-readonly]\nCall log:\n\u001b[2m  - waiting for locator('[name=\"lastName\"]').first()\u001b[22m\n\u001b[2m    - locator resolved to <ukg-input value=\"\" type=\"text\" slot=\"input\" required=\"true\" name=\"lastName\" maxlength=\"100\" data-tag-name=\"input\" data-automation=\"registrationDetails-lastName-input\" class=\"sc-ukg-card sc-ukg-input-h sc-ukg-input-s hydrated\">…</ukg-input>\u001b[22m\n\u001b[2m    - fill(\"Kale\")\u001b[22m\n\u001b[2m  - attempting fill action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and editable\u001b[22m\n",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      }
+    ],
+    "ok_count": 0,
+    "fail_count": 4
+  },
+  "written_at": "2026-09-01T23:20:09.015Z"
+}

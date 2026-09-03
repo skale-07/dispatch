@@ -1,0 +1,69 @@
+{
+  "outcome": "FAILED_BEFORE_CLICK",
+  "application_id": "4e47f9ae-fee5-4209-b8c6-b33397b4f126",
+  "submission_id": "8a1e0b97-5aa8-4954-8b54-fb3cae0bd590",
+  "attempt": 8,
+  "receipt": null,
+  "review_item_id": null,
+  "reason": "Refusing to click submit: field verification or upload did not pass",
+  "artifact_path": null,
+  "operator_brief": {
+    "title": "Submit blocked — generic app 4e47f9ae-fee5-4209-b8c6-b33397b4f126",
+    "summary": "3 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:screener:custom:experience_year_5",
+        "question": "Year (YYYY)",
+        "field_id": "NewWorkExperience_FromYear0",
+        "canonical_field": "screener:custom:experience_year_5",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"2023\"; page shows \"2025\"",
+        "expected": "2023",
+        "observed": "2025",
+        "how_to_answer": [
+          "DOM shows \"2025\" but plan expected \"2023\". Correct the value on the form or fix profile/aliases so the plan matches the real answer.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:experience_year_5)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:experience_year_5\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:degree",
+        "question": "Level of Education / Degree",
+        "field_id": "NewEducation_DegreeId0",
+        "canonical_field": "degree",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Bachelor of Science\"; page shows \"B.S.\"",
+        "expected": "Bachelor of Science",
+        "observed": {
+          "value": "B.S.",
+          "label": "B.S."
+        },
+        "how_to_answer": [
+          "DOM shows \"B.S.\" but plan expected \"Bachelor of Science\". Correct the value on the form or fix profile/aliases so the plan matches the real answer.",
+          "Profile source: private/candidate/public-profile.json (key: degree)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"degree\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:major",
+        "question": "Major",
+        "field_id": "f_58",
+        "canonical_field": "major",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Mathematics\"; page shows \"Choose...\"",
+        "expected": "Mathematics",
+        "observed": {
+          "value": "",
+          "label": "Choose..."
+        },
+        "how_to_answer": [
+          "DOM shows \"Choose...\" but plan expected \"Mathematics\". Correct the value on the form or fix profile/aliases so the plan matches the real answer.",
+          "Profile source: private/candidate/public-profile.json (key: major)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"major\" should match the on-form question text."
+        ]
+      }
+    ],
+    "ok_count": 58,
+    "fail_count": 3
+  }
+}

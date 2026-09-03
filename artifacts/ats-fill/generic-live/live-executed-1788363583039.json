@@ -1,0 +1,3182 @@
+{
+  "ats": "generic",
+  "url": "https://btcpa.rec.pro.ukg.net/BEN1022BTLL/JobBoard/702a70c1-c1f7-4971-8626-bb99571a35a2/OpportunityDetail?opportunityId=4d519358-fb57-46be-8018-838c26e1bf4a",
+  "requested_url": "https://btcpa.rec.pro.ukg.net/BEN1022BTLL/JobBoard/702a70c1-c1f7-4971-8626-bb99571a35a2/OpportunityDetail?opportunityId=4d519358-fb57-46be-8018-838c26e1bf4a",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://btcpa.rec.pro.ukg.net/BEN1022BTLL/JobBoard/702a70c1-c1f7-4971-8626-bb99571a35a2/OpportunityApply?opportunityId=4d519358-fb57-46be-8018-838c26e1bf4a",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 21,
+    "skipped_count": 10,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "FileUpload_3cn613944u",
+      "label": "Upload Resume DOC, DOCX, or PDF (Max file size 6MB).",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "Prefix",
+      "label": "Title",
+      "type": "select",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "FirstName",
+      "label": "First Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "PreferredName",
+      "label": "Preferred Name",
+      "type": "text",
+      "canonical_field": "preferred_name",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "MiddleName",
+      "label": "Middle",
+      "type": "text",
+      "canonical_field": "legal_name.middle",
+      "action": "SKIP",
+      "reason": "Profile value empty for legal_name.middle"
+    },
+    {
+      "field_id": "FamilyName",
+      "label": "Last Name",
+      "type": "text",
+      "canonical_field": "legal_name.last",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "Suffix",
+      "label": "Suffix",
+      "type": "select",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "FormerName",
+      "label": "Former Name",
+      "type": "text",
+      "canonical_field": "screener:custom:former_name",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "Phone",
+      "label": "Primary Phone",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "SecondaryPhone",
+      "label": "Secondary Phone",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "Country",
+      "label": "Country",
+      "type": "select",
+      "canonical_field": "address.country",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "AddressLine1",
+      "label": "Address 1",
+      "type": "text",
+      "canonical_field": "address.line1",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "AddressLine2",
+      "label": "Address 2",
+      "type": "text",
+      "canonical_field": "address.line2",
+      "action": "SKIP",
+      "reason": "Profile value empty for address.line2"
+    },
+    {
+      "field_id": "City",
+      "label": "City",
+      "type": "text",
+      "canonical_field": "address.city",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "PostalCode",
+      "label": "Zip / Postal Code",
+      "type": "text",
+      "canonical_field": "address.postal_code",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "WillingToRelocate",
+      "label": "Willing to relocate",
+      "type": "checkbox",
+      "canonical_field": "relocation",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f_16",
+      "label": "Skills",
+      "type": "text",
+      "canonical_field": "skills",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f_17",
+      "label": "Behaviors What is your work style?",
+      "type": "select",
+      "canonical_field": "screener:custom:work_style",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_18",
+      "label": "Motivations What gets you out of bed in the morning?",
+      "type": "select",
+      "canonical_field": "screener:custom:primary_motivation",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "FileUpload_4iwmgh1lpb",
+      "label": "Upload a file DOC, DOCX, PDF, JPG or PNG (Max file size 6MB).",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "ApplicantSource",
+      "label": "How did you hear about this opportunity?",
+      "type": "select",
+      "canonical_field": "screener:how_heard",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "employeereferral",
+      "label": "Were you referred by a current employee?",
+      "type": "radio",
+      "canonical_field": "screener:referral_name",
+      "action": "SKIP",
+      "reason": "referral_name empty in bank — optional, skipped"
+    },
+    {
+      "field_id": "MultipleChoiceResponse0",
+      "label": "Will you now or in the future require Bennett Thrasher to commence (sponsor) an immigration case in order to employ you (for example, H-1B or other employment-based immigration case)?",
+      "type": "radio",
+      "canonical_field": "screener:requires_sponsorship",
+      "action": "FILL",
+      "reason": "Screener bank answer (profile_derived)"
+    },
+    {
+      "field_id": "MultipleChoiceResponse1",
+      "label": "Are you authorized to work lawfully in the United States?",
+      "type": "radio",
+      "canonical_field": "work_authorization",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "Gender",
+      "label": "Gender",
+      "type": "select",
+      "canonical_field": "gender",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "f_28",
+      "label": "I decline to say Gender",
+      "type": "checkbox",
+      "canonical_field": "gender",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "HispanicOrigin",
+      "label": "Ethnic Origin",
+      "type": "select",
+      "canonical_field": "hispanic_latino",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "f_30",
+      "label": "I decline to say Ethnic Origin",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "EthnicOrigin",
+      "label": "Race",
+      "type": "select",
+      "canonical_field": "race_ethnicity",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "f_32",
+      "label": "I decline to say Race",
+      "type": "checkbox",
+      "canonical_field": "race_ethnicity",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "AreYouDisabled",
+      "label": "Please choose one of the options below:",
+      "type": "radio",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Demographics deferred to sensitive-profile policy path"
+    },
+    {
+      "field_id": "FileUpload_3cn613944u",
+      "label": "Upload Resume DOC, DOCX, or PDF (Max file size 6MB).",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "Prefix",
+      "label": "Title",
+      "type": "select",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "FirstName",
+      "label": "First Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "PreferredName",
+      "label": "Preferred Name",
+      "type": "text",
+      "canonical_field": "preferred_name",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "MiddleName",
+      "label": "Middle",
+      "type": "text",
+      "canonical_field": "legal_name.middle",
+      "action": "SKIP",
+      "reason": "Profile value empty for legal_name.middle"
+    },
+    {
+      "field_id": "FamilyName",
+      "label": "Last Name",
+      "type": "text",
+      "canonical_field": "legal_name.last",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "Suffix",
+      "label": "Suffix",
+      "type": "select",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "FormerName",
+      "label": "Former Name",
+      "type": "text",
+      "canonical_field": "screener:custom:former_name",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "Phone",
+      "label": "Primary Phone",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "SecondaryPhone",
+      "label": "Secondary Phone",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "Country",
+      "label": "Country",
+      "type": "select",
+      "canonical_field": "address.country",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "AddressLine1",
+      "label": "Address 1",
+      "type": "text",
+      "canonical_field": "address.line1",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "AddressLine2",
+      "label": "Address 2",
+      "type": "text",
+      "canonical_field": "address.line2",
+      "action": "SKIP",
+      "reason": "Profile value empty for address.line2"
+    },
+    {
+      "field_id": "City",
+      "label": "City",
+      "type": "text",
+      "canonical_field": "address.city",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "PostalCode",
+      "label": "Zip / Postal Code",
+      "type": "text",
+      "canonical_field": "address.postal_code",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "WillingToRelocate",
+      "label": "Willing to relocate",
+      "type": "checkbox",
+      "canonical_field": "relocation",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f_16",
+      "label": "Skills",
+      "type": "text",
+      "canonical_field": "skills",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f_17",
+      "label": "Behaviors What is your work style?",
+      "type": "select",
+      "canonical_field": "screener:custom:work_style",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_18",
+      "label": "Motivations What gets you out of bed in the morning?",
+      "type": "select",
+      "canonical_field": "screener:custom:primary_motivation",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "FileUpload_4iwmgh1lpb",
+      "label": "Upload a file DOC, DOCX, PDF, JPG or PNG (Max file size 6MB).",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "ApplicantSource",
+      "label": "How did you hear about this opportunity?",
+      "type": "select",
+      "canonical_field": "screener:how_heard",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "employeereferral",
+      "label": "Were you referred by a current employee?",
+      "type": "radio",
+      "canonical_field": "screener:referral_name",
+      "action": "SKIP",
+      "reason": "referral_name empty in bank — optional, skipped"
+    },
+    {
+      "field_id": "MultipleChoiceResponse0",
+      "label": "Will you now or in the future require Bennett Thrasher to commence (sponsor) an immigration case in order to employ you (for example, H-1B or other employment-based immigration case)?",
+      "type": "radio",
+      "canonical_field": "screener:requires_sponsorship",
+      "action": "FILL",
+      "reason": "Screener bank answer (profile_derived)"
+    },
+    {
+      "field_id": "MultipleChoiceResponse1",
+      "label": "Are you authorized to work lawfully in the United States?",
+      "type": "radio",
+      "canonical_field": "work_authorization",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "Gender",
+      "label": "Gender",
+      "type": "select",
+      "canonical_field": "gender",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "f_28",
+      "label": "I decline to say Gender",
+      "type": "checkbox",
+      "canonical_field": "gender",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "HispanicOrigin",
+      "label": "Ethnic Origin",
+      "type": "select",
+      "canonical_field": "hispanic_latino",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "f_30",
+      "label": "I decline to say Ethnic Origin",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "EthnicOrigin",
+      "label": "Race",
+      "type": "select",
+      "canonical_field": "race_ethnicity",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "f_32",
+      "label": "I decline to say Race",
+      "type": "checkbox",
+      "canonical_field": "race_ethnicity",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "AreYouDisabled",
+      "label": "Please choose one of the options below:",
+      "type": "radio",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Demographics deferred to sensitive-profile policy path"
+    },
+    {
+      "field_id": "Prefix",
+      "label": "Title",
+      "type": "select",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "FirstName",
+      "label": "First Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "PreferredName",
+      "label": "Preferred Name",
+      "type": "text",
+      "canonical_field": "preferred_name",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "MiddleName",
+      "label": "Middle",
+      "type": "text",
+      "canonical_field": "legal_name.middle",
+      "action": "SKIP",
+      "reason": "Profile value empty for legal_name.middle"
+    },
+    {
+      "field_id": "FamilyName",
+      "label": "Last Name",
+      "type": "text",
+      "canonical_field": "legal_name.last",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "Suffix",
+      "label": "Suffix",
+      "type": "select",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "FormerName",
+      "label": "Former Name",
+      "type": "text",
+      "canonical_field": "screener:custom:former_name",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "Phone",
+      "label": "Primary Phone",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "SecondaryPhone",
+      "label": "Secondary Phone",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "Country",
+      "label": "Country",
+      "type": "select",
+      "canonical_field": "address.country",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "AddressLine1",
+      "label": "Address 1",
+      "type": "text",
+      "canonical_field": "address.line1",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "AddressLine2",
+      "label": "Address 2",
+      "type": "text",
+      "canonical_field": "address.line2",
+      "action": "SKIP",
+      "reason": "Profile value empty for address.line2"
+    },
+    {
+      "field_id": "City",
+      "label": "City",
+      "type": "text",
+      "canonical_field": "address.city",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "State",
+      "label": "State / Province",
+      "type": "select",
+      "canonical_field": "address.state",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "PostalCode",
+      "label": "Zip / Postal Code",
+      "type": "text",
+      "canonical_field": "address.postal_code",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "WillingToRelocate",
+      "label": "Willing to relocate",
+      "type": "checkbox",
+      "canonical_field": "relocation",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "NewWorkExperience_JobTitle0",
+      "label": "Job Title",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "employment row 0 already holds \"Software Engineer, Product Development T\" (resume parse) — kept"
+    },
+    {
+      "field_id": "NewWorkExperience_Organization0",
+      "label": "Company / Organization",
+      "type": "text",
+      "canonical_field": "current_company",
+      "action": "SKIP",
+      "reason": "employment row 0 already holds \"Summer Atlantic Capital LLC & SAC Nexus\" (resume parse) — kept"
+    },
+    {
+      "field_id": "f_18",
+      "label": "Location",
+      "type": "text",
+      "canonical_field": "address.city",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "NewWorkExperience_FromMonth0",
+      "label": "Month",
+      "type": "select",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "employment row 0 already holds \"Jun\" (resume parse) — kept"
+    },
+    {
+      "field_id": "NewWorkExperience_FromYear0",
+      "label": "Year (YYYY)",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "employment row 0 already holds \"2026\" (resume parse) — kept"
+    },
+    {
+      "field_id": "f_21",
+      "label": "To month",
+      "type": "select",
+      "canonical_field": "screener:custom:end_month_current_entry",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_22",
+      "label": "To year",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "f_23",
+      "label": "Description",
+      "type": "textarea",
+      "canonical_field": "essay:generated:f_23",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "NewWorkExperience_JobTitle1",
+      "label": "Job Title",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "employment row 1 already holds \"Co-Founder & Technical Lead\" (resume parse) — kept"
+    },
+    {
+      "field_id": "NewWorkExperience_Organization1",
+      "label": "Company / Organization",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "employment row 1 already holds \"Open Health Intelligence (ClarityAtlas)\" (resume parse) — kept"
+    },
+    {
+      "field_id": "f_26",
+      "label": "Location",
+      "type": "text",
+      "canonical_field": "address.city",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "NewWorkExperience_FromMonth1",
+      "label": "Month",
+      "type": "select",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "employment row 1 already holds \"Sep\" (resume parse) — kept"
+    },
+    {
+      "field_id": "NewWorkExperience_FromYear1",
+      "label": "Year (YYYY)",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "employment row 1 already holds \"2025\" (resume parse) — kept"
+    },
+    {
+      "field_id": "f_29",
+      "label": "To month",
+      "type": "select",
+      "canonical_field": "screener:custom:end_month_current_entry:f_29",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_30",
+      "label": "To year",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "f_31",
+      "label": "Description",
+      "type": "textarea",
+      "canonical_field": "essay:generated:f_31",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "NewWorkExperience_JobTitle2",
+      "label": "Job Title",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "employment row 2 already holds \"Software Engineering Intern\" (resume parse) — kept"
+    },
+    {
+      "field_id": "NewWorkExperience_Organization2",
+      "label": "Company / Organization",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "employment row 2 already holds \"Intelehealth\" (resume parse) — kept"
+    },
+    {
+      "field_id": "f_34",
+      "label": "Location",
+      "type": "text",
+      "canonical_field": "address.city",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "NewWorkExperience_FromMonth2",
+      "label": "Month",
+      "type": "select",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "employment row 2 already holds \"Sep\" (resume parse) — kept"
+    },
+    {
+      "field_id": "NewWorkExperience_FromYear2",
+      "label": "Year (YYYY)",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "employment row 2 already holds \"2025\" (resume parse) — kept"
+    },
+    {
+      "field_id": "f_37",
+      "label": "To month",
+      "type": "select",
+      "canonical_field": "screener:custom:end_month_current_entry:f_37",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_38",
+      "label": "To year",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "f_39",
+      "label": "Description",
+      "type": "textarea",
+      "canonical_field": "essay:generated:f_39",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "NewWorkExperience_JobTitle3",
+      "label": "Job Title",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "employment row 3 already holds \"Founder & Sole Engineer\" (resume parse) — kept"
+    },
+    {
+      "field_id": "NewWorkExperience_Organization3",
+      "label": "Company / Organization",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "employment row 3 already holds \"SnapSort\" (resume parse) — kept"
+    },
+    {
+      "field_id": "f_42",
+      "label": "Location",
+      "type": "text",
+      "canonical_field": "address.city",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "NewWorkExperience_FromMonth3",
+      "label": "Month",
+      "type": "select",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "employment row 3 already holds \"Jan\" (resume parse) — kept"
+    },
+    {
+      "field_id": "NewWorkExperience_FromYear3",
+      "label": "Year (YYYY)",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "employment row 3 already holds \"2024\" (resume parse) — kept"
+    },
+    {
+      "field_id": "f_45",
+      "label": "To month",
+      "type": "select",
+      "canonical_field": "screener:custom:end_month_current_entry:f_45",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_46",
+      "label": "To year",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "f_47",
+      "label": "Description",
+      "type": "textarea",
+      "canonical_field": "essay:generated:f_47",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "NewEducation_SchoolId0",
+      "label": "School Name",
+      "type": "text",
+      "canonical_field": "school",
+      "action": "SKIP",
+      "reason": "education row 0 already holds \"Johns Hopkins University\" (resume parse) — kept"
+    },
+    {
+      "field_id": "NewEducation_DegreeId0",
+      "label": "Level of Education / Degree",
+      "type": "text",
+      "canonical_field": "degree",
+      "action": "SKIP",
+      "reason": "education row 0 already holds \"B.S.\" (resume parse) — kept"
+    },
+    {
+      "field_id": "f_50",
+      "label": "Major",
+      "type": "select",
+      "canonical_field": "major",
+      "action": "FILL",
+      "reason": "Mapped from public profile; placed onto \"Mathematics\""
+    },
+    {
+      "field_id": "f_51",
+      "label": "Minor",
+      "type": "select",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "f_52",
+      "label": "From month",
+      "type": "select",
+      "canonical_field": "screener:custom:start_month_current_entry",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_53",
+      "label": "From year",
+      "type": "text",
+      "canonical_field": "screener:custom:start_year_current_entry",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "NewEducation.ToMonth",
+      "label": "To month",
+      "type": "select",
+      "canonical_field": "screener:custom:end_month_current_entry:NewEducation.ToMonth",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_55",
+      "label": "To year",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "f_56",
+      "label": "Skills",
+      "type": "text",
+      "canonical_field": "skills",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f_57",
+      "label": "Skill level",
+      "type": "select",
+      "canonical_field": "screener:custom:skill_level_35",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_58",
+      "label": "Skill level",
+      "type": "select",
+      "canonical_field": "screener:custom:skill_level_35:f_58",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_59",
+      "label": "Skill level",
+      "type": "select",
+      "canonical_field": "screener:custom:skill_level_35:f_59",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_60",
+      "label": "Skill level",
+      "type": "select",
+      "canonical_field": "screener:custom:skill_level_35:f_60",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_61",
+      "label": "Skill level",
+      "type": "select",
+      "canonical_field": "screener:custom:skill_level_35:f_61",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_62",
+      "label": "Skill level",
+      "type": "select",
+      "canonical_field": "screener:custom:skill_level_35:f_62",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_63",
+      "label": "Skill level",
+      "type": "select",
+      "canonical_field": "screener:custom:skill_level_35:f_63",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_64",
+      "label": "Skill level",
+      "type": "select",
+      "canonical_field": "screener:custom:skill_level_35:f_64",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_65",
+      "label": "Skill level",
+      "type": "select",
+      "canonical_field": "screener:custom:skill_level_35:f_65",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_66",
+      "label": "Skill level",
+      "type": "select",
+      "canonical_field": "screener:custom:skill_level_35:f_66",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_67",
+      "label": "Skill level",
+      "type": "select",
+      "canonical_field": "screener:custom:skill_level_35:f_67",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_68",
+      "label": "Skill level",
+      "type": "select",
+      "canonical_field": "screener:custom:skill_level_35:f_68",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_69",
+      "label": "Skill level",
+      "type": "select",
+      "canonical_field": "screener:custom:skill_level_35:f_69",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_70",
+      "label": "Skill level",
+      "type": "select",
+      "canonical_field": "screener:custom:skill_level_35:f_70",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_71",
+      "label": "Skill level",
+      "type": "select",
+      "canonical_field": "screener:custom:skill_level_35:f_71",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_72",
+      "label": "Skill level",
+      "type": "select",
+      "canonical_field": "screener:custom:skill_level_35:f_72",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_73",
+      "label": "Skill level",
+      "type": "select",
+      "canonical_field": "screener:custom:skill_level_35:f_73",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_74",
+      "label": "Skill level",
+      "type": "select",
+      "canonical_field": "screener:custom:skill_level_35:f_74",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_75",
+      "label": "Skill level",
+      "type": "select",
+      "canonical_field": "screener:custom:skill_level_35:f_75",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_76",
+      "label": "Skill level",
+      "type": "select",
+      "canonical_field": "screener:custom:skill_level_35:f_76",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_77",
+      "label": "Skill level",
+      "type": "select",
+      "canonical_field": "screener:custom:skill_level_35:f_77",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_78",
+      "label": "Skill level",
+      "type": "select",
+      "canonical_field": "screener:custom:skill_level_35:f_78",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_79",
+      "label": "Skill level",
+      "type": "select",
+      "canonical_field": "screener:custom:skill_level_35:f_79",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_80",
+      "label": "Skill level",
+      "type": "select",
+      "canonical_field": "screener:custom:skill_level_35:f_80",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_81",
+      "label": "Skill level",
+      "type": "select",
+      "canonical_field": "screener:custom:skill_level_35:f_81",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_82",
+      "label": "Skill level",
+      "type": "select",
+      "canonical_field": "screener:custom:skill_level_35:f_82",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_83",
+      "label": "Skill level",
+      "type": "select",
+      "canonical_field": "screener:custom:skill_level_35:f_83",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_84",
+      "label": "Skill level",
+      "type": "select",
+      "canonical_field": "screener:custom:skill_level_35:f_84",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_85",
+      "label": "Skill level",
+      "type": "select",
+      "canonical_field": "screener:custom:skill_level_35:f_85",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_86",
+      "label": "Skill level",
+      "type": "select",
+      "canonical_field": "screener:custom:skill_level_35:f_86",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_87",
+      "label": "Skill level",
+      "type": "select",
+      "canonical_field": "screener:custom:skill_level_35:f_87",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_88",
+      "label": "Skill level",
+      "type": "select",
+      "canonical_field": "screener:custom:skill_level_35:f_88",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_89",
+      "label": "Skill level",
+      "type": "select",
+      "canonical_field": "screener:custom:skill_level_35:f_89",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_90",
+      "label": "Skill level",
+      "type": "select",
+      "canonical_field": "screener:custom:skill_level_35:f_90",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_91",
+      "label": "Skill level",
+      "type": "select",
+      "canonical_field": "screener:custom:skill_level_35:f_91",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_92",
+      "label": "Skill level",
+      "type": "select",
+      "canonical_field": "screener:custom:skill_level_35:f_92",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_93",
+      "label": "Skill level",
+      "type": "select",
+      "canonical_field": "screener:custom:skill_level_35:f_93",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_94",
+      "label": "Skill level",
+      "type": "select",
+      "canonical_field": "screener:custom:skill_level_35:f_94",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_95",
+      "label": "Behaviors What is your work style?",
+      "type": "select",
+      "canonical_field": "screener:custom:work_style",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_96",
+      "label": "Motivations What gets you out of bed in the morning?",
+      "type": "select",
+      "canonical_field": "screener:custom:primary_motivation",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "f_97",
+      "label": "resume-6b5f8e75.pdf",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "f_98",
+      "label": "resume-6b5f8e75.pdf Document Type",
+      "type": "select",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "already answered on the form (\"Resume\") — prediction not applied"
+    },
+    {
+      "field_id": "f_99",
+      "label": "resume-6b5f8e75.pdf Description",
+      "type": "text",
+      "canonical_field": "screener:custom:predicted:f_99",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): Duplicate description field for the same resume upload."
+    },
+    {
+      "field_id": "f_100",
+      "label": "field_100",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "f_101",
+      "label": "resume-6b5f8e75.pdf Document Type",
+      "type": "select",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "already answered on the form (\"Resume\") — prediction not applied"
+    },
+    {
+      "field_id": "f_102",
+      "label": "resume-6b5f8e75.pdf Description",
+      "type": "text",
+      "canonical_field": "screener:custom:predicted:f_102",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): Duplicate description field for the same resume upload."
+    },
+    {
+      "field_id": "FileUpload_4iwmgh1lpb",
+      "label": "Upload a file DOC, DOCX, PDF, JPG or PNG (Max file size 6MB).",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "ApplicantSource",
+      "label": "How did you hear about this opportunity?",
+      "type": "select",
+      "canonical_field": "screener:how_heard",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "employeereferral",
+      "label": "Were you referred by a current employee?",
+      "type": "radio",
+      "canonical_field": "screener:referral_name",
+      "action": "SKIP",
+      "reason": "referral_name empty in bank — optional, skipped"
+    },
+    {
+      "field_id": "MultipleChoiceResponse0",
+      "label": "Will you now or in the future require Bennett Thrasher to commence (sponsor) an immigration case in order to employ you (for example, H-1B or other employment-based immigration case)?",
+      "type": "radio",
+      "canonical_field": "screener:requires_sponsorship",
+      "action": "FILL",
+      "reason": "Screener bank answer (profile_derived)"
+    },
+    {
+      "field_id": "MultipleChoiceResponse1",
+      "label": "Are you authorized to work lawfully in the United States?",
+      "type": "radio",
+      "canonical_field": "work_authorization",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "Gender",
+      "label": "Gender",
+      "type": "select",
+      "canonical_field": "gender",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "f_112",
+      "label": "I decline to say Gender",
+      "type": "checkbox",
+      "canonical_field": "gender",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "HispanicOrigin",
+      "label": "Ethnic Origin",
+      "type": "select",
+      "canonical_field": "hispanic_latino",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "f_114",
+      "label": "I decline to say Ethnic Origin",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "EthnicOrigin",
+      "label": "Race",
+      "type": "select",
+      "canonical_field": "race_ethnicity",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "f_116",
+      "label": "I decline to say Race",
+      "type": "checkbox",
+      "canonical_field": "race_ethnicity",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "AreYouDisabled",
+      "label": "Please choose one of the options below:",
+      "type": "radio",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Demographics deferred to sensitive-profile policy path"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\generic-live\\form-snapshot-1788363570801.html",
+  "fill": {
+    "filled": [
+      "relocation",
+      "screener:how_heard",
+      "screener:requires_sponsorship",
+      "work_authorization",
+      "gender",
+      "hispanic_latino",
+      "legal_name.first",
+      "preferred_name",
+      "legal_name.last",
+      "screener:custom:former_name",
+      "phone",
+      "address.country",
+      "address.line1",
+      "address.city",
+      "address.postal_code",
+      "relocation",
+      "skills",
+      "screener:requires_sponsorship",
+      "work_authorization",
+      "address.state",
+      "relocation",
+      "essay:generated:f_23",
+      "essay:generated:f_31",
+      "essay:generated:f_39",
+      "essay:generated:f_47",
+      "screener:how_heard",
+      "screener:requires_sponsorship",
+      "work_authorization",
+      "gender",
+      "hispanic_latino"
+    ],
+    "skipped": [
+      "f_28 (gender) — anchorless twin of an anchored canonical (#69)",
+      "f_32 (race_ethnicity) — anchorless twin of an anchored canonical (#69)",
+      "FirstName — control is not visible (collapsed section or unopened editor)",
+      "PreferredName — control is not visible (collapsed section or unopened editor)",
+      "FamilyName — control is not visible (collapsed section or unopened editor)",
+      "FormerName — control is not visible (collapsed section or unopened editor)",
+      "Phone — control is not visible (collapsed section or unopened editor)",
+      "Country — control is not visible (collapsed section or unopened editor)",
+      "AddressLine1 — control is not visible (collapsed section or unopened editor)",
+      "City — control is not visible (collapsed section or unopened editor)",
+      "PostalCode — control is not visible (collapsed section or unopened editor)",
+      "f_16 — control is not visible (collapsed section or unopened editor)",
+      "f_17 — control is not visible (collapsed section or unopened editor)",
+      "f_18 — control is not visible (collapsed section or unopened editor)",
+      "EthnicOrigin — control is not visible (collapsed section or unopened editor)",
+      "f_28 (gender) — anchorless twin of an anchored canonical (#69)",
+      "f_32 (race_ethnicity) — anchorless twin of an anchored canonical (#69)",
+      "f_17 — control is not visible (collapsed section or unopened editor)",
+      "f_18 — control is not visible (collapsed section or unopened editor)",
+      "ApplicantSource — control is not visible (collapsed section or unopened editor)",
+      "Gender — control is not visible (collapsed section or unopened editor)",
+      "HispanicOrigin — control is not visible (collapsed section or unopened editor)",
+      "EthnicOrigin — control is not visible (collapsed section or unopened editor)",
+      "f_18 (address.city) — anchorless twin of an anchored canonical (#69)",
+      "f_21 (screener:custom:end_month_current_entry) — anchorless twin of an anchored canonical (#69)",
+      "f_26 (address.city) — anchorless twin of an anchored canonical (#69)",
+      "f_29 (screener:custom:end_month_current_entry:f_29) — anchorless twin of an anchored canonical (#69)",
+      "f_34 (address.city) — anchorless twin of an anchored canonical (#69)",
+      "f_37 (screener:custom:end_month_current_entry:f_37) — anchorless twin of an anchored canonical (#69)",
+      "f_42 (address.city) — anchorless twin of an anchored canonical (#69)",
+      "f_45 (screener:custom:end_month_current_entry:f_45) — anchorless twin of an anchored canonical (#69)",
+      "f_112 (gender) — anchorless twin of an anchored canonical (#69)",
+      "f_116 (race_ethnicity) — anchorless twin of an anchored canonical (#69)",
+      "FirstName — control is not visible (collapsed section or unopened editor)",
+      "PreferredName — control is not visible (collapsed section or unopened editor)",
+      "FamilyName — control is not visible (collapsed section or unopened editor)",
+      "FormerName — control is not visible (collapsed section or unopened editor)",
+      "Phone — control is not visible (collapsed section or unopened editor)",
+      "Country — control is not visible (collapsed section or unopened editor)",
+      "AddressLine1 — control is not visible (collapsed section or unopened editor)",
+      "City — control is not visible (collapsed section or unopened editor)",
+      "State — control is not visible (collapsed section or unopened editor)",
+      "PostalCode — control is not visible (collapsed section or unopened editor)",
+      "f_50 — control is not visible (collapsed section or unopened editor)",
+      "f_52 — control is not visible (collapsed section or unopened editor)",
+      "f_53 — control is not visible (collapsed section or unopened editor)",
+      "NewEducation.ToMonth — control is not visible (collapsed section or unopened editor)",
+      "f_56 — control is not visible (collapsed section or unopened editor)",
+      "f_57 — control is not visible (collapsed section or unopened editor)",
+      "f_58 — control is not visible (collapsed section or unopened editor)",
+      "f_59 — control is not visible (collapsed section or unopened editor)",
+      "f_60 — control is not visible (collapsed section or unopened editor)",
+      "f_61 — control is not visible (collapsed section or unopened editor)",
+      "f_62 — control is not visible (collapsed section or unopened editor)",
+      "f_63 — control is not visible (collapsed section or unopened editor)",
+      "f_64 — control is not visible (collapsed section or unopened editor)",
+      "f_65 — control is not visible (collapsed section or unopened editor)",
+      "f_66 — control is not visible (collapsed section or unopened editor)",
+      "f_67 — control is not visible (collapsed section or unopened editor)",
+      "f_68 — control is not visible (collapsed section or unopened editor)",
+      "f_69 — control is not visible (collapsed section or unopened editor)",
+      "f_70 — control is not visible (collapsed section or unopened editor)",
+      "f_71 — control is not visible (collapsed section or unopened editor)",
+      "f_72 — control is not visible (collapsed section or unopened editor)",
+      "f_73 — control is not visible (collapsed section or unopened editor)",
+      "f_74 — control is not visible (collapsed section or unopened editor)",
+      "f_75 — control is not visible (collapsed section or unopened editor)",
+      "f_76 — control is not visible (collapsed section or unopened editor)",
+      "f_77 — control is not visible (collapsed section or unopened editor)",
+      "f_78 — control is not visible (collapsed section or unopened editor)",
+      "f_79 — control is not visible (collapsed section or unopened editor)",
+      "f_80 — control is not visible (collapsed section or unopened editor)",
+      "f_81 — control is not visible (collapsed section or unopened editor)",
+      "f_82 — control is not visible (collapsed section or unopened editor)",
+      "f_83 — control is not visible (collapsed section or unopened editor)",
+      "f_84 — control is not visible (collapsed section or unopened editor)",
+      "f_85 — control is not visible (collapsed section or unopened editor)",
+      "f_86 — control is not visible (collapsed section or unopened editor)",
+      "f_87 — control is not visible (collapsed section or unopened editor)",
+      "f_88 — control is not visible (collapsed section or unopened editor)",
+      "f_89 — control is not visible (collapsed section or unopened editor)",
+      "f_90 — control is not visible (collapsed section or unopened editor)",
+      "f_91 — control is not visible (collapsed section or unopened editor)",
+      "f_92 — control is not visible (collapsed section or unopened editor)",
+      "f_93 — control is not visible (collapsed section or unopened editor)",
+      "f_94 — control is not visible (collapsed section or unopened editor)",
+      "f_95 — control is not visible (collapsed section or unopened editor)",
+      "f_96 — control is not visible (collapsed section or unopened editor)",
+      "EthnicOrigin — control is not visible (collapsed section or unopened editor)"
+    ],
+    "errors": [
+      "f_99: control not found on the page (label \"resume-6b5f8e75.pdf Description\") — failing fast instead of waiting 30s",
+      "f_102: control not found on the page (label \"resume-6b5f8e75.pdf Description\") — failing fast instead of waiting 30s"
+    ],
+    "field_meta": [
+      {
+        "field_id": "FirstName",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "PreferredName",
+        "canonical_field": "preferred_name",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "FamilyName",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "FormerName",
+        "canonical_field": "screener:custom:former_name",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "Phone",
+        "canonical_field": "phone",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "Country",
+        "canonical_field": "address.country",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "AddressLine1",
+        "canonical_field": "address.line1",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "City",
+        "canonical_field": "address.city",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "PostalCode",
+        "canonical_field": "address.postal_code",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "WillingToRelocate",
+        "canonical_field": "relocation",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "f_16",
+        "canonical_field": "skills",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "f_17",
+        "canonical_field": "screener:custom:work_style",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "f_18",
+        "canonical_field": "screener:custom:primary_motivation",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "ApplicantSource",
+        "canonical_field": "screener:how_heard",
+        "control_kind": "native_select",
+        "selected_option": "LinkedIn",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "MultipleChoiceResponse0",
+        "canonical_field": "screener:requires_sponsorship",
+        "control_kind": "text",
+        "selected_option": "No"
+      },
+      {
+        "field_id": "MultipleChoiceResponse1",
+        "canonical_field": "work_authorization",
+        "control_kind": "text",
+        "selected_option": "Yes"
+      },
+      {
+        "field_id": "Gender",
+        "canonical_field": "gender",
+        "control_kind": "native_select",
+        "selected_option": "Male",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "HispanicOrigin",
+        "canonical_field": "hispanic_latino",
+        "control_kind": "native_select",
+        "selected_option": "No",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "EthnicOrigin",
+        "canonical_field": "race_ethnicity",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "FirstName",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text",
+        "notes": [
+          "already holds \"Shubham\" — verified in place, not retyped"
+        ]
+      },
+      {
+        "field_id": "PreferredName",
+        "canonical_field": "preferred_name",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "FamilyName",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text",
+        "notes": [
+          "already holds \"Kale\" — verified in place, not retyped"
+        ]
+      },
+      {
+        "field_id": "FormerName",
+        "canonical_field": "screener:custom:former_name",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "Phone",
+        "canonical_field": "phone",
+        "control_kind": "text",
+        "notes": [
+          "already holds \"+1 480-589-7636\" — verified in place, not retyped"
+        ]
+      },
+      {
+        "field_id": "Country",
+        "canonical_field": "address.country",
+        "control_kind": "native_select",
+        "selected_option": "United States",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "AddressLine1",
+        "canonical_field": "address.line1",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "City",
+        "canonical_field": "address.city",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "PostalCode",
+        "canonical_field": "address.postal_code",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "WillingToRelocate",
+        "canonical_field": "relocation",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "f_16",
+        "canonical_field": "skills",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "f_17",
+        "canonical_field": "screener:custom:work_style",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "f_18",
+        "canonical_field": "screener:custom:primary_motivation",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "ApplicantSource",
+        "canonical_field": "screener:how_heard",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "MultipleChoiceResponse0",
+        "canonical_field": "screener:requires_sponsorship",
+        "control_kind": "text",
+        "selected_option": "No"
+      },
+      {
+        "field_id": "MultipleChoiceResponse1",
+        "canonical_field": "work_authorization",
+        "control_kind": "text",
+        "selected_option": "Yes"
+      },
+      {
+        "field_id": "Gender",
+        "canonical_field": "gender",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "HispanicOrigin",
+        "canonical_field": "hispanic_latino",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "EthnicOrigin",
+        "canonical_field": "race_ethnicity",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "FirstName",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "PreferredName",
+        "canonical_field": "preferred_name",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "FamilyName",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "FormerName",
+        "canonical_field": "screener:custom:former_name",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "Phone",
+        "canonical_field": "phone",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "Country",
+        "canonical_field": "address.country",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "AddressLine1",
+        "canonical_field": "address.line1",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "City",
+        "canonical_field": "address.city",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "State",
+        "canonical_field": "address.state",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "PostalCode",
+        "canonical_field": "address.postal_code",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "WillingToRelocate",
+        "canonical_field": "relocation",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "f_23",
+        "canonical_field": "essay:generated:f_23",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "f_31",
+        "canonical_field": "essay:generated:f_31",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "f_39",
+        "canonical_field": "essay:generated:f_39",
+        "control_kind": "text",
+        "notes": [
+          "already holds \"Another piece of my background that fits\" — verified in place, not retyped"
+        ]
+      },
+      {
+        "field_id": "f_47",
+        "canonical_field": "essay:generated:f_47",
+        "control_kind": "text",
+        "notes": [
+          "already holds \"Another piece of my background that fits\" — verified in place, not retyped"
+        ]
+      },
+      {
+        "field_id": "f_50",
+        "canonical_field": "major",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "f_52",
+        "canonical_field": "screener:custom:start_month_current_entry",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "f_53",
+        "canonical_field": "screener:custom:start_year_current_entry",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "NewEducation.ToMonth",
+        "canonical_field": "screener:custom:end_month_current_entry:NewEducation.ToMonth",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "f_56",
+        "canonical_field": "skills",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "f_57",
+        "canonical_field": "screener:custom:skill_level_35",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "f_58",
+        "canonical_field": "screener:custom:skill_level_35:f_58",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "f_59",
+        "canonical_field": "screener:custom:skill_level_35:f_59",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "f_60",
+        "canonical_field": "screener:custom:skill_level_35:f_60",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "f_61",
+        "canonical_field": "screener:custom:skill_level_35:f_61",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "f_62",
+        "canonical_field": "screener:custom:skill_level_35:f_62",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "f_63",
+        "canonical_field": "screener:custom:skill_level_35:f_63",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "f_64",
+        "canonical_field": "screener:custom:skill_level_35:f_64",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "f_65",
+        "canonical_field": "screener:custom:skill_level_35:f_65",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "f_66",
+        "canonical_field": "screener:custom:skill_level_35:f_66",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "f_67",
+        "canonical_field": "screener:custom:skill_level_35:f_67",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "f_68",
+        "canonical_field": "screener:custom:skill_level_35:f_68",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "f_69",
+        "canonical_field": "screener:custom:skill_level_35:f_69",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "f_70",
+        "canonical_field": "screener:custom:skill_level_35:f_70",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "f_71",
+        "canonical_field": "screener:custom:skill_level_35:f_71",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "f_72",
+        "canonical_field": "screener:custom:skill_level_35:f_72",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "f_73",
+        "canonical_field": "screener:custom:skill_level_35:f_73",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "f_74",
+        "canonical_field": "screener:custom:skill_level_35:f_74",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "f_75",
+        "canonical_field": "screener:custom:skill_level_35:f_75",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "f_76",
+        "canonical_field": "screener:custom:skill_level_35:f_76",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "f_77",
+        "canonical_field": "screener:custom:skill_level_35:f_77",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "f_78",
+        "canonical_field": "screener:custom:skill_level_35:f_78",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "f_79",
+        "canonical_field": "screener:custom:skill_level_35:f_79",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "f_80",
+        "canonical_field": "screener:custom:skill_level_35:f_80",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "f_81",
+        "canonical_field": "screener:custom:skill_level_35:f_81",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "f_82",
+        "canonical_field": "screener:custom:skill_level_35:f_82",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "f_83",
+        "canonical_field": "screener:custom:skill_level_35:f_83",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "f_84",
+        "canonical_field": "screener:custom:skill_level_35:f_84",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "f_85",
+        "canonical_field": "screener:custom:skill_level_35:f_85",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "f_86",
+        "canonical_field": "screener:custom:skill_level_35:f_86",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "f_87",
+        "canonical_field": "screener:custom:skill_level_35:f_87",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "f_88",
+        "canonical_field": "screener:custom:skill_level_35:f_88",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "f_89",
+        "canonical_field": "screener:custom:skill_level_35:f_89",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "f_90",
+        "canonical_field": "screener:custom:skill_level_35:f_90",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "f_91",
+        "canonical_field": "screener:custom:skill_level_35:f_91",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "f_92",
+        "canonical_field": "screener:custom:skill_level_35:f_92",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "f_93",
+        "canonical_field": "screener:custom:skill_level_35:f_93",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "f_94",
+        "canonical_field": "screener:custom:skill_level_35:f_94",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "f_95",
+        "canonical_field": "screener:custom:work_style",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "f_96",
+        "canonical_field": "screener:custom:primary_motivation",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      },
+      {
+        "field_id": "ApplicantSource",
+        "canonical_field": "screener:how_heard",
+        "control_kind": "native_select",
+        "selected_option": "LinkedIn",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "MultipleChoiceResponse0",
+        "canonical_field": "screener:requires_sponsorship",
+        "control_kind": "text",
+        "selected_option": "No"
+      },
+      {
+        "field_id": "MultipleChoiceResponse1",
+        "canonical_field": "work_authorization",
+        "control_kind": "text",
+        "selected_option": "Yes"
+      },
+      {
+        "field_id": "Gender",
+        "canonical_field": "gender",
+        "control_kind": "native_select",
+        "selected_option": "Male",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "HispanicOrigin",
+        "canonical_field": "hispanic_latino",
+        "control_kind": "native_select",
+        "selected_option": "No",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "EthnicOrigin",
+        "canonical_field": "race_ethnicity",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": false,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "preferred_name",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.last",
+        "expected": "Kale",
+        "observed": "Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:former_name",
+        "expected": "N/A",
+        "observed": "N/A",
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "address.country",
+        "expected": "United States",
+        "observed": {
+          "value": "78755a9e-9055-4731-b11f-f9fc7d1fb7cd",
+          "label": "United States"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "address.line1",
+        "expected": "3510 N Charles St",
+        "observed": "3510 N Charles St",
+        "match": true
+      },
+      {
+        "canonical_field": "address.city",
+        "expected": "Baltimore",
+        "observed": "Baltimore",
+        "match": true
+      },
+      {
+        "canonical_field": "address.state",
+        "expected": "Maryland",
+        "observed": {
+          "value": "MD",
+          "label": "Maryland"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "address.postal_code",
+        "expected": "21218",
+        "observed": "21218",
+        "match": true
+      },
+      {
+        "canonical_field": "relocation",
+        "expected": "Yes",
+        "observed": true,
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:f_23",
+        "expected": "I'm an Applied Mathematics & Statistics and Economics undergraduate at Johns Hopkins, and most of my work has been building automation and AI systems that have to survive contact with real workflows. The project closest to this role is a local browser-automation agent I built in TypeScript and Node with Playwright. The problem was repetitive browser work across application systems, but a fully autonomous agent is risky because one wrong action submits something real. I used SQLite as the single source of truth so state cannot diverge across processes, put every application through an explicit state machine, and gated every mutating capability behind fail-closed flags that never default to enabled. Free-text and demographic fields are architecturally prevented from auto-filling and always generate a human-review item. At Intelehealth I designed an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case standard, which taught me that generating an answer is cheap and deciding whether to trust it is the hard part. That's the mindset I'd bring to AI and automation work at a firm where accuracy and review matter: figure out where automation should stop, not only where it can go. I'd like to own real pieces of a system and learn from people who use it daily.",
+        "observed": "Another piece of my background that fits an AI and",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:f_31",
+        "expected": "Another piece of my background that fits an AI and automation role is the evaluation work I did at Intelehealth. I designed an evaluation framework for AI-generated clinical outputs against a benchmark of 4,169 cases, using stratified sampling to compare model outputs to a clinical standard and surface systematic failure modes. That work changed how I think about AI systems: generating an answer with an LLM is cheap, but deciding whether it should be trusted is the harder problem, and in a firm setting that judgment is the whole ballgame.\n\nI currently build the machine-learning core of an anomaly-detection and alert-prioritization system at Summer Atlantic Capital, including the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, a learning-to-rank layer for alerts, and a retrieval-augmented explanation layer so analysts can see why something was flagged. The constraint I care most about there is operational usefulness: a system that floods people with alerts creates a second problem instead of solving the first.",
+        "observed": "Another piece of my background that fits an AI and",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:f_39",
+        "expected": "A third piece I'd point to is the anomaly-detection and alert-prioritization system I'm building at Summer Atlantic Capital / SAC Nexus. I own major parts of the data and ML infrastructure: the repository and CI scaffold, the event-ingestion pipeline, a versioned FastAPI microservice, and the public detection API. The modeling side uses temporal sequence models over event streams with RNN and Transformer-style approaches, anomaly scoring, and a learning-to-rank layer that decides which alerts a human should look at first. I also built an LLM explanation layer with retrieval-augmented generation so the output arrives as something an analyst can read and act on rather than a bare score.\n\nWhat I've learned there is that model performance is not the hard part. An anomaly system that fires too often just creates a second problem, so prioritization, explanation quality, known failure modes, and documentation matter as much as the detector itself. That's the mindset I'd bring to internal automation work at Bennett Thrasher: build something people in the firm will actually keep using, and be honest about where it should stop and hand off to a person.",
+        "observed": "Another piece of my background that fits an AI and",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:f_47",
+        "expected": "A fourth project I'd point to is tSearch, a talent-discovery system I built in TypeScript and Node with Playwright, Express, and OpenAI. It starts from named seed candidates, expands through public collaboration and publishing graphs like GitHub and Substack, and runs a pipeline of identity resolution, graph expansion, heuristic scoring, persistence, LLM assessment, and a recruiter digest. Two design decisions mattered most. First, missing evidence is never treated as negative evidence: if the system can't find enough public work to judge a dimension, it returns \"insufficient evidence\" rather than a low score. Second, discovery and assessment stay separate, so the LLM judges can't silently paper over an identity-resolution mistake or collapse the heuristic score into their own. The judging layer is rubric-driven, with parallel judges on separate dimensions synthesized into an evidence-cited assessment. It's the same instinct I'd bring to internal automation work: build the pipeline, then make its failure modes visible instead of hidden.",
+        "observed": "Another piece of my background that fits an AI and",
+        "match": true
+      },
+      {
+        "canonical_field": "major",
+        "expected": "Mathematics",
+        "observed": {
+          "value": "",
+          "label": "Choose..."
+        },
+        "match": false
+      },
+      {
+        "canonical_field": "screener:custom:start_month_current_entry",
+        "expected": "Aug",
+        "observed": {
+          "value": "6",
+          "label": "Jun"
+        },
+        "match": false
+      },
+      {
+        "canonical_field": "screener:custom:start_year_current_entry",
+        "expected": "2025",
+        "observed": "2026",
+        "match": false
+      },
+      {
+        "canonical_field": "screener:custom:end_month_current_entry:NewEducation.ToMonth",
+        "expected": "May",
+        "observed": {
+          "value": "5",
+          "label": "May"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "skills",
+        "expected": [
+          "Python",
+          "TypeScript",
+          "JavaScript",
+          "SQL",
+          "Java",
+          "C++",
+          "R",
+          "Swift",
+          "React",
+          "Node.js",
+          "Express",
+          "Flask",
+          "FastAPI",
+          "REST APIs",
+          "PostgreSQL",
+          "SQLite",
+          "AWS",
+          "Google Cloud",
+          "Machine Learning",
+          "PyTorch",
+          "Large Language Models (LLM)",
+          "Retrieval-Augmented Generation (RAG)",
+          "Neo4j",
+          "Git",
+          "GitHub",
+          "CI/CD",
+          "Playwright",
+          "Software Testing",
+          "Technical Documentation",
+          "Data Science"
+        ],
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "match": false
+      },
+      {
+        "canonical_field": "screener:custom:skill_level_35",
+        "expected": "Intermediate",
+        "observed": {
+          "value": "9a1be163-1b5c-362a-c315-2d18df237031",
+          "label": "Intermediate"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:skill_level_35:f_58",
+        "expected": "Intermediate",
+        "observed": {
+          "value": "9a1be163-1b5c-362a-c315-2d18df237031",
+          "label": "Intermediate"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:skill_level_35:f_59",
+        "expected": "Intermediate",
+        "observed": {
+          "value": "9a1be163-1b5c-362a-c315-2d18df237031",
+          "label": "Intermediate"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:skill_level_35:f_60",
+        "expected": "Intermediate",
+        "observed": {
+          "value": "9a1be163-1b5c-362a-c315-2d18df237031",
+          "label": "Intermediate"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:skill_level_35:f_61",
+        "expected": "Intermediate",
+        "observed": {
+          "value": "9a1be163-1b5c-362a-c315-2d18df237031",
+          "label": "Intermediate"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:skill_level_35:f_62",
+        "expected": "Intermediate",
+        "observed": {
+          "value": "9a1be163-1b5c-362a-c315-2d18df237031",
+          "label": "Intermediate"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:skill_level_35:f_63",
+        "expected": "Intermediate",
+        "observed": {
+          "value": "9a1be163-1b5c-362a-c315-2d18df237031",
+          "label": "Intermediate"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:skill_level_35:f_64",
+        "expected": "Intermediate",
+        "observed": {
+          "value": "9a1be163-1b5c-362a-c315-2d18df237031",
+          "label": "Intermediate"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:skill_level_35:f_65",
+        "expected": "Intermediate",
+        "observed": {
+          "value": "9a1be163-1b5c-362a-c315-2d18df237031",
+          "label": "Intermediate"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:skill_level_35:f_66",
+        "expected": "Intermediate",
+        "observed": {
+          "value": "9a1be163-1b5c-362a-c315-2d18df237031",
+          "label": "Intermediate"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:skill_level_35:f_67",
+        "expected": "Intermediate",
+        "observed": {
+          "value": "9a1be163-1b5c-362a-c315-2d18df237031",
+          "label": "Intermediate"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:skill_level_35:f_68",
+        "expected": "Intermediate",
+        "observed": {
+          "value": "9a1be163-1b5c-362a-c315-2d18df237031",
+          "label": "Intermediate"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:skill_level_35:f_69",
+        "expected": "Intermediate",
+        "observed": {
+          "value": "9a1be163-1b5c-362a-c315-2d18df237031",
+          "label": "Intermediate"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:skill_level_35:f_70",
+        "expected": "Intermediate",
+        "observed": {
+          "value": "9a1be163-1b5c-362a-c315-2d18df237031",
+          "label": "Intermediate"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:skill_level_35:f_71",
+        "expected": "Intermediate",
+        "observed": {
+          "value": "9a1be163-1b5c-362a-c315-2d18df237031",
+          "label": "Intermediate"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:skill_level_35:f_72",
+        "expected": "Intermediate",
+        "observed": {
+          "value": "9a1be163-1b5c-362a-c315-2d18df237031",
+          "label": "Intermediate"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:skill_level_35:f_73",
+        "expected": "Intermediate",
+        "observed": {
+          "value": "9a1be163-1b5c-362a-c315-2d18df237031",
+          "label": "Intermediate"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:skill_level_35:f_74",
+        "expected": "Intermediate",
+        "observed": {
+          "value": "9a1be163-1b5c-362a-c315-2d18df237031",
+          "label": "Intermediate"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:skill_level_35:f_75",
+        "expected": "Intermediate",
+        "observed": {
+          "value": "9a1be163-1b5c-362a-c315-2d18df237031",
+          "label": "Intermediate"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:skill_level_35:f_76",
+        "expected": "Intermediate",
+        "observed": {
+          "value": "9a1be163-1b5c-362a-c315-2d18df237031",
+          "label": "Intermediate"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:skill_level_35:f_77",
+        "expected": "Intermediate",
+        "observed": {
+          "value": "9a1be163-1b5c-362a-c315-2d18df237031",
+          "label": "Intermediate"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:skill_level_35:f_78",
+        "expected": "Intermediate",
+        "observed": {
+          "value": "9a1be163-1b5c-362a-c315-2d18df237031",
+          "label": "Intermediate"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:skill_level_35:f_79",
+        "expected": "Intermediate",
+        "observed": {
+          "value": "9a1be163-1b5c-362a-c315-2d18df237031",
+          "label": "Intermediate"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:skill_level_35:f_80",
+        "expected": "Intermediate",
+        "observed": {
+          "value": "9a1be163-1b5c-362a-c315-2d18df237031",
+          "label": "Intermediate"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:skill_level_35:f_81",
+        "expected": "Intermediate",
+        "observed": {
+          "value": "9a1be163-1b5c-362a-c315-2d18df237031",
+          "label": "Intermediate"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:skill_level_35:f_82",
+        "expected": "Intermediate",
+        "observed": {
+          "value": "9a1be163-1b5c-362a-c315-2d18df237031",
+          "label": "Intermediate"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:skill_level_35:f_83",
+        "expected": "Intermediate",
+        "observed": {
+          "value": "9a1be163-1b5c-362a-c315-2d18df237031",
+          "label": "Intermediate"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:skill_level_35:f_84",
+        "expected": "Intermediate",
+        "observed": {
+          "value": "9a1be163-1b5c-362a-c315-2d18df237031",
+          "label": "Intermediate"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:skill_level_35:f_85",
+        "expected": "Intermediate",
+        "observed": {
+          "value": "9a1be163-1b5c-362a-c315-2d18df237031",
+          "label": "Intermediate"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:skill_level_35:f_86",
+        "expected": "Intermediate",
+        "observed": {
+          "value": "9a1be163-1b5c-362a-c315-2d18df237031",
+          "label": "Intermediate"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:skill_level_35:f_87",
+        "expected": "Intermediate",
+        "observed": {
+          "value": "9a1be163-1b5c-362a-c315-2d18df237031",
+          "label": "Intermediate"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:skill_level_35:f_88",
+        "expected": "Intermediate",
+        "observed": {
+          "value": "9a1be163-1b5c-362a-c315-2d18df237031",
+          "label": "Intermediate"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:skill_level_35:f_89",
+        "expected": "Intermediate",
+        "observed": {
+          "value": "9a1be163-1b5c-362a-c315-2d18df237031",
+          "label": "Intermediate"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:skill_level_35:f_90",
+        "expected": "Intermediate",
+        "observed": {
+          "value": "9a1be163-1b5c-362a-c315-2d18df237031",
+          "label": "Intermediate"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:skill_level_35:f_91",
+        "expected": "Intermediate",
+        "observed": {
+          "value": "9a1be163-1b5c-362a-c315-2d18df237031",
+          "label": "Intermediate"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:skill_level_35:f_92",
+        "expected": "Intermediate",
+        "observed": {
+          "value": "9a1be163-1b5c-362a-c315-2d18df237031",
+          "label": "Intermediate"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:skill_level_35:f_93",
+        "expected": "Intermediate",
+        "observed": {
+          "value": "9a1be163-1b5c-362a-c315-2d18df237031",
+          "label": "Intermediate"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:skill_level_35:f_94",
+        "expected": "Intermediate",
+        "observed": {
+          "value": "9a1be163-1b5c-362a-c315-2d18df237031",
+          "label": "Intermediate"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:work_style",
+        "expected": "Innovative",
+        "observed": {
+          "value": "",
+          "label": "Dedicated"
+        },
+        "match": false
+      },
+      {
+        "canonical_field": "screener:custom:primary_motivation",
+        "expected": "Ability to Make an Impact",
+        "observed": {
+          "value": "",
+          "label": "Ability to Make an Impact"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:f_99",
+        "expected": "Resume",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "screener:custom:predicted:f_102",
+        "expected": "Resume",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "screener:how_heard",
+        "expected": "LinkedIn",
+        "observed": {
+          "value": "fcce6542-64b3-48b2-b0c8-8e53a9655bb2",
+          "label": "LinkedIn"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:requires_sponsorship",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "work_authorization",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "gender",
+        "expected": "Male",
+        "observed": {
+          "value": "Male",
+          "label": "Male"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "hispanic_latino",
+        "expected": "No",
+        "observed": {
+          "value": "Yes",
+          "label": "Hispanic/Latino"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "race_ethnicity",
+        "expected": "Asian",
+        "observed": {
+          "value": "",
+          "label": "Choose..."
+        },
+        "match": false
+      }
+    ],
+    "uploads": [],
+    "warnings": [
+      "verify screener:custom:predicted:f_99: control not found on the page (label \"resume-6b5f8e75.pdf Description\") — failing fast instead of waiting 30s",
+      "verify screener:custom:predicted:f_102: control not found on the page (label \"resume-6b5f8e75.pdf Description\") — failing fast instead of waiting 30s"
+    ]
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 113381,
+      "verified": true,
+      "evidence": "input files: [{\"name\":\"resume-6b5f8e75.pdf\",\"size\":113381}]; stillAttached=true; chip=false"
+    }
+  ],
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: posting (no fields, Apply CTA present)",
+    "landed on a posting (no fields, Apply CTA present); clicking Apply via role=button accessible name is Apply",
+    "Apply landed on: form (31 fillable field(s))",
+    "page error scan: no visible validation errors on the page",
+    "revealed-select: \"State / Province\" (address.state) → \"Maryland\"",
+    "section-editor walk: cycled 2 editor(s)",
+    "section-editor: opened \"Edit Contact Information\"",
+    "section-editor: filled 13/21 (verify failed)",
+    "section-editor: saved 12 open editor(s)",
+    "section-editor: save did not close the editor — page says: resume-6b5f8e75.pdf has been used to pre-fill part of your application. Please verify that all of your information is correct.; Job Title Experience job title must not be empty.; Experience job title must not be empty.",
+    "incomplete-row: removed employment row 3 via \"Delete Work Experience 4\" — a required control was empty and nothing truthful could fill it (resume parse fragment; the resume itself stays attached)",
+    "section-editor: save succeeded after removing the incomplete row(s)",
+    "section-editor: opened \"Add Experience\"",
+    "section-editor: filled 10/78 (verify failed)",
+    "section-editor: no save control found after fill — editor left open",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "operator_brief": {
+    "title": "Live fill — generic https://btcpa.rec.pro.ukg.net/BEN1022BTLL/JobBoard/702a70c1-c1f7-4971-8626-bb99571a35a2/OpportunityApply?opportunityId=4d519358-fb57-46be-8018-838c26e1bf4a",
+    "summary": "10 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:major",
+        "question": "f_50",
+        "field_id": "f_50",
+        "canonical_field": "major",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Mathematics\"; page shows \"Choose...\"",
+        "expected": "Mathematics",
+        "observed": {
+          "value": "",
+          "label": "Choose..."
+        },
+        "how_to_answer": [
+          "DOM shows \"Choose...\" but plan expected \"Mathematics\". Correct the value on the form or fix profile/aliases so the plan matches the real answer.",
+          "Profile source: private/candidate/public-profile.json (key: major)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"major\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:custom:start_month_current_entry",
+        "question": "f_52",
+        "field_id": "f_52",
+        "canonical_field": "screener:custom:start_month_current_entry",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Aug\"; page shows \"Jun\"",
+        "expected": "Aug",
+        "observed": {
+          "value": "6",
+          "label": "Jun"
+        },
+        "how_to_answer": [
+          "DOM shows \"Jun\" but plan expected \"Aug\". Correct the value on the form or fix profile/aliases so the plan matches the real answer.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:start_month_current_entry)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:start_month_current_entry\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:custom:start_year_current_entry",
+        "question": "f_53",
+        "field_id": "f_53",
+        "canonical_field": "screener:custom:start_year_current_entry",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"2025\"; page shows \"2026\"",
+        "expected": "2025",
+        "observed": "2026",
+        "how_to_answer": [
+          "DOM shows \"2026\" but plan expected \"2025\". Correct the value on the form or fix profile/aliases so the plan matches the real answer.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:start_year_current_entry)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:start_year_current_entry\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:skills",
+        "question": "Skills",
+        "field_id": "f_16",
+        "canonical_field": "skills",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"[\"Python\",\"TypeScript\",\"JavaScript\",\"SQL\",\"Java\",\"C++\",\"R\",\"Swift\",\"React\",\"Node.js\",\"Express\",\"Flask\",\"FastAPI\",\"REST APIs\",\"PostgreSQL\",\"SQLite\",\"AWS\",\"Google Cloud\",\"Machine Learning\",\"PyTorch\",\"Large Language Models (LLM)\",\"Retrieval-Augmented Generation (RAG)\",\"Neo4j\",\"Git\",\"GitHub\",\"CI/CD\",\"Playwright\",\"Software Testing\",\"Technical Documentation\",\"Data Science\"]\"; page shows \"(empty)\"",
+        "expected": [
+          "Python",
+          "TypeScript",
+          "JavaScript",
+          "SQL",
+          "Java",
+          "C++",
+          "R",
+          "Swift",
+          "React",
+          "Node.js",
+          "Express",
+          "Flask",
+          "FastAPI",
+          "REST APIs",
+          "PostgreSQL",
+          "SQLite",
+          "AWS",
+          "Google Cloud",
+          "Machine Learning",
+          "PyTorch",
+          "Large Language Models (LLM)",
+          "Retrieval-Augmented Generation (RAG)",
+          "Neo4j",
+          "Git",
+          "GitHub",
+          "CI/CD",
+          "Playwright",
+          "Software Testing",
+          "Technical Documentation",
+          "Data Science"
+        ],
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "how_to_answer": [
+          "System expected \"[\"Python\",\"TypeScript\",\"JavaScript\",\"SQL\",\"Java\",\"C++\",\"R\",\"Swift\",\"React\",\"Node.js\",\"Express\",\"Flask\",\"FastAPI\",\"REST APIs\",\"PostgreSQL\",\"SQLite\",\"AWS\",\"Google Cloud\",\"Machine Learning\",\"PyTorch\",\"Large Language Models (LLM)\",\"Retrieval-Augmented Generation (RAG)\",\"Neo4j\",\"Git\",\"GitHub\",\"CI/CD\",\"Playwright\",\"Software Testing\",\"Technical Documentation\",\"Data Science\"]\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: skills)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"skills\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:custom:work_style",
+        "question": "Behaviors What is your work style?",
+        "field_id": "f_17",
+        "canonical_field": "screener:custom:work_style",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Innovative\"; page shows \"Dedicated\"",
+        "expected": "Innovative",
+        "observed": {
+          "value": "",
+          "label": "Dedicated"
+        },
+        "how_to_answer": [
+          "DOM shows \"Dedicated\" but plan expected \"Innovative\". Correct the value on the form or fix profile/aliases so the plan matches the real answer.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:work_style)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:work_style\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:custom:predicted:f_99",
+        "question": "screener:custom:predicted:f_99",
+        "field_id": null,
+        "canonical_field": "screener:custom:predicted:f_99",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Resume\"; page shows \"(empty)\"",
+        "expected": "Resume",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"Resume\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:predicted:f_99)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:predicted:f_99\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:custom:predicted:f_102",
+        "question": "screener:custom:predicted:f_102",
+        "field_id": null,
+        "canonical_field": "screener:custom:predicted:f_102",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Resume\"; page shows \"(empty)\"",
+        "expected": "Resume",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"Resume\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:predicted:f_102)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:predicted:f_102\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:race_ethnicity",
+        "question": "I decline to say Race",
+        "field_id": "f_32",
+        "canonical_field": "race_ethnicity",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Asian\"; page shows \"Choose...\"",
+        "expected": "Asian",
+        "observed": {
+          "value": "",
+          "label": "Choose..."
+        },
+        "how_to_answer": [
+          "DOM shows \"Choose...\" but plan expected \"Asian\". Correct the value on the form or fix profile/aliases so the plan matches the real answer.",
+          "Profile source: private/candidate/public-profile.json (key: race_ethnicity)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"race_ethnicity\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "fill_error:f_99: control not found on the page (label \"resume-6b5f8e75.pdf Description\") — ",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "f_99: control not found on the page (label \"resume-6b5f8e75.pdf Description\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:f_102: control not found on the page (label \"resume-6b5f8e75.pdf Description\") —",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "f_102: control not found on the page (label \"resume-6b5f8e75.pdf Description\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      }
+    ],
+    "ok_count": 60,
+    "fail_count": 10
+  },
+  "written_at": "2026-09-02T15:39:43.090Z"
+}
