@@ -572,7 +572,11 @@ export async function runAtsLiveFill(input: {
         const frameForm = await findApplicationFrameUrl(page);
         if (frameForm) {
           report.notes.push(
-            `application form found in an iframe (${frameForm.fieldCount} fields) — hopping to ${frameForm.url}`,
+            frameForm.fieldCount > 0
+              ? `application form found in an iframe (${frameForm.fieldCount} fields) — hopping to ${frameForm.url}`
+              : // #159: a posting frame carries no fields by definition —
+                // saying "form found (0 fields)" would misreport the hop.
+                `posting served from an iframe (no fields; Apply lives there) — hopping to ${frameForm.url}`,
           );
           await page
             .goto(frameForm.url, { waitUntil: "domcontentloaded" })

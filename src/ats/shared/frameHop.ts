@@ -1,6 +1,7 @@
 import type { Page } from "playwright";
 import { discoverFieldsFromHtml } from "../../applications/fieldDiscovery.js";
 import { isLoopbackUrl } from "../generic/urlValidation.js";
+import { classifyPage } from "./pageClassify.js";
 
 /**
  * Iframe-hosted application forms.
@@ -31,6 +32,7 @@ export async function findApplicationFrameUrl(
 ): Promise<{ url: string; fieldCount: number } | null> {
   let best: { url: string; fieldCount: number } | null = null;
   let greenhouseEmbed: { url: string; fieldCount: number } | null = null;
+  let postingFrame: { url: string; fieldCount: number } | null = null;
   for (const frame of page.frames()) {
     if (frame === page.mainFrame()) continue;
     const url = frame.url();
@@ -41,12 +43,56 @@ export async function findApplicationFrameUrl(
     const html = await frame.content().catch(() => null);
     if (!html) continue;
     const fields = discoverFieldsFromHtml(html);
-    if (fields.length === 0) continue;
+    if (fields.length === 0) {
+      // #159 (live internal-careers-rivian.icims.com 2026-09-03): iCIMS
+      // serves the POSTING — headline, description and the "Apply for
+      // this job online" link — from a same-origin child frame. The top
+      // document holds no fields and no Apply CTA (its only "apply" is
+      // inside a <script src=".../apply.js">, which classifyPage strips),
+      // so three apps parked UNKNOWN_LANDING with the real application
+      // never opened. A posting frame carries no fields by definition, so
+      // the field test above skipped it.
+      //
+      // Ranked BELOW any field-bearing frame and below a Greenhouse
+      // embed: a form is always the better hop. Same-origin only — the
+      // hop is a real navigation, and a cross-origin ad/tracker frame
+      // (doubleclick, live philips) must never become the page.
+      if (
+        !postingFrame &&
+        isSameOrigin(url, page.url()) &&
+        !isSelfHop(url, page.url()) &&
+        classifyPage({ html, url }).page_class === "posting"
+      ) {
+        postingFrame = { url, fieldCount: 0 };
+      }
+      continue;
+    }
     if (!best || fields.length > best.fieldCount) {
       best = { url, fieldCount: fields.length };
     }
   }
-  return best ?? greenhouseEmbed;
+  return best ?? greenhouseEmbed ?? postingFrame;
+}
+
+/** A hop must change the document — never re-navigate to where we are. */
+function isSelfHop(frameUrl: string, pageUrl: string): boolean {
+  const norm = (u: string): string => {
+    try {
+      const parsed = new URL(u);
+      return `${parsed.origin}${decodeURIComponent(parsed.pathname).replace(/\/+$/, "").toLowerCase()}`;
+    } catch {
+      return u;
+    }
+  };
+  return norm(frameUrl) === norm(pageUrl);
+}
+
+function isSameOrigin(a: string, b: string): boolean {
+  try {
+    return new URL(a).origin === new URL(b).origin;
+  } catch {
+    return false;
+  }
 }
 
 /** `/embed` or `/job_app` — not the board posting URL in an iframe. */

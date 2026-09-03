@@ -367,3 +367,126 @@ describe("wizard walk diagnostics (FIXTURE_CONFIRMED)", () => {
     });
   }, 45_000);
 });
+
+/**
+ * #159 (live internal-careers-rivian.icims.com 2026-09-03): iCIMS serves
+ * the POSTING — headline, description and "Apply for this job online" —
+ * from a same-origin child frame. The top document has no fields and no
+ * Apply CTA (its only "apply" is a <script src=".../apply.js">, which
+ * classifyPage strips), so three apps parked UNKNOWN_LANDING with the
+ * application never opened. A posting frame has no fields by definition,
+ * so the field-count hop skipped it. FIXTURE_CONFIRMED.
+ */
+describe("#159 posting-frame hop", () => {
+  useIsolatedFillEnv("safe");
+
+  const ICIMS_INNER = `<!DOCTYPE html><html><body>
+    <h1>Software Engineering Intern, Vehicle Controls</h1>
+    <p>Review all of the job details and apply today!</p>
+    <a href="/jobs/27480/login">Apply for this job online</a>
+  </body></html>`;
+
+  const icimsOuter = (frameUrl: string): string => `<!DOCTYPE html><html><head>
+    <script src="https://internal-careers-rivian.icims.com/script/portal/apply.js"></script>
+    </head><body>
+    <iframe src="${frameUrl}"></iframe>
+  </body></html>`;
+
+  it("hops to a same-origin frame that carries the posting and its Apply link", async () => {
+    const frameUrl =
+      "https://internal-careers-rivian.icims.com/jobs/27480/software-engineering-intern/job?in_iframe=1";
+    const pageUrl =
+      "https://internal-careers-rivian.icims.com/jobs/27480/software-engineering-intern%2c-vehicle-controls/job";
+    await withFixtureHtmlPage("<html><body></body></html>", async (page) => {
+      await page.context().route("**/*", (route) =>
+        route.fulfill({
+          body: route.request().url().includes("in_iframe=1")
+            ? ICIMS_INNER
+            : icimsOuter(frameUrl),
+          contentType: "text/html",
+        }),
+      );
+      await page.goto(pageUrl, { waitUntil: "domcontentloaded" });
+      await page.waitForTimeout(500);
+      const hit = await findApplicationFrameUrl(page);
+      expect(hit).not.toBeNull();
+      expect(hit!.url).toBe(frameUrl);
+      expect(hit!.fieldCount).toBe(0);
+    });
+  }, 45_000);
+
+  it("never hops to a CROSS-ORIGIN frame — an ad tracker must not become the page", async () => {
+    // Live careers.philips.com shipped exactly this: one child frame, a
+    // doubleclick activity pixel. Navigating to it would abandon the job.
+    const tracker = "https://4788909.fls.doubleclick.net/activityi;dc_pre=CM";
+    const outer = `<!DOCTYPE html><html><body>
+      <h1>Graduate Level Co-op</h1>
+      <iframe src="${tracker}"></iframe>
+    </body></html>`;
+    await withFixtureHtmlPage("<html><body></body></html>", async (page) => {
+      await page.context().route("**/*", (route) =>
+        route.fulfill({
+          body: route.request().url().includes("doubleclick")
+            ? `<html><body><a href="/x">Apply now</a></body></html>`
+            : outer,
+          contentType: "text/html",
+        }),
+      );
+      await page.goto("https://www.careers.philips.com/na/en/job/PHIL1/x", {
+        waitUntil: "domcontentloaded",
+      });
+      await page.waitForTimeout(500);
+      expect(await findApplicationFrameUrl(page)).toBeNull();
+    });
+  }, 45_000);
+
+  it("never self-hops to the URL it is already on", async () => {
+    const same = "https://careers.example.com/jobs/42/job";
+    const outer = `<!DOCTYPE html><html><body>
+      <h1>Role</h1><iframe src="${same}/"></iframe>
+    </body></html>`;
+    await withFixtureHtmlPage("<html><body></body></html>", async (page) => {
+      await page.context().route("**/*", (route) =>
+        route.fulfill({
+          body: route.request().url().endsWith("/job/")
+            ? `<html><body><a href="/x">Apply for this job online</a></body></html>`
+            : outer,
+          contentType: "text/html",
+        }),
+      );
+      await page.goto(same, { waitUntil: "domcontentloaded" });
+      await page.waitForTimeout(500);
+      // Trailing slash + case differences must not look like a new page.
+      expect(await findApplicationFrameUrl(page)).toBeNull();
+    });
+  }, 45_000);
+
+  it("prefers a FORM frame over a posting frame", async () => {
+    const postingFrame = "https://careers.example.com/jobs/42/job?in_iframe=1";
+    const formFrame = "https://careers.example.com/apply/42";
+    const outer = `<!DOCTYPE html><html><body>
+      <iframe src="${postingFrame}"></iframe>
+      <iframe src="${formFrame}"></iframe>
+    </body></html>`;
+    await withFixtureHtmlPage("<html><body></body></html>", async (page) => {
+      await page.context().route("**/*", (route) => {
+        const u = route.request().url();
+        return route.fulfill({
+          body: u.includes("in_iframe=1")
+            ? `<html><body><a href="/x">Apply for this job online</a></body></html>`
+            : u.includes("/apply/42")
+              ? `<html><body><form><label>Email<input type="email" name="email"/></label></form></body></html>`
+              : outer,
+          contentType: "text/html",
+        });
+      });
+      await page.goto("https://careers.example.com/jobs/42/listing", {
+        waitUntil: "domcontentloaded",
+      });
+      await page.waitForTimeout(500);
+      const hit = await findApplicationFrameUrl(page);
+      expect(hit!.url).toBe(formFrame);
+      expect(hit!.fieldCount).toBeGreaterThan(0);
+    });
+  }, 45_000);
+});
