@@ -68,6 +68,25 @@ export const workdaySelectorsV1 = {
       "input[data-automation-id='verificationCode'], input[autocomplete='one-time-code']",
     verificationSubmit:
       "button[data-automation-id='verifyButton'], button[data-automation-id='click_filter']",
+    /**
+     * #163 (operator screenshot 2026-09-03, Alcon "2027 Summer Software,
+     * Data & AI Engineering"): an account-verification wall with NO code
+     * input. The sign-in page itself carries a red banner — "Verify your
+     * account before you sign in or request a verification email" — and
+     * the email holds a LINK, not a code. The emailed-code handler
+     * required a visible code input, so this wall was never worked.
+     */
+    accountVerificationMarkers:
+      /verify your account|account (is )?not (yet )?verified|verify your email( address)? before|confirm your email( address)? before|request a verification email/i,
+    /** Re-send the verification email when the mailbox has none. */
+    resendVerification:
+      "a[href*='resend' i], button[id*='resend' i], button[name*='resend' i]",
+    resendVerificationNames: [
+      /resend account verification/i,
+      /resend verification( email)?/i,
+      /request a (new )?verification email/i,
+      /send verification email/i,
+    ] as RegExp[],
     /** Page-text markers. */
     signInMarkers: /sign in|log in/i,
     createAccountMarkers: /create account|create an account|sign up/i,

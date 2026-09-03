@@ -149,6 +149,27 @@ async function visibleNamed(
 }
 
 /**
+ * #163: the "Resend Account Verification" control on a link-only wall.
+ *
+ * Accessible NAME first, from the registry's anchored list — the raw
+ * `[href*=resend]` selector is the fallback, because a verification wall
+ * sits on a sign-in page and a loose match must never land on Sign In,
+ * Create Account or Forgot your password. Returns null rather than
+ * guessing; the caller then reports "no resend control" instead of
+ * clicking something arbitrary.
+ */
+async function findResendVerificationControl(
+  page: Page,
+  sel: { resendVerification: string; resendVerificationNames: RegExp[] },
+): Promise<Locator | null> {
+  for (const name of sel.resendVerificationNames) {
+    const named = await visibleNamed(page, name);
+    if (named) return named;
+  }
+  return firstVisible(page, sel.resendVerification);
+}
+
+/**
  * A <button> inside a <form> with no type, or type=submit, submits that
  * form. Workday's "Already have an account? Sign In" is type=button (a
  * view switch). The sandbox puts Create Account and Sign In on ONE page;
@@ -312,13 +333,26 @@ export async function authenticateAtsPortal(
       .innerText("body", { timeout: 3_000 })
       .then((t) => t.slice(0, 2_000))
       .catch(() => "");
-    if (!codeInput || !verificationEvidencePresent(pageText)) {
+    // #163: a wall can ask for verification with NO code input at all —
+    // the page just refuses to sign you in until you click the link in the
+    // email (live Alcon 2026-09-03: "Verify your account before you sign
+    // in or request a verification email", plus a Resend link). Requiring
+    // a code input meant that wall was never worked at all. The link path
+    // below already existed; only this gate kept it unreachable.
+    const linkOnlyWall =
+      !codeInput && sel.accountVerificationMarkers.test(pageText);
+    if (!verificationEvidencePresent(pageText) || (!codeInput && !linkOnlyWall)) {
       if (codeInput) {
         notes.push(
           "portal auth: code input present but page shows no verification prompt — mailbox not consulted",
         );
       }
       return null;
+    }
+    if (linkOnlyWall) {
+      notes.push(
+        "portal auth: account-verification wall with no code input — the email carries a link",
+      );
     }
     const waiter =
       seams.waiter !== undefined ? seams.waiter : resolveNavVerificationWaiter();
@@ -328,12 +362,44 @@ export async function authenticateAtsPortal(
       );
       return done("wall_remains", { escalated: input.escalated });
     }
-    const wait = await waiter(
+    let wait = await waiter(
       { sent_to: input.username, requested_at: new Date().toISOString() },
       [host],
     );
+    // #163: on a link-only wall the mailbox may hold nothing — the account
+    // was created in an earlier run and its email has long since been read
+    // or expired. The page offers its own "Resend Account Verification";
+    // click it ONCE and poll again. Bounded to a single resend: this sends
+    // real mail to the operator's own address, so it is a last resort, not
+    // a retry loop, and it never runs when the mailbox already had a link.
+    if (linkOnlyWall && wait.kind === "timeout") {
+      const resend = await findResendVerificationControl(page, sel);
+      if (resend) {
+        notes.push(
+          "portal auth: no verification email on file — clicking the page's own Resend once",
+        );
+        await resend.click({ timeout: 5_000 }).catch(() => undefined);
+        await settlePage(page, settle, 1_000);
+        wait = await waiter(
+          { sent_to: input.username, requested_at: new Date().toISOString() },
+          [host],
+        );
+      } else {
+        notes.push(
+          "portal auth: no verification email and no resend control on the page",
+        );
+      }
+    }
     let verificationUsed = false;
-    if (wait.kind === "code") {
+    if (wait.kind === "code" && !codeInput) {
+      // A code arrived but this wall has nowhere to type it (#163). Say so
+      // rather than pretending the wall was cleared.
+      notes.push(
+        "portal auth: mailbox returned a CODE but this wall has no code input — needs the link",
+      );
+      return done("wall_remains", { escalated: input.escalated });
+    }
+    if (wait.kind === "code" && codeInput) {
       secrets.push(wait.code);
       await codeInput.fill(wait.code, { timeout: 5_000 }).catch(() => undefined);
       const verifySubmit = await firstVisible(page, sel.verificationSubmit);
@@ -357,18 +423,25 @@ export async function authenticateAtsPortal(
       );
       return done("wall_remains", { escalated: input.escalated });
     }
+    const textAfter = await page
+      .innerText("body", { timeout: 3_000 })
+      .then((t) => t.slice(0, 2_000))
+      .catch(() => "");
     const stillCode =
       ((await firstVisible(page, sel.verificationCodeInput)) ??
         (await firstVisible(page, "input[autocomplete='one-time-code']"))) !==
-        null &&
-      verificationEvidencePresent(
-        await page
-          .innerText("body", { timeout: 3_000 })
-          .then((t) => t.slice(0, 2_000))
-          .catch(() => ""),
+        null && verificationEvidencePresent(textAfter);
+    // #163: a link-only wall clears by the BANNER going away — there is no
+    // code input whose absence could signal success, so the code check
+    // above would call an unchanged page "signed in".
+    const stillBanner =
+      linkOnlyWall && sel.accountVerificationMarkers.test(textAfter);
+    if (stillCode || stillBanner) {
+      notes.push(
+        stillBanner
+          ? "portal auth: account-verification banner still shown after opening the link"
+          : "portal auth: emailed-code wall remains",
       );
-    if (stillCode) {
-      notes.push("portal auth: emailed-code wall remains");
       return done("wall_remains", {
         verification: verificationUsed,
         escalated: input.escalated,
