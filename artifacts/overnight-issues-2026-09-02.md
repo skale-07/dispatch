@@ -497,6 +497,72 @@ remaining session budget. Tonight's own lesson (#155/#156) is that an
 un-gated, unvalidated change left in the working tree costs more than the
 wall it was meant to fix.
 
+## #160 — the render wait now says how it ended
+
+Direct consequence of #159's diagnosis costing a live re-probe. Seven apps
+parked UNKNOWN_LANDING across FIVE hosts in tonight's cycles, and the
+artifact's whole account was `no signals matched`. Read-only probes
+(`private/tmp-probe-landings.ts`) showed the bucket is at least two
+unrelated causes:
+
+```
+rivian.icims.com     main cta=true(script only) inputs=2 -> child frame: applyLinks=1   (#159)
+freddiemac.com       main cta=true inputs=100 applyButtons=2                            SPA paint
+careers.philips.com  main cta=true inputs=24  applyLinks=1 applyButtons=2               SPA paint
+oneatlas.hrmdirect   main cta=false inputs=0                                            unresolved
+jobs.l3harris.com    main cta=false inputs=0                                            unresolved
+```
+
+Those are three different fixes wearing one failure code. Nothing in the
+artifact separated them.
+
+`waitForRenderedContentDetailed` now reports polls, elapsed ms, final html
+size and how it settled (`marker` | `classified` | `timeout`), and the
+UNKNOWN_LANDING park prints that plus the child-frame URLs — so the #159
+iframe shape is identifiable from the artifact alone.
+
+It also stops once the page CLASSIFIES as form or posting, not only when
+the form marker matches. A posting-resolving SPA satisfies no form marker,
+so it used to poll the full 10s and then be judged on whatever the last
+read caught. `waitForRenderedContent` keeps its exact signature/return.
+
+Diagnostic + an earlier bounded exit; nothing new is clicked or filled.
+3 tests in `render-wait-evidence.test.ts` (classified-early exit, timeout
+with poll count, marker with no polling). Gate 1592/1592.
+FIXTURE_CONFIRMED.
+
+## Cycles C, D, E — the queue drained, the walls did not
+
+Cycle C (22 apps, 0 submits) exhausted the fresh queue: APPLICATION_OPENING
+went 39 → 4. Cycle D re-ran a hand-picked batch of 22 requeued attempt-1
+failures (JPMC chat, Composio take-home, Mastercard military datum and
+Stryker att9 deliberately excluded as operator-blocked) — 30 apps, 0
+submits. Re-running cycles is now returning nothing; the ceiling is the
+walls, not the queue.
+
+Ranked walls after four cycles (~105 attempts, 2 submissions):
+
+```
+  UNKNOWN_LANDING          7   -> #159 (icims iframe) + SPA paint + 2 unresolved
+  FAILED_BEFORE_CLICK      11  -> submit gate: "field verification or upload
+                                  did not pass" / "page failed identity gate"
+  FORM_NOT_REACHED         7
+  NO_APPLICATION_FORM      5
+  duplicate employer URL   5   -> nav dedupe, likely correct
+```
+
+**The #157 requeue experiment.** The three Rivian apps were requeued and
+re-run to test the fix on the exact pages that exposed it. Two lessons:
+
+- `requeueAmbiguousField` lands an app in FIELD_VERIFICATION, which goes
+  STRAIGHT to the submit gate without re-filling — all three refused
+  "Page failed identity gate (NO_APPLICATION_FORM)". To actually re-run a
+  form, requeue then `npm run retry` (FAILED_RETRYABLE → QUEUED). Cost a
+  full round trip to learn.
+- Re-run from QUEUED, they no longer touch the search box: #157 confirmed
+  live. They now stop at UNKNOWN_LANDING, which is #159 — a DIFFERENT and
+  previously masked wall, not a regression.
+
 ## State snapshot
 
 _Updated at each job boundary._
