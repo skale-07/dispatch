@@ -89,11 +89,12 @@ describe("LLM call ledger (UNIT_CONFIRMED)", () => {
     });
     // Surface is our own system prompt, whitespace-collapsed — never the
     // user prompt, which carries the operator's about-me and answer bank.
-    expect(records[0].surface).toBe("You are the outreach writer.");
-    expect(records[0].input_chars).toBe(
+    const record = records[0];
+    expect(record?.surface).toBe("You are the outreach writer.");
+    expect(record?.input_chars).toBe(
       "  You  are   the outreach   writer.  ".length + "write it".length,
     );
-    expect(typeof records[0].duration_ms).toBe("number");
+    expect(typeof record?.duration_ms).toBe("number");
   });
 
   it("records a failed call under the fallback model and rethrows", async () => {

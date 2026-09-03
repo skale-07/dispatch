@@ -238,6 +238,30 @@ export async function resolveAdvanceControl(
       return { found: true, control: candidate, via: "account-setup", notes };
     }
   }
-  notes.push("no Next/Continue advance control matched");
-  return { found: false, notes, inventory: [] };
+  // #158: say WHY, with evidence. A bare "no Next/Continue" cost three
+  // apps in one cycle (2026-09-03: recruiting.ultipro.com WES1022 /
+  // SCR1003 / HER1001 all stopped on the post-signup AuthCode/Register
+  // page) and nothing in the artifact said whether the #141 account-setup
+  // tier missed on the page marker, the file-input guard, or the button
+  // name — so diagnosing it needed another live run. The inventory is
+  // already built for the submit cascade; spend it here too and the NEXT
+  // occurrence names the control it should have matched.
+  const setupPageMatched = ACCOUNT_SETUP_PAGE_RE.test(bodyText);
+  notes.push(
+    `no Next/Continue advance control matched (account-setup tier: page marker ` +
+      `${setupPageMatched ? "matched" : "did NOT match"}, ${fileInputs} file input(s))`,
+  );
+  const inventory = await inventorySubmitCandidates(page, cfg.form).catch(
+    () => [] as CtaInventoryEntry[],
+  );
+  const visible = inventory.filter((c) => c.visible && !c.disabled);
+  notes.push(
+    visible.length === 0
+      ? `no visible enabled CTA on the page (${inventory.length} inventoried)`
+      : `visible CTAs: ${visible
+          .slice(0, 8)
+          .map((c) => `"${(c.aria_label ?? c.text).slice(0, 40)}"`)
+          .join(", ")}`,
+  );
+  return { found: false, notes, inventory };
 }

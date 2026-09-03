@@ -26,7 +26,54 @@ export function isUninformativeLabel(label: string): boolean {
   if (/^(type your (response|answer)|your (answer|response)|answer|response|select(\.\.\.| an option)?|choose(\.\.\.| one)?|please select)$/i.test(t)) {
     return true;
   }
+  // #157 (live rivian icims 2026-09-03): an UNTRANSLATED i18n key is not a
+  // question — the page shipped `JOBS.KEYWORD_SEARCH_PLACEHOLDER` as the
+  // literal placeholder. Whole-label, SCREAMING_CASE, at least one dot, no
+  // spaces: a real question has spaces long before it has that shape.
+  if (/^[A-Z][A-Z0-9_]*(\.[A-Z0-9_]+)+$/.test(t)) return true;
   return false;
+}
+
+/**
+ * #157: the site's own JOB SEARCH box is not an application field.
+ *
+ * Live rivian.icims.com 2026-09-03: the posting page carried
+ * `keyword-search` and `location-search`, the only two inputs on it. They
+ * were discovered, the page therefore classified as a `form`, the screener
+ * bank answered one and an LLM call INVENTED "United States" for the
+ * other, both read back empty and the app stopped AMBIGUOUS_FIELD — with
+ * the real application never opened. `pageClassify` already refuses this
+ * shape, but only when it also finds an Apply CTA; dropping the chrome at
+ * discovery makes the page fieldless and the Apply path runs regardless.
+ *
+ * Deliberately narrow — `search` alone is NOT enough. Workday's option
+ * pickers are `<input placeholder="Search">` inside a real application and
+ * must keep flowing (#67), so this requires the job-board search PAIRING
+ * (keyword/location/title/job + search) or one of the listing-page
+ * placeholders named in pageClassify's eightfold note.
+ */
+export function isJobSearchChrome(field: {
+  label: string;
+  name?: string | undefined;
+  inputId?: string | undefined;
+  attrs?: string | undefined;
+}): boolean {
+  // A Workday selectinput is an option picker inside an application form.
+  if (/data-uxi-widget-type\s*=\s*["']selectinput["']/i.test(field.attrs ?? "")) {
+    return false;
+  }
+  const machine = `${field.name ?? ""} ${field.inputId ?? ""}`.toLowerCase();
+  if (
+    /(^|[\s_-])(keyword|location|title|job)[\s_-]?search([\s_-]|$)/.test(machine) ||
+    /(^|[\s_-])search[\s_-]?(keyword|location|job|title)s?([\s_-]|$)/.test(machine)
+  ) {
+    return true;
+  }
+  const label = field.label.toLowerCase();
+  return (
+    /search by job title|job title, id|city, state, or country/.test(label) ||
+    /\b(keyword|location)_search_placeholder\b/.test(label)
+  );
 }
 
 // Legends and headings only. A preceding <label> belongs to a DIFFERENT
@@ -201,6 +248,12 @@ export function discoverFieldsFromHtml(
       dataFor ??
       name ??
       `field_${idx}`;
+
+    // #157: drop the listing page's own job-search box before it can be
+    // planned, mapped to a screener answer or sent to the LLM predictor.
+    if (isJobSearchChrome({ label, name, inputId, attrs })) {
+      continue;
+    }
 
     let fieldType = mapType(tag, typeAttr);
     // #67 (live tiaa 2026-08-31): Workday multiselect search inputs

@@ -264,6 +264,10 @@ export async function walkGenericFormPages(
       genericSelectorsV1.submitCascade,
     );
     if (!advance.found) {
+      // #158: the resolver's evidence was only kept on the SUCCESS path, so
+      // the one artifact that mattered — why the walk stopped — said just
+      // "no Next/Continue". Keep the notes on the failing branch instead.
+      notes.push(...advance.notes.map((n) => `form-advance: ${n}`));
       notes.push(
         `form-advance: no Next/Continue after page ${extra} — stopping`,
       );
