@@ -1,0 +1,53 @@
+{
+  "run_id": "nav-b8b255f7-cab6-4868-88ed-6db24989516a",
+  "application_id": "f6c9bdaa-df56-4423-a2a2-ba6f514311e9",
+  "jobright_job_id": "6ae93087adee4f4357b8b1e3",
+  "method": "agent",
+  "resolved_url": "https://careers.acme.com/apply/form",
+  "resolved_ats": "generic",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no external anchors"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "unresolved by deterministic phases"
+    },
+    {
+      "phase": "C_agent",
+      "outcome": "resolved (turn 1, employer match)",
+      "evidence": "careers.acme.com"
+    }
+  ],
+  "agent": {
+    "turns_used": 1,
+    "steps_used": 3,
+    "domains_visited": [
+      "careers.acme.com"
+    ]
+  },
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "no standard Apply control found (exact and broad name tiers both empty)",
+    "agent[1]: cred_available:false",
+    "agent[1]: leaked:none"
+  ],
+  "congruence": {
+    "verdict": "match",
+    "slug": "acme",
+    "detail": "token \"acme\" ~ slug \"acme\" (from URL host)",
+    "expected_company": "Acme",
+    "url": "https://careers.acme.com/apply/form"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-09-03T07:34:18.419Z"
+}

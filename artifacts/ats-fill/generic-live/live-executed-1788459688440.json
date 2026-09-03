@@ -1,0 +1,396 @@
+{
+  "ats": "generic",
+  "url": "https://sedarotech.bamboohr.com/careers/97",
+  "requested_url": "https://sedarotech.bamboohr.com/careers/97",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://sedarotech.bamboohr.com/careers/97",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 12,
+    "skipped_count": 5,
+    "review_required_count": 1
+  },
+  "plan_fields": [
+    {
+      "field_id": "firstName",
+      "label": "First Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "lastName",
+      "label": "Last Name",
+      "type": "text",
+      "canonical_field": "legal_name.last",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "email",
+      "label": "Email",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phone",
+      "label": "Phone",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "FabricTextField-335",
+      "label": "Address",
+      "type": "text",
+      "canonical_field": "address.line1",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "FabricTextField-336",
+      "label": "City",
+      "type": "text",
+      "canonical_field": "address.city",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "FabricTextField-338",
+      "label": "ZIP",
+      "type": "text",
+      "canonical_field": "address.postal_code",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f_7",
+      "label": "file-input",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "FabricTextField-2268",
+      "label": "Date Available",
+      "type": "text",
+      "canonical_field": "screener:start_availability",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "desiredPay",
+      "label": "Desired Pay",
+      "type": "text",
+      "canonical_field": "screener:salary_expectations",
+      "action": "REVIEW_REQUIRED",
+      "reason": "salary_expectations is a human decision by policy"
+    },
+    {
+      "field_id": "websiteUrl",
+      "label": "Website, Blog or Portfolio",
+      "type": "text",
+      "canonical_field": "personal_website",
+      "action": "SKIP",
+      "reason": "Profile value empty for personal_website"
+    },
+    {
+      "field_id": "linkedinUrl",
+      "label": "LinkedIn URL",
+      "type": "text",
+      "canonical_field": "linkedin_url",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "referredBy",
+      "label": "Who referred you for this position?",
+      "type": "text",
+      "canonical_field": "screener:referral_name",
+      "action": "SKIP",
+      "reason": "referral_name empty in bank — optional, skipped"
+    },
+    {
+      "field_id": "customQuestionAnswers.yes_no_260",
+      "label": "Are you legally authorized to work in the United States?",
+      "type": "radio",
+      "canonical_field": "work_authorization",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "customQuestionAnswers.yes_no_261",
+      "label": "Do you now, or will you in the future, require sponsorship for employment visa status (e.g., H-1B visa status, etc.) to work legally for our Company in the United States?",
+      "type": "radio",
+      "canonical_field": "requires_sponsorship",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "customQuestionAnswers.yes_no_262",
+      "label": "Are you able to work in person?",
+      "type": "radio",
+      "canonical_field": "screener:willing_to_relocate",
+      "action": "FILL",
+      "reason": "Screener bank answer (synonym_option)"
+    },
+    {
+      "field_id": "FabricTextField-54",
+      "label": "Link to This Job",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "f_20",
+      "label": "Search",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\generic-live\\form-snapshot-1788459528577.html",
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "legal_name.last",
+      "email",
+      "phone",
+      "address.line1",
+      "address.city",
+      "address.postal_code",
+      "screener:start_availability",
+      "linkedin_url",
+      "work_authorization",
+      "requires_sponsorship",
+      "screener:willing_to_relocate"
+    ],
+    "skipped": [],
+    "errors": [
+      "FabricTextField-2268: value cleared on blur twice (React state never took it)"
+    ],
+    "field_meta": [
+      {
+        "field_id": "firstName",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "lastName",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "phone",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "FabricTextField-335",
+        "canonical_field": "address.line1",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "FabricTextField-336",
+        "canonical_field": "address.city",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "FabricTextField-338",
+        "canonical_field": "address.postal_code",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "FabricTextField-2268",
+        "canonical_field": "screener:start_availability",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "linkedinUrl",
+        "canonical_field": "linkedin_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "customQuestionAnswers.yes_no_260",
+        "canonical_field": "work_authorization",
+        "control_kind": "text",
+        "selected_option": "yes"
+      },
+      {
+        "field_id": "customQuestionAnswers.yes_no_261",
+        "canonical_field": "requires_sponsorship",
+        "control_kind": "text",
+        "selected_option": "no"
+      },
+      {
+        "field_id": "customQuestionAnswers.yes_no_262",
+        "canonical_field": "screener:willing_to_relocate",
+        "control_kind": "text",
+        "selected_option": "yes"
+      }
+    ]
+  },
+  "verify": {
+    "passed": false,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.last",
+        "expected": "Kale",
+        "observed": "Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "address.line1",
+        "expected": "3510 N Charles St",
+        "observed": "3510 N Charles St",
+        "match": true
+      },
+      {
+        "canonical_field": "address.city",
+        "expected": "Baltimore, Maryland, USA",
+        "observed": "Baltimore, Maryland, USA",
+        "match": true
+      },
+      {
+        "canonical_field": "address.postal_code",
+        "expected": "21218",
+        "observed": "21218",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:start_availability",
+        "expected": "Flexible — aligned to the posted term",
+        "observed": "",
+        "match": false
+      },
+      {
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "match": true
+      },
+      {
+        "canonical_field": "work_authorization",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "requires_sponsorship",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:willing_to_relocate",
+        "expected": "Yes",
+        "observed": {
+          "value": "Yes",
+          "label": "Yes"
+        },
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 113381,
+      "verified": true,
+      "evidence": "input files: []; stillAttached=false; chip=true"
+    }
+  ],
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: posting (Apply CTA present and none of the 1 field(s) ask who you are — page furniture, not an application)",
+    "landed on a posting (Apply CTA present and none of the 1 field(s) ask who you are — page furniture, not an application); clicking Apply via role=button accessible name is Apply",
+    "Apply landed on: form (18 fillable field(s))",
+    "section-expand: expanded 4 collapsed section(s)",
+    "section-expand: expanded \"–Select–\"",
+    "section-expand: expanded \"Sep\"",
+    "section-expand: expanded \"United States\"",
+    "timing: base page (18 planned) — plan 7s, fill 118s, verify 39s",
+    "page error scan: no visible validation errors on the page",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "operator_brief": {
+    "title": "Live fill — generic https://sedarotech.bamboohr.com/careers/97",
+    "summary": "2 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:screener:start_availability",
+        "question": "Date Available",
+        "field_id": "FabricTextField-2268",
+        "canonical_field": "screener:start_availability",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Flexible — aligned to the posted term\"; page shows \"(empty)\"",
+        "expected": "Flexible — aligned to the posted term",
+        "observed": "",
+        "how_to_answer": [
+          "System expected \"Flexible — aligned to the posted term\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:start_availability)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:start_availability\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "fill_error:FabricTextField-2268: value cleared on blur twice (React state never took it)",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "FabricTextField-2268: value cleared on blur twice (React state never took it)",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      }
+    ],
+    "ok_count": 11,
+    "fail_count": 2
+  },
+  "written_at": "2026-09-03T18:21:28.859Z"
+}

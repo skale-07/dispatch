@@ -1,7 +1,7 @@
 {
   "mode": "executed",
   "ats": "greenhouse",
-  "url": "https://boards.greenhouse.io/tifin/jobs/5981740004",
+  "url": "https://boards.greenhouse.io/c3ascend/jobs/8739036002",
   "plan": {
     "answers": {
       "legal_name.first": "Shubham",
@@ -9,7 +9,26 @@
       "email": "s***@gmail.com",
       "address.country": "United States",
       "phone": "***-***-7636",
-      "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/"
+      "address.city": "Baltimore",
+      "degree": "Bachelor of Science",
+      "major": "Applied Mathematics and Statistics",
+      "start_month": "August",
+      "start_year": "2025",
+      "graduation_month": "May",
+      "graduation_year": "2029",
+      "screener:custom:predicted:question_37929961002": "Forward Deployed Engineer",
+      "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+      "screener:willing_to_relocate": "Yes",
+      "screener:how_heard": "LinkedIn",
+      "screener:custom:predicted:question_37929967002": "No",
+      "screener:custom:legal_name_if_different": "N/A",
+      "screener:requires_sponsorship": "[REDACTED_SPONSORSHIP]",
+      "application_consent:question_37929970002[]": true,
+      "screener:custom:predicted:question_37929971002": "Yes",
+      "gender": "Male",
+      "hispanic_latino": "No",
+      "veteran_status": "I am not a veteran",
+      "disability_status": "No"
     },
     "entries": [
       {
@@ -28,15 +47,6 @@
         "canonical_field": "legal_name.last",
         "action": "fill",
         "value": "Kale",
-        "reason": "Mapped from public profile"
-      },
-      {
-        "field_id": "preferred_name",
-        "label": "Preferred First Name",
-        "type": "text",
-        "canonical_field": "legal_name.first",
-        "action": "fill",
-        "value": "Shubham",
         "reason": "Mapped from public profile"
       },
       {
@@ -76,6 +86,15 @@
         "reason": "Mapped from public profile"
       },
       {
+        "field_id": "candidate-location",
+        "label": "Location (City)",
+        "type": "text",
+        "canonical_field": "address.city",
+        "action": "fill",
+        "value": "Baltimore",
+        "reason": "Mapped from public profile"
+      },
+      {
         "field_id": "resume",
         "label": "Attach",
         "type": "file",
@@ -85,16 +104,79 @@
         "reason": "File uploads handled via uploadResume/uploadCoverLetter"
       },
       {
-        "field_id": "cover_letter",
-        "label": "Attach",
-        "type": "file",
+        "field_id": "school--0",
+        "label": "School",
+        "type": "text",
         "canonical_field": null,
-        "action": "skip_file",
+        "action": "skip_unmapped",
         "value": null,
-        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+        "reason": "No answer-alias mapping"
       },
       {
-        "field_id": "question_17684836004",
+        "field_id": "degree--0",
+        "label": "Degree",
+        "type": "text",
+        "canonical_field": "degree",
+        "action": "fill",
+        "value": "Bachelor's Degree",
+        "reason": "Mapped from public profile; placed onto \"Bachelor's Degree\""
+      },
+      {
+        "field_id": "discipline--0",
+        "label": "Discipline",
+        "type": "text",
+        "canonical_field": "major",
+        "action": "fill",
+        "value": "Mathematics",
+        "reason": "Mapped from public profile; placed onto \"Mathematics\""
+      },
+      {
+        "field_id": "start-month--0",
+        "label": "Start date month",
+        "type": "text",
+        "canonical_field": "start_month",
+        "action": "fill",
+        "value": "August",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "start-year--0",
+        "label": "Start date year",
+        "type": "text",
+        "canonical_field": "start_year",
+        "action": "fill",
+        "value": "2025",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "end-month--0",
+        "label": "End date month",
+        "type": "text",
+        "canonical_field": "graduation_month",
+        "action": "fill",
+        "value": "May",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "end-year--0",
+        "label": "End date year",
+        "type": "text",
+        "canonical_field": "graduation_year",
+        "action": "fill",
+        "value": "2029",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_37929961002",
+        "label": "Review the role description provided below and select the role which you believe best aligns to your career interest.",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_37929961002",
+        "action": "fill",
+        "value": "Forward Deployed Engineer",
+        "reason": "Predicted from operator context (llm_predict): His stated interests center on AI systems that interact with real users and institutional workflows under messy real-world constraints, which maps to a forward deployed engineering role more than pure"
+      },
+      {
+        "field_id": "question_37929962002",
         "label": "LinkedIn Profile",
         "type": "text",
         "canonical_field": "linkedin_url",
@@ -103,40 +185,147 @@
         "reason": "Mapped from public profile"
       },
       {
-        "field_id": "question_17684837004",
-        "label": "Website",
+        "field_id": "question_37929963002",
+        "label": "Are you willing to work from our Headquarters in Redwood City, CA, full-time, 5 days a week?&nbsp;",
         "type": "text",
-        "canonical_field": "personal_website",
-        "action": "skip_empty",
+        "canonical_field": "screener:willing_to_relocate",
+        "action": "fill",
+        "value": "Yes",
+        "reason": "Screener bank answer (synonym_option)"
+      },
+      {
+        "field_id": "question_37929964002",
+        "label": "What is your expected graduation month and year?",
+        "type": "text",
+        "canonical_field": "graduation_year",
+        "action": "fill",
+        "value": "January 2029 or later",
+        "reason": "Mapped from public profile; placed onto \"January 2029 or later\""
+      },
+      {
+        "field_id": "question_37929965002",
+        "label": "How did you hear about C3 AI?",
+        "type": "text",
+        "canonical_field": "screener:how_heard",
+        "action": "fill",
+        "value": "LinkedIn",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_37929966002",
+        "label": "If you heard about us from a campus recruiting event, then please indicate which event you attended.",
+        "type": "text",
+        "canonical_field": "screener:how_heard",
+        "action": "review_required",
         "value": null,
-        "reason": "Profile value empty for personal_website"
+        "reason": "how_heard: bank answer \"LinkedIn\" matches none of the 10 page options — review"
+      },
+      {
+        "field_id": "question_37929967002",
+        "label": "Are you being referred to this role as part of the Campus Referral Program?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_37929967002",
+        "action": "fill",
+        "value": "No",
+        "reason": "Predicted from operator context (llm_predict): Saved registry shows no referral name and he heard about roles via LinkedIn."
+      },
+      {
+        "field_id": "question_37929968002",
+        "label": "What is the full name of your referrer? (If you selected no, please type: N/A)",
+        "type": "text",
+        "canonical_field": "screener:custom:legal_name_if_different",
+        "action": "fill",
+        "value": "N/A",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "question_37929969002",
+        "label": "Do you now or will you in the future require immigration sponsorship to work at C3 AI?",
+        "type": "text",
+        "canonical_field": "screener:requires_sponsorship",
+        "action": "fill",
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Screener bank answer (profile_derived)"
+      },
+      {
+        "field_id": "question_37929970002[]",
+        "label": "By clicking the “I Accept” button, you confirm that you have read C3 AI’s Applicant & Candidate Privacy Notice [https://c3.ai/c3ai-inc-applicant-and-candidate-privacy-notice] and you provide the specific consents identified below. Except where C3 AI expressly asks for your consent, C3 AI processes your personal data for recruitment on the basis of its legitimate interests and to take steps at your request before any employment relationship, and you are not required to consent to that processing: C3 AI collects your personal data for the purposes of managing C3 AI",
+        "type": "checkbox",
+        "canonical_field": "application_consent:question_37929970002[]",
+        "action": "fill",
+        "value": true,
+        "reason": "Application terms/confirmation checkbox"
+      },
+      {
+        "field_id": "question_37929971002",
+        "label": "Do you consent to receiving follow up communication via text message (or SMS message) regarding your application to the phone number you provided?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_37929971002",
+        "action": "fill",
+        "value": "Yes",
+        "reason": "Predicted from operator context (llm_predict): Prior learned answer for an equivalent SMS consent question was Yes."
+      },
+      {
+        "field_id": "gender",
+        "label": "Gender",
+        "type": "text",
+        "canonical_field": "gender",
+        "action": "fill",
+        "value": "Male",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "hispanic_ethnicity",
+        "label": "Are you Hispanic/Latino?",
+        "type": "text",
+        "canonical_field": "hispanic_latino",
+        "action": "fill",
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "veteran_status",
+        "label": "Veteran Status",
+        "type": "text",
+        "canonical_field": "veteran_status",
+        "action": "fill",
+        "value": "I am not a veteran",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "disability_status",
+        "label": "Disability Status",
+        "type": "text",
+        "canonical_field": "disability_status",
+        "action": "fill",
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
       }
     ],
-    "fillable_count": 7,
-    "skipped_count": 4,
-    "review_required_count": 0
+    "fillable_count": 26,
+    "skipped_count": 3,
+    "review_required_count": 1
   },
   "submit_attempted": false,
   "notes": [
     "session: handoff (caller-owned page, not closed here)",
-    "popups dismissed: close (aria-label), Reject All",
-    "application form found in an iframe (11 fields) — hopping to https://job-boards.greenhouse.io/embed/job_app?for=tifin&validityToken=h3eihoNUuFbWpxDSVhlXGJti3Vcr-6bJLUQg1L5tBI6xO7bE_PM10fZ2IsgpAtNqSOYBeJ2zCLnOWXsBwtEd6CRTOVWe0XUyFh3fPzMzRtSx_KquCWXjRPcA7fy36AnZNhC2DrLGms1bbPVrOe6QmVhZNyeIbPWJ9b_AFkvxdZ8e8e1Q8ZRfL-k5MLqkh-pw7WpKXB-uM1I9BRmHp73IVkzSTM_QSXOBZSK_W7q-CTO-f2R49TZkm0w4FvXSSSU4wzF2foK_VCGh4l1aw7K-2JFyaLuU4wNL5mwJ819Pw9kb6lVlytkiUikuTrxMVjExI3dBK2HFl8frIe2k5MA3YA%3D%3D&token=5981740004",
-    "schema diff: 7/9 declared question(s) matched onto 11 DOM field(s); 2 declared-only (0 required); 4 DOM-only",
-    "board API declared 9 question(s); matched complete option lists onto 0 field(s)",
-    "option harvest: scraped real options for 1/8 control(s) before planning",
+    "schema diff: 15/16 declared question(s) matched onto 30 DOM field(s); 1 declared-only (1 required); 15 DOM-only",
+    "board API declared 16 question(s); matched complete option lists onto 9 field(s)",
+    "option harvest: \"Location (City)\" is a combobox but offered no readable options",
+    "option harvest: scraped real options for 10/19 control(s) before planning",
     "frozen after fill→verify→upload — no further field mutation; submit never called"
   ],
   "validation_level": "LIVE_MUTATION_CONFIRMED",
-  "final_url": "https://job-boards.greenhouse.io/embed/job_app?for=tifin&validityToken=h3eihoNUuFbWpxDSVhlXGJti3Vcr-6bJLUQg1L5tBI6xO7bE_PM10fZ2IsgpAtNqSOYBeJ2zCLnOWXsBwtEd6CRTOVWe0XUyFh3fPzMzRtSx_KquCWXjRPcA7fy36AnZNhC2DrLGms1bbPVrOe6QmVhZNyeIbPWJ9b_AFkvxdZ8e8e1Q8ZRfL-k5MLqkh-pw7WpKXB-uM1I9BRmHp73IVkzSTM_QSXOBZSK_W7q-CTO-f2R49TZkm0w4FvXSSSU4wzF2foK_VCGh4l1aw7K-2JFyaLuU4wNL5mwJ819Pw9kb6lVlytkiUikuTrxMVjExI3dBK2HFl8frIe2k5MA3YA%3D%3D&token=5981740004",
+  "final_url": "https://job-boards.greenhouse.io/c3ascend/jobs/8739036002",
   "identity_verification": {
-    "requestedUrl": "https://boards.greenhouse.io/tifin/jobs/5981740004",
-    "finalUrl": "https://job-boards.greenhouse.io/embed/job_app?for=tifin&validityToken=h3eihoNUuFbWpxDSVhlXGJti3Vcr-6bJLUQg1L5tBI6xO7bE_PM10fZ2IsgpAtNqSOYBeJ2zCLnOWXsBwtEd6CRTOVWe0XUyFh3fPzMzRtSx_KquCWXjRPcA7fy36AnZNhC2DrLGms1bbPVrOe6QmVhZNyeIbPWJ9b_AFkvxdZ8e8e1Q8ZRfL-k5MLqkh-pw7WpKXB-uM1I9BRmHp73IVkzSTM_QSXOBZSK_W7q-CTO-f2R49TZkm0w4FvXSSSU4wzF2foK_VCGh4l1aw7K-2JFyaLuU4wNL5mwJ819Pw9kb6lVlytkiUikuTrxMVjExI3dBK2HFl8frIe2k5MA3YA%3D%3D&token=5981740004",
-    "requestedJobId": "5981740004",
-    "observedJobId": "5981740004",
-    "company": "tifin",
-    "role": "Job Application for AI Engineering Intern, TIFIN.ai at TIFIN",
+    "requestedUrl": "https://boards.greenhouse.io/c3ascend/jobs/8739036002",
+    "finalUrl": "https://job-boards.greenhouse.io/c3ascend/jobs/8739036002",
+    "requestedJobId": "8739036002",
+    "observedJobId": "8739036002",
+    "company": "c3ascend",
+    "role": "Job Application for Software Engineer - Intern (Summer 2027) at C3 AI Ascend Internship Program: Summer 2027",
     "formDetected": true,
-    "fieldCount": 11,
+    "fieldCount": 30,
     "warnings": [
       "login_wall_low: auth_provider_marker"
     ],
@@ -163,26 +352,33 @@
   "failure_code": null,
   "mutation_attempted": true,
   "schema_diff": {
-    "board": "tifin",
-    "job_id": "5981740004",
-    "declared_count": 9,
-    "dom_count": 11,
-    "matched": 7,
+    "board": "c3ascend",
+    "job_id": "8739036002",
+    "declared_count": 16,
+    "dom_count": 30,
+    "matched": 15,
     "api_only": [
       {
         "label": "Resume/CV",
-        "required": false
-      },
-      {
-        "label": "Cover Letter",
-        "required": false
+        "required": true
       }
     ],
     "dom_only": [
       "Country",
       "Search",
+      "Location (City)",
       "Attach",
-      "Attach"
+      "School",
+      "Degree",
+      "Discipline",
+      "Start date month",
+      "Start date year",
+      "End date month",
+      "End date year",
+      "Gender",
+      "Are you Hispanic/Latino?",
+      "Veteran Status",
+      "Disability Status"
     ],
     "option_mismatches": []
   },
@@ -220,6 +416,179 @@
         "Benin +229"
       ],
       "other_option": null
+    },
+    {
+      "field_id": "school--0",
+      "label": "School",
+      "answer_space": "closed",
+      "option_count": 100,
+      "options": [
+        "Aalborg University",
+        "Aalto University",
+        "Aarhus University",
+        "Abertay University",
+        "Aberystwyth University",
+        "Abilene Christian University",
+        "Abo Akademi University",
+        "Abraham Baldwin Agricultural College",
+        "Abu Dhabi University",
+        "Academy of Art University",
+        "Acadia University",
+        "Acharya Nagarjuna University",
+        "Acupuncture and Integrative Medicine College - Berkeley",
+        "Adams State University",
+        "Adelphi University",
+        "Adrian College",
+        "Adventist University of Health Sciences",
+        "Agnes Scott College",
+        "AIB College of Business",
+        "Ain Shams University",
+        "Airlangga University",
+        "Ajou University",
+        "Alabama A&M University",
+        "Alabama State University",
+        "Alaska Pacific University"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "degree--0",
+      "label": "Degree",
+      "answer_space": "closed",
+      "option_count": 6,
+      "options": [
+        "Bachelor's Degree",
+        "Doctor of Philosophy (Ph.D.)",
+        "Juris Doctor (J.D.)",
+        "Master of Business Administration (M.B.A.)",
+        "Master's Degree",
+        "Other"
+      ],
+      "other_option": "Other"
+    },
+    {
+      "field_id": "discipline--0",
+      "label": "Discipline",
+      "answer_space": "closed",
+      "option_count": 73,
+      "options": [
+        "Accounting",
+        "African Studies",
+        "Agriculture",
+        "Anthropology",
+        "Applied Health Services",
+        "Architecture",
+        "Art",
+        "Asian Studies",
+        "Biology",
+        "Business",
+        "Business Administration",
+        "Chemistry",
+        "Classical Languages",
+        "Communications & Film",
+        "Computer Science",
+        "Data Science",
+        "Dentistry",
+        "Developing Nations",
+        "Discipline Unknown",
+        "Earth Sciences",
+        "Economics",
+        "Education",
+        "Electronics",
+        "Engineering",
+        "English Studies"
+      ],
+      "other_option": "Other"
+    },
+    {
+      "field_id": "start-month--0",
+      "label": "Start date month",
+      "answer_space": "closed",
+      "option_count": 12,
+      "options": [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "end-month--0",
+      "label": "End date month",
+      "answer_space": "closed",
+      "option_count": 12,
+      "options": [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "gender",
+      "label": "Gender",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "Male",
+        "Female",
+        "Decline To Self Identify"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "hispanic_ethnicity",
+      "label": "Are you Hispanic/Latino?",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "Yes",
+        "No",
+        "Decline To Self Identify"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "veteran_status",
+      "label": "Veteran Status",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "I am not a protected veteran",
+        "I identify as one or more of the classifications of a protected veteran",
+        "I don't wish to answer"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "disability_status",
+      "label": "Disability Status",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "Yes, I have a disability, or have had one in the past",
+        "No, I do not have a disability and have not had one in the past",
+        "I do not want to answer"
+      ],
+      "other_option": null
     }
   ],
   "approved_plan": {
@@ -242,16 +611,6 @@
         "action": "FILL",
         "approved": true,
         "value": "Kale",
-        "reason": "Mapped from public profile"
-      },
-      {
-        "field_id": "preferred_name",
-        "label": "Preferred First Name",
-        "type": "text",
-        "canonical_field": "legal_name.first",
-        "action": "FILL",
-        "approved": true,
-        "value": "Shubham",
         "reason": "Mapped from public profile"
       },
       {
@@ -295,6 +654,16 @@
         "reason": "Mapped from public profile"
       },
       {
+        "field_id": "candidate-location",
+        "label": "Location (City)",
+        "type": "text",
+        "canonical_field": "address.city",
+        "action": "FILL",
+        "approved": true,
+        "value": "Baltimore",
+        "reason": "Mapped from public profile"
+      },
+      {
         "field_id": "resume",
         "label": "Attach",
         "type": "file",
@@ -305,17 +674,87 @@
         "reason": "File uploads handled via uploadResume/uploadCoverLetter"
       },
       {
-        "field_id": "cover_letter",
-        "label": "Attach",
-        "type": "file",
+        "field_id": "school--0",
+        "label": "School",
+        "type": "text",
         "canonical_field": null,
         "action": "SKIP",
         "approved": false,
         "value": null,
-        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+        "reason": "No answer-alias mapping"
       },
       {
-        "field_id": "question_17684836004",
+        "field_id": "degree--0",
+        "label": "Degree",
+        "type": "text",
+        "canonical_field": "degree",
+        "action": "FILL",
+        "approved": true,
+        "value": "Bachelor's Degree",
+        "reason": "Mapped from public profile; placed onto \"Bachelor's Degree\""
+      },
+      {
+        "field_id": "discipline--0",
+        "label": "Discipline",
+        "type": "text",
+        "canonical_field": "major",
+        "action": "FILL",
+        "approved": true,
+        "value": "Mathematics",
+        "reason": "Mapped from public profile; placed onto \"Mathematics\""
+      },
+      {
+        "field_id": "start-month--0",
+        "label": "Start date month",
+        "type": "text",
+        "canonical_field": "start_month",
+        "action": "FILL",
+        "approved": true,
+        "value": "August",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "start-year--0",
+        "label": "Start date year",
+        "type": "text",
+        "canonical_field": "start_year",
+        "action": "FILL",
+        "approved": true,
+        "value": "2025",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "end-month--0",
+        "label": "End date month",
+        "type": "text",
+        "canonical_field": "graduation_month",
+        "action": "FILL",
+        "approved": true,
+        "value": "May",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "end-year--0",
+        "label": "End date year",
+        "type": "text",
+        "canonical_field": "graduation_year",
+        "action": "FILL",
+        "approved": true,
+        "value": "2029",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_37929961002",
+        "label": "Review the role description provided below and select the role which you believe best aligns to your career interest.",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_37929961002",
+        "action": "FILL",
+        "approved": true,
+        "value": "Forward Deployed Engineer",
+        "reason": "Predicted from operator context (llm_predict): His stated interests center on AI systems that interact with real users and institutional workflows under messy real-world constraints, which maps to a forward deployed engineering role more than pure"
+      },
+      {
+        "field_id": "question_37929962002",
         "label": "LinkedIn Profile",
         "type": "text",
         "canonical_field": "linkedin_url",
@@ -325,14 +764,134 @@
         "reason": "Mapped from public profile"
       },
       {
-        "field_id": "question_17684837004",
-        "label": "Website",
+        "field_id": "question_37929963002",
+        "label": "Are you willing to work from our Headquarters in Redwood City, CA, full-time, 5 days a week?&nbsp;",
         "type": "text",
-        "canonical_field": "personal_website",
-        "action": "SKIP",
+        "canonical_field": "screener:willing_to_relocate",
+        "action": "FILL",
+        "approved": true,
+        "value": "Yes",
+        "reason": "Screener bank answer (synonym_option)"
+      },
+      {
+        "field_id": "question_37929964002",
+        "label": "What is your expected graduation month and year?",
+        "type": "text",
+        "canonical_field": "graduation_year",
+        "action": "FILL",
+        "approved": true,
+        "value": "January 2029 or later",
+        "reason": "Mapped from public profile; placed onto \"January 2029 or later\""
+      },
+      {
+        "field_id": "question_37929965002",
+        "label": "How did you hear about C3 AI?",
+        "type": "text",
+        "canonical_field": "screener:how_heard",
+        "action": "FILL",
+        "approved": true,
+        "value": "LinkedIn",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_37929966002",
+        "label": "If you heard about us from a campus recruiting event, then please indicate which event you attended.",
+        "type": "text",
+        "canonical_field": "screener:how_heard",
+        "action": "REVIEW_REQUIRED",
         "approved": false,
         "value": null,
-        "reason": "Profile value empty for personal_website"
+        "reason": "how_heard: bank answer \"LinkedIn\" matches none of the 10 page options — review"
+      },
+      {
+        "field_id": "question_37929967002",
+        "label": "Are you being referred to this role as part of the Campus Referral Program?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_37929967002",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Predicted from operator context (llm_predict): Saved registry shows no referral name and he heard about roles via LinkedIn."
+      },
+      {
+        "field_id": "question_37929968002",
+        "label": "What is the full name of your referrer? (If you selected no, please type: N/A)",
+        "type": "text",
+        "canonical_field": "screener:custom:legal_name_if_different",
+        "action": "FILL",
+        "approved": true,
+        "value": "N/A",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "question_37929969002",
+        "label": "Do you now or will you in the future require immigration sponsorship to work at C3 AI?",
+        "type": "text",
+        "canonical_field": "screener:requires_sponsorship",
+        "action": "FILL",
+        "approved": true,
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Screener bank answer (profile_derived)"
+      },
+      {
+        "field_id": "question_37929970002[]",
+        "label": "By clicking the “I Accept” button, you confirm that you have read C3 AI’s Applicant & Candidate Privacy Notice [https://c3.ai/c3ai-inc-applicant-and-candidate-privacy-notice] and you provide the specific consents identified below. Except where C3 AI expressly asks for your consent, C3 AI processes your personal data for recruitment on the basis of its legitimate interests and to take steps at your request before any employment relationship, and you are not required to consent to that processing: C3 AI collects your personal data for the purposes of managing C3 AI",
+        "type": "checkbox",
+        "canonical_field": "application_consent:question_37929970002[]",
+        "action": "FILL",
+        "approved": true,
+        "value": true,
+        "reason": "Application terms/confirmation checkbox"
+      },
+      {
+        "field_id": "question_37929971002",
+        "label": "Do you consent to receiving follow up communication via text message (or SMS message) regarding your application to the phone number you provided?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_37929971002",
+        "action": "FILL",
+        "approved": true,
+        "value": "Yes",
+        "reason": "Predicted from operator context (llm_predict): Prior learned answer for an equivalent SMS consent question was Yes."
+      },
+      {
+        "field_id": "gender",
+        "label": "Gender",
+        "type": "text",
+        "canonical_field": "gender",
+        "action": "FILL",
+        "approved": true,
+        "value": "Male",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "hispanic_ethnicity",
+        "label": "Are you Hispanic/Latino?",
+        "type": "text",
+        "canonical_field": "hispanic_latino",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "veteran_status",
+        "label": "Veteran Status",
+        "type": "text",
+        "canonical_field": "veteran_status",
+        "action": "FILL",
+        "approved": true,
+        "value": "I am not a veteran",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "disability_status",
+        "label": "Disability Status",
+        "type": "text",
+        "canonical_field": "disability_status",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
       }
     ],
     "answers": {
@@ -341,21 +900,59 @@
       "email": "s***@gmail.com",
       "address.country": "United States +1",
       "phone": "***-***-7636",
-      "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/"
+      "address.city": "Baltimore",
+      "degree": "Bachelor's Degree",
+      "major": "Mathematics",
+      "start_month": "August",
+      "start_year": "2025",
+      "graduation_month": "May",
+      "graduation_year": "January 2029 or later",
+      "screener:custom:predicted:question_37929961002": "Forward Deployed Engineer",
+      "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+      "screener:willing_to_relocate": "Yes",
+      "screener:how_heard": "LinkedIn",
+      "screener:custom:predicted:question_37929967002": "No",
+      "screener:custom:legal_name_if_different": "N/A",
+      "screener:requires_sponsorship": "[REDACTED_SPONSORSHIP]",
+      "application_consent:question_37929970002[]": true,
+      "screener:custom:predicted:question_37929971002": "Yes",
+      "gender": "Male",
+      "hispanic_latino": "No",
+      "veteran_status": "I am not a veteran",
+      "disability_status": "No"
     },
-    "fillable_count": 7,
-    "skipped_count": 4,
-    "review_required_count": 0
+    "fillable_count": 26,
+    "skipped_count": 3,
+    "review_required_count": 1
   },
   "fill": {
     "filled": [
       "legal_name.first",
       "legal_name.last",
-      "legal_name.first",
       "email",
       "address.country",
       "phone",
-      "linkedin_url"
+      "address.city",
+      "degree",
+      "major",
+      "start_month",
+      "start_year",
+      "graduation_month",
+      "graduation_year",
+      "screener:custom:predicted:question_37929961002",
+      "linkedin_url",
+      "screener:willing_to_relocate",
+      "graduation_year",
+      "screener:how_heard",
+      "screener:custom:predicted:question_37929967002",
+      "screener:custom:legal_name_if_different",
+      "screener:requires_sponsorship",
+      "application_consent:question_37929970002[]",
+      "screener:custom:predicted:question_37929971002",
+      "gender",
+      "hispanic_latino",
+      "veteran_status",
+      "disability_status"
     ],
     "skipped": [],
     "errors": [],
@@ -368,11 +965,6 @@
       {
         "field_id": "last_name",
         "canonical_field": "legal_name.last",
-        "control_kind": "text"
-      },
-      {
-        "field_id": "preferred_name",
-        "canonical_field": "legal_name.first",
         "control_kind": "text"
       },
       {
@@ -397,9 +989,205 @@
         "control_kind": "text"
       },
       {
-        "field_id": "question_17684836004",
+        "field_id": "candidate-location",
+        "canonical_field": "address.city",
+        "control_kind": "combobox",
+        "selected_option": "Baltimore, Maryland, United States",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "filter \"Baltimore\" then picked \"Baltimore, Maryland, United States\" (exact)"
+        ]
+      },
+      {
+        "field_id": "degree--0",
+        "canonical_field": "degree",
+        "control_kind": "combobox",
+        "selected_option": "Bachelor's Degree",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Bachelor's Degree\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "discipline--0",
+        "canonical_field": "major",
+        "control_kind": "combobox",
+        "selected_option": "Mathematics",
+        "match_via": "synonym",
+        "notes": [
+          "opened via control click",
+          "picked \"Mathematics\" (synonym) from open list"
+        ]
+      },
+      {
+        "field_id": "start-month--0",
+        "canonical_field": "start_month",
+        "control_kind": "combobox",
+        "selected_option": "August",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"August\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "start-year--0",
+        "canonical_field": "start_year",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "end-month--0",
+        "canonical_field": "graduation_month",
+        "control_kind": "combobox",
+        "selected_option": "May",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"May\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "end-year--0",
+        "canonical_field": "graduation_year",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_37929961002",
+        "canonical_field": "screener:custom:predicted:question_37929961002",
+        "control_kind": "combobox",
+        "selected_option": "Forward Deployed Engineer",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Forward Deployed Engineer\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_37929962002",
         "canonical_field": "linkedin_url",
         "control_kind": "text"
+      },
+      {
+        "field_id": "question_37929963002",
+        "canonical_field": "screener:willing_to_relocate",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_37929964002",
+        "canonical_field": "graduation_year",
+        "control_kind": "combobox",
+        "selected_option": "January 2029 or later",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"January 2029 or later\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_37929965002",
+        "canonical_field": "screener:how_heard",
+        "control_kind": "combobox",
+        "selected_option": "LinkedIn",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"LinkedIn\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_37929967002",
+        "canonical_field": "screener:custom:predicted:question_37929967002",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_37929968002",
+        "canonical_field": "screener:custom:legal_name_if_different",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_37929969002",
+        "canonical_field": "screener:requires_sponsorship",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_37929970002[]",
+        "canonical_field": "application_consent:question_37929970002[]",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_37929971002",
+        "canonical_field": "screener:custom:predicted:question_37929971002",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "gender",
+        "canonical_field": "gender",
+        "control_kind": "combobox",
+        "selected_option": "Male",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Male\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "hispanic_ethnicity",
+        "canonical_field": "hispanic_latino",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "veteran_status",
+        "canonical_field": "veteran_status",
+        "control_kind": "combobox",
+        "selected_option": "I am not a protected veteran",
+        "match_via": "synonym",
+        "notes": [
+          "opened via control click",
+          "picked \"I am not a protected veteran\" (synonym) from open list"
+        ]
+      },
+      {
+        "field_id": "disability_status",
+        "canonical_field": "disability_status",
+        "control_kind": "combobox",
+        "selected_option": "No, I do not have a disability and have not had one in the past",
+        "match_via": "synonym",
+        "notes": [
+          "opened via control click",
+          "picked \"No, I do not have a disability and have not had one in the past\" (synonym) from open list"
+        ]
       }
     ]
   },
@@ -416,12 +1204,6 @@
         "canonical_field": "legal_name.last",
         "expected": "Kale",
         "observed": "Kale",
-        "match": true
-      },
-      {
-        "canonical_field": "legal_name.first",
-        "expected": "Shubham",
-        "observed": "Shubham",
         "match": true
       },
       {
@@ -446,9 +1228,174 @@
         "match": true
       },
       {
+        "canonical_field": "address.city",
+        "expected": "Baltimore",
+        "observed": {
+          "value": "Baltimore, Maryland, United States",
+          "label": "Baltimore, Maryland, United States"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "degree",
+        "expected": "Bachelor's Degree",
+        "observed": {
+          "value": "Bachelor's Degree",
+          "label": "Bachelor's Degree"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "major",
+        "expected": "Mathematics",
+        "observed": {
+          "value": "Mathematics",
+          "label": "Mathematics"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "start_month",
+        "expected": "August",
+        "observed": {
+          "value": "August",
+          "label": "August"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "start_year",
+        "expected": "2025",
+        "observed": "2025",
+        "match": true
+      },
+      {
+        "canonical_field": "graduation_month",
+        "expected": "May",
+        "observed": {
+          "value": "May",
+          "label": "May"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "graduation_year",
+        "expected": "2029",
+        "observed": "2029",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_37929961002",
+        "expected": "Forward Deployed Engineer",
+        "observed": {
+          "value": "Forward Deployed Engineer",
+          "label": "Forward Deployed Engineer"
+        },
+        "match": true
+      },
+      {
         "canonical_field": "linkedin_url",
         "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
         "observed": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:willing_to_relocate",
+        "expected": "Yes",
+        "observed": {
+          "value": "Yes",
+          "label": "Yes"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "graduation_year",
+        "expected": "January 2029 or later",
+        "observed": {
+          "value": "January 2029 or later",
+          "label": "January 2029 or later"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:how_heard",
+        "expected": "LinkedIn",
+        "observed": {
+          "value": "LinkedIn",
+          "label": "LinkedIn"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_37929967002",
+        "expected": "No",
+        "observed": {
+          "value": "No",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:legal_name_if_different",
+        "expected": "N/A",
+        "observed": "N/A",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:requires_sponsorship",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "application_consent:question_37929970002[]",
+        "expected": true,
+        "observed": true,
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_37929971002",
+        "expected": "Yes",
+        "observed": {
+          "value": "Yes",
+          "label": "Yes"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "gender",
+        "expected": "Male",
+        "observed": {
+          "value": "Male",
+          "label": "Male"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "hispanic_latino",
+        "expected": "No",
+        "observed": {
+          "value": "No",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "veteran_status",
+        "expected": "I am not a veteran",
+        "observed": {
+          "value": "I am not a protected veteran",
+          "label": "I am not a protected veteran"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "disability_status",
+        "expected": "No",
+        "observed": {
+          "value": "No, I do not have a disability and have not had one in the past",
+          "label": "No, I do not have a disability and have not had one in the past"
+        },
         "match": true
       }
     ],
@@ -465,5 +1412,5 @@
       "evidence": "input files: []; stillAttached=false; chip=true"
     }
   ],
-  "written_at": "2026-09-03T04:55:40.194Z"
+  "written_at": "2026-09-03T18:04:57.109Z"
 }

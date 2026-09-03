@@ -1,0 +1,47 @@
+{
+  "run_id": "nav-8d1aa93f-8da1-405a-afa0-7bb9aa361b91",
+  "application_id": "7ecf512b-a88d-4159-8743-7a6373c1e56f",
+  "jobright_job_id": "6a7ccc65d77e8156a8e34520",
+  "method": "apply_click_popup",
+  "resolved_url": "https://www.linkedin.com/jobs/view/4450173981",
+  "resolved_ats": "generic",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no congruent apply href (12 external links)",
+      "evidence": "www.linkedin.com, x.com, www.crunchbase.com, www.glassdoor.com, www.westerndigital.com, www.marketscreener.com"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "resolved via popup",
+      "evidence": "www.linkedin.com"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "phase A: 7 external host(s) seen: www.linkedin.com, x.com, www.crunchbase.com, www.glassdoor.com, www.westerndigital.com, www.marketscreener.com, www.benzinga.com",
+    "Apply control matched via broad name tier",
+    "jobright interstitial: clicked \"Apply Without Customizing\"",
+    "popup settled off about:blank after the interstitial",
+    "popup captured on attempt 1",
+    "employer congruence unverifiable (no employer name decodable from URL (host and path are generic)) — recorded"
+  ],
+  "congruence": {
+    "verdict": "unknown",
+    "slug": null,
+    "detail": "no employer name decodable from URL (host and path are generic)",
+    "expected_company": "WD",
+    "url": "https://www.linkedin.com/jobs/view/4450173981?jr_id=6a7ccc65d77e8156a8e34520"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-09-03T18:17:48.407Z"
+}

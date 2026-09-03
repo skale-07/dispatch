@@ -1,0 +1,94 @@
+{
+  "ats": "generic",
+  "url": "https://www.careers.philips.com/na/en/job/PHILUS590567ENNA/graduate-level-co-op-data-scientist-plymouth-mn-january-2027",
+  "requested_url": "https://www.careers.philips.com/na/en/job/PHILUS590567ENNA/graduate-level-co-op-data-scientist-plymouth-mn-january-2027",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://www.careers.philips.com/na/en/job/PHILUS590567ENNA/Graduate-Level-Co-op-Data-Scientist-Plymouth-MN-January-2027",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 1,
+    "skipped_count": 3,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "save-PHILUS590567ENNA",
+      "label": "Save Graduate Level Co-op – Data Scientist – Plymouth, MN – January 2027 to job cart",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "f_1",
+      "label": "Share job link",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "save-PHILUS590567ENNA",
+      "label": "Save Graduate Level Co-op – Data Scientist – Plymouth, MN – January 2027 to job cart",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "notifiedEmail",
+      "label": "Enter Email address (Required)",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\generic-live\\form-snapshot-1788420284491.html",
+  "fill": {
+    "filled": [
+      "email"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "notifiedEmail",
+        "canonical_field": "email",
+        "control_kind": "text"
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": null,
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: form (4 fillable field(s))",
+    "timing: base page (4 planned) — plan 7s, fill 1s, verify 0s",
+    "resume on disk but this page has no file input — not an upload miss",
+    "form-advance: visible submit after page 1 — leaving it for the gated submit path",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "wizard_pages": [],
+  "written_at": "2026-09-03T07:24:46.229Z"
+}
