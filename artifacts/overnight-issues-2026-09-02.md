@@ -446,6 +446,57 @@ JazzHR pair `resumator-resumetext-value` / `resumator-xml-value` are
 HIDDEN machine payload fields holding the parsed resume, and an essay was
 generated into them — the same class of mistake as #157, one layer down.
 
+## #159 (DIAGNOSED, NOT FIXED) — iCIMS serves the posting inside an iframe
+
+Top item for the next session. Root cause is nailed down; the fix is not
+written, deliberately (see the note at the end).
+
+After #157 the three Rivian apps were requeued and re-run from QUEUED.
+They no longer fill the search box — they now stop at
+`UNKNOWN_LANDING / "no signals matched"`, page_class `unknown`, 0 fields.
+`#157` did NOT cause this: it removed the two fake fields that were
+masking a page the gate could never read.
+
+Read-only probe (`private/tmp-probe-icims.ts`, CDP attach, job 27480):
+
+```
+top-level html chars: 276581     frames: 2
+top-level APPLY_CTA match: true  <- ONLY inside <script src=".../apply.js">
+child frame: internal-careers-rivian.icims.com/jobs/27480/...  chars=39378
+  APPLY_CTA match: true   <input> count: 0
+APPLY control in frame: links=1  text="Apply for this job online"
+```
+
+So: iCIMS renders the posting body — including the Apply link — in a
+SAME-ORIGIN child iframe. The gate reads only the top document, and
+`classifyPage` correctly strips `<script>` blocks, which deletes the one
+top-level "apply" occurrence. Hence zero fields, zero CTA, `unknown`.
+
+The fix is two halves and BOTH are needed — half is worse than none:
+
+1. Classification/discovery must fall back to a same-origin child frame
+   when the top document yields no signals (the frame is readable;
+   `frame.content()` returned 39KB).
+2. The Apply click must be frame-aware. `findApplyControl` uses
+   `page.getByRole`, which does NOT descend into iframes — so making the
+   page classify as `posting` without this would just move the failure
+   from UNKNOWN_LANDING to a failed Apply click.
+
+Doing only (1) makes the run click nothing and report a different error,
+which is why this is being handed over diagnosed rather than
+half-implemented. Everything needed is above: the frame is same-origin,
+the control is a LINK (not a button), and its accessible name is
+"Apply for this job online".
+
+Affected right now: 4c67c3b5 / 83751e38 / f02750f5 (all Rivian, all
+QUEUED→FAILED after the re-run), plus every future icims.com posting.
+
+**Why this is not fixed tonight:** it changes the pre-mutation gate, the
+safety-critical path, and it could not be validated live inside the
+remaining session budget. Tonight's own lesson (#155/#156) is that an
+un-gated, unvalidated change left in the working tree costs more than the
+wall it was meant to fix.
+
 ## State snapshot
 
 _Updated at each job boundary._
