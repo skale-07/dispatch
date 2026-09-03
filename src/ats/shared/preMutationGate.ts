@@ -185,10 +185,13 @@ export async function waitForRenderedContent(
  * Two changes, both from the 2026-09-03 cycles where 7 apps parked
  * UNKNOWN_LANDING and nothing in the artifact said what the gate saw:
  *
- * - It now also stops once the page CLASSIFIES as form or posting, not
- *   only when the form marker matches. A posting-resolving SPA satisfies
- *   no form marker, so it used to burn the whole timeout and then be
- *   judged on whatever the last poll happened to catch.
+ * - Stopping is now decided by CLASSIFICATION, not by the form marker.
+ *   A posting-resolving SPA satisfies no form marker (so the old wait
+ *   burned the whole timeout), and — the other way round, #161 — a
+ *   marker match does not mean the page has resolved: an SPA shell can
+ *   ship an <input> a second in while the real content is still
+ *   painting. `settledAs: "marker"` now means "the deadline passed and
+ *   the marker had matched at some point", never "we stopped early".
  * - It returns the poll count and the reason it stopped, so the caller can
  *   say "waited 10s over 20 polls, marker never matched, final html 2.1MB"
  *   instead of "no signals matched".
@@ -225,16 +228,28 @@ export async function waitForRenderedContentDetailed(
     return c === "form" || c === "posting";
   };
 
-  if (marker.test(html)) return done("marker");
-  if (classified(html)) return done("classified");
-  while (Date.now() < deadline) {
+  // #161 (live careers.philips.com 2026-09-03, found BY #160's own note):
+  // "render wait: marker after 2 poll(s) / 1256ms, final html 1679240
+  // chars" — the marker matched an <input> in the SPA SHELL 1.2s in,
+  // the wait returned, and the half-painted page classified `unknown`.
+  // A 5s probe of the same URL found 24 inputs, an Apply link and two
+  // Apply buttons. So a marker match is NOT sufficient to stop: it only
+  // proves some input-ish markup exists, not that the page has resolved.
+  // Keep polling while the page is still unclassifiable; remember that
+  // the marker matched so the caller can tell this apart from a page
+  // that never showed anything at all.
+  let markerMatched = false;
+  for (;;) {
+    if (classified(html)) return done("classified");
+    markerMatched = markerMatched || marker.test(html);
+    if (Date.now() >= deadline) break;
     await page.waitForTimeout(intervalMs);
     html = await readLiveHtml(page);
     polls++;
-    if (marker.test(html)) return done("marker");
-    if (classified(html)) return done("classified");
   }
-  return done("timeout");
+  // Deadline: hand back the FRESHEST html either way — it is the most
+  // painted version we saw, and the caller classifies it again anyway.
+  return done(markerMatched ? "marker" : "timeout");
 }
 
 export async function verifyPageBeforeMutationGeneric(

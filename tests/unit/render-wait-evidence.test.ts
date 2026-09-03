@@ -53,14 +53,48 @@ describe("#160 render wait reports how it ended", () => {
     );
     expect(result.settledAs).toBe("timeout");
     expect(result.polls).toBeGreaterThan(1);
-    expect(result.htmlChars ?? result.html.length).toBeGreaterThan(0);
+    expect(result.html.length).toBeGreaterThan(0);
   }, 30_000);
 
-  it("stops immediately on the form marker without polling", async () => {
+  it("stops immediately on a page that already classifies as a form", async () => {
     const result = await withFixtureHtmlPage(IMMEDIATE_FORM, async (page) =>
       waitForRenderedContentDetailed(page, FORM_MARKERS, 8_000, 200),
     );
-    expect(result.settledAs).toBe("marker");
+    expect(result.settledAs).toBe("classified");
     expect(result.polls).toBe(1);
+  }, 30_000);
+
+  // #161, live careers.philips.com 2026-09-03 — found by #160's own note:
+  // "marker after 2 poll(s) / 1256ms, final html 1679240 chars". The SPA
+  // shell carried an <input> long before the posting painted, the wait
+  // returned on it, and the half-rendered page classified `unknown`.
+  //
+  // The shell input is the site's SEARCH box, which #157 drops at
+  // discovery — so the page has zero fillable fields and no Apply CTA
+  // yet, i.e. `unknown`, while the raw html still satisfies the <input>
+  // form marker. That combination is exactly what made the old wait
+  // return too early.
+  it("keeps polling when the marker matched but the page is still unknown", async () => {
+    const SHELL_THEN_POSTING = `
+      <html><body>
+        <div id="shell"><input id="keyword-search" name="keyword-search" type="text"></div>
+        <div id="root"></div>
+        <script>
+          setTimeout(function () {
+            document.getElementById('root').innerHTML =
+              '<h1>Graduate Level Co-op</h1>' +
+              '<a href="/apply/1">Apply for this job online</a>';
+          }, 900);
+        </script>
+      </body></html>`;
+
+    const result = await withFixtureHtmlPage(SHELL_THEN_POSTING, async (page) =>
+      waitForRenderedContentDetailed(page, FORM_MARKERS, 8_000, 200),
+    );
+
+    // The old behavior returned "marker" on poll 1 with an unknown page.
+    expect(result.settledAs).toBe("classified");
+    expect(result.polls).toBeGreaterThan(1);
+    expect(result.html).toContain("Apply for this job online");
   }, 30_000);
 });
