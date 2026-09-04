@@ -94,6 +94,21 @@ const envSchema = z.object({
   /** Anthropic model id used when the Anthropic provider is active. */
   ANTHROPIC_LLM_MODEL: z.string().default("claude-opus-5"),
   /**
+   * Anthropic model for the APPLIER's LLM surfaces (screener classify /
+   * option-map / predict, essay draft + autofill). Ledger 2026-09-03: those
+   * surfaces were 97% of input tokens (338 of 349 calls), every one a
+   * constrained JSON task that validatePrediction / validateDraft / the
+   * option-membership gate re-checks deterministically — the mid tier
+   * holds there at ~40% of the Opus rate. Outreach email (operator-facing
+   * prose, 11 calls/day) stays on ANTHROPIC_LLM_MODEL.
+   *
+   * DEFAULTS TO ANTHROPIC_LLM_MODEL — the split is opt-in. A cheaper tier
+   * here is a quality tradeoff on answers that go into real applications,
+   * so it is the operator's call to make in `.env`, never ours to default
+   * on (same principle as the capability flags).
+   */
+  ANTHROPIC_APPLIER_MODEL: z.string().optional(),
+  /**
    * Moonshot AI key for the Kimi provider (OpenAI-compatible API at
    * api.moonshot.ai). Third in the default preference order; select it
    * explicitly with LLM_PROVIDER=kimi. Never logged or artifacted.
@@ -256,6 +271,7 @@ export type AppConfig = {
   /** Present only when the operator configured it; consumers must not log it. */
   anthropicApiKey: string | undefined;
   anthropicLlmModel: string;
+  anthropicApplierModel: string;
   /** Present only when the operator configured it; consumers must not log it. */
   moonshotApiKey: string | undefined;
   kimiLlmModel: string;
@@ -379,6 +395,8 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
     emailLlmModel: parsed.EMAIL_LLM_MODEL,
     anthropicApiKey: parsed.ANTHROPIC_API_KEY,
     anthropicLlmModel: parsed.ANTHROPIC_LLM_MODEL,
+    anthropicApplierModel:
+      parsed.ANTHROPIC_APPLIER_MODEL ?? parsed.ANTHROPIC_LLM_MODEL,
     moonshotApiKey: parsed.MOONSHOT_API_KEY,
     kimiLlmModel: parsed.KIMI_LLM_MODEL,
     llmProvider: parsed.LLM_PROVIDER,

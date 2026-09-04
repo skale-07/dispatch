@@ -91,7 +91,7 @@ export async function selectScreenerOptions(input: {
   if (!hasLlmKey(cfg) && !input.client) return [];
 
   try {
-    const client = input.client ?? makeLlmClient();
+    const client = input.client ?? makeLlmClient("applier");
     const userPayload = {
       items: items.map((i) => ({
         key: i.key,
@@ -100,9 +100,13 @@ export async function selectScreenerOptions(input: {
         options: i.options,
       })),
     };
+    // Nothing here is stable enough to cache (1.2K chars, all per-call),
+    // but the task is pure matching — the stored answer is given and the
+    // result must equal a page option verbatim — so effort stays low.
     const { text } = await client.generateJson({
       system: SYSTEM_PROMPT,
       user: JSON.stringify(userPayload),
+      effort: "low",
     });
     if (input.traceUrl) {
       await postSandboxTrace(

@@ -157,7 +157,7 @@ export async function generateEssayDrafts(input: {
     | { company: string; role: string; raw_json: string }
     | undefined;
 
-  const client = input.client ?? makeLlmClient();
+  const client = input.client ?? makeLlmClient("applier");
   const dirs = ensureApplicationArtifactDirs(applicationId);
   const essayDir = path.join(dirs.root, "essays");
   fs.mkdirSync(essayDir, { recursive: true });
@@ -176,14 +176,18 @@ export async function generateEssayDrafts(input: {
     };
     report.drafts.push(result);
     try {
+      // Same split as essayAutofill: the candidate context and this
+      // application's job are constant across the loop's questions.
       const { text } = await client.generateJson({
         system: SYSTEM_PROMPT,
-        user: JSON.stringify({
-          question: q.question,
-          company: job?.company ?? null,
-          role: job?.role ?? null,
-          candidate_context: about,
-        }),
+        context: [
+          JSON.stringify({ candidate_context: about }),
+          JSON.stringify({
+            company: job?.company ?? null,
+            role: job?.role ?? null,
+          }),
+        ],
+        user: JSON.stringify({ question: q.question }),
       });
       const parsed = JSON.parse(text) as { draft?: unknown };
       const check = validateDraft(parsed.draft);

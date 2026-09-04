@@ -37,6 +37,7 @@ import {
   LLM_KEY_HINT,
   makeLlmClient,
   type EmailLlmClient,
+  type LlmGenerateInput,
 } from "../contacts/emailLlm.js";
 import {
   isPageWidgetLabel,
@@ -341,6 +342,43 @@ function learnedAnswersForPrompt(
   return learnedCustomAnswersFor(bank, labels);
 }
 
+/**
+ * One request shape for both prediction entry points. The operator's
+ * context rides as cacheable blocks — about-me + profile facts first (they
+ * change when the operator edits them), the bank second (it learns an
+ * answer on many calls, and must not evict the block before it) — and only
+ * learned_answers + questions vary per call. Same field names the SYSTEM
+ * PROMPT cites, so the model reads one payload split across blocks.
+ * Effort medium: picking an option from about-me is not research; the
+ * option-membership gate below catches a wrong pick, a null costs a
+ * review item, and thinking tokens bill as output.
+ */
+export function predictionRequest(input: {
+  about: string | null;
+  bank: ScreenerAnswerBank | null;
+  profileFacts: Record<string, unknown> | null;
+  questions: Array<{ label: string; options?: string[] | undefined }>;
+}): LlmGenerateInput & { context: string[] } {
+  return {
+    system: SYSTEM_PROMPT,
+    context: [
+      JSON.stringify({
+        candidate_context: input.about ?? "",
+        profile_facts: input.profileFacts ?? {},
+      }),
+      JSON.stringify({ saved_answers: input.bank?.answers ?? {} }),
+    ],
+    user: JSON.stringify({
+      learned_answers: learnedAnswersForPrompt(
+        input.bank,
+        input.questions.map((q) => q.label),
+      ),
+      questions: input.questions,
+    }),
+    effort: "medium",
+  };
+}
+
 function persistPrediction(label: string, answer: string, key: unknown): void {
   try {
     rememberPredictedScreenerAnswer({
@@ -385,31 +423,21 @@ export async function predictAnswersForQuestions(
   const profileFacts = tryLoadProfileFacts();
   if (!about && !bank && !profileFacts) return out;
   try {
-    const llm = client ?? makeLlmClient();
-    const userPayload = {
-      candidate_context: about ?? "",
-      saved_answers: bank?.answers ?? {},
-      learned_answers: learnedAnswersForPrompt(
-        bank,
-        askable.map((q) => q.label),
-      ),
-      profile_facts: profileFacts ?? {},
-      questions: askable.map((q) => ({
-        label: q.label,
-        options: q.options,
-      })),
-    };
-    const { text } = await llm.generateJson({
-      system: SYSTEM_PROMPT,
-      user: JSON.stringify(userPayload),
+    const llm = client ?? makeLlmClient("applier");
+    const request = predictionRequest({
+      about,
+      bank,
+      profileFacts,
+      questions: askable.map((q) => ({ label: q.label, options: q.options })),
     });
+    const { text } = await llm.generateJson(request);
     if (traceUrl) {
       await postSandboxTrace(
         traceUrl,
         llmTraceEvent({
           surface: "predict",
           system: SYSTEM_PROMPT,
-          user: userPayload,
+          user: [...request.context, request.user].join("\n"),
           response: text,
         }),
       );
@@ -626,25 +654,20 @@ export async function generateScreenerPredictions(input: {
   const now = new Date().toISOString();
   for (const r of askable) bump.run(now, r.id);
 
-  const client = input.client ?? makeLlmClient();
+  const client = input.client ?? makeLlmClient("applier");
   let parsed: { predictions?: Array<Record<string, unknown>> };
   try {
-    const { text } = await client.generateJson({
-      system: SYSTEM_PROMPT,
-      user: JSON.stringify({
-        candidate_context: about ?? "",
-        saved_answers: bank?.answers ?? {},
-        learned_answers: learnedAnswersForPrompt(
-          bank,
-          askable.map((r) => r.raw_label),
-        ),
-        profile_facts: profileFacts ?? {},
+    const { text } = await client.generateJson(
+      predictionRequest({
+        about,
+        bank,
+        profileFacts,
         questions: askable.map((r) => ({
           label: r.raw_label,
           options: r.options_json ? (JSON.parse(r.options_json) as string[]) : undefined,
         })),
       }),
-    });
+    );
     parsed = JSON.parse(text) as { predictions?: Array<Record<string, unknown>> };
   } catch (err) {
     report.notes.push(

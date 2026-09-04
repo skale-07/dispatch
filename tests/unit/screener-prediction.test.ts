@@ -426,10 +426,13 @@ describe("screener prediction + promote (UNIT_CONFIRMED)", () => {
         },
       ],
     });
+    // The prediction payload is split across cacheable context blocks and
+    // the per-call user turn; what matters is the whole prompt the model
+    // sees, so assert against the concatenation.
     let sawUser = "";
     const recording = {
-      generateJson: async (input: { user: string }) => {
-        sawUser = input.user;
+      generateJson: async (input: { user: string; context?: string[] }) => {
+        sawUser = [...(input.context ?? []), input.user].join("\n");
         return {
           text: JSON.stringify({
             predictions: [
@@ -449,7 +452,9 @@ describe("screener prediction + promote (UNIT_CONFIRMED)", () => {
     };
     const r = await generateScreenerPredictions({ db, client: recording });
     expect(r.predicted).toBe(1);
-    const ctx = JSON.parse(sawUser) as { profile_facts: Record<string, unknown> };
+    const ctx = JSON.parse(sawUser.split("\n")[0]!) as {
+      profile_facts: Record<string, unknown>;
+    };
     expect(ctx.profile_facts["school"]).toBe("Johns Hopkins University");
     expect(ctx.profile_facts["city"]).toBe("Baltimore");
     // Contact details never ride the prediction context.

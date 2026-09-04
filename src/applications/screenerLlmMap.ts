@@ -136,21 +136,30 @@ export async function mapScreenerLabels(input: {
       return results; // flag on but no key: cache-only mode
     }
 
-    const client = input.client ?? makeLlmClient();
+    const client = input.client ?? makeLlmClient("applier");
     const validKeys = new Set(SCREENER_REGISTRY.map((d) => d.key));
     try {
+      // The registry is a versioned constant — byte-identical on every
+      // call — so it is the context block; only the labels vary.
+      // Classification into a fixed key set does not need deep reasoning,
+      // and an unknown key is rejected below.
       const { text } = await client.generateJson({
         system: SYSTEM_PROMPT,
+        context: [
+          JSON.stringify({
+            registry: SCREENER_REGISTRY.map((d) => ({
+              key: d.key,
+              description: d.description,
+            })),
+          }),
+        ],
         user: JSON.stringify({
-          registry: SCREENER_REGISTRY.map((d) => ({
-            key: d.key,
-            description: d.description,
-          })),
           questions: toAsk.map((l) => ({
             label: l.label,
             options: l.options ?? [],
           })),
         }),
+        effort: "low",
       });
       const parsed = JSON.parse(text) as {
         mappings?: Array<{ label?: unknown; key?: unknown }>;

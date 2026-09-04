@@ -19,12 +19,65 @@ import { withLlmCallLedger } from "./llmCallLedger.js";
  * production call site goes through makeLlmClient()/hasLlmKey() so the
  * preference can never drift per-surface.
  */
+export type LlmEffort = "low" | "medium" | "high";
+
+export interface LlmGenerateInput {
+  system: string;
+  /** The per-call part: the questions, the posting, the contact. */
+  user: string;
+  /**
+   * Stable material the same surface resends call after call (about-me,
+   * answer bank, profile facts, the screener registry). Sent AFTER the
+   * system prompt and BEFORE `user`, most-stable block first, so a
+   * prefix-caching provider serves it at cache-read rates instead of
+   * billing it in full every call. Ledger 2026-09-03: predict + essay
+   * carried the same ~25K chars 237 times in one day. Providers without
+   * caching fold the blocks into the system message verbatim — the model
+   * sees identical text either way.
+   */
+  context?: string[];
+  /**
+   * Reasoning depth. Constrained pick-from-options tasks want "low";
+   * prose that a human reads ("essay", outreach) keeps the provider
+   * default when unset. Thinking tokens bill as output, so an unset
+   * default on a reasoning model is a hidden line item.
+   */
+  effort?: LlmEffort;
+}
+
+/** Token counts when the provider reports them — cache reads included. */
+export type LlmUsage = {
+  input_tokens: number;
+  output_tokens: number;
+  cache_read_input_tokens?: number;
+  cache_creation_input_tokens?: number;
+  thinking_tokens?: number;
+};
+
+export interface LlmGenerateOutput {
+  text: string;
+  model: string;
+  usage?: LlmUsage;
+}
+
 export interface EmailLlmClient {
   /** Returns the raw model output string (expected to be JSON). */
-  generateJson(input: { system: string; user: string }): Promise<{
-    text: string;
-    model: string;
-  }>;
+  generateJson(input: LlmGenerateInput): Promise<LlmGenerateOutput>;
+}
+
+/**
+ * Which pipeline a client serves — selects the Anthropic model. Outreach
+ * is the default so every existing call site keeps its model; the applier
+ * surfaces opt in explicitly.
+ */
+export type LlmPipeline = "outreach" | "applier";
+
+const JSON_ONLY = "Respond with ONLY the JSON object — no prose, no code fences.";
+
+/** Providers without prefix caching get the context inline, same order. */
+function foldContext(system: string, context: string[] | undefined): string {
+  if (!context || context.length === 0) return system;
+  return `${system}\n\n${context.join("\n\n")}`;
 }
 
 export class OpenAiEmailClient implements EmailLlmClient {
@@ -42,28 +95,51 @@ export class OpenAiEmailClient implements EmailLlmClient {
     this.model = cfg.emailLlmModel;
   }
 
-  async generateJson(input: {
-    system: string;
-    user: string;
-  }): Promise<{ text: string; model: string }> {
+  async generateJson(input: LlmGenerateInput): Promise<LlmGenerateOutput> {
     const response = await this.client.chat.completions.create({
       model: this.model,
       response_format: { type: "json_object" },
       messages: [
-        { role: "system", content: input.system },
+        { role: "system", content: foldContext(input.system, input.context) },
         { role: "user", content: input.user },
       ],
     });
     const text = response.choices[0]?.message?.content ?? "";
-    return { text, model: response.model ?? this.model };
+    const u = response.usage;
+    return {
+      text,
+      model: response.model ?? this.model,
+      ...(u
+        ? {
+            usage: {
+              input_tokens: u.prompt_tokens,
+              output_tokens: u.completion_tokens,
+              ...(u.prompt_tokens_details?.cached_tokens !== undefined
+                ? { cache_read_input_tokens: u.prompt_tokens_details.cached_tokens }
+                : {}),
+            },
+          }
+        : {}),
+    };
   }
+}
+
+/**
+ * `output_config.effort` is accepted on the 4.6+ generation and rejected
+ * (400) by older ids and Haiku 4.5. Match the ids we would ever configure
+ * rather than hoping; an unmatched model just gets the provider default.
+ */
+export function anthropicModelSupportsEffort(model: string): boolean {
+  return /^claude-(fable-5|mythos-5|opus-5|opus-4-[678]|sonnet-5|sonnet-4-6)\b/.test(
+    model,
+  );
 }
 
 export class AnthropicLlmClient implements EmailLlmClient {
   private readonly client: Anthropic;
   private readonly model: string;
 
-  constructor() {
+  constructor(model?: string) {
     const cfg = getConfig();
     if (!cfg.anthropicApiKey) {
       throw new Error(
@@ -71,21 +147,36 @@ export class AnthropicLlmClient implements EmailLlmClient {
       );
     }
     this.client = new Anthropic({ apiKey: cfg.anthropicApiKey });
-    this.model = cfg.anthropicLlmModel;
+    this.model = model ?? cfg.anthropicLlmModel;
   }
 
-  async generateJson(input: {
-    system: string;
-    user: string;
-  }): Promise<{ text: string; model: string }> {
-    const response = await this.client.messages.create({
-      model: this.model,
-      max_tokens: 4096,
+  async generateJson(input: LlmGenerateInput): Promise<LlmGenerateOutput> {
+    // Prefix order is system → messages, so the stable blocks go into the
+    // system array behind the surface prompt, each with its own breakpoint:
+    // when a later block changes (the bank learned an answer) the earlier
+    // ones still hit. The per-call JSON stays in the user turn, after the
+    // last breakpoint, where it cannot invalidate anything.
+    const system: Anthropic.TextBlockParam[] = [
       // Every consumer's system prompt already demands a JSON object and
       // deterministically re-validates the output; the reinforcement here
       // covers models that would otherwise preface JSON with prose.
-      system: `${input.system}\n\nRespond with ONLY the JSON object — no prose, no code fences.`,
+      { type: "text", text: `${input.system}\n\n${JSON_ONLY}` },
+      ...(input.context ?? []).map(
+        (text): Anthropic.TextBlockParam => ({
+          type: "text",
+          text,
+          cache_control: { type: "ephemeral" },
+        }),
+      ),
+    ];
+    const response = await this.client.messages.create({
+      model: this.model,
+      max_tokens: 4096,
+      system,
       messages: [{ role: "user", content: input.user }],
+      ...(input.effort && anthropicModelSupportsEffort(this.model)
+        ? { output_config: { effort: input.effort } }
+        : {}),
     });
     const text = response.content
       .filter(
@@ -94,7 +185,22 @@ export class AnthropicLlmClient implements EmailLlmClient {
       )
       .map((block) => block.text)
       .join("");
-    return { text: stripJsonFences(text), model: response.model ?? this.model };
+    const u = response.usage;
+    const usage: LlmUsage = {
+      input_tokens: u.input_tokens,
+      output_tokens: u.output_tokens,
+    };
+    if (u.cache_read_input_tokens != null)
+      usage.cache_read_input_tokens = u.cache_read_input_tokens;
+    if (u.cache_creation_input_tokens != null)
+      usage.cache_creation_input_tokens = u.cache_creation_input_tokens;
+    if (u.output_tokens_details?.thinking_tokens != null)
+      usage.thinking_tokens = u.output_tokens_details.thinking_tokens;
+    return {
+      text: stripJsonFences(text),
+      model: response.model ?? this.model,
+      usage,
+    };
   }
 }
 
@@ -125,10 +231,7 @@ export class KimiLlmClient implements EmailLlmClient {
     this.model = cfg.kimiLlmModel;
   }
 
-  async generateJson(input: {
-    system: string;
-    user: string;
-  }): Promise<{ text: string; model: string }> {
+  async generateJson(input: LlmGenerateInput): Promise<LlmGenerateOutput> {
     const response = await this.client.chat.completions.create({
       model: this.model,
       response_format: { type: "json_object" },
@@ -137,13 +240,25 @@ export class KimiLlmClient implements EmailLlmClient {
       messages: [
         {
           role: "system",
-          content: `${input.system}\n\nRespond with ONLY the JSON object — no prose, no code fences.`,
+          content: foldContext(`${input.system}\n\n${JSON_ONLY}`, input.context),
         },
         { role: "user", content: input.user },
       ],
     });
     const text = response.choices[0]?.message?.content ?? "";
-    return { text: stripJsonFences(text), model: response.model ?? this.model };
+    const u = response.usage;
+    return {
+      text: stripJsonFences(text),
+      model: response.model ?? this.model,
+      ...(u
+        ? {
+            usage: {
+              input_tokens: u.prompt_tokens,
+              output_tokens: u.completion_tokens,
+            },
+          }
+        : {}),
+    };
   }
 }
 
@@ -175,19 +290,26 @@ export const LLM_KEY_HINT =
  * swapped for another would falsify every artifact's model attribution).
  * Unset: Anthropic preferred, then OpenAI, then Kimi. Throws when no key
  * is configured (callers gate with hasLlmKey()).
+ *
+ * `pipeline` picks the Anthropic model only: "applier" (screener + essay
+ * surfaces) runs ANTHROPIC_APPLIER_MODEL, "outreach" (the default, so an
+ * unqualified call keeps today's behavior) runs ANTHROPIC_LLM_MODEL. The
+ * OpenAI and Kimi providers have one model each.
  */
-export function makeLlmClient(): EmailLlmClient {
+export function makeLlmClient(pipeline: LlmPipeline = "outreach"): EmailLlmClient {
   const cfg = getConfig();
+  const anthropicModel =
+    pipeline === "applier" ? cfg.anthropicApplierModel : cfg.anthropicLlmModel;
   const ledger = (client: EmailLlmClient, provider: string, model: string) =>
     withLlmCallLedger(client, provider, model);
   if (cfg.llmProvider === "anthropic")
-    return ledger(new AnthropicLlmClient(), "anthropic", cfg.anthropicLlmModel);
+    return ledger(new AnthropicLlmClient(anthropicModel), "anthropic", anthropicModel);
   if (cfg.llmProvider === "openai")
     return ledger(new OpenAiEmailClient(), "openai", cfg.emailLlmModel);
   if (cfg.llmProvider === "kimi")
     return ledger(new KimiLlmClient(), "kimi", cfg.kimiLlmModel);
   if (cfg.anthropicApiKey)
-    return ledger(new AnthropicLlmClient(), "anthropic", cfg.anthropicLlmModel);
+    return ledger(new AnthropicLlmClient(anthropicModel), "anthropic", anthropicModel);
   if (cfg.openaiApiKey)
     return ledger(new OpenAiEmailClient(), "openai", cfg.emailLlmModel);
   if (cfg.moonshotApiKey)

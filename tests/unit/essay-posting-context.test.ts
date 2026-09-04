@@ -10,9 +10,25 @@ import {
   MAX_POSTING_CONTEXT_CHARS,
 } from "../../src/applications/essayAutofill.js";
 import { fillHardOuterPage } from "../../src/sandbox/hardPages.js";
-import type { EmailLlmClient } from "../../src/contacts/emailLlm.js";
+import type {
+  EmailLlmClient,
+  LlmGenerateInput,
+} from "../../src/contacts/emailLlm.js";
 import { resetConfigCache } from "../../src/config/index.js";
 import { useIsolatedFillEnv } from "../helpers/fillEnvIsolation.js";
+
+/**
+ * What the model actually sees. The payload is split across cacheable
+ * context blocks (candidate + posting, stable across a batch) and the
+ * per-call user turn (question, sibling answers); these assertions care
+ * that the FIELD reaches the model, not which block carries it.
+ */
+function modelPayload(input: LlmGenerateInput): Record<string, unknown> {
+  return [...(input.context ?? []), input.user].reduce<Record<string, unknown>>(
+    (acc, block) => Object.assign(acc, JSON.parse(block) as object),
+    {},
+  );
+}
 
 /**
  * Posting context for essays (live artifacts 1787010568814/1787010626392):
@@ -90,8 +106,8 @@ describe("essay generation receives posting context (UNIT_CONFIRMED)", () => {
   it("posting_context lands in the model payload (null when absent)", async () => {
     const payloads: Array<Record<string, unknown>> = [];
     const capture: EmailLlmClient = {
-      async generateJson({ user }) {
-        payloads.push(JSON.parse(user) as Record<string, unknown>);
+      async generateJson(input) {
+        payloads.push(modelPayload(input));
         return {
           text: JSON.stringify({
             answer:
@@ -123,8 +139,8 @@ describe("essay generation receives posting context (UNIT_CONFIRMED)", () => {
     const payloads: Array<Record<string, unknown>> = [];
     let n = 0;
     const capture: EmailLlmClient = {
-      async generateJson({ user }) {
-        payloads.push(JSON.parse(user) as Record<string, unknown>);
+      async generateJson(input) {
+        payloads.push(modelPayload(input));
         n += 1;
         return { text: JSON.stringify({ answer: n === 3 ? null : `Example number ${n}: I built a reliable ML tooling system as an applied-math undergraduate, and I care about dependable software in everything I ship for teams that rely on it every day. I automated browser workflows end to end, wrote deterministic verification for every fill, and treated every unverified claim as unfinished work until a read-back proved it.` }), model: "stub" };
       },

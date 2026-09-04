@@ -185,7 +185,7 @@ export async function generateEssayAnswers(input: {
     return { answers: [], notes };
   }
 
-  const client = input.client ?? makeLlmClient();
+  const client = input.client ?? makeLlmClient("applier");
   const answers: EssayAutofillResult[] = [];
   // Follow-up shape (live neuralink 2026-08-30): "We look for evidence of
   // exceptional ability… 3-4 examples" then bare "Second example:" /
@@ -207,17 +207,29 @@ export async function generateEssayAnswers(input: {
         ? `${parentQuestion} — ${item.question.trim()}`
         : item.question;
     try {
-      const userPayload = {
+      // about-me is identical for every question in every application —
+      // it was resent in full 114 times on 2026-09-03 — so it rides as a
+      // cacheable context block. The posting is stable across one
+      // application's questions, so it goes in a block of its own after
+      // it. Only the question and the sibling answers vary per call.
+      // Effort is left at the provider default: this is prose a human
+      // reads, and validateDraft cannot catch a weak answer.
+      const perCall = {
         question,
-        company: input.job?.company ?? null,
-        role: input.job?.role ?? null,
-        posting_context: input.postingContext?.trim() || null,
-        candidate_context: about,
         previous_answers: previous.length > 0 ? previous.slice(-4) : null,
       };
+      const context = [
+        JSON.stringify({ candidate_context: about }),
+        JSON.stringify({
+          company: input.job?.company ?? null,
+          role: input.job?.role ?? null,
+          posting_context: input.postingContext?.trim() || null,
+        }),
+      ];
       const { text } = await client.generateJson({
         system: SYSTEM_PROMPT,
-        user: JSON.stringify(userPayload),
+        context,
+        user: JSON.stringify(perCall),
       });
       if (input.traceUrl) {
         await postSandboxTrace(
@@ -225,7 +237,7 @@ export async function generateEssayAnswers(input: {
           llmTraceEvent({
             surface: "essay",
             system: SYSTEM_PROMPT,
-            user: userPayload,
+            user: [...context, JSON.stringify(perCall)].join("\n"),
             response: text,
           }),
         );

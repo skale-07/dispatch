@@ -453,7 +453,10 @@ It is a spend surface, so it is fail-closed:
 
 ```powershell
 # .env:  EMAIL_GENERATION_ENABLED=true, plus an LLM key — ANTHROPIC_API_KEY=sk-ant-… (preferred;
-#         model via ANTHROPIC_LLM_MODEL, default claude-opus-5), OPENAI_API_KEY=sk-… (EMAIL_LLM_MODEL),
+#         model via ANTHROPIC_LLM_MODEL, default claude-opus-5. The applier's screener/essay
+#         surfaces run ANTHROPIC_APPLIER_MODEL — UNSET it inherits ANTHROPIC_LLM_MODEL; set it
+#         to a cheaper tier only if you accept that tradeoff on real application answers),
+#         OPENAI_API_KEY=sk-… (EMAIL_LLM_MODEL),
 #         or MOONSHOT_API_KEY=sk-… (Kimi K3 via api.moonshot.ai; model via KIMI_LLM_MODEL, default kimi-k3)
 npm run email:generate -- --application <uuid> --persona swe
 ```
@@ -1397,6 +1400,34 @@ row per navigation run, colour-coded — green resolved, amber auth/CAPTCHA
 wall, red unresolved, grey closed posting — each carrying its phase trace,
 notes, and the hosts the agent visited. `auto:cycle` renders it at the end
 of every run, so a pushed artifact bundle already contains the page.
+
+### What the LLM cost — `artifacts/llm/calls-YYYY-MM-DD.jsonl`
+
+One line per model call: provider, model, the surface (our own system
+prompt's first 72 characters — never your about-me or answer bank),
+sizes, duration, outcome, and `usage` when the provider reports it.
+`usage` is the invoice; the char counts are only an estimate. Three
+numbers there answer the "is this configured right" question:
+
+- `cache_read_input_tokens` — the operator context (about-me, answer
+  bank, screener registry) is sent as a cacheable prefix block, so a
+  run's second and later calls on a surface should read most of their
+  input from cache. **Zero across a whole run means it is not caching**
+  — most likely the prefix fell under the provider's minimum cacheable
+  length (model-dependent, on the order of 1–4K tokens), which is
+  silent, not an error. A thin or missing
+  `private/candidate/about-me.md` does that.
+- `thinking_tokens` — reasoning, billed as output. Large on a
+  pick-an-option task means the effort setting is too high for it.
+- `model` — confirms which tier actually ran. Outreach email shows
+  `ANTHROPIC_LLM_MODEL`; screener and essay calls show
+  `ANTHROPIC_APPLIER_MODEL` (the same id unless you set the split).
+
+Whether a cheaper tier is holding is answered by each surface's own
+rejection counters, not by reading the prose: predictions rejected for
+matching no page option, essays the model abstained on, screener labels
+mapped to an unknown key. Change one thing, run a night, compare those
+counts to the night before.
 
 ### "skipped_already_armed" — and when a cycle sweeps it
 

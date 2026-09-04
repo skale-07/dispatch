@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { getConfig } from "../config/index.js";
-import type { EmailLlmClient } from "./emailLlm.js";
+import type { EmailLlmClient, LlmUsage } from "./emailLlm.js";
 
 /**
  * #154 LLM call ledger — where the minutes go. Live plan phases run 5-16
@@ -23,6 +23,14 @@ export type LlmCallRecord = {
   duration_ms: number;
   ok: boolean;
   error?: string;
+  /**
+   * Billed tokens as the provider reported them (absent when it did not).
+   * `cache_read_input_tokens` is the whole point of the context split —
+   * zero across a run means the prefix is not caching; `thinking_tokens`
+   * is what effort controls. Chars above are our estimate; these are the
+   * invoice.
+   */
+  usage?: LlmUsage;
 };
 
 const SURFACE_CHARS = 72;
@@ -65,7 +73,10 @@ export function withLlmCallLedger(
       ts: new Date(startedAt).toISOString(),
       provider,
       surface: input.system.replace(/\s+/g, " ").trim().slice(0, SURFACE_CHARS),
-      input_chars: input.system.length + input.user.length,
+      input_chars:
+        input.system.length +
+        input.user.length +
+        (input.context ?? []).reduce((n, block) => n + block.length, 0),
     };
     try {
       const out = await client.generateJson(input);
@@ -75,6 +86,7 @@ export function withLlmCallLedger(
         output_chars: out.text.length,
         duration_ms: Date.now() - startedAt,
         ok: true,
+        ...(out.usage ? { usage: out.usage } : {}),
       });
       return out;
     } catch (err) {
