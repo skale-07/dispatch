@@ -8,8 +8,8 @@
       "legal_name.last": "Lovelace",
       "email": "a***@example.com",
       "phone": "***-***-0100",
-      "school": "Johns Hopkins University",
-      "graduation_year": "2029",
+      "screener:custom:school_not_listed_name": "Johns Hopkins University",
+      "screener:custom:expected_graduation_term": "Spring 2029",
       "requires_sponsorship": "[REDACTED_SPONSORSHIP]"
     },
     "entries": [
@@ -53,19 +53,19 @@
         "field_id": "school",
         "label": "School / University",
         "type": "text",
-        "canonical_field": "school",
+        "canonical_field": "screener:custom:school_not_listed_name",
         "action": "fill",
         "value": "Johns Hopkins University",
-        "reason": "Mapped from public profile"
+        "reason": "Screener bank answer (free_text)"
       },
       {
         "field_id": "grad_year",
         "label": "Expected graduation year",
         "type": "text",
-        "canonical_field": "graduation_year",
+        "canonical_field": "screener:custom:expected_graduation_term",
         "action": "fill",
-        "value": "2029",
-        "reason": "Mapped from public profile"
+        "value": "Spring 2029",
+        "reason": "Screener bank answer (free_text)"
       },
       {
         "field_id": "sponsorship",
@@ -145,21 +145,21 @@
         "field_id": "school",
         "label": "School / University",
         "type": "text",
-        "canonical_field": "school",
+        "canonical_field": "screener:custom:school_not_listed_name",
         "action": "FILL",
         "approved": true,
         "value": "Johns Hopkins University",
-        "reason": "Mapped from public profile"
+        "reason": "Screener bank answer (free_text)"
       },
       {
         "field_id": "grad_year",
         "label": "Expected graduation year",
         "type": "text",
-        "canonical_field": "graduation_year",
+        "canonical_field": "screener:custom:expected_graduation_term",
         "action": "FILL",
         "approved": true,
-        "value": "2029",
-        "reason": "Mapped from public profile"
+        "value": "Spring 2029",
+        "reason": "Screener bank answer (free_text)"
       },
       {
         "field_id": "sponsorship",
@@ -197,8 +197,8 @@
       "legal_name.last": "Lovelace",
       "email": "a***@example.com",
       "phone": "***-***-0100",
-      "school": "Johns Hopkins University",
-      "graduation_year": "2029",
+      "screener:custom:school_not_listed_name": "Johns Hopkins University",
+      "screener:custom:expected_graduation_term": "Spring 2029",
       "requires_sponsorship": "[REDACTED_SPONSORSHIP]"
     },
     "fillable_count": 7,
@@ -209,5 +209,5 @@
   "notes": [
     "plan_only — set --execute with FORM_FILL_ENABLED=true and DRY_RUN=false to mutate"
   ],
-  "written_at": "2026-09-03T19:55:34.747Z"
+  "written_at": "2026-09-04T01:54:35.076Z"
 }
