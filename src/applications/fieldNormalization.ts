@@ -68,6 +68,19 @@ export function matchCanonicalField(
   // holds a single current job and a single education; a history fact
   // never claims a later row, and an education date never claims an
   // employment row (nor the reverse).
+  // #164 (live Five Rings greenhouse 2026-09-03): "Please specify the
+  // grading scale used by your current school." is one of the board's OWN
+  // custom questions (question_17808225008, a 4-option select); the alias
+  // "Current school" is multi-word and ≥12 chars, so it cleared the
+  // short-alias guard by plain containment and the plan tried to place
+  // "Johns Hopkins University" into a grading-scale list. A singular
+  // history fact is answered by the form's own education / employment
+  // section — a control the ATS names as a custom question is asking
+  // something ABOUT that fact, never for its value. Unmapped, the
+  // screener / predict tier answers it from the page's own options.
+  if (matched && HISTORY_FACT.test(matched) && isAtsCustomQuestion(field)) {
+    return null;
+  }
   if (matched && HISTORY_FACT.test(matched)) {
     const group = historyGroupOf(field);
     if (group) {
@@ -86,6 +99,25 @@ const HISTORY_FACT =
 const EDUCATION_FACT = /^(school|degree|major|gpa|graduation_month|graduation_year|start_month|start_year)$/;
 const EMPLOYMENT_HINT = /(work|employ|job|position|experience|company|employer)/i;
 const EDUCATION_HINT = /(education|school|degree|academic|university)/i;
+
+/**
+ * #164: a control the ATS names as one of its OWN custom questions —
+ * Greenhouse `question_17808225008` and
+ * `job_application_answers_attributes_3_text_value` (the shared
+ * "job_application" prefix is stripped first so it cannot itself count).
+ * Lever's `cards[uuid][field0]` and a generated `f_58` carry no such
+ * marker and are unaffected.
+ */
+export function isAtsCustomQuestion(field: {
+  inputId?: string;
+  name?: string;
+}): boolean {
+  const source = `${field.inputId ?? ""} ${field.name ?? ""}`.replace(
+    /job[_ ]?application/gi,
+    "",
+  );
+  return /(^|[^a-z])(answers?|questions?)([^a-z]|$)/i.test(source);
+}
 
 /**
  * #150: a control that belongs to an indexed history row (work experience

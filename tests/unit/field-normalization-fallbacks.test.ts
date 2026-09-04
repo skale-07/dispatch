@@ -248,3 +248,84 @@ describe("#85c gpa never claims option controls", () => {
     ).toBe("gpa");
   });
 });
+
+// Live Five Rings greenhouse 2026-09-03 (application 8399a8f4): the board's
+// own question_17808225008 — "Please specify the grading scale used by your
+// current school." with FOUR options — matched the alias "Current school"
+// (multi-word and >=12 chars, so the short-alias guard let it through by
+// plain containment) and the plan carried "Johns Hopkins University" into a
+// grading-scale list. The form's own School control is where that fact goes.
+describe("#164 a history fact never answers the ATS's own custom question", () => {
+  const aliases = {
+    school: ["School", "University", "College", "Current school", "School name"],
+    degree: ["Degree", "Degree type"],
+    major: ["Discipline", "Major", "Field of study"],
+    current_company: ["Current company", "Employer"],
+    linkedin_url: ["LinkedIn", "LinkedIn Profile"],
+  };
+
+  it("greenhouse question_N asking ABOUT school does not claim canonical school", () => {
+    expect(
+      matchCanonicalField(
+        {
+          id: "q17808225008",
+          label: "Please specify the grading scale used by your current school.",
+          type: "select",
+          required: true,
+          name: "question_17808225008",
+        },
+        aliases,
+      ),
+    ).toBeNull();
+  });
+
+  it("the education section's own School / Degree / Discipline controls still map", () => {
+    expect(
+      matchCanonicalField(
+        { id: "school--0", label: "School", type: "select", required: true, name: "school--0" },
+        aliases,
+      ),
+    ).toBe("school");
+    expect(
+      matchCanonicalField(
+        { id: "degree--0", label: "Degree", type: "select", required: true, name: "degree--0" },
+        aliases,
+      ),
+    ).toBe("degree");
+    expect(
+      matchCanonicalField(
+        { id: "discipline--0", label: "Discipline", type: "select", required: true, name: "discipline--0" },
+        aliases,
+      ),
+    ).toBe("major");
+  });
+
+  it("the answers_attributes shape is caught too, and non-history canonicals are untouched", () => {
+    expect(
+      matchCanonicalField(
+        {
+          id: "a3",
+          label: "Which employer did you most recently work for?",
+          type: "text",
+          required: false,
+          name: "job_application_answers_attributes_3_text_value",
+        },
+        aliases,
+      ),
+    ).toBeNull();
+    // linkedin_url is not a singular history fact — boards routinely ask
+    // for it as a custom question and that mapping must survive.
+    expect(
+      matchCanonicalField(
+        {
+          id: "q99",
+          label: "LinkedIn Profile",
+          type: "text",
+          required: false,
+          name: "question_17808299008",
+        },
+        aliases,
+      ),
+    ).toBe("linkedin_url");
+  });
+});
