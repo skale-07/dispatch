@@ -522,10 +522,16 @@ function persist(
 ): GreenhouseLiveFillReport {
   const outDir = path.join(getConfig().artifactsDir, "ats-fill", "greenhouse-live");
   fs.mkdirSync(outDir, { recursive: true });
-  const file = path.join(
-    outDir,
-    report.mode === "plan_only" ? "live-fill-plan.json" : "live-fill-report.json",
-  );
+  // #165: ONE FILE PER RUN. This wrote a fixed "live-fill-report.json", so
+  // every executed fill overwrote the last one — 191 recorded Greenhouse
+  // runs (2026-08-07 → 09-03) all carry that same report_artifact_relpath,
+  // and each row points at whichever run happened to write LAST. The Five
+  // Rings School* diagnosis on 2026-09-03 lost its evidence to a run that
+  // landed three minutes later. Everything that reads the recorded path
+  // back — the submit-inventory healer, the console read models, a human
+  // debugging a parked application — was reading a different run's fill.
+  // Same shape atsLiveFill already writes for ashby/generic/workday.
+  const file = path.join(outDir, `live-${report.mode}-${Date.now()}.json`);
 
   // SQLite outcomes first (uses raw report values) then redacted artifact.
   tryRecordFillOutcomes(report, path.relative(getConfig().artifactsDir, file), capture);

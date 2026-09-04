@@ -1041,3 +1041,72 @@ describe("Greenhouse redirect + login-wall hotfix (FIXTURE_CONFIRMED)", () => {
     expect(report.form_detected).toBe(true);
   }, 30_000);
 });
+
+// #165: persist() wrote a FIXED "live-fill-report.json" / "live-fill-plan.json",
+// so each executed Greenhouse fill overwrote the previous one. 191 recorded
+// runs (2026-08-07 → 09-03) all carried that one report_artifact_relpath, and
+// the Five Rings School* diagnosis on 2026-09-03 lost its evidence to a run
+// three minutes later. One file per run, like atsLiveFill already does.
+describe("#165 every live Greenhouse fill keeps its OWN artifact (UNIT_CONFIRMED)", () => {
+  let artifactsDir: string;
+
+  beforeEach(() => {
+    artifactsDir = path.join(os.tmpdir(), `jaa-gh-artifact-${randomUUID()}`);
+    process.env.ARTIFACTS_DIR = artifactsDir;
+    forceSafeEnv();
+  });
+
+  afterEach(() => {
+    resetConfigCache();
+    forceSafeEnv();
+  });
+
+  const refuseOnce = async (): Promise<string> => {
+    try {
+      await runGreenhouseLiveFill({
+        url: "https://boards.lever.co/acme/jobs/1",
+        execute: false,
+      });
+      expect.unreachable("should have thrown");
+    } catch (err) {
+      const p = (err as GreenhouseLiveFillError).report.report_path;
+      expect(p, "persist() must record where it wrote").toBeTruthy();
+      return p!;
+    }
+    throw new Error("unreachable");
+  };
+
+  it("two runs write two DIFFERENT files, and neither is the old fixed name", async () => {
+    const first = await refuseOnce();
+    // Date.now() has ms resolution; make the second run land on a later tick
+    // so the assertion is about the naming scheme, not about clock luck.
+    await new Promise((r) => setTimeout(r, 5));
+    const second = await refuseOnce();
+
+    expect(second).not.toBe(first);
+    expect(fs.existsSync(first)).toBe(true);
+    expect(fs.existsSync(second)).toBe(true);
+    for (const p of [first, second]) {
+      expect(path.basename(p)).not.toBe("live-fill-report.json");
+      expect(path.basename(p)).not.toBe("live-fill-plan.json");
+      expect(path.basename(p)).toMatch(/^live-(plan_only|executed)-\d+\.json$/);
+    }
+
+    const outDir = path.join(artifactsDir, "ats-fill", "greenhouse-live");
+    const written = fs
+      .readdirSync(outDir)
+      .filter((f) => f.endsWith(".json"))
+      .sort();
+    expect(written).toHaveLength(2);
+  }, 30_000);
+
+  it("the recorded path holds THIS run's report, not a later run's", async () => {
+    const first = await refuseOnce();
+    const firstBody = fs.readFileSync(first, "utf8");
+    await new Promise((r) => setTimeout(r, 5));
+    await refuseOnce();
+    // The whole point: reading the first run's recorded path back still
+    // yields the first run's bytes after a second run has completed.
+    expect(fs.readFileSync(first, "utf8")).toBe(firstBody);
+  }, 30_000);
+});
