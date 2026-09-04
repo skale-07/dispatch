@@ -4,6 +4,7 @@ import path from "node:path";
 import { chromium, type Browser, type Page } from "playwright";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { authenticateAtsPortal } from "../../src/verification/portalAuth.js";
+import { setAccount } from "../../src/accounts/vault.js";
 import { resetConfigCache } from "../../src/config/index.js";
 import {
   applyControlledFillEnv,
@@ -186,6 +187,94 @@ describe("#163 verification-link wall (FIXTURE_CONFIRMED)", () => {
         });
         expect(r.status).toBe("wall_remains");
         expect(r.notes.join(" ")).toMatch(/has no code input — needs the link/);
+      });
+    } finally {
+      applySafeFillEnv();
+    }
+  }, 30_000);
+
+  /**
+   * Live alcon.wd5 shape (replay 2026-09-03): the banner is NOT on the page
+   * until the Sign In click answers; it lands in Workday's own
+   * data-automation-id="errorMessage" container next to a
+   * <button data-automation-id="informationalBlurbButton">Resend Account
+   * Verification</button>. The first live run never saw it: ERROR_RE did
+   * not match "Verify your account …", the poll ran out, the sign-in was
+   * called silent and the Create Account route was taken instead.
+   */
+  const ALCON_LIVE_HTML = `<!DOCTYPE html><html><body>
+    <h1>Sign In</h1>
+    <div id="slot"></div>
+    <form data-automation-id="signInFormo">
+      <input data-automation-id="email" type="text" autocomplete="email" />
+      <input data-automation-id="password" type="password" />
+      <button data-automation-id="signInSubmitButton" type="button">Sign In</button>
+    </form>
+    <p>Don't have an account yet? <a href="/create">Create Account</a></p>
+    <a href="/forgot">Forgot your password?</a>
+    <script>
+      document.querySelector("button[data-automation-id='signInSubmitButton']").addEventListener("click", () => {
+        document.getElementById("slot").innerHTML =
+          '<div data-automation-id="errorMessage" role="alert"><p>Verify your account before you sign in or request a verification email.</p></div>' +
+          '<div><span data-automation-id="informationalBlurbText">Still can\\'t sign in? Be sure to check your spam folder, your account may need verification</span>' +
+          '<button data-automation-id="informationalBlurbButton">Resend Account Verification</button></div>';
+      });
+    </script>
+  </body></html>`;
+  /** The page the emailed link lands on: verified, but still a sign-in form. */
+  const VERIFIED_SIGNIN_HTML = `<!DOCTYPE html><html><body>
+    <h1>Sign In</h1>
+    <p>Your account has been verified. Please sign in.</p>
+    <form>
+      <input data-automation-id="email" type="text" autocomplete="email" />
+      <input data-automation-id="password" type="password" />
+      <button data-automation-id="signInSubmitButton" type="button">Sign In</button>
+    </form>
+    <script>
+      document.querySelector("button[data-automation-id='signInSubmitButton']").addEventListener("click", () => {
+        document.querySelector("form").remove();
+        document.body.insertAdjacentHTML("beforeend", "<p>My Information</p>");
+      });
+    </script>
+  </body></html>`;
+
+  it("#163 live shape: banner answers the sign-in click, the link is opened, then ONE sign-in clears the wall", async () => {
+    applyControlledFillEnv({ NAVIGATION_ENABLED: "true" });
+    resetConfigCache();
+    try {
+      // Live: the account was created by an earlier run, so the vault knows
+      // the host and the run signs in (no create-before-sign-in).
+      setAccount("interdigital.wd5.myworkdayjobs.com", {
+        email: "candidate@fixture.test",
+        password: "Fixture#Pass1",
+        runId: "fixture",
+      });
+      await onWorkdayPage(ALCON_LIVE_HTML, async (page) => {
+        await page.context().route("**/verify-token**", (route) =>
+          route.fulfill({ body: VERIFIED_SIGNIN_HTML, contentType: "text/html" }),
+        );
+        let waiterCalls = 0;
+        const r = await authenticateAtsPortal(page, {
+          emailOverride: "candidate@fixture.test",
+          settleMs: 0,
+          waiter: async () => {
+            waiterCalls += 1;
+            return {
+              kind: "link",
+              url: "https://interdigital.wd5.myworkdayjobs.com/verify-token?t=abc",
+              messageId: "m",
+              pollsUsed: 1,
+            };
+          },
+        });
+        const joined = r.notes.join(" ");
+        expect(joined).toMatch(/sign-in refused until the account is verified/);
+        expect(joined).not.toMatch(/taking the page's "Create Account" route/);
+        expect(waiterCalls).toBe(1);
+        expect(joined).toMatch(/link opened onto a sign-in form — signing in once/);
+        expect(r.status).toBe("signed_in");
+        expect(r.verification_used).toBe(true);
+        expect(r.escalated_to_create).toBe(false);
       });
     } finally {
       applySafeFillEnv();

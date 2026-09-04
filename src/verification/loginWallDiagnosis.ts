@@ -62,8 +62,13 @@ const CREATE_ROUTE_RE =
 // have entered the wrong email address or password or your account might
 // be locked." — "wrong password" never matched it, the wall "remained" and
 // the documented create-account escalation never ran.
+// #163 (live alcon.wd5 2026-09-03): the sign-in answer "Verify your account
+// before you sign in or request a verification email." sat in Workday's own
+// errorMessage container and was NOT an error to this regex — the poll ran
+// to its deadline, the run called the sign-in "silent" and took the Create
+// Account route instead of the mailbox.
 const ERROR_RE =
-  /incorrect|invalid|doesn'?t match|does not match|no account|can'?t find|couldn'?t find|not recognized|try again|must be verified|verify your email|wrong (?:email(?: address)?(?: or)?\s*)?password|wrong email|might be locked|unable to sign in|sign[- ]in failed|already (?:exists|in use|registered|taken)/i;
+  /incorrect|invalid|doesn'?t match|does not match|no account|can'?t find|couldn'?t find|not recognized|try again|must be verified|verify your (?:email|account)|request a verification email|account (?:is )?not (?:yet )?verified|wrong (?:email(?: address)?(?: or)?\s*)?password|wrong email|might be locked|unable to sign in|sign[- ]in failed|already (?:exists|in use|registered|taken)/i;
 /** Vendor error containers read before the body text (Workday's errorMessage). */
 const ERROR_CONTAINER_SELECTOR =
   "[data-automation-id='errorMessage'], [data-automation-id='alertMessage'], [role='alert']";

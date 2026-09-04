@@ -202,7 +202,23 @@ export function resolveNavVerificationWaiter(overrides?: {
     }
 
     for (const step of steps) {
-      const result = await step();
+      // #163 (live alcon 2026-09-03): the Outlook leg threw "session
+      // invalid (UNAUTHENTICATED)" and the throw escaped the whole waiter —
+      // the Gmail leg had already run, the wall's Resend never got its
+      // turn, and the pipeline step died. One provider being unavailable is
+      // that provider's timeout, not the run's failure.
+      let result: VerificationWaitResult | null = null;
+      try {
+        result = await step();
+      } catch (err) {
+        logger.warn("verification provider unavailable — continuing", {
+          service: "verification",
+          action: "nav_code_provider_error",
+          metadata: { error: err instanceof Error ? err.message : String(err) },
+        });
+        pollsUsed += 1;
+        continue;
+      }
       if (result) return result;
     }
     return { kind: "timeout", pollsUsed };

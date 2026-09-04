@@ -325,6 +325,12 @@ export async function authenticateAtsPortal(
   const settleEmailedCodeWall = async (input: {
     username: string;
     escalated: boolean;
+    /**
+     * #163: a verification LINK usually lands on a page that says "verified —
+     * sign in"; the caller supplies the one sign-in retry (it is defined
+     * later in this function, so it is injected rather than referenced).
+     */
+    signInAfterLink?: () => Promise<{ diag: LoginWallDiagnosis; formGone: boolean }>;
   }): Promise<PortalAuthOutcome | null> => {
     const codeInput =
       (await firstVisible(page, sel.verificationCodeInput)) ??
@@ -448,10 +454,39 @@ export async function authenticateAtsPortal(
         diag: await diagnoseLoginWall(page),
       });
     }
+    // #163: the link page itself is not the signed-in session — when it
+    // still shows a sign-in form, sign in ONCE now (the account is verified)
+    // and judge THAT answer; a page without a form is the caller's to read.
+    const afterLink = await diagnoseLoginWall(page);
+    if (
+      wait.kind === "link" &&
+      input.signInAfterLink &&
+      afterLink.fields.email &&
+      afterLink.fields.password &&
+      afterLink.classification === "sign_in_form"
+    ) {
+      notes.push("portal auth: verification link opened onto a sign-in form — signing in once");
+      const retry = await input.signInAfterLink();
+      if (!retry.formGone) {
+        notes.push(
+          `portal auth: sign-in after verification did not clear (${retry.diag.classification}${retry.diag.errorText ? ` — "${retry.diag.errorText.slice(0, 100)}"` : ""})`,
+        );
+        return done("wall_remains", {
+          verification: verificationUsed,
+          escalated: input.escalated,
+          diag: retry.diag,
+        });
+      }
+      return done("signed_in", {
+        verification: verificationUsed,
+        escalated: input.escalated,
+        diag: retry.diag,
+      });
+    }
     return done(input.escalated ? "account_created" : "signed_in", {
       verification: verificationUsed,
       escalated: input.escalated,
-      diag: await diagnoseLoginWall(page),
+      diag: afterLink,
     });
   };
 
@@ -782,6 +817,33 @@ export async function authenticateAtsPortal(
     }
     escalated = false;
     state = await attempt("sign_in");
+  }
+
+  // #163 (live alcon.wd5 2026-09-03): the sign-in is REFUSED until the
+  // account is verified — "Verify your account before you sign in or
+  // request a verification email." That is neither a wrong password nor a
+  // missing account: creating would fail "already exists" and the silent
+  // branch below would take the Create Account route anyway (it did — the
+  // mailbox was consulted on the wrong page). Work the emailed link NOW,
+  // while the banner and its Resend control are on the page.
+  if (
+    !state.formGone &&
+    state.diag.errorText &&
+    sel.accountVerificationMarkers.test(state.diag.errorText)
+  ) {
+    notes.push(
+      `portal auth: sign-in refused until the account is verified — "${state.diag.errorText.slice(0, 100)}"; working the emailed link`,
+    );
+    const verified = await settleEmailedCodeWall({
+      username,
+      escalated,
+      signInAfterLink: () => attempt("sign_in"),
+    });
+    if (verified) return verified;
+    notes.push(
+      "portal auth: account-verification banner shown but no verification prompt was readable — parking",
+    );
+    return done("wall_remains", { escalated, diag: state.diag });
   }
 
   if (!state.formGone && state.diag.classification === "account_locked") {

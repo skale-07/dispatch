@@ -165,6 +165,31 @@ describe("verification subsystem (UNIT_CONFIRMED)", () => {
       expect(r).toEqual({ kind: "timeout", pollsUsed: 11 });
     });
 
+    it("#163 a provider that THROWS (dead Outlook session) is its own timeout, not the run's failure", async () => {
+      const waiter = resolveNavVerificationWaiter({
+        gmailWaiter: async () => ({ kind: "timeout", pollsUsed: 3 }),
+        outlookFetch: async () => {
+          throw new Error(
+            "outlook session invalid (UNAUTHENTICATED): Unauthenticated URL matched /login\\.microsoftonline\\.com/i.",
+          );
+        },
+      })!;
+      const r = await waiter(NEED, []);
+      expect(r).toEqual({ kind: "timeout", pollsUsed: 4 });
+    });
+
+    it("#163 a throwing FIRST provider still lets the next one deliver", async () => {
+      const waiter = resolveNavVerificationWaiter({
+        gmailWaiter: async () => {
+          throw new Error("gmail token refresh failed");
+        },
+        outlookFetch: async () => ({ kind: "code" as const, value: "313131", source: "outlook" }),
+      })!;
+      const r = await waiter(NEED, []);
+      expect(r.kind).toBe("code");
+      if (r.kind === "code") expect(r.code).toBe("313131");
+    });
+
     it("outlook-only shells still get a waiter (gmail token absent)", async () => {
       const waiter = resolveNavVerificationWaiter({
         outlookFetch: async () => ({ kind: "code" as const, value: "777777", source: "outlook" }),
