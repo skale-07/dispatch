@@ -32,3 +32,26 @@ Consequences of the directive:
   tonight the port is simply closed, not lying.)
 
 ## Cycles
+
+### Cycle 1 (15:20Z) — app 99c3eda2, parked at materials
+
+- AUTONOMY PASS: CDP autolaunch started debug Chrome on 9222 by itself
+  (session-start probe had ECONNREFUSED). No operator repair needed.
+- App 99c3eda2-4b93-49df-bf92-3cda8d634959: QUEUED → MATERIALS_GENERATING,
+  stopped "review": "no verified resume material and no default resume to
+  auto-attach". submits_used 0, outreach null (correct — no submit).
+- Issue #166 (environment, NOT code): `DEFAULT_RESUME_PATH` in `.env` still
+  pointed at `private/candidate/resumes/jake_swe.pdf`, but the resumes were
+  renamed 2026-09-04 to `swe.pdf` / `ds_ai.pdf`. Preflight WARNED
+  ("default_resume: MISSING ... every app with no registered resume will
+  park at materials") but the cycle proceeded and burned the job slot
+  anyway. Autonomy observation: a fatal preflight warning does not gate the
+  session — every subsequent job would have parked identically all night.
+  Operator-config remediation applied (allowed under standing env
+  authorization; no code touched): `.env` DEFAULT_RESUME_PATH →
+  `private/candidate/resumes/swe.pdf`.
+- Requeue observation: `npm run retry -- --app 99c3eda2...` refused ("No
+  FAILED_RETRYABLE application") — retry only serves FAILED_RETRYABLE, and
+  a materials park lands at MATERIALS_GENERATING. No CLI path back to
+  QUEUED for this park class (autonomy gap; left as-is). Hygiene pass
+  dismissed 27 MANUAL review items.
