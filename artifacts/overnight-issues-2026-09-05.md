@@ -101,3 +101,26 @@ Consequences of the directive:
   JobRight". Correct handling, no mishap. Autonomy note: queue staleness —
   jobs enqueued earlier can close before the agent reaches them; the
   pipeline detects it cleanly and spends ~20s on the row.
+
+### Cycle 6 (15:33Z) — app 98784229 (Bennett Thrasher), duplicate refusal explained
+
+- Third "duplicate employer URL" park, but the nav report
+  (`artifacts/navigation/nav-5cd430a9-.../report.json`) shows what the
+  dup class actually is:
+- Issue #169 (observation, supersedes the #168 "queue dedupe" framing):
+  Apply-click resolution collision across DIFFERENT companies. The job is
+  at "Bennett Thrasher"; its Apply click resolved to
+  `btcpa.rec.pro.ukg.net` (UKG tenant "btcpa"), which is ALREADY held by
+  app 4e47f9ae — "Barbacane, Thornton & Company, IT Intern - AI &
+  Automation" (AMBIGUOUS_FIELD). Two distinct CPA firms cannot both own
+  tenant "btcpa"; at least one Apply click resolved to the WRONG
+  company's portal (likely both are "BT CPA"-named firms and JobRight's
+  interstitial routed one of them wrong). The congruence checker even
+  flagged it ("URL names 'btcpa', which shares nothing with company
+  'Bennett Thrasher' — recorded, not refused"); only the dup guard
+  stopped it. Fail-closed worked — an autonomous submit to the wrong
+  company's portal was prevented — but the detection fired for the wrong
+  stated reason, and the row parks FAILED_RETRYABLE where a retry would
+  hit the identical wall (retry loop trap). Cycles 3/4 dup refusals are
+  plausibly this same collision class; their nav reports are on disk for
+  the later fix session.

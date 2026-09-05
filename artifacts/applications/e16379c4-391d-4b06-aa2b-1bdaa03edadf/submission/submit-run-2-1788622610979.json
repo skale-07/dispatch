@@ -1,0 +1,33 @@
+{
+  "outcome": "FAILED_BEFORE_CLICK",
+  "application_id": "e16379c4-391d-4b06-aa2b-1bdaa03edadf",
+  "submission_id": "b0001355-31b9-4aab-8c40-52c32c01b73d",
+  "attempt": 2,
+  "receipt": null,
+  "review_item_id": null,
+  "reason": "Refusing to click submit: field verification or upload did not pass",
+  "artifact_path": null,
+  "operator_brief": {
+    "title": "Submit blocked — generic app e16379c4-391d-4b06-aa2b-1bdaa03edadf",
+    "summary": "1 item(s) need attention",
+    "items": [
+      {
+        "id": "upload:resume",
+        "question": "Upload: resume",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "upload_failed",
+        "problem": "no file input resolved: primary resume selector not attached within 3s; retrying resolve after 1500ms; primary resume selector not attached within 3s; no resume file input; 0 file inputs on page",
+        "expected": "resume-6b5f8e75.pdf",
+        "observed": null,
+        "how_to_answer": [
+          "Resume is system-owned: materials:register + adapter.uploadResume on submit/fill — not a free-text profile field.",
+          "If this is ats:fill without --resume, pass --resume <pdf> or use application submit (uses registered material).",
+          "Evidence: no file input resolved: primary resume selector not attached within 3s; retrying resolve after 1500ms; primary resume selector not attached within 3s; no resume file input; 0 file inputs on page"
+        ]
+      }
+    ],
+    "ok_count": 5,
+    "fail_count": 1
+  }
+}
