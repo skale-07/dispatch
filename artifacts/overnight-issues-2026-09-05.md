@@ -55,3 +55,19 @@ Consequences of the directive:
   a materials park lands at MATERIALS_GENERATING. No CLI path back to
   QUEUED for this park class (autonomy gap; left as-is). Hygiene pass
   dismissed 27 MANUAL review items.
+
+### Cycle 2 (15:24Z) — app b32a3624 (ByteDance), login wall before submit
+
+- Resume fix verified: no materials park this cycle; pipeline ran
+  QUEUED → ... → NATIVE_AUTOFILL_RUNNING → READY_TO_SUBMIT ("verified
+  (generic live fill: 1 filled (held for submit))"). LLM filler leg PASSED.
+- Issue #167 (observation): submit run FAILED_BEFORE_CLICK — identity gate
+  UNTRUSTED_FINAL_HOST, navigation ended on
+  `https://jobs.bytedance.com/en/login?redirect_path=%2Fposition%2Fapplication`.
+  ByteDance requires a portal account/sign-in before its application form;
+  fully-autonomous flow has no credential/registration path for this
+  tenant, so the app parks FAILED_RETRYABLE (attempt 2). The gate refusing
+  to click on a login host is CORRECT fail-closed behavior. Class:
+  "auth-walled portal, no account" — same family as the Workday sign-in
+  walls of nights 20–22.
+- submits_used 0, outreach null (correct).
