@@ -196,3 +196,17 @@ artifacts/gmail-pipeline-applied-page.png. Drafts only, zero sends.
 - Gap G1 (subagent): the operator's applied Scale AI posting is NOT the
   DB's old "AI Builder Intern" FAILED_FINAL row — different job. Old row
   and its 08-25 drafts left untouched.
+
+## Window 2 cycles
+
+### Cycle 8 (15:54Z) — b32a3624 ByteDance restart: same wall, as predicted
+
+- Identical outcome to cycle 2 at attempt 3: fill verified (1 field),
+  submit refused UNTRUSTED_FINAL_HOST on jobs.bytedance.com/en/login.
+  No established session to ride (unlike the TIAA Workday class). Confirms
+  #167 is a hard "auth-walled portal, no account" blocker — blind retry
+  can never clear it. Decision: leave FAILED_RETRYABLE but do NOT requeue
+  in future repair phases until an account/session strategy exists
+  (FAILED_RETRYABLE → AUTH_REQUIRED is not a legal transition, checked).
+  Also evidence for the triage thesis: a deterministic retry re-ran the
+  whole pipeline to hit a wall the artifacts already predicted.
