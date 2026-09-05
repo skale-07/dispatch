@@ -1,0 +1,57 @@
+{
+  "run_id": "nav-5cd430a9-1ae9-4ec8-972f-8f8d4ea3fde4",
+  "application_id": "98784229-ae4a-42fe-9727-27db2979b978",
+  "jobright_job_id": "6a91b2829864261ccd29e406",
+  "method": null,
+  "resolved_url": null,
+  "resolved_ats": null,
+  "wall": "duplicate_url",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no congruent apply href (11 external links)",
+      "evidence": "btcpa.rec.pro.ukg.net, www.linkedin.com, x.com, www.crunchbase.com, www.prnewswire.com, ionanalytics.com"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "resolved via popup",
+      "evidence": "btcpa.rec.pro.ukg.net"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "phase A: anchor reads as \"btcpa\" (URL names \"btcpa\" (tenant), which shares nothing with company \"Bennett Thrasher\") — not preferred, deferring to the Apply click",
+    "phase A: 7 external host(s) seen: btcpa.rec.pro.ukg.net, www.linkedin.com, x.com, www.crunchbase.com, www.prnewswire.com, ionanalytics.com, www.einpresswire.com",
+    "Apply control: autofill CTA (tier 0)",
+    "jobright interstitial: clicked \"Apply Without Customizing\"",
+    "popup settled off about:blank after the interstitial",
+    "popup captured on attempt 1",
+    "phase B: captured URL reads as \"btcpa\" (URL names \"btcpa\" (tenant), which shares nothing with company \"Bennett Thrasher\") — kept, provenance is the Apply click",
+    "congruence: URL names \"btcpa\", not \"Bennett Thrasher\" (URL names \"btcpa\" (tenant), which shares nothing with company \"Bennett Thrasher\") — recorded, not refused",
+    "employer URL already held by 1 other application(s): 4e47f9ae (Barbacane, Thornton & Company — IT Intern - AI & Automation, AMBIGUOUS_FIELD)"
+  ],
+  "congruence": {
+    "verdict": "mismatch",
+    "slug": "btcpa",
+    "detail": "URL names \"btcpa\" (tenant), which shares nothing with company \"Bennett Thrasher\"",
+    "expected_company": "Bennett Thrasher",
+    "url": "https://btcpa.rec.pro.ukg.net/BEN1022BTLL/JobBoard/702a70c1-c1f7-4971-8626-bb99571a35a2/OpportunityDetail?opportunityId=4d519358-fb57-46be-8018-838c26e1bf4a&jr_id=6a91b2829864261ccd29e406"
+  },
+  "duplicates": [
+    {
+      "application_id": "4e47f9ae-fee5-4209-b8c6-b33397b4f126",
+      "state": "AMBIGUOUS_FIELD",
+      "company": "Barbacane, Thornton & Company",
+      "role": "IT Intern - AI & Automation"
+    }
+  ],
+  "login_wall": null,
+  "written_at": "2026-09-05T15:33:39.279Z"
+}

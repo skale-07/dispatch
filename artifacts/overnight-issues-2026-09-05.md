@@ -94,3 +94,10 @@ Consequences of the directive:
   28 FAILED_RETRYABLE, 60 AMBIGUOUS_FIELD, 25 NATIVE_AUTOFILL_RUNNING,
   3 APPLICATION_OPENING, 1 AUTH_REQUIRED, 2 CAPTCHA_REQUIRED,
   173 FAILED_FINAL, 16 COMPLETED.
+
+### Cycle 5 (15:31Z) — app 18a31cd4, posting closed
+
+- APPLICATION_OPENING → FILTERED_OUT (terminal): "posting closed on
+  JobRight". Correct handling, no mishap. Autonomy note: queue staleness —
+  jobs enqueued earlier can close before the agent reaches them; the
+  pipeline detects it cleanly and spends ~20s on the row.
