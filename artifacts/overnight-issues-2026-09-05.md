@@ -71,3 +71,15 @@ Consequences of the directive:
   "auth-walled portal, no account" — same family as the Workday sign-in
   walls of nights 20–22.
 - submits_used 0, outreach null (correct).
+
+### Cycle 3 (15:27Z) — app eac348f8, duplicate employer URL
+
+- Materials fix holding: MATERIALS_GENERATING → RESUME_DOWNLOADED
+  ("verified resume material found") in <1s.
+- Issue #168 (observation): APPLICATION_OPENING refused — "navigation
+  refused: duplicate employer URL" → FAILED_RETRYABLE. Another application
+  row already owns this employer URL, and the nav guard (correctly)
+  refuses a second visit. Autonomy gap: discovery enqueued a duplicate and
+  the picker still spent a full cycle slot on it; nothing dedupes QUEUED
+  rows against already-owned URLs at plan/pick time.
+- submits_used 0, outreach null (correct).
