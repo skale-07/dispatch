@@ -4,7 +4,10 @@ import { clearEmployerApplicationUrl } from "../applications/employerUrl.js";
 import { upsertOpenReviewItem } from "../queue/reviewItems.js";
 import { transitionApplication } from "../queue/stateMachine.js";
 import { canTransition, type ApplicationState } from "../queue/states.js";
-import { checkUrlCongruence } from "./congruence.js";
+import {
+  checkUrlCongruence,
+  normalizeEmployerUrlForDedupe,
+} from "./congruence.js";
 
 /**
  * Employer-URL audit — the self-healing sweep for URLs stored BEFORE the
@@ -142,7 +145,7 @@ export function auditEmployerUrls(db: Db): NavAuditReport {
     if (row.state === "FAILED_FINAL" || row.state === "FILTERED_OUT") {
       continue;
     }
-    const key = row.employer_url.replace(/[?#].*$/, "").replace(/\/+$/, "");
+    const key = normalizeEmployerUrlForDedupe(row.employer_url);
     const holder = urlHolders.get(key);
     if (holder === undefined) {
       urlHolders.set(key, row.application_id);

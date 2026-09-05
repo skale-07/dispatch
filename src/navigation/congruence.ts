@@ -534,6 +534,36 @@ const NON_COMPETING_STATES = new Set([
   "UNSUPPORTED_ATS",
 ]);
 
+/**
+ * Params that never carry job identity — tracking and session noise. The
+ * rest of the query STAYS: on Brassring/iCIMS/Taleo-class hosts the job id
+ * lives in the query (`?jobid=907868`), and stripping the whole query
+ * collapsed every posting on the vendor host into one "URL" (night25
+ * issue #171: three different MicroVention roles read as duplicates).
+ */
+const DEDUPE_NOISE_PARAMS =
+  /^(utm_.*|gclid|fbclid|msclkid|ref|referer|source|src|trk|trackingid|refid|session|sessionid|sid|token|state|nonce|locale|lang|hl)$/i;
+
+/** Canonical form of an employer URL for duplicate detection: no fragment,
+ * no tracking/session params, remaining params sorted, no trailing slash. */
+export function normalizeEmployerUrlForDedupe(url: string): string {
+  try {
+    const u = new URL(url);
+    const keep: Array<[string, string]> = [];
+    for (const [k, v] of u.searchParams) {
+      if (!DEDUPE_NOISE_PARAMS.test(k)) keep.push([k, v]);
+    }
+    keep.sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0));
+    const query =
+      keep.length > 0
+        ? "?" + keep.map(([k, v]) => `${k}=${v}`).join("&")
+        : "";
+    return (u.origin + u.pathname).replace(/\/+$/, "") + query;
+  } catch {
+    return url.replace(/#.*$/, "").replace(/\/+$/, "");
+  }
+}
+
 export function findApplicationsWithEmployerUrl(
   db: Db,
   url: string,
@@ -541,7 +571,7 @@ export function findApplicationsWithEmployerUrl(
 ): Array<{ application_id: string; state: string; company: string; role: string }> {
   const detected = detectAtsFromUrl(url);
   const normalized = detected.ats !== null ? detected.normalizedUrl : url;
-  const stripped = normalized.replace(/[?#].*$/, "").replace(/\/+$/, "");
+  const stripped = normalizeEmployerUrlForDedupe(normalized);
   const rows = db
     .prepare(
       `SELECT a.id AS application_id, a.state, j.company, j.role,
@@ -559,7 +589,7 @@ export function findApplicationsWithEmployerUrl(
   return rows
     .filter((r) => {
       if (NON_COMPETING_STATES.has(r.state)) return false;
-      const other = r.employer_url.replace(/[?#].*$/, "").replace(/\/+$/, "");
+      const other = normalizeEmployerUrlForDedupe(r.employer_url);
       return other === stripped;
     })
     .map(({ application_id, state, company, role }) => ({

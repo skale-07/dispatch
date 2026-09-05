@@ -450,6 +450,29 @@ describe("employer-URL audit + duplicate detection (UNIT_CONFIRMED)", () => {
     expect(findApplicationsWithEmployerUrl(db, url, a)).toEqual([]);
   });
 
+  it("query-string job ids distinguish postings — live MicroVention/Brassring regression 2026-09-05 (#171)", () => {
+    // Three MicroVention roles on sjobs.brassring.com differ ONLY in the
+    // query string (?...&jobid=NNNNNN). The old comparator stripped the
+    // whole query, so every Brassring posting collapsed into one "URL"
+    // and sibling roles parked as duplicates of each other.
+    const base =
+      "https://sjobs.brassring.com/TGnewUI/Search/home/HomeWithPreLoad?partnerid=25987&siteid=5297&PageType=JobDetails";
+    const supplyChain = seedApp("MicroVention-Terumo", `${base}&jobid=907868`);
+    const manufacturing = seedApp("MicroVention-Terumo");
+    // A DIFFERENT jobid is not a duplicate.
+    expect(
+      findApplicationsWithEmployerUrl(db, `${base}&jobid=907900`, manufacturing),
+    ).toEqual([]);
+    // The SAME jobid still is — even with reordered params, a fragment,
+    // and tracking noise.
+    const noisy = `https://sjobs.brassring.com/TGnewUI/Search/home/HomeWithPreLoad?jobid=907868&PageType=JobDetails&siteid=5297&partnerid=25987&utm_source=jobright&gclid=abc123#apply`;
+    expect(
+      findApplicationsWithEmployerUrl(db, noisy, manufacturing).map(
+        (d) => d.application_id,
+      ),
+    ).toEqual([supplyChain]);
+  });
+
   it("dead siblings never block a URL — live IBM regression 2026-08-14", () => {
     // nav-74302483: an IBM app parked duplicate_url because its only
     // "holders" were a FAILED_FINAL and an UNSUPPORTED_ATS twin from
