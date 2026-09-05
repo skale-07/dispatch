@@ -83,3 +83,14 @@ Consequences of the directive:
   the picker still spent a full cycle slot on it; nothing dedupes QUEUED
   rows against already-owned URLs at plan/pick time.
 - submits_used 0, outreach null (correct).
+
+### Cycle 4 (15:29Z) — app dc907d8d, duplicate employer URL again
+
+- Recurrence of #168, second consecutive: "navigation refused: duplicate
+  employer URL" → FAILED_RETRYABLE at APPLICATION_OPENING. The QUEUED
+  backlog evidently holds a run of duplicate rows; autonomous operation
+  burns one full cycle (~35s incl. discovery + nav audit) per dup.
+- Queue snapshot after cycle 4 (`npm run report`): 5 QUEUED,
+  28 FAILED_RETRYABLE, 60 AMBIGUOUS_FIELD, 25 NATIVE_AUTOFILL_RUNNING,
+  3 APPLICATION_OPENING, 1 AUTH_REQUIRED, 2 CAPTCHA_REQUIRED,
+  173 FAILED_FINAL, 16 COMPLETED.
