@@ -124,3 +124,75 @@ Consequences of the directive:
   hit the identical wall (retry loop trap). Cycles 3/4 dup refusals are
   plausibly this same collision class; their nav reports are on disk for
   the later fix session.
+
+### Cycle 7 (15:35Z) — app e16379c4, upload wall at submit gate
+
+- Best pipeline depth so far: portal-auth path taken ("needs_login —
+  proceeding to fill"), generic live fill verified 5 fields, submit
+  attempted with page reuse.
+- Issue #170 (observation): submit refused FAILED_BEFORE_CLICK — operator
+  brief `upload:resume`: "no file input resolved ... 0 file inputs on
+  page" while 5/6 items were OK. The page's resume upload is not a
+  standard `<input type=file>` (likely custom drag-drop or a
+  dialog-opening button), so `adapter.uploadResume` had nothing to
+  attach to; gate correctly refused the click. → FAILED_RETRYABLE.
+  Evidence: artifacts/applications/e16379c4-.../submission/ (attempt 2).
+
+## Directive change (15:40Z, operator /goal)
+
+Observation-only is LIFTED. New mode: every 6 cycles, run a repair phase —
+fix recorded issues, restart the failed apps (each restart counts as a
+cycle; fewer than 6 failures ⇒ top up with fresh apps). Gmail pipeline
+must run post-submit (automatic tail; verify). Separate Sonnet subagent
+launched for outreach drafts on Scale AI / Garner Health / Juicebox
+(applied manually on JobRight; report at
+artifacts/gmail-pipeline-2026-09-05.md).
+
+## Repair phase 1 (after cycles 1–6; cycle 7 was in flight and counts
+toward window 2)
+
+- Issue #171 (ROOT CAUSE of the #168 dup refusals, found during repair):
+  `findApplicationsWithEmployerUrl` and the nav audit stripped the ENTIRE
+  query string before comparing employer URLs. On Brassring-class hosts
+  the job identity lives in the query (`?...&jobid=907868` —
+  sjobs.brassring.com), so all three MicroVention roles collapsed to one
+  "URL" and sibling roles parked as duplicates of each other. FIX
+  (committed this phase): `normalizeEmployerUrlForDedupe` in
+  `src/navigation/congruence.ts` — keep the query, drop only fragment +
+  tracking/session params, sort params; used by both the dup guard and
+  `auditEmployerUrls`. Regression test pinned on the real MicroVention
+  URLs in `tests/unit/nav-congruence.test.ts` (45/45, UNIT_CONFIRMED).
+- Issue #170 FIX: `uploadResumeViaFileChooser` in
+  `src/ats/shared/uploadResolve.ts` — when a form has NO
+  `<input type=file>` at all, click an upload-looking control (hard cap 3
+  candidates) under a `filechooser` listener and deliver the file through
+  the chooser; wired into the generic adapter only. Two fixture tests
+  (12/12 in submit-resolve-upload.test.ts, FIXTURE_CONFIRMED).
+- #169 resolution: 98784229 (Bennett Thrasher) abandoned to FAILED_FINAL
+  via the state machine — JobRight attributes the same btcpa UKG job to
+  two companies; 4e47f9ae (Barbacane Thornton) owns the real posting.
+- Restarts (each counts as a cycle): b32a3624 (ByteDance, session
+  experiment), eac348f8 + dc907d8d (MicroVention, now unblocked by #171
+  fix), e16379c4 (SJHL, now has the #170 filechooser fallback) — all
+  requeued at attempt 3. 18a31cd4 is terminal (posting closed), not
+  restartable. 4 restarts + cycle 7 = 5; window 2 tops up with 1 fresh
+  app for 6.
+
+## Gmail pipeline on manually-applied jobs (Sonnet subagent, 16:00Z)
+
+Report: artifacts/gmail-pipeline-2026-09-05.md; applied-page screenshot:
+artifacts/gmail-pipeline-applied-page.png. Drafts only, zero sends.
+
+- Scale AI "Software Engineering Intern (Summer 2027)" (app 76090f6b):
+  5 insider contacts → 5 validated emails → 5 Gmail drafts ("Hopkins
+  sophomore interested in Scale AI SWE internship"). 1 of 5 confirmed by
+  Drafts-search read-back; 4 composed but read-back-unverified (honest
+  level: not fully LIVE_MUTATION_CONFIRMED).
+- Juicebox "Software Engineer Intern" (app 68882294): 0 insider contacts
+  on the panels → legitimately 0 drafts. One transient CDP-attach failure
+  from debug-Chrome contention with the applying loop; retry clean.
+- Garner Health "Software Engineering Intern" (app f40d9047): 1 alum
+  contact but no discoverable email → 0 drafts.
+- Gap G1 (subagent): the operator's applied Scale AI posting is NOT the
+  DB's old "AI Builder Intern" FAILED_FINAL row — different job. Old row
+  and its 08-25 drafts left untouched.
