@@ -10,6 +10,7 @@ import {
 import {
   detectUploadCommit,
   resolveResumeFileInput,
+  uploadResumeViaFileChooser,
 } from "../../src/ats/shared/uploadResolve.js";
 import { ashbySelectorsV1 } from "../../src/ats/ashby/selectors.js";
 import { genericSelectorsV1 } from "../../src/ats/generic/selectors.js";
@@ -242,6 +243,58 @@ describe("shared resume-upload resolve + commit detection (FIXTURE_CONFIRMED)", 
         const upload = await ashbyUploadFile(page, "resume", SAMPLE_RESUME);
         expect(upload.verified).toBe(true);
         expect(upload.evidence).toMatch(/resolved via primary/);
+      });
+    },
+    30_000,
+  );
+
+  it(
+    "filechooser fallback delivers the file through a custom uploader with no <input type=file> in the DOM (issue #170)",
+    async () => {
+      const html = `
+        <form>
+          <button type="button" id="up-btn">Upload Resume</button>
+          <div id="chip"></div>
+        </form>
+        <script>
+          document.getElementById("up-btn").addEventListener("click", () => {
+            const input = document.createElement("input");
+            input.type = "file";
+            input.addEventListener("change", (e) => {
+              document.getElementById("chip").textContent = e.target.files[0].name;
+            });
+            input.click();
+          });
+        </script>`;
+      await withFixtureHtmlPage(html, async (page) => {
+        const r = await uploadResumeViaFileChooser(page, SAMPLE_RESUME, {
+          filename: "sample-resume.pdf",
+          sizeBytes: RESUME_SIZE,
+        });
+        expect(r.attempted).toBe(true);
+        expect(r.verified).toBe(true);
+        expect(r.evidence).toMatch(/file chooser accepted/);
+      });
+    },
+    30_000,
+  );
+
+  it(
+    "filechooser fallback refuses to click when nothing looks like an upload control",
+    async () => {
+      const html = `
+        <form>
+          <button type="button">Save draft</button>
+          <button type="button">Cancel</button>
+        </form>`;
+      await withFixtureHtmlPage(html, async (page) => {
+        const r = await uploadResumeViaFileChooser(page, SAMPLE_RESUME, {
+          filename: "sample-resume.pdf",
+          sizeBytes: RESUME_SIZE,
+        });
+        expect(r.attempted).toBe(false);
+        expect(r.verified).toBe(false);
+        expect(r.evidence).toMatch(/no upload-like control/);
       });
     },
     30_000,

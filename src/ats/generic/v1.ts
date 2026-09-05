@@ -32,6 +32,7 @@ import {
 import {
   detectUploadCommit,
   resolveResumeFileInput,
+  uploadResumeViaFileChooser,
 } from "../shared/uploadResolve.js";
 import { genericSelectorsV1 } from "./selectors.js";
 import { genericSubmit, genericVerifySubmission } from "./submission.js";
@@ -182,13 +183,19 @@ export class GenericAdapterV1 implements ApplicationAdapter {
       css: genericSelectorsV1.resume,
     });
     if (!resolution.found) {
+      // Custom uploaders (no <input type=file> in the DOM until a control
+      // is clicked) get one filechooser-event pass before giving up.
+      const chooser = await uploadResumeViaFileChooser(page, abs, {
+        filename,
+        sizeBytes: stat.size,
+      });
       return {
         field: "resume",
         path: abs,
         filename,
         size_bytes: stat.size,
-        verified: false,
-        evidence: `no file input resolved: ${resolution.notes.join("; ")}`,
+        verified: chooser.verified,
+        evidence: `no file input resolved: ${resolution.notes.join("; ")}; ${chooser.evidence}`,
       };
     }
     await resolution.input.setInputFiles(abs);

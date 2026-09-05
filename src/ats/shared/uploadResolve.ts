@@ -118,6 +118,108 @@ export async function resolveResumeFileInput(
   return { found: false, notes, inventory };
 }
 
+export type FileChooserUploadResult = {
+  attempted: boolean;
+  verified: boolean;
+  evidence: string;
+};
+
+/**
+ * Last-resort path for forms with NO `<input type="file">` in the DOM at
+ * all (custom uploaders that create the input on demand): click an
+ * upload-looking control while listening for Playwright's `filechooser`
+ * event, and deliver the file through the chooser. Hard-capped at 3
+ * candidate controls; a candidate whose click opens no chooser within 3s
+ * gets an Escape (to close whatever it did open) and is skipped.
+ */
+export async function uploadResumeViaFileChooser(
+  page: Page,
+  filePath: string,
+  expected: { filename: string; sizeBytes: number },
+): Promise<FileChooserUploadResult> {
+  const notes: string[] = [];
+  const include = /upload|attach|browse|choose file|select file|resume|\bcv\b/i;
+  const exclude =
+    /remove|delete|cancel|clear|cover|photo|avatar|profile picture|linkedin|google|dropbox/i;
+
+  const candidates = page.locator("button, [role='button'], label, a");
+  const total = Math.min(await candidates.count().catch(() => 0), 40);
+  const picked: { control: Locator; label: string }[] = [];
+  for (let i = 0; i < total && picked.length < 3; i++) {
+    const c = candidates.nth(i);
+    if (!(await c.isVisible().catch(() => false))) continue;
+    const text = (await c.innerText().catch(() => "")).trim();
+    const aria = (await c.getAttribute("aria-label").catch(() => null)) ?? "";
+    const label = `${text} ${aria}`.trim();
+    if (!label || label.length > 80) continue;
+    if (include.test(label) && !exclude.test(label)) {
+      picked.push({ control: c, label });
+    }
+  }
+  if (picked.length === 0) {
+    return {
+      attempted: false,
+      verified: false,
+      evidence: "filechooser fallback: no upload-like control found",
+    };
+  }
+
+  for (const { control, label } of picked) {
+    const chooserPromise = page.waitForEvent("filechooser", { timeout: 3_000 });
+    const clicked = await control
+      .click({ timeout: 2_000 })
+      .then(() => true)
+      .catch(() => false);
+    let chooser;
+    try {
+      chooser = await chooserPromise;
+    } catch {
+      notes.push(
+        `"${label}": ${clicked ? "click opened no file chooser" : "click failed"}`,
+      );
+      await page.keyboard.press("Escape").catch(() => undefined);
+      continue;
+    }
+    await chooser.setFiles(filePath);
+    notes.push(`"${label}": file chooser accepted ${expected.filename}`);
+
+    // Commit detection, chooser flavor: the chooser's own input first, then
+    // the same filename-chip signal detectUploadCommit trusts.
+    let files: Array<{ name: string; size: number }> = [];
+    try {
+      files = await chooser
+        .element()
+        .evaluate(
+          (el: { files?: ArrayLike<{ name: string; size: number }> | null }) => {
+            const list = el.files ? Array.from(el.files) : [];
+            return list.map((f) => ({ name: f.name, size: f.size }));
+          },
+        );
+    } catch {
+      files = [];
+    }
+    const inputFilesMatch =
+      files.some((f) => f.name === expected.filename) ||
+      files.some((f) => f.size === expected.sizeBytes);
+    await page.waitForTimeout(350);
+    const stem = expected.filename.replace(/\.[^.]+$/, "");
+    const bodyText = await page.locator("body").innerText().catch(() => "");
+    const chipVisible =
+      bodyText.includes(expected.filename) ||
+      (stem.length >= 12 && bodyText.includes(stem.slice(0, 24)));
+    return {
+      attempted: true,
+      verified: inputFilesMatch || chipVisible,
+      evidence: `${notes.join("; ")}; input files: ${JSON.stringify(files)}; chip=${chipVisible}`,
+    };
+  }
+  return {
+    attempted: true,
+    verified: false,
+    evidence: `filechooser fallback: ${notes.join("; ")}`,
+  };
+}
+
 export type UploadCommitCheck = {
   verified: boolean;
   evidence: string;
