@@ -10,67 +10,82 @@ lineage, shared operator, shared data-handling posture) don't get missed.
 
 | Field | Value |
 | --- | --- |
-| Last reviewed | 2026-08-07 |
+| Last reviewed | 2026-09-05 |
 | Reviewed by | Scheduled agent review (automated) |
 | Repos covered | `skale-07/dispatch` (private; formerly `jobright-application-agent`), `skale-07/tSearch` (**public**) |
 
 ---
 
-## 1. Dispatch (engine: the application agent)
+## 1. Dispatch (engine: the application agent) + the new cloud console
 
 ### 1.1 Vision
 
-A **local, deterministic, operator-controlled** Playwright agent that automates
-the mechanical parts of *your own* job-application workflow — JobRight.ai
-discovery → employer ATS form fill → gated submit → outreach → Outlook
-drafts — while keeping every judgment call (essays, demographics, uncertain
-submissions) with a human. It is explicitly **not** trying to be a general
-autonomous browser agent. The product bet is that determinism + fail-closed
-gating + an honest validation ladder beats an LLM-driven agent for a task
-where a wrong click (an accidental real submission, a leaked credential, an
-invented EEO answer) is expensive and hard to undo.
+**This changed materially since the last review (2026-08-07) and is the
+single biggest update in this doc.** The original vision was a local,
+operator-controlled Playwright agent automating *your own* job-application
+workflow. As of an operator directive dated 2026-09-01, that engine is
+being wrapped in a **split-plane product**: the deterministic, fail-closed
+engine (Playwright, SQLite, `private/`) stays on the operator's machine
+(v0) or a per-user container (v1 — reserved AWS credit, not yet built),
+while a new **cloud plane is a real public multi-tenant web app** —
+marketing site, waitlist, invite redemption (Supabase Auth magic link),
+an onboarding wizard (profile, education, work authorization, resume
+upload, job preferences), and a dashboard of applications/receipts/quota.
+The product bet on determinism + fail-closed gating + an honest validation
+ladder over an LLM-driven agent is unchanged and is explicitly carried into
+the cloud plane (`SUPABASE_SYNC_ENABLED` is fail-closed like every other
+flag). What's new is the audience: this is no longer built for one
+operator's own applications — it is being launched, invite-only, at other
+users ahead of "the September recruiting rush."
 
 ### 1.2 Core technical details
 
-- **Stack:** TypeScript / Node 20 / Playwright / better-sqlite3 / Zod / OpenAI (one narrow call site only).
-- **Source of truth:** SQLite (`data/app.sqlite`) — queue state, transitions, leases, idempotency, review items. `state.json` is a read-only export, never a write target.
-- **State machine:** `DISCOVERED → ELIGIBILITY_CHECK → QUEUED → inspect → fill → READY_TO_SUBMIT → SUBMITTING → SUBMITTED/SUBMISSION_VERIFICATION_FAILED → contacts/outreach → COMPLETED`, with `FAILED_RETRYABLE`/`FAILED_FINAL` terminals. Every transition is a DB event; uncertain submissions require a human `review:resolve` (three exits only — submitted / requeue / abandon — never automated).
-- **Safety architecture:** every mutation capability sits behind a named fail-closed env flag (`FORM_FILL_ENABLED`, `SUBMIT_ENABLED`, `DRY_RUN`, etc. — full list in `CLAUDE.md`). `chromium.launch` is confined to three session-infra files. `check:forbidden` CI-fails the build if Outlook send APIs appear anywhere. Demographic fields are never inferred. Essays fill from about-me.md when the LLM path is on; otherwise they park.
-- **Validation ladder:** `UNIT_CONFIRMED → FIXTURE_CONFIRMED → LIVE_READ_ONLY_CONFIRMED → LIVE_MUTATION_CONFIRMED`, with `UNVERIFIED` as the honest default. A capability's self-reported success (including the fill-healer's) carries no level until independently verified. This ladder is the project's main defense against "fixture green" being mistaken for "live green."
-- **ATS coverage today:** Greenhouse only (inspect + fill, live-path shipped, submit gated off). Workday/iCIMS/Oracle are detected and skipped. Lever/Ashby deferred. An "inert" Phase 6a agent-authoring sidecar exists to help *write* new adapters offline; it never drives a live page.
-- **Lineage:** the session/storage layer was deliberately hardened from tSearch (see §3) — atomic JSON patterns and the lazy-session-open concept were ported and re-verified; tSearch's product logic (scoring, GitHub graph, olympiad data) was explicitly **not** ported.
+- **Stack:** TypeScript / Node 20 / Playwright / better-sqlite3 / Zod / OpenAI + Anthropic (LLM provider now selectable) — plus, new: Supabase (Postgres + Auth + Storage, RLS-gated), Vercel Hobby (free tier) for the public app.
+- **Source of truth:** SQLite (`data/app.sqlite`) on the engine side remains authoritative; the cloud plane's Supabase tables (`app_users`, `invites`, `user_profiles`, `application_status_mirror`, `application_receipts`) are a **mirror written by the engine**, never the reverse — engine→cloud pushes status/receipts via a whitelisted mapper (`src/cloud/syncMapping.ts`); cloud→engine only pulls onboarded profile/preferences into `private/cloud/`. The operator's own `private/`, ATS credentials, vault entries, and LLM keys never cross upward — stated as a "non-negotiable" data-flow rule in `docs/roadmap/cloud-deploy.md`.
+- **State machine:** unchanged — `DISCOVERED → ELIGIBILITY_CHECK → QUEUED → inspect → fill → READY_TO_SUBMIT → SUBMITTING → SUBMITTED/SUBMISSION_VERIFICATION_FAILED → contacts/outreach → COMPLETED`, with human-only `review:resolve` on uncertain submissions.
+- **Safety architecture:** unchanged in kind, grown in list — every mutation capability (engine and cloud sync alike) sits behind a named fail-closed env flag (34 in `.env.example` now, including `SUPABASE_SYNC_ENABLED`, `CONSOLE_HOSTED_MODE_ENABLED`). `chromium.launch` still confined to three session-infra files; `check:forbidden` still bans Outlook send APIs anywhere in the tree.
+- **Validation ladder — real promotion since last review:** the README now claims (and this review did not independently re-run, so treat as the project's own report, not this review's verification) that **five real applications have reached `LIVE_MUTATION_CONFIRMED`** — Neuralink, Old Mission, DV Trading (Greenhouse) and Exa (Ashby) — meaning the previously-blocking defect (workstream C′, live JobRight feed discovery returning 0 cards) is resolved and a full live discover→submit→verify loop has actually closed at least once. This is the most important engine-side change since 2026-08-07.
+- **ATS coverage — expanded:** Greenhouse (job-boards + embeds), **Ashby, Lever, Workable**, and **Workday** (employer-portal account auth, SSO chooser, multi-page wizard incl. consent listboxes/date widgets/multiselect, EEO pages) — a large jump from "Greenhouse only, Lever/Ashby deferred" as of the last review. A generic adapter now handles ATS-handoff detection from careers-site front doors; unsupported families (USAJobs/login.gov, ByteDance portal, Phenom, iCIMS accounts) still refuse fail-closed with the reason recorded.
+- **Lineage:** unchanged — the session/storage layer was hardened from tSearch (see §3); tSearch's product logic was not ported.
 
 ### 1.3 Technical direction
 
-Current phase: **5.6 — live validation of already-built Phase 0–13 machinery.**
-Nothing in 5.6 adds new capability surface; it exists to move already-shipped
-code from `FIXTURE_CONFIRMED` to `LIVE_*_CONFIRMED` under an operator's hand.
+Two workstreams are now running, not one:
 
-- **Immediate blocker (workstream C′):** live JobRight feed discovery returns
-  `jobs_inspected: 0` against a real session, while the identical parser
-  handles the fixture capture fine. This is the single blocking defect for
-  the whole product — every application in SQLite today is fixture-derived,
-  so there is no live closed loop yet. Leading hypothesis: `storageState()`
-  doesn't capture IndexedDB, and Google OAuth session state for JobRight may
-  live there (see §5 for a concrete fix).
-- **Next after C′:** re-confirm the (code-complete) CAPTCHA false-positive
-  fix on a live Greenhouse board, then guarded live fill with submit still
-  off.
-- **Deliberately not in scope right now:** employer submit going live, essay
-  generation, Outlook send (permanently out of scope, not just "not yet"),
-  silent multi-ATS expansion, restoring the Phase 6 `autofillCompare` stash,
-  or replacing the Greenhouse adapter with an LLM agent as the default path.
-- **Longer arc (post-5.6):** Phase 6 constrained-agent fallback — *only* as a
-  fill-assist for unsupported ATS (Workday first candidate), gated behind
-  `AGENT_FALLBACK_ENABLED`, still passing through the same approved-plan +
-  read-back verification gates. Not a replacement for the deterministic
-  Greenhouse path, which stays the default.
+**Engine (formerly "Phase 5.6"):** per the README's 2026-08-31 "Current
+state," the core live-validation goal of Phase 5.6 appears to have been
+substantially met — full chain discovery→materials→inspect→plan→fill→
+essays→gated submit→receipt verification→contacts→outreach drafts runs
+live end to end for at least 5 completed applications. **Doc-drift flag:**
+`docs/current-state-and-phase56.md` (dated to the 5.6 effort) still shows
+open checkboxes for exactly the things the README now claims are done
+(live feed discovery ≥1 card, CAPTCHA fix confirmed live, live Greenhouse
+fill evidence) — see §4 for why this is worth closing out explicitly
+rather than leaving two "source of truth" docs disagreeing.
 
-Deeper detail (unchanged by this doc, still canonical):
-[`architecture.md`](./architecture.md) ·
-[`current-state-and-phase56.md`](./current-state-and-phase56.md) ·
-[`known-limitations.md`](./known-limitations.md) ·
-[`validation-levels.md`](./validation-levels.md)
+**Cloud (new, "Phase v0"):** per `docs/roadmap/cloud-deploy.md` and
+`docs/roadmap/invite-round-trip-2026-09-02.md` — Supabase schema is live,
+a 23-step invite round trip has passed, a `redeemed_by` FK-cycle bug that
+would have made member deletion (dashboard or GDPR request) impossible
+was found and fixed pre-launch (`ON DELETE CASCADE`, decision recorded),
+10 invite codes (quota 5 each) are loaded and unredeemed, and an
+`engine_status` heartbeat now writes one row per user on every
+`cloud:sync` tick. Marketing collateral (campus outreach templates,
+short-form video scripts, a "college launch" doc) already exists,
+suggesting user acquisition is imminent, not speculative.
+
+- **Deliberately not (yet) in scope:** the v1 per-user containerized
+  engine (reserved $10k AWS credit, explicitly "do not spend on v0");
+  going commercial on Vercel Hobby (non-commercial-licensed; the repo's
+  own roadmap already flags revisiting this before it becomes commercial).
+- **Longer arc:** Phase 6 constrained-agent fallback for unsupported ATS
+  is still just an evaluation (`browser-use-evaluation.md`), still gated
+  behind `AGENT_FALLBACK_ENABLED`, still not the default path.
+
+Deeper detail (in `skale-07/jobright-application-agent`, not this repo):
+`docs/architecture.md` · `docs/current-state-and-phase56.md` ·
+`docs/known-limitations.md` · `docs/validation-levels.md` ·
+`docs/roadmap/cloud-deploy.md`
 
 ---
 
@@ -78,46 +93,39 @@ Deeper detail (unchanged by this doc, still canonical):
 
 ### 2.1 Vision
 
-"Unseen talent discovery": find people whose ability shows up in public
-artifacts (GitHub repos, technical writing) rather than credentials — starting
-from named seeds (olympiad medalists, referrals), expanding outward through
-their real collaboration graph (GitHub collaborators/followers, Substack),
-scoring on evidence of building + thinking + pedigree, then running LLM
-"judges" over their actual public work to produce a defensible, evidence-cited
-priority score for a recruiter digest. The stated non-negotiable design
-principle (`implementation-prompt.md`) is that every judgment must be
-evidence-grounded and that missing evidence maps to `insufficient_public_evidence`,
-never to a negative capability judgment — the system is built to avoid
-confidently ranking someone down for something it simply couldn't see.
+Unchanged: "unseen talent discovery" — find people whose ability shows up
+in public artifacts rather than credentials, expand outward through their
+real collaboration graph, score on evidence of building + thinking +
+pedigree, run LLM "judges" over their public work, and produce an
+evidence-cited priority score for a recruiter digest. The non-negotiable
+principle is unchanged: missing evidence maps to `insufficient_public_evidence`,
+never to a negative judgment.
 
 ### 2.2 Core technical details
 
-- **Stack:** TypeScript / Node / Playwright (headed, LinkedIn only) / Express + Vite (radial-graph UI) / OpenAI / Resend.
-- **Pipeline:** `resolve identity (LinkedIn + website) → expand graph hop-1 (GitHub collaborators/followers, Substack) → optional hop-2 (UI-driven only) → score (final_score heuristic) → persist (candidates.json, profiles/, data/people/) → assess (LLM judges, priority_score) → digest email`.
-- **Discovery/Assessment/Presentation separation is load-bearing:** assessment reads only the frozen `output/candidates.json` — it never re-runs LinkedIn discovery or corrects a wrong identity match. `final_score` (discovery) and `priority_score` (assessment) are deliberately never collapsed into one number.
-- **Judge system:** rubric-YAML-driven (`rubrics/`), technical + writing judges running in parallel where both apply, then a cross-artifact/synthesis pass. Judges are instructed to coerce (demote/backfill) rather than hard-fail on missing evidence IDs.
-- **No safety-flag layer.** Unlike jobright, tSearch has no `CLAUDE.md`/house-rules file, no fail-closed env-flag convention, and no forbidden-API check. The closest equivalents are undocumented code-level conventions (`ASSESSMENT_MOCK_LLM`, `--skip-digest`, `digest:send --dry-run`). Given this pipeline does live scraping of a third-party site and sends real email via Resend, this is a structural gap relative to its sibling repo, not just a style difference.
+- **Stack:** unchanged — TypeScript / Node / Playwright (headed, LinkedIn only) / Express + Vite / OpenAI or Anthropic / Resend.
+- **Pipeline:** unchanged shape, richer scoring since last review: `resolve identity → expand graph hop-1/2 → score (final_score) → persist → assess (LLM judges, priority_score) → digest email`, now with an obscurity multiplier, age-relative ("youth wildcard") impressiveness, corroborated-GitHub weighting, an award registry, and a "Cory" persona/tiered recruiter-label judge on top of the technical/writing judges.
+- **Judge system:** unchanged architecture (rubric-YAML-driven, coerce-not-hard-fail on missing evidence), plus a new experience-distinctiveness judge and "humanized" (non score-speak) judge prose.
+- **Safety-flag layer — resolved since last review.** tSearch now has a `CLAUDE.md` house-rules file with explicit fail-closed boundaries: no PII in git (see below), assessment reads frozen `output/candidates.json` only, `digest:send` defaults to `--dry-run`, LinkedIn scraping must respect `LINKEDIN_DELAY_MS`/cache and degrade rather than retry-hammer on ban/captcha, and full-size live LLM runs need explicit operator OK. This closes what was flagged as a Medium structural gap on 2026-08-07.
 
 ### 2.3 Technical direction
 
-- Digest delivery is currently a one-shot brief (Phase 1–2 of the documented
-  4-phase roadmap in `email-digest-implementation-context.md`). Phases 3–4 —
-  feedback capture (relevant / not relevant / explore-network) and
-  ranking refinement from that feedback — are **designed but not built**.
-- Per `all-agents-wiring-verification.md` (the most recent audit pass), the
-  blog/writing/cross-artifact/Cory judge wiring that an earlier self-report
-  had claimed as complete is now genuinely wired end-to-end and passes an
-  offline 4-candidate smoke test — but the docs are explicit that this has
-  **not** been proven safe for a full-size (~39 candidate) live run: GitHub +
-  blog rate-limit and OpenAI cost exposure at that scale is untested.
-  Phase-D GitHub helpers (PR files/reviews/CODEOWNERS/workflows) remain
-  unwired. Priority-v2 scoring and the "Cory" persona calibration are both
-  flagged `requires_calibration` — not yet trustworthy as a ranking signal
-  on their own.
-- Open product question the docs flag as unresolved: whether digest emails
-  should surface global top-N candidates or per-seed neighbors, and whether
-  Substack-only (no GitHub) candidates should be filtered out of the digest
-  at all.
+- The digest feedback loop (Phase 3 of the 4-phase roadmap) is now
+  **built**, not just designed — `src/digest/feedbackStore.ts` and
+  `buildDigest.ts`/`server/index.ts` wire relevance feedback into the
+  digest. Whether ranking actually *refines* from that feedback (Phase 4)
+  was not independently verified this review.
+- Priority-v2 scoring and the "Cory" persona are still explicitly tagged
+  `requires_calibration` in the rubric type system and validators
+  (`src/assessment/rubrics/`), i.e. this is a live, tracked flag, not
+  something that quietly got dropped — but no calibration test suite
+  exists yet (`tests/` has no calibration-specific coverage). See §5 for
+  a concrete technique (RULERS) that fits this gap directly.
+- Open product question from the last review is now moot in one
+  direction: a real feedback mechanism exists, so "should the digest
+  surface global top-N or per-seed neighbors" is answerable empirically
+  once feedback volume accumulates — worth deciding whether to actually
+  look at that data now that it's being collected.
 
 Deeper detail (in `skale-07/tSearch`, not this repo): `docs/implementation-prompt.md` ·
 `docs/all-agents-wiring-verification.md` · `docs/email-digest-implementation-context.md`
@@ -126,43 +134,67 @@ Deeper detail (in `skale-07/tSearch`, not this repo): `docs/implementation-promp
 
 ## 3. How the two projects relate
 
-Dispatch is a **hardened descendant** of tSearch's session/
-scraping infrastructure, not an unrelated project. `docs/tsearch-reuse-map.md`
-(this repo) records the original reuse plan: tSearch's `saveSession.ts` /
-`linkedinBrowser.ts` concepts (manual storageState login, lazy session
-open/validate) and atomic-JSON-store pattern were the seed for jobright's
-`ServiceSession` and `src/storage/` layers, explicitly rebuilt with more
-hardening (coverage statuses, mid-run auth checks, traces/screenshots, no
-committed profile artifacts — a design choice that, per §4 below, tSearch
-itself does not currently follow). tSearch's product logic — olympiad
-scoring, GitHub graph expansion, the seed-tree UI — was deliberately **not**
-ported; the two products solve different problems (apply vs. discover) and
-share only the "safely drive a browser session against a third-party site"
-substrate.
+Unchanged from the last review: Dispatch is a hardened descendant of
+tSearch's session/scraping infrastructure (`docs/tsearch-reuse-map.md`,
+this repo), not an unrelated project. tSearch's product logic was
+deliberately not ported. One notable new parallel: **both repos are now
+independently building toward "real users other than the operator"** —
+Dispatch via its cloud console, tSearch via its digest feedback loop
+capturing recruiter reactions. Neither repo's docs currently cross-reference
+the other's multi-user posture; worth a shared read if session/credential
+handling patterns Dispatch is building for its cloud plane (RLS,
+whitelisted sync mappers, invite-scoped quotas) would also harden
+tSearch's own occasional need to serve output to people other than the
+operator (the recruiter digest recipients).
 
-One document is now stale on this point: `docs/tsearch-reuse-map.md` still
-describes porting `linkedinExtract.ts` into a `packages/linkedin-enrichment`
-module "in Phase 10," but `current-state-and-phase56.md` records that
-LinkedIn enrichment was **dropped by decision** for the MVP (JobRight contact
-context only). Low-severity, but worth a one-line update to the reuse map so
-a future reader doesn't plan around a decision that was already reversed.
+The stale reuse-map note from the last review (Phase 10 LinkedIn-enrichment
+port that was actually dropped by decision) has not been corrected; still
+low-severity doc drift.
 
 ---
 
 ## 4. Risk triage
 
 Severity reflects blast radius and reversibility, not effort to fix.
+Items marked **RESOLVED** were Critical/High/Medium in the 2026-08-07
+review and are verified fixed as of this review; kept here for the
+record rather than silently dropped.
 
 | Severity | Repo | Risk | Why it matters |
 | --- | --- | --- | --- |
-| **Critical** | tSearch | `profiles/` (39 files) and `backup/` (131 files, ~2.1MB) contain scraped **real people's** LinkedIn data — full name, LinkedIn URL, profile photo URL, education, headline, country — and are **tracked in git and pushed to `origin/main`**, which is a **public** GitHub repo. `.gitignore` has no `profiles`/`backup` entry. Verified directly: 202 files, e.g. `profiles/madanva/profile.json` contains a real name + LinkedIn URL + photo URL + education history. | Third-party PII collected via scraping (no consent from the individuals) is publicly exposed on GitHub, indexable and clonable by anyone. This is a live exposure right now, not a hypothetical — it should be treated with real urgency: gitignore + `git filter-repo`/BFG history purge (removal alone doesn't clear git history), audit whether other tracked paths (`data/people/`, `cache/`) have the same problem, and decide whether the repo should go private until it's clean. |
-| **High** | jobright | Live JobRight feed discovery returns 0 cards against a real session while the fixture path works — every application in the DB today is fixture-derived, so the product has **never completed a live closed loop**. | This blocks the entire product, not one feature; it's the current top engineering priority per the repo's own docs (workstream C′). |
-| **High** | tSearch | `assessment-rubric-architecture-audit.md` flags the ownership-share metric's denominator as the candidate's own commit count, which structurally biases toward false `primary_creator` attribution on any repo where the candidate is already a heavy committer. | This is a scoring-correctness bug in the exact mechanism recruiters are meant to trust; it's silent (no error, just a wrong number feeding `priority_score`). |
-| **Medium** | tSearch | No fail-closed safety-flag layer (no `CLAUDE.md`/house-rules, no forbidden-API check) despite live third-party scraping and real outbound email via Resend. jobright's own `docs/tsearch-reuse-map.md` explicitly names "no committed profile artifacts" as one of the hardening improvements made *over* tSearch — a gap tSearch has evidently not closed on itself. | As the assessment/digest surface grows (feedback loops, more automation), the absence of an explicit gating convention increases the chance a future change accidentally auto-sends or auto-escalates something that should have needed a human. |
-| **Medium** | tSearch | `tsearch-playwright-system-audit.md` (HIGH-severity items): no mid-run re-authentication detection on the LinkedIn session (a silently expired session can produce garbage extractions with no error), zero LinkedIn tests, no retry/trace/screenshot capture on scrape failures, and country is captured but never used to reject homonym mismatches. | Directly threatens data quality (wrong-person matches silently entering the candidate graph) and makes live failures hard to diagnose after the fact — same class of problem jobright already solved for its own live paths via traces/screenshots/read-back verification. |
-| **Medium** | jobright | CAPTCHA false-positive fix and live Greenhouse fill are both code-complete and `FIXTURE_CONFIRMED` but not yet retested against a live board (workstream G). | Not urgent, but "fixed" language shouldn't be read as "proven" until the live retest closes the checkbox — consistent with the project's own validation-ladder discipline. |
-| **Low** | tSearch | Digest-loop design (feedback capture → ranking refinement) is speced but unbuilt; open product questions (global vs. per-seed top-N, Substack-only filtering) are unresolved in the docs. | Not a defect, just unfinished direction — worth tracking so it doesn't silently drop off the roadmap. |
-| **Low** | jobright | `docs/tsearch-reuse-map.md` still describes a Phase 10 LinkedIn-enrichment port that was later dropped by decision (§3). | Doc drift; a future reader could plan work against a stale decision. |
+| **High** | Dispatch | New: the v0 cloud plane's quota is enforced **only by the engine checking before it acts**; the roadmap's own docs note "the quota view counts COMPLETED rows even past the quota... nothing cloud-side blocks it." A buggy or compromised engine instance (or a future v1 per-user container) could run past a user's paid/free quota with no server-side backstop, and since LLM calls cost real money, this is a live cost-control gap, not just a UX nit. | Directly exposed by the multi-user pivot — didn't exist as a risk category when this was single-operator software. Worth a server-side check (a Postgres trigger or edge function rejecting writes past quota) before the cohort grows past 10 invite codes. |
+| **Medium** | Dispatch | Doc drift: `docs/current-state-and-phase56.md` still shows open checkboxes (live feed discovery, CAPTCHA-live-confirm, Greenhouse-live-fill-evidence) for things the README's 2026-08-31 "Current state" section reports as done (5 live `LIVE_MUTATION_CONFIRMED` applications). Two documents both presented as authoritative now disagree. | This project's own culture is unusually strict about validation-ladder honesty ("a lower level never promotes a capability"); leaving a stale phase doc uncorrected undercuts that discipline for the next reader (human or agent) who treats it as current. |
+| **Low** | Dispatch | Vercel Hobby tier (used for the v0 public app) is licensed non-commercial/hobby-use only; the project's own roadmap already flags this needs revisiting before anything commercial. | Not urgent pre-launch with an invite-only cohort, but a "September recruiting rush" push could cross that line faster than expected — worth a calendar reminder, not a code change. |
+| **Low** | tSearch | Priority-v2 and "Cory" persona scoring remain `requires_calibration` with no calibration test harness, while the scoring surface has grown substantially since the last review (obscurity multiplier, youth wildcards, corroborated-GitHub, tiered labels). | Not a regression — this was already flagged and is still honestly tracked in the type system — but the gap between "scoring surface" and "calibration harness" is widening, not closing, since 2026-08-07. |
+| **Low** | tSearch | Stale `docs/tsearch-reuse-map.md` reference to a dropped Phase-10 LinkedIn-enrichment port (carried over from last review, still uncorrected). | Doc drift; low effort to fix, keeps getting deferred. |
+
+### Resolved since 2026-08-07 (verified this review)
+
+- **RESOLVED — Critical (tSearch):** `profiles/`/`backup/` PII exposure.
+  Verified directly: both paths are now gitignored (with a comment citing
+  this doc) and `git ls-files` returns zero tracked files under either
+  path. (Whether the *history* was purged, i.e. old commits with the PII
+  are still fetchable from a clone, was not re-checked this review and is
+  worth a one-time confirmation if it hasn't already been done.)
+- **RESOLVED — High (Dispatch):** live JobRight feed discovery returning
+  0 cards (workstream C′) — superseded by 5 completed live applications
+  per the README (project self-report; see the doc-drift flag above for
+  the one loose end).
+- **RESOLVED — High (tSearch):** ownership-share denominator bug.
+  Verified directly in `src/assessment/github/collectRepositoryArtifact.ts`:
+  share is now computed from an explicit unfiltered `repository_commit_sample`,
+  and is *omitted* (not fabricated as 1.0) when no unfiltered sample exists —
+  matches the "missing evidence, not a negative judgment" design principle.
+- **RESOLVED — Medium (tSearch):** no fail-closed safety-flag layer.
+  Verified: `CLAUDE.md` now exists with explicit hard boundaries.
+- **RESOLVED — Medium (tSearch):** no mid-run LinkedIn re-auth detection,
+  zero LinkedIn tests. Verified: `src/linkedin/linkedinBrowser.ts` detects
+  a mid-run redirect to a login/checkpoint wall and raises a clear error;
+  `tests/linkedin/` now has two test files plus LinkedIn-adjacent coverage
+  in `tests/assessment/` and `tests/scoring/`.
+- **RESOLVED — Medium (Dispatch):** CAPTCHA false-positive fix and live
+  Greenhouse fill were `FIXTURE_CONFIRMED` but unconfirmed live — now
+  implied resolved by the same 5-application live evidence above.
 
 ---
 
@@ -170,49 +202,55 @@ Severity reflects blast radius and reversibility, not effort to fix.
 
 **Dispatch**
 
-- **`storageState({ indexedDB: true })`** (Playwright ≥1.51) — directly targets
-  the live-discovery blocker in §1.3/§4: Google OAuth session state for
-  JobRight plausibly lives in IndexedDB, which default `storageState()`
-  silently drops. Worth trying before deeper SPA-hydration-timing debugging.
-  https://playwright.dev/docs/auth
-- **Stagehand** (`browserbase/stagehand`) — a pattern more than a dependency
-  recommendation: mixes deterministic Playwright code with narrow, *cached*
-  LLM calls for one step (e.g. "find the equivalent field on this Workday
-  form"), replaying deterministically once resolved instead of calling an
-  LLM on every run. Closer architectural fit for the planned Phase 6
-  constrained-fallback than a full autonomous agent. https://github.com/browserbase/stagehand
-- **browser-use** — the concrete, widely-adopted library already named in
-  this repo's own `browser-use-evaluation.md` as the Phase 6 candidate;
-  external validation that it's a reasonable choice *scoped strictly to
-  fill-assist*, with its output still required to pass through the existing
-  approved-plan + `SUBMIT_ENABLED` + read-back-verify gates.
+- **rlsautotest** (featured in Supabase's July 2026 "Made with Supabase")
+  — reads a Postgres schema's actual RLS policies and auto-generates a
+  native pgTAP suite proving, per table/command/identity, who can
+  SELECT/INSERT/UPDATE/DELETE which rows, using reverse-predicate seeding.
+  This lands directly on the new cloud plane: `docs/roadmap/cloud-deploy.md`
+  already leans on RLS as the isolation boundary between users' rows, and
+  the invite-round-trip doc already found and fixed one real FK/RLS-adjacent
+  bug by hand (the `redeemed_by` cascade issue) — an auto-generated pgTAP
+  suite would catch the next one before a live user hits it, which matters
+  more now that real users' resumes/PII are the thing at stake, not just
+  the operator's own data. https://unitautogen.com/postgresql.html
+- Prior-review amendments (`storageState({ indexedDB: true })`, Stagehand,
+  browser-use) are largely **overtaken by events** — the live-discovery
+  blocker they targeted is reported resolved and ATS coverage already
+  expanded to 5 vendors without them. Re-evaluate only if a *new*
+  unsupported-ATS blocker resembling the old C′ symptom shows up.
 
 **tSearch**
 
-- **Autorubric** (arXiv, 2025) — formalizes rubric-based LLM-judge design
-  using psychometric/education-testing principles (decomposing criteria to
-  avoid halo effects, per-criterion reliability measurement). Directly
-  applicable to hardening the existing rubric YAML system and to actually
-  measuring which judge dimensions are noisy, rather than assuming the
-  rubric is well-calibrated. https://arxiv.org/html/2603.00077v2
-- **Prometheus 2 / GLIDER** — open-source judge models purpose-trained for
-  rubric-conditioned evaluation; GLIDER adds span-level explainability
-  (which part of a repo or post triggered a score), which would let the
-  recruiter digest show *why* a candidate scored well, not just the number.
-- **GitHub-graph-first identity resolution** (pattern: `theArjun/github-social-graph`,
-  GitHub GraphQL API over followers/stargazers/forks + NetworkX for
-  community detection) — a ToS-compliant complement that could shift weight
-  away from LinkedIn scraping as the primary signal. Worth noting: Proxycurl,
-  a major LinkedIn-data API provider, was sued by LinkedIn and shut down in
-  July 2025 — concrete, recent evidence that the ban/legal risk this repo's
-  own README already flags under "LinkedIn caveats" is real and escalating,
-  which strengthens the case for treating LinkedIn as a low-volume
-  confirmation step rather than the primary discovery mechanism.
+- **RULERS** (Hong et al., 2026) — compiles judge criteria into versioned
+  immutable bundles, requires the judge to cite auditable evidence for
+  every scoring decision (already tSearch's own design principle), and
+  applies **post-hoc calibration to align score distributions with human
+  annotations**. This is a closer fit than the previously-noted Autorubric
+  for the specific, still-open `requires_calibration` gap on priority-v2
+  and the Cory persona — it's a calibration *method*, not just a rubric
+  *format*.
+- Autorubric, Prometheus 2/GLIDER, and the GitHub-graph-first identity
+  resolution pattern from the last review remain applicable and unbuilt;
+  carried forward rather than re-described.
 
 ---
 
 ## Changelog
 
+- **2026-09-05** — Refresh. Read both repos' current docs trees (README,
+  CLAUDE.md/house-rules, roadmap/, knowledge-graph), full git log since
+  the last review (30 tSearch commits since 2026-08-07; ~40+ Dispatch
+  commits since 2026-09-01 alone), and current GitHub issue/PR state
+  (both repos: zero open issues, zero open PRs, same as last review).
+  Directly verified (not just read from docs): tSearch's PII untracking
+  (`git ls-files`), the ownership-share fix and mid-run auth-guard code,
+  and Dispatch's `.env.example`/flag-registry growth. The Dispatch cloud
+  pivot (multi-tenant SaaS launch) is the most significant development
+  since the last review and is reflected in a rewritten §1. Two risks
+  closed to RESOLVED that were previously open (tSearch ownership-share,
+  tSearch mid-run auth); the Critical PII item and the JobRight
+  live-feed blocker were also resolved and are recorded in §4's resolved
+  list rather than silently dropped from the table.
 - **2026-08-07** — Initial creation. Full read of both repos' docs trees,
   git history, and current GitHub issue/PR state (both repos: zero open
   issues, zero open PRs at time of review). Verified the critical PII/public-repo
