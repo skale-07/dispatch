@@ -45,6 +45,9 @@ import { recordNavigationAttempt } from "../storage/navSubmitOutcomes.js";
 import { codeVersion } from "../storage/codeVersion.js";
 import { evaluateAgentHostPolicy } from "./hostPolicy.js";
 import { writeWallEvidence } from "./wallEvidence.js";
+import { consumeAgentLegOverride } from "../triage/agentLegOverride.js";
+import { adjudicateAnchorCandidates } from "./anchorLlmAdjudicate.js";
+import { adjudicateDuplicate } from "./dupAdjudicate.js";
 import { resolveTokenOnlyGreenhouseEmbed } from "./greenhouseEmbedResolve.js";
 import {
   employerSiblingHosts,
@@ -153,6 +156,8 @@ export type NavigationMethod =
   | "apply_click_same_tab"
   /** Deterministic sign-in / create-account cleared an employer login wall. */
   | "portal_auth"
+  /** LLM promoted one already-harvested phase-A candidate (M6, NAV_LLM_ASSIST_ENABLED). */
+  | "anchor_llm"
   | "agent"
   | null;
 
@@ -181,6 +186,13 @@ export type NavigationReport = {
   congruence: (CongruenceVerdict & { expected_company: string; url: string }) | null;
   /** Populated on wall "duplicate_url": who already holds this URL. */
   duplicates: Array<{ application_id: string; state: string; company: string; role: string }> | null;
+  /**
+   * M7 (NAV_LLM_ASSIST_ENABLED): same-job/different-job judgment when the
+   * duplicate holder's identity text differs. EVIDENCE only — a verdict
+   * never unblocks anything; `same_job` feeds the abandon_duplicate triage
+   * action, everything else parks exactly as before.
+   */
+  dup_adjudication?: { verdict: string; rationale: string } | null;
   /**
    * Zero-mutation read of an employer login wall's shape, whenever one was
    * hit (operator request 2026-08-12). Present even when nothing was
@@ -588,6 +600,53 @@ export async function runNavigation(
         phase: "B_apply_click",
         outcome: "unresolved by deterministic phases",
       });
+
+      // M6 (NAV_LLM_ASSIST_ENABLED): both deterministic phases came up
+      // empty and this is not a login wall — before spending the agent
+      // budget, let the model promote ONE of phase A's already-harvested
+      // candidates. Verbatim set membership; the promoted URL rides the
+      // unchanged downstream pipe (congruence, duplicate gate, store
+      // policy) exactly like an anchor_href hit.
+      if (candidates.length > 0) {
+        try {
+          const adjudicated = await adjudicateAnchorCandidates({
+            company: jobIdentity?.company ?? null,
+            role: jobIdentity?.role ?? null,
+            candidates: candidates.map((href) => {
+              const verdict = congruent(href);
+              return {
+                url: href,
+                congruence: verdict.verdict,
+                detail: verdict.detail ?? null,
+              };
+            }),
+          });
+          report.notes.push(adjudicated.note);
+          if (adjudicated.choice) {
+            trace({
+              phase: "A_anchor_llm",
+              outcome: "candidate promoted by adjudication",
+              evidence: safeHostOf(adjudicated.choice),
+            });
+            if (adjudicated.rationale) {
+              report.notes.push(
+                `anchor adjudication rationale (UNVERIFIED): ${adjudicated.rationale}`,
+              );
+            }
+            return await resolveAndPersist(
+              report,
+              db,
+              applicationId,
+              adjudicated.choice,
+              "anchor_llm",
+            );
+          }
+        } catch (err) {
+          report.notes.push(
+            `anchor adjudication failed (continuing): ${err instanceof Error ? err.message.slice(0, 120) : "unknown"}`,
+          );
+        }
+      }
     }
 
     // Phase C — agent (guarded by AGENT_FALLBACK_ENABLED + reachable CDP).
@@ -625,13 +684,22 @@ export async function runNavigation(
       : null;
     const hostPolicy = evaluateAgentHostPolicy(db, policyHost);
     if (!hostPolicy.runAgent) {
-      trace({
-        phase: "C_agent",
-        outcome: `skipped: ${hostPolicy.reason}`,
-      });
-      report.notes.push(hostPolicy.reason);
-      report.wall = "budget";
-      return await persist(report);
+      // Triage may grant ONE bounded override past a hostPolicy park
+      // (`engage_agent_leg`): the executed decision row is the marker and
+      // consuming it here is what makes it one-shot.
+      if (consumeAgentLegOverride(db, applicationId)) {
+        report.notes.push(
+          `agent host policy overridden once by triage engage_agent_leg (${hostPolicy.reason})`,
+        );
+      } else {
+        trace({
+          phase: "C_agent",
+          outcome: `skipped: ${hostPolicy.reason}`,
+        });
+        report.notes.push(hostPolicy.reason);
+        report.wall = "budget";
+        return await persist(report);
+      }
     }
     // The agent may traverse every non-social host the job page itself
     // linked to, plus the captured start URL. Traversal ≠ acceptance:
@@ -1058,6 +1126,35 @@ export async function runNavigation(
           .join("; ")}`,
       );
       r.wall = "duplicate_url";
+      // M7: when a holder's identity text differs (the btcpa double-
+      // attribution shape), record a same-job/different-job judgment as
+      // evidence. Never unblocks — the park below is unchanged.
+      const thisIdentity = getJobIdentity(database, appId);
+      const identityDiffers = dupes.some(
+        (d) =>
+          d.company !== (thisIdentity?.company ?? d.company) ||
+          d.role !== (thisIdentity?.role ?? d.role),
+      );
+      if (identityDiffers) {
+        try {
+          const { adjudication, note } = await adjudicateDuplicate({
+            company: thisIdentity?.company ?? null,
+            role: thisIdentity?.role ?? null,
+            url,
+            holders: dupes.map((d) => ({
+              company: d.company,
+              role: d.role,
+              state: d.state,
+            })),
+          });
+          r.notes.push(note);
+          if (adjudication) r.dup_adjudication = adjudication;
+        } catch (err) {
+          r.notes.push(
+            `dup adjudication failed (continuing): ${err instanceof Error ? err.message.slice(0, 120) : "unknown"}`,
+          );
+        }
+      }
       return await persist(r);
     }
 

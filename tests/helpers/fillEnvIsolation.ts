@@ -40,6 +40,9 @@ export const CONTROLLED_FILL_ENV_KEYS = [
   // application state through triage executors.
   "TRIAGE_LLM_ENABLED",
   "TRIAGE_ACT_ENABLED",
+  // Nav LLM assist: ambient "true" would let a fixture nav run call a
+  // live model at the adjudication points.
+  "NAV_LLM_ASSIST_ENABLED",
 ] as const;
 
 export type ControlledFillEnvKey = (typeof CONTROLLED_FILL_ENV_KEYS)[number];

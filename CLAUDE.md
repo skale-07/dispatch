@@ -15,7 +15,7 @@ Mirror of `.cursor/rules/house-rules.mdc` — keep both files identical when edi
   `ARTIFACT_AUTOPUSH_ENABLED`, `CDP_AUTOLAUNCH_ENABLED`,
   `OUTLOOK_VERIFICATION_ENABLED`, `ATS_DISCOVERY_ENABLED`, `AUTOMATION_ENABLED`,
   `SUPABASE_SYNC_ENABLED`, `CONSOLE_HOSTED_MODE_ENABLED`,
-  `TRIAGE_LLM_ENABLED`, `TRIAGE_ACT_ENABLED`.
+  `TRIAGE_LLM_ENABLED`, `TRIAGE_ACT_ENABLED`, `NAV_LLM_ASSIST_ENABLED`.
   Flags are enabled in the operator's `.env` (copy `.env.example`) for a
   guarded run — never hardcoded, never defaulted on, never enabled inside
   tests. The process loads that file as the source of truth; do not require

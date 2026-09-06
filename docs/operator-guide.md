@@ -1256,6 +1256,21 @@ Manual: `npm run triage:llm -- [--app <uuid>] [--act]`; history + sweep:
 and `artifacts/triage/<decision_id>/decision.json` — the rationale text
 is UNVERIFIED model output; only the sweep upgrades a decision.
 
+**Navigation LLM assist.** With `NAV_LLM_ASSIST_ENABLED=true`, two extra
+decision points light up inside navigation. (1) When neither deterministic
+phase resolves an application URL (no congruent anchor, Apply click came
+up empty, not a login wall), the model may promote ONE of the page's own
+harvested candidate links — the choice must match a candidate verbatim,
+and the promoted URL still passes every downstream gate (congruence
+evidence, duplicate guard, URL store policy); the nav report records
+`method: "anchor_llm"`. (2) On a `duplicate_url` park where the holder's
+company/role text differs (aggregator double-attribution), the report
+gains a `dup_adjudication` same-job/different-job verdict as evidence —
+verdicts never unblock anything; `same_job` feeds the (shadow-first)
+`abandon_duplicate` triage action. Separately, a triage
+`engage_agent_leg` decision grants ONE agent-phase run past a
+host-policy park; consuming the marker is what makes it one-shot.
+
 **Nav agent while armed.** The ArmCard shows `nav agent:
 available/unavailable` before you arm. Available means the shell exported
 `AGENT_FALLBACK_ENABLED=true` AND your CDP Chrome

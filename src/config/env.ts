@@ -148,6 +148,13 @@ const envSchema = z.object({
   TRIAGE_LLM_ENABLED: boolFromEnv.default(false),
   TRIAGE_ACT_ENABLED: boolFromEnv.default(false),
   /**
+   * Navigation LLM assist (M6/M7): promote one already-harvested apply
+   * candidate when deterministic phases miss (verbatim set membership,
+   * downstream gates unchanged), and record same-job/different-job
+   * evidence on duplicate parks. Fail closed.
+   */
+  NAV_LLM_ASSIST_ENABLED: boolFromEnv.default(false),
+  /**
    * D-rev: multi-source discovery from the ATSes' own PUBLIC board APIs
    * (Greenhouse/Lever/Ashby/Workable, unauthenticated GETs) into the local
    * queue. Read-only against the network, but it creates jobs +
@@ -299,6 +306,8 @@ export type AppConfig = {
   triageLlmEnabled: boolean;
   /** LLM failure triage: execute validated decisions (fail closed; inert without triageLlmEnabled). */
   triageActEnabled: boolean;
+  /** Navigation LLM assist: anchor promotion + dup adjudication evidence (fail closed). */
+  navLlmAssistEnabled: boolean;
   /** Enqueue from the ATSes' own public board APIs (D-rev). Fail closed. */
   atsDiscoveryEnabled: boolean;
   automationEnabled: boolean;
@@ -424,6 +433,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
     agentFallbackEnabled: parsed.AGENT_FALLBACK_ENABLED,
     triageLlmEnabled: parsed.TRIAGE_LLM_ENABLED,
     triageActEnabled: parsed.TRIAGE_ACT_ENABLED,
+    navLlmAssistEnabled: parsed.NAV_LLM_ASSIST_ENABLED,
     atsDiscoveryEnabled: parsed.ATS_DISCOVERY_ENABLED,
     automationEnabled: parsed.AUTOMATION_ENABLED,
     agentCdpUrl: parsed.AGENT_CDP_URL,

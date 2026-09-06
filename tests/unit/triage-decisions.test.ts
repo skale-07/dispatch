@@ -376,6 +376,24 @@ describe("triage decisions end-to-end (UNIT_CONFIRMED)", () => {
     }
   });
 
+  it("engage_agent_leg override is one-shot: consumed once, refused after", async () => {
+    const { consumeAgentLegOverride } = await import(
+      "../../src/triage/agentLegOverride.js"
+    );
+    const appId = seedFailedApp();
+    // No decision yet ⇒ no override.
+    expect(consumeAgentLegOverride(db, appId)).toBe(false);
+    db.prepare(
+      `INSERT INTO triage_decisions
+         (id, created_at, application_id, failure_signature, action,
+          mode, executed, execution_result_json, outcome_status)
+       VALUES (?, ?, ?, 'FAILED_RETRYABLE|-|budget|h', 'engage_agent_leg',
+               'act', 1, '{"detail":"requeued"}', 'PENDING')`,
+    ).run(randomUUID(), new Date().toISOString(), appId);
+    expect(consumeAgentLegOverride(db, appId)).toBe(true);
+    expect(consumeAgentLegOverride(db, appId)).toBe(false);
+  });
+
   it("park_for_operator opens exactly one MANUAL review item", () => {
     const appId = seedFailedApp();
     const first = executeAction(db, appId, "park_for_operator", {

@@ -34,6 +34,7 @@ export const GATED_FLAG_KEYS = [
   "AUTOMATION_ENABLED",
   "TRIAGE_LLM_ENABLED",
   "TRIAGE_ACT_ENABLED",
+  "NAV_LLM_ASSIST_ENABLED",
 ] as const;
 
 /**
