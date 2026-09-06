@@ -432,6 +432,25 @@ The pipeline's default run shape is now Codex's process: one fresh feed
 job end-to-end per cycle including the Gmail tail; `--backlog` for
 queue repair.
 
+## Codex-shape loop live (2026-09-06 evening)
+
+- Fresh cycle 1: 8 cards inspected, 0 eligible (7 filtered, 1 known) →
+  no_fresh_candidate, backlog untouched — correct fresh semantics.
+- Backlog cycle 1 — **FIRST LIVE SUPERVISOR RUN**
+  (supervisor-a0d274e4, app 4c67c3b5 Rivian iCIMS): clicked Apply →
+  recognized the profile-required gate → followed "Log back in!" to the
+  real login page → authenticate ×2 (portal auth correctly refused:
+  login.icims.com unrecognized) → **model stopped with the accurate
+  diagnosis: internal-careers portal login wall**. This EXPLAINS the
+  cycles-18-21 Rivian UNKNOWN_LANDING mystery — JobRight linked Rivian's
+  INTERNAL careers posting. Hardening held: stop preserved (not upgraded
+  to form_ready), re-gate parked NAVIGATION_INCOMPLETE honestly.
+- Triage then acted with a NEW action for the Rivian signature
+  (retry-differently steering): requeue_reopen_navigation executed —
+  URL cleared, → APPLICATION_OPENING; re-navigation may find the public
+  posting. If it re-resolves internal, the host-scoped forbidden memory
+  converges to park/abandon.
+
 ## SESSION SUMMARY (night25, 2026-09-05 → 09-06)
 
 **Cycles:** 19 (+3 repair phases). **Submits: 0** — therefore 0
