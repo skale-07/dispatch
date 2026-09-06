@@ -477,6 +477,25 @@ queue repair.
   On recurrence the signature forbids requeue_same → converges.
 - Sweep tracking 31 pending decisions; Rivian pair abandoned (moot).
 
+## RETRY-DIFFERENTLY CONVERGENCE — end-to-end live proof (22:59Z 09-06)
+
+The full learning loop closed on a real application (104685d9 Citadel,
+signature `NATIVE_AUTOFILL_RUNNING|-|unknown|www.citadel.com`):
+1. Decision 1: `requeue_same` EXECUTED (demote-then-requeue, #175 path).
+2. The wall recurred as an eventless gate park (NAVIGATION_INCOMPLETE).
+3. Sweep REFUTED decision 1 via stale-re-park evidence (#177 revision,
+   commit c3362443 — refused fills write no fill_runs row; the re-entry
+   event + still-parked + >10min age is the honest signal). refuted:1.
+4. Decision 2: `engage_agent_leg` — #172 precondition refused (no nav
+   wall). Recorded; forbidden on recurrence.
+5. Decision 3: `park_for_operator` EXECUTED — review item f4a6d3e8
+   created; the picker is now blocked from ever re-grinding this app.
+Three decisions, three different actions, deterministic gates filtering
+each, ending in an operator handoff with the full history on the
+decision rows. This is the autonomous behavior the session was built
+to produce. Fixes shipped this evening: 6850168d (newest-first),
+b4e32bbe + c3362443 (#177), plus the six Codex-adoption commits.
+
 ## SESSION SUMMARY (night25, 2026-09-05 → 09-06)
 
 **Cycles:** 19 (+3 repair phases). **Submits: 0** — therefore 0
