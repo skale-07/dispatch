@@ -274,3 +274,11 @@ artifacts/gmail-pipeline-applied-page.png. Drafts only, zero sends.
 - Cycles 10+ run with TRIAGE_LLM + TRIAGE_ACT + NAV_LLM_ASSIST armed —
   the "every 6 cycles repair + restart" directive is now mechanized in
   the session itself (post-session triage batch + session-start sweep).
+
+### Cycle 10 (15:51Z 09-06) — 70aaa82a Neuralink, posting closed
+
+- APPLICATION_OPENING → FILTERED_OUT (terminal): closed on JobRight.
+  Correct handling. LIVE CONFIRMATION of the M3 wiring: session notes
+  carry "triage sweep: 0 confirmed, 0 refuted, 0 expired of 25 pending"
+  (start-of-session read-back ran), and the post-session batch correctly
+  skipped a terminal end state.
