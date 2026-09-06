@@ -383,6 +383,13 @@ artifacts/gmail-pipeline-applied-page.png. Drafts only, zero sends.
   repair-phase fix (extend triage to gate-stop mid-states) gets these
   apps at least a recorded decision instead of silent parking.
 
+### Cycle 17 (16:44Z 09-06) — dc907d8d MicroVention: #171 confirmed again
+
+- Second sibling role passed the dup guard identically (wall none, URL
+  stored) and parked at the same Brassring sign-in (AUTH_REQUIRED
+  mid-state, #175). Both MicroVention roles now wait on a Brassring
+  account/standing-credential path — an environment gap, not code.
+
 ### Cycle 10 (15:51Z 09-06) — 70aaa82a Neuralink, posting closed
 
 - APPLICATION_OPENING → FILTERED_OUT (terminal): closed on JobRight.
