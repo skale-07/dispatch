@@ -207,7 +207,8 @@
         "src/navigation/hostPolicy.ts": "telemetry-driven skip of agent-hostile hosts",
         "src/navigation/storeResult.ts": "storeResolvedEmployerUrl (https-only)",
         "src/navigation/auditEmployerUrls.ts": "offline sweep: repairs poisoned URLs, parks duplicates",
-        "src/navigation/navigationGuards.ts": "NAVIGATION_ENABLED assertion"
+        "src/navigation/navigationGuards.ts": "NAVIGATION_ENABLED assertion",
+        "src/navigation/applicationSupervisor.ts": "Bounded observed-action LLM application navigator: screenshot/frame/history context; deterministic control checks and form readiness."
       },
       "key_exports": {
         "src/navigation/runNavigation.ts": [
@@ -230,6 +231,10 @@
         ],
         "src/navigation/storeResult.ts": [
           "storeResolvedEmployerUrl"
+        ],
+        "src/navigation/applicationSupervisor.ts": [
+          "superviseApplicationNavigation",
+          "navigationControlAllowed"
         ]
       },
       "gates": [
@@ -433,7 +438,8 @@
         "src/candidate/screenerPredict.ts": "profile-derived predictions",
         "src/candidate/sensitiveProfile.ts": "encrypted demographics; nothing inferred",
         "src/candidate/publicProfile.ts": "name/contact/links/education",
-        "src/candidate/screenersIO.ts": "screeners.json load/write; custom persist; forgetCustomScreenerAnswers"
+        "src/candidate/screenersIO.ts": "screeners.json load/write; custom persist; forgetCustomScreenerAnswers",
+        "src/candidate/applicationEducation.ts": "Operator-approved conditional graduation policy; per-application resume, profile, and screener context without global learning."
       },
       "key_exports": {
         "src/candidate/screenerMatch.ts": [
@@ -559,7 +565,7 @@
       "id": "automation",
       "label": "L3 automation (armed sessions)",
       "layer": "orchestration",
-      "purpose": "Arm session = automation_runs row (stage l3_session) with TTL + atomic submit budget; disarm/restart is fail-closed by construction. Worker loop: sweeps (URL audit, nav requeue, unsupported-ATS revival) -> discover -> per-app runPipeline with submit while budget lasts -> outreach tail. auto:cycle is the operator-desktop scheduled entry.",
+      "purpose": "Armed budgeted worker. Fresh mode discovers one unseen eligible feed job, runs its application, then its verified-submission Gmail tail before another feed read. Explicit backlog mode retains historical queue sweeps. auto:cycle is the operator-desktop scheduled entry.",
       "paths": [
         "src/automation"
       ],

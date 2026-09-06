@@ -1331,6 +1331,14 @@ async function step(
           existingPage: Page | undefined,
           sessionNote: string,
         ) => {
+          const onPageChanged = (page: Page): void => {
+            const held = ctx.heldSubmitSession.current;
+            if (held && held.page !== page) {
+              const close = held.close;
+              held.page = page;
+              held.close = async () => { await page.close().catch(() => undefined); await close(); };
+            }
+          };
           if (detected.ats !== "greenhouse") {
             // #72 (live tiaa #22u): the Workday wizard's My Experience page
             // REQUIRES the resume ("Upload a file (5MB max) is required")
@@ -1344,6 +1352,7 @@ async function step(
               execute: true,
               headless: ctx.options.headless ?? false,
               capture: { db, applicationId: app.id },
+              onPageChanged,
               ...(existingPage ? { existingPage } : {}),
               ...(registeredResumeAts && !ctx.options.fixtureHtmlPath
                 ? { resumePath: registeredResumeAts.path }
@@ -1377,6 +1386,7 @@ async function step(
               execute: true,
               headless: ctx.options.headless ?? false,
               capture: { db, applicationId: app.id },
+              onPageChanged,
               ...(existingPage ? { existingPage } : {}),
               ...(registeredResume && !ctx.options.fixtureHtmlPath
                 ? { resumePath: registeredResume.path }

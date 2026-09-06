@@ -47,7 +47,11 @@ import {
   extractPostingContext,
   mergePostingContext,
 } from "./essayAutofill.js";
-import { classifyPage } from "../ats/shared/pageClassify.js";
+import {
+  classifyPage,
+  classifyWithFrameFallback,
+  sameOriginFrames,
+} from "../ats/shared/pageClassify.js";
 import {
   fetchGreenhouseQuestions,
   requiredQuestionLabels,
@@ -94,6 +98,8 @@ import {
 import type { ApprovedFillPlan } from "./approvedFillPlan.js";
 import { fillRevealedProfileSelects } from "../ats/shared/dependentSelects.js";
 import { readLiveHtml } from "../browser/liveHtml.js";
+import { superviseApplicationNavigation, type SupervisorReport } from "../navigation/applicationSupervisor.js";
+import type { EmailLlmClient } from "../contacts/emailLlm.js";
 
 /**
  * #149: one deterministic pass over selects the fill itself revealed
@@ -408,6 +414,7 @@ export type AtsLiveFillReport = {
   }>;
   notes: string[];
   report_path?: string;
+  navigation_supervisor?: SupervisorReport;
   /** Built when fill/verify/uploads need operator attention. */
   operator_brief?: import("./operatorFieldBrief.js").OperatorFieldBrief;
 };
@@ -458,6 +465,8 @@ export async function runAtsLiveFill(input: {
    * is demoted — a fixture-served page is never live evidence.
    */
   fixtureHtml?: string;
+  /** Fixture-only model seam; capability checks still run. */
+  supervisorClient?: EmailLlmClient;
   /**
    * X2: activate the JobRight extension before planning and fill only the
    * gap it leaves. Requires execute + JOBRIGHT_AUTOFILL_ENABLED + promoted
@@ -472,6 +481,8 @@ export async function runAtsLiveFill(input: {
    * lifetime; this runner navigates it but never closes it.
    */
   existingPage?: Page;
+  /** Transfer a popup form to the caller's same-run submit session. */
+  onPageChanged?: (page: Page) => void;
   /**
    * Click Submit after a passing verify. Refused unless the URL is
    * loopback (employer sandbox). Still requires SUBMIT_ENABLED and the
@@ -559,6 +570,41 @@ export async function runAtsLiveFill(input: {
   return runInPage(
     async (page) => {
       let gate = await binding.gate(page, input.url, detected.normalizedUrl);
+      if (input.execute && !TERMINAL_GATE_CODES.has(gate.failureCode ?? "") &&
+          classifyPage({ html: gate.html, url: gate.finalUrl }).page_class !== "form") {
+        const job = input.capture?.applicationId ? input.capture.db.prepare(
+          `SELECT j.company, j.role FROM jobs j JOIN applications a ON a.job_id = j.id WHERE a.id = ?`,
+        ).get(input.capture.applicationId) as { company: string; role: string } | undefined : undefined;
+        const supervised = await superviseApplicationNavigation({ page, job: { ...job, url: input.url },
+          ...(input.supervisorClient ? { client: input.supervisorClient } : {}),
+        });
+        if (supervised.report.outcome !== "disabled") {
+          report.navigation_supervisor = supervised.report;
+          report.notes.push(`navigation supervisor: ${supervised.report.outcome} (${supervised.report.steps.length} steps)`);
+          page = supervised.page;
+          input.onPageChanged?.(page);
+          const handoff = detectAtsHandoff(binding.id, page.url());
+          if (handoff) {
+            report.handoff = handoff;
+            report.gate.ok = false;
+            report.gate.failure_code = "ATS_HANDOFF";
+            report.gate.reason = `navigation supervisor landed on ${handoff.ats} (${handoff.url}) — handing off to the ${handoff.ats} adapter`;
+            report.gate.final_url = page.url();
+            report.notes.push(
+              `ATS handoff: ${binding.id} → ${handoff.ats} at ${handoff.url}`,
+            );
+            return persist(report);
+          }
+          gate = await binding.gate(page, input.url, detected.normalizedUrl);
+          if (supervised.report.outcome !== "form_ready") {
+            applyGateToReport(report, gate);
+            report.gate.ok = false;
+            report.gate.failure_code = "NAVIGATION_INCOMPLETE";
+            report.gate.reason = supervised.report.notes.join("; ") || "navigation supervisor did not reach an applicant form";
+            return persist(report);
+          }
+        }
+      }
       // Employer/role text from every page-level hop, captured BEFORE the
       // page is navigated away: the iframe outer shell and the posting
       // page usually name the company; the form page often does not
@@ -717,6 +763,22 @@ export async function runAtsLiveFill(input: {
               "parked: refused to fill a listing page's own search widgets",
             );
             return persist(report);
+          }
+        }
+
+        // #166: the landing may be an empty shell whose real page is one
+        // same-origin frame down (iCIMS). Resolve that BEFORE the auth
+        // decision below — it is keyed on page_class, so an unresolved
+        // `unknown` silently skips portal auth and parks UNKNOWN_LANDING.
+        if (landing.page_class === "unknown") {
+          const frames = await readSameOriginFrames(page);
+          if (frames.length > 0) {
+            const resolved = classifyWithFrameFallback(landing, frames);
+            if (resolved.evidence !== landing.evidence) {
+              report.notes.push(`landing re-read via child frame: ${resolved.evidence}`);
+            }
+            landing = resolved;
+            report.gate.page_class = landing.page_class;
           }
         }
 
@@ -1598,6 +1660,28 @@ export async function runAtsLiveFill(input: {
   ): string {
     const s = (n: number) => `${Math.round(n / 1000)}s`;
     return `timing: ${what} (${fieldCount} planned) — plan ${s(ms.plan)}, fill ${s(ms.fill)}, verify ${s(ms.verify)}`;
+  }
+
+  /**
+   * #166: content of the page's SAME-ORIGIN child frames, for the landing
+   * re-read. Bounded (3 frames) and fail-soft — a frame that detaches
+   * mid-read contributes nothing rather than throwing at the gate.
+   */
+  async function readSameOriginFrames(
+    p: Page,
+  ): Promise<Array<{ url: string; html: string }>> {
+    const candidates = sameOriginFrames(
+      p.url(),
+      p.frames().map((f) => ({ url: f.url(), html: "" })),
+    ).slice(0, 3);
+    const out: Array<{ url: string; html: string }> = [];
+    for (const c of candidates) {
+      const frame = p.frames().find((f) => f.url() === c.url);
+      if (!frame) continue;
+      const html = await frame.content().catch(() => "");
+      if (html) out.push({ url: c.url, html });
+    }
+    return out;
   }
 
   /**

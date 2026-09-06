@@ -1,4 +1,5 @@
 import type { Db } from "../../storage/db/client.js";
+import { superviseApplicationNavigation } from "../../navigation/applicationSupervisor.js";
 import { dismissPageObstructions } from "../../browser/obstructions.js";
 import {
   authenticateAtsPortal,
@@ -363,7 +364,7 @@ export async function reachGreenhouseApplicationForm(
   page: Page,
   requestedUrl: string,
   normalizedUrl: string | null,
-  options?: { dismissObstructions?: boolean },
+  options?: { dismissObstructions?: boolean; supervise?: boolean; job?: { company: string; role: string } },
 ): Promise<{
   page: Page;
   gate: GreenhouseMutationGate;
@@ -383,6 +384,17 @@ export async function reachGreenhouseApplicationForm(
     requestedUrl,
     normalizedUrl,
   );
+  if (options?.supervise && (gateLooksLikePostingShell(gate) || gate.failureCode === "LOGIN_WALL")) {
+    const supervised = await superviseApplicationNavigation({ page: working, job: { ...options.job, url: requestedUrl } });
+    if (supervised.report.outcome !== "disabled") {
+      working = supervised.page;
+      notes.push(`navigation supervisor: ${supervised.report.outcome}; evidence ${supervised.report.evidence.join(", ")}`);
+      gate = await verifyPageBeforeMutation(working, requestedUrl, normalizedUrl);
+      if (supervised.report.outcome !== "form_ready") {
+        return { page: working, gate: { ...gate, ok: false, failureCode: gate.failureCode ?? "FORM_NOT_FOUND" }, notes };
+      }
+    }
+  }
   if (await hopEmbeddedForm(working, notes)) {
     await settleGreenhouseLanding(working);
     gate = await verifyPageBeforeMutation(working, requestedUrl, normalizedUrl);
@@ -571,6 +583,7 @@ export async function runGreenhouseLiveFill(input: {
    * navigates it but never closes it.
    */
   existingPage?: Page;
+  onPageChanged?: (page: Page) => void;
 }): Promise<GreenhouseLiveFillReport> {
   const urlValidation = validateGreenhouseApplicationUrl(input.url);
   const base: GreenhouseLiveFillReport = {
@@ -642,9 +655,14 @@ export async function runGreenhouseLiveFill(input: {
         startPage,
         input.url,
         urlValidation.normalizedUrl,
-        { dismissObstructions: input.execute },
+        { dismissObstructions: input.execute, supervise: input.execute,
+          ...(input.capture?.applicationId ? { job: input.capture.db.prepare(
+            "SELECT j.company, j.role FROM jobs j JOIN applications a ON a.job_id = j.id WHERE a.id = ?",
+          ).get(input.capture.applicationId) as { company: string; role: string } } : {}),
+        },
       );
       let page = reached.page;
+      input.onPageChanged?.(page);
       let gate = reached.gate;
       base.notes.push(...reached.notes);
       base.final_url = gate.finalUrl;

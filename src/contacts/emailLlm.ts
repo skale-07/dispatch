@@ -8,9 +8,9 @@ import { withLlmCallLedger } from "./llmCallLedger.js";
  * reuse this client interface: outreach email generation (here), offline
  * selector-patch PROPOSALS (heal/submitInventoryHealer.ts), screener
  * label→key MAPPING (applications/screenerLlmMap.ts — never answers), and
- * essay DRAFT suggestions into review items (applications/essayDraft.ts —
- * never filled without human approval). Never demographics, never live
- * ATS interaction. Tests use stubs; no test ever calls out.
+ * essay generation, and bounded navigation decisions. Callers validate
+ * model output before a gated executor acts. Never demographics.
+ * Tests use stubs; no test ever calls out.
  *
  * Three providers, one preference order: Anthropic when ANTHROPIC_API_KEY
  * is set (the operator's better-funded account), then OpenAI, then Kimi
@@ -43,6 +43,9 @@ export interface LlmGenerateInput {
    * default on a reasoning model is a hidden line item.
    */
   effort?: LlmEffort;
+  /** Current page only; navigation masks entered values before capture. */
+  image?: { base64: string; mediaType: "image/png" | "image/jpeg" };
+  signal?: AbortSignal;
 }
 
 /** Token counts when the provider reports them — cache reads included. */
@@ -70,7 +73,7 @@ export interface EmailLlmClient {
  * is the default so every existing call site keeps its model; the applier
  * surfaces opt in explicitly.
  */
-export type LlmPipeline = "outreach" | "applier";
+export type LlmPipeline = "outreach" | "applier" | "navigation";
 
 const JSON_ONLY = "Respond with ONLY the JSON object — no prose, no code fences.";
 
@@ -84,7 +87,7 @@ export class OpenAiEmailClient implements EmailLlmClient {
   private readonly client: OpenAI;
   private readonly model: string;
 
-  constructor() {
+  constructor(model?: string) {
     const cfg = getConfig();
     if (!cfg.openaiApiKey) {
       throw new Error(
@@ -92,18 +95,22 @@ export class OpenAiEmailClient implements EmailLlmClient {
       );
     }
     this.client = new OpenAI({ apiKey: cfg.openaiApiKey });
-    this.model = cfg.emailLlmModel;
+    this.model = model ?? cfg.emailLlmModel;
   }
 
   async generateJson(input: LlmGenerateInput): Promise<LlmGenerateOutput> {
     const response = await this.client.chat.completions.create({
       model: this.model,
       response_format: { type: "json_object" },
+      ...(input.effort ? { reasoning_effort: input.effort } : {}),
       messages: [
         { role: "system", content: foldContext(input.system, input.context) },
-        { role: "user", content: input.user },
+        { role: "user", content: input.image ? [
+          { type: "text", text: input.user },
+          { type: "image_url", image_url: { url: `data:${input.image.mediaType};base64,${input.image.base64}` } },
+        ] : input.user },
       ],
-    });
+    }, { signal: input.signal });
     const text = response.choices[0]?.message?.content ?? "";
     const u = response.usage;
     return {
@@ -173,11 +180,14 @@ export class AnthropicLlmClient implements EmailLlmClient {
       model: this.model,
       max_tokens: 4096,
       system,
-      messages: [{ role: "user", content: input.user }],
+      messages: [{ role: "user", content: input.image ? [
+        { type: "text", text: input.user },
+        { type: "image", source: { type: "base64", media_type: input.image.mediaType, data: input.image.base64 } },
+      ] : input.user }],
       ...(input.effort && anthropicModelSupportsEffort(this.model)
         ? { output_config: { effort: input.effort } }
         : {}),
-    });
+    }, { signal: input.signal });
     const text = response.content
       .filter(
         (block): block is Extract<typeof block, { type: "text" }> =>
@@ -217,7 +227,7 @@ export class KimiLlmClient implements EmailLlmClient {
   private readonly client: OpenAI;
   private readonly model: string;
 
-  constructor() {
+  constructor(model?: string) {
     const cfg = getConfig();
     if (!cfg.moonshotApiKey) {
       throw new Error(
@@ -228,23 +238,26 @@ export class KimiLlmClient implements EmailLlmClient {
       apiKey: cfg.moonshotApiKey,
       baseURL: "https://api.moonshot.ai/v1",
     });
-    this.model = cfg.kimiLlmModel;
+    this.model = model ?? cfg.kimiLlmModel;
   }
 
   async generateJson(input: LlmGenerateInput): Promise<LlmGenerateOutput> {
     const response = await this.client.chat.completions.create({
       model: this.model,
       response_format: { type: "json_object" },
-      reasoning_effort: "low",
+      reasoning_effort: input.effort ?? "low",
       max_completion_tokens: 8192,
       messages: [
         {
           role: "system",
           content: foldContext(`${input.system}\n\n${JSON_ONLY}`, input.context),
         },
-        { role: "user", content: input.user },
+        { role: "user", content: input.image ? [
+          { type: "text", text: input.user },
+          { type: "image_url", image_url: { url: `data:${input.image.mediaType};base64,${input.image.base64}` } },
+        ] : input.user },
       ],
-    });
+    }, { signal: input.signal });
     const text = response.choices[0]?.message?.content ?? "";
     const u = response.usage;
     return {
@@ -299,21 +312,23 @@ export const LLM_KEY_HINT =
 export function makeLlmClient(pipeline: LlmPipeline = "outreach"): EmailLlmClient {
   const cfg = getConfig();
   const anthropicModel =
-    pipeline === "applier" ? cfg.anthropicApplierModel : cfg.anthropicLlmModel;
+    pipeline === "navigation" ? cfg.navAgentModel ?? cfg.anthropicLlmModel : pipeline === "applier" ? cfg.anthropicApplierModel : cfg.anthropicLlmModel;
+  const openaiModel = pipeline === "navigation" ? cfg.navAgentModel ?? cfg.emailLlmModel : cfg.emailLlmModel;
+  const kimiModel = pipeline === "navigation" ? cfg.navAgentModel ?? cfg.kimiLlmModel : cfg.kimiLlmModel;
   const ledger = (client: EmailLlmClient, provider: string, model: string) =>
     withLlmCallLedger(client, provider, model);
   if (cfg.llmProvider === "anthropic")
     return ledger(new AnthropicLlmClient(anthropicModel), "anthropic", anthropicModel);
   if (cfg.llmProvider === "openai")
-    return ledger(new OpenAiEmailClient(), "openai", cfg.emailLlmModel);
+    return ledger(new OpenAiEmailClient(openaiModel), "openai", openaiModel);
   if (cfg.llmProvider === "kimi")
-    return ledger(new KimiLlmClient(), "kimi", cfg.kimiLlmModel);
+    return ledger(new KimiLlmClient(kimiModel), "kimi", kimiModel);
   if (cfg.anthropicApiKey)
     return ledger(new AnthropicLlmClient(anthropicModel), "anthropic", anthropicModel);
   if (cfg.openaiApiKey)
-    return ledger(new OpenAiEmailClient(), "openai", cfg.emailLlmModel);
+    return ledger(new OpenAiEmailClient(openaiModel), "openai", openaiModel);
   if (cfg.moonshotApiKey)
-    return ledger(new KimiLlmClient(), "kimi", cfg.kimiLlmModel);
+    return ledger(new KimiLlmClient(kimiModel), "kimi", kimiModel);
   throw new Error(
     `no LLM provider key configured — set ${LLM_KEY_HINT} in .env`,
   );

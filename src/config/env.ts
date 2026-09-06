@@ -154,6 +154,9 @@ const envSchema = z.object({
    * evidence on duplicate parks. Fail closed.
    */
   NAV_LLM_ASSIST_ENABLED: boolFromEnv.default(false),
+  NAV_AGENT_MODEL: z.string().optional(),
+  NAV_SUPERVISOR_MAX_STEPS: z.coerce.number().int().min(1).max(50).default(20),
+  NAV_SUPERVISOR_TIMEOUT_MS: z.coerce.number().int().min(1000).max(600_000).default(180_000),
   /**
    * D-rev: multi-source discovery from the ATSes' own PUBLIC board APIs
    * (Greenhouse/Lever/Ashby/Workable, unauthenticated GETs) into the local
@@ -308,6 +311,9 @@ export type AppConfig = {
   triageActEnabled: boolean;
   /** Navigation LLM assist: anchor promotion + dup adjudication evidence (fail closed). */
   navLlmAssistEnabled: boolean;
+  navAgentModel?: string | undefined;
+  navSupervisorMaxSteps: number;
+  navSupervisorTimeoutMs: number;
   /** Enqueue from the ATSes' own public board APIs (D-rev). Fail closed. */
   atsDiscoveryEnabled: boolean;
   automationEnabled: boolean;
@@ -434,6 +440,9 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
     triageLlmEnabled: parsed.TRIAGE_LLM_ENABLED,
     triageActEnabled: parsed.TRIAGE_ACT_ENABLED,
     navLlmAssistEnabled: parsed.NAV_LLM_ASSIST_ENABLED,
+    navAgentModel: parsed.NAV_AGENT_MODEL,
+    navSupervisorMaxSteps: parsed.NAV_SUPERVISOR_MAX_STEPS,
+    navSupervisorTimeoutMs: parsed.NAV_SUPERVISOR_TIMEOUT_MS,
     atsDiscoveryEnabled: parsed.ATS_DISCOVERY_ENABLED,
     automationEnabled: parsed.AUTOMATION_ENABLED,
     agentCdpUrl: parsed.AGENT_CDP_URL,
