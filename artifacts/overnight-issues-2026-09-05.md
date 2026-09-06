@@ -451,6 +451,20 @@ queue repair.
   posting. If it re-resolves internal, the host-scoped forbidden memory
   converges to park/abandon.
 
+## Operator directive 2026-09-06 evening: top-of-feed priority
+
+- "Jobs at the top of the discovery page are prioritized" + stop
+  grinding the 5-day-old Rivian posting.
+- Both Rivian apps (83751e38, 4c67c3b5) ABANDONED to FAILED_FINAL with
+  the supervisor's live diagnosis recorded (internal-careers portal
+  behind login.icims.com — not applyable externally).
+- Backlog cycle 2 note: the requeued Rivian re-resolved to the same
+  internal portal (expected); its park is now moot post-abandon.
+- Pick-order fix: the worker's backlog picker ordered created_at ASC
+  (oldest first) — backwards from the directive; flipped to DESC
+  (newest first, recency as the top-of-feed proxy). Fresh mode already
+  follows feed order. 2 order-encoding tests updated; 14/14 worker.
+
 ## SESSION SUMMARY (night25, 2026-09-05 → 09-06)
 
 **Cycles:** 19 (+3 repair phases). **Submits: 0** — therefore 0

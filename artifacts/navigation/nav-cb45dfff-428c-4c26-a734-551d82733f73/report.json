@@ -1,0 +1,47 @@
+{
+  "run_id": "nav-cb45dfff-428c-4c26-a734-551d82733f73",
+  "application_id": "df103827-8d4d-4692-9071-6f091bc86fda",
+  "jobright_job_id": "6a505e4f260ea445b581eb60",
+  "method": null,
+  "resolved_url": null,
+  "resolved_ats": null,
+  "wall": "submit_risk",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no external anchors"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "unresolved by deterministic phases"
+    },
+    {
+      "phase": "C_agent",
+      "outcome": "wall: submit_risk (turn 1)"
+    }
+  ],
+  "agent": {
+    "turns_used": 1,
+    "steps_used": 3,
+    "domains_visited": []
+  },
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "no standard Apply control found (exact and broad name tiers both empty)",
+    "agent[1] reason: agent stopped: submit_risk"
+  ],
+  "congruence": null,
+  "duplicates": null,
+  "login_wall": null,
+  "evidence": [
+    "navigation\\nav-cb45dfff-428c-4c26-a734-551d82733f73\\giveup-submit_risk.html",
+    "navigation\\nav-cb45dfff-428c-4c26-a734-551d82733f73\\giveup-submit_risk.png"
+  ],
+  "written_at": "2026-09-06T21:47:52.570Z"
+}
