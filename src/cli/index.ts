@@ -21,6 +21,8 @@ import {
   requeueAfterWall,
 } from "../queue/reviewResolvers.js";
 import { generateEssayDrafts } from "../applications/essayDraft.js";
+import { runTriageBatch } from "../triage/runTriage.js";
+import { verifyTriageOutcomes } from "../triage/verifyOutcomes.js";
 import { getConfig, deriveRolloutStage } from "../config/index.js";
 import { logger } from "../logging/logger.js";
 import { listOpenReviewItems, resolveReviewItem } from "../queue/reviewItems.js";
@@ -161,6 +163,8 @@ Commands:
   screeners:suggest                     Verified screener predictions with no bank answer — ready-to-paste labels
   review:bulk --action dismiss|requeue-wall [--kind K] [--limit N] [--apply]   Triage open review items in bulk (dry-run by default)
   essay:draft --application <uuid>      LLM suggestion drafts for open essay questions (ESSAY_DRAFT_ENABLED; edit/approve in review)
+  triage:llm [--app <uuid>] [--act]     LLM failure triage over parked/failed apps (TRIAGE_LLM_ENABLED; --act also needs TRIAGE_ACT_ENABLED)
+  triage:report                         Triage decision history + outcome sweep (CONFIRMED/REFUTED per signature)
   resume:download --job <jobright_job_id> [--yes] [--headless]
   materials:register --application <uuid> --file <path.pdf> [--label domain]
   resume-essay [--application <uuid> --field <field_id> --file <answer.txt>]
@@ -1900,6 +1904,51 @@ async function main(): Promise<void> {
     case "review:bulk":
       cmdReviewBulk(flags);
       break;
+    case "triage:llm": {
+      const db = openDatabase();
+      try {
+        migrate(db);
+        const appFlag = flags["app"] ?? flags["application"];
+        const act = flags["act"] === true || flags["act"] === "true";
+        const applicationIds =
+          typeof appFlag === "string"
+            ? [appFlag]
+            : (
+                db
+                  .prepare(
+                    `SELECT id FROM applications
+                     WHERE state IN ('FAILED_RETRYABLE','AUTH_REQUIRED','CAPTCHA_REQUIRED','UNSUPPORTED_ATS','AMBIGUOUS_FIELD')
+                     ORDER BY updated_at DESC LIMIT 25`,
+                  )
+                  .all() as Array<{ id: string }>
+              ).map((r) => r.id);
+        const out = await runTriageBatch({ db, applicationIds, act });
+        console.log(JSON.stringify(out, null, 2));
+      } finally {
+        closeDatabase(db);
+      }
+      break;
+    }
+    case "triage:report": {
+      const db = openDatabase();
+      try {
+        migrate(db);
+        const sweep = verifyTriageOutcomes(db);
+        const bySignature = db
+          .prepare(
+            `SELECT failure_signature, action, mode, executed, outcome_status,
+                    COUNT(*) AS n
+             FROM triage_decisions
+             GROUP BY failure_signature, action, mode, executed, outcome_status
+             ORDER BY failure_signature`,
+          )
+          .all();
+        console.log(JSON.stringify({ sweep, decisions: bySignature }, null, 2));
+      } finally {
+        closeDatabase(db);
+      }
+      break;
+    }
     case "screeners:suggest":
       console.log(JSON.stringify({ suggestions: suggestBankAdditions() }, null, 2));
       break;

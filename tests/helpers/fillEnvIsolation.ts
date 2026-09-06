@@ -36,6 +36,10 @@ export const CONTROLLED_FILL_ENV_KEYS = [
   // every https host as authorized (workday/vault tests then fail).
   "PORTAL_LOGIN_EMAIL",
   "PORTAL_LOGIN_PASSWORD",
+  // LLM failure triage: ambient "true" would let a fixture run mutate
+  // application state through triage executors.
+  "TRIAGE_LLM_ENABLED",
+  "TRIAGE_ACT_ENABLED",
 ] as const;
 
 export type ControlledFillEnvKey = (typeof CONTROLLED_FILL_ENV_KEYS)[number];

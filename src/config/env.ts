@@ -138,6 +138,16 @@ const envSchema = z.object({
   /** Phase 6a': sidecar escalation when the in-process healer fails. Fail closed. */
   AGENT_FALLBACK_ENABLED: boolFromEnv.default(false),
   /**
+   * LLM failure triage (night25): after a run fails, the model chooses ONE
+   * remediation from an enumerated action set; every choice is re-validated
+   * deterministically and executed only through existing state-machine
+   * primitives. TRIAGE_LLM_ENABLED gates deciding+recording;
+   * TRIAGE_ACT_ENABLED gates executing validated decisions (inert without
+   * the first). Both fail closed.
+   */
+  TRIAGE_LLM_ENABLED: boolFromEnv.default(false),
+  TRIAGE_ACT_ENABLED: boolFromEnv.default(false),
+  /**
    * D-rev: multi-source discovery from the ATSes' own PUBLIC board APIs
    * (Greenhouse/Lever/Ashby/Workable, unauthenticated GETs) into the local
    * queue. Read-only against the network, but it creates jobs +
@@ -285,6 +295,10 @@ export type AppConfig = {
   /** Generate essay answers from about-me.md and FILL them. Also unlocked by SCREENER_PREDICT_LLM_ENABLED. */
   essayAutofillEnabled: boolean;
   agentFallbackEnabled: boolean;
+  /** LLM failure triage: decide+record (fail closed). */
+  triageLlmEnabled: boolean;
+  /** LLM failure triage: execute validated decisions (fail closed; inert without triageLlmEnabled). */
+  triageActEnabled: boolean;
   /** Enqueue from the ATSes' own public board APIs (D-rev). Fail closed. */
   atsDiscoveryEnabled: boolean;
   automationEnabled: boolean;
@@ -408,6 +422,8 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
     essayDraftEnabled: parsed.ESSAY_DRAFT_ENABLED,
     essayAutofillEnabled: parsed.ESSAY_AUTOFILL_ENABLED,
     agentFallbackEnabled: parsed.AGENT_FALLBACK_ENABLED,
+    triageLlmEnabled: parsed.TRIAGE_LLM_ENABLED,
+    triageActEnabled: parsed.TRIAGE_ACT_ENABLED,
     atsDiscoveryEnabled: parsed.ATS_DISCOVERY_ENABLED,
     automationEnabled: parsed.AUTOMATION_ENABLED,
     agentCdpUrl: parsed.AGENT_CDP_URL,

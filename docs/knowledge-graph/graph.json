@@ -790,9 +790,68 @@
       "gates": [
         "SUPABASE_SYNC_ENABLED"
       ]
+    },
+    {
+      "id": "triage",
+      "label": "LLM failure triage",
+      "layer": "automation",
+      "purpose": "After a run fails, the LLM chooses ONE remediation from an enumerated action set (requeue / reopen navigation / park / abandon / engage agent leg). Every choice is re-validated deterministically (verbatim set membership, forbidden signature history, state-machine preconditions) and executed only through existing legal primitives with hard caps; the read-back sweep confirms or refutes decisions from application_events. Retry-differently: a (signature, action) pair is never repeated.",
+      "paths": [
+        "src/triage"
+      ],
+      "key_files": {
+        "src/triage/failureSignature.ts": "deterministic evidence -> signature (the dedup key; no LLM in it)",
+        "src/triage/evidenceBundle.ts": "read-only redacted per-app evidence bundle (events, nav report, submit brief, fill gate, prior decisions)",
+        "src/triage/actions.ts": "TRIAGE_ACTIONS enum + per-action preconditions + executors over existing primitives",
+        "src/triage/triageLlm.ts": "prompt + parse + verbatim validation ladder (invalid => no_action)",
+        "src/triage/runTriage.ts": "orchestrator: gates -> LLM -> validate -> record -> (act) execute; fail-open batch",
+        "src/triage/verifyOutcomes.ts": "deterministic read-back: PENDING -> CONFIRMED/REFUTED/EXPIRED from application_events"
+      },
+      "key_exports": {
+        "src/triage/actions.ts": [
+          "TRIAGE_ACTIONS",
+          "canExecute",
+          "executeAction"
+        ],
+        "src/triage/runTriage.ts": [
+          "runTriageForApplication",
+          "runTriageBatch"
+        ],
+        "src/triage/verifyOutcomes.ts": [
+          "verifyTriageOutcomes"
+        ]
+      },
+      "gates": [
+        "TRIAGE_LLM_ENABLED",
+        "TRIAGE_ACT_ENABLED"
+      ]
     }
   ],
   "edges": [
+    {
+      "from": "triage",
+      "to": "queue",
+      "kind": "calls",
+      "why": "every mutation rides existing legal primitives: retryFailedApplications, transitionApplication (assertTransition backstop), abandonApplication, upsertOpenReviewItem"
+    },
+    {
+      "from": "triage",
+      "to": "outreach",
+      "kind": "calls",
+      "why": "reuses the sanctioned LLM client boundary (EmailLlmClient via makeLlmClient('applier'), ledgered by withLlmCallLedger)"
+    },
+    {
+      "from": "triage",
+      "to": "storage",
+      "kind": "calls",
+      "why": "triage_decisions table (migration 011) is the retry-differently memory; evidence reads navigation_attempts / submit_attempts / fill_runs / application_events"
+    },
+    {
+      "from": "cli",
+      "to": "triage",
+      "kind": "calls",
+      "why": "triage:llm decides (and with --act + TRIAGE_ACT_ENABLED, executes); triage:report sweeps outcomes and prints per-signature history"
+    },
     {
       "from": "cloud",
       "to": "storage",
@@ -1054,7 +1113,9 @@
     "AUTOMATION_ENABLED": "L3 armed sessions kill switch",
     "ATS_DISCOVERY_ENABLED": "Enqueue from public ATS board APIs (creates jobs + applications). Fail closed.",
     "SUPABASE_SYNC_ENABLED": "One-way aggregate status mirror to Supabase (cloud plane; requires SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY + SUPABASE_SYNC_USER_ID). Also gates cloud:schema apply (DDL), invites:mint --load, and invites:roundtrip. Fail closed.",
-    "CONSOLE_HOSTED_MODE_ENABLED": "Console may bind a public interface: hostname allowlist + Supabase JWT (JWKS-verified) on EVERY /api request + allowlisted user ids + read-only. Off = local model byte-for-byte. Requires SUPABASE_URL + CONSOLE_HOSTED_ALLOWED_HOSTS + CONSOLE_HOSTED_ALLOWED_USER_IDS or refuses to boot."
+    "CONSOLE_HOSTED_MODE_ENABLED": "Console may bind a public interface: hostname allowlist + Supabase JWT (JWKS-verified) on EVERY /api request + allowlisted user ids + read-only. Off = local model byte-for-byte. Requires SUPABASE_URL + CONSOLE_HOSTED_ALLOWED_HOSTS + CONSOLE_HOSTED_ALLOWED_USER_IDS or refuses to boot.",
+    "TRIAGE_LLM_ENABLED": "LLM failure triage may decide + record remediations (enumerated action set, deterministically validated). Decide-only without TRIAGE_ACT_ENABLED. Fail closed.",
+    "TRIAGE_ACT_ENABLED": "Triage may EXECUTE validated decisions through existing state-machine primitives (requeue class at launch; abandon class shadow until the read-back sweep validates). Inert without TRIAGE_LLM_ENABLED. Fail closed."
   },
   "invariants": [
     "Every mutation capability is behind a fail-closed env flag; never defaulted on, never enabled in tests.",

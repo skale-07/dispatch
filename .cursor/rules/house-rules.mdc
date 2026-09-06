@@ -19,7 +19,8 @@ Mirror of `CLAUDE.md` (repo root) — keep both files identical when editing.
   `ESSAY_AUTOFILL_ENABLED`,
   `ARTIFACT_AUTOPUSH_ENABLED`, `CDP_AUTOLAUNCH_ENABLED`,
   `OUTLOOK_VERIFICATION_ENABLED`, `ATS_DISCOVERY_ENABLED`, `AUTOMATION_ENABLED`,
-  `SUPABASE_SYNC_ENABLED`, `CONSOLE_HOSTED_MODE_ENABLED`.
+  `SUPABASE_SYNC_ENABLED`, `CONSOLE_HOSTED_MODE_ENABLED`,
+  `TRIAGE_LLM_ENABLED`, `TRIAGE_ACT_ENABLED`.
   Flags are enabled in the operator's `.env` (copy `.env.example`) for a
   guarded run — never hardcoded, never defaulted on, never enabled inside
   tests. The process loads that file as the source of truth; do not require
