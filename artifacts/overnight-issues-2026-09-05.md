@@ -352,6 +352,23 @@ artifacts/gmail-pipeline-applied-page.png. Drafts only, zero sends.
   implemented, committed, and live-validated. Gate for both commits:
   1651/1651.
 
+### Cycle 15 (16:39Z 09-06) — 104685d9 (fresh discovery), FORM_NOT_REACHED
+
+- New app resolved via anchor_href but the fill refused FORM_NOT_REACHED
+  (posting page, form never reached) → parked at NATIVE_AUTOFILL_RUNNING
+  via a gate stop (no transition).
+- Issue #175 (observation, next repair phase): gate-stop mid-state parks
+  (NATIVE_AUTOFILL_RUNNING / READY_TO_SUBMIT with stop "gate") are
+  invisible to BOTH `retry` (FAILED_RETRYABLE only) and triage's
+  end-state filter — the same dead-end class as night24's 25 parked
+  rows. Candidate fix: include gate-stopped mid-states in
+  TRIAGEABLE_END_STATES with a transition-aware requeue precondition
+  (NATIVE_AUTOFILL_RUNNING→FAILED_RETRYABLE edge exists).
+- Unblocked the MicroVention pair for the #171 validation: their
+  obsolete "Duplicate posting" MANUAL items (from the pre-fix parks)
+  were blocking worker pick — targeted dismissal of exactly those two
+  items (private/tmp-dismiss-microvention-dups.ts).
+
 ### Cycle 10 (15:51Z 09-06) — 70aaa82a Neuralink, posting closed
 
 - APPLICATION_OPENING → FILTERED_OUT (terminal): closed on JobRight.
