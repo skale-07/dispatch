@@ -415,6 +415,23 @@ artifacts/gmail-pipeline-applied-page.png. Drafts only, zero sends.
   Model chose engage_agent_leg; #172 precondition correctly refused (no
   nav wall); recorded ⇒ forbidden next time ⇒ converges to park.
 
+## Codex workstream adopted (2026-09-06 evening, operator-directed)
+
+Codex's uncommitted tree was reviewed, hardened, gated (first fully
+clean full-suite run: 1670/1670 + checks), and committed as six commits:
+`65aa3bac` (#176 triage un-gag), `27697468` (page observation: frames,
+wrapper field identity, date fill — includes a REAL regression the gate
+caught: the fieldPath rung let the Ashby autocomplete twin shadow the
+caption field; fixed via autoIds dedupe + cleanLabel entity decode),
+`9093e7ae` (LLM navigation supervisor, bounded + re-gated; 'stop' never
+upgraded; acknowledged emailLlm boundary change), `f709e89a` (education
+policy, operator-approved), `94b73d59` (fresh one-job cycle + inline
+Gmail tail; hardened: per-card detail-read failures, audit restored in
+fresh mode, discover_max honored), `2f319131` (onboarding workstream).
+The pipeline's default run shape is now Codex's process: one fresh feed
+job end-to-end per cycle including the Gmail tail; `--backlog` for
+queue repair.
+
 ## SESSION SUMMARY (night25, 2026-09-05 → 09-06)
 
 **Cycles:** 19 (+3 repair phases). **Submits: 0** — therefore 0

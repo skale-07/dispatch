@@ -1,0 +1,88 @@
+{
+  "started_at": "2026-09-06T19:19:26.469Z",
+  "scope": "one fresh feed posting; explicit application ID; no backlog fallback",
+  "intervention": "feed selection/enqueue only; application pipeline runs without manual browser actions or patches",
+  "target": {
+    "company": "Neptune.io",
+    "role": "Software Engineer (Full-time, part-time, or Intern)",
+    "jobright_url": "https://jobright.ai/jobs/info/6a9c79492c964816f65e950b"
+  },
+  "enqueue": {
+    "input": "https://jobright.ai/jobs/info/6a9c79492c964816f65e950b",
+    "ok": true,
+    "jobright_job_id": "6a9c79492c964816f65e950b",
+    "job_url": "https://jobright.ai/jobs/info/6a9c79492c964816f65e950b",
+    "job_db_id": "7fa89f8d-f5fe-4847-b983-943b2295e888",
+    "application_id": "89f3dd6b-7f35-4f8e-9120-712a17977356",
+    "state": "QUEUED",
+    "dedupe_kind": "CREATED",
+    "error": null
+  },
+  "pipeline": {
+    "run_id": "92c21656-1a7a-44d9-9584-8f23e78a7e61",
+    "applications": [
+      {
+        "application_id": "89f3dd6b-7f35-4f8e-9120-712a17977356",
+        "start_state": "QUEUED",
+        "end_state": "COMPLETED",
+        "steps": [
+          {
+            "from": "QUEUED",
+            "to": "MATERIALS_GENERATING",
+            "note": "materials stage entered"
+          },
+          {
+            "from": "MATERIALS_GENERATING",
+            "to": "RESUME_DOWNLOADED",
+            "note": "verified resume material found"
+          },
+          {
+            "from": "RESUME_DOWNLOADED",
+            "to": "APPLICATION_OPENING",
+            "note": "opening employer application"
+          },
+          {
+            "from": "APPLICATION_OPENING",
+            "to": null,
+            "note": "nav resolved employer URL via anchor_href (generic)"
+          },
+          {
+            "from": "APPLICATION_OPENING",
+            "to": "ATS_DETECTION",
+            "note": "generic URL validated"
+          },
+          {
+            "from": "ATS_DETECTION",
+            "to": "APPLICATION_INSPECTION",
+            "note": "inspection stage entered"
+          },
+          {
+            "from": "APPLICATION_INSPECTION",
+            "to": "NATIVE_AUTOFILL_RUNNING",
+            "note": "needs_login — proceeding to fill (portal auth)"
+          },
+          {
+            "from": "NATIVE_AUTOFILL_RUNNING",
+            "to": "READY_TO_SUBMIT",
+            "note": "verified (generic live fill: 4 filled (held for submit))"
+          },
+          {
+            "from": "READY_TO_SUBMIT",
+            "to": "SUBMITTED",
+            "note": "submission verified"
+          },
+          {
+            "from": "SUBMITTED",
+            "to": "COMPLETED",
+            "note": "contacts extracted: 0"
+          }
+        ],
+        "stopped": "terminal",
+        "stop_reason": "state COMPLETED is not pipeline-advanceable"
+      }
+    ]
+  },
+  "submission_verified": true,
+  "error": "no JobRight jobs enqueued: Blocked: ALREADY_VERIFIED_SUBMITTED",
+  "ended_at": "2026-09-06T19:20:02.124Z"
+}

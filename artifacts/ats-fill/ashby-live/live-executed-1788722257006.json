@@ -1,0 +1,539 @@
+{
+  "ats": "ashby",
+  "url": "https://jobs.ashbyhq.com/etched/b45e357c-07ea-4499-9911-1d3cc9b9ac71/application",
+  "requested_url": "https://jobs.ashbyhq.com/etched/b45e357c-07ea-4499-9911-1d3cc9b9ac71/application",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://jobs.ashbyhq.com/etched/b45e357c-07ea-4499-9911-1d3cc9b9ac71/application",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 19,
+    "skipped_count": 4,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "f_0",
+      "label": "Application",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "_systemfield_name",
+      "label": "Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Single full-name field: composed legal_name.first + legal_name.last (both safe factual canonicals)"
+    },
+    {
+      "field_id": "d7436058-2ed8-46ba-a236-1e64bf9ebefd",
+      "label": "Preferred Name",
+      "type": "text",
+      "canonical_field": "preferred_name",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "_systemfield_email",
+      "label": "Email",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "e0bd1ef6-0eb7-4b5b-ae96-d7da34a096fb",
+      "label": "Phone Number",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "ef15a255-520c-4c71-a9e5-a8b9903e1d56",
+      "label": "LinkedIn Profile URL",
+      "type": "text",
+      "canonical_field": "linkedin_url",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "a1c359c4-cd18-4c3c-a6a1-6110155b9796",
+      "label": "GitHub or Portfolio URL",
+      "type": "text",
+      "canonical_field": "personal_website",
+      "action": "SKIP",
+      "reason": "Profile value empty for personal_website"
+    },
+    {
+      "field_id": "71d5909b-8994-41b6-9a95-54f371ef0cb5",
+      "label": "College or University",
+      "type": "text",
+      "canonical_field": "school",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "8397bf33-ea3c-4960-9fd6-1951dcae2687",
+      "label": "Major or Field of Study",
+      "type": "text",
+      "canonical_field": "major",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f_19",
+      "label": "Pick date...",
+      "type": "text",
+      "canonical_field": "screener:custom:available_start_date",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "a340416d-abc8-42c7-887f-55298c353935",
+      "label": "Current GPA",
+      "type": "text",
+      "canonical_field": "gpa",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "e63bed6f-bfcc-493b-ae02-0bc5380ed0d5",
+      "label": "If you answered other:",
+      "type": "textarea",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Essay generation produced no answer"
+    },
+    {
+      "field_id": "828829a0-da83-4155-ac41-12c87a725802",
+      "label": "Why do you want to join Etched?",
+      "type": "textarea",
+      "canonical_field": "essay:generated:828829a0-da83-4155-ac41-12c87a725802",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "36bacef2-5a86-4b70-b2a7-65598fb9e81f",
+      "label": "Please provide 2-3 bullet points showcasing exceptional ability.",
+      "type": "textarea",
+      "canonical_field": "essay:generated:36bacef2-5a86-4b70-b2a7-65598fb9e81f",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "0a53ffea-2a70-497c-b70f-23dc7b3b170c",
+      "label": "Are you open to starting full-time immediately after your internship? (either graduated or willing to take time off from school)",
+      "type": "textarea",
+      "canonical_field": "essay:generated:0a53ffea-2a70-497c-b70f-23dc7b3b170c",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "_systemfield_resume",
+      "label": "Resume",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "c24187b7-472b-40b0-912e-b0b1c496cd4e",
+      "label": "SAT or ACT Score",
+      "type": "text",
+      "canonical_field": "screener:custom:predicted:c24187b7-472b-40b0-912e-b0b1c496cd4e",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): Matches the learned SAT/ACT score answer of a 35 composite ACT."
+    },
+    {
+      "field_id": "a2c0688b-a8a7-4902-b8f1-87f7b016c559",
+      "label": "Is there anything else you'd like us to know?",
+      "type": "textarea",
+      "canonical_field": "essay:generated:a2c0688b-a8a7-4902-b8f1-87f7b016c559",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "2945f34c-b82c-48a4-bbc6-760eb4aaf7a5",
+      "label": "Which term(s) would you like to be considered for?",
+      "type": "select",
+      "canonical_field": "screener:internship_term",
+      "action": "FILL",
+      "reason": "Screener bank answer (llm_option)"
+    },
+    {
+      "field_id": "63bfb769-339d-4f39-8783-9bf14c8f3630",
+      "label": "Current Program Type",
+      "type": "select",
+      "canonical_field": "screener:education_level",
+      "action": "FILL",
+      "reason": "Screener bank answer (llm_option)"
+    },
+    {
+      "field_id": "e567d1cb-8ca3-4095-bb5e-30077cb030a8",
+      "label": "What is your work authorization status?",
+      "type": "select",
+      "canonical_field": "work_authorization",
+      "action": "FILL",
+      "reason": "Mapped from public profile; value \"Yes\" not on the control's list — using the form's own \"Other (please explain below)\""
+    },
+    {
+      "field_id": "b817c768-e496-47c8-a0d6-1c851eb26f32",
+      "label": "How did you hear about Etched?",
+      "type": "select",
+      "canonical_field": "screener:how_heard",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "8b39be16-f432-4731-a028-3a6421117efd",
+      "label": "Are you able to work in-person in San Jose this summer?",
+      "type": "select",
+      "canonical_field": "screener:willing_to_relocate",
+      "action": "FILL",
+      "reason": "Screener bank answer (synonym_option)"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\ashby-live\\form-snapshot-1788722186576.html",
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "preferred_name",
+      "email",
+      "phone",
+      "linkedin_url",
+      "school",
+      "major",
+      "gpa",
+      "essay:generated:828829a0-da83-4155-ac41-12c87a725802",
+      "essay:generated:36bacef2-5a86-4b70-b2a7-65598fb9e81f",
+      "essay:generated:0a53ffea-2a70-497c-b70f-23dc7b3b170c",
+      "screener:custom:predicted:c24187b7-472b-40b0-912e-b0b1c496cd4e",
+      "essay:generated:a2c0688b-a8a7-4902-b8f1-87f7b016c559",
+      "screener:internship_term",
+      "screener:education_level",
+      "work_authorization",
+      "screener:how_heard",
+      "screener:willing_to_relocate"
+    ],
+    "skipped": [],
+    "errors": [
+      "f_19: control not found on the page (label \"Pick date...\") — failing fast instead of waiting 30s"
+    ],
+    "field_meta": [
+      {
+        "field_id": "_systemfield_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "d7436058-2ed8-46ba-a236-1e64bf9ebefd",
+        "canonical_field": "preferred_name",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "_systemfield_email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "e0bd1ef6-0eb7-4b5b-ae96-d7da34a096fb",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "ef15a255-520c-4c71-a9e5-a8b9903e1d56",
+        "canonical_field": "linkedin_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "71d5909b-8994-41b6-9a95-54f371ef0cb5",
+        "canonical_field": "school",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "8397bf33-ea3c-4960-9fd6-1951dcae2687",
+        "canonical_field": "major",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "a340416d-abc8-42c7-887f-55298c353935",
+        "canonical_field": "gpa",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "828829a0-da83-4155-ac41-12c87a725802",
+        "canonical_field": "essay:generated:828829a0-da83-4155-ac41-12c87a725802",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "36bacef2-5a86-4b70-b2a7-65598fb9e81f",
+        "canonical_field": "essay:generated:36bacef2-5a86-4b70-b2a7-65598fb9e81f",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "0a53ffea-2a70-497c-b70f-23dc7b3b170c",
+        "canonical_field": "essay:generated:0a53ffea-2a70-497c-b70f-23dc7b3b170c",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "c24187b7-472b-40b0-912e-b0b1c496cd4e",
+        "canonical_field": "screener:custom:predicted:c24187b7-472b-40b0-912e-b0b1c496cd4e",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "a2c0688b-a8a7-4902-b8f1-87f7b016c559",
+        "canonical_field": "essay:generated:a2c0688b-a8a7-4902-b8f1-87f7b016c559",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "2945f34c-b82c-48a4-bbc6-760eb4aaf7a5",
+        "canonical_field": "screener:internship_term",
+        "control_kind": "native_checkbox_group",
+        "selected_option": "Summer (May - August)",
+        "match_via": "exact",
+        "notes": [
+          "picked \"Summer (May - August)\" (exact)"
+        ]
+      },
+      {
+        "field_id": "63bfb769-339d-4f39-8783-9bf14c8f3630",
+        "canonical_field": "screener:education_level",
+        "control_kind": "native_radio_group",
+        "selected_option": "Bachelor's Degree",
+        "match_via": "exact",
+        "notes": [
+          "picked \"Bachelor's Degree\" (exact)"
+        ]
+      },
+      {
+        "field_id": "e567d1cb-8ca3-4095-bb5e-30077cb030a8",
+        "canonical_field": "work_authorization",
+        "control_kind": "native_radio_group",
+        "selected_option": "Other (please explain below)",
+        "match_via": "exact",
+        "notes": [
+          "picked \"Other (please explain below)\" (exact)"
+        ]
+      },
+      {
+        "field_id": "b817c768-e496-47c8-a0d6-1c851eb26f32",
+        "canonical_field": "screener:how_heard",
+        "control_kind": "native_radio_group",
+        "selected_option": "LinkedIn",
+        "match_via": "exact",
+        "notes": [
+          "picked \"LinkedIn\" (exact)"
+        ]
+      },
+      {
+        "field_id": "8b39be16-f432-4731-a028-3a6421117efd",
+        "canonical_field": "screener:willing_to_relocate",
+        "control_kind": "native_yesno_group",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "picked \"Yes\" (exact)"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": false,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham Kale",
+        "observed": "Shubham Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "preferred_name",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "match": true
+      },
+      {
+        "canonical_field": "school",
+        "expected": "Johns Hopkins University",
+        "observed": "Johns Hopkins University",
+        "match": true
+      },
+      {
+        "canonical_field": "major",
+        "expected": "Applied Mathematics and Statistics",
+        "observed": "Applied Mathematics and Statistics",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:available_start_date",
+        "expected": "2026-06-01",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "gpa",
+        "expected": 3.7,
+        "observed": "3.7",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:828829a0-da83-4155-ac41-12c87a725802",
+        "expected": "I want to work on systems where performance and correctness are both non-negotiable, and a supercomputing software role is closer to that than anything I have done so far. Most of my work has been one level up the stack. At Summer Atlantic Capital I built the machine-learning core of an anomaly-detection system, including the event-ingestion pipeline, a versioned FastAPI microservice, the CI scaffold, and temporal sequence models over event streams. Doing that taught me that model quality is often not the constraint. Throughput, failure modes, and whether the infrastructure holds up under real load usually are. I want to go deeper on that layer rather than keep treating it as plumbing underneath the model. I also work best when I own a real piece of a system instead of isolated tickets, which is how I built ClarityAtlas end to end and shipped it into a Hopkins pilot with 30+ users. An on-site San Jose internship on hard software problems is exactly the environment I am looking for.",
+        "observed": "I want to work on systems where performance and correctness are both non-negotiable, and a supercomputing software role is closer to that than anything I have done so far. Most of my work has been one level up the stack. At Summer Atlantic Capital I built the machine-learning core of an anomaly-detection system, including the event-ingestion pipeline, a versioned FastAPI microservice, the CI scaffold, and temporal sequence models over event streams. Doing that taught me that model quality is often not the constraint. Throughput, failure modes, and whether the infrastructure holds up under real load usually are. I want to go deeper on that layer rather than keep treating it as plumbing underneath the model. I also work best when I own a real piece of a system instead of isolated tickets, which is how I built ClarityAtlas end to end and shipped it into a Hopkins pilot with 30+ users. An on-site San Jose internship on hard software problems is exactly the environment I am looking for.",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:36bacef2-5a86-4b70-b2a7-65598fb9e81f",
+        "expected": "- I built ClarityAtlas, an iOS health app, end to end in Swift/SwiftUI with Supabase, including a passive sleep-estimation system that infers sleep without a wearable using HealthKit and Core Motion signals like step count, gait speed, and movement patterns. We shipped it into a live Hopkins pilot with 30+ users, got selected for the Pava Spark Accelerator and NSF I-Corps, received a non-binding indication of about $75,000 for roughly 7-8% equity, and pitched Hopkins President Ron Daniels after knocking on the doors of Garland Hall until we got in.\n- I was lead model developer on a Gates Foundation-funded Hopkins / South African Medical Research Council project, training XGBoost models on a national survey dataset of roughly 10 million records, using SHAP for feature selection and interpretation, and designing G-formula causal simulations to estimate counterfactual intervention outcomes.\n- I did independent research on Valley Fever, building an SIR-style epidemiological model in Python from its differential equations and programming a microcontroller dust sensor in C/C++. It became a sole-author publication in the Journal of Student Research and a national finalist spot at the Junior Science and Humanities Symposium.",
+        "observed": "- I built ClarityAtlas, an iOS health app, end to end in Swift/SwiftUI with Supabase, including a passive sleep-estimation system that infers sleep without a wearable using HealthKit and Core Motion signals like step count, gait speed, and movement patterns. We shipped it into a live Hopkins pilot with 30+ users, got selected for the Pava Spark Accelerator and NSF I-Corps, received a non-binding indication of about $75,000 for roughly 7-8% equity, and pitched Hopkins President Ron Daniels after knocking on the doors of Garland Hall until we got in.\n- I was lead model developer on a Gates Foundation-funded Hopkins / South African Medical Research Council project, training XGBoost models on a national survey dataset of roughly 10 million records, using SHAP for feature selection and interpretation, and designing G-formula causal simulations to estimate counterfactual intervention outcomes.\n- I did independent research on Valley Fever, building an SIR-style epidemiological model in Python from its differential equations and programming a microcontroller dust sensor in C/C++. It became a sole-author publication in the Journal of Student Research and a national finalist spot at the Junior Science and Humanities Symposium.",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:0a53ffea-2a70-497c-b70f-23dc7b3b170c",
+        "expected": "Yes. I'm an undergraduate at Johns Hopkins in the class of 2029, so I wouldn't be graduating, but I'm open to taking time off from school to continue full-time if the work warrants it. The thing I care about most is owning a substantial piece of a system rather than a scoped summer project that gets shelved in August. I've generally worked on things past their nominal end date anyway: I built ClarityAtlas end to end and kept going through a live Hopkins pilot, accelerator selection, and investor conversations, and I've been building the ML core of the anomaly-detection system at Summer Atlantic Capital alongside school. If an internship turned into a real piece of infrastructure I was responsible for, staying on-site in San Jose full-time is something I would want to do, and I'd want to have that conversation early enough to plan the leave properly.",
+        "observed": "Yes. I'm an undergraduate at Johns Hopkins in the class of 2029, so I wouldn't be graduating, but I'm open to taking time off from school to continue full-time if the work warrants it. The thing I care about most is owning a substantial piece of a system rather than a scoped summer project that gets shelved in August. I've generally worked on things past their nominal end date anyway: I built ClarityAtlas end to end and kept going through a live Hopkins pilot, accelerator selection, and investor conversations, and I've been building the ML core of the anomaly-detection system at Summer Atlantic Capital alongside school. If an internship turned into a real piece of infrastructure I was responsible for, staying on-site in San Jose full-time is something I would want to do, and I'd want to have that conversation early enough to plan the leave properly.",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:c24187b7-472b-40b0-912e-b0b1c496cd4e",
+        "expected": "ACT: 35",
+        "observed": "ACT: 35",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:a2c0688b-a8a7-4902-b8f1-87f7b016c559",
+        "expected": "Two things that did not fit elsewhere. First, the closest I have come to working near hardware is small but real: for my Valley Fever research I programmed a microcontroller-based dust sensor in C/C++ and built an SIR-style epidemiological model in Python from its differential equations, connecting disease dynamics to environmental variables. That work became a sole-author publication in the Journal of Student Research and a national finalist spot at the Junior Science and Humanities Symposium. I mention it because I like going down a level when the problem requires it rather than staying where I am already comfortable.\n\nSecond, I spend a lot of time on where automation should stop. In a Playwright-based job-application agent I built in TypeScript, every mutating capability sits behind fail-closed environment flags, and I built a validation ladder so a capability is not called working until it has been confirmed against the level of reality it claims to support, not just a local fixture. That habit, refusing to trust a green test that only proves something narrow, is what I would bring to systems work.",
+        "observed": "Two things that did not fit elsewhere. First, the closest I have come to working near hardware is small but real: for my Valley Fever research I programmed a microcontroller-based dust sensor in C/C++ and built an SIR-style epidemiological model in Python from its differential equations, connecting disease dynamics to environmental variables. That work became a sole-author publication in the Journal of Student Research and a national finalist spot at the Junior Science and Humanities Symposium. I mention it because I like going down a level when the problem requires it rather than staying where I am already comfortable.\n\nSecond, I spend a lot of time on where automation should stop. In a Playwright-based job-application agent I built in TypeScript, every mutating capability sits behind fail-closed environment flags, and I built a validation ladder so a capability is not called working until it has been confirmed against the level of reality it claims to support, not just a local fixture. That habit, refusing to trust a green test that only proves something narrow, is what I would bring to systems work.",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:internship_term",
+        "expected": "Summer (May - August)",
+        "observed": "Summer (May - August)",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:education_level",
+        "expected": "Bachelor's Degree",
+        "observed": "Bachelor's Degree",
+        "match": true
+      },
+      {
+        "canonical_field": "work_authorization",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:how_heard",
+        "expected": "LinkedIn",
+        "observed": "LinkedIn",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:willing_to_relocate",
+        "expected": "Yes",
+        "observed": "Yes",
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": [
+      "verify screener:custom:available_start_date: control not found on the page (label \"Pick date...\") — failing fast instead of waiting 30s"
+    ]
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 113810,
+      "verified": true,
+      "evidence": "input files: [{\"name\":\"resume-dd9093dd.pdf\",\"size\":113810}]; stillAttached=true; chip=true; resolved via primary"
+    }
+  ],
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: form (25 fillable field(s))",
+    "other-specify: chose \"Other\" and no text box appeared — nothing further to answer",
+    "timing: base page (23 planned) — plan 38s, fill 39s, verify 31s",
+    "page error scan: no visible validation errors on the page",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "other_specify": [
+    {
+      "field_id": "e567d1cb-8ca3-4095-bb5e-30077cb030a8",
+      "label": "What is your work authorization status?",
+      "revealed_field_id": null,
+      "filled": false,
+      "note": "chose \"Other\" and no text box appeared — nothing further to answer"
+    }
+  ],
+  "operator_brief": {
+    "title": "Live fill — ashby https://jobs.ashbyhq.com/etched/b45e357c-07ea-4499-9911-1d3cc9b9ac71/application",
+    "summary": "2 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:screener:custom:available_start_date",
+        "question": "Pick date...",
+        "field_id": "f_19",
+        "canonical_field": "screener:custom:available_start_date",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"2026-06-01\"; page shows \"(empty)\"",
+        "expected": "2026-06-01",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"2026-06-01\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:available_start_date)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:available_start_date\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "fill_error:f_19: control not found on the page (label \"Pick date...\") — failing fast instea",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "f_19: control not found on the page (label \"Pick date...\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      }
+    ],
+    "ok_count": 18,
+    "fail_count": 2
+  },
+  "written_at": "2026-09-06T19:17:37.053Z"
+}
