@@ -60,12 +60,12 @@
 </style></head>
 <body><div class="wrap">
 <h1>Dispatch run timeline</h1>
-<p class="sub">Generated 2026-09-06T15:57:40.328Z · 40 navigation run(s) · read-only view of artifacts/</p>
-<div class="stats"><span class="stat"><b>17</b> resolved</span><span class="stat"><b>9</b> budget</span><span class="stat"><b>7</b> auth</span><span class="stat"><b>4</b> submit_risk</span><span class="stat"><b>3</b> closed</span></div>
+<p class="sub">Generated 2026-09-06T16:01:41.968Z · 40 navigation run(s) · read-only view of artifacts/</p>
+<div class="stats"><span class="stat"><b>18</b> resolved</span><span class="stat"><b>9</b> budget</span><span class="stat"><b>7</b> auth</span><span class="stat"><b>3</b> closed</span><span class="stat"><b>3</b> submit_risk</span></div>
 <section class="cycle">
   <h2>Latest cycle</h2>
   <dl>
-    <div><dt>Started</dt><dd>2026-09-06T15:52:58.029Z</dd></div>
+    <div><dt>Started</dt><dd>2026-09-06T15:59:40.400Z</dd></div>
     <div><dt>Outcome</dt><dd>completed</dd></div>
     <div><dt>Agent leg</dt><dd>available</dd></div>
     <div><dt>Default resume</dt><dd>ready (C:\dev\jobright-application-agent\private\candidate\resumes\swe.pdf)</dd></div>
@@ -73,9 +73,24 @@
     <div><dt>Submits used</dt><dd>0</dd></div>
     <div><dt>Stopped</dt><dd>apps_cap</dd></div>
   </dl>
-  <h3>Session notes</h3><ul class="notes"><li>triage sweep: 0 confirmed, 0 refuted, 0 expired of 25 pending</li><li>discover: 1 inspected, 1 eligible, 1 already known, 0 filtered out, 0 already submitted</li><li>triage 4299f8a0: park_for_operator (executed) — review item created: 4b38df9f-8175-4862-86ea-b56a555eccd3</li><li>artifact autopush: 7 file(s) pushed to master as d8e3a697</li></ul>
+  <h3>Session notes</h3><ul class="notes"><li>triage sweep: 0 confirmed, 0 refuted, 0 expired of 26 pending</li><li>discover: 1 inspected, 1 eligible, 1 already known, 0 filtered out, 0 already submitted</li><li>triage 4a97ab57: engage_agent_leg (executed) — requeued with agent-leg override marker (decision 841134a7-8151-4881-b390-503d2b45b973)</li><li>artifact autopush: 9 file(s) pushed to master as 2ee70747</li></ul>
 </section>
 <h2>Applications</h2>
+<details class="app ok">
+  <summary>
+    <span class="id">4a97ab57</span>
+    <span class="co">Barclays Bank US</span>
+    <span class="badge">resolved</span>
+    <span class="chip">apply_click_popup</span>
+    <span class="chip">generic</span>
+    
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no congruent apply href (12 external links)<span class="ev">search.jobs.barclays, www.linkedin.com, x.com, www.crunchbase.com, barclaysus.com, www.prnewswire.com</span></li><li><b>B_apply_click</b> — resolved via popup<span class="ev">search.jobs.barclays</span></li></ol>
+    <h4>Notes</h4><ul class="notes"><li>phase A: 8 external host(s) seen: search.jobs.barclays, www.linkedin.com, x.com, www.crunchbase.com, barclaysus.com, www.prnewswire.com, techmoran.com, www.techspot.com</li><li>Apply control: autofill CTA (tier 0)</li><li>jobright interstitial: clicked &quot;Apply Without Customizing&quot;</li><li>popup settled off about:blank after the interstitial</li><li>popup captured on attempt 1</li><li>employer congruence unverifiable (no employer name decodable from URL (host and path are generic)) — recorded</li></ul>
+    
+  </div>
+</details>
 <details class="app bad">
   <summary>
     <span class="id">4299f8a0</span>
@@ -658,21 +673,6 @@
   <div class="body">
     <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — error</li></ol>
     <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent phase failed: Unexpected token 'o', &quot;not json at all&quot; is not valid JSON</li></ul>
-    
-  </div>
-</details>
-<details class="app bad">
-  <summary>
-    <span class="id">a564d137</span>
-    <span class="co">—</span>
-    <span class="badge">wall: submit_risk</span>
-    
-    
-    <span class="chip">agent 1t/3s</span>
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — wall: submit_risk (turn 1)</li></ol>
-    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent[1] reason: agent stopped: submit_risk</li></ul>
     
   </div>
 </details>
