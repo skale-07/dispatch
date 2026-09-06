@@ -407,6 +407,50 @@ artifacts/gmail-pipeline-applied-page.png. Drafts only, zero sends.
 - Tests: gate-parked app gets a decision and a legal 2-hop requeue to
   QUEUED (30/30 triage+worker).
 
+### Cycle 19 (17:04Z 09-06) — #175 live: first mid-state triage decision
+
+- The Rivian iCIMS gate-park (83751e38, UNKNOWN_LANDING) — invisible to
+  the layer one cycle earlier — received its first triage decision
+  (signature `NATIVE_AUTOFILL_RUNNING|-|unknown|internal-careers-rivian.icims.com`).
+  Model chose engage_agent_leg; #172 precondition correctly refused (no
+  nav wall); recorded ⇒ forbidden next time ⇒ converges to park.
+
+## SESSION SUMMARY (night25, 2026-09-05 → 09-06)
+
+**Cycles:** 19 (+3 repair phases). **Submits: 0** — therefore 0
+post-submit outreach emails, which is correct fail-closed behavior
+(outreach is post-submit only). The gmail pipeline itself was proven
+separately on the operator's manually-applied jobs (Scale AI: 5 drafts).
+
+**What shipped (13 commits), all gated:**
+- `8e82d3a3` #170 filechooser upload fallback; `8517c81f` #171
+  query-string-aware dedupe (both LIVE-validated: the wall moved on SJHL;
+  both MicroVention siblings passed the dup guard).
+- LLM decision layer, complete M1–M7: `11ce8884` triage subsystem,
+  `2770f8b3` nav give-up evidence, `fc206d46` worker wiring, `447c3b0c`
+  nav LLM assist + agent-leg override, `53d323a8` CLI aliases,
+  `48bebf7d` #174 sweep ordering, `d0bff5d2` M4 abandon promotion,
+  `da64d193` #172 agent-leg precondition, `e47337b2` #175 mid-state
+  triage. Three layer defects were found BY live cycles and fixed
+  same-session — the intended improvement loop, now partly mechanized.
+
+**Triage layer live results:** 28 decisions recorded (2 executed acts:
+one park with review item, one requeue), 1 REFUTED verdict feeding the
+forbidden memory, zero invalid actions ever executed (every bad model
+pick was caught by set-membership/forbidden/precondition gates).
+
+**What needs the operator (the loop cannot clear these):**
+1. Brassring account/standing-credential recognition — both MicroVention
+   roles park at sjobs.brassring.com sign-in (portal auth refuses the
+   unrecognized host).
+2. #173 Barclays upload: 0 file inputs AND no upload-like control text —
+   needs a pixels-first diagnosis (form snapshots exist on both apps).
+3. ByteDance portal account (parked since cycle 2 by design).
+4. Rivian iCIMS UNKNOWN_LANDING (giveup snapshots on disk from M1).
+
+Loop stopped at information exhaustion: every pickable app hits one of
+the walls above; triage correctly parks instead of grinding.
+
 ### Cycle 10 (15:51Z 09-06) — 70aaa82a Neuralink, posting closed
 
 - APPLICATION_OPENING → FILTERED_OUT (terminal): closed on JobRight.
