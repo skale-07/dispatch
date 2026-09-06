@@ -70,6 +70,21 @@ describe("Phase 5.5 application dedupe", () => {
     expect(count).toBe(first.applications.length);
   });
 
+  it("fresh discovery skips previously queued feed cards and reads requirements for one new eligible job (UNIT_CONFIRMED)", async () => {
+    const first = await runJobRightDiscovery({ feedHtmlPath: feedFixture, maxJobs: 1, freshOnly: true, detailReader: async () => "Undergraduate internship." });
+    expect(first.jobs_eligible).toBe(1);
+    const read: string[] = [];
+    const next = await runJobRightDiscovery({ feedHtmlPath: feedFixture, maxJobs: 1, freshOnly: true, detailReader: async card => { read.push(card.jobright_job_id); return "Undergraduate internship."; } });
+    expect(next.jobs_eligible).toBeLessThanOrEqual(1);
+    expect(next.applications.every(a => a.application_id !== first.applications[0]!.application_id)).toBe(true);
+    expect(read).not.toContain(first.applications[0]!.jobright_job_id);
+    const db = openDatabase(dbPath);
+    for (const app of next.applications) {
+      expect((db.prepare("SELECT description_text FROM jobs j JOIN applications a ON a.job_id = j.id WHERE a.id = ?").get(app.application_id) as { description_text: string }).description_text).toBe("Undergraduate internship.");
+    }
+    closeDatabase(db);
+  });
+
   it("getOrCreateApplicationForJob returns EXISTING_ACTIVE", () => {
     const db = openDatabase(dbPath);
     migrate(db);

@@ -328,8 +328,8 @@ describe("L3 automation worker (FIXTURE_CONFIRMED)", () => {
         // Discovery enqueues one app on the first call, nothing after.
         discoveryRunner: async () => {
           discovered += 1;
-          if (discovered === 1) seedQueuedApp();
-          return { jobs_inspected: discovered === 1 ? 1 : 0 };
+          const id = discovered === 1 ? seedQueuedApp() : null;
+          return { jobs_inspected: id ? 1 : 0, applications: id ? [{ application_id: id, eligible: true, dedupe_kind: "CREATED" }] : [] };
         },
       });
 
@@ -364,12 +364,42 @@ describe("L3 automation worker (FIXTURE_CONFIRMED)", () => {
         },
       });
 
-      // The pre-seeded app still processed; the feed failure is just noted.
-      expect(report.apps_started).toBe(1);
+      // Fresh discovery never falls through to historical queued work.
+      expect(report.apps_started).toBe(0);
+      expect(report.stopped_reason).toBe("no_fresh_candidate");
       expect(report.notes.some((n) => /empty_feed/.test(n))).toBe(true);
     },
     60_000,
   );
+
+  it("finishes Gmail for the submitted application before the next discovery (UNIT_CONFIRMED)", async () => {
+    const events: string[] = [];
+    let id = "";
+    let discoveries = 0;
+    await runAutomationSession({ db, armRunId: arm(5, 2), discoverMax: 1, fixtureHtmlPath: GREENHOUSE_FIXTURE, sleep: noSleep,
+      discoveryRunner: async () => {
+        events.push("discover");
+        if (++discoveries > 1) return { jobs_inspected: 0, applications: [] };
+        id = seedQueuedApp();
+        return {
+          jobs_inspected: 1,
+          applications: [{ application_id: id, eligible: true, dedupe_kind: "CREATED" }],
+        };
+      },
+      pipelineRunner: async input => {
+        expect(input.applicationId).toBe(id);
+        events.push("application");
+        db.prepare("INSERT INTO submissions (id, application_id, submission_attempt_number, status, submitted, receipt_json) VALUES (?, ?, 1, 'VERIFIED', 1, '{}')").run(randomUUID(), id);
+        return { run_id: "fixture", applications: [{ application_id: id, start_state: "QUEUED", end_state: "COMPLETED", steps: [], stopped: null, stop_reason: null }] };
+      },
+      gmailRunner: async input => {
+        expect(input.applicationId).toBe(id);
+        events.push("gmail");
+        return { input: id, application_id: id, ok: true, state: "COMPLETED", people_checked: 0, emails_found: 0, generated: 0, drafted: 0, notes: [], error: null };
+      },
+    });
+    expect(events).toEqual(["discover", "application", "gmail", "discover"]);
+  }, 30000);
 
   it(
     "preflight: a wedged CDP attach is repaired BEFORE the first app (night19 #55)",

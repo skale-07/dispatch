@@ -173,7 +173,7 @@ Commands:
   gmail:auth --email <mailbox> --client-id <id> --client-secret <secret>   One-time readonly OAuth
   gmail:check                           Read-only Gmail token smoke test
   verify:mailbox [--since <minutes>] [--show] [--headed]   Smoke-test mailbox scan (gmail-web/outlook)
-  auto:cycle [--no-update] [--headed] [--duration <min>] [--max-submits N] [--max-apps N] [--app-deadline <sec>]   One hands-off session cycle (operator-guide §19)
+  auto:cycle [--no-update] [--headed] [--backlog] [--duration <min>] [--max-submits N] [--max-apps N] [--app-deadline <sec>]   One fresh-job session cycle (operator-guide §19)
   viz:timeline [--limit N]              Render artifacts/console/run-timeline.html (read-only)
   review
   review:resolve --id <review_item_id> --outcome submitted|not-submitted [--requeue]
@@ -186,6 +186,7 @@ Commands:
   jobright:ext-capture --url <ats-url>               — headed capture: YOU activate the extension's autofill; writes before/after diff + selector candidates
   gmail:draft --application <uuid> --contact <contact_id> [--headed]   — save the generated email as a Gmail DRAFT (never sends; needs GMAIL_DRAFTS_ENABLED)
   outreach --jobright <url|id> [--jobright ...] [--headed]   — apply-yourself: enqueue + insider emails + generate + Gmail drafts (never sends)
+  outreach --application <uuid> [--headed]                — Gmail tail for an existing verified submission
   email:generate --application <uuid> [--contact <id>] [--persona <id>]
   draft:create --application <uuid> --contact <contact_id> [--headed]
   draft:verify --draft <draft_id> [--headed]
@@ -815,9 +816,9 @@ async function cmdOutreach(
   flags: Record<string, string | boolean>,
 ): Promise<void> {
   const { refs } = collectEnqueueRefs(process.argv.slice(3));
-  if (refs.length === 0) {
+  if (refs.length === 0 && typeof flags["application"] !== "string") {
     console.error(
-      "Usage: outreach --jobright <url|id> [--jobright ...] [--headed]",
+      "Usage: outreach --jobright <url|id> [--jobright ...] [--headed] OR outreach --application <verified-app-id> [--headed]",
     );
     console.error(
       "Requires LINKEDIN_ENRICHMENT_ENABLED, EMAIL_GENERATION_ENABLED, GMAIL_DRAFTS_ENABLED, and an LLM key in .env.",
@@ -831,6 +832,7 @@ async function cmdOutreach(
     const report = await runOutreachPipeline({
       db,
       refs,
+      ...(typeof flags["application"] === "string" ? { postSubmitApplicationId: flags["application"] } : {}),
       headless: flags["headed"] !== true,
     });
     console.log(JSON.stringify(report, null, 2));
@@ -2068,6 +2070,7 @@ async function main(): Promise<void> {
           : undefined;
       const report = await runAutoCycle({
         skipUpdate: flags["no-update"] === true,
+        backlog: flags["backlog"] === true,
         headless: flags["headed"] !== true,
         ...(num("duration") !== undefined ? { durationMinutes: num("duration")! } : {}),
         ...(num("max-submits") !== undefined ? { maxSubmits: num("max-submits")! } : {}),

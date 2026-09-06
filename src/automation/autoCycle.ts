@@ -124,6 +124,7 @@ const REQUIRED_FLAGS: Array<{ key: string; check: (cfg: ReturnType<typeof getCon
 export async function runAutoCycle(
   input: {
     skipUpdate?: boolean;
+    backlog?: boolean;
     durationMinutes?: number;
     maxSubmits?: number;
     maxApps?: number;
@@ -185,6 +186,7 @@ export async function runAutoCycle(
 async function runAutoCycleInner(
   input: {
     skipUpdate?: boolean;
+    backlog?: boolean;
     durationMinutes?: number;
     maxSubmits?: number;
     maxApps?: number;
@@ -385,7 +387,11 @@ async function runAutoCycleInner(
           headless: input.headless ?? false,
           // Operator 2026-09-01: postings churn fast — discover ONE fresh
           // job per cycle instead of a batch that goes stale in the queue.
-          discoverMax: report.arm?.discover_max ?? 1,
+          // Backlog runs do zero discovery; fresh runs honor the armed
+          // session's configured budget (default 1) rather than silently
+          // ignoring a discover_max the operator/console set.
+          discoverMax: input.backlog ? 0 : (report.arm?.discover_max ?? 1),
+          queueMode: input.backlog ? "backlog" : "fresh",
           ...(input.appDeadlineSeconds !== undefined && input.appDeadlineSeconds > 0
             ? { appDeadlineMs: Math.round(input.appDeadlineSeconds * 1000) }
             : {}),

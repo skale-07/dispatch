@@ -37,12 +37,18 @@ import {
   jobrightSelectorsV1,
 } from "./selectors/v1.js";
 import { detectAuthLossOnPage } from "../auth/authLossDetect.js";
+import { loadApplicationEducationPolicy, selectEducationPolicy } from "../candidate/applicationEducation.js";
 
 export type DiscoveryOptions = {
   feedHtmlPath?: string;
   maxJobs?: number;
+  /** Count fresh eligible jobs, scanning past known/ineligible cards in feed order. */
+  freshOnly?: boolean;
+  scanLimit?: number;
   openJobDetails?: boolean;
   headless?: boolean;
+  /** Synthetic detail seam; callers using fixture HTML never access the network. */
+  detailReader?: (card: ParsedJobCard) => Promise<string>;
 };
 
 export type DiscoveryReport = {
@@ -53,6 +59,8 @@ export type DiscoveryReport = {
   jobs_filtered_out: number;
   jobs_reused: number;
   jobs_skipped_submitted: number;
+  /** Non-fatal per-card problems (fresh-mode detail reads, etc.). */
+  notes?: string[];
   applications: Array<{
     application_id: string;
     jobright_job_id: string;
@@ -72,16 +80,19 @@ export async function runJobRightDiscovery(
   options: DiscoveryOptions = {},
 ): Promise<DiscoveryReport> {
   const maxJobs = options.maxJobs ?? 10;
+  const scanLimit = options.freshOnly
+    ? Math.min(100, Math.max(1, options.scanLimit ?? 40))
+    : maxJobs;
   const feedUrl = defaultJobRightStartUrl();
   const runId = newDiscoveryRunId();
 
   const cards = options.feedHtmlPath
     ? parseJobCardsFromFeedHtml(
         fs.readFileSync(options.feedHtmlPath, "utf8"),
-      ).slice(0, maxJobs)
+      ).slice(0, scanLimit)
     : await scrapeFeedCardsLive({
         feedUrl,
-        maxJobs,
+        maxJobs: scanLimit,
         headless: options.headless ?? false,
         runId,
       });
@@ -97,12 +108,49 @@ export async function runJobRightDiscovery(
     jobs_filtered_out: 0,
     jobs_reused: 0,
     jobs_skipped_submitted: 0,
+    notes: [],
     applications: [],
   };
 
   try {
     for (const card of cards) {
+      if (options.freshOnly && report.jobs_eligible >= maxJobs) break;
       report.jobs_inspected += 1;
+      if (options.freshOnly) {
+        const known = db.prepare(
+          `SELECT a.id, a.state FROM jobs j JOIN applications a ON a.job_id = j.id
+           WHERE j.jobright_job_id = ? ORDER BY a.created_at DESC LIMIT 1`,
+        ).get(card.jobright_job_id) as { id: string; state: string } | undefined;
+        if (known) {
+          report.jobs_reused += 1;
+          continue;
+        }
+        if (!/intern|co-?op/i.test(`${card.role} ${card.employment_type ?? ""}`)) {
+          report.jobs_filtered_out += 1;
+          continue;
+        }
+      }
+      let description: string;
+      if (options.detailReader) {
+        description = await options.detailReader(card);
+      } else if (options.freshOnly && !options.feedHtmlPath) {
+        // A flaky detail page (timeout, auth blip, id mismatch) must cost
+        // one CARD, not the whole discovery run — in fresh mode an aborted
+        // discovery ends the entire cycle as no_fresh_candidate.
+        try {
+          description = await readDiscoveryDescription(card, options.headless ?? false);
+        } catch (err) {
+          (report.notes ??= []).push(
+            `detail read failed for ${card.jobright_job_id} — card skipped: ${
+              err instanceof Error ? err.message.slice(0, 160) : String(err)
+            }`,
+          );
+          report.jobs_filtered_out += 1;
+          continue;
+        }
+      } else {
+        description = card.role;
+      }
       const job = upsertJobByFingerprint(db, {
         jobrightJobId: card.jobright_job_id,
         applicationUrl: card.job_url,
@@ -110,7 +158,8 @@ export async function runJobRightDiscovery(
         role: card.role,
         location: card.location,
         employmentType: card.employment_type,
-        descriptionHash: hashJobDescription(card.role),
+        descriptionText: description,
+        descriptionHash: hashJobDescription(description),
         raw: card,
       });
 
@@ -215,13 +264,15 @@ export async function runJobRightDiscovery(
         const eligibility = evaluateEligibility({
           role: card.role,
           employmentType: card.employment_type,
-          description: card.role,
+          description,
           alreadySubmitted,
+          education: selectEducationPolicy(loadApplicationEducationPolicy(), { role: card.role, description }),
         });
 
         const dirs = ensureApplicationArtifactDirs(app.id);
         writeJsonAtomic(path.join(dirs.root, "job.json"), {
           ...card,
+          description_text: description,
           job_db_id: job.id,
         });
         writeJsonAtomic(path.join(dirs.root, "eligibility.json"), eligibility);
@@ -292,6 +343,24 @@ export async function runJobRightDiscovery(
   });
 
   return report;
+}
+
+async function readDiscoveryDescription(card: ParsedJobCard, headless: boolean): Promise<string> {
+  const session = new PlaywrightServiceSession({ service: "jobright", headless, slowMoMs: 40 });
+  try {
+    await session.open();
+    const page = await session.newPage({ purpose: "discovery_requirements" });
+    try {
+      await page.goto(card.job_url, { waitUntil: "domcontentloaded", timeout: 45_000 });
+      await page.locator(jobrightSelectorsV1.feed.jobTitle).first().waitFor({ timeout: 15_000 });
+      if (await detectAuthLossOnPage(page, "jobright")) throw new Error("AUTH_REQUIRED: JobRight detail session expired");
+      const snapshot = await readJobDetailSnapshot(page);
+      if (snapshot.jobright_job_id !== card.jobright_job_id || !snapshot.description_text?.trim()) {
+        throw new Error(`JobRight requirements unavailable for ${card.jobright_job_id}`);
+      }
+      return snapshot.description_text;
+    } finally { await page.close().catch(() => undefined); }
+  } finally { await session.close(); }
 }
 
 async function scrapeFeedCardsLive(options: {

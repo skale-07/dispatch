@@ -7,10 +7,12 @@ import {
   type PipelineOptions,
 } from "../pipeline/runPipeline.js";
 import { runJobRightDiscovery } from "../jobright/discoveryRun.js";
+import { runPostSubmitGmail, type OutreachPipelineJobResult } from "../outreach/outreachPipeline.js";
 import { getApplication } from "../queue/stateMachine.js";
 import {
   isRetryablePortalAuthWall,
   listOpenReviewItems,
+  upsertOpenReviewItem,
 } from "../queue/reviewItems.js";
 import { generateEssayDraftBatch } from "../applications/essayDraft.js";
 import { runTriageBatch } from "../triage/runTriage.js";
@@ -71,6 +73,7 @@ export type AutomationStopReason =
   | "expired"
   | "apps_cap"
   | "queue_drained"
+  | "no_fresh_candidate"
   /**
    * The debug Chrome would not attach and the bounded in-session restarts
    * either failed or were exhausted. Night18 (2026-08-30) burned 40+ apps
@@ -97,6 +100,7 @@ export type AutomationAppResult = {
     draft_status: OutreachTailResult["draft_status"];
     skip_reason: string | null;
   } | null;
+  gmail?: OutreachPipelineJobResult;
 };
 
 export type AutomationSessionReport = {
@@ -133,6 +137,7 @@ type DiscoveryRunner = (maxJobs: number) => Promise<{
   jobs_reused?: number;
   jobs_filtered_out?: number;
   jobs_skipped_submitted?: number;
+  applications?: Array<{ application_id: string; eligible: boolean; dedupe_kind: string }>;
 }>;
 
 export type AutomationSessionInput = {
@@ -141,6 +146,8 @@ export type AutomationSessionInput = {
   headless?: boolean;
   /** 0 disables discovery entirely (process only the existing queue). */
   discoverMax?: number;
+  /** Fresh feed only when discovery is enabled; backlog requires explicit selection. */
+  queueMode?: "fresh" | "backlog";
   rediscoverEvery?: number;
   /** [min,max] ms slept between apps; test seams pass a tiny range. */
   delayMsRange?: [number, number];
@@ -175,6 +182,9 @@ export type AutomationSessionInput = {
   triageClient?: EmailLlmClient;
   draftRunner?: DraftRunner;
   draftVerifier?: DraftVerifier;
+  gmailRunner?: typeof runPostSubmitGmail;
+  /** Offline orchestration seam; production always runs the gated pipeline. */
+  pipelineRunner?: typeof runPipeline;
   /** Progress sink (the runner turns this into SSE frames). */
   onProgress?: (p: AutomationProgress) => void;
   /** Deterministic jitter for tests (default Math.random via index). */
@@ -188,7 +198,7 @@ export type AutomationSessionInput = {
  * a gate (e.g. submit not allowed → parks at READY_TO_SUBMIT) with no
  * review item, re-picking it would loop forever on the same result.
  */
-function pickNextApplication(db: Db, seen: Set<string>): string | null {
+function pickNextApplication(db: Db, seen: Set<string>, scope?: Set<string>): string | null {
   const standingPortalPassword = getConfig().portalLoginPassword;
   const blockedByReview = new Set(
     listOpenReviewItems(db)
@@ -213,6 +223,7 @@ function pickNextApplication(db: Db, seen: Set<string>): string | null {
     rows: Array<{ id: string; versions_json: string }>,
   ): string | null => {
     for (const row of rows) {
+      if (scope && !scope.has(row.id)) continue;
       if (seen.has(row.id)) continue;
       if (blockedByReview.has(row.id)) continue;
       let excluded = false;
@@ -249,12 +260,14 @@ export async function runAutomationSession(
 ): Promise<AutomationSessionReport> {
   const { db, armRunId } = input;
   const discoverMax = Math.max(0, input.discoverMax ?? 0);
+  const freshOnly = (input.queueMode ?? (discoverMax > 0 ? "fresh" : "backlog")) === "fresh";
+  let freshIds: string[] = [];
   const rediscoverEvery = Math.max(1, input.rediscoverEvery ?? 5);
   const delayRange = input.delayMsRange ?? DEFAULT_DELAY_MS;
   const sleep = input.sleep ?? ((ms: number) => new Promise((r) => setTimeout(r, ms)));
   const discover: DiscoveryRunner =
     input.discoveryRunner ??
-    (async (maxJobs) => runJobRightDiscovery({ maxJobs, headless: input.headless ?? true }));
+    (async (maxJobs) => runJobRightDiscovery({ maxJobs, freshOnly, headless: input.headless ?? true }));
 
   const report: AutomationSessionReport = {
     arm_run_id: armRunId,
@@ -299,7 +312,8 @@ export async function runAutomationSession(
       metadata: { arm_run_id: armRunId, discover_max: discoverMax },
     });
     try {
-      const r = await discover(discoverMax);
+      const r = await discover(freshOnly ? 1 : discoverMax);
+      freshIds = (r.applications ?? []).filter(a => a.eligible && a.dedupe_kind === "CREATED").map(a => a.application_id);
       report.discover_runs += 1;
       // Session edc4d38f: "8 inspected" twice hid that every job was
       // already known — say what the inspection actually produced.
@@ -356,6 +370,10 @@ export async function runAutomationSession(
   // navigation; duplicates park. Fail-open — an audit error is a note,
   // never a dead session.
   try {
+    // The audit runs in BOTH modes (operator decision 2026-09-06): it is
+    // the layer that parks duplicate applications and repairs poisoned
+    // URLs — cheap, and losing it silently in the default (fresh) mode
+    // reduced dedupe to the JobRight-job-id fingerprint alone.
     const audit = auditEmployerUrls(db);
     report.nav_audit = {
       checked: audit.applications_checked,
@@ -427,7 +445,7 @@ export async function runAutomationSession(
         }
       }
     }
-    if (agentLegUp) {
+    if (agentLegUp && !freshOnly) {
       const rq = requeueNavStarvedApplications(db);
       if (rq.requeued > 0) {
         report.notes.push(
@@ -435,6 +453,8 @@ export async function runAutomationSession(
         );
       }
       report.notes.push(...rq.notes);
+    } else if (freshOnly) {
+      report.notes.push("nav requeue skipped (fresh mode — backlog untouched)");
     }
   } catch (err) {
     report.notes.push(
@@ -446,7 +466,9 @@ export async function runAutomationSession(
   // claims (the generic adapter losing its flag turned the whole long tail
   // fillable at once). Fail-open, capped, once per app.
   try {
-    const rv = reviveUnsupportedAtsApplications(db);
+    const rv = freshOnly
+      ? { revived: 0, notes: ["unsupported-ATS revival skipped (fresh mode — backlog untouched)"] }
+      : reviveUnsupportedAtsApplications(db);
     if (rv.revived > 0) {
       report.notes.push(
         `unsupported-ATS revival: ${rv.revived} app(s) re-opened — an adapter now claims their URL`,
@@ -532,7 +554,7 @@ export async function runAutomationSession(
       break;
     }
 
-    if (discoverMax > 0 && appsSinceDiscover >= rediscoverEvery) {
+    if (discoverMax > 0 && appsSinceDiscover >= (freshOnly ? 1 : rediscoverEvery)) {
       await tryDiscover();
       appsSinceDiscover = 0;
     }
@@ -541,15 +563,16 @@ export async function runAutomationSession(
       active.row.max_unattended_submissions - active.row.unattended_submissions_count;
     const allowSubmit = submitsLeft > 0;
 
-    let appId = pickNextApplication(db, seen);
-    if (!appId && discoverMax > 0) {
+    let appId = pickNextApplication(db, seen, freshOnly ? new Set(freshIds) : undefined);
+    if (!appId && discoverMax > 0 && !freshOnly) {
       // Queue drained — one more discovery before giving up.
       await tryDiscover();
       appsSinceDiscover = 0;
       appId = pickNextApplication(db, seen);
     }
     if (!appId) {
-      report.stopped_reason = "queue_drained";
+      report.stopped_reason = freshOnly ? "no_fresh_candidate" : "queue_drained";
+      if (freshOnly) report.notes.push("no fresh eligible candidate within the feed scan — backlog untouched");
       logger.info("automation loop exit: queue drained", {
         service: "automation",
         action: "session_stop",
@@ -605,7 +628,7 @@ export async function runAutomationSession(
       const operatorSkip: NonNullable<PipelineOptions["shouldSkip"]> =
         input.shouldSkip ?? ((id) => isSkipRequested(db, id));
       const runOnce = () =>
-        runPipeline({
+        (input.pipelineRunner ?? runPipeline)({
           db,
           applicationId: appId,
           submit: allowSubmit,
@@ -671,6 +694,20 @@ export async function runAutomationSession(
             `skipped ${appId} on operator request — moving to the next job`,
           );
         }
+        if (appResult.submitted && (getConfig().gmailDraftsEnabled || input.gmailRunner)) {
+          // Complete Gmail before the next feed read, including COMPLETED/no-contact apps.
+          await dropNavSession();
+          const gmail = await (input.gmailRunner ?? runPostSubmitGmail)({ db, applicationId: appId, headless: input.headless ?? true });
+          appResult.gmail = gmail;
+          report.emails_generated += gmail.generated;
+          report.drafts_saved += gmail.drafted;
+          appResult.outreach = { email_status: gmail.generated ? "generated" : "skipped", draft_status: gmail.drafted ? "saved" : "skipped", skip_reason: gmail.error ?? gmail.notes[0] ?? null };
+          if (!gmail.ok) {
+            report.notes.push(`gmail ${appId}: ${gmail.error ?? "failed"}`);
+            upsertOpenReviewItem(db, { kind: "MANUAL", title: "Post-submit Gmail pipeline failed", payload: { application_id: appId, gmail } });
+          }
+          for (const note of gmail.notes) report.notes.push(`gmail ${appId}: ${note}`);
+        } else {
         // Post-submit outreach tail (drafts only, never send). Only states a
         // verified submit can reach; failures are review items, not stops.
         if (appResult.submitted && !OUTREACH_TAIL_STATES.has(appReport.end_state)) {
@@ -692,6 +729,7 @@ export async function runAutomationSession(
           // on waiting for a drafting model between them.
           tailQueue.push({ appId, appResult });
           report.notes.push(`outreach ${appId}: queued for post-session batch`);
+        }
         }
       } else {
         logger.warn("automation pipeline returned no app report", {

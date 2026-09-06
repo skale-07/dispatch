@@ -19,6 +19,56 @@ application. Outreach uses an LLM for exactly one thing (email text), the
 output is deterministically re-validated, and mail can never be dispatched:
 drafts only, enforced by CI-level banned-identifier checks.
 
+## Fresh one-job cycles and application navigation
+
+`npm run auto:cycle -- --max-apps 1` discovers one new eligible job in the
+current JobRight feed order. It scans at most 40 cards, skips jobs already
+represented in the database, reads the selected posting's requirements,
+then runs its application pipeline. Discovery failure or an exhausted
+feed ends with `no_fresh_candidate`; historical queued applications are
+not substituted. Feed order follows JobRight's current ordering; this
+does not certify that JobRight has sorted by posting date. Use
+`--backlog` explicitly to process previously queued work.
+
+After a verified submission, `GMAIL_DRAFTS_ENABLED=true` selects the Gmail
+tail for that exact application before another feed read. Its own
+enrichment and generation flags still apply. No contacts means zero
+drafts with a recorded reason. Resume a tail with
+`npm run cli -- outreach --application <uuid>`; this requires a verified
+submission and never re-enqueues the job or changes its application state.
+Drafts are never sent; saved and read-back-verified draft counts are separate.
+
+On a posting or application-entry screen, the navigation supervisor first
+tries one unambiguous Apply control. If that does not reach the form, the
+LLM chooses from current observed controls, frames, authentication, back,
+or wait. It receives masked screenshots, page context, job identity, and
+the outcomes of preceding actions. It can change strategy without a code
+patch. `NAV_AGENT_MODEL` overrides the provider's configured model;
+reasoning effort is high. `NAV_SUPERVISOR_MAX_STEPS` (20) and
+`NAV_SUPERVISOR_TIMEOUT_MS` (180000) bound the attempt. Existing navigation,
+LLM-assist and agent flags are required. Deterministic checks verify the
+control, form readiness, approved fill plan, field read-back, and submission
+receipt. The navigation model cannot fill fields or submit applications.
+Failure evidence is under `artifacts/navigation/supervisor-*/`.
+
+## Conditional graduation policy
+
+An operator may provide `private/candidate/application-education-policy.json`
+with `version: 1`, `graduation_year`, `graduation_month`, `academic_standing`,
+`statement`, and `resumes: { general, ds_ai }` containing local PDF paths.
+For the approved 2028 policy, a posting requiring graduation in 2028 selects
+the corresponding 2028 resume, May 2028 graduation, and Sophomore standing.
+Essay/prediction context includes “I am a sophomore graduating early in
+May 2028.” Data science, AI and ML roles use `ds_ai`; other roles use
+`general`. A posting year alone, an optional preference, or a graduation
+range including the baseline year does not activate the policy.
+
+These are application-specific facts: the baseline public profile and
+global learned answer bank are not rewritten. Keep availability in its
+own approved screener entry (`Available start date`), separate from
+graduation. Wrapped date widgets retain their field label even when they
+share a generic “Pick date…” placeholder.
+
 ## Contents
 
 0. [One-time setup](#0-one-time-setup)

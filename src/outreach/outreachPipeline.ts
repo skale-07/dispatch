@@ -52,6 +52,7 @@ export type OutreachPipelineJobResult = {
   emails_found: number;
   generated: number;
   drafted: number;
+  drafts_verified?: number;
   notes: string[];
   error: string | null;
 };
@@ -210,11 +211,13 @@ export async function enrichJobFromJobRightPage(input: {
 export async function runOutreachPipeline(input: {
   db: Db;
   refs: string[];
+  /** Existing verified submission; never re-enqueue or exclude this application. */
+  postSubmitApplicationId?: string;
   headless?: boolean;
   deps?: OutreachPipelineDeps;
 }): Promise<OutreachPipelineReport> {
   const refs = input.refs.map((r) => r.trim()).filter((r) => r.length > 0);
-  if (refs.length === 0) {
+  if (refs.length === 0 && !input.postSubmitApplicationId) {
     throw new Error(
       "outreach requires at least one JobRight URL or hex job id",
     );
@@ -228,7 +231,21 @@ export async function runOutreachPipeline(input: {
   const createDraft = input.deps?.createDraft ?? createGmailDraft;
   const headless = input.headless ?? true;
 
-  const enqueued = enqueue(input.db, refs);
+  let enqueued: EnqueueJobsReport;
+  if (input.postSubmitApplicationId) {
+    const app = getApplication(input.db, input.postSubmitApplicationId);
+    const verified = input.db.prepare(
+      `SELECT id FROM submissions WHERE application_id = ? AND status = 'VERIFIED' AND submitted = 1 LIMIT 1`,
+    ).get(input.postSubmitApplicationId);
+    if (!app || !verified) throw new Error("Post-submit Gmail requires a verified submission for this application");
+    enqueued = { enqueued: 0, reused: 1, blocked: 0, failed: 0, applications: [{
+      input: app.id, ok: true, application_id: app.id, state: app.state,
+      jobright_job_id: null, job_url: null, job_db_id: app.job_id,
+      dedupe_kind: "VERIFIED_EXISTING", error: null,
+    }] };
+  } else {
+    enqueued = enqueue(input.db, refs);
+  }
   const okItems = enqueued.applications.filter(
     (a) => a.ok && typeof a.application_id === "string",
   );
@@ -239,7 +256,7 @@ export async function runOutreachPipeline(input: {
     throw new Error(`no JobRight jobs enqueued: ${reasons}`);
   }
 
-  const client = makeClient();
+  let client: EmailLlmClient | undefined;
   const jobs: OutreachPipelineJobResult[] = [];
 
   for (const item of enqueued.applications) {
@@ -274,8 +291,10 @@ export async function runOutreachPipeline(input: {
     };
 
     try {
-      excludeFromAutomation(input.db, applicationId);
-      result.notes.push("excluded from auto-apply");
+      if (!input.postSubmitApplicationId) {
+        excludeFromAutomation(input.db, applicationId);
+        result.notes.push("excluded from auto-apply");
+      }
       await enrichJob({ db: input.db, applicationId, headless });
       const triageReport = await triage({
         db: input.db,
@@ -318,7 +337,7 @@ export async function runOutreachPipeline(input: {
           db: input.db,
           applicationId,
           contactId: contact.id,
-          client,
+          client: client ??= makeClient(),
         });
         if (gen.validation_status === "VALIDATED") result.generated += 1;
         else {
@@ -342,7 +361,11 @@ export async function runOutreachPipeline(input: {
           contactId: contact.id,
           headless,
         });
-        if (draft.status === "DRAFTED") result.drafted += 1;
+        if (draft.status === "DRAFTED") {
+          result.drafted += 1;
+          if (draft.verified) result.drafts_verified = (result.drafts_verified ?? 0) + 1;
+          else result.notes.push(`contact ${contact.id}: draft saved but read-back unverified`);
+        }
         else {
           result.notes.push(
             `contact ${contact.id}: draft ${draft.status} (${draft.notes.join("; ").slice(0, 200)})`,
@@ -370,4 +393,26 @@ export async function runOutreachPipeline(input: {
   }
 
   return { refs: refs.length, jobs };
+}
+
+/** Gmail tail for an existing application, including a COMPLETED app with no contacts yet. */
+export async function runPostSubmitGmail(input: {
+  db: Db;
+  applicationId: string;
+  headless?: boolean;
+  deps?: OutreachPipelineDeps;
+}): Promise<OutreachPipelineJobResult> {
+  try {
+    const report = await runOutreachPipeline({
+      db: input.db, refs: [], postSubmitApplicationId: input.applicationId,
+      ...(input.headless !== undefined ? { headless: input.headless } : {}),
+      ...(input.deps ? { deps: input.deps } : {}),
+    });
+    return report.jobs[0]!;
+  } catch (err) {
+    return { input: input.applicationId, application_id: input.applicationId, ok: false,
+      state: getApplication(input.db, input.applicationId)?.state ?? null,
+      people_checked: 0, emails_found: 0, generated: 0, drafted: 0, notes: [],
+      error: err instanceof Error ? err.message : String(err) };
+  }
 }

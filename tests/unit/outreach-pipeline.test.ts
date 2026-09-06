@@ -15,6 +15,7 @@ import {
   excludeFromAutomation,
   persistJobIdentityFromSnapshot,
   runOutreachPipeline,
+  runPostSubmitGmail,
 } from "../../src/outreach/outreachPipeline.js";
 import { enqueueJobRightJobs } from "../../src/jobright/enqueueJobs.js";
 import type { InsiderTriageReport } from "../../src/contacts/insiderTriage.js";
@@ -72,6 +73,34 @@ describe("runOutreachPipeline (UNIT_CONFIRMED)", () => {
         throw new Error("enqueue must not run");
       } } }),
     ).rejects.toThrow(/at least one JobRight/);
+  });
+
+  it("requires a verified submission before the Gmail tail touches any service", async () => {
+    const appId = enqueueJobRightJobs(db, [JOB_ID]).applications[0]!.application_id!;
+    const result = await runPostSubmitGmail({ db, applicationId: appId, deps: {
+      enqueue: () => { throw new Error("must not enqueue"); },
+      enrichJob: async () => { throw new Error("must not enrich"); },
+    } });
+    expect(result.ok).toBe(false);
+    expect(result.error).toMatch(/verified submission/);
+  });
+
+  it("runs Gmail for a COMPLETED application without re-enqueueing or changing its identity", async () => {
+    const appId = enqueueJobRightJobs(db, [JOB_ID]).applications[0]!.application_id!;
+    persistJobIdentityFromSnapshot(db, appId, { company: "Acme", role: "Software Intern", location: null, description_text: "Build software" });
+    db.prepare("UPDATE applications SET state = 'COMPLETED' WHERE id = ?").run(appId);
+    db.prepare("INSERT INTO submissions (id, application_id, submission_attempt_number, status, submitted, receipt_json) VALUES (?, ?, 1, 'VERIFIED', 1, '{}')").run(randomUUID(), appId);
+    const result = await runPostSubmitGmail({ db, applicationId: appId, deps: {
+      enqueue: () => { throw new Error("must not enqueue"); },
+      enrichJob: async () => {}, triage: async () => emptyTriage(),
+      makeClient: () => { throw new Error("no contacts needs no LLM"); },
+    } });
+    expect(result.ok).toBe(true);
+    expect(result.drafted).toBe(0);
+    expect(getApplication(db, appId)?.state).toBe("COMPLETED");
+    expect(JSON.parse(getApplication(db, appId)!.versions_json)).not.toHaveProperty("automation_excluded");
+    expect(db.prepare("SELECT company, role FROM jobs WHERE id = ?").get(getApplication(db, appId)!.job_id)).toEqual({ company: "Acme", role: "Software Intern" });
+    expect((db.prepare("SELECT count(*) n FROM applications").get() as { n: number }).n).toBe(1);
   });
 
   it("fails loud when every ref is unparseable", async () => {
