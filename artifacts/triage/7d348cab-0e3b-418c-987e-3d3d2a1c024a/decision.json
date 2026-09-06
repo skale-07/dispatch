@@ -1,0 +1,171 @@
+{
+  "decision_id": "7d348cab-0e3b-418c-987e-3d3d2a1c024a",
+  "application_id": "83751e38-5e8d-4acf-b4fd-ab9aa3be3131",
+  "signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|internal-careers-rivian.icims.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "83751e38-5e8d-4acf-b4fd-ab9aa3be3131",
+    "company": "Rivian",
+    "role": "Software Engineering Intern, Connected Systems - Summer 2026",
+    "state": "NATIVE_AUTOFILL_RUNNING",
+    "attempt": 3,
+    "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|internal-careers-rivian.icims.com",
+    "end_host": "internal-careers-rivian.icims.com",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-03T06:13:39.078Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-03T06:13:37.387Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-03T06:13:37.386Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-03T06:13:37.383Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 6b5f8e759526)",
+        "at": "2026-09-03T06:13:37.382Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-03T06:13:37.380Z"
+      },
+      {
+        "from": "FAILED_RETRYABLE",
+        "to": "QUEUED",
+        "reason": "retry 3/3",
+        "at": "2026-09-03T06:13:18.626Z"
+      },
+      {
+        "from": "READY_TO_SUBMIT",
+        "to": "FAILED_RETRYABLE",
+        "reason": "submit page gate failed: NO_APPLICATION_FORM",
+        "at": "2026-09-03T06:12:51.524Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "READY_TO_SUBMIT",
+        "reason": "pipeline: essays complete — final verification occurs pre-click in submit",
+        "at": "2026-09-03T06:12:50.116Z"
+      },
+      {
+        "from": "AMBIGUOUS_FIELD",
+        "to": "FIELD_VERIFICATION",
+        "reason": "operator resolved ambiguous field (console)",
+        "at": "2026-09-03T06:12:34.051Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "AMBIGUOUS_FIELD",
+        "reason": "pipeline: read-back verification failed",
+        "at": "2026-09-03T04:10:56.527Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (generic live fill: 0 filled (held for submit))",
+        "at": "2026-09-03T04:10:56.522Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-08-30T15:15:38.558Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-08-30T15:15:36.046Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-08-30T15:15:36.043Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "apply_click_popup",
+      "notes": [
+        "phase A: anchor reads as \"softwareengineeringintern2cconnectedsystemssummer2026\" (URL names \"softwareengineeringintern2cconnectedsystemssummer2026\" (path), which shares nothing with company \"Rivian\") — not preferred, deferring to the Apply click",
+        "phase A: 8 external host(s) seen: internal-careers-rivian.icims.com, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, www.rechargenews.com, fortune.com, www.webwire.com",
+        "Apply control: autofill CTA (tier 0)",
+        "jobright interstitial: clicked \"Apply Without Customizing\"",
+        "popup settled off about:blank after the interstitial",
+        "popup captured on attempt 1",
+        "phase B: captured URL reads as \"softwareengineeringintern2cconnectedsystemssummer2026\" (URL names \"softwareengineeringintern2cconnectedsystemssummer2026\" (path), which shares nothing with company \"Rivian\") — kept, provenance is the Apply click",
+        "congruence: URL names \"softwareengineeringintern2cconnectedsystemssummer2026\", not \"Rivian\" (URL names \"softwareengineeringintern2cconnectedsystemssummer2026\" (path), which shares nothing with company \"Rivian\") — recorded, not refused"
+      ],
+      "congruence": {
+        "verdict": "mismatch",
+        "slug": "[REDACTED]",
+        "detail": "URL names \"softwareengineeringintern2cconnectedsystemssummer2026\" (path), which shares nothing with company \"Rivian\"",
+        "expected_company": "Rivian",
+        "url": "https://internal-careers-rivian.icims.com/jobs/27486/software-engineering-intern%2c-connected-systems---summer-2026/job?jr_id=6a52a273d007ee02d95f85e7"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "no congruent apply href (10 external links)",
+          "evidence": "internal-careers-rivian.icims.com, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, www.rechargenews.com"
+        },
+        {
+          "phase": "B_apply_click",
+          "outcome": "resolved via popup",
+          "evidence": "internal-careers-rivian.icims.com"
+        }
+      ]
+    },
+    "submit": {
+      "outcome": "FAILED_BEFORE_CLICK",
+      "reason": "Page failed identity gate (NO_APPLICATION_FORM): form markers matched but the page has no fillable fields — this is a posting/description page, not the application form",
+      "brief_items": []
+    },
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": false
+    },
+    "open_review_items": [],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"engage_agent_leg\", \"rationale\": \"Deterministic tiers exhausted: anchor phase found no congruent apply href, popup landed on an iCIMS posting/description page with no fillable fields (NO_APPLICATION_FORM). URL provenance is the Apply click, so re-resolving navigation would likely repeat the same path. Agent leg untried; one bounded attempt could step from the posting page into the real form.\", \"confidence\": \"medium\"}",
+  "parsed_action": "engage_agent_leg",
+  "validation_note": null,
+  "precondition": {
+    "ok": false,
+    "reason": "no navigation wall in evidence — agent leg only helps nav-walled apps"
+  },
+  "mode": "act",
+  "executed": false,
+  "execution_detail": "precondition failed: no navigation wall in evidence — agent leg only helps nav-walled apps",
+  "rationale_unverified": "Deterministic tiers exhausted: anchor phase found no congruent apply href, popup landed on an iCIMS posting/description page with no fillable fields (NO_APPLICATION_FORM). URL provenance is the Apply click, so re-resolving navigation would likely repeat the same path. Agent leg untried; one bounded attempt could step from the posting page into the real form."
+}

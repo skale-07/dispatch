@@ -390,6 +390,23 @@ artifacts/gmail-pipeline-applied-page.png. Drafts only, zero sends.
   mid-state, #175). Both MicroVention roles now wait on a Brassring
   account/standing-credential path — an environment gap, not code.
 
+### Cycle 18 (16:46Z 09-06) — 83751e38 (night24 backlog), UNKNOWN_LANDING
+
+- QUEUED tier drained; the picker started re-grinding the mid-state
+  backlog — third consecutive #175-class park. Repair phase entered.
+
+## Repair phase (window 3): #175 fixed
+
+- `src/triage/actions.ts`: requeue-class preconditions now accept the
+  explicit gate-park set {NATIVE_AUTOFILL_RUNNING, READY_TO_SUBMIT}
+  (each has the legal FAILED_RETRYABLE edge); executors demote through
+  `transitionApplication` first, then run the ordinary requeue primitive.
+  QUEUED-etc. remain refused (tight set, honest semantics).
+- `src/automation/worker.ts`: post-session triage filter also targets
+  per_app rows with stopped==="gate" in those states.
+- Tests: gate-parked app gets a decision and a legal 2-hop requeue to
+  QUEUED (30/30 triage+worker).
+
 ### Cycle 10 (15:51Z 09-06) — 70aaa82a Neuralink, posting closed
 
 - APPLICATION_OPENING → FILTERED_OUT (terminal): closed on JobRight.
