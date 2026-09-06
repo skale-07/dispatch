@@ -418,6 +418,30 @@ describe("triage decisions end-to-end (UNIT_CONFIRMED)", () => {
     }
   });
 
+  it("#175: a gate-parked mid-state app can be requeued (demote through the legal edge first)", async () => {
+    const appId = seedFailedApp();
+    // Walk it into the gate-park shape: mid-fill, stopped by a gate (no
+    // transition recorded, app stays NATIVE_AUTOFILL_RUNNING).
+    for (const [nextState, reason] of [
+      ["MATERIALS_GENERATING", "materials"],
+      ["RESUME_DOWNLOADED", "resume"],
+      ["APPLICATION_OPENING", "opening"],
+      ["ATS_DETECTION", "ats"],
+      ["APPLICATION_INSPECTION", "inspect"],
+      ["NATIVE_AUTOFILL_RUNNING", "needs_login — proceeding to fill (portal auth)"],
+    ] as const) {
+      transitionApplication(db, { applicationId: appId, nextState, reason });
+    }
+    expect(getApplication(db, appId)?.state).toBe("NATIVE_AUTOFILL_RUNNING");
+    const result = await runTriageForApplication(db, appId, {
+      client: stub({ action: "requeue_same", rationale: "gate park, rerun" }),
+      act: true,
+      stopReason: "generic live fill refused: AUTH_REQUIRED",
+    });
+    expect(result.executed).toBe(true);
+    expect(getApplication(db, appId)?.state).toBe("QUEUED");
+  });
+
   it("engage_agent_leg requires a nav wall in evidence (Barclays cycle-13 lesson)", () => {
     const appId = seedFailedApp();
     // Submit-stage failure (no nav wall) ⇒ the action cannot execute.

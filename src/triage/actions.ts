@@ -79,6 +79,54 @@ function requireState(
   return { ok: true, reason: "" };
 }
 
+/**
+ * Gate-stop parks leave apps in these mid-states with no transition (#175,
+ * night25 window 3): invisible to `retry` and — before this — to triage.
+ * Both have a legal edge to FAILED_RETRYABLE, so a requeue-class executor
+ * may DEMOTE first (through the state machine) and then requeue. The set
+ * is explicit — QUEUED etc. also have the edge but demoting them would be
+ * a wasteful no-op, and the tight set keeps requeue semantics honest.
+ */
+const DEMOTABLE_GATE_PARK_STATES = new Set([
+  "NATIVE_AUTOFILL_RUNNING",
+  "READY_TO_SUBMIT",
+]);
+
+function requireRequeueableState(
+  db: Db,
+  applicationId: string,
+): PreconditionResult {
+  const app = getApplication(db, applicationId);
+  if (!app) return { ok: false, reason: "unknown application" };
+  if (app.state === "FAILED_RETRYABLE") return { ok: true, reason: "" };
+  if (
+    DEMOTABLE_GATE_PARK_STATES.has(app.state) &&
+    canTransition(app.state as never, "FAILED_RETRYABLE" as never)
+  ) {
+    return { ok: true, reason: "" };
+  }
+  return {
+    ok: false,
+    reason: `state is ${app.state}, needs FAILED_RETRYABLE or a gate-parked mid-state`,
+  };
+}
+
+/** Demote a gate-parked mid-state to FAILED_RETRYABLE (legal edge) so the
+ * ordinary requeue primitives apply. No-op when already there. */
+function demoteGateParkIfNeeded(
+  db: Db,
+  applicationId: string,
+  signature: string,
+): void {
+  const app = getApplication(db, applicationId);
+  if (!app || app.state === "FAILED_RETRYABLE") return;
+  transitionApplication(db, {
+    applicationId,
+    nextState: "FAILED_RETRYABLE",
+    reason: `triage: demoting gate-parked ${app.state} for requeue (${signature})`,
+  });
+}
+
 function requireAttemptBudget(db: Db, applicationId: string): PreconditionResult {
   const app = getApplication(db, applicationId);
   if (!app) return { ok: false, reason: "unknown application" };
@@ -129,12 +177,12 @@ export function canExecute(
     case "park_for_operator":
       return { ok: true, reason: "" };
     case "requeue_same": {
-      const state = requireState(db, applicationId, "FAILED_RETRYABLE");
+      const state = requireRequeueableState(db, applicationId);
       if (!state.ok) return state;
       return requireAttemptBudget(db, applicationId);
     }
     case "requeue_materials": {
-      const state = requireState(db, applicationId, "FAILED_RETRYABLE");
+      const state = requireRequeueableState(db, applicationId);
       if (!state.ok) return state;
       if (!canTransition("FAILED_RETRYABLE" as never, "MATERIALS_GENERATING" as never)) {
         return { ok: false, reason: "no FAILED_RETRYABLE→MATERIALS_GENERATING edge" };
@@ -142,7 +190,7 @@ export function canExecute(
       return requireAttemptBudget(db, applicationId);
     }
     case "requeue_reopen_navigation": {
-      const state = requireState(db, applicationId, "FAILED_RETRYABLE");
+      const state = requireRequeueableState(db, applicationId);
       if (!state.ok) return state;
       if (!canTransition("FAILED_RETRYABLE" as never, "APPLICATION_OPENING" as never)) {
         return { ok: false, reason: "no FAILED_RETRYABLE→APPLICATION_OPENING edge" };
@@ -231,6 +279,7 @@ export function executeAction(
       };
     }
     case "requeue_same": {
+      demoteGateParkIfNeeded(db, applicationId, context.signature);
       const results = retryFailedApplications(db, { applicationId });
       const first = results[0];
       return {
@@ -241,6 +290,7 @@ export function executeAction(
       };
     }
     case "requeue_materials": {
+      demoteGateParkIfNeeded(db, applicationId, context.signature);
       const app = getApplication(db, applicationId);
       transitionApplication(db, {
         applicationId,
@@ -253,6 +303,7 @@ export function executeAction(
     case "requeue_reopen_navigation": {
       // Same recipe as auditEmployerUrls' reroute for FAILED_RETRYABLE:
       // clear the (suspect) stored URL, re-enter at navigation depth.
+      demoteGateParkIfNeeded(db, applicationId, context.signature);
       clearEmployerApplicationUrl(db, applicationId);
       const app = getApplication(db, applicationId);
       transitionApplication(db, {

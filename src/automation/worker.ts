@@ -885,8 +885,18 @@ export async function runAutomationSession(
         "UNSUPPORTED_ATS",
         "AMBIGUOUS_FIELD",
       ]);
+      // #175: gate-stop parks leave the app mid-state with no transition —
+      // invisible to `retry` and previously to triage. They are failures
+      // too; the requeue executors demote through the legal edge first.
+      const GATE_PARK_STATES = new Set([
+        "NATIVE_AUTOFILL_RUNNING",
+        "READY_TO_SUBMIT",
+      ]);
       const targets = report.per_app.filter(
-        (a) => !a.submitted && TRIAGEABLE_END_STATES.has(a.end_state ?? ""),
+        (a) =>
+          !a.submitted &&
+          (TRIAGEABLE_END_STATES.has(a.end_state ?? "") ||
+            (a.stopped === "gate" && GATE_PARK_STATES.has(a.end_state ?? ""))),
       );
       if (targets.length > 0) {
         const stopReasons = new Map<string, string | null>(
