@@ -27,6 +27,9 @@ const CONFIRM_STATES = new Set([
 
 export const TRIAGE_OUTCOME_EXPIRE_DAYS = 7;
 
+/** Signature end-states whose refails are gate stops (no event trail). */
+const GATE_PARK_SIG_STATES = new Set(["NATIVE_AUTOFILL_RUNNING", "READY_TO_SUBMIT"]);
+
 export type VerifySweepResult = {
   checked: number;
   confirmed: number;
@@ -87,6 +90,26 @@ export function verifyTriageOutcomes(db: Db): VerifySweepResult {
       verdict = "REFUTED";
     } else if (laterEvents.some((event) => CONFIRM_STATES.has(event.next_state))) {
       verdict = "CONFIRMED";
+    } else if (decision.executed === 1 && GATE_PARK_SIG_STATES.has(sigEndState ?? "")) {
+      // #177 (night25 Citadel): gate-stop refails write NO application_event
+      // — an executed requeue for a gate-park signature could neither
+      // confirm nor refute, stalemating re-triage while the app re-ground.
+      // The refail evidence that DOES exist is the fill_runs row each
+      // failed attempt writes: a later non-passing fill while the app sits
+      // back in the signature's state is the wall recurring.
+      const laterFailedFill = db
+        .prepare(
+          `SELECT COUNT(*) AS n FROM fill_runs
+           WHERE application_id = ? AND created_at > ?
+             AND (verify_passed IS NULL OR verify_passed = 0)`,
+        )
+        .get(decision.application_id, decision.created_at) as { n: number };
+      const current = db
+        .prepare(`SELECT state FROM applications WHERE id = ?`)
+        .get(decision.application_id) as { state: string } | undefined;
+      if (laterFailedFill.n > 0 && current?.state === sigEndState) {
+        verdict = "REFUTED";
+      }
     }
     if (verdict === null) {
       const ageMs = now - Date.parse(decision.created_at);

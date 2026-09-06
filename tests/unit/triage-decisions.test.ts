@@ -435,6 +435,45 @@ describe("triage decisions end-to-end (UNIT_CONFIRMED)", () => {
     expect(third.executed).toBe(true);
   });
 
+  it("#177: an executed gate-park requeue is REFUTED via fill_runs when the wall recurs eventlessly", async () => {
+    const appId = seedFailedApp();
+    // Walk to the gate-park shape and take an executed requeue decision.
+    for (const [nextState, reason] of [
+      ["MATERIALS_GENERATING", "materials"],
+      ["RESUME_DOWNLOADED", "resume"],
+      ["APPLICATION_OPENING", "opening"],
+      ["ATS_DETECTION", "ats"],
+      ["APPLICATION_INSPECTION", "inspect"],
+      ["NATIVE_AUTOFILL_RUNNING", "needs_login — proceeding to fill (portal auth)"],
+    ] as const) {
+      transitionApplication(db, { applicationId: appId, nextState, reason });
+    }
+    const result = await runTriageForApplication(db, appId, {
+      client: stub({ action: "requeue_same", rationale: "one rerun" }),
+      act: true,
+      stopReason: "generic live fill refused: NAVIGATION_INCOMPLETE",
+    });
+    expect(result.executed).toBe(true);
+    // The rerun walks back to the SAME gate park — but a gate stop writes
+    // NO transition, so only the fill_runs row records the refail.
+    for (const [nextState, reason] of [
+      ["MATERIALS_GENERATING", "materials"],
+      ["RESUME_DOWNLOADED", "resume"],
+      ["APPLICATION_OPENING", "opening"],
+      ["ATS_DETECTION", "ats"],
+      ["APPLICATION_INSPECTION", "inspect"],
+      ["NATIVE_AUTOFILL_RUNNING", "needs_login — proceeding to fill (portal auth)"],
+    ] as const) {
+      transitionApplication(db, { applicationId: appId, nextState, reason });
+    }
+    db.prepare(
+      `INSERT INTO fill_runs (id, created_at, mode, source, job_url, application_id, verify_passed)
+       VALUES (?, ?, 'refused', 'test', 'https://x.example/apply', ?, 0)`,
+    ).run(randomUUID(), new Date(Date.now() + 1000).toISOString(), appId);
+    const sweep = verifyTriageOutcomes(db);
+    expect(sweep.refuted).toBe(1);
+  });
+
   it("canExecute exposes every enumerated action without throwing", () => {
     const appId = seedFailedApp();
     for (const action of TRIAGE_ACTIONS) {
