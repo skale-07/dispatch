@@ -1,0 +1,47 @@
+{
+  "run_id": "nav-8c4e92d4-305f-4c1f-885b-0ac4f09e3dce",
+  "application_id": "99c3eda2-4b93-49df-bf92-3cda8d634959",
+  "jobright_job_id": "6a9c2c2468f82b4036735e76",
+  "method": "apply_click_popup",
+  "resolved_url": "https://www.linkedin.com/jobs/view/4463767012",
+  "resolved_ats": "generic",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no congruent apply href (6 external links)",
+      "evidence": "www.linkedin.com, akoncagua.ai"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "resolved via popup",
+      "evidence": "www.linkedin.com"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "phase A: 2 external host(s) seen: www.linkedin.com, akoncagua.ai",
+    "Apply control matched via broad name tier",
+    "jobright interstitial: clicked \"Apply Without Customizing\"",
+    "popup settled off about:blank after the interstitial",
+    "popup captured on attempt 1",
+    "employer congruence unverifiable (no employer name decodable from URL (host and path are generic)) — recorded"
+  ],
+  "congruence": {
+    "verdict": "unknown",
+    "slug": null,
+    "detail": "no employer name decodable from URL (host and path are generic)",
+    "expected_company": "Akoncagua AI",
+    "url": "https://www.linkedin.com/jobs/view/4463767012?jr_id=6a9c2c2468f82b4036735e76"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-09-06T23:34:46.784Z"
+}
