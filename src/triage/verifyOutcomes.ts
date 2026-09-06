@@ -72,19 +72,21 @@ export function verifyTriageOutcomes(db: Db): VerifySweepResult {
 
     const [sigEndState, , sigReasonClass] = decision.failure_signature.split("|");
 
+    // A same-signature refail ANYWHERE after the decision outranks
+    // transient progress: night25 cycle 14 (#174) — a requeued app reached
+    // READY_TO_SUBMIT and then re-failed at the identical wall, and the
+    // first-chronological-hit rule scored that CONFIRMED. Getting further
+    // before hitting the same wall is not a fixed application.
     let verdict: "CONFIRMED" | "REFUTED" | "EXPIRED" | null = null;
-    for (const event of laterEvents) {
-      if (CONFIRM_STATES.has(event.next_state)) {
-        verdict = "CONFIRMED";
-        break;
-      }
-      if (
+    const refailed = laterEvents.some(
+      (event) =>
         event.next_state === sigEndState &&
-        classifyReason(event.reason) === sigReasonClass
-      ) {
-        verdict = "REFUTED";
-        break;
-      }
+        classifyReason(event.reason) === sigReasonClass,
+    );
+    if (refailed) {
+      verdict = "REFUTED";
+    } else if (laterEvents.some((event) => CONFIRM_STATES.has(event.next_state))) {
+      verdict = "CONFIRMED";
     }
     if (verdict === null) {
       const ageMs = now - Date.parse(decision.created_at);

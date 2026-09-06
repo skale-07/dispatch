@@ -268,9 +268,20 @@ describe("triage decisions end-to-end (UNIT_CONFIRMED)", () => {
     expect(getApplication(db, appId)?.state).toBe("FAILED_RETRYABLE");
   });
 
-  it("abandon-class stays shadow at launch: valid choice recorded but NOT executed", async () => {
+  it("abandon_duplicate acts with dup evidence (M4 promotion) and refuses without it", async () => {
+    // WITHOUT duplicate evidence: the precondition blocks execution.
+    const bare = seedFailedApp();
+    const refused = await runTriageForApplication(db, bare, {
+      client: stub({ action: "abandon_duplicate", rationale: "same posting twice" }),
+      act: true,
+    });
+    expect(refused.executed).toBe(false);
+    expect(refused.note).toMatch(/precondition|duplicate/);
+    expect(getApplication(db, bare)?.state).toBe("FAILED_RETRYABLE");
+
+    // WITH duplicate evidence (nav attempt + report on disk): it executes
+    // through abandonApplication's own edge guard.
     const appId = seedFailedApp();
-    // Give the app duplicate evidence via a nav attempt + report on disk.
     const navRunId = `nav-${randomUUID()}`;
     db.prepare(
       `INSERT INTO navigation_attempts
@@ -292,9 +303,8 @@ describe("triage decisions end-to-end (UNIT_CONFIRMED)", () => {
       act: true,
     });
     expect(result.action).toBe("abandon_duplicate");
-    expect(result.executed).toBe(false);
-    expect(result.note).toMatch(/shadow/);
-    expect(getApplication(db, appId)?.state).toBe("FAILED_RETRYABLE");
+    expect(result.executed).toBe(true);
+    expect(getApplication(db, appId)?.state).toBe("FAILED_FINAL");
   });
 
   it("preconditions gate executors: requeue on a non-FAILED_RETRYABLE app records but does not act", async () => {
@@ -366,6 +376,38 @@ describe("triage decisions end-to-end (UNIT_CONFIRMED)", () => {
     });
     const sweep2 = verifyTriageOutcomes(db);
     expect(sweep2.confirmed).toBe(1);
+  });
+
+  it("progress-then-refail is REFUTED, not CONFIRMED (#174, Barclays cycle 14)", async () => {
+    const appId = seedFailedApp();
+    const result = await runTriageForApplication(db, appId, {
+      client: stub({ action: "requeue_same", rationale: "transient" }),
+      act: true,
+    });
+    expect(result.executed).toBe(true);
+    // The rerun gets FURTHER (READY_TO_SUBMIT, a confirm state) …
+    for (const [nextState, reason] of [
+      ["MATERIALS_GENERATING", "materials"],
+      ["RESUME_DOWNLOADED", "resume"],
+      ["APPLICATION_OPENING", "opening"],
+      ["ATS_DETECTION", "ats"],
+      ["APPLICATION_INSPECTION", "inspect"],
+      ["NATIVE_AUTOFILL_RUNNING", "fill"],
+      ["FIELD_VERIFICATION", "verify"],
+      ["READY_TO_SUBMIT", "verified"],
+    ] as const) {
+      transitionApplication(db, { applicationId: appId, nextState, reason });
+    }
+    // … and then re-fails at the IDENTICAL wall.
+    transitionApplication(db, {
+      applicationId: appId,
+      nextState: "FAILED_RETRYABLE",
+      reason:
+        "submission not verified: navigation ended on an untrusted host: https://jobs.example.com/login",
+    });
+    const sweep = verifyTriageOutcomes(db);
+    expect(sweep.refuted).toBe(1);
+    expect(sweep.confirmed).toBe(0);
   });
 
   it("canExecute exposes every enumerated action without throwing", () => {
