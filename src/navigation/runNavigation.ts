@@ -44,6 +44,7 @@ import { detectAtsFromUrl } from "../ats/shared/urlValidationDispatch.js";
 import { recordNavigationAttempt } from "../storage/navSubmitOutcomes.js";
 import { codeVersion } from "../storage/codeVersion.js";
 import { evaluateAgentHostPolicy } from "./hostPolicy.js";
+import { writeWallEvidence } from "./wallEvidence.js";
 import { resolveTokenOnlyGreenhouseEmbed } from "./greenhouseEmbedResolve.js";
 import {
   employerSiblingHosts,
@@ -187,6 +188,12 @@ export type NavigationReport = {
    * the artifact alone instead of from a screenshot.
    */
   login_wall: LoginWallDiagnosis | null;
+  /**
+   * Give-up evidence (M1, LLM decision layer): artifact-relative paths of
+   * the scrubbed HTML snapshot + screenshot captured when the run parked
+   * on a wall. What the run saw is now on disk for triage/adjudication.
+   */
+  evidence?: string[];
   report_path?: string;
 };
 
@@ -310,11 +317,16 @@ export async function runNavigation(
     });
   };
 
+  // Declared before the first persist() call site: persist's give-up
+  // evidence capture reads navPage, and a `let` below that call would be
+  // a temporal-dead-zone crash on the early-return path.
+  let navPage: Page | null = null;
+
   const resolved = getStoredJobInspectionTargetByApplicationId(db, applicationId);
   if (!resolved.ok) {
     report.wall = "budget";
     report.notes.push(`target resolution failed: ${resolved.message}`);
-    return persist(report);
+    return await persist(report);
   }
   report.jobright_job_id = resolved.target.jobrightJobId;
 
@@ -352,7 +364,6 @@ export async function runNavigation(
     });
 
   const callerOwned = input.callerOwnedSession === true && !!input.sessionOverride;
-  let navPage: Page | null = null;
   try {
     if (!callerOwned) {
       await session.open();
@@ -372,7 +383,7 @@ export async function runNavigation(
       });
       report.wall = "jobright_auth";
       trace({ phase: "open", outcome: "jobright auth loss" });
-      return persist(report);
+      return await persist(report);
     }
     trace({ phase: "open", outcome: "job page loaded" });
 
@@ -393,7 +404,7 @@ export async function runNavigation(
       report.notes.push(
         "jobright banner says this job has closed; no Apply path exists",
       );
-      return persist(report);
+      return await persist(report);
     }
 
     // Phase A — zero mutation. JobRight pages mix apply hrefs with
@@ -440,7 +451,7 @@ export async function runNavigation(
         outcome: `resolved (${hrefs.length} candidates, employer match)`,
         evidence: new URL(phaseAHref).hostname,
       });
-      return resolveAndPersist(report, db, applicationId, phaseAHref, "anchor_href");
+      return await resolveAndPersist(report, db, applicationId, phaseAHref, "anchor_href");
     }
     // Name the hosts phase A saw but could not accept: an "N links
     // ignored" count hid that the answer was often sitting in a
@@ -479,7 +490,7 @@ export async function runNavigation(
 
     if (Date.now() > deadline) {
       report.wall = "budget";
-      return persist(report);
+      return await persist(report);
     }
 
     // Phase B — guarded click.
@@ -524,7 +535,7 @@ export async function runNavigation(
         outcome: `resolved via ${capture.via}`,
         evidence: new URL(capture.url).hostname,
       });
-      return resolveAndPersist(
+      return await resolveAndPersist(
         report,
         db,
         applicationId,
@@ -547,7 +558,7 @@ export async function runNavigation(
     if (captcha.detected) {
       report.wall = "captcha";
       trace({ phase: "B_apply_click", outcome: "blocking captcha" });
-      return persist(report);
+      return await persist(report);
     }
     const loginWall = detectLoginWall({ finalUrl, html, title });
     if (loginWall.detected) {
@@ -565,11 +576,11 @@ export async function runNavigation(
           outcome: "login wall cleared deterministically",
           evidence: safeHostOf(finalUrl),
         });
-        return resolveAndPersist(report, db, applicationId, finalUrl, "portal_auth");
+        return await resolveAndPersist(report, db, applicationId, finalUrl, "portal_auth");
       }
       if (!agentPhasePossible) {
         report.wall = "auth";
-        return persist(report);
+        return await persist(report);
       }
       // The agent phase can attempt the wall (sign-in / account flow).
     } else {
@@ -596,11 +607,11 @@ export async function runNavigation(
       // unreachable at http://127.0.0.1:9222" — a fixable operator setting
       // read as an exhausted attempt. Name it for what it is.
       report.wall = "agent_unavailable";
-      return persist(report);
+      return await persist(report);
     }
     if (Date.now() > deadline) {
       report.wall = "budget";
-      return persist(report);
+      return await persist(report);
     }
 
     const startUrl =
@@ -620,7 +631,7 @@ export async function runNavigation(
       });
       report.notes.push(hostPolicy.reason);
       report.wall = "budget";
-      return persist(report);
+      return await persist(report);
     }
     // The agent may traverse every non-social host the job page itself
     // linked to, plus the captured start URL. Traversal ≠ acceptance:
@@ -807,7 +818,7 @@ export async function runNavigation(
             outcome: `resolved (turn ${turns}, employer ${cong.verdict === "match" ? "match" : "unverified"})`,
             evidence: new URL(agentResult.final_url).hostname,
           });
-          return resolveAndPersist(
+          return await resolveAndPersist(
             report,
             db,
             applicationId,
@@ -833,7 +844,7 @@ export async function runNavigation(
             report.notes.push(
               "verification need rejected: agent's page evidence shows no verification prompt",
             );
-            return persist(report);
+            return await persist(report);
           }
           const waiter =
             input.gmailWaiterOverride ?? resolveNavVerificationWaiter();
@@ -844,7 +855,7 @@ export async function runNavigation(
               outcome:
                 "needs email verification — no mailbox provider enabled (GMAIL_VERIFICATION_ENABLED / OUTLOOK_VERIFICATION_ENABLED), human review",
             });
-            return persist(report);
+            return await persist(report);
           }
           if (turns >= 3) break;
           const wait = await waiter(agentResult.need, allowedDomains);
@@ -859,7 +870,7 @@ export async function runNavigation(
               phase: "D_gmail",
               outcome: "verification email not found within the poll budget",
             });
-            return persist(report);
+            return await persist(report);
           }
           trace({
             phase: "D_gmail",
@@ -900,7 +911,7 @@ export async function runNavigation(
               outcome: "agent auth wall cleared deterministically",
               evidence: safeHostOf(agentWallUrl),
             });
-            return resolveAndPersist(
+            return await resolveAndPersist(
               report,
               db,
               applicationId,
@@ -909,21 +920,21 @@ export async function runNavigation(
             );
           }
         }
-        return persist(report);
+        return await persist(report);
       }
       report.wall = "budget";
       trace({
         phase: "C_agent",
         outcome: "turn/deadline budget exhausted",
       });
-      return persist(report);
+      return await persist(report);
     } catch (err) {
       report.notes.push(
         `agent phase failed: ${err instanceof Error ? err.message : String(err)}`,
       );
       report.wall = "budget";
       trace({ phase: "C_agent", outcome: "error" });
-      return persist(report);
+      return await persist(report);
     }
   } finally {
     if (callerOwned) {
@@ -1002,13 +1013,13 @@ export async function runNavigation(
     }
   }
 
-  function resolveAndPersist(
+  async function resolveAndPersist(
     r: NavigationReport,
     database: Db,
     appId: string,
     url: string,
     method: NavigationMethod,
-  ): NavigationReport {
+  ): Promise<NavigationReport> {
     // Congruence is EVIDENCE, not a gate (operator directive 2026-08-14:
     // "it literally should not matter whether the system proceeds… other
     // than for logging"). Every posting reaches this system through
@@ -1047,7 +1058,7 @@ export async function runNavigation(
           .join("; ")}`,
       );
       r.wall = "duplicate_url";
-      return persist(r);
+      return await persist(r);
     }
 
     try {
@@ -1065,14 +1076,34 @@ export async function runNavigation(
       );
       r.wall = "budget";
     }
-    return persist(r);
+    return await persist(r);
   }
 
-  function persist(r: NavigationReport): NavigationReport {
+  async function persist(r: NavigationReport): Promise<NavigationReport> {
     const cfg = getConfig();
     const outDir = path.join(cfg.artifactsDir, "navigation", r.run_id);
     fs.mkdirSync(outDir, { recursive: true });
     const outPath = path.join(outDir, "report.json");
+
+    // Give-up evidence: every wall park writes what the page actually
+    // looked like (scrubbed HTML + screenshot). Single choke point — all
+    // wall returns flow through persist. Telemetry only, never a failure;
+    // callers use `return await persist(...)` so the page is still open.
+    if (r.wall !== "none" && navPage !== null) {
+      try {
+        const captured = await writeWallEvidence({
+          page: navPage,
+          runId: r.run_id,
+          wall: r.wall,
+          secretValues,
+          artifactsDir: cfg.artifactsDir,
+        });
+        if (captured.relpaths.length > 0) r.evidence = captured.relpaths;
+        for (const note of captured.notes) r.notes.push(note);
+      } catch {
+        // evidence is telemetry — never fail the run over it
+      }
+    }
 
     // Agent trace artifact — the behavioral-cloning corpus row for this
     // episode: era-stamped, scrubbed step/heartbeat events joined to the
