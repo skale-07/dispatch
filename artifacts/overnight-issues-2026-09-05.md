@@ -369,6 +369,20 @@ artifacts/gmail-pipeline-applied-page.png. Drafts only, zero sends.
   were blocking worker pick — targeted dismissal of exactly those two
   items (private/tmp-dismiss-microvention-dups.ts).
 
+### Cycle 16 (16:42Z 09-06) — eac348f8 MicroVention: **#171 VALIDATED LIVE**
+
+- Navigation resolved via apply_click_popup, **wall "none", employer URL
+  STORED** (sjobs.brassring.com…jobid=…) — the dedupe normalizer passed a
+  sibling role at the same company for the first time
+  (LIVE_MUTATION_CONFIRMED for commit 8517c81f; cycles 3/4/6's false-dup
+  class is dead).
+- Fill then refused AUTH_REQUIRED at the Brassring portal sign-in —
+  gate-stop mid-state park again (#175 class, 2nd consecutive cycle).
+  Brassring is not a recognized portal-auth host; the wall needs either
+  standing-credential host recognition or an operator account. #175's
+  repair-phase fix (extend triage to gate-stop mid-states) gets these
+  apps at least a recorded decision instead of silent parking.
+
 ### Cycle 10 (15:51Z 09-06) — 70aaa82a Neuralink, posting closed
 
 - APPLICATION_OPENING → FILTERED_OUT (terminal): closed on JobRight.
