@@ -410,6 +410,31 @@ describe("triage decisions end-to-end (UNIT_CONFIRMED)", () => {
     expect(sweep.confirmed).toBe(0);
   });
 
+  it("#176: a non-executed pending decision does not gag re-triage; the chosen action is forbidden next pass", async () => {
+    const appId = seedFailedApp();
+    // First pass: model picks an action whose precondition fails (no nav
+    // wall) — recorded PENDING, executed=0.
+    const first = await runTriageForApplication(db, appId, {
+      client: stub({ action: "engage_agent_leg", rationale: "try the agent" }),
+      act: true,
+    });
+    expect(first.executed).toBe(false);
+    // Second pass (same signature): NOT skipped, and the prior choice is
+    // forbidden — a stub repeating it is demoted, park executes instead.
+    const repeat = await runTriageForApplication(db, appId, {
+      client: stub({ action: "engage_agent_leg", rationale: "again" }),
+      act: true,
+    });
+    expect(repeat.note).not.toMatch(/pending decision exists/);
+    expect(repeat.action).toBe("no_action");
+    const third = await runTriageForApplication(db, appId, {
+      client: stub({ action: "park_for_operator", rationale: "operator needed" }),
+      act: true,
+    });
+    expect(third.action).toBe("park_for_operator");
+    expect(third.executed).toBe(true);
+  });
+
   it("canExecute exposes every enumerated action without throwing", () => {
     const appId = seedFailedApp();
     for (const action of TRIAGE_ACTIONS) {

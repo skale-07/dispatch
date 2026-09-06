@@ -94,11 +94,18 @@ function hasPendingDecision(
   applicationId: string,
   signature: string,
 ): boolean {
+  // Only an EXECUTED pending decision is an open loop worth waiting on.
+  // A precondition/validation-refused decision changed nothing — blocking
+  // re-triage on it gagged the layer for gate-park signatures whose
+  // refails write no application_event (night25 #176: the Rivian
+  // UNKNOWN_LANDING app re-ground three cycles with a PENDING
+  // non-executed decision the sweep could never resolve). The forbidden
+  // history already excludes the previously chosen action either way.
   const row = db
     .prepare(
       `SELECT COUNT(*) AS n FROM triage_decisions
        WHERE application_id = ? AND failure_signature = ?
-         AND outcome_status = 'PENDING'`,
+         AND outcome_status = 'PENDING' AND executed = 1`,
     )
     .get(applicationId, signature) as { n: number };
   return row.n > 0;
