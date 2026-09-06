@@ -1,0 +1,47 @@
+{
+  "run_id": "nav-fe1b2e84-a116-497c-8d67-b011839543b8",
+  "application_id": "4a97ab57-3b10-447b-a941-c5c3ae945133",
+  "jobright_job_id": "6a9c361dc1d6f91bc3883f65",
+  "method": "apply_click_popup",
+  "resolved_url": "https://search.jobs.barclays/job/-/-/13015/100189840544",
+  "resolved_ats": "generic",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no congruent apply href (12 external links)",
+      "evidence": "search.jobs.barclays, www.linkedin.com, x.com, www.crunchbase.com, barclaysus.com, www.prnewswire.com"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "resolved via popup",
+      "evidence": "search.jobs.barclays"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "phase A: 8 external host(s) seen: search.jobs.barclays, www.linkedin.com, x.com, www.crunchbase.com, barclaysus.com, www.prnewswire.com, techmoran.com, www.techspot.com",
+    "Apply control: autofill CTA (tier 0)",
+    "jobright interstitial: clicked \"Apply Without Customizing\"",
+    "popup settled off about:blank after the interstitial",
+    "popup captured on attempt 1",
+    "employer congruence unverifiable (no employer name decodable from URL (host and path are generic)) — recorded"
+  ],
+  "congruence": {
+    "verdict": "unknown",
+    "slug": null,
+    "detail": "no employer name decodable from URL (host and path are generic)",
+    "expected_company": "Barclays Bank US",
+    "url": "https://search.jobs.barclays/job/-/-/13015/100189840544?src=JB-12860&jr_id=6a9c361dc1d6f91bc3883f65"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-09-06T16:00:16.039Z"
+}

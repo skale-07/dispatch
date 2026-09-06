@@ -275,6 +275,27 @@ artifacts/gmail-pipeline-applied-page.png. Drafts only, zero sends.
   the "every 6 cycles repair + restart" directive is now mechanized in
   the session itself (post-session triage batch + session-start sweep).
 
+### Cycle 11 (15:53Z 09-06) — 4299f8a0 Atlassian: every new layer fired live
+
+- Navigation: phase A saw `careers-americas.icims.com` (congruence
+  unverifiable vs "Atlassian"), phase B found no Apply control, **M6
+  anchor adjudication ran live and ABSTAINED** (conservative — the iCIMS
+  tenant is plausibly Atlassian's real portal; promotion would likely
+  have been right; quality observation, not a defect), agent phase burned
+  wall-clock because **the debug Chrome CDP is wedged again** (night18
+  trap: port answers, session won't attach) → wall budget →
+  FAILED_RETRYABLE.
+- **M1 live**: giveup-budget.html + giveup-budget.png captured under the
+  nav run dir, listed in report evidence[].
+- **FIRST AUTONOMOUS ACTED TRIAGE (LIVE_MUTATION_CONFIRMED)**: post-
+  session batch decided `park_for_operator` for signature
+  `FAILED_RETRYABLE|budget|budget|-` and EXECUTED it (review item
+  4b38df9f). report.triage = {decided:1, executed:1}. Reasonable call —
+  requeueing into a wedged CDP would have been the old blind-retry.
+- Environment issue to watch: if cycle 12's preflight does not self-
+  repair the wedged CDP, run private/tmp-restart-cdp.ts (operator-
+  approved repair) before continuing agent-phase apps.
+
 ### Cycle 10 (15:51Z 09-06) — 70aaa82a Neuralink, posting closed
 
 - APPLICATION_OPENING → FILTERED_OUT (terminal): closed on JobRight.

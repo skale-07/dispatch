@@ -1,0 +1,118 @@
+{
+  "ats": "generic",
+  "url": "https://search.jobs.barclays/job/-/-/13015/100189840544",
+  "requested_url": "https://search.jobs.barclays/job/-/-/13015/100189840544",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://search.jobs.barclays/job/-/-/13015/100189840544",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 2,
+    "skipped_count": 1,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "form-field-12a8f87423",
+      "label": "Email",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "form-field-81dfca8026-category",
+      "label": "Category",
+      "type": "text",
+      "canonical_field": "screener:custom:predicted:form-field-81dfca8026-category",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): No options were provided, so the candidate's primary focus across his projects (full-stack and ML software engineering) is given as the role category."
+    },
+    {
+      "field_id": "form-field-81dfca8026-location",
+      "label": "Location",
+      "type": "select",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "already answered on the form (\"Location\") — prediction not applied"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\generic-live\\form-snapshot-1788710446535.html",
+  "fill": {
+    "filled": [
+      "email",
+      "screener:custom:predicted:form-field-81dfca8026-category"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "form-field-12a8f87423",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "form-field-81dfca8026-category",
+        "canonical_field": "screener:custom:predicted:form-field-81dfca8026-category",
+        "control_kind": "text",
+        "notes": [
+          "opened via control click",
+          "listbox did not open after click",
+          "fell back to text fill — no listbox"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:form-field-81dfca8026-category",
+        "expected": "Software Engineering",
+        "observed": {
+          "value": "Software Engineering",
+          "label": "Software Engineering"
+        },
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": null,
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: form (3 fillable field(s))",
+    "popups dismissed: Accept All, close (aria-label), close (aria-label)",
+    "section-expand: expanded 4 collapsed section(s)",
+    "section-expand: expanded \"Saved jobs\"",
+    "section-expand: skipped \"How to Apply\" (action-named)",
+    "section-expand: expanded \"Inclusion and Opportunity\"",
+    "section-expand: expanded \"Regulatory and compliance obligations\"",
+    "section-expand: expanded \"Menu\"",
+    "section-expand: skipped \"How to Apply\" (action-named)",
+    "option harvest: \"Category\" is a combobox but offered no readable options",
+    "revealed-select: \"Location\" (address.city) offers no option for the profile value — left for review",
+    "timing: base page (3 planned) — plan 14s, fill 10s, verify 0s",
+    "resume on disk but this page has no file input — not an upload miss",
+    "form-advance: no Next/Continue advance control matched (account-setup tier: page marker did NOT match, 0 file input(s))",
+    "form-advance: visible CTAs: \"Search\"",
+    "form-advance: no Next/Continue after page 1 — stopping",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "wizard_pages": [],
+  "written_at": "2026-09-06T16:01:06.263Z"
+}
