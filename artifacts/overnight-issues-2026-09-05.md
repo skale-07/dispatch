@@ -296,6 +296,20 @@ artifacts/gmail-pipeline-applied-page.png. Drafts only, zero sends.
   repair the wedged CDP, run private/tmp-restart-cdp.ts (operator-
   approved repair) before continuing agent-phase apps.
 
+### Cycle 12 (16:00Z 09-06) — 4a97ab57 Barclays Wilmington: triage acts with a second action class
+
+- CDP self-repaired at preflight (cycle 11's wedge gone; session opened
+  CDP_ATTACH AUTHENTICATED) — the product's own recovery, no operator.
+- Pipeline depth: nav resolved via apply_click_popup, portal-auth fill
+  verified 2 fields, submit refused FAILED_BEFORE_CLICK ("field
+  verification or upload did not pass") → FAILED_RETRYABLE.
+- **Second live acted triage, different action**: signature
+  `FAILED_RETRYABLE|-|verify_mismatch|search.jobs.barclays` →
+  `engage_agent_leg` EXECUTED (decision 841134a7): app requeued carrying
+  the one-shot agent-leg override the next nav run will consume. The
+  layer is choosing per-signature, not one-size-fits-all.
+- Sweep now tracks 26 pending decisions.
+
 ### Cycle 10 (15:51Z 09-06) — 70aaa82a Neuralink, posting closed
 
 - APPLICATION_OPENING → FILTERED_OUT (terminal): closed on JobRight.
