@@ -60,12 +60,12 @@
 </style></head>
 <body><div class="wrap">
 <h1>Dispatch run timeline</h1>
-<p class="sub">Generated 2026-09-06T16:39:48.188Z · 40 navigation run(s) · read-only view of artifacts/</p>
+<p class="sub">Generated 2026-09-06T16:42:57.486Z · 40 navigation run(s) · read-only view of artifacts/</p>
 <div class="stats"><span class="stat"><b>20</b> resolved</span><span class="stat"><b>7</b> budget</span><span class="stat"><b>6</b> auth</span><span class="stat"><b>4</b> closed</span><span class="stat"><b>3</b> submit_risk</span></div>
 <section class="cycle">
   <h2>Latest cycle</h2>
   <dl>
-    <div><dt>Started</dt><dd>2026-09-06T16:38:22.320Z</dd></div>
+    <div><dt>Started</dt><dd>2026-09-06T16:41:12.136Z</dd></div>
     <div><dt>Outcome</dt><dd>completed</dd></div>
     <div><dt>Agent leg</dt><dd>available</dd></div>
     <div><dt>Default resume</dt><dd>ready (C:\dev\jobright-application-agent\private\candidate\resumes\swe.pdf)</dd></div>
@@ -73,9 +73,24 @@
     <div><dt>Submits used</dt><dd>0</dd></div>
     <div><dt>Stopped</dt><dd>apps_cap</dd></div>
   </dl>
-  <h3>Session notes</h3><ul class="notes"><li>triage sweep: 0 confirmed, 0 refuted, 0 expired of 27 pending</li><li>discover: 1 inspected, 1 eligible, 1 already known, 0 filtered out, 0 already submitted</li><li>artifact autopush: 168 file(s) pushed to master as 161e2afe</li></ul>
+  <h3>Session notes</h3><ul class="notes"><li>triage sweep: 0 confirmed, 0 refuted, 0 expired of 27 pending</li><li>discover: 1 inspected, 0 eligible, 1 already known, 0 filtered out, 0 already submitted</li><li>artifact autopush: 3 file(s) pushed to master as c576d23d</li></ul>
 </section>
 <h2>Applications</h2>
+<details class="app ok">
+  <summary>
+    <span class="id">eac348f8</span>
+    <span class="co">MicroVention-Terumo</span>
+    <span class="badge">resolved</span>
+    <span class="chip">apply_click_popup</span>
+    <span class="chip">generic</span>
+    
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no congruent apply href (11 external links)<span class="ev">sjobs.brassring.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com.au, www.bioworld.com, www.einpresswire.com</span></li><li><b>B_apply_click</b> — resolved via popup<span class="ev">sjobs.brassring.com</span></li></ol>
+    <h4>Notes</h4><ul class="notes"><li>phase A: 7 external host(s) seen: sjobs.brassring.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com.au, www.bioworld.com, www.einpresswire.com, www.globenewswire.com</li><li>Apply control: autofill CTA (tier 0)</li><li>jobright interstitial: clicked &quot;Apply Without Customizing&quot;</li><li>popup settled off about:blank after the interstitial</li><li>popup captured on attempt 1</li><li>phase B: landing shows a sign-in wall — stored anyway; fill owns portal auth</li><li>employer congruence unverifiable (no employer name decodable from URL (host and path are generic)) — recorded</li></ul>
+    
+  </div>
+</details>
 <details class="app ok">
   <summary>
     <span class="id">104685d9</span>
@@ -659,21 +674,6 @@
     <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — resolved (turn 1, employer match)<span class="ev">careers.acme.com</span></li></ol>
     <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent[1]: cred_available:false</li><li>agent[1]: leaked:none</li></ul>
     <h4>Hosts visited</h4><p class="hosts">careers.acme.com</p>
-  </div>
-</details>
-<details class="app ok">
-  <summary>
-    <span class="id">7df8783f</span>
-    <span class="co">Acme</span>
-    <span class="badge">resolved</span>
-    <span class="chip">agent</span>
-    <span class="chip">ashby</span>
-    <span class="chip">agent 2t/6s</span>
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>D_gmail</b> — verification code retrieved</li><li><b>C_agent</b> — resolved (turn 2, employer match)<span class="ev">jobs.ashbyhq.com</span></li></ol>
-    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent[2]: continuation ok</li></ul>
-    <h4>Hosts visited</h4><p class="hosts">jobs.ashbyhq.com</p>
   </div>
 </details>
 <footer>Every row is one navigation run. Green = employer URL resolved; amber = auth/CAPTCHA wall; red = unresolved; grey = posting closed. Expand a row for its phase trace and the notes that explain the stop.</footer>
