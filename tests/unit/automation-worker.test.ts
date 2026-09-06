@@ -456,10 +456,11 @@ describe("L3 automation worker (FIXTURE_CONFIRMED)", () => {
         expect(report.per_app.map((r) => r.application_id)).toEqual([]);
         expect(report.notes.join(" ")).toMatch(/debug Chrome unrecoverable after 1\/3/);
         // Nothing burned: the touched app stays in its pre-nav state (no
-        // FAILED_* / attempt cap), the next was never picked.
-        expect(getApplication(db, first)?.state).toBe("APPLICATION_OPENING");
-        expect(getApplication(db, first)?.attempt).toBe(1);
-        expect(getApplication(db, second)?.state).toBe("QUEUED");
+        // FAILED_* / attempt cap), the other was never picked. Newest
+        // first (operator directive 2026-09-06): `second` is touched.
+        expect(getApplication(db, second)?.state).toBe("APPLICATION_OPENING");
+        expect(getApplication(db, second)?.attempt).toBe(1);
+        expect(getApplication(db, first)?.state).toBe("QUEUED");
       } finally {
         applySafeFillEnv();
       }
@@ -486,7 +487,10 @@ describe("L3 automation worker (FIXTURE_CONFIRMED)", () => {
       expect(stopped?.stop_reason).toMatch(/^deadline: \d+s elapsed of 0s budget/);
       expect(report.notes.join(" ")).toMatch(new RegExp(`deadline ${slow}: `));
       expect(getApplication(db, slow)?.state).not.toMatch(/^FAILED/);
-      expect(report.per_app.map((r) => r.application_id)).toEqual([slow, next]);
+      // Newest-first pick order (operator directive 2026-09-06).
+      expect(report.per_app.map((r) => r.application_id).sort()).toEqual(
+        [slow, next].sort(),
+      );
       expect(report.stopped_reason).toBe("queue_drained");
     },
     60_000,

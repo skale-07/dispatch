@@ -213,9 +213,13 @@ function pickNextApplication(db: Db, seen: Set<string>, scope?: Set<string>): st
   const query = (states: string) =>
     db
       .prepare(
+        // NEWEST first (operator directive 2026-09-06: jobs at the top of
+        // the discovery page are prioritized — recency is the proxy).
+        // The old ASC order made backlog cycles grind the STALEST parked
+        // apps (5-day-old Rivian) while fresh enqueues waited.
         `SELECT a.id, a.versions_json FROM applications a
          WHERE a.state IN (${states})
-         ORDER BY a.created_at ASC`,
+         ORDER BY a.created_at DESC`,
       )
       .all() as Array<{ id: string; versions_json: string }>;
 

@@ -121,9 +121,10 @@ describe("L3 session hardening (FIXTURE_CONFIRMED)", () => {
 
       expect(report.stopped_reason).toBe("expired");
       expect(report.apps_started).toBe(1);
-      // First app completed its walk; the second was never started.
-      expect(report.per_app.map((r) => r.application_id)).toEqual([first]);
-      expect(getApplication(db, second)?.state).toBe("QUEUED");
+      // Newest-first pick (operator directive 2026-09-06): the second app
+      // completed its walk; the first was never started.
+      expect(report.per_app.map((r) => r.application_id)).toEqual([second]);
+      expect(getApplication(db, first)?.state).toBe("QUEUED");
       // The expired row was swept — status reads disarmed.
       expect(getArmStatus(db).armed).toBe(false);
     },
@@ -133,8 +134,8 @@ describe("L3 session hardening (FIXTURE_CONFIRMED)", () => {
   it(
     "disarm mid-run: soft stop after the current app",
     async () => {
-      const first = seedQueuedApp();
       seedQueuedApp();
+      const newest = seedQueuedApp();
       const armId = arm();
 
       const report = await runAutomationSession({
@@ -149,7 +150,8 @@ describe("L3 session hardening (FIXTURE_CONFIRMED)", () => {
 
       expect(report.stopped_reason).toBe("disarmed");
       expect(report.apps_started).toBe(1);
-      expect(report.per_app.map((r) => r.application_id)).toEqual([first]);
+      // Newest-first pick order (operator directive 2026-09-06).
+      expect(report.per_app.map((r) => r.application_id)).toEqual([newest]);
     },
     60_000,
   );
@@ -203,8 +205,11 @@ describe("L3 session hardening (FIXTURE_CONFIRMED)", () => {
       });
 
       // Both apps still processed (fill-and-park), no submits attempted.
+      // Order-insensitive: newest-first pick (operator directive 2026-09-06).
       expect(report.stopped_reason).toBe("queue_drained");
-      expect(report.per_app.map((r) => r.application_id)).toEqual([a1, a2]);
+      expect(report.per_app.map((r) => r.application_id).sort()).toEqual(
+        [a1, a2].sort(),
+      );
       expect(report.submits_used).toBe(3); // unchanged — cap already spent
       expect(report.per_app.every((r) => !r.submitted)).toBe(true);
     },
