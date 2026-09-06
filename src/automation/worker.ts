@@ -13,6 +13,8 @@ import {
   listOpenReviewItems,
 } from "../queue/reviewItems.js";
 import { generateEssayDraftBatch } from "../applications/essayDraft.js";
+import { runTriageBatch } from "../triage/runTriage.js";
+import { verifyTriageOutcomes } from "../triage/verifyOutcomes.js";
 import { generateScreenerPredictions } from "../applications/screenerPredictionLlm.js";
 import { autopushArtifacts } from "./artifactAutopush.js";
 import {
@@ -109,6 +111,8 @@ export type AutomationSessionReport = {
   essay_drafts_generated: number;
   /** New-question predictions opened as review items (UNVERIFIED). */
   screener_predictions_generated: number;
+  /** Post-session LLM failure triage (TRIAGE_LLM_ENABLED). */
+  triage?: { decided: number; executed: number };
   /** Stage-1 loop: artifacts committed+pushed after the session. */
   artifact_autopush?: { pushed: boolean; commit: string | null; files_staged: number };
   /** Session-start employer-URL audit (wrong-company/duplicate repair). */
@@ -167,6 +171,8 @@ export type AutomationSessionInput = {
   emailClient?: EmailLlmClient;
   /** Test seam for the post-session essay draft batch. */
   essayDraftClient?: EmailLlmClient;
+  /** Test seam: stub LLM for the post-session failure-triage batch. */
+  triageClient?: EmailLlmClient;
   draftRunner?: DraftRunner;
   draftVerifier?: DraftVerifier;
   /** Progress sink (the runner turns this into SSE frames). */
@@ -365,6 +371,25 @@ export async function runAutomationSession(
     report.notes.push(
       `nav audit failed (continuing): ${err instanceof Error ? err.message.slice(0, 160) : String(err)}`,
     );
+  }
+
+  // Triage outcome sweep: last session's PENDING triage decisions are
+  // confirmed/refuted from what application_events actually did since —
+  // the read-back that feeds the retry-differently forbidden memory.
+  // Fail-open; a sweep error is a note, never a dead session.
+  if (getConfig().triageLlmEnabled) {
+    try {
+      const sweep = verifyTriageOutcomes(db);
+      if (sweep.checked > 0) {
+        report.notes.push(
+          `triage sweep: ${sweep.confirmed} confirmed, ${sweep.refuted} refuted, ${sweep.expired} expired of ${sweep.checked} pending`,
+        );
+      }
+    } catch (err) {
+      report.notes.push(
+        `triage sweep failed (continuing): ${err instanceof Error ? err.message.slice(0, 160) : String(err)}`,
+      );
+    }
   }
 
   // Second-chance sweep: apps parked as "navigation unresolved (budget)"
@@ -843,6 +868,56 @@ export async function runAutomationSession(
     report.notes.push(
       `screener predictions failed (continuing): ${err instanceof Error ? err.message.slice(0, 120) : String(err)}`,
     );
+  }
+
+  // Post-session LLM failure triage: apps this session left in a parked/
+  // failed state get one enumerated-action decision each (validated
+  // deterministically; executed only when TRIAGE_ACT_ENABLED and the
+  // action class is act-enabled). Post-session because the session's
+  // `seen` set means a requeue wouldn't be re-picked this session anyway.
+  // Fail-open — a triage error is a note, never a dead session.
+  if (getConfig().triageLlmEnabled) {
+    try {
+      const TRIAGEABLE_END_STATES = new Set([
+        "FAILED_RETRYABLE",
+        "AUTH_REQUIRED",
+        "CAPTCHA_REQUIRED",
+        "UNSUPPORTED_ATS",
+        "AMBIGUOUS_FIELD",
+      ]);
+      const targets = report.per_app.filter(
+        (a) => !a.submitted && TRIAGEABLE_END_STATES.has(a.end_state ?? ""),
+      );
+      if (targets.length > 0) {
+        const stopReasons = new Map<string, string | null>(
+          targets.map((a) => [a.application_id, a.stop_reason ?? null]),
+        );
+        const triage = await runTriageBatch({
+          db,
+          applicationIds: targets.map((a) => a.application_id),
+          act: getConfig().triageActEnabled,
+          armRunId,
+          stopReasons,
+          ...(input.triageClient ? { client: input.triageClient } : {}),
+        });
+        report.triage = {
+          decided: triage.results.filter((r) => r.decision_id !== null).length,
+          executed: triage.results.filter((r) => r.executed).length,
+        };
+        for (const n of triage.notes) report.notes.push(n);
+        for (const r of triage.results) {
+          if (r.action !== null) {
+            report.notes.push(
+              `triage ${r.application_id.slice(0, 8)}: ${r.action}${r.executed ? " (executed)" : ""} — ${r.note}`,
+            );
+          }
+        }
+      }
+    } catch (err) {
+      report.notes.push(
+        `triage batch failed (continuing): ${err instanceof Error ? err.message.slice(0, 120) : String(err)}`,
+      );
+    }
   }
 
   // Stage-1 improvement loop, courier leg: ship this session's artifacts

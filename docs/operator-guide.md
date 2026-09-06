@@ -1239,6 +1239,23 @@ re-queues AUTH/CAPTCHA items after you cleared the wall by hand. Use this
 when the queue clogs (the run data showed armed sessions draining after a
 single pick because everything held an open item).
 
+**LLM failure triage.** With `TRIAGE_LLM_ENABLED=true`, every armed
+session ends with a triage batch: each app the session left parked/failed
+gets ONE remediation decision chosen by the model from a fixed action set
+(requeue / regenerate materials / reopen navigation / park / abandon /
+engage agent leg). The choice is re-validated deterministically — verbatim
+set membership, the signature's forbidden history (an action never repeats
+for the same failure signature; refuted pairs are forbidden forever), and
+state-machine preconditions — and with `TRIAGE_ACT_ENABLED=true` the
+requeue-class actions execute through the ordinary primitives (same
+attempt cap as `retry`, max 3 triage acts per app; abandon-class records
+shadow-only for now). Session start runs the read-back sweep that
+confirms/refutes prior decisions purely from `application_events`.
+Manual: `npm run triage:llm -- [--app <uuid>] [--act]`; history + sweep:
+`npm run triage:report`. Decisions land in the `triage_decisions` table
+and `artifacts/triage/<decision_id>/decision.json` — the rationale text
+is UNVERIFIED model output; only the sweep upgrades a decision.
+
 **Nav agent while armed.** The ArmCard shows `nav agent:
 available/unavailable` before you arm. Available means the shell exported
 `AGENT_FALLBACK_ENABLED=true` AND your CDP Chrome

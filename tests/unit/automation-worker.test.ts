@@ -121,6 +121,71 @@ describe("L3 automation worker (FIXTURE_CONFIRMED)", () => {
   );
 
   it(
+    "post-session triage: a duplicate_url park gets one validated decision and an acted requeue",
+    async () => {
+      applyControlledFillEnv({
+        NAVIGATION_ENABLED: "true",
+        TRIAGE_LLM_ENABLED: "true",
+        TRIAGE_ACT_ENABLED: "true",
+      });
+      // No employer URL ⇒ the pipeline routes to navigation, whose stub
+      // returns a duplicate_url wall ⇒ FAILED_RETRYABLE — a triageable
+      // end state for the post-session batch.
+      const appId = seedQueuedApp(true, false);
+      let llmCalls = 0;
+      const report = await runAutomationSession({
+        db,
+        armRunId: arm(5, 25),
+        fixtureHtmlPath: GREENHOUSE_FIXTURE,
+        sleep: noSleep,
+        navigationRunner: async (nav) => ({
+          run_id: `nav-${randomUUID()}`,
+          application_id: nav.applicationId,
+          jobright_job_id: null,
+          method: null,
+          resolved_url: null,
+          resolved_ats: null,
+          wall: "duplicate_url" as const,
+          phase_trace: [],
+          agent: null,
+          gmail: null,
+          need: null,
+          session: "ephemeral" as const,
+          notes: [],
+          congruence: null,
+          duplicates: [
+            { application_id: "11111111-aaaa", state: "QUEUED", company: "Acme", role: "SWE" },
+          ],
+          login_wall: null,
+        }),
+        triageClient: {
+          generateJson: async () => {
+            llmCalls += 1;
+            return {
+              text: JSON.stringify({
+                action: "requeue_same",
+                rationale: "dup evidence weak — one rerun",
+                confidence: "medium",
+              }),
+              model: "stub",
+            };
+          },
+        },
+      });
+      expect(llmCalls).toBe(1);
+      expect(report.triage).toEqual({ decided: 1, executed: 1 });
+      expect(getApplication(db, appId)?.state).toBe("QUEUED");
+      const row = db
+        .prepare(
+          "SELECT action, mode, executed FROM triage_decisions WHERE application_id = ?",
+        )
+        .get(appId) as { action: string; mode: string; executed: number };
+      expect(row).toEqual({ action: "requeue_same", mode: "act", executed: 1 });
+    },
+    60_000,
+  );
+
+  it(
     "requeues nav-starved apps ONLY when the agent leg is up",
     async () => {
       // An app parked by an agent-less session: FAILED_RETRYABLE with the
