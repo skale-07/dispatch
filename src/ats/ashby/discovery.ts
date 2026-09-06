@@ -383,13 +383,13 @@ export function ashbyDiscoverFields(html: string): DiscoveredField[] {
     ) {
       return false;
     }
-    // Drop the placeholder-labeled twin of an autocomplete question
-    // (synthetic f_N id only — a real id/name wins over the rebuild).
-    if (
-      /^f_\d+$/.test(f.id) &&
-      autos.placeholders.has(f.label.trim()) &&
-      !autoIds.has(f.id)
-    ) {
+    // Drop the generic twin of an autocomplete question. Two shapes:
+    // (a) the wrapper data-field-path fallback now gives the id-less
+    //     input the SAME uuid the rebuild claims — the rebuild's
+    //     caption-derived field (with required) is authoritative;
+    // (b) the older placeholder-labeled twin with a synthetic f_N id.
+    if (autoIds.has(f.id)) return false;
+    if (/^f_\d+$/.test(f.id) && autos.placeholders.has(f.label.trim())) {
       return false;
     }
     return true;

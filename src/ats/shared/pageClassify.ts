@@ -94,6 +94,79 @@ export function isApplicationFormPath(url: string): boolean {
   return /\/(jobs\/)?apply(\/|$)/.test(path) || /\/application(\/|$)/.test(path);
 }
 
+/**
+ * #166 (live Rivian iCIMS 2026-09-04): the top document is an empty shell
+ * and the real page lives in a SAME-ORIGIN child frame. Apply landed on
+ * `…/software-engineering-intern…/login`, title "Login" — an iCIMS sign-in
+ * wall — but the login form is inside `icims_content_iframe`, so the outer
+ * HTML had no password input, no heading and no fields.
+ * detectLoginWall scored 3 (final_url_auth_path alone; the >=5 HIGH bar
+ * needs a second signal), classifyPage returned `unknown`, and the gate
+ * parked UNKNOWN_LANDING — which also meant `tryPortalAuth` never fired,
+ * because that is keyed on page_class === "auth". #159 already taught
+ * advancePastPosting to look one frame down for an Apply control; the
+ * classifier never learned the same lesson.
+ *
+ * Only ever promotes an `unknown` with NO fields of its own, and only to
+ * the classes that end in a refusal or the auth path — never to `form` or
+ * `posting`, because the fill and the Apply walk act on the TOP document
+ * and would then be typing into the wrong one. A frame-served form is
+ * reported in the evidence so the artifact names it, and nothing else
+ * changes.
+ *
+ * Same-origin only: a cross-origin chat widget or ad iframe is page
+ * furniture, not the landing.
+ */
+export function classifyWithFrameFallback(
+  outer: PageClassification,
+  frames: Array<{ url: string; html: string }>,
+): PageClassification {
+  if (outer.page_class !== "unknown" || outer.field_count > 0) return outer;
+  for (const frame of frames) {
+    const inner = classifyPage({ html: frame.html, url: frame.url });
+    if (
+      inner.page_class === "auth" ||
+      inner.page_class === "captcha" ||
+      inner.page_class === "confirmation"
+    ) {
+      return {
+        page_class: inner.page_class,
+        field_count: inner.field_count,
+        evidence: `${inner.evidence} (in same-origin child frame ${frame.url.slice(0, 120)})`,
+      };
+    }
+    if (inner.page_class === "form" || inner.page_class === "posting") {
+      // Named, not adopted — see above.
+      return {
+        ...outer,
+        evidence: `${outer.evidence}; a same-origin child frame looks like a ${inner.page_class} (${inner.field_count} field(s)): ${frame.url.slice(0, 120)}`,
+      };
+    }
+  }
+  return outer;
+}
+
+/** Same-origin child frames of `pageUrl`, newest read first. */
+export function sameOriginFrames(
+  pageUrl: string,
+  frames: Array<{ url: string; html: string }>,
+): Array<{ url: string; html: string }> {
+  let origin: string;
+  try {
+    origin = new URL(pageUrl).origin;
+  } catch {
+    return [];
+  }
+  return frames.filter((f) => {
+    if (!f.url || f.url === "about:blank" || f.url === pageUrl) return false;
+    try {
+      return new URL(f.url).origin === origin;
+    } catch {
+      return false;
+    }
+  });
+}
+
 export function classifyPage(input: {
   html: string;
   url: string;

@@ -5,8 +5,11 @@
  * Authored from Ashby's public form conventions; not yet confirmed against
  * captured live DOM (see tests/fixtures/ats/ashby/SYNTHETIC_FIXTURE.json).
  */
+import { DATE_INPUT_SELECTOR } from "../shared/dateInputs.js";
+
 export const ashbySelectorsV1 = {
   form: "form",
+  dateInput: DATE_INPUT_SELECTOR,
   submit: "button[type='submit']",
   /**
    * Ranked submit resolution (see shared/submitControl.ts). Live Ashby

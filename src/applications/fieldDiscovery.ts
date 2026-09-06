@@ -261,6 +261,7 @@ export function discoverFieldsFromHtml(
       ? ariaLabelledbyText(html, labelledbyIds)
       : undefined;
     const placeholder = getAttr(attrs, "placeholder") ?? undefined;
+    const fieldPath = enclosingFieldPath(html, m.index);
     const dataFor = getAttr(attrs, "data-for") ?? undefined;
     const required =
       /\brequired\b/i.test(attrs) ||
@@ -270,6 +271,7 @@ export function discoverFieldsFromHtml(
       (inputId ? labelMap.get(inputId) : undefined) ??
       labelledby ??
       ariaLabel ??
+      (fieldPath ? labelMap.get(fieldPath) : undefined) ??
       placeholder ??
       dataFor ??
       name ??
@@ -396,8 +398,16 @@ export function discoverFieldsFromHtml(
     const maxLengthRaw = getAttr(attrs, "maxlength");
     const minLengthRaw = getAttr(attrs, "minlength");
 
+    // A wrapper data-field-path can enclose MORE than one id-less input
+    // (nothing in the DOM enforces 1:1); a duplicate id would make two
+    // fields indistinguishable to the plan. Suffix with the input index
+    // on collision so each stays addressable.
+    const pathId =
+      fieldPath !== undefined && fields.some((f) => f.id === fieldPath)
+        ? `${fieldPath}#${idx}`
+        : fieldPath;
     const field: DiscoveredField = {
-      id: inputId ?? name ?? `f_${idx}`,
+      id: inputId ?? name ?? pathId ?? `f_${idx}`,
       label: cleanLabel(label),
       type: fieldType,
       required,
@@ -489,6 +499,18 @@ export function discoverFieldsFromHtml(
   // Radio groups: collapse by name; checkbox groups likewise (see the
   // checkbox branch above — only members that resolved a group question).
   return collapseCheckboxGroups(collapseRadioGroups(fields));
+}
+
+/** A wrapper's label and stable field path belong to its unlabelled child control. */
+function enclosingFieldPath(html: string, index: number): string | undefined {
+  const stack: Array<string | undefined> = [];
+  const tags = /<\/?div\b[^>]*>/gi;
+  let match: RegExpExecArray | null;
+  while ((match = tags.exec(html)) && match.index < index) {
+    if (/^<\//.test(match[0])) stack.pop();
+    else stack.push(getAttr(match[0], "data-field-path") ?? undefined);
+  }
+  return stack.reverse().find(value => value !== undefined);
 }
 
 /**
@@ -691,8 +713,11 @@ function stripTags(s: string): string {
 }
 
 function cleanLabel(s: string): string {
-  // ✱ is Lever's required glyph (U+2731), same role as the trailing *.
-  return s.replace(/\s*[*✱]\s*$/, "").replace(/\s+/g, " ").trim();
+  // Entities first: the wrapper data-field-path label rung feeds raw
+  // <label> text through here (Ashby titles carry &nbsp;), and decoding
+  // already-clean text is a no-op. ✱ is Lever's required glyph (U+2731),
+  // same role as the trailing *.
+  return decodeEntities(s).replace(/\s*[*✱]\s*$/, "").replace(/\s+/g, " ").trim();
 }
 
 /** Headings carry entities that a question text must not; decode the common ones. */

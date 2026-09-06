@@ -1,4 +1,5 @@
 import type { Page, Locator } from "playwright";
+import { DATE_INPUT_SELECTOR } from "../shared/dateInputs.js";
 import fs from "node:fs";
 import path from "node:path";
 import type {
@@ -1461,7 +1462,16 @@ export async function greenhouseFillFromPlan(
                 filled.push(entry.canonical_field ?? entry.field_id);
                 continue;
               }
-              const v = String(entry.value);
+              let v = String(entry.value);
+              if (await loc.and(page.locator(DATE_INPUT_SELECTOR)).count()) {
+                const parts = parseDateParts(entry.value);
+                if (!parts?.month) throw new Error("date input requires an approved month and year");
+                // Datepicker masks force day granularity; when only
+                // month+year were approved, day-01 is the forced-format
+                // convention — verify's comparator asserts month+year
+                // only, so the fabricated day is never treated as a fact.
+                v = `${String(parts.month).padStart(2, "0")}/${String(parts.day ?? 1).padStart(2, "0")}/${parts.year}`;
+              }
               // Same verify-in-place rule as the location branch: a
               // resumed draft's already-correct value is never retyped
               // (strictly: skip only when verify's own comparator would
