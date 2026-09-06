@@ -465,6 +465,18 @@ queue repair.
   (newest first, recency as the top-of-feed proxy). Fresh mode already
   follows feed order. 2 order-encoding tests updated; 14/14 worker.
 
+## Evening loop tallies (Codex shape, post-adoption)
+
+- Fresh cycles ×3: feed static (8 cards, 7 intern-filter/known) →
+  no_fresh_candidate each time; backlog untouched — correct semantics.
+- Backlog (newest-first, commit 6850168d live): picked 104685d9
+  (Citadel, the NEWEST parked app — ordering fix confirmed live).
+  Supervisor engaged on the citadel.com landing, didn't reach a form,
+  re-gate parked NAVIGATION_INCOMPLETE honestly; triage executed
+  requeue_same via the #175 demote path (attempt 2, back to QUEUED).
+  On recurrence the signature forbids requeue_same → converges.
+- Sweep tracking 31 pending decisions; Rivian pair abandoned (moot).
+
 ## SESSION SUMMARY (night25, 2026-09-05 → 09-06)
 
 **Cycles:** 19 (+3 repair phases). **Submits: 0** — therefore 0
