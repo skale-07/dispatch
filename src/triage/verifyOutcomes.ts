@@ -30,6 +30,10 @@ export const TRIAGE_OUTCOME_EXPIRE_DAYS = 7;
 /** Signature end-states whose refails are gate stops (no event trail). */
 const GATE_PARK_SIG_STATES = new Set(["NATIVE_AUTOFILL_RUNNING", "READY_TO_SUBMIT"]);
 
+/** A re-entered park state must be at least this stale to count as a
+ * refail — an in-flight fill transitions onward within minutes. */
+const GATE_PARK_REFAIL_MIN_AGE_MS = 10 * 60_000;
+
 export type VerifySweepResult = {
   checked: number;
   confirmed: number;
@@ -92,22 +96,26 @@ export function verifyTriageOutcomes(db: Db): VerifySweepResult {
       verdict = "CONFIRMED";
     } else if (decision.executed === 1 && GATE_PARK_SIG_STATES.has(sigEndState ?? "")) {
       // #177 (night25 Citadel): gate-stop refails write NO application_event
-      // — an executed requeue for a gate-park signature could neither
-      // confirm nor refute, stalemating re-triage while the app re-ground.
-      // The refail evidence that DOES exist is the fill_runs row each
-      // failed attempt writes: a later non-passing fill while the app sits
-      // back in the signature's state is the wall recurring.
-      const laterFailedFill = db
-        .prepare(
-          `SELECT COUNT(*) AS n FROM fill_runs
-           WHERE application_id = ? AND created_at > ?
-             AND (verify_passed IS NULL OR verify_passed = 0)`,
-        )
-        .get(decision.application_id, decision.created_at) as { n: number };
+      // and REFUSED fills record NO fill_runs row — an executed requeue for
+      // a gate-park signature could neither confirm nor refute, stalemating
+      // re-triage while the app re-ground the wall every backlog cycle.
+      // The evidence that DOES exist: the rerun's own transitions show the
+      // app WALKED BACK INTO the signature's park state, and it is still
+      // sitting there. Age guard: a legitimately in-flight fill moves on
+      // within minutes; only a stale re-park refutes.
+      const reentry = [...laterEvents]
+        .reverse()
+        .find((event) => event.next_state === sigEndState);
       const current = db
         .prepare(`SELECT state FROM applications WHERE id = ?`)
         .get(decision.application_id) as { state: string } | undefined;
-      if (laterFailedFill.n > 0 && current?.state === sigEndState) {
+      const reentryAgeMs =
+        reentry !== undefined ? now - Date.parse(reentry.timestamp) : 0;
+      if (
+        reentry !== undefined &&
+        current?.state === sigEndState &&
+        reentryAgeMs > GATE_PARK_REFAIL_MIN_AGE_MS
+      ) {
         verdict = "REFUTED";
       }
     }

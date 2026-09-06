@@ -466,10 +466,18 @@ describe("triage decisions end-to-end (UNIT_CONFIRMED)", () => {
     ] as const) {
       transitionApplication(db, { applicationId: appId, nextState, reason });
     }
+    // FRESH re-entry (in flight): the age guard must hold — no verdict.
+    const early = verifyTriageOutcomes(db);
+    expect(early.refuted).toBe(0);
+    // Stale re-park: decision 30 min ago, re-entry 11 min ago, app still
+    // parked — the wall demonstrably recurred ⇒ REFUTED.
     db.prepare(
-      `INSERT INTO fill_runs (id, created_at, mode, source, job_url, application_id, verify_passed)
-       VALUES (?, ?, 'refused', 'test', 'https://x.example/apply', ?, 0)`,
-    ).run(randomUUID(), new Date(Date.now() + 1000).toISOString(), appId);
+      `UPDATE triage_decisions SET created_at = ? WHERE application_id = ?`,
+    ).run(new Date(Date.now() - 30 * 60_000).toISOString(), appId);
+    db.prepare(
+      `UPDATE application_events SET timestamp = ?
+       WHERE application_id = ? AND next_state = 'NATIVE_AUTOFILL_RUNNING'`,
+    ).run(new Date(Date.now() - 11 * 60_000).toISOString(), appId);
     const sweep = verifyTriageOutcomes(db);
     expect(sweep.refuted).toBe(1);
   });
