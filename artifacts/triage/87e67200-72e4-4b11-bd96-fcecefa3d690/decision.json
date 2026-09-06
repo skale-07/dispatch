@@ -1,0 +1,140 @@
+{
+  "decision_id": "87e67200-72e4-4b11-bd96-fcecefa3d690",
+  "application_id": "90f6f4af-74b0-46fd-a6bb-0dbdd592deee",
+  "signature": "AMBIGUOUS_FIELD|-|verify_mismatch|sedarotech.bamboohr.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "90f6f4af-74b0-46fd-a6bb-0dbdd592deee",
+    "company": "Sedaro",
+    "role": "Software Engineer Intern",
+    "state": "AMBIGUOUS_FIELD",
+    "attempt": 1,
+    "failure_signature": "AMBIGUOUS_FIELD|-|verify_mismatch|sedarotech.bamboohr.com",
+    "end_host": "sedarotech.bamboohr.com",
+    "recent_events": [
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "AMBIGUOUS_FIELD",
+        "reason": "pipeline: read-back verification failed",
+        "at": "2026-09-03T18:21:29.220Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (generic live fill: 12 filled (held for submit))",
+        "at": "2026-09-03T18:21:29.208Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-03T18:18:21.525Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-03T18:18:18.100Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-03T18:18:18.093Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-03T18:18:14.732Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 6b5f8e759526)",
+        "at": "2026-09-03T18:18:14.724Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-03T18:18:14.154Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-03T18:02:28.661Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-03T18:02:28.647Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-03T18:02:28.646Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-03T18:02:28.645Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "sedarotech",
+        "detail": "token \"sedaro\" ~ slug \"sedarotech\" (from URL tenant)",
+        "expected_company": "Sedaro",
+        "url": "https://sedarotech.bamboohr.com/careers/97?jr_id=6a99a2e9138838706058f3ef"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (11 candidates, employer match)",
+          "evidence": "sedarotech.bamboohr.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": false
+    },
+    "open_review_items": [
+      {
+        "kind": "AMBIGUOUS_FIELD",
+        "title": "Fill verification failed"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"requeue_same\", \"rationale\": \"First attempt; nav resolved correctly (host congruent, no wall) and 12 fields filled but read-back verification failed — a plausibly transient timing/render issue. No prior decisions or forbidden actions, so the cheapest change is one clean rerun of the same pipeline before escalating to an operator or agent leg.\", \"confidence\": \"medium\"}",
+  "parsed_action": "requeue_same",
+  "validation_note": null,
+  "precondition": {
+    "ok": false,
+    "reason": "state is AMBIGUOUS_FIELD, needs FAILED_RETRYABLE"
+  },
+  "mode": "shadow",
+  "executed": false,
+  "execution_detail": "precondition failed: state is AMBIGUOUS_FIELD, needs FAILED_RETRYABLE",
+  "rationale_unverified": "First attempt; nav resolved correctly (host congruent, no wall) and 12 fields filled but read-back verification failed — a plausibly transient timing/render issue. No prior decisions or forbidden actions, so the cheapest change is one clean rerun of the same pipeline before escalating to an operator or agent leg."
+}

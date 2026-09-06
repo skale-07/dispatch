@@ -1,0 +1,185 @@
+{
+  "decision_id": "14960b23-6f33-4d3f-a18a-36b83c6e713d",
+  "application_id": "6cb39783-29d9-452d-b9f5-0d69b1e58a03",
+  "signature": "FAILED_RETRYABLE|-|verify_mismatch|recruiting2.ultipro.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "6cb39783-29d9-452d-b9f5-0d69b1e58a03",
+    "company": "Scripps Research",
+    "role": "INTERN - Office of Technology & Development",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 2,
+    "failure_signature": "FAILED_RETRYABLE|-|verify_mismatch|recruiting2.ultipro.com",
+    "end_host": "recruiting2.ultipro.com",
+    "recent_events": [
+      {
+        "from": "SUBMITTING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "pre-submit verification failed",
+        "at": "2026-09-03T06:19:38.904Z"
+      },
+      {
+        "from": "READY_TO_SUBMIT",
+        "to": "SUBMITTING",
+        "reason": "human-approved submission started",
+        "at": "2026-09-03T06:19:31.001Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "READY_TO_SUBMIT",
+        "reason": "pipeline: fill rehearsal verified",
+        "at": "2026-09-03T06:19:30.817Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (generic live fill: 3 filled (held for submit))",
+        "at": "2026-09-03T06:19:30.811Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-03T06:19:08.165Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-03T06:19:04.790Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-03T06:19:04.787Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-03T06:19:04.785Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 6b5f8e759526)",
+        "at": "2026-09-03T06:19:04.782Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-03T06:19:04.778Z"
+      },
+      {
+        "from": "FAILED_RETRYABLE",
+        "to": "QUEUED",
+        "reason": "retry 2/3",
+        "at": "2026-09-03T06:17:00.179Z"
+      },
+      {
+        "from": "SUBMITTING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "pre-submit verification failed",
+        "at": "2026-09-03T04:14:23.983Z"
+      },
+      {
+        "from": "READY_TO_SUBMIT",
+        "to": "SUBMITTING",
+        "reason": "human-approved submission started",
+        "at": "2026-09-03T04:14:16.030Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "READY_TO_SUBMIT",
+        "reason": "pipeline: fill rehearsal verified",
+        "at": "2026-09-03T04:14:15.986Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (generic live fill: 3 filled (held for submit))",
+        "at": "2026-09-03T04:14:15.984Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "apply_click_popup",
+      "notes": [
+        "phase A: 6 external host(s) seen: recruiting2.ultipro.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com.au, medicalxpress.com, www.news-medical.net",
+        "Apply control: autofill CTA (tier 0)",
+        "jobright interstitial: clicked \"Apply Without Customizing\"",
+        "popup settled off about:blank after the interstitial",
+        "popup captured on attempt 1",
+        "employer congruence unverifiable (URL carries no employer name specific enough to verify against \"Scripps Research\") — recorded"
+      ],
+      "congruence": {
+        "verdict": "unknown",
+        "slug": "scr1003tsri",
+        "detail": "URL carries no employer name specific enough to verify against \"Scripps Research\"",
+        "expected_company": "Scripps Research",
+        "url": "https://recruiting2.ultipro.com/scr1003tsri/JobBoard/98759e7d-7ede-4c0b-ac7b-2c6293c7b522/OpportunityDetail?opportunityId=5678a60d-994d-473a-ac5c-b7c740a9f7cf&jr_id=6a91de1e9864261ccd29f653"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "no congruent apply href (8 external links)",
+          "evidence": "recruiting2.ultipro.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com.au, medicalxpress.com, www.news-medical.net"
+        },
+        {
+          "phase": "B_apply_click",
+          "outcome": "resolved via popup",
+          "evidence": "recruiting2.ultipro.com"
+        }
+      ]
+    },
+    "submit": {
+      "outcome": "FAILED_BEFORE_CLICK",
+      "reason": "Refusing to click submit: field verification or upload did not pass",
+      "brief_items": [
+        {
+          "id": "upload:resume",
+          "question": "Upload: resume",
+          "field_id": null,
+          "canonical_field": null,
+          "kind": "upload_failed",
+          "problem": "no file input resolved: primary resume selector not attached within 3s; retrying resolve after 1500ms; primary resume selector not attached within 3s; no resume file input; 0 file inputs on page",
+          "expected": "resume-6b5f8e75.pdf",
+          "observed": null,
+          "how_to_answer": [
+            "Resume is system-owned: materials:register + adapter.uploadResume on submit/fill — not a free-text profile field.",
+            "If this is ats:fill without --resume, pass --resume <pdf> or use application submit (uses registered material).",
+            "Evidence: no file input resolved: primary resume selector not attached within 3s; retrying resolve after 1500ms; primary resume selector not attached within 3s; no resume file input; 0 file inputs on page"
+          ]
+        }
+      ]
+    },
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": true
+    },
+    "open_review_items": [],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"engage_agent_leg\", \"rationale\": \"Deterministic fill twice reached submit but no resume file input existed on the reached UltiPro page (0 file inputs) — likely the upload step sits behind further navigation/sign-in the deterministic tiers can't traverse. A bounded agent leg can reach the actual application form. Not tried before.\", \"confidence\": \"medium\"}",
+  "parsed_action": "engage_agent_leg",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "shadow",
+  "executed": false,
+  "execution_detail": "shadow mode (act not enabled for this action)",
+  "rationale_unverified": "Deterministic fill twice reached submit but no resume file input existed on the reached UltiPro page (0 file inputs) — likely the upload step sits behind further navigation/sign-in the deterministic tiers can't traverse. A bounded agent leg can reach the actual application form. Not tried before."
+}

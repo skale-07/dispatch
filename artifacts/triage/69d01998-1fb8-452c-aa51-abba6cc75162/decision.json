@@ -1,0 +1,153 @@
+{
+  "decision_id": "69d01998-1fb8-452c-aa51-abba6cc75162",
+  "application_id": "8399a8f4-9ef6-4c79-87e5-d5579d963b43",
+  "signature": "FAILED_RETRYABLE|-|unknown|boards.greenhouse.io",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "8399a8f4-9ef6-4c79-87e5-d5579d963b43",
+    "company": "Five Rings",
+    "role": "Summer Intern 2027 - Software Developer",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 1,
+    "failure_signature": "FAILED_RETRYABLE|-|unknown|boards.greenhouse.io",
+    "end_host": "boards.greenhouse.io",
+    "recent_events": [
+      {
+        "from": "SUBMITTING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "required questions unanswered — click withheld",
+        "at": "2026-09-03T20:02:04.050Z"
+      },
+      {
+        "from": "READY_TO_SUBMIT",
+        "to": "SUBMITTING",
+        "reason": "human-approved submission started",
+        "at": "2026-09-03T20:01:27.390Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "READY_TO_SUBMIT",
+        "reason": "pipeline: fill rehearsal verified",
+        "at": "2026-09-03T20:01:17.529Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (live fill: 28 filled (held for submit))",
+        "at": "2026-09-03T20:01:17.527Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route needs_review_unmapped (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-03T19:59:30.243Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-03T19:59:29.204Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: greenhouse URL validated",
+        "at": "2026-09-03T19:59:29.199Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-03T19:59:26.142Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 6b5f8e759526)",
+        "at": "2026-09-03T19:59:26.131Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-03T19:59:26.061Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-03T19:58:23.258Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-03T19:58:23.242Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-03T19:58:23.240Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-03T19:58:23.237Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [
+        "phase A: token-only greenhouse embed anchor resolved to board \"fiveringsllc\" (job 5349707008) via one read-only GET"
+      ],
+      "congruence": {
+        "verdict": "match",
+        "slug": "fiveringsllc",
+        "detail": "token \"five\" ~ slug \"fiveringsllc\"",
+        "expected_company": "Five Rings",
+        "url": "https://boards.greenhouse.io/embed/job_app?for=fiveringsllc&token=5349707008"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (8 candidates, employer match)",
+          "evidence": "boards.greenhouse.io"
+        }
+      ]
+    },
+    "submit": {
+      "outcome": "FAILED_BEFORE_CLICK",
+      "reason": "Refusing to click submit: 1 required question(s) unanswered — School* [combobox]",
+      "brief_items": []
+    },
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": null,
+      "verify_passed": true
+    },
+    "open_review_items": [],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"park_for_operator\", \"rationale\": \"Submit was withheld because a required School combobox is unanswered — a data/profile gap, not a transient or navigation issue. Materials (resume verified) and nav are fine, so a requeue would hit the same unmapped required question. A human should supply the school answer.\", \"confidence\": \"high\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "shadow",
+  "executed": false,
+  "execution_detail": "shadow mode (act not enabled for this action)",
+  "rationale_unverified": "Submit was withheld because a required School combobox is unanswered — a data/profile gap, not a transient or navigation issue. Materials (resume verified) and nav are fine, so a requeue would hit the same unmapped required question. A human should supply the school answer."
+}

@@ -210,3 +210,67 @@ artifacts/gmail-pipeline-applied-page.png. Drafts only, zero sends.
   (FAILED_RETRYABLE → AUTH_REQUIRED is not a legal transition, checked).
   Also evidence for the triage thesis: a deterministic retry re-ran the
   whole pipeline to hit a wall the artifacts already predicted.
+
+### Cycle 9 (15:58Z) — e16379c4 SJHL restart: new failure surface (progress)
+
+- With the #170 filechooser fallback in the tree, the run no longer dies
+  at the submit upload wall; it now stops earlier at fill verification:
+  NATIVE_AUTOFILL_RUNNING → AMBIGUOUS_FIELD ("verification failed").
+  Different signature than cycle 7 — the wall moved, which is what a real
+  fix looks like; the residual verify mismatch is the next thing the
+  triage layer should be deciding on. Operator paused the loop here to
+  plan the LLM decision layer (plan approved: triage subsystem M1–M7).
+
+## LLM decision layer implementation (post-plan)
+
+- Commits: `8e82d3a3` (#170), `8517c81f` (#171), `11ce8884` (M2 triage
+  subsystem: enumerated actions, verbatim validation, retry-differently
+  memory, acting requeue class, flags/CLI/knowledge-graph; 13/13 tests).
+- M1 (nav give-up evidence): `src/navigation/wallEvidence.ts` — scrubbed
+  HTML + screenshot at every wall park, captured inside async `persist()`
+  (single choke point), `evidence[]` on the nav report. 2/2 new tests;
+  45/45 across all navigation suites with the async change.
+- M3 (worker wiring): session-start `verifyTriageOutcomes` sweep +
+  post-session `runTriageBatch` over triageable end states
+  (`triageClient` test seam). End-to-end worker test: duplicate_url park
+  → triage decides requeue_same → validated → executed → app QUEUED,
+  decision row `mode=act, executed=1` (13/13 in automation-worker).
+- Operator guide updated (triage section). Full-suite note: rotating
+  browser-heavy failures under load are artifacts; every failed file
+  re-verified green in isolation before each commit; the one unhandled
+  vitest error is its own worker-RPC timeout, not app code.
+- M4 partial + M6 + M7 (2026-09-06): `engage_agent_leg` one-shot
+  hostPolicy override consumed in runNavigation (decision row is the
+  marker); `anchorLlmAdjudicate` promotes ONE harvested candidate when
+  both deterministic phases miss (verbatim set membership, downstream
+  gates unchanged, method "anchor_llm"); `dupAdjudicate` records
+  same-job/different-job evidence on identity-differing duplicate parks.
+  `NAV_LLM_ASSIST_ENABLED` wired fail-closed everywhere. 5/5 new tests,
+  14/14 triage, 47/47 navigation suites. Abandon-class act promotion
+  still gated on the first live sweep running clean.
+- Commits: `447c3b0c` (M4/M6/M7), `53d323a8` (package.json aliases).
+  Flags armed in `.env`: TRIAGE_LLM, TRIAGE_ACT, NAV_LLM_ASSIST.
+- FIRST LIVE SHADOW TRIAGE (LIVE_READ_ONLY_CONFIRMED, 15:44Z 09-06):
+  `npm run triage:llm` over 25 real failed apps — every decision
+  validated and recorded, zero mutations. Quality signals: ByteDance
+  login_wall → park_for_operator (the blind-retry class is dead);
+  ADP/UltiPro verify_mismatch → engage_agent_leg; a requeue_same chosen
+  on an AMBIGUOUS_FIELD app was demoted by preconditions exactly as
+  designed. Sweep: 25 PENDING, awaiting the next session's events.
+  NEXT: run an armed session — its post-session batch will act on the
+  requeue class; after the sweep runs clean once, flip abandon-class
+  into ACT_ENABLED_ACTIONS (plan M4 completion).
+
+## Loop resumed (15:50Z 09-06) — window 2 continues with triage live
+
+- Guard added before resuming: Scale AI / Juicebox / Garner Health rows
+  (enqueued by the gmail subagent as outreach targets only) marked
+  `automation_excluded` — the operator applied to those manually; the
+  loop must never double-apply.
+- Restarts in place: eac348f8 + dc907d8d already QUEUED (repair phase 1);
+  e16379c4 requeued AMBIGUOUS_FIELD → FIELD_VERIFICATION. ByteDance
+  stays parked per the cycle-8 decision. Queue also holds fresh apps
+  (Neuralink, Atlassian, 2× Barclays) for top-up.
+- Cycles 10+ run with TRIAGE_LLM + TRIAGE_ACT + NAV_LLM_ASSIST armed —
+  the "every 6 cycles repair + restart" directive is now mechanized in
+  the session itself (post-session triage batch + session-start sweep).

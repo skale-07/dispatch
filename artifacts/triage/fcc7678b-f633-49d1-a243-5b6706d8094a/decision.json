@@ -1,0 +1,186 @@
+{
+  "decision_id": "fcc7678b-f633-49d1-a243-5b6706d8094a",
+  "application_id": "93eff173-bb98-445f-98fd-b9bf416bcd81",
+  "signature": "FAILED_RETRYABLE|-|verify_mismatch|workforcenow.adp.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "93eff173-bb98-445f-98fd-b9bf416bcd81",
+    "company": "iA",
+    "role": "Data Analyst Intern",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 2,
+    "failure_signature": "FAILED_RETRYABLE|-|verify_mismatch|workforcenow.adp.com",
+    "end_host": "workforcenow.adp.com",
+    "recent_events": [
+      {
+        "from": "SUBMITTING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "pre-submit verification failed",
+        "at": "2026-09-03T18:29:08.581Z"
+      },
+      {
+        "from": "READY_TO_SUBMIT",
+        "to": "SUBMITTING",
+        "reason": "human-approved submission started",
+        "at": "2026-09-03T18:29:00.308Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "READY_TO_SUBMIT",
+        "reason": "pipeline: fill rehearsal verified",
+        "at": "2026-09-03T18:28:59.987Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (generic live fill: 5 filled (held for submit))",
+        "at": "2026-09-03T18:28:59.984Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-03T06:40:05.570Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-03T06:40:01.890Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-03T06:40:01.887Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-03T06:40:01.885Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 6b5f8e759526)",
+        "at": "2026-09-03T06:40:01.882Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-03T06:40:01.878Z"
+      },
+      {
+        "from": "FAILED_RETRYABLE",
+        "to": "QUEUED",
+        "reason": "retry 2/3",
+        "at": "2026-09-03T06:16:15.527Z"
+      },
+      {
+        "from": "SUBMITTING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "pre-submit verification failed",
+        "at": "2026-09-03T05:42:40.436Z"
+      },
+      {
+        "from": "READY_TO_SUBMIT",
+        "to": "SUBMITTING",
+        "reason": "human-approved submission started",
+        "at": "2026-09-03T05:42:32.343Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "READY_TO_SUBMIT",
+        "reason": "pipeline: fill rehearsal verified",
+        "at": "2026-09-03T05:42:32.211Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (generic live fill: 4 filled (held for submit))",
+        "at": "2026-09-03T05:42:32.210Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "apply_click_popup",
+      "notes": [
+        "phase A: anchor reads as \"uzdaily\" (URL names \"uzdaily\" (host), which shares nothing with company \"iA\") — not preferred, deferring to the Apply click",
+        "phase A: 8 external host(s) seen: workforcenow.adp.com, www.linkedin.com, x.com, www.crunchbase.com, iarx.com, njbiz.com, www.uzdaily.uz, www.globenewswire.com",
+        "Apply control: autofill CTA (tier 0)",
+        "jobright interstitial: clicked \"Apply Without Customizing\"",
+        "popup settled off about:blank after the interstitial",
+        "popup captured on attempt 1",
+        "employer congruence unverifiable (no employer name decodable from URL (host and path are generic)) — recorded"
+      ],
+      "congruence": {
+        "verdict": "unknown",
+        "slug": null,
+        "detail": "no employer name decodable from URL (host and path are generic)",
+        "expected_company": "iA",
+        "url": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=93fdfc70-37a2-4cde-ba86-0da4925db4c8&jobId=578206&ccId=9200669649151_3&jr_id=6a93b454d18f75674827e564"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "no congruent apply href (12 external links)",
+          "evidence": "workforcenow.adp.com, www.linkedin.com, x.com, www.crunchbase.com, iarx.com, njbiz.com"
+        },
+        {
+          "phase": "B_apply_click",
+          "outcome": "resolved via popup",
+          "evidence": "workforcenow.adp.com"
+        }
+      ]
+    },
+    "submit": {
+      "outcome": "FAILED_BEFORE_CLICK",
+      "reason": "Refusing to click submit: field verification or upload did not pass",
+      "brief_items": [
+        {
+          "id": "upload:resume",
+          "question": "Upload: resume",
+          "field_id": null,
+          "canonical_field": null,
+          "kind": "upload_failed",
+          "problem": "no file input resolved: primary resume selector not attached within 3s; retrying resolve after 1500ms; primary resume selector not attached within 3s; no resume file input; 0 file inputs on page",
+          "expected": "resume-6b5f8e75.pdf",
+          "observed": null,
+          "how_to_answer": [
+            "Resume is system-owned: materials:register + adapter.uploadResume on submit/fill — not a free-text profile field.",
+            "If this is ats:fill without --resume, pass --resume <pdf> or use application submit (uses registered material).",
+            "Evidence: no file input resolved: primary resume selector not attached within 3s; retrying resolve after 1500ms; primary resume selector not attached within 3s; no resume file input; 0 file inputs on page"
+          ]
+        }
+      ]
+    },
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": true
+    },
+    "open_review_items": [],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\":\"engage_agent_leg\",\"rationale\":\"Deterministic fill twice reached submit but no resume file input was resolvable on the ADP page (0 file inputs), likely behind a step/portal sign-in the selectors can't traverse. Materials are verified and nav resolved, so requeueing the same pipeline repeats the mismatch; grant one bounded agent attempt to reach the upload step.\",\"confidence\":\"medium\"}",
+  "parsed_action": "engage_agent_leg",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "shadow",
+  "executed": false,
+  "execution_detail": "shadow mode (act not enabled for this action)",
+  "rationale_unverified": "Deterministic fill twice reached submit but no resume file input was resolvable on the ADP page (0 file inputs), likely behind a step/portal sign-in the selectors can't traverse. Materials are verified and nav resolved, so requeueing the same pipeline repeats the mismatch; grant one bounded agent attempt to reach the upload step."
+}

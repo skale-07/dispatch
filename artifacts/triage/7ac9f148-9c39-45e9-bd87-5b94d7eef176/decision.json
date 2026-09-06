@@ -1,0 +1,344 @@
+{
+  "decision_id": "7ac9f148-9c39-45e9-bd87-5b94d7eef176",
+  "application_id": "1f683c60-c595-4870-91e4-983aa8d95524",
+  "signature": "AMBIGUOUS_FIELD|-|verify_mismatch|recruiting2.ultipro.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "1f683c60-c595-4870-91e4-983aa8d95524",
+    "company": "Acuity Insurance",
+    "role": "Data Analytics Intern (Data Science)",
+    "state": "AMBIGUOUS_FIELD",
+    "attempt": 2,
+    "failure_signature": "AMBIGUOUS_FIELD|-|verify_mismatch|recruiting2.ultipro.com",
+    "end_host": "recruiting2.ultipro.com",
+    "recent_events": [
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "AMBIGUOUS_FIELD",
+        "reason": "pipeline: read-back verification failed",
+        "at": "2026-09-03T06:19:02.533Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (generic live fill: 24 filled (held for submit))",
+        "at": "2026-09-03T06:19:02.530Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-03T06:17:46.578Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-03T06:17:43.687Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-03T06:17:43.680Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-03T06:17:43.673Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 6b5f8e759526)",
+        "at": "2026-09-03T06:17:43.668Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-03T06:17:43.661Z"
+      },
+      {
+        "from": "FAILED_RETRYABLE",
+        "to": "QUEUED",
+        "reason": "retry 2/3",
+        "at": "2026-09-03T06:17:06.068Z"
+      },
+      {
+        "from": "SUBMITTING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "pre-submit verification failed",
+        "at": "2026-09-03T04:09:41.094Z"
+      },
+      {
+        "from": "READY_TO_SUBMIT",
+        "to": "SUBMITTING",
+        "reason": "human-approved submission started",
+        "at": "2026-09-03T04:06:49.770Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "READY_TO_SUBMIT",
+        "reason": "pipeline: fill rehearsal verified",
+        "at": "2026-09-03T04:06:20.524Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (generic live fill: 6 filled (held for submit))",
+        "at": "2026-09-03T04:06:20.523Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-03T04:06:02.261Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-03T04:05:59.288Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "apply_click_popup",
+      "notes": [
+        "phase A: 3 external host(s) seen: recruiting2.ultipro.com, www.linkedin.com, www.glassdoor.com",
+        "Apply control: autofill CTA (tier 0)",
+        "jobright interstitial: clicked \"Apply Without Customizing\"",
+        "popup settled off about:blank after the interstitial",
+        "popup captured on attempt 1",
+        "employer congruence unverifiable (URL carries no employer name specific enough to verify against \"Acuity Insurance\") — recorded"
+      ],
+      "congruence": {
+        "verdict": "unknown",
+        "slug": "her1001acfin",
+        "detail": "URL carries no employer name specific enough to verify against \"Acuity Insurance\"",
+        "expected_company": "Acuity Insurance",
+        "url": "https://recruiting2.ultipro.com/her1001acfin/JobBoard/ab33798a-3521-417b-8db8-a8e435c475fa/OpportunityDetail?opportunityId=3d8a72b0-b464-4ff8-bd58-555a1e640ef7&jr_id=6a91a69ea27a2d3c984890db"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "no congruent apply href (6 external links)",
+          "evidence": "recruiting2.ultipro.com, www.linkedin.com, www.glassdoor.com"
+        },
+        {
+          "phase": "B_apply_click",
+          "outcome": "resolved via popup",
+          "evidence": "recruiting2.ultipro.com"
+        }
+      ]
+    },
+    "submit": {
+      "outcome": "FAILED_BEFORE_CLICK",
+      "reason": "Refusing to click submit: field verification or upload did not pass",
+      "brief_items": [
+        {
+          "id": "verify:skills",
+          "question": "Skills",
+          "field_id": "f_16",
+          "canonical_field": "skills",
+          "kind": "verify_mismatch",
+          "problem": "Expected \"[\"Python\",\"TypeScript\",\"JavaScript\",\"SQL\",\"Java\",\"C++\",\"R\",\"Swift\",\"React\",\"Node.js\",\"Express\",\"Flask\",\"FastAPI\",\"REST APIs\",\"PostgreSQL\",\"SQLite\",\"AWS\",\"Google Cloud\",\"Machine Learning\",\"PyTorch\",\"Large Language Models (LLM)\",\"Retrieval-Augmented Generation (RAG)\",\"Neo4j\",\"Git\",\"GitHub\",\"CI/CD\",\"Playwright\",\"Software Testing\",\"Technical Documentation\",\"Data Science\"]\"; page shows \"(empty)\"",
+          "expected": [
+            "Python",
+            "TypeScript",
+            "JavaScript",
+            "SQL",
+            "Java",
+            "C++",
+            "R",
+            "Swift",
+            "React",
+            "Node.js",
+            "Express",
+            "Flask",
+            "FastAPI",
+            "REST APIs",
+            "PostgreSQL",
+            "SQLite",
+            "AWS",
+            "Google Cloud",
+            "Machine Learning",
+            "PyTorch",
+            "Large Language Models (LLM)",
+            "Retrieval-Augmented Generation (RAG)",
+            "Neo4j",
+            "Git",
+            "GitHub",
+            "CI/CD",
+            "Playwright",
+            "Software Testing",
+            "Technical Documentation",
+            "Data Science"
+          ],
+          "observed": "",
+          "how_to_answer": [
+            "System expected \"[\"Python\",\"TypeScript\",\"JavaScript\",\"SQL\",\"Java\",\"C++\",\"R\",\"Swift\",\"React\",\"Node.js\",\"Express\",\"Flask\",\"FastAPI\",\"REST APIs\",\"PostgreSQL\",\"SQLite\",\"AWS\",\"Google Cloud\",\"Machine Learning\",\"PyTorch\",\"Large Language Models (LLM)\",\"Retrieval-Augmented Generation (RAG)\",\"Neo4j\",\"Git\",\"GitHub\",\"CI/CD\",\"Playwright\",\"Software Testing\",\"Technical Documentation\",\"Data Science\"]\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+            "Profile source: private/candidate/public-profile.json (key: skills)",
+            "Alias check: private/candidate/answer-aliases.json phrases for \"skills\" should match the on-form question text."
+          ]
+        },
+        {
+          "id": "verify:screener:custom:work_style",
+          "question": "Behaviors What is your work style?",
+          "field_id": "f_17",
+          "canonical_field": "screener:custom:work_style",
+          "kind": "verify_mismatch",
+          "problem": "Expected \"Innovative\"; page shows \"Dedicated\"",
+          "expected": "Innovative",
+          "observed": {
+            "value": "",
+            "label": "Dedicated"
+          },
+          "how_to_answer": [
+            "DOM shows \"Dedicated\" but plan expected \"Innovative\". Correct the value on the form or fix profile/aliases so the plan matches the real answer.",
+            "Profile source: private/candidate/public-profile.json (key: screener:custom:work_style)",
+            "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:work_style\" should match the on-form question text."
+          ]
+        },
+        {
+          "id": "verify:screener:how_heard",
+          "question": "How did you hear about this opportunity?",
+          "field_id": "ApplicantSource",
+          "canonical_field": "screener:how_heard",
+          "kind": "verify_mismatch",
+          "problem": "Expected \"Social Media - Linkedin\"; page shows \"Choose...\"",
+          "expected": "Social Media - Linkedin",
+          "observed": {
+            "value": "",
+            "label": "Choose..."
+          },
+          "how_to_answer": [
+            "DOM shows \"Choose...\" but plan expected \"Social Media - Linkedin\". Correct the value on the form or fix profile/aliases so the plan matches the real answer.",
+            "Profile source: private/candidate/public-profile.json (key: screener:how_heard)",
+            "Alias check: private/candidate/answer-aliases.json phrases for \"screener:how_heard\" should match the on-form question text."
+          ]
+        },
+        {
+          "id": "verify:screener:previously_applied_or_worked",
+          "question": "Have you ever been previously employed at Acuity? CURRENT EMPLOYEES: Please ensure you apply through Employee Self Service.",
+          "field_id": "MultipleChoiceResponse0",
+          "canonical_field": "screener:previously_applied_or_worked",
+          "kind": "verify_mismatch",
+          "problem": "Expected \"No\"; page shows \"(empty)\"",
+          "expected": "No",
+          "observed": {
+            "value": "",
+            "label": ""
+          },
+          "how_to_answer": [
+            "System expected \"No\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+            "Profile source: private/candidate/public-profile.json (key: screener:previously_applied_or_worked)",
+            "Alias check: private/candidate/answer-aliases.json phrases for \"screener:previously_applied_or_worked\" should match the on-form question text."
+          ]
+        },
+        {
+          "id": "verify:screener:age_over_18",
+          "question": "Are you age 18 or older?",
+          "field_id": "MultipleChoiceResponse1",
+          "canonical_field": "screener:age_over_18",
+          "kind": "verify_mismatch",
+          "problem": "Expected \"Yes\"; page shows \"(empty)\"",
+          "expected": "Yes",
+          "observed": {
+            "value": "",
+            "label": ""
+          },
+          "how_to_answer": [
+            "System expected \"Yes\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+            "Profile source: private/candidate/public-profile.json (key: screener:age_over_18)",
+            "Alias check: private/candidate/answer-aliases.json phrases for \"screener:age_over_18\" should match the on-form question text."
+          ]
+        },
+        {
+          "id": "verify:work_authorization",
+          "question": "Do you now, or will you in the future, require immigration sponsorship for work authorization?",
+          "field_id": "MultipleChoiceResponse6",
+          "canonical_field": "work_authorization",
+          "kind": "verify_mismatch",
+          "problem": "Expected \"Yes\"; page shows \"(empty)\"",
+          "expected": "Yes",
+          "observed": {
+            "value": "",
+            "label": ""
+          },
+          "how_to_answer": [
+            "System expected \"Yes\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+            "Profile source: private/candidate/public-profile.json → work_authorization",
+            "Alias check: private/candidate/answer-aliases.json phrases for \"work_authorization\" should match the on-form question text."
+          ]
+        },
+        {
+          "id": "verify:work_authorization",
+          "question": "Do you now, or will you in the future, require immigration sponsorship for work authorization?",
+          "field_id": "MultipleChoiceResponse6",
+          "canonical_field": "work_authorization",
+          "kind": "verify_mismatch",
+          "problem": "Expected \"Yes\"; page shows \"(empty)\"",
+          "expected": "Yes",
+          "observed": {
+            "value": "",
+            "label": ""
+          },
+          "how_to_answer": [
+            "System expected \"Yes\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+            "Profile source: private/candidate/public-profile.json → work_authorization",
+            "Alias check: private/candidate/answer-aliases.json phrases for \"work_authorization\" should match the on-form question text."
+          ]
+        },
+        {
+          "id": "verify:essay:generated:TextResponse7",
+          "question": "Please list your highest level of education including the school you attended, degree, and your cumulative GPA upon graduation.",
+          "field_id": "TextResponse7",
+          "canonical_field": "essay:generated:TextResponse7",
+          "kind": "verify_mismatch",
+          "problem": "Expected \"I have not graduated yet, so I do not have a cumulative GPA upon graduation to report. My highest level of education in progress is my undergraduate degree at Johns Hopkins University, where I am studying Applied Mathematics and Statistics and Economics as part of the class of 2029.\"; page shows \"(empty)\"",
+          "expected": "I have not graduated yet, so I do not have a cumulative GPA upon graduation to report. My highest level of education in progress is my undergraduate degree at Johns Hopkins University, where I am studying Applied Mathematics and Statistics and Economics as part of the class of 2029.",
+          "observed": "",
+          "how_to_answer": [
+            "System expected \"I have not graduated yet, so I do not have a cumulative GPA upon graduation to report. My highest level of education in progress is my undergraduate degree at Johns Hopkins University, where I am studying Applied Mathematics and Statistics and Economics as part of the class of 2029.\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+            "Profile source: private/candidate/public-profile.json (key: essay:generated:TextResponse7)",
+            "Alias check: private/candidate/answer-aliases.json phrases for \"essay:generated:TextResponse7\" should match the on-form question text."
+          ]
+        }
+      ]
+    },
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": false
+    },
+    "open_review_items": [
+      {
+        "kind": "AMBIGUOUS_FIELD",
+        "title": "Fill verification failed"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"park_for_operator\", \"rationale\": \"Repeated read-back mismatches across many UltiPro controls (empty selects/radios, essay, skills) are a fill-mapping problem, not transient; attempt 2 already failed the same way. Materials/nav are fine (resume verified, popup resolved). A human should correct field mappings/answers before any rerun.\", \"confidence\": \"high\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "shadow",
+  "executed": false,
+  "execution_detail": "shadow mode (act not enabled for this action)",
+  "rationale_unverified": "Repeated read-back mismatches across many UltiPro controls (empty selects/radios, essay, skills) are a fill-mapping problem, not transient; attempt 2 already failed the same way. Materials/nav are fine (resume verified, popup resolved). A human should correct field mappings/answers before any rerun."
+}

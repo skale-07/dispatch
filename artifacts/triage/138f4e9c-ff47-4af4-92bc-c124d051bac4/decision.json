@@ -1,0 +1,156 @@
+{
+  "decision_id": "138f4e9c-ff47-4af4-92bc-c124d051bac4",
+  "application_id": "bc6f5e33-da1a-4920-8d0c-d449d0ca1a93",
+  "signature": "FAILED_RETRYABLE|duplicate_url|unknown|-",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "bc6f5e33-da1a-4920-8d0c-d449d0ca1a93",
+    "company": "ByteDance",
+    "role": "Self-Built Engineer Intern (CDN Platform) - 2027 Summer",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 2,
+    "failure_signature": "FAILED_RETRYABLE|duplicate_url|unknown|-",
+    "end_host": null,
+    "recent_events": [
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "navigation: employer URL already held by another application",
+        "at": "2026-09-03T06:40:22.742Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-03T06:40:14.854Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 6b5f8e759526)",
+        "at": "2026-09-03T06:40:14.851Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-03T06:40:14.849Z"
+      },
+      {
+        "from": "FAILED_RETRYABLE",
+        "to": "QUEUED",
+        "reason": "retry 2/3",
+        "at": "2026-09-03T06:17:16.630Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "navigation: employer URL already held by another application",
+        "at": "2026-08-30T19:29:58.085Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-08-30T19:29:43.612Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 6b5f8e759526)",
+        "at": "2026-08-30T19:29:43.592Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-08-30T19:29:43.463Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-08-30T17:51:26.567Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-08-30T17:51:26.552Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-08-30T17:51:26.551Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-08-30T17:51:26.548Z"
+      }
+    ],
+    "nav": {
+      "wall": "duplicate_url",
+      "method": null,
+      "notes": [
+        "phase A: 8 external host(s) seen: joinbytedance.com, www.linkedin.com, x.com, www.crunchbase.com, www.glassdoor.com, www.biometricupdate.com, thehackernews.com, www.inquirer.com",
+        "Apply control: autofill CTA (tier 0)",
+        "jobright interstitial: clicked \"Apply Without Customizing\"",
+        "popup settled off about:blank after the interstitial",
+        "popup captured on attempt 1",
+        "employer URL already held by 1 other application(s): d7059081 (ByteDance — Self-Built Engineer Intern (CDN Platform) - 2027 Summer, FAILED_RETRYABLE)"
+      ],
+      "congruence": {
+        "verdict": "match",
+        "slug": "joinbytedance",
+        "detail": "token \"bytedance\" ~ slug \"joinbytedance\" (from URL host)",
+        "expected_company": "ByteDance",
+        "url": "https://joinbytedance.com/search/7673617571165620533?jr_id=6a945d413603630099199b3b"
+      },
+      "duplicates": [
+        {
+          "application_id": "d7059081-47f4-4107-8753-15448fbc0196",
+          "state": "FAILED_RETRYABLE",
+          "company": "ByteDance",
+          "role": "Self-Built Engineer Intern (CDN Platform) - 2027 Summer"
+        }
+      ],
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "no congruent apply href (10 external links)",
+          "evidence": "joinbytedance.com, www.linkedin.com, x.com, www.crunchbase.com, www.glassdoor.com, www.biometricupdate.com"
+        },
+        {
+          "phase": "B_apply_click",
+          "outcome": "resolved via popup",
+          "evidence": "joinbytedance.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"abandon_duplicate\", \"rationale\": \"Evidence shows the resolved employer URL (joinbytedance.com/search/7673617571165620533) is already held by application d7059081 for the identical ByteDance role. Duplicate ownership repeated across both attempts; rerunning cannot change it. Abandon this one and let the owning application proceed.\", \"confidence\": \"high\"}",
+  "parsed_action": "abandon_duplicate",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "shadow",
+  "executed": false,
+  "execution_detail": "shadow mode (act not enabled for this action)",
+  "rationale_unverified": "Evidence shows the resolved employer URL (joinbytedance.com/search/7673617571165620533) is already held by application d7059081 for the identical ByteDance role. Duplicate ownership repeated across both attempts; rerunning cannot change it. Abandon this one and let the owning application proceed."
+}
