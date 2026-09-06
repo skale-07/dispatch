@@ -1,0 +1,179 @@
+{
+  "decision_id": "cd40552d-a165-4f7f-aac2-7f0a22406cfb",
+  "application_id": "9ce49396-4e94-4f2e-b448-9b6dd78da2f3",
+  "signature": "FAILED_RETRYABLE|-|verify_mismatch|search.jobs.barclays",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "9ce49396-4e94-4f2e-b448-9b6dd78da2f3",
+    "company": "Barclays",
+    "role": "2027 Technology Developer Summer Internship Program Whippany",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 1,
+    "failure_signature": "FAILED_RETRYABLE|-|verify_mismatch|search.jobs.barclays",
+    "end_host": "search.jobs.barclays",
+    "recent_events": [
+      {
+        "from": "SUBMITTING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "pre-submit verification failed",
+        "at": "2026-09-06T16:21:15.803Z"
+      },
+      {
+        "from": "READY_TO_SUBMIT",
+        "to": "SUBMITTING",
+        "reason": "human-approved submission started",
+        "at": "2026-09-06T16:21:06.650Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "READY_TO_SUBMIT",
+        "reason": "pipeline: fill rehearsal verified",
+        "at": "2026-09-06T16:21:06.540Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (generic live fill: 3 filled (held for submit))",
+        "at": "2026-09-06T16:21:06.538Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-06T16:20:31.298Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-06T16:20:29.544Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-06T16:20:29.540Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-06T16:20:20.619Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 dd9093dde3f8)",
+        "at": "2026-09-06T16:20:20.613Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-06T16:20:20.567Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-05T15:35:40.318Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-05T15:35:40.286Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-05T15:35:40.280Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-05T15:35:40.270Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "apply_click_popup",
+      "notes": [
+        "phase A: 9 external host(s) seen: search.jobs.barclays, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, home.barclays, ca.linkedin.com, www.privatebankerinternational.com, www.marketscreener.com",
+        "Apply control: autofill CTA (tier 0)",
+        "jobright interstitial: clicked \"Apply Without Customizing\"",
+        "popup settled off about:blank after the interstitial",
+        "popup captured on attempt 1",
+        "employer congruence unverifiable (no employer name decodable from URL (host and path are generic)) — recorded"
+      ],
+      "congruence": {
+        "verdict": "unknown",
+        "slug": null,
+        "detail": "no employer name decodable from URL (host and path are generic)",
+        "expected_company": "Barclays",
+        "url": "https://search.jobs.barclays/job/-/-/13015/100189840496?src=JB-12860&jr_id=6a9c362d75edfa11b470d9bf"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "no congruent apply href (11 external links)",
+          "evidence": "search.jobs.barclays, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, home.barclays"
+        },
+        {
+          "phase": "B_apply_click",
+          "outcome": "resolved via popup",
+          "evidence": "search.jobs.barclays"
+        }
+      ]
+    },
+    "submit": {
+      "outcome": "FAILED_BEFORE_CLICK",
+      "reason": "Refusing to click submit: field verification or upload did not pass",
+      "brief_items": [
+        {
+          "id": "upload:resume",
+          "question": "Upload: resume",
+          "field_id": null,
+          "canonical_field": null,
+          "kind": "upload_failed",
+          "problem": "no file input resolved: primary resume selector not attached within 3s; retrying resolve after 1500ms; primary resume selector not attached within 3s; no resume file input; 0 file inputs on page; filechooser fallback: no upload-like control found",
+          "expected": "resume-dd9093dd.pdf",
+          "observed": null,
+          "how_to_answer": [
+            "Resume is system-owned: materials:register + adapter.uploadResume on submit/fill — not a free-text profile field.",
+            "If this is ats:fill without --resume, pass --resume <pdf> or use application submit (uses registered material).",
+            "Evidence: no file input resolved: primary resume selector not attached within 3s; retrying resolve after 1500ms; primary resume selector not attached within 3s; no resume file input; 0 file inputs on page; filechooser fallback: no upload-like control found"
+          ]
+        }
+      ]
+    },
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": true
+    },
+    "open_review_items": [],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\":\"engage_agent_leg\",\"rationale\":\"Deterministic fill reached a form but no resume file input existed on the page (0 file inputs; filechooser fallback failed), suggesting the upload step sits behind further navigation the deterministic tiers didn't reach. No wall, materials verified, URL loaded — a single bounded agent attempt is the cheapest thing that could change the outcome.\",\"confidence\":\"medium\"}",
+  "parsed_action": "engage_agent_leg",
+  "validation_note": null,
+  "precondition": {
+    "ok": false,
+    "reason": "no navigation wall in evidence — agent leg only helps nav-walled apps"
+  },
+  "mode": "act",
+  "executed": false,
+  "execution_detail": "precondition failed: no navigation wall in evidence — agent leg only helps nav-walled apps",
+  "rationale_unverified": "Deterministic fill reached a form but no resume file input existed on the page (0 file inputs; filechooser fallback failed), suggesting the upload step sits behind further navigation the deterministic tiers didn't reach. No wall, materials verified, URL loaded — a single bounded agent attempt is the cheapest thing that could change the outcome."
+}

@@ -1,0 +1,70 @@
+{
+  "decision_id": "9241aa6f-f39e-4eb5-b9bf-341c7f1581a4",
+  "application_id": "a2b72263-09ac-40df-8d09-a809ebd1437e",
+  "signature": "FAILED_RETRYABLE|-|duplicate_url|-",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "a2b72263-09ac-40df-8d09-a809ebd1437e",
+    "company": "Acme684364",
+    "role": "SWE",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 1,
+    "failure_signature": "FAILED_RETRYABLE|-|duplicate_url|-",
+    "end_host": null,
+    "recent_events": [
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "navigation: employer URL already held by another application",
+        "at": "2026-09-06T16:08:53.083Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-06T16:08:53.075Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 aeb3142125f4)",
+        "at": "2026-09-06T16:08:53.070Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-06T16:08:53.061Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-06T16:08:52.986Z"
+      }
+    ],
+    "nav": null,
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [
+      {
+        "kind": "MANUAL",
+        "title": "Duplicate posting — another application already targets this URL"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\":\"requeue_same\",\"rationale\":\"dup evidence weak — one rerun\",\"confidence\":\"medium\"}",
+  "parsed_action": "requeue_same",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "requeued at attempt 2",
+  "rationale_unverified": "dup evidence weak — one rerun"
+}

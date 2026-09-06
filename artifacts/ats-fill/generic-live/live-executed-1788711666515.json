@@ -1,0 +1,134 @@
+{
+  "ats": "generic",
+  "url": "https://search.jobs.barclays/job/-/-/13015/100189840496",
+  "requested_url": "https://search.jobs.barclays/job/-/-/13015/100189840496",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://search.jobs.barclays/job/-/-/13015/100189840496",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 3,
+    "skipped_count": 0,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "form-field-a4ed07152e",
+      "label": "Email",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "form-field-9a85d497ce-category",
+      "label": "Category",
+      "type": "text",
+      "canonical_field": "screener:custom:role_category",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "form-field-9a85d497ce-location",
+      "label": "Location",
+      "type": "select",
+      "canonical_field": "screener:custom:preferred_location",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    }
+  ],
+  "form_snapshot_path": null,
+  "fill": {
+    "filled": [
+      "email",
+      "screener:custom:role_category",
+      "screener:custom:preferred_location"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "form-field-a4ed07152e",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "form-field-9a85d497ce-category",
+        "canonical_field": "screener:custom:role_category",
+        "control_kind": "text",
+        "notes": [
+          "opened via control click",
+          "listbox did not open after click",
+          "fell back to text fill — no listbox"
+        ]
+      },
+      {
+        "field_id": "form-field-9a85d497ce-location",
+        "canonical_field": "screener:custom:preferred_location",
+        "control_kind": "native_select",
+        "selected_option": "Washington, DC",
+        "match_via": "exact"
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:role_category",
+        "expected": "Software Engineering",
+        "observed": {
+          "value": "Software Engineering",
+          "label": "Software Engineering"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:preferred_location",
+        "expected": "Washington, DC",
+        "observed": {
+          "value": "6252001-4138106-4140963",
+          "label": "Washington, DC"
+        },
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": null,
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: form (3 fillable field(s))",
+    "popups dismissed: close (aria-label), close (aria-label), close (aria-label)",
+    "section-expand: expanded 4 collapsed section(s)",
+    "section-expand: expanded \"Saved jobs\"",
+    "section-expand: skipped \"How to Apply\" (action-named)",
+    "section-expand: expanded \"Inclusion and Opportunity\"",
+    "section-expand: expanded \"Regulatory and compliance obligations\"",
+    "section-expand: expanded \"Menu\"",
+    "section-expand: skipped \"How to Apply\" (action-named)",
+    "option harvest: \"Category\" is a combobox but offered no readable options",
+    "timing: base page (3 planned) — plan 0s, fill 9s, verify 0s",
+    "resume on disk but this page has no file input — not an upload miss",
+    "form-advance: no Next/Continue advance control matched (account-setup tier: page marker did NOT match, 0 file input(s))",
+    "form-advance: visible CTAs: \"Search\"",
+    "form-advance: no Next/Continue after page 1 — stopping",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "wizard_pages": [],
+  "written_at": "2026-09-06T16:21:06.532Z"
+}

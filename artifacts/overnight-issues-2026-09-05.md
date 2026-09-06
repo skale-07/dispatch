@@ -310,6 +310,28 @@ artifacts/gmail-pipeline-applied-page.png. Drafts only, zero sends.
   layer is choosing per-signature, not one-size-fits-all.
 - Sweep now tracks 26 pending decisions.
 
+### Cycle 13 (16:02Z 09-06) — 4a97ab57 Barclays rerun: two layer lessons
+
+- The triage-requeued app was picked again; stored URL valid ⇒ NO nav
+  run ⇒ the agent-leg override was never consumed. Same submit wall at
+  attempt 2 ("field verification or upload did not pass").
+- Issue #172 (LAYER DEFECT, FIXED same session — the M5 slot): the
+  `engage_agent_leg` precondition didn't require a navigation wall, so
+  triage granted it for a submit-stage failure where it cannot help.
+  Fix: `canExecute` now demands `navWall` present and != "none"
+  (evidence from the bundle's latest nav attempt). Test pinned on this
+  exact shape; 28/28 triage+worker.
+- Issue #173 (observation): Barclays upload wall is #170-class but
+  harder — 0 file inputs AND the filechooser fallback found no
+  upload-like control text. Needs a pixels-first diagnosis (form
+  snapshot / screenshots) before any new tier; until then the
+  retry-differently memory will refute engage_agent_leg for this
+  signature next sweep and converge the app to park.
+- Window 2 (cycles 8–13) complete: 0 submits; ByteDance parked by
+  design, Neuralink closed, Atlassian parked by acted triage, SJHL in
+  FIELD_VERIFICATION, Barclays at attempt 2, MicroVention pair still
+  QUEUED for window 3.
+
 ### Cycle 10 (15:51Z 09-06) — 70aaa82a Neuralink, posting closed
 
 - APPLICATION_OPENING → FILTERED_OUT (terminal): closed on JobRight.
