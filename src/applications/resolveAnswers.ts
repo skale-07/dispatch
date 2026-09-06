@@ -447,7 +447,8 @@ export function buildFillPlan(
       // Winter/Spring/Fall 2029) need the profile month to pick one option.
       if (
         field.canonical_field === "graduation_year" &&
-        (field.type === "select" || field.type === "radio")
+        (field.type === "select" || field.type === "radio" ||
+          /graduation.*(?:date|month)|when.*graduat|date.*complete.*degree/i.test(field.label))
       ) {
         const month = (profile.graduation_month ?? "").trim();
         const year = String(value);

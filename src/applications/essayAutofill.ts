@@ -169,6 +169,7 @@ export async function generateEssayAnswers(input: {
   postingContext?: string;
   client?: EmailLlmClient;
   traceUrl?: string;
+  approvedContext?: string;
 }): Promise<{ answers: EssayAutofillResult[]; notes: string[] }> {
   const notes: string[] = [];
   const items = input.items.slice(0, MAX_ESSAYS);
@@ -226,6 +227,7 @@ export async function generateEssayAnswers(input: {
           posting_context: input.postingContext?.trim() || null,
         }),
       ];
+      if (input.approvedContext) context.push(JSON.stringify({ approved_application_context: input.approvedContext }));
       const { text } = await client.generateJson({
         system: SYSTEM_PROMPT,
         context,

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import type { EducationSelection } from "../candidate/applicationEducation.js";
 
 export type EligibilityCheck = {
   name: string;
@@ -47,6 +48,7 @@ export function evaluateEligibility(input: {
   employmentType?: string | null;
   description?: string | null;
   alreadySubmitted?: boolean;
+  education?: EducationSelection | null;
 }): EligibilityDecision {
   const text = [input.role, input.employmentType ?? "", input.description ?? ""]
     .join("\n")
@@ -71,6 +73,7 @@ export function evaluateEligibility(input: {
     /\b(class of 202[0-8]\b|graduat(e|ing) (by|in|before) 202[0-8]|must graduate (in|by) 202[0-8])/i.test(
       text,
     ) && !/2029/.test(text);
+  const education = input.education;
 
   const allowsUndergrad =
     !/\b(ph\.?d|masters? only|graduate students? only)\b/i.test(text) ||
@@ -78,8 +81,8 @@ export function evaluateEligibility(input: {
 
   checks.push({
     name: "graduation_year",
-    result: !excludes2029 && allowsUndergrad,
-    evidence: excludes2029
+    result: (!excludes2029 || Boolean(education)) && allowsUndergrad,
+    evidence: education ? `Operator-approved ${education.graduation_month} ${education.graduation_year} early graduation: ${education.evidence}` : excludes2029
       ? "Description appears to exclude May 2029 graduates"
       : allowsUndergrad
         ? "No conflicting graduation-year exclusion for May 2029"

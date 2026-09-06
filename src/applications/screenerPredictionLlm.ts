@@ -404,6 +404,7 @@ export async function predictAnswersForQuestions(
   }>,
   client?: EmailLlmClient,
   traceUrl?: string,
+  approvedContext?: string,
 ): Promise<
   Map<string, { value: string; basis: string; intended?: string | null }>
 > {
@@ -430,6 +431,7 @@ export async function predictAnswersForQuestions(
       profileFacts,
       questions: askable.map((q) => ({ label: q.label, options: q.options })),
     });
+    if (approvedContext) request.context.push(JSON.stringify({ approved_application_context: approvedContext }));
     const { text } = await llm.generateJson(request);
     if (traceUrl) {
       await postSandboxTrace(
@@ -472,7 +474,7 @@ export async function predictAnswersForQuestions(
               basis: `${basis} — not on the form's list, chose "${other}"`,
               intended: check.value,
             });
-            persistPrediction(q.label, check.value, p?.["key"]);
+            if (!approvedContext) persistPrediction(q.label, check.value, p?.["key"]);
             continue;
           }
         }
@@ -488,7 +490,7 @@ export async function predictAnswersForQuestions(
         continue;
       }
       out.set(q.id, { value: check.value, basis });
-      persistPrediction(q.label, check.value, p?.["key"]);
+      if (!approvedContext) persistPrediction(q.label, check.value, p?.["key"]);
     }
   } catch {
     return out;

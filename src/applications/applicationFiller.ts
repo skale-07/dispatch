@@ -5,6 +5,7 @@ import { writeJsonAtomic } from "../storage/atomicJson.js";
 import { recordFillRun } from "../storage/fillOutcomes.js";
 import { loadAnswerAliases } from "../candidate/answerAliases.js";
 import { loadPublicProfile } from "../candidate/publicProfileIO.js";
+import { educationForApplication, educationProfile, educationBank, educationInstruction } from "../candidate/applicationEducation.js";
 import {
   getProfileValue,
   type PublicProfile,
@@ -274,7 +275,9 @@ export async function planApplicationFill(input: {
   const mapped = nameMatcher
     ? annotateFullNameField(mapDiscoveredFields(fields, aliases), nameMatcher)
     : mapDiscoveredFields(fields, aliases);
-  const profile = input.profile ?? loadPublicProfile();
+  const education = input.capture?.applicationId ? educationForApplication(input.capture.db, input.capture.applicationId) : null;
+  const approvedEducation = educationInstruction(education);
+  const profile = educationProfile(input.profile ?? loadPublicProfile(), education);
   // A Yes/No (or any closed list) that aliases mapped to a profile fact
   // whose value is not on the list is not a profile field. Drop the
   // mapping so predict can answer the question that is actually there.
@@ -287,7 +290,7 @@ export async function planApplicationFill(input: {
   // Consent / major-option checkboxes / inspector placeholders are not
   // questions — they must not drown the Answer-needed queue.
   const screenerResolutions = new Map<string, ScreenerResolution>();
-  const bank = tryLoadScreenerBank();
+  const bank = educationBank(tryLoadScreenerBank(), education);
   const candidates = mapped.filter(
     (f) =>
       !f.canonical_field &&
@@ -406,6 +409,7 @@ export async function planApplicationFill(input: {
         })),
         input.llmClient,
         input.url,
+        approvedEducation,
       );
       for (const [id, p] of predicted) {
         screenerResolutions.set(id, {
@@ -551,6 +555,7 @@ export async function planApplicationFill(input: {
           })),
           input.llmClient,
           input.url,
+          approvedEducation,
         );
         for (const [id, p] of predicted) {
           screenerResolutions.set(id, {
@@ -652,6 +657,7 @@ export async function planApplicationFill(input: {
       ),
       ...(input.llmClient ? { client: input.llmClient } : {}),
       traceUrl: input.url,
+      ...(approvedEducation ? { approvedContext: approvedEducation } : {}),
     });
     essayNotes.push(...generated.notes);
     for (const a of generated.answers) essayAnswers.set(a.fieldId, a.answer);
