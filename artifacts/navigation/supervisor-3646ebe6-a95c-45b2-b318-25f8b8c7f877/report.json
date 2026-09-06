@@ -1,0 +1,40 @@
+{
+  "run_id": "[REDACTED]",
+  "outcome": "stopped",
+  "steps": [
+    {
+      "observation": "0fb6f4ad51edbdb6",
+      "action": "wait",
+      "reason": "The page text already contains the full Citadel intern application (First/Last Name, Email, Phone), but the detected controls show only navigation and a Cloudflare Turnstile challenge frame is still active, so the form fields aren't interactive yet. Waiting for the challenge to clear and the embedded form to finish loading before declaring readiness.",
+      "result": "waited for rendering",
+      "model": "claude-opus-5"
+    },
+    {
+      "observation": "0fb6f4ad51edbdb6",
+      "action": "wait",
+      "reason": "A Cloudflare Turnstile challenge frame is still active and the detected controls/fields (only 1 non-identity field) show the applicant fields aren't interactive yet, even though the form markup is present. Giving the challenge one more brief interval to clear before re-evaluating; if still blocked, I'll change approach rather than keep waiting.",
+      "result": "waited for rendering",
+      "model": "claude-opus-5"
+    },
+    {
+      "observation": "0fb6f4ad51edbdb6",
+      "action": "click",
+      "reason": "Two identical waits produced no change (same observation hash), so repeating is unproductive. The application markup (First/Last Name, Email, Phone) exists in frame-0 but isn't being detected as interactive. Clicking the in-page 'Skip to Content' anchor scrolls to the content/form section, which can trigger lazy rendering/hydration of the embedded application fields without filling anything.",
+      "result": "action failed: elementHandle.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n",
+      "model": "claude-opus-5",
+      "target": "control-0"
+    },
+    {
+      "observation": "0fb6f4ad51edbdb6",
+      "action": "stop",
+      "reason": "The Citadel posting for Software Engineer – Intern (US) embeds its application markup, but an active Cloudflare Turnstile challenge (frame-1) is gating it: the form fields never become interactive (only 1 non-identity field detected), the visible page shows no form, two waits produced an identical observation hash, and the only allowed in-page anchor click timed out. There is no allowed control or application document frame to advance past the bot challenge, so this is a concrete blocker requiring human/challenge resolution rather than further navigation.",
+      "result": "model stopped",
+      "model": "claude-opus-5"
+    }
+  ],
+  "notes": [],
+  "evidence": [
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-3646ebe6-a95c-45b2-b318-25f8b8c7f877\\observation.json",
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-3646ebe6-a95c-45b2-b318-25f8b8c7f877\\page.png"
+  ]
+}
