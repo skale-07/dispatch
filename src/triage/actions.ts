@@ -43,9 +43,12 @@ export const TERMINAL_SAFE_ACTIONS: ReadonlySet<TriageAction> = new Set([
 ]);
 
 /**
- * Requeue-class actions act from day one (operator decision 2026-09-05);
- * abandon-class actions stay shadow until the read-back sweep has
- * validated at least one session (promoted in M4).
+ * Requeue-class actions acted from day one (operator decision 2026-09-05).
+ * Abandon-class promoted 2026-09-06 (M4 completion): the read-back sweep
+ * ran clean across five live sessions and its first resolved verdict
+ * (REFUTED, decision 841134a7) was correct post-#174. The executors keep
+ * their own hard guards: duplicate evidence / ≥3 failed host attempts,
+ * and abandonApplication's canTransition check is always the last word.
  */
 export const ACT_ENABLED_ACTIONS: ReadonlySet<TriageAction> = new Set([
   "no_action",
@@ -53,6 +56,8 @@ export const ACT_ENABLED_ACTIONS: ReadonlySet<TriageAction> = new Set([
   "requeue_same",
   "requeue_materials",
   "requeue_reopen_navigation",
+  "abandon_duplicate",
+  "abandon_permanent_wall",
   "engage_agent_leg",
 ]);
 

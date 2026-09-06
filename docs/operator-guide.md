@@ -1247,9 +1247,11 @@ engage agent leg). The choice is re-validated deterministically — verbatim
 set membership, the signature's forbidden history (an action never repeats
 for the same failure signature; refuted pairs are forbidden forever), and
 state-machine preconditions — and with `TRIAGE_ACT_ENABLED=true` the
-requeue-class actions execute through the ordinary primitives (same
-attempt cap as `retry`, max 3 triage acts per app; abandon-class records
-shadow-only for now). Session start runs the read-back sweep that
+actions execute through the ordinary primitives (same attempt cap as
+`retry`, max 3 triage acts per app; abandon-class was promoted to acting
+2026-09-06 after the read-back sweep validated live — its executors still
+require duplicate evidence / repeated host failures and pass
+`abandonApplication`'s own edge guard). Session start runs the read-back sweep that
 confirms/refutes prior decisions purely from `application_events`.
 Manual: `npm run triage:llm -- [--app <uuid>] [--act]`; history + sweep:
 `npm run triage:report`. Decisions land in the `triage_decisions` table
