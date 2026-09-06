@@ -332,6 +332,26 @@ artifacts/gmail-pipeline-applied-page.png. Drafts only, zero sends.
   FIELD_VERIFICATION, Barclays at attempt 2, MicroVention pair still
   QUEUED for window 3.
 
+### Cycle 14 (16:20Z 09-06) — 9ce49396 Barclays Whippany + the learning loop closes
+
+- Sibling Barclays role, same upload wall → FAILED_RETRYABLE. The M5
+  #172 fix worked live minutes after commit: triage chose
+  engage_agent_leg again and the new precondition REFUSED execution
+  ("no navigation wall in evidence").
+- Issue #174 (LAYER DEFECT, FIXED + committed `48bebf7d`): the sweep
+  CONFIRMED cycle 12's Wilmington decision because transient
+  READY_TO_SUBMIT progress preceded the same-signature refail. Fix:
+  refail anywhere after the decision outranks progress. Mis-scored row
+  reset to PENDING; corrected sweep re-judged it **REFUTED** — the
+  retry-differently memory's first genuine live entry.
+- **M4 COMPLETE (`d0bff5d2`)**: abandon-class promoted to acting — sweep
+  ran clean across 5 sessions and its resolved verdict was correct.
+  Executors keep dup-evidence / host-attempt preconditions +
+  abandonApplication's edge guard.
+- PLAN STATUS: all milestones M1–M7 of the LLM decision layer are now
+  implemented, committed, and live-validated. Gate for both commits:
+  1651/1651.
+
 ### Cycle 10 (15:51Z 09-06) — 70aaa82a Neuralink, posting closed
 
 - APPLICATION_OPENING → FILTERED_OUT (terminal): closed on JobRight.
