@@ -115,6 +115,8 @@ export function canExecute(
     hasDuplicateEvidence?: boolean;
     failedHostAttempts?: number;
     priorAgentLegDecision?: boolean;
+    /** Latest nav attempt's wall ("none" = resolved). */
+    navWall?: string | null;
   } = {},
 ): PreconditionResult {
   switch (action) {
@@ -170,6 +172,16 @@ export function canExecute(
     case "engage_agent_leg": {
       if (evidence.priorAgentLegDecision) {
         return { ok: false, reason: "agent leg already engaged once for this app" };
+      }
+      // Live lesson (night25 cycle 13, Barclays): the override is consumed
+      // at navigation's hostPolicy gate — an app whose stored URL is fine
+      // never re-navigates, so granting it for a submit-stage failure just
+      // burns a requeue. The action requires a NAV wall in evidence.
+      if (!evidence.navWall || evidence.navWall === "none") {
+        return {
+          ok: false,
+          reason: "no navigation wall in evidence — agent leg only helps nav-walled apps",
+        };
       }
       const state = requireState(db, applicationId, "FAILED_RETRYABLE");
       if (!state.ok) return state;

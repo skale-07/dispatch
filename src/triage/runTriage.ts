@@ -159,6 +159,7 @@ export async function runTriageForApplication(
       Array.isArray(bundle.nav?.duplicates) && bundle.nav.duplicates.length > 0,
     failedHostAttempts: bundle.failed_host_attempts,
     priorAgentLegDecision: bundle.prior_agent_leg_decision,
+    navWall: bundle.nav?.wall ?? null,
   });
 
   const actAllowed =

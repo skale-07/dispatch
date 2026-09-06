@@ -376,6 +376,25 @@ describe("triage decisions end-to-end (UNIT_CONFIRMED)", () => {
     }
   });
 
+  it("engage_agent_leg requires a nav wall in evidence (Barclays cycle-13 lesson)", () => {
+    const appId = seedFailedApp();
+    // Submit-stage failure (no nav wall) ⇒ the action cannot execute.
+    const withoutWall = canExecute(db, appId, "engage_agent_leg", {
+      navWall: null,
+    });
+    expect(withoutWall.ok).toBe(false);
+    expect(withoutWall.reason).toMatch(/navigation wall/);
+    const resolvedWall = canExecute(db, appId, "engage_agent_leg", {
+      navWall: "none",
+    });
+    expect(resolvedWall.ok).toBe(false);
+    // A real nav wall ⇒ preconditions pass (state + attempt budget hold).
+    const withWall = canExecute(db, appId, "engage_agent_leg", {
+      navWall: "budget",
+    });
+    expect(withWall.ok).toBe(true);
+  });
+
   it("engage_agent_leg override is one-shot: consumed once, refused after", async () => {
     const { consumeAgentLegOverride } = await import(
       "../../src/triage/agentLegOverride.js"
