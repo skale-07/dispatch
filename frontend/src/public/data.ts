@@ -134,11 +134,26 @@ export function rowToDraft(row: ProfileRow): ProfileDraft {
     degree: edu?.degree ?? "",
     field: edu?.field ?? "",
     grad_year: edu?.end_year != null ? String(edu.end_year) : "",
+    grad_month: edu?.end_month ?? "",
+    start_year: edu?.start_year != null ? String(edu.start_year) : "",
+    start_month: edu?.start_month ?? "",
+    gpa: edu?.gpa != null ? String(edu.gpa) : "",
+    additional_fields: edu?.additional_fields ?? "",
     work_authorization: row.work_authorization ?? "",
     needs_sponsorship:
       row.needs_sponsorship === null ? "" : row.needs_sponsorship ? "yes" : "no",
+    about_me: row.about_me ?? "",
+    current_company: row.current_company ?? "",
+    open_to_relocation:
+      row.open_to_relocation === null
+        ? ""
+        : row.open_to_relocation
+          ? "yes"
+          : "no",
     resume_object_path: row.resume_object_path,
     resume_filename: row.resume_filename,
+    transcript_object_path: row.transcript_object_path,
+    transcript_filename: row.transcript_filename,
     titles: (prefs.titles ?? []).join(", "),
     locations: (prefs.locations ?? []).join(", "),
     remote: prefs.remote ?? "",
@@ -152,14 +167,28 @@ function draftToRow(
   userId: string,
   draft: ProfileDraft,
 ): Omit<ProfileRow, "created_at" | "updated_at" | "onboarding_completed_at"> {
+  const gpa = Number(draft.gpa.trim());
   const education: EducationEntry[] = draft.school.trim()
     ? [
         {
           school: draft.school.trim(),
           degree: draft.degree.trim(),
           field: draft.field.trim(),
-          start_year: null,
+          start_year: yearOrNull(draft.start_year),
           end_year: yearOrNull(draft.grad_year),
+          // Optional keys are omitted rather than written empty: the
+          // engine's take() treats "" as absent anyway, and an absent
+          // key reads as "not asked" instead of "answered blank".
+          ...(Number.isFinite(gpa) && gpa > 0 ? { gpa } : {}),
+          ...(draft.start_month.trim()
+            ? { start_month: draft.start_month.trim() }
+            : {}),
+          ...(draft.grad_month.trim()
+            ? { end_month: draft.grad_month.trim() }
+            : {}),
+          ...(draft.additional_fields.trim()
+            ? { additional_fields: draft.additional_fields.trim() }
+            : {}),
         },
       ]
     : [];
@@ -186,9 +215,17 @@ function draftToRow(
       draft.work_authorization === "" ? null : draft.work_authorization,
     needs_sponsorship:
       draft.needs_sponsorship === "" ? null : draft.needs_sponsorship === "yes",
+    about_me: draft.about_me.trim() || null,
+    current_company: draft.current_company.trim() || null,
+    // "" stays null: an unanswered relocation question is not a "no".
+    open_to_relocation:
+      draft.open_to_relocation === "" ? null : draft.open_to_relocation === "yes",
     resume_object_path: draft.resume_object_path,
     resume_filename: draft.resume_filename,
     resume_uploaded_at: null, // preserved server-side; set by uploadResume
+    transcript_object_path: draft.transcript_object_path,
+    transcript_filename: draft.transcript_filename,
+    transcript_uploaded_at: null, // set by uploadTranscript
     job_preferences,
   };
 }
@@ -216,7 +253,13 @@ export async function getMyProfile(): Promise<ProfileRow | null> {
 export async function saveMyProfile(draft: ProfileDraft): Promise<void> {
   const uid = await currentUserId();
   if (!uid) throw new Error("not signed in — nothing was saved");
-  const { resume_uploaded_at: _keep, ...row } = draftToRow(uid, draft);
+  // Both *_uploaded_at values are owned by their upload functions; the
+  // final save must not overwrite them with the null draftToRow carries.
+  const {
+    resume_uploaded_at: _keepResume,
+    transcript_uploaded_at: _keepTranscript,
+    ...row
+  } = draftToRow(uid, draft);
   const { error } = await client()
     .from(CONTRACT.profilesTable)
     .upsert(
@@ -261,6 +304,59 @@ export async function uploadResume(
         resume_object_path: path,
         resume_filename: file.name,
         resume_uploaded_at: new Date().toISOString(),
+      },
+      { onConflict: "user_id" },
+    );
+  if (recordError) {
+    throw new Error(
+      `uploaded, but recording it on your profile failed: ${recordError.message}`,
+    );
+  }
+  return { path, filename: file.name };
+}
+
+/* ── transcript upload ──────────────────────────────────────────────── */
+
+const MAX_TRANSCRIPT_BYTES = 10 * 1024 * 1024;
+
+/**
+ * Same shape as uploadResume, its own bucket.
+ *
+ * Worth having at all because the engine already knows what to do with
+ * it: src/ats/shared/supplementalMaterials.ts attaches a transcript to
+ * transcript-labeled file inputs and otherwise logs "no transcript on
+ * file — transcript inputs left alone". Live, that silence cost real
+ * submissions (Appian 2026-08-29 bounced off a required unofficial
+ * transcript; Databricks 2026-09-01 carried two required sections).
+ *
+ * 10 MB rather than the resume's 5: an unofficial transcript is often a
+ * scanned multi-page PDF, and rejecting a real one would send the user
+ * to a PDF compressor instead of an application.
+ */
+export async function uploadTranscript(
+  file: File,
+): Promise<{ path: string; filename: string }> {
+  if (file.type !== "application/pdf") {
+    throw new Error("transcript must be a PDF");
+  }
+  if (file.size > MAX_TRANSCRIPT_BYTES) {
+    throw new Error("transcript PDF is over 10 MB — export a smaller copy");
+  }
+  const uid = await currentUserId();
+  if (!uid) throw new Error("not signed in — nothing was uploaded");
+  const path = `${uid}/${file.name}`;
+  const { error } = await client()
+    .storage.from(CONTRACT.transcriptsBucket)
+    .upload(path, file, { upsert: true, contentType: "application/pdf" });
+  if (error) throw new Error(error.message);
+  const { error: recordError } = await client()
+    .from(CONTRACT.profilesTable)
+    .upsert(
+      {
+        user_id: uid,
+        transcript_object_path: path,
+        transcript_filename: file.name,
+        transcript_uploaded_at: new Date().toISOString(),
       },
       { onConflict: "user_id" },
     );

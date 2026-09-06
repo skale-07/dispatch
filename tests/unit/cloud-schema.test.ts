@@ -116,7 +116,11 @@ describe("cloud schema tooling (UNIT_CONFIRMED)", () => {
     expect(probe.tables["invites"]).toBe("present");
     expect(probe.tables["waitlist"]).toBe("absent");
     expect(probe.rpcs["redeem_invite"]).toBe("present");
-    expect(probe.buckets).toEqual({ resumes: "present", receipts: "absent" });
+    expect(probe.buckets).toEqual({
+      resumes: "present",
+      receipts: "absent",
+      transcripts: "absent",
+    });
     expect(probe.errors).toEqual({});
     // Read-only by construction: selects carry limit=0, the RPC probe uses an impossible code.
     for (const c of calls.filter((c) => c.url.includes("/rest/v1/") && c.method === "GET")) {
@@ -136,7 +140,14 @@ describe("cloud schema tooling (UNIT_CONFIRMED)", () => {
   it("probeSchema reports complete=true only when everything answers", async () => {
     const { fetch } = fakeFetch((url) =>
       url.includes("/storage/v1/bucket")
-        ? { status: 200, body: JSON.stringify([{ id: "resumes" }, { id: "receipts" }]) }
+        ? {
+            status: 200,
+            body: JSON.stringify([
+              { id: "resumes" },
+              { id: "receipts" },
+              { id: "transcripts" },
+            ]),
+          }
         : { status: 200, body: "[]" },
     );
     const probe = await probeSchema({ url: "https://abc.supabase.co", serviceRoleKey: "k", fetch });

@@ -60,7 +60,7 @@ export const RPC_PROBE_ARGS: Record<(typeof EXPECTED_RPCS)[number], Record<strin
   mint_referral_invite: {},
   grant_referral_bonus_if_activated: { p_invitee: "00000000-0000-4000-8000-000000000000" },
 };
-export const EXPECTED_BUCKETS = ["resumes", "receipts"] as const;
+export const EXPECTED_BUCKETS = ["resumes", "receipts", "transcripts"] as const;
 
 export type MigrationFile = {
   /** Leading digits of the filename, e.g. 20260901000100. */

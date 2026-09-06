@@ -23,6 +23,13 @@ export const CONTRACT = {
   applicationsView: "my_applications",
   /** Private bucket; object path MUST start with the user's own uid. */
   resumesBucket: "resumes",
+  /**
+   * Private bucket, same own-uid path rule (migration 20260903000100).
+   * Its own bucket rather than a prefix inside `resumes` because storage
+   * policies are per-bucket — "a transcript is not a resume" stays true
+   * at the policy layer, not by convention.
+   */
+  transcriptsBucket: "transcripts",
   /** Private bucket, engine-written; read via createSignedUrl. */
   receiptsBucket: "receipts",
   /** Insert-only mailbox for students without an invite (anon may insert; nobody client-side may read). */
@@ -73,6 +80,12 @@ export type WorkAuthorization =
   | "needs_sponsorship"
   | "other";
 
+/**
+ * Months stay free text on purpose: "May", "Spring 2027" and "expected"
+ * are all answers real employer forms accept, and coercing them to an
+ * integer would discard what the user actually said. The engine's own
+ * profile facts are strings for the same reason.
+ */
 export type EducationEntry = {
   school: string;
   degree: string;
@@ -80,6 +93,11 @@ export type EducationEntry = {
   start_year: number | null;
   end_year: number | null;
   gpa?: number;
+  /** Engine reads these as start_month / graduation_month. */
+  start_month?: string;
+  end_month?: string;
+  /** Minors and second majors — engine key additional_fields_of_study. */
+  additional_fields?: string;
 };
 
 export type RemotePreference = "remote" | "hybrid" | "onsite" | "any";
@@ -109,6 +127,18 @@ export type ProfileRow = {
   resume_object_path: string | null;
   resume_filename: string | null;
   resume_uploaded_at: string | null;
+  /** 20260903000100 — the engine already attaches these to ATS forms. */
+  transcript_object_path: string | null;
+  transcript_filename: string | null;
+  transcript_uploaded_at: string | null;
+  /**
+   * Free-text narrative in the user's own voice (≤8000, enforced by the
+   * column). Essay autofill and screener prediction both ground on it and
+   * both abstain without it — this is the highest-value field on the row.
+   */
+  about_me: string | null;
+  current_company: string | null;
+  open_to_relocation: boolean | null;
   job_preferences: JobPreferences | Record<string, never>;
   /** Set by the wizard's FINAL save; engine ignores profiles until non-null. */
   onboarding_completed_at: string | null;
@@ -218,11 +248,22 @@ export type ProfileDraft = {
   degree: string;
   field: string;
   grad_year: string;
+  grad_month: string;
+  start_year: string;
+  start_month: string;
+  gpa: string;
+  additional_fields: string;
   /** "" = unanswered (row null) — the user's own explicit choice only. */
   work_authorization: WorkAuthorization | "";
   needs_sponsorship: "yes" | "no" | "";
+  about_me: string;
+  current_company: string;
+  /** "" = unanswered; the row stores null so nothing is assumed. */
+  open_to_relocation: "yes" | "no" | "";
   resume_object_path: string | null;
   resume_filename: string | null;
+  transcript_object_path: string | null;
+  transcript_filename: string | null;
   /** Comma-separated in the form; arrays in the row. */
   titles: string;
   locations: string;
@@ -244,10 +285,20 @@ export const EMPTY_PROFILE: ProfileDraft = {
   degree: "",
   field: "",
   grad_year: "",
+  grad_month: "",
+  start_year: "",
+  start_month: "",
+  gpa: "",
+  additional_fields: "",
   work_authorization: "",
   needs_sponsorship: "",
+  about_me: "",
+  current_company: "",
+  open_to_relocation: "",
   resume_object_path: null,
   resume_filename: null,
+  transcript_object_path: null,
+  transcript_filename: null,
   titles: "",
   locations: "",
   remote: "",
