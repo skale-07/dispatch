@@ -496,6 +496,15 @@ decision rows. This is the autonomous behavior the session was built
 to produce. Fixes shipped this evening: 6850168d (newest-first),
 b4e32bbe + c3362443 (#177), plus the six Codex-adoption commits.
 
+## Steady-state tallies (23:30Z+ 09-06)
+
+- Fresh cycles: feed static all evening (same 8 cards; 7 intern-filter/
+  known) → no_fresh_candidate; correct idling, zero backlog contamination.
+- Backlog (newest-first): every pick now ends in an acted triage
+  decision — Citadel converged to park (review item), 99c3eda2 (night25
+  cycle-1 app) got requeue_reopen_navigation executed. 33 decisions
+  tracked; the loop manages its own queue without operator input.
+
 ## SESSION SUMMARY (night25, 2026-09-05 → 09-06)
 
 **Cycles:** 19 (+3 repair phases). **Submits: 0** — therefore 0
