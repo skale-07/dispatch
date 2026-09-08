@@ -125,7 +125,20 @@ export async function greenhouseVerifySubmission(
   let html = "";
   let validationError: string | null = null;
   while (Date.now() < deadline) {
-    html = await page.content();
+    // #193 (live Astera Labs 2026-09-08): content() throws "Unable to
+    // retrieve content because the page is navigating" while the receipt
+    // page is still loading. That is the SUCCESS path in flight, not an
+    // uncertainty — wait for the load and read again within the deadline.
+    try {
+      html = await page.content();
+    } catch (err) {
+      if (/navigating|changing the content|Execution context was destroyed/i.test(String(err))) {
+        await page.waitForLoadState("domcontentloaded", { timeout: 5_000 }).catch(() => undefined);
+        await page.waitForTimeout(500);
+        continue;
+      }
+      throw err;
+    }
     classification = detectSubmissionUncertainty(html, page.url());
     if (classification === "confirmed" || classification === "error_page") {
       break;
