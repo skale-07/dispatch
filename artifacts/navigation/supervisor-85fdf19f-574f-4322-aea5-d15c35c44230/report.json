@@ -1,0 +1,34 @@
+{
+  "run_id": "[REDACTED]",
+  "outcome": "form_ready",
+  "steps": [
+    {
+      "observation": "fca17952cfc00dbc",
+      "action": "click",
+      "reason": "Correct posting (Stripe, Software Engineer, Intern, Singapore, jid 8130883). No form fields present yet; the 'Apply for this role' CTA leads to the employer's own application page for this exact requisition.",
+      "result": "clicked observed control; next observation checks progress",
+      "model": "claude-opus-5",
+      "target": "control-13"
+    },
+    {
+      "observation": "b4c33185af2d80c4",
+      "action": "form_ready",
+      "reason": "The embedded Greenhouse application frame (frame-1) for Stripe's Software Engineer, Intern (Singapore, token 8130883) is loaded and shows real applicant identity fields — First Name, Last Name, Email, Phone, Country, Location, Resume/CV upload, and education fields — visible in the current screenshot. The correct employer posting and role are in view, so navigation is complete and the form is ready for filling.",
+      "result": "refused: applicant form not independently observed",
+      "model": "claude-opus-5"
+    },
+    {
+      "observation": "b4c33185af2d80c4",
+      "action": "open_frame",
+      "reason": "The Greenhouse application document for Stripe's Software Engineer, Intern (token 8130883) is embedded in frame-1; my earlier form_ready was refused because the applicant form wasn't independently observed as the active document. Opening frame-1 in this tab surfaces the real identity fields (First/Last Name, Email, Phone, Country, Location, Resume) for direct verification.",
+      "result": "opened observed frame URL",
+      "model": "claude-opus-5",
+      "target": "frame-1"
+    }
+  ],
+  "notes": [],
+  "evidence": [
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-85fdf19f-574f-4322-aea5-d15c35c44230\\observation.json",
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-85fdf19f-574f-4322-aea5-d15c35c44230\\page.png"
+  ]
+}
