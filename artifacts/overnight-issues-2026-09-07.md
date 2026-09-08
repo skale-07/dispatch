@@ -143,3 +143,40 @@ has sufficient context for the larger navigation decisions.
   typecheck clean. Cycle 2's Stripe submit stays verified — its receipt
   pixels are the real thank-you page.
 
+### Cycle 4 (00:30Z) — 9df6221e again: form reached, submit refused on resume
+
+- #182 held live: supervisor `form_ready`, fill verified 22/22 fields
+  (incl. the generated essay + predicted ACT screener), then submit
+  FAILED_BEFORE_CLICK "field verification or upload did not pass" — brief:
+  "Greenhouse resume file input not found … Saw 2 input[type=file]:
+  cover_letter, question_68743857". Triage → park_for_operator (review
+  item 9f565807, rationale "form-structure/adapter mismatch"). Wrong
+  diagnosis, see below.
+- Read-only CDP probe (`private/tmp-probe-gh-widget-20260907.ts`,
+  `artifacts/probes/gh-widget-{toronto,dublin}-20260907.{json,png}`):
+  both embeds are structurally identical — hidden `input#resume`,
+  `#cover_letter`, one question upload, Attach/Dropbox/Enter-manually
+  buttons. Not a form-shape mismatch.
+- Issue #183 (fix, FIXTURE_CONFIRMED): fill-phase upload evidence on
+  Toronto was `input files: []; stillAttached=false; chip=false` yet
+  `verified: true` — the rule "input unmounted + no files ⇒ success" (a
+  job-boards heuristic) reported a phantom upload after a single 350 ms
+  wait; Dublin's chip simply rendered faster (`chip=true`). At submit the
+  page had no chip and no input, so the adapter correctly refused. Two
+  defects in `src/ats/greenhouse/fill.ts`:
+  1. `input.evaluate(fn, {timeout})` passed the timeout as the callback
+     ARG, so on a detached input (the success case) the read-back blocked
+     the default 30 s — the fixture exposed it (both new tests timed out).
+     Now `evaluate(fn, undefined, {timeout: 2000})`.
+  2. Chip read-back now POLLS up to 8 s (`CHIP_POLL_MS`); an unmounted
+     input with no filename acknowledgment is `verified=false`, gets ONE
+     filechooser (Attach) retry, and the evidence carries the widget's
+     visible text. The filechooser path polls the same way.
+  Test `tests/unit/greenhouse-upload-chip-poll.test.ts` (chip lands at
+  1.5 s ⇒ verified chip=true; never lands ⇒ verified=false with widget
+  text); ats-phase5 + submit-resolve-upload still green; typecheck clean.
+  Observation for later: `src/ats/shared/uploadResolve.ts:272` keeps the
+  same weak "unmounted ⇒ verified" rule for the other adapters.
+- Rerun: dismissed the MANUAL review item, `retry --app 9df6221e` →
+  QUEUED, cycle 5 below.
+
