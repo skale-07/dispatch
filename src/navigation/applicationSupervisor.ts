@@ -14,12 +14,20 @@ import { redactObject } from "../logging/redaction.js";
 import { supervisorSelectorsV1 as selectors } from "./supervisorSelectors.js";
 import type { SupervisorJobContext } from "./supervisorContext.js";
 
+// #189 (live Merck 2026-09-08): a 600+ char rationale made the schema
+// THROW and the whole supervisor run failed on a page it was navigating
+// fine. A verbose reason is clipped, never fatal; the action set stays strict.
+const reasonField = z.string().transform((s) => s.slice(0, 600));
 const choiceSchema = z.discriminatedUnion("action", [
-  z.object({ action: z.literal("click"), target: z.string(), reason: z.string().max(600) }),
-  z.object({ action: z.literal("open_frame"), target: z.string(), reason: z.string().max(600) }),
-  z.object({ action: z.enum(["authenticate", "wait", "back", "form_ready", "stop"]), reason: z.string().max(600) }),
+  z.object({ action: z.literal("click"), target: z.string(), reason: reasonField }),
+  z.object({ action: z.literal("open_frame"), target: z.string(), reason: reasonField }),
+  z.object({ action: z.enum(["authenticate", "wait", "back", "form_ready", "stop"]), reason: reasonField }),
 ]);
 type Choice = z.infer<typeof choiceSchema>;
+/** Candidates read per frame in the cheap pass (#187); bounded, not a budget. */
+const MAX_CONTROL_SCAN = 600;
+/** Visible controls handed to the model per frame (apply/auth-shaped first). */
+const MAX_CONTROLS_PER_FRAME = 80;
 type Control = { id: string; frame: string; text: string; href: string | null; tag: string; type: string | null; handle: ElementHandle };
 type Observation = {
   page: Page;
@@ -72,17 +80,34 @@ async function observe(page: Page): Promise<Observation> {
     const id = `frame-${index}`;
     frames.push({ id, url: frame.url(), text, page_class: pageClass, frame });
     const candidates = frame.locator(selectors.controls);
-    const count = Math.min(await candidates.count(), 80);
-    for (let n = 0; n < count && controls.length < 160; n++) {
-      const loc = candidates.nth(n);
-      if (!await loc.isVisible().catch(() => false)) continue;
-      const handle = await loc.elementHandle();
+    // #187 (live Merck 2026-09-08): "Apply Now" was candidate 86 of 147 and
+    // the old first-80 DOM-order scan (5 visible: header nav, video chrome)
+    // never surfaced it, so the model stopped honestly on a reachable
+    // posting. One cheap pass reads text + visibility for every candidate
+    // (bounded), apply/auth-shaped controls go first, and handles are
+    // taken only for the chosen set.
+    const scanned = await candidates
+      .evaluateAll((els, limit: number) =>
+        els.slice(0, limit).map((el, i) => {
+          const e = el as unknown as { innerText?: string; type?: string; getClientRects(): ArrayLike<unknown> };
+          return {
+            i,
+            text: (el.getAttribute("aria-label") || e.innerText || el.getAttribute("value") || "").replace(/\s+/g, " ").trim().slice(0, 180),
+            href: el.getAttribute("href"),
+            tag: el.tagName.toLowerCase(),
+            type: e.type ?? el.getAttribute("type"),
+            visible: e.getClientRects().length > 0,
+          };
+        }), MAX_CONTROL_SCAN)
+      .catch(() => [] as Array<{ i: number; text: string; href: string | null; tag: string; type: string | null; visible: boolean }>);
+    const visible = scanned.filter(m => m.visible);
+    const isPrimary = (m: { text: string }) => selectors.apply.test(m.text) || selectors.authSubmit.test(m.text);
+    const chosen = [...visible.filter(isPrimary), ...visible.filter(m => !isPrimary(m))].slice(0, MAX_CONTROLS_PER_FRAME);
+    for (const m of chosen) {
+      if (controls.length >= 160) break;
+      const handle = await candidates.nth(m.i).elementHandle().catch(() => null);
       if (!handle) continue;
-      const meta = await handle.evaluate(el => ({
-        text: (el.getAttribute("aria-label") || (el as unknown as { innerText?: string }).innerText || el.getAttribute("value") || "").replace(/\s+/g, " ").trim().slice(0, 180),
-        href: el.getAttribute("href"), tag: el.tagName.toLowerCase(), type: (el as unknown as { type?: string }).type ?? el.getAttribute("type"),
-      }));
-      controls.push({ id: `control-${controls.length}`, frame: id, handle, ...meta });
+      controls.push({ id: `control-${controls.length}`, frame: id, handle, text: m.text, href: m.href, tag: m.tag, type: m.type });
     }
   }
   const fingerprint = createHash("sha256").update(JSON.stringify({ url: page.url(), classification, frames: frames.map(({ frame: _, ...f }) => f), controls: controls.map(({ handle: _, ...c }) => c) })).digest("hex").slice(0, 16);
@@ -142,7 +167,16 @@ export async function superviseApplicationNavigation(input: {
             ...(screenshot ? { image: { base64: screenshot.toString("base64"), mediaType: "image/png" as const } } : {}),
           });
           model = decision.model;
-          choice = choiceSchema.parse(JSON.parse(decision.text.replace(/^```(?:json)?\s*|\s*```$/g, "")));
+          // A malformed / off-schema response costs ONE step (the cap still
+          // bounds the run), never the whole navigation (#189).
+          const parsedChoice = choiceSchema.safeParse(
+            (() => { try { return JSON.parse(decision.text.replace(/^```(?:json)?\s*|\s*```$/g, "")); } catch { return null; } })(),
+          );
+          if (!parsedChoice.success) {
+            report.steps.push({ observation: obs.fingerprint, action: "invalid_response", reason: decision.text.replace(/\s+/g, " ").slice(0, 200), result: `model response rejected: ${parsedChoice.error.issues[0]?.message ?? "not JSON"}`, model });
+            continue;
+          }
+          choice = parsedChoice.data;
         }
         if (Date.now() >= deadline || controller.signal.aborted) break;
         const key = `${obs.fingerprint}:${choice.action}:${"target" in choice ? choice.target : ""}`;

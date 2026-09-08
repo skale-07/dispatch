@@ -29,6 +29,17 @@ describe("application navigation supervisor (FIXTURE_CONFIRMED)", () => {
     });
   }, 30000);
 
+  it("surfaces an Apply CTA buried past 80 DOM-order candidates (#187, live Merck)", async () => {
+    enable();
+    const nav = Array.from({ length: 95 }, (_, i) => `<a href="/cat/${i}">Category ${i}</a>`).join("");
+    await withFixtureHtmlPage(`<nav>${nav}</nav><h1>Systems Biology Intern</h1>
+      <button type="button" class="btn" onclick="document.body.innerHTML='<label>Email<input type=email name=email></label>'">Apply Now</button>`, async page => {
+      const result = await superviseApplicationNavigation({ page, job: { company: "Merck", role: "Intern", url: page.url() }, maxSteps: 2, client: { generateJson: async () => { throw new Error("one visible Apply must take the fast path"); } } });
+      expect(result.report.outcome).toBe("form_ready");
+      expect(result.report.steps[0]?.reason).toMatch(/one unambiguous Apply control/);
+    });
+  }, 30000);
+
   it("refuses a model's invented control and false form-ready claim", async () => {
     enable();
     await withFixtureHtmlPage('<h1>Choose an application route</h1>', async page => {
