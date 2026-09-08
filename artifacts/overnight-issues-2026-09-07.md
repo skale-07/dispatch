@@ -54,3 +54,35 @@ has sufficient context for the larger navigation decisions.
 
 ## Cycles
 
+### Cycle 1 (00:13Z 09-08) — fresh mode, no_fresh_candidate
+
+- AUTONOMY PASS: CDP autolaunch started debug Chrome on 9222 (port was
+  closed at session start). Preflight ok, agent leg available.
+- Discovery: 8 cards inspected, 0 eligible, 8 filtered (fresh-mode intern
+  filter), 0 reused → `no_fresh_candidate`, backlog untouched. Same static
+  8-card feed as all of 09-06.
+- Issue #179 (observation): JobRight feed discovery is starved. The scan
+  limit is 40 in fresh mode but the live scrape returns only the 8 cards
+  the recommend page renders without scrolling, and that page has not
+  changed in ~30h. Fresh-mode cycles therefore idle forever. Second
+  discovery source used instead (below). Candidate fix for a later
+  session: scroll/paginate the feed scrape, or rotate feed URLs.
+- Autopush 6ec2d395 (artifacts only — verified the source change was NOT
+  staged).
+
+### Discovery via ATS boards (00:17Z) — `discover:ats --registry`
+
+- `private/discovery/boards.json` (15 Greenhouse/Ashby boards) swept with
+  `--limit 8`: 8 enqueued (Databricks SWE Intern Winter 2027; Stripe ×7 —
+  6 "Software Engineer, Intern" variants + 1 "Operations Associate, New
+  Grad (Mexico)"), 3 reused (Samsara new grad, 2 Databricks), rest capped
+  (Verkada ×2, Notion ×4 — re-run to continue).
+- Issue #180 (observation): the registry's `include: ["new grad"]` on
+  Stripe over-matched a non-engineering Mexico ops role, and one board can
+  monopolise the cap (Stripe took 7 of 8 slots; a per-board cap would
+  spread the sweep). Parked the ops role FAILED_FINAL through the state
+  machine (`private/tmp-park-one-20260907.ts`) with the reason recorded.
+- Queue after: 7 QUEUED (6 Stripe, 1 Databricks). Backlog cycles from
+  here (`--backlog`) — the picker takes QUEUED newest-first, so the
+  ATS-discovered rows run before any parked app.
+
