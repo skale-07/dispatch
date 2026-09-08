@@ -431,6 +431,35 @@ has sufficient context for the larger navigation decisions.
   so triage stops requeueing. Until then both IBM apps (907955ca,
   3b848e6b) are parked behind MANUAL review items: the operator creates
   an IBMid once, then requeue-wall.
+### Cycle 17 (02:17Z) — 72ad2ead Astera Labs System Validation Engineer Intern: UNCERTAIN submission
+
+- JobRight-sourced, Greenhouse job-boards (asteralabs/4724488005). Fill
+  verified, submit CLICKED (submits_used 1), then the verifier's
+  `page.content()` threw "Unable to retrieve content because the page is
+  navigating" — the receipt page was loading — so the outcome is
+  UNCERTAIN → SUBMISSION_VERIFICATION_FAILED + review item. No outreach
+  (tail needs a verified submit). Per doctrine, nothing auto-confirms;
+  read-back evidence gathered below for the operator.
+- Issue #193 (fix candidate): the post-click read must tolerate an
+  in-flight navigation (wait for domcontentloaded / retry content() a
+  bounded few times) before calling the submission uncertain.
+- Third IBM posting (2f917d89, Chicago) enqueued by discovery; parked
+  behind the IBMid review item before any cycle was spent.
+- Astera read-back (LIVE_READ_ONLY): the debug-Chrome tab that held the
+  form now shows the POSTING page again (`artifacts/probes/astera-tab-6-
+  20260907.png`, "Apply" button, no thank-you), and `verify:mailbox
+  --since 45` found no receipt (Gmail-web scan: nothing_found; Outlook
+  session invalid — `npm run login:outlook` needed). Neither proves nor
+  disproves the submit: Greenhouse job-boards can bounce back to the
+  posting after a submit, and the mailbox scan looks for verification
+  codes, not receipts. Stays UNCERTAIN for the operator: check the inbox
+  for "Thank you for applying — Astera Labs" and resolve with
+  `review:resolve --outcome submitted|not-submitted`.
+- #193 fix: `greenhouseVerifySubmission` now catches the navigating /
+  context-destroyed error from `page.content()`, waits for
+  domcontentloaded and re-reads within its deadline; unrelated errors
+  still throw. Test `tests/unit/greenhouse-verify-navigating.test.ts`
+  (scripted page: two navigating errors then the receipt ⇒ confirmed).
 - Autopush note: the full test suite writes fixture artifacts under
   `artifacts/`, and cycle 10's autopush swept 507 of them into master
   (180a9e4a). Pre-existing behaviour; worth a follow-up (autopush should

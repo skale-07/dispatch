@@ -1,0 +1,92 @@
+{
+  "run_id": "[REDACTED]",
+  "outcome": "stopped",
+  "steps": [
+    {
+      "observation": "26a60ce457e3dc13",
+      "action": "click",
+      "reason": "one unambiguous Apply control",
+      "result": "clicked observed control; next observation checks progress",
+      "target": "control-0"
+    },
+    {
+      "observation": "fbf50b096995adfd",
+      "action": "wait",
+      "reason": "URL advanced to the Workday /apply route but the page is blank with no controls yet; allow the SPA to finish rendering the apply chooser before acting.",
+      "result": "waited for rendering",
+      "model": "claude-opus-5"
+    },
+    {
+      "observation": "6d0381a1b84e2f80",
+      "action": "back",
+      "reason": "The Workday /apply route returned a 404 ('page you are looking for doesn't exist') and only dead-end controls remain here. Stepping back to the Merck posting lets me look for an alternate Apply route (e.g., the Workday job detail page rather than the direct /apply deep link) instead of repeating a broken path.",
+      "result": "returned to previous page",
+      "model": "claude-opus-5"
+    },
+    {
+      "observation": "91cf9c805c76e723",
+      "action": "click",
+      "reason": "The direct /apply deep link 404'd and the Apply Now button isn't an actionable control here. The Workday applicant sign-in (msd.wd5.myworkdayjobs.com) is the employer's own portal route; reaching it lets the approved credential service authenticate and then access the application for this posting.",
+      "result": "action failed: elementHandle.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retryi",
+      "model": "claude-opus-5",
+      "target": "control-1"
+    },
+    {
+      "observation": "63072cfe6102e4f5",
+      "action": "click",
+      "reason": "The direct Workday /apply deep link 404'd; the previous attempt to reach sign-in mistakenly targeted the hidden 'Skip to main content' link. control-2 is the Merck/MSD Workday applicant sign-in (msd.wd5.myworkdayjobs.com), the employer's own portal route, which lets the approved credential service authenticate and then reach the posting's application.",
+      "result": "clicked observed control; next observation checks progress",
+      "model": "claude-opus-5",
+      "target": "control-2"
+    },
+    {
+      "observation": "528d8eb6f40d791a",
+      "action": "wait",
+      "reason": "We've reached the Merck/MSD Workday applicant sign-in URL, but the SPA hasn't rendered yet (no controls, empty frames). Give it a moment to paint the sign-in form before invoking the credential service.",
+      "result": "waited for rendering",
+      "model": "claude-opus-5"
+    },
+    {
+      "observation": "a921a110ff6501d8",
+      "action": "back",
+      "reason": "Authentication into the Merck/MSD Workday candidate portal succeeded (Candidate Home shows the signed-in account), but this page has no route to the specific posting — 'Search for Jobs' is not an actionable control and the only allowed links are generic. Stepping back toward the Merck posting lets me retry its Apply control now that a session exists, which should open the application rather than the 404 deep link.",
+      "result": "returned to previous page",
+      "model": "claude-opus-5"
+    },
+    {
+      "observation": "528d8eb6f40d791a",
+      "action": "wait",
+      "reason": "The page is the Workday sign-in URL but nothing has rendered yet (no controls, empty frames). Since a session already exists, this route may redirect or paint shortly; give the SPA a moment before choosing a different route.",
+      "result": "waited for rendering",
+      "model": "claude-opus-5"
+    },
+    {
+      "observation": "a921a110ff6501d8",
+      "action": "click",
+      "reason": "Signed in to the Merck/MSD Workday candidate portal, but Candidate Home has no route to this posting and 'Search for Jobs' isn't an actionable control. control-1 (jobs.msd.com) is the employer's own careers site, where I can locate this specific requisition and use its Apply route with the now-established session — a change of approach from the 404'd /apply deep link and the looping back-navigation.",
+      "result": "clicked observed control; next observation checks progress",
+      "model": "claude-opus-5",
+      "target": "control-1"
+    },
+    {
+      "observation": "9b5c202fee18ca22",
+      "action": "click",
+      "reason": "This EMEA (MSD gb/en) marketing page has no route to the US requisition and its only 'here' link goes to China. control-1 opens the employer's own Workday job site (msd.wd5.myworkdayjobs.com/SearchJobs), where — with the session already authenticated — the requisition listing/apply route can be reached, rather than looping back through the 404'd deep link.",
+      "result": "clicked observed control; next observation checks progress",
+      "model": "claude-opus-5",
+      "target": "control-1"
+    },
+    {
+      "observation": "49bd971673e64836",
+      "action": "stop",
+      "reason": "Signed in to the Merck/MSD Workday candidate portal, but no route to this specific requisition remains: the posting's /apply deep link returns 404, 'Search for Jobs' is not an actionable control, and the only allowed link (jobs.msd.com) has already been followed twice, landing on an EMEA marketing page and then redirecting back to Candidate Home. The path is exhausted and looping without reaching the application form for the 2027 Future Talent Program intern posting.",
+      "result": "model stopped",
+      "model": "claude-opus-5"
+    }
+  ],
+  "notes": [],
+  "evidence": [
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-073392e1-b55a-4a9f-97ea-85f25aac93c2\\observation.json",
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-073392e1-b55a-4a9f-97ea-85f25aac93c2\\page.png"
+  ]
+}
