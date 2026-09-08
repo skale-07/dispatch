@@ -1,5 +1,6 @@
 import type { Db } from "../../storage/db/client.js";
 import { superviseApplicationNavigation } from "../../navigation/applicationSupervisor.js";
+import { buildSupervisorJobContext, type SupervisorJobContext } from "../../navigation/supervisorContext.js";
 import { dismissPageObstructions } from "../../browser/obstructions.js";
 import {
   authenticateAtsPortal,
@@ -364,7 +365,7 @@ export async function reachGreenhouseApplicationForm(
   page: Page,
   requestedUrl: string,
   normalizedUrl: string | null,
-  options?: { dismissObstructions?: boolean; supervise?: boolean; job?: { company: string; role: string } },
+  options?: { dismissObstructions?: boolean; supervise?: boolean; job?: Partial<SupervisorJobContext> },
 ): Promise<{
   page: Page;
   gate: GreenhouseMutationGate;
@@ -656,9 +657,9 @@ export async function runGreenhouseLiveFill(input: {
         input.url,
         urlValidation.normalizedUrl,
         { dismissObstructions: input.execute, supervise: input.execute,
-          ...(input.capture?.applicationId ? { job: input.capture.db.prepare(
-            "SELECT j.company, j.role FROM jobs j JOIN applications a ON a.job_id = j.id WHERE a.id = ?",
-          ).get(input.capture.applicationId) as { company: string; role: string } } : {}),
+          ...(input.capture?.applicationId
+            ? { job: buildSupervisorJobContext(input.capture.db, input.capture.applicationId, input.url) }
+            : {}),
         },
       );
       let page = reached.page;

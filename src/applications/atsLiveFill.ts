@@ -99,6 +99,7 @@ import type { ApprovedFillPlan } from "./approvedFillPlan.js";
 import { fillRevealedProfileSelects } from "../ats/shared/dependentSelects.js";
 import { readLiveHtml } from "../browser/liveHtml.js";
 import { superviseApplicationNavigation, type SupervisorReport } from "../navigation/applicationSupervisor.js";
+import { buildSupervisorJobContext } from "../navigation/supervisorContext.js";
 import type { EmailLlmClient } from "../contacts/emailLlm.js";
 
 /**
@@ -572,10 +573,13 @@ export async function runAtsLiveFill(input: {
       let gate = await binding.gate(page, input.url, detected.normalizedUrl);
       if (input.execute && !TERMINAL_GATE_CODES.has(gate.failureCode ?? "") &&
           classifyPage({ html: gate.html, url: gate.finalUrl }).page_class !== "form") {
-        const job = input.capture?.applicationId ? input.capture.db.prepare(
-          `SELECT j.company, j.role FROM jobs j JOIN applications a ON a.job_id = j.id WHERE a.id = ?`,
-        ).get(input.capture.applicationId) as { company: string; role: string } | undefined : undefined;
-        const supervised = await superviseApplicationNavigation({ page, job: { ...job, url: input.url },
+        // Full job context (posting details + prior nav attempts/events),
+        // not just {company, role}: the supervisor's navigation decisions
+        // are only as good as what it can see (operator directive 2026-09-07).
+        const job = input.capture?.applicationId
+          ? buildSupervisorJobContext(input.capture.db, input.capture.applicationId, input.url)
+          : { url: input.url };
+        const supervised = await superviseApplicationNavigation({ page, job,
           ...(input.supervisorClient ? { client: input.supervisorClient } : {}),
         });
         if (supervised.report.outcome !== "disabled") {
