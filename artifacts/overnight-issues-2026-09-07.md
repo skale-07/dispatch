@@ -366,6 +366,38 @@ has sufficient context for the larger navigation decisions.
   Gmail-verification path exists for code entry but never engaged), and
   the field discovery does not exclude chat-widget controls. Needs its
   own adapter work; parked for the operator.
+### Cycle 14 (02:05Z) — dc734a38 Merck again: #187 LIVE-CONFIRMED, then two new walls
+
+- Step 1 was the deterministic fast path: "one unambiguous Apply control"
+  → clicked Merck's Apply Now (the control the old observer never
+  surfaced). #187 LIVE_READ_ONLY_CONFIRMED.
+- The Workday deep link (`msd.wd5.myworkdayjobs.com/…/XMLNAME-2027-…`)
+  rendered a 404; the model changed approach, found MSD's Workday
+  sign-in, waited for hydration, and `authenticate` → portal auth
+  `account_created` (an MSD candidate account now exists — per the TIAA
+  lesson the next run rides that session). Candidate Home had no allowed
+  route back to requisition R413118; the model looped back/forward and
+  the run then DIED at step 10 with
+  "supervisor failed: reason — String must contain at most 600
+  character(s)": a verbose rationale hit the zod `.max(600)` and the
+  schema threw out of the loop. End: NATIVE_AUTOFILL_RUNNING gate park,
+  page_class unknown. No triage action recorded.
+- Issue #189 (fix): `reason` is now clipped to 600 chars instead of
+  fatal, and any malformed/off-schema model response is recorded as an
+  `invalid_response` step (cap still bounds the run) rather than
+  aborting navigation. Supervisor tests re-run below.
+- Merck demoted NATIVE_AUTOFILL_RUNNING → FAILED_RETRYABLE (state machine,
+  reason recorded) and `retry --app` → QUEUED — then PARKED FAILED_FINAL
+  after read-only probes (`private/tmp-probe-merck-workday{,2}-20260907.ts`,
+  pixels `artifacts/probes/merck-workday-*.png`): with the MSD candidate
+  session established, the deep link 404s, the job page without `/apply`
+  404s, and a tenant search for R413118 returns "0 JOBS FOUND". Merck's
+  Phenom careers site links this US posting to the msd.wd5 Workday tenant
+  where the requisition is not published — no apply route exists from
+  the posting (#190, observation: a Workday deep-link 404 + req-search
+  miss is a deterministic "posting not applicable here" signal the nav
+  layer could recognise instead of spending 10 supervisor steps).
+- #189 gated locally: typecheck clean, supervisor tests 6/6.
 - Autopush note: the full test suite writes fixture artifacts under
   `artifacts/`, and cycle 10's autopush swept 507 of them into master
   (180a9e4a). Pre-existing behaviour; worth a follow-up (autopush should

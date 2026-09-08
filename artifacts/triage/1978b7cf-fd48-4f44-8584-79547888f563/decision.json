@@ -1,0 +1,119 @@
+{
+  "decision_id": "1978b7cf-fd48-4f44-8584-79547888f563",
+  "application_id": "907955ca-f4d3-4d56-ba4a-dc82672f384d",
+  "signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|careers.ibm.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "907955ca-f4d3-4d56-ba4a-dc82672f384d",
+    "company": "IBM",
+    "role": "Business Transformation Consultant Intern - Data Services 2027",
+    "state": "NATIVE_AUTOFILL_RUNNING",
+    "attempt": 1,
+    "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|careers.ibm.com",
+    "end_host": "careers.ibm.com",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route ready_for_fill_later (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-08T02:02:12.039Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-08T02:02:11.222Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-08T02:02:11.200Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-08T02:02:08.868Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 dd9093dde3f8)",
+        "at": "2026-09-08T02:02:08.865Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-08T02:02:08.740Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-08T02:02:06.249Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-08T02:02:06.229Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-08T02:02:06.228Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-08T02:02:06.226Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "ibm",
+        "detail": "token \"ibm\" ~ slug \"ibm\" (from URL host)",
+        "expected_company": "IBM",
+        "url": "https://careers.ibm.com/en_US/careers/JobDetail?jobId=128535&jr_id=6a9e254c75edfa11b4710662"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (9 candidates, employer match)",
+          "evidence": "careers.ibm.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"requeue_same\", \"rationale\": \"Attempt 1 stalled mid-run in NATIVE_AUTOFILL_RUNNING with no wall, no fill gate, and clean navigation (host congruence match, anchor_href resolved). No prior failures on this host and no forbidden actions; a plain rerun is the cheapest plausible fix for an apparently transient stall.\", \"confidence\": \"medium\"}",
+  "parsed_action": "requeue_same",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "requeued at attempt 2",
+  "rationale_unverified": "Attempt 1 stalled mid-run in NATIVE_AUTOFILL_RUNNING with no wall, no fill gate, and clean navigation (host congruence match, anchor_href resolved). No prior failures on this host and no forbidden actions; a plain rerun is the cheapest plausible fix for an apparently transient stall."
+}
