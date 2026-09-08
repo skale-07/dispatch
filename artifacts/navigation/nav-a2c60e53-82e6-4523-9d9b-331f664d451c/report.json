@@ -1,0 +1,52 @@
+{
+  "run_id": "nav-a2c60e53-82e6-4523-9d9b-331f664d451c",
+  "application_id": "f4ef123d-a04d-43d1-9d99-f03e1d6df0ff",
+  "jobright_job_id": "6af34c226dcb4c418ba46497",
+  "method": null,
+  "resolved_url": null,
+  "resolved_ats": null,
+  "wall": "budget",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no external anchors"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "unresolved by deterministic phases"
+    },
+    {
+      "phase": "C_agent",
+      "outcome": "wall: budget (turn 1)"
+    }
+  ],
+  "agent": {
+    "turns_used": 1,
+    "steps_used": 5,
+    "domains_visited": [
+      "jobright.ai",
+      "jobs.lever.co"
+    ]
+  },
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "no standard Apply control found (exact and broad name tiers both empty)",
+    "agent[1]: reached form",
+    "agent[1]: final_url rejected: host evil.example.com is outside allowed domains",
+    "agent[1] reason: sidecar final_url rejected: host evil.example.com is outside allowed domains"
+  ],
+  "congruence": null,
+  "duplicates": null,
+  "login_wall": null,
+  "evidence": [
+    "navigation\\nav-a2c60e53-82e6-4523-9d9b-331f664d451c\\giveup-budget.html",
+    "navigation\\nav-a2c60e53-82e6-4523-9d9b-331f664d451c\\giveup-budget.png"
+  ],
+  "written_at": "2026-09-08T01:30:21.878Z"
+}

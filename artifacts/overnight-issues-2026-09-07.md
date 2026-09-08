@@ -268,5 +268,21 @@ has sufficient context for the larger navigation decisions.
   (21, +1 US-only sweep case), jobright-phase3 (9) green; typecheck clean.
   Third full gate: `artifacts/console/gate-2026-09-07-night26-c.log`.
 - Committed after gate b (1684/1684): 15bec7ba #178, bfafac21 #182,
-  61d4102b #183, 6da550e7 #184, 599dd378 docs.
+  61d4102b #183, 6da550e7 #184, 599dd378 docs. Gate c (1691/1691) →
+  d02b5526 #185.
+
+## Operator directive (02:05Z): "yes US only. continue the cycle and ensure email generation is running as well"
+
+- Email generation reality: the outreach tail (contacts:insider →
+  email:generate → gmail:draft) needs the JobRight insider panel, so it
+  fires only for JobRight-sourced submits (#181). All six submits tonight
+  were board-sourced ⇒ 0 emails, by design. The way to get the tail
+  running is JobRight-sourced candidates, which needs the feed unstarved.
+- Issue #179 (fix, UNVERIFIED → live-validated below): `scrapeFeedCardsLive`
+  now scrolls the recommend feed (bounded, `MAX_FEED_SCROLLS` = 6, stop
+  when the parsed card count reaches maxJobs or stops growing) instead of
+  a single content() read. Typecheck + discovery unit tests green; the
+  scroll path itself is live-only (no fixture can lazy-load), so the
+  first fresh cycle is its validation. Gate + commit in the next quiet
+  window.
 
