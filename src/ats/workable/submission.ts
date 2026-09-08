@@ -8,6 +8,7 @@ import { CLICK_WITHHELD_NOTE } from "../adapter.js";
 import { assertSubmitAllowed } from "../../applications/formFillGuards.js";
 import { detectErrorPageSignals } from "../greenhouse/identityVerification.js";
 import { workableSelectorsV1 } from "./selectors.js";
+import { renderedMarkup } from "../shared/pageClassify.js";
 import { resolveSubmitControl } from "../shared/submitControl.js";
 import {
   SubmissionUncertainError,
@@ -42,7 +43,7 @@ export function detectSubmissionUncertainty(
   finalUrl: string,
 ): SubmissionPageClassification {
   if (
-    workableSelectorsV1.confirmationMarkers.test(html) &&
+    workableSelectorsV1.confirmationMarkers.test(renderedMarkup(html)) &&
     !workableSelectorsV1.formMarkers.test(html)
   ) {
     return "confirmed";
@@ -166,7 +167,7 @@ export async function workableVerifySubmission(
     );
   }
 
-  const matched = html.match(workableSelectorsV1.confirmationMarkers);
+  const matched = renderedMarkup(html).match(workableSelectorsV1.confirmationMarkers);
   return {
     submitted: true,
     submitted_at: new Date().toISOString(),

@@ -42,6 +42,23 @@ export type PageClassification = {
 const GENERIC_CONFIRMATION_RE =
   /thank you for (applying|your application)|application (for .{1,80}? )?(has been |was )?(submitted|received|complete)|you(?:'ve| have) successfully (applied|submitted)/i;
 
+/**
+ * #182 (live Stripe 2026-09-07): Greenhouse's job-boards embed ships the
+ * posting's post-submit `confirmation_message` ("Thank you for applying.")
+ * inside its Remix bootstrap `<script>` on the UNSUBMITTED form. Any
+ * confirmation marker tested against raw HTML therefore fires on a blank
+ * application form — the supervisor stopped on "page is confirmation" and
+ * the fill parked FORM_NOT_FOUND. Markers must only ever see markup that
+ * can render: strip script / style / noscript / template bodies first.
+ * Shared by the classifier and every ATS submit verifier.
+ */
+export function renderedMarkup(html: string): string {
+  return html.replace(
+    /<(script|style|noscript|template)\b[^>]*>[\s\S]*?<\/\1\s*>/gi,
+    "",
+  );
+}
+
 const APPLY_CTA_RE =
   /\bapply(?:\s+now)?\b[^<]{0,40}<|data-automation-id=["']adventureButton["']|>\s*apply\s*</i;
 
@@ -203,9 +220,10 @@ export function classifyPage(input: {
     };
   }
 
+  const markup = renderedMarkup(html);
   const confirmed =
-    (input.confirmationMarkers?.test(html) ?? false) ||
-    GENERIC_CONFIRMATION_RE.test(html);
+    (input.confirmationMarkers?.test(markup) ?? false) ||
+    GENERIC_CONFIRMATION_RE.test(markup);
   if (confirmed) {
     return {
       page_class: "confirmation",

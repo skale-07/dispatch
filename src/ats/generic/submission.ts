@@ -9,6 +9,7 @@ import { assertSubmitAllowed } from "../../applications/formFillGuards.js";
 import { detectErrorPageSignals } from "../greenhouse/identityVerification.js";
 import { discoverFieldsFromHtml } from "../../applications/fieldDiscovery.js";
 import { genericSelectorsV1 } from "./selectors.js";
+import { renderedMarkup } from "../shared/pageClassify.js";
 import { resolveSubmitControl } from "../shared/submitControl.js";
 import { dismissPageObstructions } from "../../browser/obstructions.js";
 import {
@@ -72,7 +73,7 @@ export function classifyGenericSubmission(
     fieldFingerprint(html),
   );
   const formGone = overlap <= 0.25 || !genericSelectorsV1.formMarkers.test(html);
-  if (genericSelectorsV1.confirmationMarkers.test(html) && formGone) {
+  if (genericSelectorsV1.confirmationMarkers.test(renderedMarkup(html)) && formGone) {
     return "confirmed";
   }
   if (!formGone) return "still_on_form";
@@ -214,7 +215,7 @@ export async function genericVerifySubmission(
     );
   }
 
-  const matched = html.match(genericSelectorsV1.confirmationMarkers);
+  const matched = renderedMarkup(html).match(genericSelectorsV1.confirmationMarkers);
   return {
     submitted: true,
     submitted_at: new Date().toISOString(),

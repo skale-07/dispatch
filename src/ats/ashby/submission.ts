@@ -8,6 +8,7 @@ import { CLICK_WITHHELD_NOTE } from "../adapter.js";
 import { assertSubmitAllowed } from "../../applications/formFillGuards.js";
 import { detectErrorPageSignals } from "../greenhouse/identityVerification.js";
 import { ashbySelectorsV1 } from "./selectors.js";
+import { renderedMarkup } from "../shared/pageClassify.js";
 import { resolveSubmitControl } from "../shared/submitControl.js";
 
 import {
@@ -53,7 +54,7 @@ export function detectSubmissionUncertainty(
   // blobs keep "_systemfield_" strings after a successful submit, and a
   // real success must not classify still_on_form forever.
   if (
-    ashbySelectorsV1.confirmationMarkers.test(html) &&
+    ashbySelectorsV1.confirmationMarkers.test(renderedMarkup(html)) &&
     !ashbySelectorsV1.renderedFormMarkers.test(html)
   ) {
     return "confirmed";
@@ -177,7 +178,7 @@ export async function ashbyVerifySubmission(
     );
   }
 
-  const matched = html.match(ashbySelectorsV1.confirmationMarkers);
+  const matched = renderedMarkup(html).match(ashbySelectorsV1.confirmationMarkers);
   return {
     submitted: true,
     submitted_at: new Date().toISOString(),

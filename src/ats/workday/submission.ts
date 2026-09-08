@@ -8,6 +8,7 @@ import { CLICK_WITHHELD_NOTE } from "../adapter.js";
 import { assertSubmitAllowed } from "../../applications/formFillGuards.js";
 import { detectErrorPageSignals } from "../greenhouse/identityVerification.js";
 import { workdaySelectorsV1 } from "./selectors.js";
+import { renderedMarkup } from "../shared/pageClassify.js";
 import {
   SubmissionUncertainError,
   detectVisibleValidationError,
@@ -33,7 +34,7 @@ export function detectWorkdaySubmission(
 ): WorkdaySubmissionClassification {
   void finalUrl;
   if (
-    workdaySelectorsV1.confirmationMarkers.test(html) &&
+    workdaySelectorsV1.confirmationMarkers.test(renderedMarkup(html)) &&
     !workdaySelectorsV1.wizard.pageMarkers.test(html)
   ) {
     return "confirmed";
@@ -132,7 +133,7 @@ export async function workdayVerifySubmission(
       },
     );
   }
-  const matched = html.match(workdaySelectorsV1.confirmationMarkers);
+  const matched = renderedMarkup(html).match(workdaySelectorsV1.confirmationMarkers);
   return {
     submitted: true,
     submitted_at: new Date().toISOString(),

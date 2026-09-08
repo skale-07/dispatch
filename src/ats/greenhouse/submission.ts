@@ -8,6 +8,7 @@ import { CLICK_WITHHELD_NOTE } from "../adapter.js";
 import { assertSubmitAllowed } from "../../applications/formFillGuards.js";
 import { detectErrorPageSignals } from "./identityVerification.js";
 import { greenhouseSelectorsV1 } from "./selectors.js";
+import { renderedMarkup } from "../shared/pageClassify.js";
 
 // One class across all ATSes so submitRun's instanceof catch sees the
 // structured evidence no matter which adapter threw.
@@ -32,7 +33,9 @@ export function detectSubmissionUncertainty(
   html: string,
   finalUrl: string,
 ): SubmissionPageClassification {
-  if (greenhouseSelectorsV1.confirmationMarkers.test(html)) {
+  // #182: markers read rendered markup only — the job-boards embed's
+  // bootstrap <script> carries the thank-you text on the BLANK form.
+  if (greenhouseSelectorsV1.confirmationMarkers.test(renderedMarkup(html))) {
     return "confirmed";
   }
   if (detectErrorPageSignals(html, "")) {
@@ -156,7 +159,7 @@ export async function greenhouseVerifySubmission(
     );
   }
 
-  const matched = html.match(greenhouseSelectorsV1.confirmationMarkers);
+  const matched = renderedMarkup(html).match(greenhouseSelectorsV1.confirmationMarkers);
   return {
     submitted: true,
     submitted_at: new Date().toISOString(),
