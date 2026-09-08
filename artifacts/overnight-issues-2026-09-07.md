@@ -286,3 +286,25 @@ has sufficient context for the larger navigation decisions.
   first fresh cycle is its validation. Gate + commit in the next quiet
   window.
 
+### Cycle 10 (01:33Z) — fresh, no_fresh_candidate (scroll v1 ineffective)
+
+- 8 inspected / 8 filtered / 0 rows created — identical to cycle 1. The
+  first scroll version used `mouse.wheel` at the default (0,0) pointer.
+- Read-only CDP probes (`private/tmp-probe-feed-scroll-20260907.ts`,
+  `…-feed-parse-…`, pixels in `artifacts/probes/feed-scroll-*.png`): the
+  feed lives in an overflow container
+  (`index_jobs-page-main-content__…`, scrollHeight 5108 / client 687);
+  window scroll and wheel load nothing, scrolling that container to its
+  bottom loads more (7 → 11 → 12 after four scrolls). The real parser on
+  the live feed returned 7 then 12 cards, ALL intern-typed and US
+  (Hudson River Trading Austin TX, Merck ×9, Neuralink ×2, Citadel NY,
+  IBM ×2) — so cycle 10's "8 filtered" was the older card set; the feed
+  refreshed inside the hour.
+- #179 fix v2: scroll the tallest scrollable element to its bottom each
+  iteration (bounded by `MAX_FEED_SCROLLS` = 6, stop when the parsed
+  count stops growing). Typecheck clean. Cycle 11 validates live.
+- Autopush note: the full test suite writes fixture artifacts under
+  `artifacts/`, and cycle 10's autopush swept 507 of them into master
+  (180a9e4a). Pre-existing behaviour; worth a follow-up (autopush should
+  ignore sandbox/ats-fill fixture output).
+
