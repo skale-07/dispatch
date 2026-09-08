@@ -1,0 +1,36 @@
+{
+  "run_id": "[REDACTED]",
+  "outcome": "stopped",
+  "steps": [
+    {
+      "observation": "3ab32cb1bcb464ff",
+      "action": "click",
+      "reason": "Correct posting (Stripe, Software Engineer Intern, Toronto, job id 8130805) but no application fields yet; clicking the employer's 'Apply for this role' CTA opens the native application form.",
+      "result": "clicked observed control; next observation checks progress",
+      "model": "claude-opus-5",
+      "target": "control-13"
+    },
+    {
+      "observation": "e5055ef13dcae1c2",
+      "action": "form_ready",
+      "reason": "The Greenhouse embedded application (frame-1) for Stripe's Software Engineer, Intern (Summer or Winter) — Toronto, job 8130805 — is loaded and visible with real applicant identity fields (First Name, Last Name, Email, Phone, Location, Resume/CV). No sign-in wall or Apply chooser remains.",
+      "result": "refused: applicant form not independently observed",
+      "model": "claude-opus-5"
+    },
+    {
+      "observation": "e5055ef13dcae1c2",
+      "action": "open_frame",
+      "reason": "The Greenhouse embedded application form with real applicant identity fields is in frame-1; the prior form_ready was refused because the form frame wasn't independently opened/observed. Opening frame-1 in this tab surfaces the applicant form directly for verification.",
+      "result": "opened observed frame URL",
+      "model": "claude-opus-5",
+      "target": "frame-1"
+    }
+  ],
+  "notes": [
+    "page is confirmation"
+  ],
+  "evidence": [
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-60e559da-6682-44a2-a8ad-2000c5d7dc69\\observation.json",
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-60e559da-6682-44a2-a8ad-2000c5d7dc69\\page.png"
+  ]
+}

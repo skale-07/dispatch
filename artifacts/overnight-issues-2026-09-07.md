@@ -86,3 +86,27 @@ has sufficient context for the larger navigation decisions.
   here (`--backlog`) — the picker takes QUEUED newest-first, so the
   ATS-discovered rows run before any parked app.
 
+### Cycle 2 (00:18Z) — 883643e8 Stripe SWE Intern (Summer or Winter): SUBMITTED
+
+- LIVE_MUTATION_CONFIRMED: QUEUED → … → NATIVE_AUTOFILL_RUNNING →
+  READY_TO_SUBMIT → SUBMITTED → COMPLETED in one cycle. Submit report
+  `submission/submit-run-1-1788826875938.json` = `SUBMITTED_VERIFIED`
+  ("Thank you for applying"); receipt pixels `receipt-attempt-1.png` show
+  Stripe's confirmation page. Greenhouse-hosted form; supervisor not
+  needed (form reached directly from the board apply URL). submits_used 1.
+- Nav audit at session start parked the new Databricks row 8f320b96 as a
+  duplicate: its board URL is already held by f7cc3448 (COMPLETED 09-01
+  via JobRight). Correct — `discover:ats` fingerprint dedupe missed it
+  (JobRight-sourced twin has a different fingerprint) but the URL guard
+  caught it before any cycle was spent. Observation only.
+- Issue #181 (observation, product gap): post-submit gmail tail SKIPPED —
+  "Cannot resolve stored job: … has no JobRight job id". Contact
+  extraction reads the JobRight insider panel, so an ATS-board-discovered
+  application has no contact source and the pipeline (by design, comment
+  at `runPipeline.ts:1639`) completes without outreach. With the JobRight
+  feed starved (#179), every submit tonight comes from boards.json, so the
+  gmail pipeline cannot fire on them. Candidate fix: resolve a JobRight
+  job id for board-discovered apps by searching JobRight for the
+  company+role, or add a non-JobRight contact source.
+- Autopush 3e5cf693 (artifacts only).
+
