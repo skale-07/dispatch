@@ -911,6 +911,30 @@ describe("Greenhouse redirect + login-wall hotfix (FIXTURE_CONFIRMED)", () => {
     expect(wall.signals).toContain("password_input_visible_in_dom");
   });
 
+  it("a federated identity-provider host with no password field is HIGH confidence (#191, live IBMid)", () => {
+    const wall = detectLoginWall({
+      finalUrl:
+        "https://login.ibm.com/authsvc/mtfim/sps/authsvc?PolicyId=urn:ibm:security:authentication:asf:basicldapuser&Target=https%3A%2F%2Flogin.ibm.com%2Foidc",
+      html: `<html><body><main><h1>Log in to IBM</h1>
+        <p>Don’t have an account? <a href="/account/reg">Create an IBMid</a></p>
+        <label>IBMid<input name="username" type="text" /></label><button>Continue</button>
+        <p>Alternative login</p><button>Continue with Google</button><button>Continue with GitHub</button></main></body></html>`,
+      title: "IBM Login",
+    });
+    expect(wall.detected).toBe(true);
+    expect(wall.confidence).toBe("HIGH");
+    expect(wall.signals).toContain("identity_provider_host");
+  });
+
+  it("a careers host with a mere create-account link is not an identity-provider wall", () => {
+    const wall = detectLoginWall({
+      finalUrl: "https://careers.example.com/jobs/123",
+      html: `<html><body><h1>Software Engineer Intern</h1><p>Don't have an account? <a href="/register">Create an account</a></p><a href="/apply">Apply now</a></body></html>`,
+      title: "Careers",
+    });
+    expect(wall.detected).toBe(false);
+  });
+
   it("emailed-code wall (one-time-code + verify copy) is HIGH confidence", () => {
     const wall = detectLoginWall({
       finalUrl: "https://example.myworkdayjobs.com/verify",

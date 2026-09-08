@@ -31,6 +31,9 @@ const AUTH_PROVIDER =
  * Detect a real authentication wall. Requires strong contextual evidence.
  * Returns detected:true only for HIGH confidence.
  */
+/** Hosts that exist only to authenticate: login./auth./sso./accounts./signin./idp./id. */
+const IDP_HOST = /^(login|auth|sso|accounts?|signin|idp|id)\.[a-z0-9.-]+\.[a-z]{2,}$/i;
+
 export function detectLoginWall(input: {
   finalUrl: string;
   html: string;
@@ -84,6 +87,25 @@ export function detectLoginWall(input: {
   if (AUTH_FORM_ACTION.test(html)) {
     score += 2;
     signals.push("auth_form_action");
+  }
+
+  // #191 (live IBM 2026-09-08): federated identity providers serve a
+  // username-first page with NO password input on step one (IBMid at
+  // login.ibm.com: "Log in to IBM / Don't have an account? Create an
+  // IBMid / Continue with Google"). It scored 0 here, classifyPage called
+  // it a form, and the supervisor could neither authenticate nor stop
+  // honestly. A dedicated auth host plus sign-in copy IS the wall.
+  let host = "";
+  try {
+    host = new URL(input.finalUrl).hostname;
+  } catch {
+    host = "";
+  }
+  const createAccountCopy =
+    /don.?t have an account|create an? (?:\w+ ?){0,2}(?:id|account)\b/i.test(html);
+  if (IDP_HOST.test(host) && (score >= 2 || createAccountCopy)) {
+    signals.push("identity_provider_host");
+    return { detected: true, confidence: "HIGH", signals };
   }
 
   // Weak / insufficient alone — record for diagnostics only
