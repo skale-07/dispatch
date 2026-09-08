@@ -211,3 +211,53 @@ has sufficient context for the larger navigation decisions.
 - LIVE_MUTATION_CONFIRMED, first attempt; receipt-attempt-1.png is the
   Stripe thank-you page. Fifth submit. Gmail tail skipped (#181).
 
+### Cycle 9 (01:16Z) — 37815d56 Stripe SWE Intern (gh 8130867): SUBMITTED
+
+- LIVE_MUTATION_CONFIRMED, first attempt; receipt-attempt-1.png is the
+  Stripe thank-you page. Sixth submit. Gmail tail skipped (#181).
+- ATS-discovered queue drained (Databricks 8f320b96 stays parked as a
+  duplicate of the COMPLETED JobRight twin). Browser idle → full verify
+  gate for #178/#182/#183 (`artifacts/console/gate-2026-09-07-night26.log`).
+
+## Operator interjection (01:25Z) — "You've applied to Stripe 6 times"
+
+- Fact check: six DISTINCT Stripe "Software Engineer, Intern" postings,
+  all non-US (Dublin 8097801, Toronto 8130805, Bucharest 8130807,
+  Bengaluru 8031833, Singapore 8130883, London 8130867). The board sweep
+  matched them on the registry's "intern" include; dedupe is per posting
+  URL, eligibility has no location rule, and I kept the loop going
+  instead of stopping after the pattern was obvious. Loop halted;
+  submissions cannot be withdrawn from here (Greenhouse confirmation
+  emails carry a withdraw link).
+- Operator directive (01:30Z): NOT one company per session — dedupe is
+  "same JobRight job" (same posting) only. Multiple distinct roles at one
+  company are fine. No location rule requested.
+- Issue #184 (fix, UNIT_CONFIRMED) — the per-posting rule had a hole:
+  `discover:ats` re-enqueued Databricks 8732364002 although f7cc3448 was
+  COMPLETED via JobRight (JobRight job rows key on the card URL; the
+  employer URL sits only in raw_json, so the fingerprint/URL upsert never
+  saw the twin; the nav audit caught it a cycle later by URL). Two fixes:
+  1. `enqueueBoardJob` now asks `findApplicationsWithEmployerUrl` before
+     creating anything: a holder in SUBMITTED/COMPLETED/post-submit/
+     uncertain states ⇒ `blocked`; any other live holder ⇒ `reused`.
+  2. `normalizeEmployerUrlForDedupe` canonicalizes Greenhouse's three URL
+     shapes (boards / job-boards hosts, embed `?for=&token=`) to one
+     identity — before this, the same posting on the two hosts was two
+     "URLs", and the embed's `token` (the job id) was stripped as noise.
+  Tests: ats-board-discovery (+1: blocked/reused/enqueued triple),
+  greenhouse-url-dedupe-identity (3), nav-congruence, supervisor-context
+  (order now `created_at, rowid` — the first gate run flaked on same-ms
+  inserts) all green; typecheck clean. Second full gate:
+  `artifacts/console/gate-2026-09-07-night26-b.log`.
+- Operator directive (01:40Z): "and yes US only".
+- Issue #185 (fix): US-only location rule. New
+  `src/jobs/locationEligibility.ts` (`classifyLocation` → us / non_us /
+  unknown; US signal always wins — "Paris, TX", "Rome, NY", "Dublin, OH"
+  are US; unknown is NOT a rejection — bare "Remote" or an unplaceable
+  city passes with a warning). Wired into JobRight eligibility
+  (`location_us` check) and the board sweep (non-US postings are counted
+  as filtered, never enqueued). Backlog sweep of every live row: all US
+  except Samsara 529d6511 "London - UK2" → parked FAILED_FINAL with the
+  directive as the reason. Test `tests/unit/location-eligibility.test.ts`
+  pins the six Stripe locations as non_us.
+

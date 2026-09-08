@@ -208,7 +208,8 @@
         "src/navigation/storeResult.ts": "storeResolvedEmployerUrl (https-only)",
         "src/navigation/auditEmployerUrls.ts": "offline sweep: repairs poisoned URLs, parks duplicates",
         "src/navigation/navigationGuards.ts": "NAVIGATION_ENABLED assertion",
-        "src/navigation/applicationSupervisor.ts": "Bounded observed-action LLM application navigator: screenshot/frame/history context; deterministic control checks and form readiness."
+        "src/navigation/applicationSupervisor.ts": "Bounded observed-action LLM application navigator: screenshot/frame/history context; deterministic control checks and form readiness.",
+        "src/navigation/supervisorContext.ts": "buildSupervisorJobContext: capped, redacted job context for the supervisor (posting details, prior navigation attempts, recent state events) — evidence only, never form values (#178)"
       },
       "key_exports": {
         "src/navigation/runNavigation.ts": [
@@ -235,6 +236,9 @@
         "src/navigation/applicationSupervisor.ts": [
           "superviseApplicationNavigation",
           "navigationControlAllowed"
+        ],
+        "src/navigation/supervisorContext.ts": [
+          "buildSupervisorJobContext"
         ]
       },
       "gates": [
@@ -340,7 +344,8 @@
         "src/ats/shared/pageClassify.ts": [
           "classifyPage",
           "hasApplicationIdentityFields",
-          "isApplicationFormPath"
+          "isApplicationFormPath",
+          "renderedMarkup"
         ],
         "src/ats/greenhouse/questionsApi.ts": [
           "fetchGreenhouseQuestions",
