@@ -60,22 +60,52 @@
 </style></head>
 <body><div class="wrap">
 <h1>Dispatch run timeline</h1>
-<p class="sub">Generated 2026-09-08T01:40:41.891Z · 40 navigation run(s) · read-only view of artifacts/</p>
-<div class="stats"><span class="stat"><b>13</b> resolved</span><span class="stat"><b>9</b> unknown</span><span class="stat"><b>6</b> auth</span><span class="stat"><b>6</b> budget</span><span class="stat"><b>3</b> closed</span><span class="stat"><b>3</b> submit_risk</span></div>
+<p class="sub">Generated 2026-09-08T01:50:09.913Z · 40 navigation run(s) · read-only view of artifacts/</p>
+<div class="stats"><span class="stat"><b>13</b> resolved</span><span class="stat"><b>10</b> unknown</span><span class="stat"><b>6</b> budget</span><span class="stat"><b>5</b> auth</span><span class="stat"><b>3</b> closed</span><span class="stat"><b>3</b> submit_risk</span></div>
 <section class="cycle">
   <h2>Latest cycle</h2>
   <dl>
-    <div><dt>Started</dt><dd>2026-09-08T01:39:00.547Z</dd></div>
+    <div><dt>Started</dt><dd>2026-09-08T01:46:55.962Z</dd></div>
     <div><dt>Outcome</dt><dd>completed</dd></div>
     <div><dt>Agent leg</dt><dd>available</dd></div>
     <div><dt>Default resume</dt><dd>ready (C:\dev\jobright-application-agent\private\candidate\resumes\swe.pdf)</dd></div>
-    <div><dt>Apps started</dt><dd>0</dd></div>
+    <div><dt>Apps started</dt><dd>1</dd></div>
     <div><dt>Submits used</dt><dd>0</dd></div>
-    <div><dt>Stopped</dt><dd>no_fresh_candidate</dd></div>
+    <div><dt>Stopped</dt><dd>apps_cap</dd></div>
   </dl>
-  <h3>Session notes</h3><ul class="notes"><li>nav audit: 0 wrong-employer URL(s) cleared for re-navigation, 2 parked for review</li><li>triage sweep: 0 confirmed, 0 refuted, 0 expired of 34 pending</li><li>nav requeue skipped (fresh mode — backlog untouched)</li><li>unsupported-ATS revival skipped (fresh mode — backlog untouched)</li><li>discover: 12 inspected, 0 eligible, 0 already known, 12 filtered out, 0 already submitted</li><li>no fresh eligible candidate within the feed scan — backlog untouched</li><li>artifact autopush: 4 file(s) pushed to master as 7f829493</li></ul>
+  <h3>Session notes</h3><ul class="notes"><li>nav audit: 0 wrong-employer URL(s) cleared for re-navigation, 2 parked for review</li><li>triage sweep: 0 confirmed, 0 refuted, 0 expired of 34 pending</li><li>nav requeue skipped (fresh mode — backlog untouched)</li><li>unsupported-ATS revival skipped (fresh mode — backlog untouched)</li><li>discover: 2 inspected, 1 eligible, 0 already known, 1 filtered out, 0 already submitted</li><li>discover: 5 inspected, 1 eligible, 2 already known, 2 filtered out, 0 already submitted</li><li>triage dc734a38: requeue_same (executed) — requeued at attempt 2</li><li>artifact autopush: 21 file(s) pushed to master as ca76395a</li></ul>
 </section>
 <h2>Applications</h2>
+<details class="app bad">
+  <summary>
+    <span class="id"></span>
+    <span class="co">—</span>
+    <span class="badge">wall: undefined</span>
+    
+    
+    
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li>none recorded</li></ol>
+    <h4>Notes</h4><ul class="notes"><li>screenshot unavailable</li></ul>
+    
+  </div>
+</details>
+<details class="app ok">
+  <summary>
+    <span class="id">dc734a38</span>
+    <span class="co">Merck</span>
+    <span class="badge">resolved</span>
+    <span class="chip">anchor_href</span>
+    <span class="chip">generic</span>
+    
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — resolved (10 candidates, employer match)<span class="ev">jobs.merck.com</span></li></ol>
+    <h4>Notes</h4><ul class="notes"><li>none</li></ul>
+    
+  </div>
+</details>
 <details class="app muted">
   <summary>
     <span class="id">9a19d47f</span>
@@ -643,36 +673,6 @@
   <div class="body">
     <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — wall: submit_risk (turn 1)</li></ol>
     <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>agent[1] reason: agent stopped: submit_risk</li></ul>
-    
-  </div>
-</details>
-<details class="app warn">
-  <summary>
-    <span class="id">4c355e89</span>
-    <span class="co">—</span>
-    <span class="badge">wall: auth</span>
-    
-    
-    <span class="chip">agent 1t/8s</span>
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>C_agent</b> — needs_input WITHOUT verification evidence on the page — mailbox not consulted, human review</li></ol>
-    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>verification need rejected: agent's page evidence shows no verification prompt</li></ul>
-    <h4>Hosts visited</h4><p class="hosts">jobs.ashbyhq.com</p>
-  </div>
-</details>
-<details class="app ok">
-  <summary>
-    <span class="id">921116a5</span>
-    <span class="co">Acme</span>
-    <span class="badge">resolved</span>
-    <span class="chip">apply_click_popup</span>
-    <span class="chip">generic</span>
-    
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — resolved via popup<span class="ev">careers.acme.com</span></li></ol>
-    <h4>Notes</h4><ul class="notes"><li>popup captured on attempt 1</li><li>phase B: landing shows a sign-in wall — stored anyway; fill owns portal auth</li></ul>
     
   </div>
 </details>
