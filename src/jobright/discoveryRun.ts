@@ -140,11 +140,17 @@ export async function runJobRightDiscovery(
         try {
           description = await readDiscoveryDescription(card, options.headless ?? false);
         } catch (err) {
+          const detail = err instanceof Error ? err.message.slice(0, 160) : String(err);
           (report.notes ??= []).push(
-            `detail read failed for ${card.jobright_job_id} — card skipped: ${
-              err instanceof Error ? err.message.slice(0, 160) : String(err)
-            }`,
+            `detail read failed for ${card.jobright_job_id} — card skipped: ${detail}`,
           );
+          // Night26: 12 of 12 cards were "filtered" with no visible reason —
+          // the worker only logs counts, so the note above never surfaced.
+          logger.warn("jobright discovery: detail read failed — card skipped", {
+            service: "jobright",
+            action: "discovery_detail",
+            metadata: { jobright_job_id: card.jobright_job_id, role: card.role.slice(0, 80), error: detail },
+          });
           report.jobs_filtered_out += 1;
           continue;
         }
@@ -364,6 +370,9 @@ async function readDiscoveryDescription(card: ParsedJobCard, headless: boolean):
   } finally { await session.close(); }
 }
 
+/** Attempt cap on feed scrolling (#179): each scroll costs ~1.2 s. */
+const MAX_FEED_SCROLLS = 6;
+
 async function scrapeFeedCardsLive(options: {
   feedUrl: string;
   maxJobs: number;
@@ -404,8 +413,46 @@ async function scrapeFeedCardsLive(options: {
         });
         throw new Error("AUTH_REQUIRED: JobRight session expired during discovery");
       }
-      const html = await page.content();
-      const cards = parseJobCardsFromFeedHtml(html).slice(0, options.maxJobs);
+      // #179 (night26): the recommend feed renders ~8 cards and lazy-loads
+      // the rest on scroll; a single content() read starved fresh
+      // discovery for 30h+ (same 8 cards every cycle). Scroll, bounded,
+      // until the parsed card count reaches maxJobs or stops growing.
+      let html = await page.content();
+      let parsed = parseJobCardsFromFeedHtml(html);
+      for (let i = 0; i < MAX_FEED_SCROLLS && cardsAttached && parsed.length < options.maxJobs; i++) {
+        // The feed lives in an overflow container, not the window: a
+        // read-only probe (2026-09-08) showed window scroll and mouse
+        // wheel load nothing, while scrolling the tallest scrollable
+        // element to its bottom loaded more cards (7 → 11).
+        await page
+          .evaluate(() => {
+            type El = { scrollHeight: number; clientHeight: number; scrollTop: number };
+            const g = globalThis as unknown as {
+              document: { querySelectorAll(sel: string): ArrayLike<El>; documentElement: El };
+              getComputedStyle(el: El): { overflowY: string };
+              scrollTo(x: number, y: number): void;
+            };
+            const scrollers = Array.from(g.document.querySelectorAll("*")).filter((el) => {
+              const s = g.getComputedStyle(el);
+              return /(auto|scroll)/.test(s.overflowY) && el.scrollHeight > el.clientHeight + 50;
+            });
+            scrollers.sort((a, b) => b.scrollHeight - a.scrollHeight);
+            const target = scrollers[0];
+            if (target) target.scrollTop = target.scrollHeight;
+            else g.scrollTo(0, g.document.documentElement.scrollHeight);
+          })
+          .catch(() => undefined);
+        await page.waitForTimeout(1500);
+        const next = parseJobCardsFromFeedHtml(await page.content());
+        if (next.length <= parsed.length) {
+          html = await page.content();
+          parsed = next.length > parsed.length ? next : parsed;
+          break;
+        }
+        html = await page.content();
+        parsed = next;
+      }
+      const cards = parsed.slice(0, options.maxJobs);
       if (cards.length === 0) {
         await failLoudEmptyFeed(page, db, {
           feedUrl: options.feedUrl,
