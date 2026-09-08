@@ -2133,6 +2133,10 @@ export async function greenhouseUploadFile(
     await input.setInputFiles(abs, { timeout: 15_000 });
 
     // Same locator, immediately — element may already be mid-unmount.
+    // locator.evaluate(fn, ARG, OPTIONS): the timeout is the THIRD
+    // argument. Passed as the second it became the callback's arg and a
+    // detached input (job-boards unmounts on change — the success case)
+    // blocked for the default 30 s (#183 fixture exposed it).
     let files: Array<{ name: string; size: number }> = [];
     try {
       files = await input.evaluate(
@@ -2140,6 +2144,7 @@ export async function greenhouseUploadFile(
           const list = el.files ? Array.from(el.files) : [];
           return list.map((f) => ({ name: f.name, size: f.size }));
         },
+        undefined,
         { timeout: 2_000 },
       );
     } catch {
@@ -2150,23 +2155,47 @@ export async function greenhouseUploadFile(
       files.some((f) => f.name === filename) ||
       files.some((f) => f.size === stat.size);
 
-    await page.waitForTimeout(350);
-    const stillAttached =
-      (await page
-        .locator(`input[type="file"]#${preferId}`)
-        .count()
-        .catch(() => 0)) > 0;
+    // #183 (live Stripe Toronto 2026-09-07): job-boards unmounts #resume
+    // the moment a file lands and renders the filename chip only after its
+    // upload/parse request completes. A single 350 ms wait saw chip=false
+    // there (Dublin, same widget, was simply faster), and the old rule
+    // "input gone + no files ⇒ verified" reported a phantom success that
+    // the submit pass then contradicted (no input, no chip → refused).
+    // Poll for the chip instead; an unmounted input with no chip is NOT
+    // verified, and gets one filechooser (Attach) retry below.
+    const chipDeadline = Date.now() + CHIP_POLL_MS;
+    let stillAttached = true;
+    let chipVisible = false;
+    do {
+      await page.waitForTimeout(350);
+      stillAttached =
+        (await page
+          .locator(`input[type="file"]#${preferId}`)
+          .count()
+          .catch(() => 0)) > 0;
+      chipVisible = await chipForFileVisible(page, filename);
+      if (chipVisible || inputFilesMatch) break;
+    } while (Date.now() < chipDeadline);
 
-    const stem = filename.replace(/\.[^.]+$/, "");
-    const bodyText = await page.locator("body").innerText().catch(() => "");
-    const chipVisible =
-      bodyText.includes(filename) ||
-      (stem.length >= 12 && bodyText.includes(stem.slice(0, 24)));
+    let ok = inputFilesMatch || chipVisible;
+    let evidence = `input files: ${JSON.stringify(files)}; stillAttached=${stillAttached}; chip=${chipVisible}`;
 
-    // setInputFiles threw above if it failed. On GH job-boards, success often
-    // unmounts the input and shows a chip; either signal is enough.
-    const ok =
-      inputFilesMatch || chipVisible || (!stillAttached && files.length === 0);
+    if (!ok && !stillAttached) {
+      // The widget swallowed the input without acknowledging the file.
+      // One bounded retry through the page's own Attach trigger; the
+      // chip read-back decides, and its evidence names the widget text.
+      const retry = await uploadViaFileChooser(page, kind, abs);
+      const widgetText = await uploadWidgetText(page, kind);
+      if (retry?.verified) {
+        ok = true;
+        evidence = `${evidence}; filechooser retry: ${retry.evidence}`;
+      } else {
+        evidence =
+          `${evidence}; input unmounted with no filename acknowledgment` +
+          ` (filechooser retry: ${retry ? retry.evidence : "no trigger"});` +
+          ` widget text: ${JSON.stringify(widgetText)}`;
+      }
+    }
 
     logger.info(`greenhouse upload: ${kind} complete`, {
       service: "greenhouse",
@@ -2184,7 +2213,7 @@ export async function greenhouseUploadFile(
       filename,
       size_bytes: stat.size,
       verified: ok,
-      evidence: `input files: ${JSON.stringify(files)}; stillAttached=${stillAttached}; chip=${chipVisible}`,
+      evidence,
     };
   } catch (err) {
     const inventory = await inventoryFileInputs(page).catch(() => []);
@@ -2205,6 +2234,41 @@ export async function greenhouseUploadFile(
       evidence: err instanceof Error ? err.message : String(err),
     };
   }
+}
+
+/** How long the upload read-back waits for the filename chip (#183). */
+const CHIP_POLL_MS = 8_000;
+
+/** The exact filename, or a long stem prefix (job-boards truncates chips). */
+async function chipForFileVisible(page: Page, filename: string): Promise<boolean> {
+  const stem = filename.replace(/\.[^.]+$/, "");
+  const bodyText = await page.locator("body").innerText().catch(() => "");
+  return (
+    bodyText.includes(filename) ||
+    (stem.length >= 12 && bodyText.includes(stem.slice(0, 24)))
+  );
+}
+
+/**
+ * Visible text of the upload widget for `kind` (its label's enclosing
+ * section), for the evidence string of a failed read-back. Read-only.
+ */
+async function uploadWidgetText(
+  page: Page,
+  kind: "resume" | "cover_letter",
+): Promise<string> {
+  const re = kind === "resume" ? "resume|\\bcv\\b|curriculum" : "cover\\s*letter";
+  return page
+    .evaluate((pattern: string) => {
+      type Node = { textContent: string | null; closest(sel: string): Node | null };
+      const doc = (globalThis as unknown as { document: { querySelectorAll(sel: string): ArrayLike<Node> } }).document;
+      const rx = new RegExp(pattern, "i");
+      const label = Array.from(doc.querySelectorAll("label, legend, h2, h3, h4"))
+        .find((el) => rx.test((el.textContent ?? "").slice(0, 60)));
+      const scope = label?.closest("section, fieldset, [class]") ?? label;
+      return (scope?.textContent ?? "").replace(/\s+/g, " ").trim().slice(0, 240);
+    }, re)
+    .catch(() => "");
 }
 
 /**
@@ -2265,12 +2329,14 @@ async function uploadViaFileChooser(
 
   // Deterministic read-back: the page must acknowledge the file (chip /
   // filename text). No acknowledgment ⇒ verified=false, submit refuses.
-  await page.waitForTimeout(600);
-  const stem = filename.replace(/\.[^.]+$/, "");
-  const bodyText = await page.locator("body").innerText().catch(() => "");
-  const chipVisible =
-    bodyText.includes(filename) ||
-    (stem.length >= 12 && bodyText.includes(stem.slice(0, 24)));
+  // #183: poll — the chip lands when the upload request completes.
+  const chipDeadline = Date.now() + CHIP_POLL_MS;
+  let chipVisible = false;
+  do {
+    await page.waitForTimeout(350);
+    chipVisible = await chipForFileVisible(page, filename);
+    if (chipVisible) break;
+  } while (Date.now() < chipDeadline);
   logger.info(`greenhouse upload: ${kind} via filechooser fallback`, {
     service: "greenhouse",
     action: "upload",
