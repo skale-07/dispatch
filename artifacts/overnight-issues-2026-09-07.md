@@ -414,6 +414,23 @@ has sufficient context for the larger navigation decisions.
   classification the designed path applies: portal auth finds no standing
   credential ⇒ AUTH_REQUIRED park + review item the operator can clear by
   signing in once and `requeue-wall`. Same family as ByteDance (#167).
+### Cycle 16 (02:38Z) — 3b848e6b IBM Intern Data Scientist 2027 (Dallas): IBMid wall, POSTING_MISMATCH
+
+- Second IBM posting from cycle 15's discovery. With #191 live the
+  supervisor could act on the IBMid page: authenticate → portal auth
+  still "not_an_auth_wall" (its own diagnosis needs a password field —
+  federated username-first walls are not in its vocabulary), then the
+  model clicked "Create an IBMid" → `/account/reg/us-en/signup`, reported
+  form_ready (a registration form has first/last/email — the
+  deterministic identity check cannot tell signup from application), and
+  the fill gate refused POSTING_MISMATCH ("redirected posting is never
+  filled") — the correct backstop. Triage requeue_same (attempt 2).
+- Issue #192 (observation): the IBMid class needs (a) portal-auth to
+  recognise federated walls and answer "no standing credential" instead
+  of "not_an_auth_wall", and (b) an AUTH_REQUIRED park from that answer
+  so triage stops requeueing. Until then both IBM apps (907955ca,
+  3b848e6b) are parked behind MANUAL review items: the operator creates
+  an IBMid once, then requeue-wall.
 - Autopush note: the full test suite writes fixture artifacts under
   `artifacts/`, and cycle 10's autopush swept 507 of them into master
   (180a9e4a). Pre-existing behaviour; worth a follow-up (autopush should
