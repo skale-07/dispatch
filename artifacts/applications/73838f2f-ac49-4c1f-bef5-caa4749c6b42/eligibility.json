@@ -1,0 +1,48 @@
+{
+  "eligible": false,
+  "checks": [
+    {
+      "name": "internship",
+      "result": true,
+      "evidence": "Matched internship signal in role/type: AI/ML ASIC Design and Implementation Automation Intern - Summer 2027"
+    },
+    {
+      "name": "graduation_year",
+      "result": false,
+      "evidence": "Description appears graduate-only"
+    },
+    {
+      "name": "hard_exclusion:grad_students_only",
+      "result": false,
+      "evidence": "Matched: PhD"
+    },
+    {
+      "name": "hard_exclusion:seniors_only_explicit",
+      "result": true,
+      "evidence": "No match"
+    },
+    {
+      "name": "hard_exclusion:clearance_required",
+      "result": true,
+      "evidence": "No match"
+    },
+    {
+      "name": "hard_exclusion:years_experience_hard",
+      "result": true,
+      "evidence": "No match"
+    },
+    {
+      "name": "not_already_submitted",
+      "result": true,
+      "evidence": "Not previously submitted"
+    },
+    {
+      "name": "location_us",
+      "result": true,
+      "evidence": "US signal in \"San Diego, CA\""
+    }
+  ],
+  "warnings": [
+    "Competitive language present — not used as rejection."
+  ]
+}

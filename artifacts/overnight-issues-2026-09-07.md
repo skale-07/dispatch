@@ -303,6 +303,28 @@ has sufficient context for the larger navigation decisions.
 - #179 fix v2: scroll the tallest scrollable element to its bottom each
   iteration (bounded by `MAX_FEED_SCROLLS` = 6, stop when the parsed
   count stops growing). Typecheck clean. Cycle 11 validates live.
+### Cycle 11 (01:39Z) — fresh, scroll works, 12/12 cards still filtered
+
+- Discovery: 12 inspected (scroll fix v2 LIVE_READ_ONLY_CONFIRMED — up
+  from 8), 0 eligible, 12 filtered, 0 rows created. 13 "service session
+  opened" = feed + 12 detail reads ⇒ every card died in
+  `readDiscoveryDescription` (title selector wait, id mismatch, or empty
+  description) — and the failure note is dropped by the worker, which
+  logs counts only. Issue #186 (observation + fix): the catch now also
+  emits a warn log line with the card id and error so the reason is
+  visible in the session log. Read-only probe of the detail reader:
+  `private/tmp-probe-detail-20260907.ts`.
+- #186 root cause (probe + pixels `artifacts/probes/detail-6a550868-…png`):
+  `readJobDetailSnapshot` took the description from `page.locator("main")`
+  and JobRight's detail page no longer has a `<main>` element — title
+  selector attached, job id matched, `description_text` = "" on every
+  card, so `readDiscoveryDescription` threw "requirements unavailable"
+  12/12. The text lives in `div[class*="jobDetailContent"]` (4109 chars).
+  Fix: registry `jobDetail.contentRegions` = [jobDetailContent, main,
+  job-detail]; the reader takes the first region with text (null when
+  none). Test `tests/unit/jobright-detail-description.test.ts` (3);
+  jobright-phase3 / stored-inspect / knowledge-graph green; typecheck
+  clean. Cycle 12 validates live.
 - Autopush note: the full test suite writes fixture artifacts under
   `artifacts/`, and cycle 10's autopush swept 507 of them into master
   (180a9e4a). Pre-existing behaviour; worth a follow-up (autopush should
