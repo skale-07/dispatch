@@ -180,3 +180,17 @@ has sufficient context for the larger navigation decisions.
 - Rerun: dismissed the MANUAL review item, `retry --app 9df6221e` →
   QUEUED, cycle 5 below.
 
+### Cycle 5 (00:52Z) — 9df6221e Stripe SWE Intern (Toronto): SUBMITTED
+
+- LIVE_MUTATION_CONFIRMED: same posting, attempt 3, with #182 + #183
+  live. Upload evidence now `input files: []; stillAttached=false;
+  chip=true` (the poll caught the chip), 22/22 verified, submit →
+  SUBMITTED → COMPLETED. submits_used 1. Third attempt on one hard job,
+  two walls removed — the night20 "stay on the job" loop shape.
+- Triage sweep: the cycle-3 `requeue_same` decision resolved CONFIRMED
+  (the requeue led to a submit) — first CONFIRMED verdict of the night,
+  and correct. The cycle-4 `park_for_operator` rationale ("adapter
+  mismatch, retry would fail identically") was wrong; the model had no
+  upload read-back detail to see the phantom-verify. Observation only.
+- Gmail tail skipped again (#181, no JobRight job id).
+
