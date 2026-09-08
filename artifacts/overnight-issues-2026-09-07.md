@@ -325,6 +325,29 @@ has sufficient context for the larger navigation decisions.
   none). Test `tests/unit/jobright-detail-description.test.ts` (3);
   jobright-phase3 / stored-inspect / knowledge-graph green; typecheck
   clean. Cycle 12 validates live.
+### Cycle 12 (01:47Z) — #186 LIVE-CONFIRMED; dc734a38 Merck parked NAVIGATION_INCOMPLETE
+
+- Discovery now works end to end: two passes, 7 inspected, 2 eligible
+  (Merck Systems Biology Intern, West Point PA → dc734a38; Oracle OCI SWE
+  Intern, Austin TX → cbed2850 QUEUED), 2 known, 3 FILTERED_OUT for real
+  reasons (Labelbox / Tower / NXP: grad-students-only; Labelbox's "San
+  Francisco Bay Area" correctly a location WARNING, not a rejection).
+  US-only rule and #186 both LIVE_READ_ONLY_CONFIRMED.
+- dc734a38: JobRight nav resolved the Merck careers posting
+  (jobs.merck.com, Phenom); generic fill → supervisor 6 steps → stopped:
+  "Apply Now CTA is never exposed as an actionable control". Triage
+  requeue_same (attempt 2, QUEUED).
+- Issue #187 (fix, FIXTURE_CONFIRMED): read-only probe
+  (`private/tmp-probe-merck-controls-20260907.ts`): the page has 147
+  control candidates, 50 visible; "Apply Now" (an `<a class="btn
+  primary-button">` to Workday) is candidate #86. `observe()` scanned
+  only the first 80 in DOM order (5 visible: header nav + video chrome)
+  and did an isVisible + evaluate round-trip per candidate. Now: one
+  `evaluateAll` pass over up to 600 candidates (text/href/visibility),
+  apply/auth-shaped controls first, handles only for the chosen ≤80 per
+  frame. Test: 95 nav links before an Apply anchor ⇒ fast path clicks it.
+  The model's rationale was correct given what it saw — the observer,
+  not the model, was the wall.
 - Autopush note: the full test suite writes fixture artifacts under
   `artifacts/`, and cycle 10's autopush swept 507 of them into master
   (180a9e4a). Pre-existing behaviour; worth a follow-up (autopush should
