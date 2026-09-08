@@ -110,3 +110,36 @@ has sufficient context for the larger navigation decisions.
   company+role, or add a non-JobRight contact source.
 - Autopush 3e5cf693 (artifacts only).
 
+### Cycle 3 (00:21Z) — 9df6221e Stripe SWE Intern (Toronto, gh 8130805): FORM_NOT_FOUND
+
+- Greenhouse live fill refused FORM_NOT_FOUND; supervisor outcome
+  `stopped` ("page is confirmation"). Triage → requeue_same executed
+  (attempt 2, back to QUEUED). Report:
+  `artifacts/navigation/supervisor-60e559da-…/{report,observation}.json`.
+- #178 read-back (LIVE_READ_ONLY_CONFIRMED): the supervisor's step
+  rationales now cite the enriched context — "Correct posting (Stripe,
+  Software Engineer Intern, Toronto, job id 8130805)" here and "Dublin,
+  8097801" on cycle 2 — location comes only from the new job context.
+- Issue #182 (fix, UNIT_CONFIRMED; safety-relevant): Greenhouse's
+  job-boards embed (`job-boards.greenhouse.io/embed/job_app`) ships the
+  posting's post-submit `confirmation_message` ("Thank you for
+  applying.") inside its `window.__remixContext` bootstrap `<script>` on
+  the BLANK form. Verified by fetching both Stripe forms read-only: the
+  generic confirmation regex matched the raw HTML of 8130805 AND 8097801
+  (the Dublin form that submitted fine got lucky on observation timing);
+  after stripping script bodies neither matches and all inputs remain.
+  Consequences: `classifyPage` returned `confirmation` for an unsubmitted
+  form (supervisor stops; atsLiveFill thinks the landing is not a form),
+  and — worse — `greenhouse/submission.ts` tested the SAME marker class
+  against raw HTML with no form-gone guard, so a failed submit click on a
+  job-boards form could have read as SUBMITTED_VERIFIED. Fix: new
+  `renderedMarkup(html)` in `src/ats/shared/pageClassify.ts` strips
+  script/style/noscript/template bodies; used by the classifier's
+  confirmation check and by all six ATS submit verifiers (greenhouse,
+  ashby, lever, workable, workday, generic) for marker tests and the
+  confirmation_text match. Tests:
+  `tests/unit/rendered-markup-confirmation.test.ts` (5) + posting-advance,
+  ashby/lever submission, submit-click-gate, knowledge-graph all green;
+  typecheck clean. Cycle 2's Stripe submit stays verified — its receipt
+  pixels are the real thank-you page.
+

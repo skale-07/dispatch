@@ -1,0 +1,156 @@
+{
+  "decision_id": "82d81817-0bbd-4e60-a9a0-bda0beed28a3",
+  "application_id": "9df6221e-f288-4a71-bfb9-644766ef7054",
+  "signature": "FAILED_RETRYABLE|-|verify_mismatch|boards.greenhouse.io",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "9df6221e-f288-4a71-bfb9-644766ef7054",
+    "company": "Stripe",
+    "role": "Software Engineer, Intern (Summer or Winter)",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 2,
+    "failure_signature": "FAILED_RETRYABLE|-|verify_mismatch|boards.greenhouse.io",
+    "end_host": "boards.greenhouse.io",
+    "recent_events": [
+      {
+        "from": "SUBMITTING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "pre-submit verification failed",
+        "at": "2026-09-08T00:36:54.724Z"
+      },
+      {
+        "from": "READY_TO_SUBMIT",
+        "to": "SUBMITTING",
+        "reason": "human-approved submission started",
+        "at": "2026-09-08T00:36:17.115Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "READY_TO_SUBMIT",
+        "reason": "pipeline: fill rehearsal verified",
+        "at": "2026-09-08T00:36:03.371Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (live fill: 21 filled (held for submit))",
+        "at": "2026-09-08T00:36:03.370Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-08T00:34:20.448Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-08T00:34:16.015Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: greenhouse URL validated",
+        "at": "2026-09-08T00:34:16.000Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-08T00:34:15.986Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 dd9093dde3f8)",
+        "at": "2026-09-08T00:34:15.981Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-08T00:34:15.967Z"
+      },
+      {
+        "from": "FAILED_RETRYABLE",
+        "to": "QUEUED",
+        "reason": "retry 2/3",
+        "at": "2026-09-08T00:23:33.926Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "triage: demoting gate-parked NATIVE_AUTOFILL_RUNNING for requeue (NATIVE_AUTOFILL_RUNNING|-|unknown|boards.greenhouse.io)",
+        "at": "2026-09-08T00:23:33.921Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-08T00:22:58.589Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-08T00:22:55.470Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: greenhouse URL validated",
+        "at": "2026-09-08T00:22:55.466Z"
+      }
+    ],
+    "nav": null,
+    "submit": {
+      "outcome": "FAILED_BEFORE_CLICK",
+      "reason": "Refusing to click submit: field verification or upload did not pass",
+      "brief_items": [
+        {
+          "id": "upload:resume",
+          "question": "Upload: resume",
+          "field_id": null,
+          "canonical_field": null,
+          "kind": "upload_failed",
+          "problem": "Greenhouse resume file input not found (waited for attached). Saw 2 input[type=file]: [{\"frame\":\"https://job-boards.greenhouse.io/embed/job_app?for=stripe&token=8130805\",\"id\":\"cover_letter\",\"name\":null},{\"frame\":\"https://job-boards.greenhouse.io/embed/job_app?for=stripe&token=8130805\",\"id\":\"question_68743857\",\"name\":null}]",
+          "expected": "resume-dd9093dd.pdf",
+          "observed": null,
+          "how_to_answer": [
+            "Resume is system-owned: materials:register + adapter.uploadResume on submit/fill — not a free-text profile field.",
+            "If this is ats:fill without --resume, pass --resume <pdf> or use application submit (uses registered material).",
+            "Evidence: Greenhouse resume file input not found (waited for attached). Saw 2 input[type=file]: [{\"frame\":\"https://job-boards.greenhouse.io/embed/job_app?for=stripe&token=8130805\",\"id\":\"cover_letter\",\"name\":null},{\"frame\":\"https://job-boards.greenhouse.io/embed/job_app?for=stripe&token=8130805\",\"id\":\"question_68743857\",\"name\":null}]"
+          ]
+        }
+      ]
+    },
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": null,
+      "verify_passed": true
+    },
+    "open_review_items": [],
+    "prior_decisions": [
+      {
+        "action": "requeue_same",
+        "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|boards.greenhouse.io",
+        "outcome_status": "PENDING",
+        "created_at": "2026-09-08T00:23:33.918Z"
+      }
+    ],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"park_for_operator\", \"rationale\": \"Submit blocked pre-click: Greenhouse resume file input not found — only cover_letter and a question upload exist in the embedded form. This is a form-structure/adapter mismatch, not a transient error, stale URL, or stale materials (resume sha verified). A retry would fail identically; a human should inspect the posting's upload fields.\", \"confidence\": \"medium\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: 9f565807-6186-4527-91a3-ff48a8a7fbfa",
+  "rationale_unverified": "Submit blocked pre-click: Greenhouse resume file input not found — only cover_letter and a question upload exist in the embedded form. This is a form-structure/adapter mismatch, not a transient error, stale URL, or stale materials (resume sha verified). A retry would fail identically; a human should inspect the posting's upload fields."
+}
