@@ -25,24 +25,34 @@ export async function readJobDetailSnapshot(page: Page): Promise<JobDetailSnapsh
   const url = page.url();
   const jobright_job_id = extractJobIdFromUrl(url);
 
+  // Bounded reads: an absent element must cost seconds, not the 30 s
+  // default (a page without a company chip stalled the whole snapshot).
+  const READ_TIMEOUT = { timeout: 3_000 } as const;
   const role =
-    (await page.locator(jobrightSelectorsV1.feed.jobTitle).first().textContent().catch(() => null))?.trim() ??
+    (await page.locator(jobrightSelectorsV1.feed.jobTitle).first().textContent(READ_TIMEOUT).catch(() => null))?.trim() ??
     null;
   const company =
     (await page
       .locator(jobrightSelectorsV1.feed.companyName)
       .first()
-      .textContent()
+      .textContent(READ_TIMEOUT)
       .catch(() => null))?.trim() ?? null;
   const location =
     (await page
       .locator(jobrightSelectorsV1.feed.primaryLocation)
       .first()
-      .textContent()
+      .textContent(READ_TIMEOUT)
       .catch(() => null))?.trim() ?? null;
 
-  const description_text =
-    (await page.locator("main").innerText().catch(() => null))?.slice(0, 20_000) ?? null;
+  // First region with text wins (#186: the page's <main> disappeared).
+  let description_text: string | null = null;
+  for (const region of jobrightSelectorsV1.jobDetail.contentRegions) {
+    const text = (await page.locator(region).first().innerText({ timeout: 3_000 }).catch(() => null))?.trim();
+    if (text) {
+      description_text = text.slice(0, 20_000);
+      break;
+    }
+  }
 
   const apply_with_autofill_visible = await page
     .getByRole(jobrightSelectorsV1.jobDetail.applyWithAutofill.role, {

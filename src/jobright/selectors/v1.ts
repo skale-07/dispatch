@@ -38,6 +38,13 @@ export const jobrightSelectorsV1 = {
   },
 
   jobDetail: {
+    /**
+     * Regions that hold the posting's requirements text, first non-empty
+     * wins. Live 2026-09-08 (#186): the detail page dropped its <main>
+     * element, so `main` alone read an empty description and fresh
+     * discovery skipped every card as "requirements unavailable".
+     */
+    contentRegions: ['[class*="jobDetailContent"]', 'main', '[class*="job-detail"]'] as const,
     applyWithAutofill: {
       role: "button" as const,
       name: /apply with autofill/i,
