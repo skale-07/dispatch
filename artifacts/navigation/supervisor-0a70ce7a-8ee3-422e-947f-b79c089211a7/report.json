@@ -1,0 +1,86 @@
+{
+  "run_id": "[REDACTED]",
+  "outcome": "budget",
+  "steps": [
+    {
+      "observation": "4878966ee4bc8673",
+      "action": "click",
+      "reason": "one unambiguous Apply control",
+      "result": "clicked observed control; next observation checks progress",
+      "target": "control-0"
+    },
+    {
+      "observation": "2780c90664021266",
+      "action": "wait",
+      "reason": "The Workday apply page body is still blank/loading (only chrome and cookie banner rendered); give it a moment before deciding between the sign-in route and an apply option.",
+      "result": "waited for rendering",
+      "model": "claude-opus-5"
+    },
+    {
+      "observation": "32dc4f2756b399cb",
+      "action": "back",
+      "reason": "The Workday /apply URL returned a 404 ('The page you are looking for doesn't exist'), and the only allowed controls here are a skip link and a generic jobs.msd.com home link. Going back to the actual requisition page (R413118) restores the posting with its Apply/Sign In options so a different route can be taken.",
+      "result": "returned to previous page",
+      "model": "claude-opus-5"
+    },
+    {
+      "observation": "13d50f5529a583e3",
+      "action": "click",
+      "reason": "The direct Apply Now link (Workday /apply deep link) returned a 404, so change approach: use the Workday applicant sign-in on the same MSD tenant (msd.wd5.myworkdayjobs.com/SearchJobs/login) to establish a candidate session, from which the R413118 requisition can be opened and applied to.",
+      "result": "clicked observed control; next observation checks progress",
+      "model": "claude-opus-5",
+      "target": "control-2"
+    },
+    {
+      "observation": "203ae1ff32f72adc",
+      "action": "wait",
+      "reason": "We are on the MSD Workday applicant sign-in route, but the login widget region is still an empty placeholder box (0 fields detected), so the form hasn't hydrated yet. Give it a moment to render before invoking the portal-auth service.",
+      "result": "waited for rendering",
+      "model": "claude-opus-5"
+    },
+    {
+      "observation": "5406f1aff5fc9995",
+      "action": "authenticate",
+      "reason": "The MSD Workday sign-in form is now fully rendered (Email Address, Password, Sign In) at msd.wd5.myworkdayjobs.com/SearchJobs/login — a genuine login wall, not applicant identity fields. Invoke the approved portal-auth service to establish the candidate session so the R413118 requisition application can proceed.",
+      "result": "portal auth: account_created",
+      "model": "claude-opus-5"
+    },
+    {
+      "observation": "59889b045131b6b6",
+      "action": "back",
+      "reason": "Authentication succeeded and we're on Workday Candidate Home, but this page has no route back to requisition R413118 (Search for Jobs is not an allowed control, and jobs.msd.com is a generic site home). Going back should return toward the MSD Workday requisition/apply page, where the now-authenticated session can proceed into the application for the Systems Biology Intern posting.",
+      "result": "returned to previous page",
+      "model": "claude-opus-5"
+    },
+    {
+      "observation": "528d8eb6f40d791a",
+      "action": "wait",
+      "reason": "The page is mid-load (only a spinner rendered, no controls yet) after navigating back from Candidate Home to the Workday login/search route. Give it two seconds to hydrate so real controls appear before choosing a route back to requisition R413118.",
+      "result": "waited for rendering",
+      "model": "claude-opus-5"
+    },
+    {
+      "observation": "a921a110ff6501d8",
+      "action": "click",
+      "reason": "Authenticated Candidate Home has no path back to requisition R413118 (Search for Jobs isn't actionable, and back just loops to this page). The only allowed navigation is the employer careers site link, which should let me re-open the Merck/MSD posting for the 2027 Future Talent Program - Systems Biology Intern with the now-established candidate session.",
+      "result": "clicked observed control; next observation checks progress",
+      "model": "claude-opus-5",
+      "target": "control-1"
+    },
+    {
+      "observation": "8a9c10671d573673",
+      "action": "click",
+      "reason": "This EMEA/APAC MSD home page has no route to the US West Point posting, and back has been looping. With the candidate session already established, the Workday applicant sign-in link (msd.wd5.myworkdayjobs.com/SearchJobs) should land in the authenticated Workday job search site, which is the only remaining path to reopen requisition R413118 and its application.",
+      "result": "clicked observed control; next observation checks progress",
+      "model": "claude-opus-5",
+      "target": "control-0"
+    }
+  ],
+  "notes": [
+    "supervisor failed: [\n  {\n    \"code\": \"too_big\",\n    \"maximum\": 600,\n    \"type\": \"string\",\n    \"inclusive\": true,\n    \"exact\": false,\n    \"message\": \"String must contain at most 600 character(s)\",\n    \"path\": [\n      \"reason\"\n    ]\n  }\n]"
+  ],
+  "evidence": [
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-0a70ce7a-8ee3-422e-947f-b79c089211a7\\observation.json",
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-0a70ce7a-8ee3-422e-947f-b79c089211a7\\page.png"
+  ]
+}

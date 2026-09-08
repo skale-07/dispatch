@@ -348,6 +348,24 @@ has sufficient context for the larger navigation decisions.
   frame. Test: 95 nav links before an Apply anchor ⇒ fast path clicks it.
   The model's rationale was correct given what it saw — the observer,
   not the model, was the wall.
+### Cycle 13 (01:58Z) — cbed2850 Oracle OCI SWE Intern (Austin): AMBIGUOUS_FIELD
+
+- Oracle Cloud HCM (`eeho.fa.us2.oraclecloud.com/…/job/334333/apply/email`).
+  Supervisor form_ready in 1 step; generic fill saw a 4-field "form",
+  filled 2, verify FAILED: the generated essay was typed into
+  `oda-work-summary-text-area|input` ("Work Summary") and read back
+  empty; resume upload unverified (`stillAttached=true; chip=false`).
+  Review item 8d55ec49 (AMBIGUOUS_FIELD). Triage chose engage_agent_leg,
+  refused by the #172 precondition (no nav wall) — correct.
+- Issue #188 (observation): Oracle HCM's apply flow begins with an
+  email + verification-code step (`/apply/email`); the real form is behind
+  it. The page the adapter filled is that pre-form step plus the Oracle
+  Digital Assistant chat widget (`oda-*` ids) — the "Work Summary"
+  textarea belongs to the chatbot, not the application. Two gaps: the
+  gate does not recognise Oracle's email step as a pre-form wall (the
+  Gmail-verification path exists for code entry but never engaged), and
+  the field discovery does not exclude chat-widget controls. Needs its
+  own adapter work; parked for the operator.
 - Autopush note: the full test suite writes fixture artifacts under
   `artifacts/`, and cycle 10's autopush swept 507 of them into master
   (180a9e4a). Pre-existing behaviour; worth a follow-up (autopush should
