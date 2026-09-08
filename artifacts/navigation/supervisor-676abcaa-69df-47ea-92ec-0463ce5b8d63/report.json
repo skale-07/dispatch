@@ -1,0 +1,34 @@
+{
+  "run_id": "[REDACTED]",
+  "outcome": "form_ready",
+  "steps": [
+    {
+      "observation": "c32716e992a0c7d8",
+      "action": "click",
+      "reason": "Correct IBM posting (jobId=128613, Intern Data Scientist 2027 – AI & Data Analytics, Dallas). The 'Apply now' CTA leads to the employer's own login/apply route (careers.ibm.com/en_US/careers/Login?jobId=128613), the expected next step toward the application form.",
+      "result": "clicked observed control; next observation checks progress",
+      "model": "claude-opus-5",
+      "target": "control-0"
+    },
+    {
+      "observation": "b41b1d04bb5ea4f0",
+      "action": "authenticate",
+      "reason": "IBMid login wall (login.ibm.com) blocks the application form; use the approved portal-auth service to sign in rather than filling credentials manually.",
+      "result": "portal auth: not_an_auth_wall",
+      "model": "claude-opus-5"
+    },
+    {
+      "observation": "b41b1d04bb5ea4f0",
+      "action": "click",
+      "reason": "Portal auth returned not_an_auth_wall, so re-authenticating would just repeat a failed approach. The IBMid login requires an existing account; the 'Create an IBMid' route (IBM's own registration, target preserves the authorize URL back to the job apply flow) is the alternate path to reach the application. Clicking it to progress rather than repeat.",
+      "result": "clicked observed control; next observation checks progress",
+      "model": "claude-opus-5",
+      "target": "control-3"
+    }
+  ],
+  "notes": [],
+  "evidence": [
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-676abcaa-69df-47ea-92ec-0463ce5b8d63\\observation.json",
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-676abcaa-69df-47ea-92ec-0463ce5b8d63\\page.png"
+  ]
+}

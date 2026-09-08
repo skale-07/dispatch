@@ -398,6 +398,22 @@ has sufficient context for the larger navigation decisions.
   miss is a deterministic "posting not applicable here" signal the nav
   layer could recognise instead of spending 10 supervisor steps).
 - #189 gated locally: typecheck clean, supervisor tests 6/6.
+### Cycle 15 (02:22Z) — 907955ca IBM Business Transformation Consultant Intern (Dallas): IBMid wall
+
+- Discovery: 2 passes, 14 inspected, 11 already known, 1 eligible (IBM),
+  1 filtered — the feed is now fully worked by the scroll fix.
+- Supervisor: clicked "Apply now" (control-0, model step) → landed on
+  login.ibm.com (IBMid: "Log in to IBM / Create an IBMid / Continue with
+  Google"). The classifier read that page as `form` (2 inputs), so every
+  control was disallowed and `authenticate` → portal auth
+  "not_an_auth_wall"; the model stopped honestly. Triage requeue_same
+  (attempt 2) — would fail identically.
+- Issue #191 (observation → small fix): `detectLoginWall` has no signal
+  for IBMid (host login.ibm.com / `authsvc`, "Log in to IBM", "Create an
+  IBMid"), so an obvious sign-in gate is a "form". With an `auth`
+  classification the designed path applies: portal auth finds no standing
+  credential ⇒ AUTH_REQUIRED park + review item the operator can clear by
+  signing in once and `requeue-wall`. Same family as ByteDance (#167).
 - Autopush note: the full test suite writes fixture artifacts under
   `artifacts/`, and cycle 10's autopush swept 507 of them into master
   (180a9e4a). Pre-existing behaviour; worth a follow-up (autopush should
