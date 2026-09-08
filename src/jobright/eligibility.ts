@@ -1,5 +1,6 @@
 import { z } from "zod";
 import type { EducationSelection } from "../candidate/applicationEducation.js";
+import { classifyLocation } from "../jobs/locationEligibility.js";
 
 export type EligibilityCheck = {
   name: string;
@@ -49,6 +50,8 @@ export function evaluateEligibility(input: {
   description?: string | null;
   alreadySubmitted?: boolean;
   education?: EducationSelection | null;
+  /** Posting location as listed; US-only rule (operator 2026-09-07). */
+  location?: string | null;
 }): EligibilityDecision {
   const text = [input.role, input.employmentType ?? "", input.description ?? ""]
     .join("\n")
@@ -108,6 +111,19 @@ export function evaluateEligibility(input: {
 
   if (/competitive|highly selective/i.test(text)) {
     warnings.push("Competitive language present — not used as rejection.");
+  }
+
+  // Operator directive 2026-09-07 ("US only") after six non-US Stripe
+  // postings were submitted. Only a confident non-US read rejects; an
+  // unplaceable location passes with a warning so it stays visible.
+  const location = classifyLocation(input.location);
+  checks.push({
+    name: "location_us",
+    result: location.verdict !== "non_us",
+    evidence: location.evidence,
+  });
+  if (location.verdict === "unknown" && (input.location ?? "").trim()) {
+    warnings.push(`Location not confidently US: ${location.evidence}`);
   }
 
   const eligible = checks.every((c) => c.result);

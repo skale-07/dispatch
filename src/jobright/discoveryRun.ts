@@ -266,6 +266,7 @@ export async function runJobRightDiscovery(
           employmentType: card.employment_type,
           description,
           alreadySubmitted,
+          location: card.location,
           education: selectEducationPolicy(loadApplicationEducationPolicy(), { role: card.role, description }),
         });
 

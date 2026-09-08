@@ -23,6 +23,7 @@ import { getOrCreateApplicationForJob } from "../jobs/applicationDedupe.js";
 import { transitionApplication } from "../queue/stateMachine.js";
 import { detectAtsFromUrl } from "../ats/shared/urlValidationDispatch.js";
 import { findApplicationsWithEmployerUrl } from "../navigation/congruence.js";
+import { classifyLocation } from "../jobs/locationEligibility.js";
 import {
   fetchBoardJobs,
   filterBoardJobs,
@@ -183,14 +184,31 @@ export async function runAtsBoardDiscovery(input: {
       include: [...entry.include, ...(input.globalFilter?.include ?? [])],
       exclude: [...entry.exclude, ...(input.globalFilter?.exclude ?? [])],
     };
-    const { kept, dropped } = filterBoardJobs(fetched.jobs, merged);
+    const { kept: titleKept, dropped } = filterBoardJobs(fetched.jobs, merged);
+    // Operator directive 2026-09-07 ("US only"): six non-US Stripe intern
+    // postings were submitted because the sweep only looked at titles. A
+    // confident non-US location drops the posting here; unknown passes.
+    const nonUs = titleKept.filter(
+      (j) => classifyLocation(j.location).verdict === "non_us",
+    );
+    const kept = titleKept.filter((j) => !nonUs.includes(j));
+    if (nonUs.length > 0) {
+      report.notes.push(
+        `${formatBoardRef(entry.ref)}: ${nonUs.length} non-US posting(s) skipped — ` +
+          nonUs
+            .slice(0, 6)
+            .map((j) => `"${j.title.slice(0, 40)}" (${j.location ?? "?"})`)
+            .join(", ") +
+          (nonUs.length > 6 ? ", …" : ""),
+      );
+    }
     report.boards.push({
       ref: formatBoardRef(entry.ref),
       company: entry.company,
       ok: fetched.ok,
       error: fetched.error,
       fetched: fetched.jobs.length,
-      filtered_out: dropped,
+      filtered_out: dropped + nonUs.length,
       considered: kept.length,
     });
 

@@ -30,6 +30,16 @@ not substituted. Feed order follows JobRight's current ordering; this
 does not certify that JobRight has sorted by posting date. Use
 `--backlog` explicitly to process previously queued work.
 
+**US postings only** (operator directive 2026-09-07). Every discovery path
+— the JobRight feed's eligibility check (`location_us`) and the
+`discover:ats` board sweep — refuses a posting whose location names a
+non-US country or a well-known non-US city (Dublin, Toronto, London,
+Bengaluru, …). A US signal always wins ("Paris, TX", "Dublin, OH" are US).
+A location the classifier cannot place (empty, bare "Remote", a city with
+no state) is NOT refused; it passes with a warning in `eligibility.json`
+so you can see it. Dedupe stays per posting: several distinct roles at one
+company are all fair game; the same posting is never applied to twice.
+
 After a verified submission, `GMAIL_DRAFTS_ENABLED=true` selects the Gmail
 tail for that exact application before another feed read. Its own
 enrichment and generation flags still apply. No contacts means zero

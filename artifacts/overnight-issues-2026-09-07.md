@@ -260,4 +260,13 @@ has sufficient context for the larger navigation decisions.
   except Samsara 529d6511 "London - UK2" → parked FAILED_FINAL with the
   directive as the reason. Test `tests/unit/location-eligibility.test.ts`
   pins the six Stripe locations as non_us.
+  Status: JobRight path (`evaluateEligibility` gains `location`,
+  discoveryRun passes `card.location`), board sweep (non-US postings
+  dropped before the cap with a named note; `filtered_out` counts them),
+  operator guide §"Fresh one-job cycles" documents the rule, knowledge
+  graph lists the module. location-eligibility (6), ats-board-discovery
+  (21, +1 US-only sweep case), jobright-phase3 (9) green; typecheck clean.
+  Third full gate: `artifacts/console/gate-2026-09-07-night26-c.log`.
+- Committed after gate b (1684/1684): 15bec7ba #178, bfafac21 #182,
+  61d4102b #183, 6da550e7 #184, 599dd378 docs.
 

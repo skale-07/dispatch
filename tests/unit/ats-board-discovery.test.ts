@@ -465,6 +465,47 @@ describe("runAtsBoardDiscovery (UNIT_CONFIRMED)", () => {
     expect(rows.n).toBe(3);
   });
 
+  it("US only: non-US postings are skipped and named; unknown locations still enqueue (2026-09-07 directive)", async () => {
+    applyControlledFillEnv({ ATS_DISCOVERY_ENABLED: "true" });
+    const out = await runAtsBoardDiscovery({
+      db,
+      entries: [entry({ ref: { ats: "greenhouse", token: "stripe" }, company: "Stripe", include: ["intern"] })],
+      deps: {
+        fetchBoard: async (ref) => ({
+          ref,
+          ok: true,
+          error: null,
+          jobs: [
+            { title: "Software Engineer, Intern", location: "Dublin", url: "https://boards.greenhouse.io/stripe/jobs/8097801" },
+            { title: "Software Engineer, Intern", location: "Toronto", url: "https://boards.greenhouse.io/stripe/jobs/8130805" },
+            { title: "Software Engineer, Intern", location: "Bengaluru", url: "https://boards.greenhouse.io/stripe/jobs/8031833" },
+            { title: "Software Engineer, Intern", location: "Seattle, WA", url: "https://boards.greenhouse.io/stripe/jobs/9000001" },
+            { title: "Software Engineer, Intern", location: "Remote", url: "https://boards.greenhouse.io/stripe/jobs/9000002" },
+            { title: "Software Engineer, Intern", location: null, url: "https://boards.greenhouse.io/stripe/jobs/9000003" },
+          ].map((j, i) => ({
+            ats: ref.ats,
+            board: ref.token,
+            external_id: String(i + 1),
+            title: j.title,
+            location: j.location,
+            department: null,
+            apply_url: j.url,
+            posted_at: null,
+          })),
+        }),
+      },
+    });
+    expect(out.boards[0]).toMatchObject({ fetched: 6, filtered_out: 3, considered: 3 });
+    expect(out.enqueued).toBe(3);
+    expect(out.applications.map((a) => a.apply_url).sort()).toEqual([
+      "https://boards.greenhouse.io/stripe/jobs/9000001",
+      "https://boards.greenhouse.io/stripe/jobs/9000002",
+      "https://boards.greenhouse.io/stripe/jobs/9000003",
+    ]);
+    expect(out.notes.join("\n")).toMatch(/3 non-US posting\(s\) skipped/);
+    expect(out.notes.join("\n")).toMatch(/Dublin/);
+  });
+
   it("caps new applications and marks the overflow, not silently", async () => {
     applyControlledFillEnv({ ATS_DISCOVERY_ENABLED: "true" });
     const report = await runAtsBoardDiscovery({

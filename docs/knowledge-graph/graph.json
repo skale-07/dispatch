@@ -118,11 +118,15 @@
       "key_files": {
         "src/jobs/repository.ts": "upsertJobByFingerprint",
         "src/jobs/fingerprint.ts": "company+role+location fingerprint",
-        "src/jobs/applicationDedupe.ts": "one application per job"
+        "src/jobs/applicationDedupe.ts": "one application per job",
+        "src/jobs/locationEligibility.ts": "classifyLocation: US-only rule (operator 2026-09-07) shared by JobRight eligibility and the ATS board sweep; non_us rejects, unknown passes with a warning"
       },
       "key_exports": {
         "src/jobs/repository.ts": [
           "upsertJobByFingerprint"
+        ],
+        "src/jobs/locationEligibility.ts": [
+          "classifyLocation"
         ]
       }
     },
