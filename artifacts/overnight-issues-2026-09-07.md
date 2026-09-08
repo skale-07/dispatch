@@ -460,8 +460,56 @@ has sufficient context for the larger navigation decisions.
   domcontentloaded and re-reads within its deadline; unrelated errors
   still throw. Test `tests/unit/greenhouse-verify-navigating.test.ts`
   (scripted page: two navigating errors then the receipt ⇒ confirmed).
+### Cycle 18 (02:24Z) — b1d25281 Merck (Clinical Bioanalytical … Intern): #190 again, #189 LIVE-CONFIRMED
+
+- Fast path clicked Apply Now; Workday /apply 404; the model found the
+  MSD sign-in, rode the existing candidate session, found no route to the
+  requisition, and STOPPED cleanly at step 11 — no schema abort this
+  time (#189 LIVE_READ_ONLY_CONFIRMED). Triage requeue_same (attempt 2).
+- Parked FAILED_FINAL with the #190 reason (same tenant wall as
+  dc734a38). Note for the operator: the JobRight feed currently carries
+  ~9 Merck "2027 Future Talent Program" cards; every one deep-links to the
+  msd.wd5 tenant and will hit #190 until the nav layer recognises the
+  Workday-404 + req-search-miss signature (or the operator drops Merck).
 - Autopush note: the full test suite writes fixture artifacts under
   `artifacts/`, and cycle 10's autopush swept 507 of them into master
   (180a9e4a). Pre-existing behaviour; worth a follow-up (autopush should
   ignore sandbox/ats-fill fixture output).
+
+## SESSION SUMMARY (night26, 2026-09-07 → 09-08)
+
+**Cycles:** 18 (+ read-only probes). **Submits: 6 verified** (all Stripe
+"Software Engineer, Intern" — Dublin, Toronto, Bucharest, Bengaluru,
+Singapore, London — all NON-US, see the operator interjection) **+ 1
+uncertain** (Astera Labs, San Jose — awaiting the operator's inbox
+check). **Emails/drafts: 0** — every verified submit was board-sourced
+(no JobRight job id ⇒ no contact source, #181); the one JobRight-sourced
+submit is uncertain, so its tail never ran.
+
+**Operator directives recorded:** dedupe per posting, never per company;
+US postings only; continue the cycle; email generation must run (it can
+only run on JobRight-sourced submits — now possible again after #179/#186).
+
+**Shipped (all gated, 12 commits):** #178 supervisor job context ·
+#182 confirmation markers on rendered markup (classifier + 6 verifiers,
+false-verify risk closed) · #183 greenhouse chip poll + evaluate-timeout
+bug · #184 cross-source posting dedupe + Greenhouse URL identity ·
+#185 US-only location rule · #179 feed container scroll · #186 detail
+description regions · #187 supervisor control scan (apply-first) ·
+#189 clipped rationales / non-fatal bad responses · #191 identity-
+provider login hosts · #193 verifier tolerates in-flight navigation
+(gate e). Live confirmations: #178, #182, #183, #185, #186, #187, #189.
+
+**Parked for the operator (review items / FAILED_FINAL with reasons):**
+IBMid wall ×3 (907955ca, 3b848e6b, 2f917d89 — create an IBMid once,
+then requeue-wall); Oracle HCM pre-form email step + ODA chatbot
+(cbed2850, #188); Merck → wrong Workday tenant ×2 (dc734a38, b1d25281,
+#190, FAILED_FINAL); Astera uncertain submission (72ad2ead,
+`review:resolve`); Samsara London (non-US, FAILED_FINAL).
+
+**Open follow-ups:** #180 per-board cap in the registry sweep; #181
+contact source for board-discovered apps; #188 Oracle adapter; #190
+Workday-404 signature; #192 federated walls in portal auth → AUTH_REQUIRED
+park; autopush sweeping test fixtures; `uploadResolve.ts` still keeps the
+weak "unmounted ⇒ verified" rule for non-Greenhouse adapters.
 
