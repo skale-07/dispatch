@@ -549,6 +549,24 @@ const DEDUPE_NOISE_PARAMS =
 export function normalizeEmployerUrlForDedupe(url: string): string {
   try {
     const u = new URL(url);
+    // Greenhouse serves ONE posting as boards.greenhouse.io/<board>/jobs/<id>,
+    // job-boards.greenhouse.io/<board>/jobs/<id>, and the embed form
+    // /embed/job_app?for=<board>&token=<id>. Live 2026-09-08: a board-API
+    // sweep re-enqueued a posting already COMPLETED via JobRight because the
+    // two rows held different hosts. One posting, one identity — and the
+    // embed's `token` IS the job id, so canonicalize before the noise strip
+    // (which drops `token`) can erase it.
+    if (/^(job-boards|boards)\.greenhouse\.io$/i.test(u.hostname)) {
+      u.hostname = "boards.greenhouse.io";
+      if (/^\/embed\/job_app\/?$/i.test(u.pathname)) {
+        const board = u.searchParams.get("for");
+        const token = u.searchParams.get("token");
+        if (board && token && /^\d+$/.test(token)) {
+          u.pathname = `/${board}/jobs/${token}`;
+          u.search = "";
+        }
+      }
+    }
     const keep: Array<[string, string]> = [];
     for (const [k, v] of u.searchParams) {
       if (!DEDUPE_NOISE_PARAMS.test(k)) keep.push([k, v]);

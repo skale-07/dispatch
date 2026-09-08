@@ -22,6 +22,7 @@ import { upsertJobByFingerprint } from "../jobs/repository.js";
 import { getOrCreateApplicationForJob } from "../jobs/applicationDedupe.js";
 import { transitionApplication } from "../queue/stateMachine.js";
 import { detectAtsFromUrl } from "../ats/shared/urlValidationDispatch.js";
+import { findApplicationsWithEmployerUrl } from "../navigation/congruence.js";
 import {
   fetchBoardJobs,
   filterBoardJobs,
@@ -243,6 +244,10 @@ function readGreenhouseEmbedJid(applyUrl: string): string | null {
   return null;
 }
 
+/** A holder in any submitted / post-submit / unresolved-submission state. */
+const POST_SUBMIT_HOLDER_STATE =
+  /^(SUBMITTED|COMPLETED|UNCERTAIN_SUBMISSION|SUBMISSION_VERIFICATION_FAILED|CONTACTS_|LINKEDIN_|EMAIL_|OUTLOOK_|GMAIL_)/;
+
 function enqueueBoardJob(
   db: Db,
   entry: BoardRegistryEntry,
@@ -297,6 +302,34 @@ function enqueueBoardJob(
     };
   }
   const employerUrl = detected.normalizedUrl;
+
+  // Same POSTING already owned through another discovery source. A
+  // JobRight-sourced job row keys on the JobRight card URL and carries the
+  // employer URL only in raw_json, so the fingerprint/URL upsert below never
+  // sees the twin. Live 2026-09-08: Databricks 8732364002 was re-enqueued
+  // although COMPLETED via JobRight; only the later nav audit parked it.
+  // Operator rule (2026-09-07): dedupe is per posting, never per company.
+  const holders = findApplicationsWithEmployerUrl(db, employerUrl, "");
+  const submitted = holders.find((h) => POST_SUBMIT_HOLDER_STATE.test(h.state));
+  if (submitted) {
+    return {
+      ...base,
+      outcome: "blocked",
+      application_id: submitted.application_id,
+      state: submitted.state,
+      detail: `posting already submitted by application ${submitted.application_id.slice(0, 8)} (${submitted.state}, other discovery source)`,
+    };
+  }
+  const live = holders[0];
+  if (live) {
+    return {
+      ...base,
+      outcome: "reused",
+      application_id: live.application_id,
+      state: live.state,
+      detail: `posting already owned by application ${live.application_id.slice(0, 8)} (${live.state}, other discovery source)`,
+    };
+  }
 
   const job = upsertJobByFingerprint(db, {
     applicationUrl: employerUrl,

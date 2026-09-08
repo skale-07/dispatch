@@ -23,7 +23,8 @@ import {
   openDatabase,
   type Db,
 } from "../../src/storage/db/client.js";
-import { getApplication } from "../../src/queue/stateMachine.js";
+import { createApplication, getApplication } from "../../src/queue/stateMachine.js";
+import { upsertJobByFingerprint } from "../../src/jobs/repository.js";
 import {
   applyControlledFillEnv,
   useIsolatedFillEnv,
@@ -416,6 +417,52 @@ describe("runAtsBoardDiscovery (UNIT_CONFIRMED)", () => {
     expect(second.enqueued).toBe(0);
     expect(second.reused).toBe(1);
     expect(second.applications[0]?.application_id).toBe(app.application_id);
+  });
+
+  it("a posting already submitted through JobRight is blocked, and a live JobRight twin is reused (2026-09-08 Databricks)", async () => {
+    applyControlledFillEnv({ ATS_DISCOVERY_ENABLED: "true" });
+    // JobRight-sourced job: keyed on the card URL, employer URL only in raw_json.
+    const seed = (jobrightId: string, employerUrl: string, state: "COMPLETED" | "QUEUED") => {
+      const job = upsertJobByFingerprint(db, {
+        jobrightJobId: jobrightId,
+        applicationUrl: `https://jobright.ai/jobs/info/${jobrightId}`,
+        company: "Appian",
+        role: "Solutions Intern",
+        raw: { employer_application_url: employerUrl },
+      });
+      return createApplication(db, { jobId: job.id, state });
+    };
+    const done = seed("jr-done", "https://boards.greenhouse.io/appian/jobs/111", "COMPLETED");
+    const live = seed("jr-live", "https://boards.greenhouse.io/appian/jobs/333", "QUEUED");
+    const out = await runAtsBoardDiscovery({
+      db,
+      entries: [entry({ include: ["intern"] })],
+      deps: {
+        fetchBoard: stubFetch([
+          { title: "Solutions Intern", url: "https://job-boards.greenhouse.io/appian/jobs/111" },
+          { title: "Solutions Intern", url: "https://job-boards.greenhouse.io/appian/jobs/333" },
+          { title: "Platform Intern", url: "https://job-boards.greenhouse.io/appian/jobs/444" },
+        ]),
+      },
+    });
+    expect(out.enqueued).toBe(1);
+    expect(out.blocked).toBe(1);
+    expect(out.reused).toBe(1);
+    const byUrl = Object.fromEntries(out.applications.map((a) => [a.apply_url, a]));
+    expect(byUrl["https://job-boards.greenhouse.io/appian/jobs/111"]).toMatchObject({
+      outcome: "blocked",
+      application_id: done.id,
+      state: "COMPLETED",
+    });
+    expect(byUrl["https://job-boards.greenhouse.io/appian/jobs/333"]).toMatchObject({
+      outcome: "reused",
+      application_id: live.id,
+      state: "QUEUED",
+    });
+    expect(byUrl["https://job-boards.greenhouse.io/appian/jobs/444"]?.outcome).toBe("enqueued");
+    // No second application row for the submitted posting.
+    const rows = db.prepare(`SELECT COUNT(*) AS n FROM applications`).get() as { n: number };
+    expect(rows.n).toBe(3);
   });
 
   it("caps new applications and marks the overflow, not silently", async () => {
