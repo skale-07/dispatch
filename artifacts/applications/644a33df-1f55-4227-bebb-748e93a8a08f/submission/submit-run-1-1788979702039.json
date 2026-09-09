@@ -1,0 +1,51 @@
+{
+  "outcome": "FAILED_BEFORE_CLICK",
+  "application_id": "644a33df-1f55-4227-bebb-748e93a8a08f",
+  "submission_id": "56c2d219-cac5-4865-8bcc-bb4c78f4b7a5",
+  "attempt": 1,
+  "receipt": null,
+  "review_item_id": null,
+  "reason": "Refusing to click submit: field verification or upload did not pass",
+  "artifact_path": null,
+  "operator_brief": {
+    "title": "Submit blocked — generic app 644a33df-1f55-4227-bebb-748e93a8a08f",
+    "summary": "2 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:address.state",
+        "question": "State AZ",
+        "field_id": "[REDACTED]",
+        "canonical_field": "address.state",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Maryland\"; page shows \"AZ\"",
+        "expected": "Maryland",
+        "observed": {
+          "value": "AZ",
+          "label": "AZ"
+        },
+        "how_to_answer": [
+          "DOM shows \"AZ\" but plan expected \"Maryland\". Correct the value on the form or fix profile/aliases so the plan matches the real answer.",
+          "Profile source: private/candidate/public-profile.json → address.state",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"address.state\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:school",
+        "question": "School Type",
+        "field_id": "educationHistory.gpa.0",
+        "canonical_field": "school",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Johns Hopkins University\"; page shows \"(empty)\"",
+        "expected": "Johns Hopkins University",
+        "observed": "",
+        "how_to_answer": [
+          "System expected \"Johns Hopkins University\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: school)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"school\" should match the on-form question text."
+        ]
+      }
+    ],
+    "ok_count": 30,
+    "fail_count": 2
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "run_id": "nav-c1ccd848-0601-41b6-abc8-7aa083a73344",
+  "application_id": "644a33df-1f55-4227-bebb-748e93a8a08f",
+  "jobright_job_id": "6aa19ad50ffb3d4fea6b5eb8",
+  "method": "apply_click_popup",
+  "resolved_url": "https://recruiting.paylocity.com/Recruiting/Jobs/Details/4489770",
+  "resolved_ats": "generic",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no congruent apply href (7 external links)",
+      "evidence": "recruiting.paylocity.com, www.linkedin.com, x.com, www.crunchbase.com"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "resolved via popup",
+      "evidence": "recruiting.paylocity.com"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "phase A: 4 external host(s) seen: recruiting.paylocity.com, www.linkedin.com, x.com, www.crunchbase.com",
+    "Apply control: autofill CTA (tier 0)",
+    "jobright interstitial: clicked \"Apply Without Customizing\"",
+    "popup settled off about:blank after the interstitial",
+    "popup captured on attempt 1",
+    "employer congruence unverifiable (no employer name decodable from URL (host and path are generic)) — recorded"
+  ],
+  "congruence": {
+    "verdict": "unknown",
+    "slug": null,
+    "detail": "no employer name decodable from URL (host and path are generic)",
+    "expected_company": "Equipment & Controls, Inc.",
+    "url": "https://recruiting.paylocity.com/Recruiting/Jobs/Details/4489770?jr_id=6aa19ad50ffb3d4fea6b5eb8"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-09-09T18:46:16.976Z"
+}

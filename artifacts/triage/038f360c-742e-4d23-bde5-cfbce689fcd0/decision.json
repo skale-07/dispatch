@@ -1,0 +1,197 @@
+{
+  "decision_id": "038f360c-742e-4d23-bde5-cfbce689fcd0",
+  "application_id": "644a33df-1f55-4227-bebb-748e93a8a08f",
+  "signature": "FAILED_RETRYABLE|-|verify_mismatch|recruiting.paylocity.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "644a33df-1f55-4227-bebb-748e93a8a08f",
+    "company": "Equipment & Controls, Inc.",
+    "role": "IT Data & AI Analytics Intern",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 1,
+    "failure_signature": "FAILED_RETRYABLE|-|verify_mismatch|recruiting.paylocity.com",
+    "end_host": "recruiting.paylocity.com",
+    "recent_events": [
+      {
+        "from": "SUBMITTING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "pre-submit verification failed",
+        "at": "2026-09-09T18:48:22.037Z"
+      },
+      {
+        "from": "READY_TO_SUBMIT",
+        "to": "SUBMITTING",
+        "reason": "human-approved submission started",
+        "at": "2026-09-09T18:48:13.051Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "READY_TO_SUBMIT",
+        "reason": "pipeline: fill rehearsal verified",
+        "at": "2026-09-09T18:47:35.463Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (generic live fill: 10 filled (held for submit))",
+        "at": "2026-09-09T18:47:35.462Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-09T18:46:23.725Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-09T18:46:17.422Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-09T18:46:17.323Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-09T18:46:07.502Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 dd9093dde3f8)",
+        "at": "2026-09-09T18:46:07.496Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-09T18:46:07.428Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-09T18:41:45.015Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-09T18:41:45.005Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-09T18:41:45.003Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-09T18:41:45.002Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "apply_click_popup",
+      "notes": [
+        "phase A: 4 external host(s) seen: recruiting.paylocity.com, www.linkedin.com, x.com, www.crunchbase.com",
+        "Apply control: autofill CTA (tier 0)",
+        "jobright interstitial: clicked \"Apply Without Customizing\"",
+        "popup settled off about:blank after the interstitial",
+        "popup captured on attempt 1",
+        "employer congruence unverifiable (no employer name decodable from URL (host and path are generic)) — recorded"
+      ],
+      "congruence": {
+        "verdict": "unknown",
+        "slug": null,
+        "detail": "no employer name decodable from URL (host and path are generic)",
+        "expected_company": "Equipment & Controls, Inc.",
+        "url": "https://recruiting.paylocity.com/Recruiting/Jobs/Details/4489770?jr_id=6aa19ad50ffb3d4fea6b5eb8"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "no congruent apply href (7 external links)",
+          "evidence": "recruiting.paylocity.com, www.linkedin.com, x.com, www.crunchbase.com"
+        },
+        {
+          "phase": "B_apply_click",
+          "outcome": "resolved via popup",
+          "evidence": "recruiting.paylocity.com"
+        }
+      ]
+    },
+    "submit": {
+      "outcome": "FAILED_BEFORE_CLICK",
+      "reason": "Refusing to click submit: field verification or upload did not pass",
+      "brief_items": [
+        {
+          "id": "verify:address.state",
+          "question": "State AZ",
+          "field_id": "[REDACTED]",
+          "canonical_field": "address.state",
+          "kind": "verify_mismatch",
+          "problem": "Expected \"Maryland\"; page shows \"AZ\"",
+          "expected": "Maryland",
+          "observed": {
+            "value": "AZ",
+            "label": "AZ"
+          },
+          "how_to_answer": [
+            "DOM shows \"AZ\" but plan expected \"Maryland\". Correct the value on the form or fix profile/aliases so the plan matches the real answer.",
+            "Profile source: private/candidate/public-profile.json → address.state",
+            "Alias check: private/candidate/answer-aliases.json phrases for \"address.state\" should match the on-form question text."
+          ]
+        },
+        {
+          "id": "verify:school",
+          "question": "School Type",
+          "field_id": "educationHistory.gpa.0",
+          "canonical_field": "school",
+          "kind": "verify_mismatch",
+          "problem": "Expected \"Johns Hopkins University\"; page shows \"(empty)\"",
+          "expected": "Johns Hopkins University",
+          "observed": "",
+          "how_to_answer": [
+            "System expected \"Johns Hopkins University\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+            "Profile source: private/candidate/public-profile.json (key: school)",
+            "Alias check: private/candidate/answer-aliases.json phrases for \"school\" should match the on-form question text."
+          ]
+        }
+      ]
+    },
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": true
+    },
+    "open_review_items": [],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"park_for_operator\", \"rationale\": \"Pre-submit verify mismatches are data/mapping issues (state showed AZ vs Maryland; school field empty, mapped to educationHistory.gpa.0). A rerun would reproduce the same mismatch; fixing requires human profile/alias/field-map correction.\", \"confidence\": \"high\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: 551e7868-b87f-4910-9723-cda5f77b4c8f",
+  "rationale_unverified": "Pre-submit verify mismatches are data/mapping issues (state showed AZ vs Maryland; school field empty, mapped to educationHistory.gpa.0). A rerun would reproduce the same mismatch; fixing requires human profile/alias/field-map correction."
+}
