@@ -144,6 +144,7 @@
         "src/auth/serviceSession.ts": "PlaywrightServiceSession — storage-state / CDP / persistent modes",
         "src/auth/loginFlow.ts": "interactive login capture",
         "src/browser/fixtureSession.ts": "withFixtureHtmlPage / withPublicUrlPage / openPublicUrlSession (pipeline --submit holds the fill browser for the click)",
+        "src/browser/dialogGuard.ts": "#205 attachDialogGuard — context-level dialog listener (dismiss, log, never an unhandled rejection); every browser seam attaches it",
         "src/browser/obstructions.ts": "cookie/promo popup dismisser (never-click screened); #153 session keep-alive dialogs ('Stay logged in' / 'Continue session') are cleared via their keep-alive control, Log out never — swept before section-editor opens/saves and the generic submit click",
         "src/accounts/vault.ts": "per-host ATS account vault (operator-seeded)",
         "src/browser/liveHtml.ts": "readLiveHtml (#150) — page HTML with LIVE control state (value / selected / checked) written onto a detached clone; script-bound forms hold values in properties page.content() never sees. Plan reads use this."
@@ -671,7 +672,8 @@
         "src/util"
       ],
       "key_files": {
-        "src/cli/index.ts": "command dispatch"
+        "src/cli/index.ts": "command dispatch",
+        "src/cli/processGuards.ts": "#205 installProcessGuards — unhandledRejection logged and survived at the CLI boundary only (never in library code or tests)"
       },
       "key_exports": {}
     },

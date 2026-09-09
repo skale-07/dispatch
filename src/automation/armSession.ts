@@ -49,6 +49,13 @@ export type ArmMetadata = {
    * existed; those fall back to started_at.
    */
   last_heartbeat_at?: string | null;
+  /**
+   * PID of the process driving this arm (#206, day28: a cycle that crashed
+   * mid-fill left its arm live for the 15-minute heartbeat window and the
+   * next two cycles were refused as "already armed"). A dead PID is swept
+   * at once; the heartbeat stays the fallback for rows without one.
+   */
+  worker_pid?: number | null;
 };
 
 export type ArmStatus = {
@@ -104,6 +111,10 @@ function parseMeta(row: AutomationRunRow): ArmMetadata {
       typeof raw.last_error_code === "string" ? raw.last_error_code : null,
     last_heartbeat_at:
       typeof raw.last_heartbeat_at === "string" ? raw.last_heartbeat_at : null,
+    worker_pid:
+      typeof raw.worker_pid === "number" && Number.isInteger(raw.worker_pid) && raw.worker_pid > 0
+        ? raw.worker_pid
+        : null,
   };
 }
 
@@ -141,6 +152,8 @@ export function armSession(
     discoverMax?: number;
     rediscoverEvery?: number;
     armedByTokenHash: string;
+    /** PID of the driving process (auto:cycle passes its own). */
+    workerPid?: number;
   },
   now: Date = new Date(),
 ): ArmStatus {
@@ -163,6 +176,7 @@ export function armSession(
     armed_by_token_hash: input.armedByTokenHash,
     last_error_code: null,
     last_heartbeat_at: now.toISOString(),
+    worker_pid: input.workerPid ?? null,
   };
   createAutomationRun(db, {
     stage: L3_SESSION_STAGE,
@@ -290,8 +304,17 @@ export function touchArmHeartbeat(
  */
 export function sweepAbandonedArmSessions(
   db: Db,
-  opts: { staleAfterMs?: number; now?: Date } = {},
-): Array<{ arm_run_id: string; silent_for_ms: number }> {
+  opts: {
+    staleAfterMs?: number;
+    now?: Date;
+    /** Test seam for the PID liveness check (#206). */
+    isProcessAlive?: (pid: number) => boolean;
+  } = {},
+): Array<{
+  arm_run_id: string;
+  silent_for_ms: number;
+  reason: "heartbeat_silent" | "worker_pid_dead";
+}> {
   const now = opts.now ?? new Date();
   const staleAfterMs = opts.staleAfterMs ?? ARM_HEARTBEAT_STALE_MS;
   const row = getLatestRunningByStage(db, L3_SESSION_STAGE);
@@ -300,9 +323,35 @@ export function sweepAbandonedArmSessions(
   const lastSeen = Date.parse(meta.last_heartbeat_at ?? row.started_at);
   if (!Number.isFinite(lastSeen)) return [];
   const silentFor = now.getTime() - lastSeen;
+  // #206: the heartbeat ticks once per application, so a worker that
+  // crashed mid-fill looks identical to one grinding a long form until
+  // the 15-minute window passes. Its PID does not: a dead PID means no
+  // process is driving the arm, whatever the heartbeat says. Never our
+  // own PID (a cycle sweeping before it arms is not driving anything yet).
+  if (
+    typeof meta.worker_pid === "number" &&
+    meta.worker_pid !== process.pid &&
+    !(opts.isProcessAlive ?? isProcessAlive)(meta.worker_pid)
+  ) {
+    completeAutomationRun(db, row.id);
+    return [{ arm_run_id: row.id, silent_for_ms: silentFor, reason: "worker_pid_dead" }];
+  }
   if (silentFor < staleAfterMs) return [];
   completeAutomationRun(db, row.id);
-  return [{ arm_run_id: row.id, silent_for_ms: silentFor }];
+  return [{ arm_run_id: row.id, silent_for_ms: silentFor, reason: "heartbeat_silent" }];
+}
+
+/**
+ * Signal 0 is an existence probe on every platform Node supports (Windows
+ * included). EPERM means "exists, not ours" — alive; ESRCH means gone.
+ */
+function isProcessAlive(pid: number): boolean {
+  try {
+    process.kill(pid, 0);
+    return true;
+  } catch (err) {
+    return (err as NodeJS.ErrnoException).code === "EPERM";
+  }
 }
 
 /**

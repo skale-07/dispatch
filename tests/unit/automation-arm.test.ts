@@ -105,6 +105,50 @@ describe("L3 arm session (UNIT_CONFIRMED)", () => {
     it("no arm at all is a no-op", () => {
       expect(sweepAbandonedArmSessions(db, { now: T0 })).toEqual([]);
     });
+
+    // #206 (day28 2026-09-09): a cycle crashed mid-fill one minute after
+    // arming; its heartbeat was fresh, so the next two cycles were refused
+    // as "already armed" for the whole 15-minute window.
+    it("sweeps an arm whose worker PID is dead at once, fresh heartbeat or not", () => {
+      const armed = armSession(db, { armedByTokenHash: HASH, workerPid: 424242 }, T0);
+      const t1 = new Date(T0.getTime() + 60_000);
+      touchArmHeartbeat(db, armed.arm_run_id!, t1);
+      const swept = sweepAbandonedArmSessions(db, { now: t1, isProcessAlive: () => false });
+      expect(swept).toHaveLength(1);
+      expect(swept[0]!.arm_run_id).toBe(armed.arm_run_id);
+      expect(swept[0]!.reason).toBe("worker_pid_dead");
+      expect(getArmStatus(db, t1).armed).toBe(false);
+      expect(tryConsumeUnattendedSubmission(db, armed.arm_run_id!)).toBe(false);
+      // The schedule recovers immediately.
+      expect(armSession(db, { armedByTokenHash: HASH, workerPid: 424243 }, t1).armed).toBe(true);
+    });
+
+    it("leaves an arm alone while its worker PID is alive and heartbeating", () => {
+      armSession(db, { armedByTokenHash: HASH, workerPid: 424242 }, T0);
+      const t1 = new Date(T0.getTime() + 60_000);
+      expect(sweepAbandonedArmSessions(db, { now: t1, isProcessAlive: () => true })).toEqual([]);
+      expect(getArmStatus(db, t1).armed).toBe(true);
+    });
+
+    it("a dead PID does not rescue a silent heartbeat, and no PID falls back to the heartbeat rule", () => {
+      // Alive PID but silent heartbeat: the old rule still applies.
+      const a = armSession(db, { armedByTokenHash: HASH, workerPid: 424242 }, T0);
+      const t20 = new Date(T0.getTime() + 20 * 60_000);
+      const swept = sweepAbandonedArmSessions(db, { now: t20, isProcessAlive: () => true });
+      expect(swept.map((s) => [s.arm_run_id, s.reason])).toEqual([[a.arm_run_id, "heartbeat_silent"]]);
+      // No PID recorded (console-armed rows): never consults the probe.
+      const b = armSession(db, { armedByTokenHash: HASH }, t20);
+      const t21 = new Date(t20.getTime() + 60_000);
+      expect(
+        sweepAbandonedArmSessions(db, {
+          now: t21,
+          isProcessAlive: () => {
+            throw new Error("must not be called without a PID");
+          },
+        }),
+      ).toEqual([]);
+      expect(getArmStatus(db, t21).arm_run_id).toBe(b.arm_run_id);
+    });
   });
 
   it("arms with defaults and clamps duration to 15–240", () => {

@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { installProcessGuards } from "./processGuards.js";
 import { migrate, openDatabase, closeDatabase } from "../storage/db/client.js";
 import {
   exportFillOutcomesJsonl,
@@ -1840,6 +1841,7 @@ function cmdRecorderPromote(flags: Record<string, string | boolean>): void {
 }
 
 async function main(): Promise<void> {
+  installProcessGuards();
   const { command, flags } = parseArgs(process.argv.slice(2));
 
   switch (command) {

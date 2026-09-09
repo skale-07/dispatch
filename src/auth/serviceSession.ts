@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import type { Browser, BrowserContext, Page } from "playwright";
 import { chromium } from "playwright";
+import { attachDialogGuard } from "../browser/dialogGuard.js";
 import { browserLaunchOptions } from "../browser/launchOptions.js";
 import { getConfig } from "../config/index.js";
 import { logger } from "../logging/logger.js";
@@ -37,6 +38,7 @@ export class PlaywrightServiceSession implements ServiceSession {
   private readonly skipAuthValidation: boolean;
   private browser: Browser | null = null;
   private context: BrowserContext | null = null;
+  private detachDialogGuard: (() => void) | null = null;
   private opened = false;
 
   constructor(options: ServiceSessionOptions) {
@@ -115,6 +117,8 @@ export class PlaywrightServiceSession implements ServiceSession {
       });
     }
 
+    // #205: a site dialog must never become an unhandled rejection.
+    this.detachDialogGuard = attachDialogGuard(this.context, this.service);
     this.opened = true;
     if (!this.skipAuthValidation) {
       const validation = await this.validate();
@@ -173,6 +177,13 @@ export class PlaywrightServiceSession implements ServiceSession {
     this.context = null;
     this.browser = null;
     this.opened = false;
+    // Leave the operator's context exactly as we found it (CDP_ATTACH).
+    try {
+      this.detachDialogGuard?.();
+    } catch {
+      // detaching from an already-closed context is not an error
+    }
+    this.detachDialogGuard = null;
     if (this.mode === "CDP_ATTACH") {
       // Disconnect only. The context belongs to the operator's Chrome —
       // closing it would close their real tabs. browser.close() on a

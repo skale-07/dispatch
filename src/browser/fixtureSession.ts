@@ -1,4 +1,5 @@
 import { chromium, type Page } from "playwright";
+import { attachDialogGuard } from "./dialogGuard.js";
 import { browserLaunchOptions, type BrowserChannel } from "./launchOptions.js";
 
 /**
@@ -17,6 +18,7 @@ export async function withFixtureHtmlPage<T>(
   );
   try {
     const page = await browser.newPage();
+    attachDialogGuard(page.context(), "fixture");
     await page.setContent(html, { waitUntil: "domcontentloaded" });
     return await fn(page);
   } finally {
@@ -63,12 +65,19 @@ export async function openPublicUrlSession(options?: {
       const attached = await chromium.connectOverCDP(options.cdpUrl, { timeout: 15_000 });
       const context = attached.contexts()[0] ?? (await attached.newContext());
       const page = await context.newPage();
+      // #205: the operator's Chrome — guard while attached, detach on close.
+      const detachDialogGuard = attachDialogGuard(context, "public-url");
       let closed = false;
       return {
         page,
         close: async () => {
           if (closed) return;
           closed = true;
+          try {
+            detachDialogGuard();
+          } catch {
+            // already-closed context
+          }
           await page.close().catch(() => undefined);
           // connectOverCDP: close() only detaches from the operator's browser.
           await attached.close().catch(() => undefined);
@@ -88,6 +97,7 @@ export async function openPublicUrlSession(options?: {
   const context = await browser.newContext({
     acceptDownloads: false,
   });
+  attachDialogGuard(context, "public-url");
   const page = await context.newPage();
   let closed = false;
   return {

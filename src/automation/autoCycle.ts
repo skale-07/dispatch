@@ -343,9 +343,13 @@ async function runAutoCycleInner(
     // REMOVE unattended-submit budget, never add any.
     for (const swept of sweepAbandonedArmSessions(db, { now: now() })) {
       report.notes.push(
-        `swept abandoned arm ${swept.arm_run_id.slice(0, 8)} — no worker heartbeat for ${Math.round(
-          swept.silent_for_ms / 60_000,
-        )} min (a killed session left it RUNNING)`,
+        swept.reason === "worker_pid_dead"
+          ? `swept abandoned arm ${swept.arm_run_id.slice(0, 8)} — its worker process is gone (#206; last heartbeat ${Math.round(
+              swept.silent_for_ms / 60_000,
+            )} min ago)`
+          : `swept abandoned arm ${swept.arm_run_id.slice(0, 8)} — no worker heartbeat for ${Math.round(
+              swept.silent_for_ms / 60_000,
+            )} min (a killed session left it RUNNING)`,
       );
     }
     if (getActiveArmSession(db, now())) {
@@ -372,6 +376,9 @@ async function runAutoCycleInner(
         ...(input.maxSubmits !== undefined ? { maxSubmits: input.maxSubmits } : {}),
         ...(input.maxApps !== undefined ? { maxApps: input.maxApps } : {}),
         armedByTokenHash: hashArmToken("auto-cycle"),
+        // #206: lets the next cycle sweep this arm the moment this
+        // process is gone, instead of after the heartbeat window.
+        workerPid: process.pid,
       },
       now(),
     );
