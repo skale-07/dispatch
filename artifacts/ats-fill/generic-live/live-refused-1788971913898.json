@@ -1,0 +1,82 @@
+{
+  "ats": "generic",
+  "url": "https://peraton.jibeapply.com/jobs/170320",
+  "requested_url": "https://peraton.jibeapply.com/jobs/170320",
+  "mode": "refused",
+  "gate": {
+    "ok": false,
+    "failure_code": "NAVIGATION_INCOMPLETE",
+    "reason": "model calls: 5 of 6 steps",
+    "final_url": "https://careers-peraton.icims.com/jobs/170320/login?_ga=2.56891305.2031464186.1788970316-957841995.1788970316&_gl=1*b39zz9*_ga*OTU3ODQxOTk1LjE3ODg5NzAzMTY.*_ga_5Y2BYGL910*czE3ODg5NzAzMTYkbzEkZzEkdDE3ODg5NzE4NjAkajYwJGwwJGgw",
+    "page_class": "unknown"
+  },
+  "plan_summary": null,
+  "plan_fields": null,
+  "form_snapshot_path": null,
+  "fill": null,
+  "verify": null,
+  "uploads": null,
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "navigation supervisor: stopped (6 steps)"
+  ],
+  "navigation_supervisor": {
+    "run_id": "supervisor-9a5ba63d-eb7a-42de-a7af-a9c4850c653f",
+    "outcome": "stopped",
+    "steps": [
+      {
+        "observation": "a80a296b8f949337",
+        "action": "click",
+        "reason": "Apply link leads to iCIMS application for this exact req 170320.",
+        "result": "clicked observed control; next observation checks progress",
+        "model": "claude-opus-5",
+        "target": "control-4"
+      },
+      {
+        "observation": "3d1c17c3fe38bb44",
+        "action": "form_ready",
+        "reason": "iCIMS application entry form for req 170320 is loaded with applicant email field and consent checkboxes; ready for fill stage.",
+        "result": "refused: applicant form not independently observed",
+        "model": "claude-opus-5"
+      },
+      {
+        "observation": "17c8f32938944cea",
+        "action": "open_frame",
+        "reason": "Open the iCIMS applicant entry document directly in this tab so the email/consent identity fields are independently observable rather than nested behind the captcha-classified iframe.",
+        "result": "opened observed frame URL",
+        "model": "claude-opus-5",
+        "target": "frame-1"
+      },
+      {
+        "observation": "4cbcff9a84de3479",
+        "action": "wait",
+        "reason": "no navigable controls yet — waiting for rendering (no model)",
+        "result": "waited for rendering"
+      },
+      {
+        "observation": "bb35cae47ea9a79c",
+        "action": "form_ready",
+        "reason": "Applicant identity form visible in-tab: Email field plus consent checkboxes on Peraton iCIMS req 170320.",
+        "result": "refused: applicant form not independently observed",
+        "model": "claude-opus-5"
+      },
+      {
+        "observation": "bb35cae47ea9a79c",
+        "action": "stop",
+        "reason": "Correct posting (Peraton req 170320 iCIMS entry page) is reached, but progress is blocked by an hCaptcha challenge frame showing 'Please try again' that gates the email/consent step. The applicant form cannot be independently verified (field_count 0) and form_ready has been refused twice; repeated frame-opening/waiting produced no change. Human captcha resolution is required.",
+        "result": "model stopped",
+        "model": "claude-opus-5"
+      }
+    ],
+    "notes": [
+      "model calls: 5 of 6 steps"
+    ],
+    "evidence": [
+      "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-9a5ba63d-eb7a-42de-a7af-a9c4850c653f\\observation.json",
+      "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-9a5ba63d-eb7a-42de-a7af-a9c4850c653f\\page.png"
+    ]
+  },
+  "written_at": "2026-09-09T16:38:33.899Z"
+}
