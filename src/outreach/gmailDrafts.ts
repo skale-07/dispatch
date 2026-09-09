@@ -48,6 +48,8 @@ export type GmailDraftFields = {
   to: string;
   subject: string;
   body: string;
+  /** Bounded wait for Gmail's Compose control (#210); tests pass a short one. */
+  composeWaitMs?: number;
 };
 
 function escapeHtml(text: string): string {
@@ -155,16 +157,30 @@ export async function draftEmailOnGmailPage(
 ): Promise<{ composed: boolean; notes: string[] }> {
   const notes: string[] = [];
   const s = gmailDraftSelectorsV1;
+  // #210 (day28 19:05 UTC, Verkada Frontend: 1 of 4 drafts landed, the
+  // other three "compose button not found"): Gmail's shell renders well
+  // after domcontentloaded and a fixed 2s pause is a coin flip on a loaded
+  // box. Wait for the control itself, bounded, before deciding it is
+  // absent; the text fallback gets its own shorter wait.
+  const composeWaitMs = fields.composeWaitMs ?? 20_000;
   let compose = page.locator(s.compose).first();
-  if ((await compose.count().catch(() => 0)) === 0) {
+  const primaryVisible = await compose
+    .waitFor({ state: "visible", timeout: composeWaitMs })
+    .then(() => true)
+    .catch(() => false);
+  if (!primaryVisible) {
     compose = page
       .locator('button, [role="button"]')
       .filter({ hasText: s.composeText })
       .first();
-  }
-  if ((await compose.count().catch(() => 0)) === 0) {
-    notes.push("compose button not found");
-    return { composed: false, notes };
+    const fallbackVisible = await compose
+      .waitFor({ state: "visible", timeout: Math.min(5_000, composeWaitMs) })
+      .then(() => true)
+      .catch(() => false);
+    if (!fallbackVisible) {
+      notes.push(`compose button not found (waited ${Math.round(composeWaitMs / 1000)}s)`);
+      return { composed: false, notes };
+    }
   }
   await compose.click({ timeout: 5_000 });
 

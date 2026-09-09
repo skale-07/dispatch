@@ -99,9 +99,12 @@ describe("gmail draft composition (FIXTURE_CONFIRMED)", () => {
           to: "x@example.com",
           subject: "s",
           body: "b",
+          // #210: production waits up to 20s for Gmail's shell; a fixture
+          // that will never render Compose should fail fast.
+          composeWaitMs: 1_000,
         });
         expect(result.composed).toBe(false);
-        expect(result.notes.join(" ")).toMatch(/compose button not found/);
+        expect(result.notes.join(" ")).toMatch(/compose button not found \(waited 1s\)/);
       },
     );
   }, 45_000);
