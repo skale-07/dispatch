@@ -1,0 +1,47 @@
+{
+  "run_id": "nav-65e0a543-919f-4335-9bc7-39411b968c42",
+  "application_id": "9700a1e4-8df5-4cac-9654-9e550ab54af0",
+  "jobright_job_id": "6aa1a7003272060a8e3f148c",
+  "method": "apply_click_popup",
+  "resolved_url": "https://recruiting.paylocity.com/Recruiting/Jobs/Details/2165194",
+  "resolved_ats": "generic",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no congruent apply href (9 external links)",
+      "evidence": "recruiting.paylocity.com, www.linkedin.com, x.com, www.crunchbase.com, eosysgroup.com"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "resolved via popup",
+      "evidence": "recruiting.paylocity.com"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "phase A: 5 external host(s) seen: recruiting.paylocity.com, www.linkedin.com, x.com, www.crunchbase.com, eosysgroup.com",
+    "Apply control: autofill CTA (tier 0)",
+    "jobright interstitial: clicked \"Apply Without Customizing\"",
+    "popup settled off about:blank after the interstitial",
+    "popup captured on attempt 1",
+    "employer congruence unverifiable (no employer name decodable from URL (host and path are generic)) — recorded"
+  ],
+  "congruence": {
+    "verdict": "unknown",
+    "slug": null,
+    "detail": "no employer name decodable from URL (host and path are generic)",
+    "expected_company": "EOSYS",
+    "url": "https://recruiting.paylocity.com/Recruiting/Jobs/Details/2165194?jr_id=6aa1a7003272060a8e3f148c"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-09-09T18:42:46.078Z"
+}
