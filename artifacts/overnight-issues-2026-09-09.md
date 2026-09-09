@@ -534,6 +534,61 @@ is DRW's next cycle (requeued 21:05 with Cisco and DV Trading).
   not built tonight; noted for the next session.
 - Roblox (fba0e3d2): "Roblox Username" + campus-partner organizations.
 
+## Issue #223 — how-did-you-hear combobox blocked three Workday tenants (operator 21:15 UTC)
+
+Operator: "it's getting stuck on the how did you find this job page. if
+it gets stuck for over 5-6 retries, then it should just defer to
+clicking other and putting down LinkedIn."
+
+Same control on S&P Global, Red Hat AND Leidos: Workday `source--source`.
+The fill exhausts every strategy — "opened via control click; opened via
+JS click (mouse click swallowed); filter yielded no/unmatched options;
+re-collected unfiltered (residue cleared); no option matches LinkedIn" —
+then refuses, and a refused REQUIRED field blocks the submit.
+
+`applicationFiller` already diverts an off-list value to the form's own
+"Other" at PLAN time (lines ~685-726), but it needs `field.options`,
+which only exist for controls whose list is in the static HTML. Workday
+builds this list when the listbox opens, so how_heard could never reach
+the hatch. Fix: the same hatch at FILL time in `fillComboboxControl` —
+when the planned answer is provably absent from the OPEN list, pick the
+list's own "Other" and type the intended answer into the specify box it
+reveals. `findOtherOptionLabel` is anchored ("Mother tongue",
+"Another source" never match). Demographics excluded per call site.
+Commit bdd6a1d7. Pure matcher UNIT_CONFIRMED (2/2); the fill behaviour is
+UNVERIFIED until a live cycle — Leidos, S&P Global and Red Hat requeued
+21:26 to prove it.
+
+Threshold note: the escape fires once the IN-RUN strategies are spent,
+not after 5–6 whole cycles. Each cycle costs 2–4 min and re-walks login +
+form to reach the same wall, so waiting five would spend most of the
+budget to reach the same answer. Gate it on `applications.attempt` if the
+operator wants the literal count.
+
+## Issue #224 (OPEN, top item for next session) — required fields the submit gate sees but discovery does not
+
+Biggest blocker class tonight: SIX applications parked as "N required
+question(s) unanswered" — Cisco (Employee ID radio_group, twice), DRW
+(location ranking textarea), DV Trading (Undergrad Discipline
+checkbox_group), Roblox (username + campus orgs), Replit (take-home
+URL/password), Palantir (signature Name + Date).
+
+The asymmetry: `scanRequiredCompleteness` (submitRun.ts ~944) reads the
+LIVE page and finds these; plan-time discovery does not, so the answer
+layers never see them (Cisco cycle 93: `screener_predictions_generated:
+0`, zero `service:"screeners"` lines). A requeue therefore re-plans
+without them and hits the identical wall — which is why Cisco has now
+failed three times on one Yes/No question whose answer is deterministic.
+
+NOT fixed tonight, deliberately. The tempting fix — answer them at
+submit time and click — would fill values that never passed through the
+approved plan, violating "Form values come only from the approved plan"
+and weakening the submit gate. The right fix is to feed the live
+completeness scan into PLAN-time field discovery so the answers flow
+through the normal approved-plan path (screener predict for option
+controls, the batched essay layer for free text). That belongs in a
+session with a solo gate, not the last hour beside a live browser.
+
 ## Note — never run `tests/unit/auto-cycle.test.ts` while the loop runs
 
 It writes real `artifacts/console/auto-cycle/cycle-*.json` files
