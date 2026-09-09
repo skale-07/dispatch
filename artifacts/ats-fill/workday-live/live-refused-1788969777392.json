@@ -1,0 +1,90 @@
+{
+  "ats": "workday",
+  "url": "https://spgi.wd5.myworkdayjobs.com/spgi_careers/job/Cambridge-MA/Machine-Learning-Engineer---Summer-Intern-2027_331714-1",
+  "requested_url": "https://spgi.wd5.myworkdayjobs.com/spgi_careers/job/Cambridge-MA/Machine-Learning-Engineer---Summer-Intern-2027_331714-1",
+  "mode": "refused",
+  "gate": {
+    "ok": false,
+    "failure_code": "NAVIGATION_INCOMPLETE",
+    "reason": "model calls: 5 of 7 steps",
+    "final_url": "https://spgi.wd5.myworkdayjobs.com/en-US/spgi_careers/login?redirect=%2Fen-US%2Fspgi_careers%2Fjob%2FCambridge%252C-MA%2FMachine-Learning-Engineer---Summer-Intern-2027_331714-1%2Fapply%2FapplyManually",
+    "page_class": "form"
+  },
+  "plan_summary": null,
+  "plan_fields": null,
+  "form_snapshot_path": null,
+  "fill": null,
+  "verify": null,
+  "uploads": null,
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "navigation supervisor: stopped (7 steps)"
+  ],
+  "navigation_supervisor": {
+    "run_id": "supervisor-01fae673-fe9d-479f-8590-97d8d4f37856",
+    "outcome": "stopped",
+    "steps": [
+      {
+        "observation": "303381325eafb502",
+        "action": "click",
+        "reason": "one unambiguous Apply control",
+        "result": "clicked observed control; next observation checks progress",
+        "target": "control-1"
+      },
+      {
+        "observation": "bd8c10b4035387b9",
+        "action": "click",
+        "reason": "Choose Apply Manually to reach the applicant form fields",
+        "result": "action failed: elementHandle.click: Element is not attached to the DOM\nCall log:\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n",
+        "model": "claude-opus-5",
+        "target": "control-2"
+      },
+      {
+        "observation": "2825b25e26c3b7f3",
+        "action": "click",
+        "reason": "one unambiguous Apply control",
+        "result": "clicked observed control; next observation checks progress",
+        "target": "control-1"
+      },
+      {
+        "observation": "bd8c10b4035387b9",
+        "action": "click",
+        "reason": "Modal is open; Apply Manually leads to the applicant form fields",
+        "result": "action failed: elementHandle.click: Element is not attached to the DOM\nCall log:\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n",
+        "model": "claude-opus-5",
+        "target": "control-2"
+      },
+      {
+        "observation": "2825b25e26c3b7f3",
+        "action": "authenticate",
+        "reason": "Apply modal's 'Apply Manually' option keeps detaching; signing in via the approved credential service should route directly into the Workday application flow for this posting.",
+        "result": "portal auth: account_created",
+        "model": "claude-opus-5"
+      },
+      {
+        "observation": "fad5e4a795297015",
+        "action": "wait",
+        "reason": "Page is loading post-authentication redirect to the apply flow.",
+        "result": "waited for rendering",
+        "model": "claude-opus-5"
+      },
+      {
+        "observation": "98431f202d619f32",
+        "action": "stop",
+        "reason": "Workday requires email verification of the newly created account before the application form is accessible; no allowed controls remain and sign-in cannot proceed until the verification email is confirmed.",
+        "result": "model stopped",
+        "model": "claude-opus-5"
+      }
+    ],
+    "notes": [
+      "model calls: 5 of 7 steps"
+    ],
+    "evidence": [
+      "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-01fae673-fe9d-479f-8590-97d8d4f37856\\observation.json",
+      "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-01fae673-fe9d-479f-8590-97d8d4f37856\\page.png"
+    ]
+  },
+  "written_at": "2026-09-09T16:02:57.392Z"
+}
