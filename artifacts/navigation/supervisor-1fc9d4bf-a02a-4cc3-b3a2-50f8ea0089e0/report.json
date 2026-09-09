@@ -1,0 +1,27 @@
+{
+  "run_id": "[REDACTED]",
+  "outcome": "form_ready",
+  "steps": [
+    {
+      "observation": "30f67078cdbe49df",
+      "action": "click",
+      "reason": "one unambiguous Apply control",
+      "result": "clicked observed control; next observation checks progress",
+      "target": "control-0"
+    },
+    {
+      "observation": "b2c4c2925be8e468",
+      "action": "form_ready",
+      "reason": "Cisco application step 1 shows applicant identity fields (Country, Legal First/Last Name) for the correct job.",
+      "result": "refused: applicant form not independently observed",
+      "model": "claude-opus-5"
+    }
+  ],
+  "notes": [
+    "model calls: 1 of 2 steps"
+  ],
+  "evidence": [
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-1fc9d4bf-a02a-4cc3-b3a2-50f8ea0089e0\\observation.json",
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-1fc9d4bf-a02a-4cc3-b3a2-50f8ea0089e0\\page.png"
+  ]
+}
