@@ -16,8 +16,62 @@ import {
   hashJobDescription,
 } from "../jobs/fingerprint.js";
 import { getApplication } from "../queue/stateMachine.js";
-import { listContacts } from "../contacts/repository.js";
+import { listContacts, type ContactRow } from "../contacts/repository.js";
 import { rankOutreachContacts } from "../contacts/rank.js";
+
+/** One outreach email per person per window, across every application (#214). */
+export const OUTREACH_DEDUPE_WINDOW_DAYS = 30;
+
+export type AlreadyContacted = {
+  contact: ContactRow;
+  priorApplicationId: string;
+  priorAt: string;
+};
+
+/**
+ * Drop contacts whose email address already has a saved Gmail draft (any
+ * application, any company) inside the dedupe window. The address is the
+ * identity — the same insider is a different `contacts` row per
+ * application. Contacts without an email are kept (they cannot be
+ * drafted anyway and the tail reports them). Order is preserved so the
+ * ranking still decides who fills the per-app cap.
+ */
+export function filterAlreadyContacted(
+  db: Db,
+  contacts: ContactRow[],
+  applicationId: string,
+  now: Date = new Date(),
+): { kept: ContactRow[]; skipped: AlreadyContacted[] } {
+  const since = new Date(now.getTime() - OUTREACH_DEDUPE_WINDOW_DAYS * 86_400_000).toISOString();
+  const lookup = db.prepare(
+    `SELECT application_id, created_at FROM gmail_drafts
+     WHERE lower(recipient_email) = lower(?) AND status = 'DRAFTED'
+       AND application_id <> ? AND created_at >= ?
+     ORDER BY created_at ASC LIMIT 1`,
+  );
+  const kept: ContactRow[] = [];
+  const skipped: AlreadyContacted[] = [];
+  const seenThisRun = new Set<string>();
+  for (const contact of contacts) {
+    const email = contact.email?.trim().toLowerCase();
+    if (!email) {
+      kept.push(contact);
+      continue;
+    }
+    // Two contact rows with the same address inside one application.
+    if (seenThisRun.has(email)) continue;
+    seenThisRun.add(email);
+    const prior = lookup.get(email, applicationId, since) as
+      | { application_id: string; created_at: string }
+      | undefined;
+    if (prior) {
+      skipped.push({ contact, priorApplicationId: prior.application_id, priorAt: prior.created_at });
+      continue;
+    }
+    kept.push(contact);
+  }
+  return { kept, skipped };
+}
 import {
   generateEmailForContact,
   OUTREACH_PROMPT_VERSION,
@@ -314,12 +368,28 @@ export async function runOutreachPipeline(input: {
           )
           .get(applicationId) as { role: string } | undefined
       )?.role;
-      const contacts = rankOutreachContacts(
-        listContacts(input.db, applicationId),
-        jobRole,
-      ).slice(0, MAX_EMAIL_GENERATIONS_PER_APP);
+      // #214 (operator 2026-09-09 19:53 UTC: "a lot of duplicate emails
+      // for each internship"): 7 Verkada submits × the same 4 insiders =
+      // 28 drafts to 4 people. One person gets ONE email per company per
+      // window, whichever posting reached them first; later postings for
+      // the same employer skip that person before any model call.
+      const ranked = rankOutreachContacts(listContacts(input.db, applicationId), jobRole);
+      const { kept: contacts, skipped: duplicateContacts } = filterAlreadyContacted(
+        input.db,
+        ranked,
+        applicationId,
+      );
+      for (const dup of duplicateContacts) {
+        result.notes.push(
+          `contact ${dup.contact.id} (${dup.contact.email ?? "no email"}): already drafted via application ${dup.priorApplicationId.slice(0, 8)} on ${dup.priorAt.slice(0, 10)} — duplicate outreach skipped (#214)`,
+        );
+      }
+      if (duplicateContacts.length > 0) {
+        result.notes.push(`${duplicateContacts.length} duplicate recipient(s) skipped (#214)`);
+      }
+      const contactsCapped = contacts.slice(0, MAX_EMAIL_GENERATIONS_PER_APP);
 
-      for (const contact of contacts) {
+      for (const contact of contactsCapped) {
         const existing = input.db
           .prepare(
             `SELECT validation_status FROM email_generations
@@ -347,7 +417,7 @@ export async function runOutreachPipeline(input: {
         }
       }
 
-      for (const contact of contacts) {
+      for (const contact of contactsCapped) {
         const validated = input.db
           .prepare(
             `SELECT id FROM email_generations

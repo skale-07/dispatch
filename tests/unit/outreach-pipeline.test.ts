@@ -9,10 +9,13 @@ import {
   openDatabase,
   type Db,
 } from "../../src/storage/db/client.js";
-import { getApplication } from "../../src/queue/stateMachine.js";
-import { upsertContact } from "../../src/contacts/repository.js";
+import { createApplication, getApplication } from "../../src/queue/stateMachine.js";
+import { listContacts, upsertContact } from "../../src/contacts/repository.js";
+import { upsertJobByFingerprint } from "../../src/jobs/repository.js";
 import {
+  OUTREACH_DEDUPE_WINDOW_DAYS,
   excludeFromAutomation,
+  filterAlreadyContacted,
   persistJobIdentityFromSnapshot,
   runOutreachPipeline,
   runPostSubmitGmail,
@@ -45,6 +48,55 @@ const emptyTriage = (overrides?: Partial<InsiderTriageReport>): InsiderTriageRep
 function stubClient(): EmailLlmClient {
   return { generateJson: async () => ({ text: "{}", model: "stub" }) };
 }
+
+// #214 (operator 2026-09-09): 7 Verkada submits × the same 4 insiders = 28
+// drafts to 4 people. One person, one email per window, across applications.
+describe("filterAlreadyContacted (UNIT_CONFIRMED)", () => {
+  let dbPath: string;
+  let db: Db;
+  beforeEach(() => {
+    dbPath = path.join(os.tmpdir(), `jaa-or-dedupe-${randomUUID()}.sqlite`);
+    process.env.DATABASE_PATH = dbPath;
+    resetConfigCache();
+    db = openDatabase(dbPath);
+    migrate(db);
+  });
+  afterEach(() => {
+    closeDatabase(db);
+    delete process.env.DATABASE_PATH;
+    for (const p of [dbPath, `${dbPath}-wal`, `${dbPath}-shm`]) {
+      if (fs.existsSync(p)) fs.unlinkSync(p);
+    }
+  });
+
+  it("skips a recipient already drafted for another application; keeps new people and the app's own prior draft", () => {
+    const job = upsertJobByFingerprint(db, { company: "Verkada", role: "Backend Intern", applicationUrl: "https://job-boards.greenhouse.io/verkada/jobs/1" });
+    const job2 = upsertJobByFingerprint(db, { company: "Verkada", role: "Mobile Intern", applicationUrl: "https://job-boards.greenhouse.io/verkada/jobs/2" });
+    const appA = createApplication(db, { jobId: job.id }).id;
+    const appB = createApplication(db, { jobId: job2.id }).id;
+    const shared = "Pavan.Walvekar@verkada.com";
+    const aShared = upsertContact(db, { applicationId: appA, name: "Pavan", email: shared, sourceCategory: "school" });
+    const bShared = upsertContact(db, { applicationId: appB, name: "Pavan", email: shared.toLowerCase(), sourceCategory: "school" });
+    const bNew = upsertContact(db, { applicationId: appB, name: "Chen", email: "chen.cao@verkada.com", sourceCategory: "beyond" });
+    const bNoEmail = upsertContact(db, { applicationId: appB, name: "Tia", email: null, sourceCategory: "school" });
+    // App A already drafted to Pavan yesterday.
+    db.prepare(
+      `INSERT INTO gmail_drafts (id, application_id, contact_id, recipient_email, subject, status, verified, created_at, metadata_json)
+       VALUES (?, ?, ?, ?, 's', 'DRAFTED', 0, ?, '{}')`,
+    ).run(randomUUID(), appA, aShared.id, shared, new Date(Date.now() - 86_400_000).toISOString());
+
+    const r = filterAlreadyContacted(db, listContacts(db, appB), appB);
+    expect(r.kept.map((c) => c.id).sort()).toEqual([bNew.id, bNoEmail.id].sort());
+    expect(r.skipped).toHaveLength(1);
+    expect(r.skipped[0]!.contact.id).toBe(bShared.id);
+    expect(r.skipped[0]!.priorApplicationId).toBe(appA);
+    // The app that drafted first keeps its own contact (re-runs are idempotent upstream).
+    expect(filterAlreadyContacted(db, listContacts(db, appA), appA).skipped).toEqual([]);
+    // Outside the window the person is contactable again.
+    const later = new Date(Date.now() + (OUTREACH_DEDUPE_WINDOW_DAYS + 1) * 86_400_000);
+    expect(filterAlreadyContacted(db, listContacts(db, appB), appB, later).skipped).toEqual([]);
+  });
+});
 
 describe("runOutreachPipeline (UNIT_CONFIRMED)", () => {
   let dbPath: string;
