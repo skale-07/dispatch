@@ -1,0 +1,58 @@
+{
+  "run_id": "[REDACTED]",
+  "outcome": "stopped",
+  "steps": [
+    {
+      "observation": "5d74b29f568c3412",
+      "action": "click",
+      "reason": "one unambiguous Apply control",
+      "result": "clicked observed control; next observation checks progress",
+      "target": "control-0"
+    },
+    {
+      "observation": "d72633943225013d",
+      "action": "click",
+      "reason": "Apply Manually leads to the applicant identity form without resume upload dependency",
+      "result": "action failed: elementHandle.click: Element is not attached to the DOM\nCall log:\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n",
+      "model": "claude-opus-5",
+      "target": "control-1"
+    },
+    {
+      "observation": "5d74b29f568c3412",
+      "action": "click",
+      "reason": "Back on the posting after the stale-element failure; click the Apply anchor to reach /apply and the signed-in application flow.",
+      "result": "clicked observed control; next observation checks progress",
+      "model": "claude-opus-5",
+      "target": "control-0"
+    },
+    {
+      "observation": "d72633943225013d",
+      "action": "click",
+      "reason": "Chooser is open; Apply Manually leads to the applicant identity form.",
+      "result": "action failed: elementHandle.click: Element is not attached to the DOM\nCall log:\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n",
+      "model": "claude-opus-5",
+      "target": "control-1"
+    },
+    {
+      "observation": "5d74b29f568c3412",
+      "action": "click",
+      "reason": "Back on the posting; re-open the Apply route, then let the chooser settle before clicking (prior failures were stale-element clicks made too early).",
+      "result": "repeated unchanged action refused",
+      "model": "claude-opus-5",
+      "target": "control-0"
+    },
+    {
+      "observation": "5d74b29f568c3412",
+      "action": "stop",
+      "reason": "no progress: this page state was observed 4 times",
+      "result": "model stopped"
+    }
+  ],
+  "notes": [
+    "model calls: 4 of 6 steps"
+  ],
+  "evidence": [
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-41154c9a-f473-49f0-ab40-8b3b84391c40\\observation.json",
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-41154c9a-f473-49f0-ab40-8b3b84391c40\\page.png"
+  ]
+}
