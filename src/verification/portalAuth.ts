@@ -16,6 +16,7 @@ import {
   authScope,
   diagnoseLoginWall,
   passwordPolicyGaps,
+  deriveCompliantPassword,
   summarizeLoginWall,
   type LoginWallDiagnosis,
 } from "./loginWallDiagnosis.js";
@@ -632,7 +633,10 @@ export async function authenticateAtsPortal(
     notes.push("portal auth: no credentials available (set PORTAL_LOGIN_EMAIL/PASSWORD)");
     return done("wall_remains");
   }
-  const { username, password } = creds.credentials;
+  const { username } = creds.credentials;
+  // Reassigned once when a tenant's password policy forces a per-host
+  // derivation (#217); every later use reads the effective value.
+  let password = creds.credentials.password;
 
   // Workday lands on Create Account after Apply Manually. Prefer Sign In
   // ONLY when the vault records an account for this host (#64, operator
@@ -725,10 +729,25 @@ export async function authenticateAtsPortal(
       ).catch(() => "");
       const gaps = passwordPolicyGaps(rulesText, password);
       if (gaps.length > 0) {
-        notes.push(
-          `portal auth create: standing password fails this portal's password policy (missing: ${gaps.join(", ")}) — not submitting; set a compliant per-host password with accounts:set --host ${host} or change PORTAL_LOGIN_PASSWORD`,
-        );
-        return { diag: await diagnoseLoginWall(page), formGone: false };
+        // #217 (live redhat.wd5, day28): derive a per-host password that
+        // meets the STATED rules and store it in the vault the way an
+        // operator `accounts:set` would — then create with it. The
+        // standing password is the seed, so the operator's secret is
+        // extended, never replaced. Park only when no derivation fits.
+        const derived = deriveCompliantPassword(rulesText, password);
+        if (derived && derived !== password) {
+          setAccount(host, { email: username, password: derived, runId: "auto:password-policy" });
+          secrets.push(derived);
+          password = derived;
+          notes.push(
+            `portal auth create: standing password fails this portal's password policy (missing: ${gaps.join(", ")}) — derived a compliant per-host password and stored it in the vault for ${host} (#217)`,
+          );
+        } else {
+          notes.push(
+            `portal auth create: standing password fails this portal's password policy (missing: ${gaps.join(", ")}) and no derivation satisfies it — not submitting; set a compliant per-host password with accounts:set --host ${host} or change PORTAL_LOGIN_PASSWORD`,
+          );
+          return { diag: await diagnoseLoginWall(page), formGone: false };
+        }
       }
     }
     const form = await formOf(submit);

@@ -42,6 +42,24 @@ describe("password policy read from the page (UNIT_CONFIRMED)", async () => {
     expect(passwordPolicyGaps(WORKDAY_RULES, "Ab1!")).toEqual(["minimum of 8 characters"]);
   });
 
+  // #217 (live redhat.wd5, day28): "minimum of 14 characters" parked the row.
+  it("derives a per-host password that satisfies the stated rules from the standing one", async () => {
+    const { deriveCompliantPassword } = await import("../../src/verification/loginWallDiagnosis.js");
+    const redhat = `${WORKDAY_RULES} A minimum of 14 characters`;
+    const derived = deriveCompliantPassword(redhat, "Standing-Pass1!");
+    expect(derived).not.toBeNull();
+    expect(derived!.startsWith("Standing-Pass1!")).toBe(true);
+    expect(derived!.length).toBeGreaterThanOrEqual(14);
+    expect(passwordPolicyGaps(redhat, derived!)).toEqual([]);
+    // Missing classes are added, not just length.
+    const fixed = deriveCompliantPassword(WORKDAY_RULES, "CORRECT-HORSE-BATTERY-STAPLE-MOUNTAIN-TOP!");
+    expect(fixed).not.toBeNull();
+    expect(passwordPolicyGaps(WORKDAY_RULES, fixed!)).toEqual([]);
+    // Already compliant → unchanged; impossible (max shorter than standing) → null.
+    expect(deriveCompliantPassword(WORKDAY_RULES, "Standing-Pass1!")).toBe("Standing-Pass1!");
+    expect(deriveCompliantPassword("A maximum of 10 characters", "Standing-Pass1!")).toBeNull();
+  });
+
   it("a page that states no rules never blocks", () => {
     expect(passwordPolicyGaps("Sign in to continue. Email Address Password", "ALLCAPS")).toEqual([]);
   });

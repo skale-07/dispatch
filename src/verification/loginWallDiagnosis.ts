@@ -100,6 +100,34 @@ export function passwordPolicyGaps(pageText: string, password: string): string[]
 }
 
 /**
+ * #217 (live redhat.wd5, day28): the standing password failed a tenant's
+ * "minimum of 14 characters" rule and the row parked for the operator.
+ * Every Workday tenant states its own policy, so a per-host password that
+ * satisfies the STATED rules is derived from the standing one — same
+ * secret the operator chose, extended deterministically (digit, cases,
+ * symbol, then padding to the minimum) — and the caller stores it in the
+ * per-host vault exactly as an operator `accounts:set` would. Returns null
+ * when no derivation satisfies the page (e.g. a maximum shorter than the
+ * standing password), so the caller still parks with the exact gap.
+ */
+export function deriveCompliantPassword(pageText: string, standing: string): string | null {
+  let candidate = standing;
+  const gaps = passwordPolicyGaps(pageText, candidate);
+  if (gaps.length === 0) return candidate;
+  if (gaps.some((g) => g.startsWith("numeric"))) candidate += "7";
+  if (gaps.some((g) => g.startsWith("lowercase"))) candidate += "q";
+  if (gaps.some((g) => g.startsWith("uppercase"))) candidate += "Q";
+  if (gaps.some((g) => g.startsWith("special"))) candidate += "!";
+  const min = gaps.find((g) => g.startsWith("minimum of"));
+  if (min) {
+    const n = Number(min.match(/\d+/)?.[0] ?? 0);
+    const pad = "Zq7!";
+    while (candidate.length < n) candidate += pad[candidate.length % pad.length];
+  }
+  return passwordPolicyGaps(pageText, candidate).length === 0 ? candidate : null;
+}
+
+/**
  * Every way a portal names its email/username input. Live Workday
  * (huntington.wd12, 2026-08-30): `<input type="text" autocomplete="email"
  * data-automation-id="email">` — no type=email, no name/id with "email" —

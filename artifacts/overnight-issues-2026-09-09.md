@@ -458,6 +458,20 @@ cache. Test contacts-email 24/24 updated. Remaining structural item for
 #201: a Register/Sign-in landing (page_class auth) should end the nav
 supervisor at step 1 instead of spending its 5-call budget.
 
+## Issue #217 — Workday tenant password policy parks the create-account route (redhat.wd5, cycle 79)
+
+Nav supervisor reached the Create Account form (form_ready, 5 steps —
+note: Workday's applyManually route is deterministic, another #201
+item); portal auth read the tenant's rules, the standing password
+misses "minimum of 14 characters", and the row parked AUTH_REQUIRED
+with an operator instruction. Fix: `deriveCompliantPassword` extends the
+standing password deterministically to satisfy the STATED rules (digit /
+cases / symbol / padding to the minimum), the result is stored in the
+per-host vault (`setAccount`, runId auto:password-policy — the same
+store an operator `accounts:set` writes) and redacted as a secret, and
+the create proceeds; no derivation ⇒ the old park. Tests
+login-wall-workday-errors (+1). Red Hat will be re-picked by the loop.
+
 ## Note — never run `tests/unit/auto-cycle.test.ts` while the loop runs
 
 It writes real `artifacts/console/auto-cycle/cycle-*.json` files
