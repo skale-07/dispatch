@@ -1,0 +1,131 @@
+{
+  "decision_id": "7907c7e2-2431-4273-931c-635a95ecc321",
+  "application_id": "79e75805-29ca-4829-b144-b75c5ea334ef",
+  "signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|www.linkedin.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "79e75805-29ca-4829-b144-b75c5ea334ef",
+    "company": "Coinbase",
+    "role": "Data Science Intern",
+    "state": "NATIVE_AUTOFILL_RUNNING",
+    "attempt": 1,
+    "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|www.linkedin.com",
+    "end_host": "www.linkedin.com",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-09T02:17:20.913Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-09T02:17:17.103Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-09T02:17:17.061Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-09T02:17:09.716Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 dd9093dde3f8)",
+        "at": "2026-09-09T02:17:09.689Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-09T02:17:09.529Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-09T02:17:04.760Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-09T02:17:04.743Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-09T02:17:04.742Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-09T02:17:04.741Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "apply_click_popup",
+      "notes": [
+        "phase A: 8 external host(s) seen: www.linkedin.com, x.com, www.crunchbase.com, www.glassdoor.com, www.coinbase.com, www.marketscreener.com, blockfirms.com, www.webpronews.com",
+        "Apply control matched via broad name tier",
+        "jobright interstitial: clicked \"Apply Without Customizing\"",
+        "popup settled off about:blank after the interstitial",
+        "popup captured on attempt 1",
+        "employer congruence unverifiable (no employer name decodable from URL (host and path are generic)) — recorded"
+      ],
+      "congruence": {
+        "verdict": "unknown",
+        "slug": null,
+        "detail": "no employer name decodable from URL (host and path are generic)",
+        "expected_company": "Coinbase",
+        "url": "https://www.linkedin.com/jobs/view/4464900528?jr_id=6aa08b4b500b01124c779b46"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "no congruent apply href (11 external links)",
+          "evidence": "www.linkedin.com, x.com, www.crunchbase.com, www.glassdoor.com, www.coinbase.com, www.marketscreener.com"
+        },
+        {
+          "phase": "B_apply_click",
+          "outcome": "resolved via popup",
+          "evidence": "www.linkedin.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\":\"requeue_reopen_navigation\",\"rationale\":\"Navigation landed on a LinkedIn job-view URL, not the Coinbase employer application; congruence unverifiable and stage stalled at a LinkedIn sign-in. Clearing the stored generic linkedin.com URL and re-resolving navigation (Coinbase careers host was seen among external links) is the cheapest change that could reach a real ATS form.\",\"confidence\":\"medium\"}",
+  "parsed_action": "requeue_reopen_navigation",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "URL cleared, → APPLICATION_OPENING",
+  "rationale_unverified": "Navigation landed on a LinkedIn job-view URL, not the Coinbase employer application; congruence unverifiable and stage stalled at a LinkedIn sign-in. Clearing the stored generic linkedin.com URL and re-resolving navigation (Coinbase careers host was seen among external links) is the cheapest change that could reach a real ATS form."
+}

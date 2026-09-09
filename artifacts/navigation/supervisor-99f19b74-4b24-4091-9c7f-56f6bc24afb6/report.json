@@ -1,0 +1,47 @@
+{
+  "run_id": "[REDACTED]",
+  "outcome": "stopped",
+  "steps": [
+    {
+      "observation": "d5d009bf6abbb040",
+      "action": "click",
+      "reason": "Correct Coinbase Data Science Intern posting; open the Easy Apply flow to reach applicant fields.",
+      "result": "clicked observed control; next observation checks progress",
+      "model": "claude-opus-5",
+      "target": "control-21"
+    },
+    {
+      "observation": "8fd9cd95d921d043",
+      "action": "form_ready",
+      "reason": "Easy Apply modal 'Apply to Coinbase' is open with applicant identity fields (first name, last name, phone, email, location).",
+      "result": "refused: applicant form not independently observed",
+      "model": "claude-opus-5"
+    },
+    {
+      "observation": "8fd9cd95d921d043",
+      "action": "wait",
+      "reason": "The Apply to Coinbase modal with identity fields is visible on screen but not yet reflected in the frame/control inventory (still classified as posting), which is why form_ready was refused. Waiting lets the modal's fields register before re-asserting readiness.",
+      "result": "waited for rendering",
+      "model": "claude-opus-5"
+    },
+    {
+      "observation": "8fd9cd95d921d043",
+      "action": "wait",
+      "reason": "page unchanged after a wait — waiting once more (no model)",
+      "result": "waited for rendering"
+    },
+    {
+      "observation": "8fd9cd95d921d043",
+      "action": "stop",
+      "reason": "no progress: this page state was observed 4 times",
+      "result": "model stopped"
+    }
+  ],
+  "notes": [
+    "model calls: 3 of 5 steps"
+  ],
+  "evidence": [
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-99f19b74-4b24-4091-9c7f-56f6bc24afb6\\observation.json",
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-99f19b74-4b24-4091-9c7f-56f6bc24afb6\\page.png"
+  ]
+}
