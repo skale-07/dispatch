@@ -1,0 +1,1670 @@
+{
+  "mode": "executed",
+  "ats": "greenhouse",
+  "url": "https://boards.greenhouse.io/datadog/jobs/8052095",
+  "plan": {
+    "answers": {
+      "legal_name.first": "Shubham",
+      "legal_name.last": "Kale",
+      "screener:custom:has_preferred_name": "No",
+      "email": "s***@gmail.com",
+      "address.country": "United States",
+      "phone": "***-***-7636",
+      "degree": "Bachelor of Science",
+      "start_month": "August",
+      "start_year": "2025",
+      "graduation_month": "May",
+      "graduation_year": "2029",
+      "screener:custom:graduation_date": "Spring 2029",
+      "screener:custom:predicted:question_68000336": "No",
+      "screener:availability_full_time": "Yes",
+      "screener:custom:opt_what_is_your_top_location_preference": "No preference",
+      "screener:willing_to_relocate": "Yes",
+      "screener:willing_to_relocate:question_68000341": "Yes",
+      "screener:custom:opt_are_you_legally_authorised_to_work_full_time_in_the_coun": "Yes, no restriction.",
+      "screener:custom:predicted:question_68000343": "Applied AI",
+      "screener:custom:predicted:question_68000344": "Backend",
+      "screener:custom:predicted:question_68000345": "Data Engineering",
+      "screener:custom:programming_languages": "Python",
+      "screener:custom:other_companies_time_sensitive": "No",
+      "screener:custom:internship_priority_factor": "Challenging technical work",
+      "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+      "screener:custom:opt_how_did_you_hear_about_this_opportunity": "LinkedIn (Job Posting)",
+      "screener:custom:application_truthfulness_consent": "Yes",
+      "screener:custom:privacy_policy_ack": "Yes",
+      "gender": "Male",
+      "hispanic_latino": "No",
+      "veteran_status": "I am not a veteran",
+      "disability_status": "No"
+    },
+    "entries": [
+      {
+        "field_id": "first_name",
+        "label": "First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "fill",
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "last_name",
+        "label": "Last Name",
+        "type": "text",
+        "canonical_field": "legal_name.last",
+        "action": "fill",
+        "value": "Kale",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "preferred_name",
+        "label": "Preferred First Name",
+        "type": "text",
+        "canonical_field": "screener:custom:has_preferred_name",
+        "action": "fill",
+        "value": "No",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "email",
+        "label": "Email",
+        "type": "text",
+        "canonical_field": "email",
+        "action": "fill",
+        "value": "s***@gmail.com",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "country",
+        "label": "Country",
+        "type": "text",
+        "canonical_field": "address.country",
+        "action": "fill",
+        "value": "United States +1",
+        "reason": "Mapped from public profile; placed onto \"United States +1\""
+      },
+      {
+        "field_id": "iti-0__search-input",
+        "label": "Search",
+        "type": "unknown",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "phone",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "fill",
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "resume",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "skip_file",
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "school--0",
+        "label": "School",
+        "type": "text",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "degree--0",
+        "label": "Degree",
+        "type": "text",
+        "canonical_field": "degree",
+        "action": "fill",
+        "value": "Bachelor's Degree",
+        "reason": "Mapped from public profile; placed onto \"Bachelor's Degree\""
+      },
+      {
+        "field_id": "start-month--0",
+        "label": "Start date month",
+        "type": "text",
+        "canonical_field": "start_month",
+        "action": "fill",
+        "value": "August",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "start-year--0",
+        "label": "Start date year",
+        "type": "text",
+        "canonical_field": "start_year",
+        "action": "fill",
+        "value": "2025",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "end-month--0",
+        "label": "End date month",
+        "type": "text",
+        "canonical_field": "graduation_month",
+        "action": "fill",
+        "value": "May",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "end-year--0",
+        "label": "End date year",
+        "type": "text",
+        "canonical_field": "graduation_year",
+        "action": "fill",
+        "value": "2029",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_68000335",
+        "label": "When is your graduation date (actual or expected)?",
+        "type": "text",
+        "canonical_field": "screener:custom:graduation_date",
+        "action": "fill",
+        "value": "Spring 2029",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_68000336",
+        "label": "Will participating in an internship during this period push your expected graduation date back?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_68000336",
+        "action": "fill",
+        "value": "No",
+        "reason": "Predicted from operator context (llm_predict): Graduation remains May 2029 regardless of an internship term."
+      },
+      {
+        "field_id": "question_68000337",
+        "label": "Are you available to work full-time from the Datadog office from January 4, 2027 - April 23, 2027?",
+        "type": "text",
+        "canonical_field": "screener:availability_full_time",
+        "action": "fill",
+        "value": "Yes",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_68000339",
+        "label": "What is your top location preference?",
+        "type": "text",
+        "canonical_field": "screener:custom:opt_what_is_your_top_location_preference",
+        "action": "fill",
+        "value": "No preference",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_68000340",
+        "label": "Are you available to relocate to New York for this position?",
+        "type": "text",
+        "canonical_field": "screener:willing_to_relocate",
+        "action": "fill",
+        "value": "Yes",
+        "reason": "Screener bank answer (synonym_option)"
+      },
+      {
+        "field_id": "question_68000341",
+        "label": "Are you available to relocate to Boston for this position?",
+        "type": "text",
+        "canonical_field": "screener:willing_to_relocate:question_68000341",
+        "action": "fill",
+        "value": "Yes",
+        "reason": "Screener bank answer (synonym_option)"
+      },
+      {
+        "field_id": "question_68000342",
+        "label": "Are you legally authorised to work full-time in the country where this job is based?",
+        "type": "text",
+        "canonical_field": "screener:custom:opt_are_you_legally_authorised_to_work_full_time_in_the_coun",
+        "action": "fill",
+        "value": "Yes, no restriction.",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_68000343",
+        "label": "Which opportunity are you most interested in?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_68000343",
+        "action": "fill",
+        "value": "Applied AI",
+        "reason": "Predicted from operator context (llm_predict): His work centers on applied machine learning, LLM evaluation, and AI systems."
+      },
+      {
+        "field_id": "question_68000344",
+        "label": "Which area is your second choice?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_68000344",
+        "action": "fill",
+        "value": "Backend",
+        "reason": "Predicted from operator context (llm_predict): Prior learned answer chose Backend/Systems as an area of interest."
+      },
+      {
+        "field_id": "question_68000345",
+        "label": "Which area is your third choice?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_68000345",
+        "action": "fill",
+        "value": "Data Engineering",
+        "reason": "Predicted from operator context (llm_predict): He built event-ingestion pipelines and ML data infrastructure at SAC Nexus."
+      },
+      {
+        "field_id": "question_68000346[]",
+        "label": "Which scripting / programming languages do you have experience with?",
+        "type": "text",
+        "canonical_field": "screener:custom:programming_languages",
+        "action": "fill",
+        "value": "Python",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_68000347",
+        "label": "Are you currently in process with other companies that would require us to be time sensitive?",
+        "type": "text",
+        "canonical_field": "screener:custom:other_companies_time_sensitive",
+        "action": "fill",
+        "value": "No",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_68000348",
+        "label": "Tell us why you are interested in building an engineering career at Datadog.",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_68000348",
+        "action": "fill",
+        "value": "The work I most want to keep doing is the work I'm doing now. At Summer Atlantic Capital / SAC Nexus I own major parts of the machine-learning core of an anomaly-detection and alert-prioritization system, including the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, and a learning-to-rank layer for ordering alerts. What that project taught me is that detection accuracy is only half the problem. An anomaly system that fires too often creates a second problem instead of solving the first, which is why I also built a retrieval-augmented explanation layer so an analyst can see why something was flagged. That is the kind of engineering I want to build a career around: systems other people depend on in production, where failure modes, prioritization, and explanation quality matter as much as model performance, and where the human still makes the call. Datadog is the clearest place I know of to work on that at a scale I can't reach on my own, and as an intern I'd want to own a real piece of a system rather than isolated tickets.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_68000353[]",
+        "label": "When considering an internship at Datadog, what are the most important factors to you?",
+        "type": "text",
+        "canonical_field": "screener:custom:internship_priority_factor",
+        "action": "fill",
+        "value": "Challenging technical work",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_68000355",
+        "label": "LinkedIn Profile",
+        "type": "text",
+        "canonical_field": "linkedin_url",
+        "action": "fill",
+        "value": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_68000356",
+        "label": "Website",
+        "type": "text",
+        "canonical_field": "personal_website",
+        "action": "skip_empty",
+        "value": null,
+        "reason": "Profile value empty for personal_website"
+      },
+      {
+        "field_id": "question_68000357",
+        "label": "How did you hear about this opportunity?",
+        "type": "text",
+        "canonical_field": "screener:custom:opt_how_did_you_hear_about_this_opportunity",
+        "action": "fill",
+        "value": "LinkedIn (Job Posting)",
+        "reason": "Screener bank answer (llm_option)"
+      },
+      {
+        "field_id": "question_68000358",
+        "label": "If you selected Datadog employee in the question above, please add their name below.",
+        "type": "text",
+        "canonical_field": "screener:referral_name",
+        "action": "skip_empty",
+        "value": null,
+        "reason": "referral_name empty in bank — optional, skipped"
+      },
+      {
+        "field_id": "question_68000359",
+        "label": "I certify that the information provided in this application is true and correct to the best of my knowledge. I understand that any false statements or omissions may result in disqualification from employment consideration or, if employed, in termination.",
+        "type": "text",
+        "canonical_field": "screener:custom:application_truthfulness_consent",
+        "action": "fill",
+        "value": "Yes",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_68000360",
+        "label": "I understand my application will be processed in accordance with Datadog’s Candidate Privacy Policy.",
+        "type": "text",
+        "canonical_field": "screener:custom:privacy_policy_ack",
+        "action": "fill",
+        "value": "Yes",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "gender",
+        "label": "Gender",
+        "type": "text",
+        "canonical_field": "gender",
+        "action": "fill",
+        "value": "Male",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "hispanic_ethnicity",
+        "label": "Are you Hispanic/Latino?",
+        "type": "text",
+        "canonical_field": "hispanic_latino",
+        "action": "fill",
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "veteran_status",
+        "label": "Veteran Status",
+        "type": "text",
+        "canonical_field": "veteran_status",
+        "action": "fill",
+        "value": "I am not a veteran",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "disability_status",
+        "label": "Disability Status",
+        "type": "text",
+        "canonical_field": "disability_status",
+        "action": "fill",
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      }
+    ],
+    "fillable_count": 33,
+    "skipped_count": 5,
+    "review_required_count": 0
+  },
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "posting shell on landing — trying the canonical embed app first https://boards.greenhouse.io/embed/job_app?for=datadog&token=8052095",
+    "schema diff: 25/26 declared question(s) matched onto 38 DOM field(s); 1 declared-only (1 required); 13 DOM-only",
+    "board API declared 26 question(s); matched complete option lists onto 16 field(s)",
+    "option harvest: \"End date month\" could not be opened (locator.click: Timeout 2500ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[)",
+    "option harvest: \"Gender\" could not be opened (locator.click: Timeout 2500ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[)",
+    "option harvest: scraped real options for 7/19 control(s) before planning",
+    "frozen after fill→verify→upload — no further field mutation; submit never called"
+  ],
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "final_url": "https://job-boards.greenhouse.io/embed/job_app?for=datadog&token=8052095",
+  "identity_verification": {
+    "requestedUrl": "https://boards.greenhouse.io/datadog/jobs/8052095",
+    "finalUrl": "https://job-boards.greenhouse.io/embed/job_app?for=datadog&token=8052095",
+    "requestedJobId": "8052095",
+    "observedJobId": "8052095",
+    "company": "datadog",
+    "role": "Job Application for Software Engineering Intern (Winter) at Datadog",
+    "formDetected": true,
+    "fieldCount": 38,
+    "warnings": [
+      "login_wall_low: auth_provider_marker"
+    ],
+    "passed": true,
+    "failureCode": null,
+    "failureReason": null
+  },
+  "captcha_detection": {
+    "detected": false,
+    "confidence": "LOW",
+    "signals": [],
+    "dormantMarkers": [
+      "recaptcha_api_script_loaded",
+      "generic_captcha_word_only"
+    ]
+  },
+  "login_wall_detection": {
+    "detected": false,
+    "confidence": "LOW",
+    "signals": [
+      "auth_provider_marker"
+    ]
+  },
+  "failure_code": null,
+  "mutation_attempted": true,
+  "schema_diff": {
+    "board": "datadog",
+    "job_id": "8052095",
+    "declared_count": 26,
+    "dom_count": 38,
+    "matched": 25,
+    "api_only": [
+      {
+        "label": "Resume/CV",
+        "required": true
+      }
+    ],
+    "dom_only": [
+      "Country",
+      "Search",
+      "Attach",
+      "School",
+      "Degree",
+      "Start date month",
+      "Start date year",
+      "End date month",
+      "End date year",
+      "Gender",
+      "Are you Hispanic/Latino?",
+      "Veteran Status",
+      "Disability Status"
+    ],
+    "option_mismatches": []
+  },
+  "harvested_options": [
+    {
+      "field_id": "country",
+      "label": "Country",
+      "answer_space": "closed",
+      "option_count": 244,
+      "options": [
+        "United States +1",
+        "Afghanistan +93",
+        "Åland Islands +358",
+        "Albania +355",
+        "Algeria +213",
+        "American Samoa +1",
+        "Andorra +376",
+        "Angola +244",
+        "Anguilla +1",
+        "Antigua & Barbuda +1",
+        "Argentina +54",
+        "Armenia +374",
+        "Aruba +297",
+        "Ascension Island +247",
+        "Australia +61",
+        "Austria +43",
+        "Azerbaijan +994",
+        "Bahamas +1",
+        "Bahrain +973",
+        "Bangladesh +880",
+        "Barbados +1",
+        "Belarus +375",
+        "Belgium +32",
+        "Belize +501",
+        "Benin +229"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "school--0",
+      "label": "School",
+      "answer_space": "closed",
+      "option_count": 100,
+      "options": [
+        "3iL Limoges",
+        "Aalborg University",
+        "Aalto University",
+        "Aarhus University",
+        "Abertay University",
+        "Aberystwyth University",
+        "Abilene Christian University",
+        "Abo Akademi University",
+        "Abraham Baldwin Agricultural College",
+        "Abu Dhabi University",
+        "Academy of Art University",
+        "Acadia University",
+        "Acharya Nagarjuna University",
+        "Acupuncture and Integrative Medicine College - Berkeley",
+        "Adalab",
+        "Adams State University",
+        "Ada Tech School",
+        "Adelphi University",
+        "Adrian College",
+        "Adventist University of Health Sciences",
+        "Agnes Scott College",
+        "AIB College of Business",
+        "Ain Shams University",
+        "Airlangga University",
+        "Ajou University"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "degree--0",
+      "label": "Degree",
+      "answer_space": "closed",
+      "option_count": 10,
+      "options": [
+        "Associate's Degree",
+        "Bachelor's Degree",
+        "Doctor of Medicine (M.D.)",
+        "Doctor of Philosophy (Ph.D.)",
+        "Engineer's Degree",
+        "High School",
+        "Juris Doctor (J.D.)",
+        "Master of Business Administration (M.B.A.)",
+        "Master's Degree",
+        "Other"
+      ],
+      "other_option": "Other"
+    },
+    {
+      "field_id": "start-month--0",
+      "label": "Start date month",
+      "answer_space": "closed",
+      "option_count": 12,
+      "options": [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "hispanic_ethnicity",
+      "label": "Are you Hispanic/Latino?",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "Yes",
+        "No",
+        "Decline To Self Identify"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "veteran_status",
+      "label": "Veteran Status",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "I am not a protected veteran",
+        "I identify as one or more of the classifications of a protected veteran",
+        "I don't wish to answer"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "disability_status",
+      "label": "Disability Status",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "Yes, I have a disability, or have had one in the past",
+        "No, I do not have a disability and have not had one in the past",
+        "I do not want to answer"
+      ],
+      "other_option": null
+    }
+  ],
+  "approved_plan": {
+    "entries": [
+      {
+        "field_id": "first_name",
+        "label": "First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "FILL",
+        "approved": true,
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "last_name",
+        "label": "Last Name",
+        "type": "text",
+        "canonical_field": "legal_name.last",
+        "action": "FILL",
+        "approved": true,
+        "value": "Kale",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "preferred_name",
+        "label": "Preferred First Name",
+        "type": "text",
+        "canonical_field": "screener:custom:has_preferred_name",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "email",
+        "label": "Email",
+        "type": "text",
+        "canonical_field": "email",
+        "action": "FILL",
+        "approved": true,
+        "value": "s***@gmail.com",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "country",
+        "label": "Country",
+        "type": "text",
+        "canonical_field": "address.country",
+        "action": "FILL",
+        "approved": true,
+        "value": "United States +1",
+        "reason": "Mapped from public profile; placed onto \"United States +1\""
+      },
+      {
+        "field_id": "iti-0__search-input",
+        "label": "Search",
+        "type": "unknown",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "phone",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "FILL",
+        "approved": true,
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "resume",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "school--0",
+        "label": "School",
+        "type": "text",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "degree--0",
+        "label": "Degree",
+        "type": "text",
+        "canonical_field": "degree",
+        "action": "FILL",
+        "approved": true,
+        "value": "Bachelor's Degree",
+        "reason": "Mapped from public profile; placed onto \"Bachelor's Degree\""
+      },
+      {
+        "field_id": "start-month--0",
+        "label": "Start date month",
+        "type": "text",
+        "canonical_field": "start_month",
+        "action": "FILL",
+        "approved": true,
+        "value": "August",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "start-year--0",
+        "label": "Start date year",
+        "type": "text",
+        "canonical_field": "start_year",
+        "action": "FILL",
+        "approved": true,
+        "value": "2025",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "end-month--0",
+        "label": "End date month",
+        "type": "text",
+        "canonical_field": "graduation_month",
+        "action": "FILL",
+        "approved": true,
+        "value": "May",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "end-year--0",
+        "label": "End date year",
+        "type": "text",
+        "canonical_field": "graduation_year",
+        "action": "FILL",
+        "approved": true,
+        "value": "2029",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_68000335",
+        "label": "When is your graduation date (actual or expected)?",
+        "type": "text",
+        "canonical_field": "screener:custom:graduation_date",
+        "action": "FILL",
+        "approved": true,
+        "value": "Spring 2029",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_68000336",
+        "label": "Will participating in an internship during this period push your expected graduation date back?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_68000336",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Predicted from operator context (llm_predict): Graduation remains May 2029 regardless of an internship term."
+      },
+      {
+        "field_id": "question_68000337",
+        "label": "Are you available to work full-time from the Datadog office from January 4, 2027 - April 23, 2027?",
+        "type": "text",
+        "canonical_field": "screener:availability_full_time",
+        "action": "FILL",
+        "approved": true,
+        "value": "Yes",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_68000339",
+        "label": "What is your top location preference?",
+        "type": "text",
+        "canonical_field": "screener:custom:opt_what_is_your_top_location_preference",
+        "action": "FILL",
+        "approved": true,
+        "value": "No preference",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_68000340",
+        "label": "Are you available to relocate to New York for this position?",
+        "type": "text",
+        "canonical_field": "screener:willing_to_relocate",
+        "action": "FILL",
+        "approved": true,
+        "value": "Yes",
+        "reason": "Screener bank answer (synonym_option)"
+      },
+      {
+        "field_id": "question_68000341",
+        "label": "Are you available to relocate to Boston for this position?",
+        "type": "text",
+        "canonical_field": "screener:willing_to_relocate:question_68000341",
+        "action": "FILL",
+        "approved": true,
+        "value": "Yes",
+        "reason": "Screener bank answer (synonym_option)"
+      },
+      {
+        "field_id": "question_68000342",
+        "label": "Are you legally authorised to work full-time in the country where this job is based?",
+        "type": "text",
+        "canonical_field": "screener:custom:opt_are_you_legally_authorised_to_work_full_time_in_the_coun",
+        "action": "FILL",
+        "approved": true,
+        "value": "Yes, no restriction.",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_68000343",
+        "label": "Which opportunity are you most interested in?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_68000343",
+        "action": "FILL",
+        "approved": true,
+        "value": "Applied AI",
+        "reason": "Predicted from operator context (llm_predict): His work centers on applied machine learning, LLM evaluation, and AI systems."
+      },
+      {
+        "field_id": "question_68000344",
+        "label": "Which area is your second choice?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_68000344",
+        "action": "FILL",
+        "approved": true,
+        "value": "Backend",
+        "reason": "Predicted from operator context (llm_predict): Prior learned answer chose Backend/Systems as an area of interest."
+      },
+      {
+        "field_id": "question_68000345",
+        "label": "Which area is your third choice?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_68000345",
+        "action": "FILL",
+        "approved": true,
+        "value": "Data Engineering",
+        "reason": "Predicted from operator context (llm_predict): He built event-ingestion pipelines and ML data infrastructure at SAC Nexus."
+      },
+      {
+        "field_id": "question_68000346[]",
+        "label": "Which scripting / programming languages do you have experience with?",
+        "type": "text",
+        "canonical_field": "screener:custom:programming_languages",
+        "action": "FILL",
+        "approved": true,
+        "value": "Python",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_68000347",
+        "label": "Are you currently in process with other companies that would require us to be time sensitive?",
+        "type": "text",
+        "canonical_field": "screener:custom:other_companies_time_sensitive",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_68000348",
+        "label": "Tell us why you are interested in building an engineering career at Datadog.",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_68000348",
+        "action": "FILL",
+        "approved": true,
+        "value": "The work I most want to keep doing is the work I'm doing now. At Summer Atlantic Capital / SAC Nexus I own major parts of the machine-learning core of an anomaly-detection and alert-prioritization system, including the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, and a learning-to-rank layer for ordering alerts. What that project taught me is that detection accuracy is only half the problem. An anomaly system that fires too often creates a second problem instead of solving the first, which is why I also built a retrieval-augmented explanation layer so an analyst can see why something was flagged. That is the kind of engineering I want to build a career around: systems other people depend on in production, where failure modes, prioritization, and explanation quality matter as much as model performance, and where the human still makes the call. Datadog is the clearest place I know of to work on that at a scale I can't reach on my own, and as an intern I'd want to own a real piece of a system rather than isolated tickets.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_68000353[]",
+        "label": "When considering an internship at Datadog, what are the most important factors to you?",
+        "type": "text",
+        "canonical_field": "screener:custom:internship_priority_factor",
+        "action": "FILL",
+        "approved": true,
+        "value": "Challenging technical work",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_68000355",
+        "label": "LinkedIn Profile",
+        "type": "text",
+        "canonical_field": "linkedin_url",
+        "action": "FILL",
+        "approved": true,
+        "value": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_68000356",
+        "label": "Website",
+        "type": "text",
+        "canonical_field": "personal_website",
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "Profile value empty for personal_website"
+      },
+      {
+        "field_id": "question_68000357",
+        "label": "How did you hear about this opportunity?",
+        "type": "text",
+        "canonical_field": "screener:custom:opt_how_did_you_hear_about_this_opportunity",
+        "action": "FILL",
+        "approved": true,
+        "value": "LinkedIn (Job Posting)",
+        "reason": "Screener bank answer (llm_option)"
+      },
+      {
+        "field_id": "question_68000358",
+        "label": "If you selected Datadog employee in the question above, please add their name below.",
+        "type": "text",
+        "canonical_field": "screener:referral_name",
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "referral_name empty in bank — optional, skipped"
+      },
+      {
+        "field_id": "question_68000359",
+        "label": "I certify that the information provided in this application is true and correct to the best of my knowledge. I understand that any false statements or omissions may result in disqualification from employment consideration or, if employed, in termination.",
+        "type": "text",
+        "canonical_field": "screener:custom:application_truthfulness_consent",
+        "action": "FILL",
+        "approved": true,
+        "value": "Yes",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_68000360",
+        "label": "I understand my application will be processed in accordance with Datadog’s Candidate Privacy Policy.",
+        "type": "text",
+        "canonical_field": "screener:custom:privacy_policy_ack",
+        "action": "FILL",
+        "approved": true,
+        "value": "Yes",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "gender",
+        "label": "Gender",
+        "type": "text",
+        "canonical_field": "gender",
+        "action": "FILL",
+        "approved": true,
+        "value": "Male",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "hispanic_ethnicity",
+        "label": "Are you Hispanic/Latino?",
+        "type": "text",
+        "canonical_field": "hispanic_latino",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "veteran_status",
+        "label": "Veteran Status",
+        "type": "text",
+        "canonical_field": "veteran_status",
+        "action": "FILL",
+        "approved": true,
+        "value": "I am not a veteran",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "disability_status",
+        "label": "Disability Status",
+        "type": "text",
+        "canonical_field": "disability_status",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      }
+    ],
+    "answers": {
+      "legal_name.first": "Shubham",
+      "legal_name.last": "Kale",
+      "screener:custom:has_preferred_name": "No",
+      "email": "s***@gmail.com",
+      "address.country": "United States +1",
+      "phone": "***-***-7636",
+      "degree": "Bachelor's Degree",
+      "start_month": "August",
+      "start_year": "2025",
+      "graduation_month": "May",
+      "graduation_year": "2029",
+      "screener:custom:graduation_date": "Spring 2029",
+      "screener:custom:predicted:question_68000336": "No",
+      "screener:availability_full_time": "Yes",
+      "screener:custom:opt_what_is_your_top_location_preference": "No preference",
+      "screener:willing_to_relocate": "Yes",
+      "screener:willing_to_relocate:question_68000341": "Yes",
+      "screener:custom:opt_are_you_legally_authorised_to_work_full_time_in_the_coun": "Yes, no restriction.",
+      "screener:custom:predicted:question_68000343": "Applied AI",
+      "screener:custom:predicted:question_68000344": "Backend",
+      "screener:custom:predicted:question_68000345": "Data Engineering",
+      "screener:custom:programming_languages": "Python",
+      "screener:custom:other_companies_time_sensitive": "No",
+      "essay:generated:question_68000348": "The work I most want to keep doing is the work I'm doing now. At Summer Atlantic Capital / SAC Nexus I own major parts of the machine-learning core of an anomaly-detection and alert-prioritization system, including the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, and a learning-to-rank layer for ordering alerts. What that project taught me is that detection accuracy is only half the problem. An anomaly system that fires too often creates a second problem instead of solving the first, which is why I also built a retrieval-augmented explanation layer so an analyst can see why something was flagged. That is the kind of engineering I want to build a career around: systems other people depend on in production, where failure modes, prioritization, and explanation quality matter as much as model performance, and where the human still makes the call. Datadog is the clearest place I know of to work on that at a scale I can't reach on my own, and as an intern I'd want to own a real piece of a system rather than isolated tickets.",
+      "screener:custom:internship_priority_factor": "Challenging technical work",
+      "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+      "screener:custom:opt_how_did_you_hear_about_this_opportunity": "LinkedIn (Job Posting)",
+      "screener:custom:application_truthfulness_consent": "Yes",
+      "screener:custom:privacy_policy_ack": "Yes",
+      "gender": "Male",
+      "hispanic_latino": "No",
+      "veteran_status": "I am not a veteran",
+      "disability_status": "No"
+    },
+    "fillable_count": 33,
+    "skipped_count": 5,
+    "review_required_count": 0
+  },
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "legal_name.last",
+      "screener:custom:has_preferred_name",
+      "email",
+      "address.country",
+      "phone",
+      "degree",
+      "start_month",
+      "start_year",
+      "graduation_month",
+      "graduation_year",
+      "screener:custom:graduation_date",
+      "screener:custom:predicted:question_68000336",
+      "screener:availability_full_time",
+      "screener:custom:opt_what_is_your_top_location_preference",
+      "screener:willing_to_relocate",
+      "screener:willing_to_relocate:question_68000341",
+      "screener:custom:opt_are_you_legally_authorised_to_work_full_time_in_the_coun",
+      "screener:custom:predicted:question_68000343",
+      "screener:custom:predicted:question_68000344",
+      "screener:custom:predicted:question_68000345",
+      "screener:custom:programming_languages",
+      "screener:custom:other_companies_time_sensitive",
+      "essay:generated:question_68000348",
+      "screener:custom:internship_priority_factor",
+      "linkedin_url",
+      "screener:custom:opt_how_did_you_hear_about_this_opportunity",
+      "screener:custom:application_truthfulness_consent",
+      "screener:custom:privacy_policy_ack",
+      "gender",
+      "hispanic_latino",
+      "veteran_status",
+      "disability_status"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "first_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "last_name",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "preferred_name",
+        "canonical_field": "screener:custom:has_preferred_name",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "country",
+        "canonical_field": "address.country",
+        "control_kind": "combobox",
+        "selected_option": "+1",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"United States +1\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "phone",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "degree--0",
+        "canonical_field": "degree",
+        "control_kind": "combobox",
+        "selected_option": "Bachelor's Degree",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Bachelor's Degree\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "start-month--0",
+        "canonical_field": "start_month",
+        "control_kind": "combobox",
+        "selected_option": "August",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"August\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "start-year--0",
+        "canonical_field": "start_year",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "end-month--0",
+        "canonical_field": "graduation_month",
+        "control_kind": "combobox",
+        "selected_option": "May",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"May\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "end-year--0",
+        "canonical_field": "graduation_year",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_68000335",
+        "canonical_field": "screener:custom:graduation_date",
+        "control_kind": "combobox",
+        "selected_option": "Spring 2029",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Spring 2029\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_68000336",
+        "canonical_field": "screener:custom:predicted:question_68000336",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_68000337",
+        "canonical_field": "screener:availability_full_time",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_68000339",
+        "canonical_field": "screener:custom:opt_what_is_your_top_location_preference",
+        "control_kind": "combobox",
+        "selected_option": "No preference",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No preference\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_68000340",
+        "canonical_field": "screener:willing_to_relocate",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_68000341",
+        "canonical_field": "screener:willing_to_relocate:question_68000341",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_68000342",
+        "canonical_field": "screener:custom:opt_are_you_legally_authorised_to_work_full_time_in_the_coun",
+        "control_kind": "combobox",
+        "selected_option": "Yes, no restriction.",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes, no restriction.\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_68000343",
+        "canonical_field": "screener:custom:predicted:question_68000343",
+        "control_kind": "combobox",
+        "selected_option": "Applied AI",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Applied AI\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_68000344",
+        "canonical_field": "screener:custom:predicted:question_68000344",
+        "control_kind": "combobox",
+        "selected_option": "Backend",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Backend\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_68000345",
+        "canonical_field": "screener:custom:predicted:question_68000345",
+        "control_kind": "combobox",
+        "selected_option": "Data Engineering",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Data Engineering\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_68000346[]",
+        "canonical_field": "screener:custom:programming_languages",
+        "control_kind": "combobox",
+        "selected_option": "Python",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Python\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_68000347",
+        "canonical_field": "screener:custom:other_companies_time_sensitive",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_68000348",
+        "canonical_field": "essay:generated:question_68000348",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_68000353[]",
+        "canonical_field": "screener:custom:internship_priority_factor",
+        "control_kind": "combobox",
+        "selected_option": "Challenging technical work",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Challenging technical work\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_68000355",
+        "canonical_field": "linkedin_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_68000357",
+        "canonical_field": "screener:custom:opt_how_did_you_hear_about_this_opportunity",
+        "control_kind": "combobox",
+        "selected_option": "LinkedIn (Job Posting)",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"LinkedIn (Job Posting)\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_68000359",
+        "canonical_field": "screener:custom:application_truthfulness_consent",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_68000360",
+        "canonical_field": "screener:custom:privacy_policy_ack",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "gender",
+        "canonical_field": "gender",
+        "control_kind": "combobox",
+        "selected_option": "Male",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Male\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "hispanic_ethnicity",
+        "canonical_field": "hispanic_latino",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "veteran_status",
+        "canonical_field": "veteran_status",
+        "control_kind": "combobox",
+        "selected_option": "I am not a protected veteran",
+        "match_via": "synonym",
+        "notes": [
+          "opened via control click",
+          "picked \"I am not a protected veteran\" (synonym) from open list"
+        ]
+      },
+      {
+        "field_id": "disability_status",
+        "canonical_field": "disability_status",
+        "control_kind": "combobox",
+        "selected_option": "No, I do not have a disability and have not had one in the past",
+        "match_via": "synonym",
+        "notes": [
+          "opened via control click",
+          "picked \"No, I do not have a disability and have not had one in the past\" (synonym) from open list"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.last",
+        "expected": "Kale",
+        "observed": "Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:has_preferred_name",
+        "expected": "No",
+        "observed": "No",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "address.country",
+        "expected": "United States +1",
+        "observed": {
+          "value": "+1",
+          "label": "+1"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "degree",
+        "expected": "Bachelor's Degree",
+        "observed": {
+          "value": "Bachelor's Degree",
+          "label": "Bachelor's Degree"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "start_month",
+        "expected": "August",
+        "observed": {
+          "value": "August",
+          "label": "August"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "start_year",
+        "expected": "2025",
+        "observed": "2025",
+        "match": true
+      },
+      {
+        "canonical_field": "graduation_month",
+        "expected": "May",
+        "observed": {
+          "value": "May",
+          "label": "May"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "graduation_year",
+        "expected": "2029",
+        "observed": "2029",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:graduation_date",
+        "expected": "Spring 2029",
+        "observed": {
+          "value": "Spring 2029",
+          "label": "Spring 2029"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_68000336",
+        "expected": "No",
+        "observed": {
+          "value": "No",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:availability_full_time",
+        "expected": "Yes",
+        "observed": {
+          "value": "Yes",
+          "label": "Yes"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:opt_what_is_your_top_location_preference",
+        "expected": "No preference",
+        "observed": {
+          "value": "No preference",
+          "label": "No preference"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:willing_to_relocate",
+        "expected": "Yes",
+        "observed": {
+          "value": "Yes",
+          "label": "Yes"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:willing_to_relocate:question_68000341",
+        "expected": "Yes",
+        "observed": {
+          "value": "Yes",
+          "label": "Yes"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:opt_are_you_legally_authorised_to_work_full_time_in_the_coun",
+        "expected": "Yes, no restriction.",
+        "observed": {
+          "value": "Yes, no restriction.",
+          "label": "Yes, no restriction."
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_68000343",
+        "expected": "Applied AI",
+        "observed": {
+          "value": "Applied AI",
+          "label": "Applied AI"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_68000344",
+        "expected": "Backend",
+        "observed": {
+          "value": "Backend",
+          "label": "Backend"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_68000345",
+        "expected": "Data Engineering",
+        "observed": {
+          "value": "Data Engineering",
+          "label": "Data Engineering"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:programming_languages",
+        "expected": "Python",
+        "observed": {
+          "value": "Python",
+          "label": "Python"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:other_companies_time_sensitive",
+        "expected": "No",
+        "observed": {
+          "value": "No",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:question_68000348",
+        "expected": "The work I most want to keep doing is the work I'm doing now. At Summer Atlantic Capital / SAC Nexus I own major parts of the machine-learning core of an anomaly-detection and alert-prioritization system, including the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, and a learning-to-rank layer for ordering alerts. What that project taught me is that detection accuracy is only half the problem. An anomaly system that fires too often creates a second problem instead of solving the first, which is why I also built a retrieval-augmented explanation layer so an analyst can see why something was flagged. That is the kind of engineering I want to build a career around: systems other people depend on in production, where failure modes, prioritization, and explanation quality matter as much as model performance, and where the human still makes the call. Datadog is the clearest place I know of to work on that at a scale I can't reach on my own, and as an intern I'd want to own a real piece of a system rather than isolated tickets.",
+        "observed": "The work I most want to keep doing is the work I'm doing now. At Summer Atlantic Capital / SAC Nexus I own major parts of the machine-learning core of an anomaly-detection and alert-prioritization system, including the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, and a learning-to-rank layer for ordering alerts. What that project taught me is that detection accuracy is only half the problem. An anomaly system that fires too often creates a second problem instead of solving the first, which is why I also built a retrieval-augmented explanation layer so an analyst can see why something was flagged. That is the kind of engineering I want to build a career around: systems other people depend on in production, where failure modes, prioritization, and explanation quality matter as much as model performance, and where the human still makes the call. Datadog is the clearest place I know of to work on that at a scale I can't reach on my own, and as an intern I'd want to own a real piece of a system rather than isolated tickets.",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:internship_priority_factor",
+        "expected": "Challenging technical work",
+        "observed": {
+          "value": "Challenging technical work",
+          "label": "Challenging technical work"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:opt_how_did_you_hear_about_this_opportunity",
+        "expected": "LinkedIn (Job Posting)",
+        "observed": {
+          "value": "LinkedIn (Job Posting)",
+          "label": "LinkedIn (Job Posting)"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:application_truthfulness_consent",
+        "expected": "Yes",
+        "observed": {
+          "value": "Yes",
+          "label": "Yes"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:privacy_policy_ack",
+        "expected": "Yes",
+        "observed": {
+          "value": "Yes",
+          "label": "Yes"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "gender",
+        "expected": "Male",
+        "observed": {
+          "value": "Male",
+          "label": "Male"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "hispanic_latino",
+        "expected": "No",
+        "observed": {
+          "value": "No",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "veteran_status",
+        "expected": "I am not a veteran",
+        "observed": {
+          "value": "I am not a protected veteran",
+          "label": "I am not a protected veteran"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "disability_status",
+        "expected": "No",
+        "observed": {
+          "value": "No, I do not have a disability and have not had one in the past",
+          "label": "No, I do not have a disability and have not had one in the past"
+        },
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 113810,
+      "verified": true,
+      "evidence": "input files: []; stillAttached=false; chip=true"
+    }
+  ],
+  "written_at": "2026-09-09T19:33:05.680Z"
+}

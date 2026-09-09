@@ -350,6 +350,22 @@ took the posting shell straight to the canonical embed app, deterministic
 fill verified, submit verified. Three earlier cycles on the same shape
 had refused FORM_NOT_FOUND. LIVE_MUTATION_CONFIRMED for #212.
 
+## Issue #213 — required EEO race question phrased "racial/ethnic background" went unmapped (roblox fba0e3d2)
+
+Cycle 57: deterministic fill verified everything else; submit withheld —
+"How would you describe your racial/ethnic background? (mark all that
+apply)" [combobox] unanswered. `\brace\b` never matched the adjective.
+race_ethnicity IS on file (373 prior verified fills). Fix: racial /
+ethnic(ity) / ethnic background phrasing → race_ethnicity, sensitive-
+profile path only, with the #148 UKG HispanicOrigin rule kept ahead of
+it. Roblox requeued (attempt 2) for the loop.
+
+Coinbase (cycles 49/50/58/59): the FIRST goto to boards.greenhouse.io/
+coinbase/jobs/<id> dies with ERR_CONNECTION_RESET before any landing rung
+— added a one-shot retry via the canonical embed app on a transport
+error at that navigation (commit caa17da2). Live confirmation = next
+Coinbase pick.
+
 ## Note — never run `tests/unit/auto-cycle.test.ts` while the loop runs
 
 It writes real `artifacts/console/auto-cycle/cycle-*.json` files
