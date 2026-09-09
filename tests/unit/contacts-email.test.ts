@@ -243,10 +243,15 @@ describe("outreach template + prompt (UNIT_CONFIRMED)", () => {
       template: loadOutreachTemplate(),
       context: contextFor("beyond"),
     });
-    expect(prompt.system).toContain("Never claim you were referred");
-    expect(prompt.system).toContain("Output schema");
+    // #216: the template + schema and the persona are cache-shaped context
+    // blocks (identical on every call); only contact + job vary per call.
+    expect(prompt.context).toHaveLength(2);
+    expect(prompt.context[0]).toContain("Never claim you were referred");
+    expect(prompt.context[0]).toContain("Output schema");
+    expect(prompt.context[1]).toContain("Volatility Forecasting Model");
+    expect(prompt.system).toMatch(/template and rules in the first context block/);
     expect(prompt.user).toContain("Jordan Rivera");
-    expect(prompt.user).toContain("Volatility Forecasting Model");
+    expect(prompt.user).not.toContain("Volatility Forecasting Model");
   });
 });
 

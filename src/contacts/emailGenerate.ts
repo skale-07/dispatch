@@ -93,29 +93,36 @@ export type EmailContext = {
 export function buildEmailPrompt(input: {
   template: string;
   context: EmailContext;
-}): { system: string; user: string } {
+}): { system: string; context: string[]; user: string } {
   const schemaDescription = JSON.stringify({
     subject: "string",
     body_text: "string (plain text, greeting through signature)",
     used_alum_subject: "boolean",
     persona_projects_used: ["exact persona project names used in the bullets"],
   });
-  const system = [
+  // #216 (day28 ledger: 45 outreach calls, 153k input tokens, 0 cache
+  // reads): the operator template and the persona are identical on every
+  // call; only contact + job change. They go into cached context blocks
+  // (the client marks each with a cache breakpoint), the per-call facts
+  // stay in the user turn after the last breakpoint.
+  const system =
+    "You write one outreach email for a job applicant. Follow the template and rules in the first context block exactly; the applicant's persona is the second block; the contact and job for THIS email are in the user message.";
+  const templateBlock = [
     input.template,
     "",
     "## Output schema (JSON object, nothing else)",
     schemaDescription,
   ].join("\n");
+  const personaBlock = `## Applicant persona\n${JSON.stringify(input.context.persona, null, 2)}`;
   const user = JSON.stringify(
     {
       contact: input.context.contact,
       job: input.context.job,
-      persona: input.context.persona,
     },
     null,
     2,
   );
-  return { system, user };
+  return { system, context: [templateBlock, personaBlock], user };
 }
 
 export type EmailValidationResult = {
