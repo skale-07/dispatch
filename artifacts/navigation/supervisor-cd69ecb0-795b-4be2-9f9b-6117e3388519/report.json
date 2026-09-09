@@ -1,0 +1,50 @@
+{
+  "run_id": "[REDACTED]",
+  "outcome": "form_ready",
+  "steps": [
+    {
+      "observation": "287818a03b5e59e6",
+      "action": "click",
+      "reason": "one unambiguous Apply control",
+      "result": "clicked observed control; next observation checks progress",
+      "target": "control-1"
+    },
+    {
+      "observation": "4af11de2095eea09",
+      "action": "click",
+      "reason": "Apply Manually leads to the applicant form fields",
+      "result": "action failed: elementHandle.click: Element is not attached to the DOM\nCall log:\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n",
+      "model": "claude-opus-5",
+      "target": "control-2"
+    },
+    {
+      "observation": "629dc6dea2769bcc",
+      "action": "click",
+      "reason": "one unambiguous Apply control",
+      "result": "clicked observed control; next observation checks progress",
+      "target": "control-1"
+    },
+    {
+      "observation": "4af11de2095eea09",
+      "action": "click",
+      "reason": "Apply Manually opens the applicant form fields",
+      "result": "action failed: elementHandle.click: Element is not attached to the DOM\nCall log:\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n",
+      "model": "claude-opus-5",
+      "target": "control-2"
+    },
+    {
+      "observation": "629dc6dea2769bcc",
+      "action": "authenticate",
+      "reason": "Apply chooser keeps detaching (likely requires an account session); use the approved portal-auth service to sign into Workday so the apply flow can proceed instead of re-clicking Apply.",
+      "result": "portal auth: signed_in",
+      "model": "claude-opus-5"
+    }
+  ],
+  "notes": [
+    "model calls: 3 of 5 steps"
+  ],
+  "evidence": [
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-cd69ecb0-795b-4be2-9f9b-6117e3388519\\observation.json",
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-cd69ecb0-795b-4be2-9f9b-6117e3388519\\page.png"
+  ]
+}
