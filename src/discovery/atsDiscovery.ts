@@ -58,6 +58,12 @@ export type BoardRegistryLoad = {
    * nine finance/ops internships in a single sweep. Empty = no gate.
    */
   roleTerms: string[];
+  /**
+   * #209: registry-wide drops applied to every board (word-boundary,
+   * exclude wins) — "People Analytics Intern" passed `role_terms` on
+   * "analytics", "User Research Intern" on "research".
+   */
+  excludeTerms: string[];
   /** #180/#209: max NEW applications one board may add per sweep (null = unlimited). */
   maxNewPerBoard: number | null;
 };
@@ -83,17 +89,19 @@ export function loadBoardRegistry(filePath: string): BoardRegistryLoad {
         }`,
       ],
       roleTerms: [],
+      excludeTerms: [],
       maxNewPerBoard: null,
     };
   }
   const boards = (parsed as { boards?: unknown })?.boards;
   if (!Array.isArray(boards)) {
-    return { entries: [], errors: [`registry has no "boards" array`], roleTerms: [], maxNewPerBoard: null };
+    return { entries: [], errors: [`registry has no "boards" array`], roleTerms: [], excludeTerms: [], maxNewPerBoard: null };
   }
-  const top = parsed as { role_terms?: unknown; max_new_per_board?: unknown };
-  const roleTerms = Array.isArray(top.role_terms)
-    ? top.role_terms.filter((s): s is string => typeof s === "string" && s.trim() !== "")
-    : [];
+  const top = parsed as { role_terms?: unknown; exclude_terms?: unknown; max_new_per_board?: unknown };
+  const termList = (v: unknown): string[] =>
+    Array.isArray(v) ? v.filter((s): s is string => typeof s === "string" && s.trim() !== "") : [];
+  const roleTerms = termList(top.role_terms);
+  const excludeTerms = termList(top.exclude_terms);
   const maxNewPerBoard =
     typeof top.max_new_per_board === "number" && Number.isFinite(top.max_new_per_board) && top.max_new_per_board > 0
       ? Math.floor(top.max_new_per_board)
@@ -119,7 +127,7 @@ export function loadBoardRegistry(filePath: string): BoardRegistryLoad {
       exclude: strings((b as { exclude?: unknown }).exclude),
     });
   }
-  return { entries, errors, roleTerms, maxNewPerBoard };
+  return { entries, errors, roleTerms, excludeTerms, maxNewPerBoard };
 }
 
 export type DiscoveredApplication = {
@@ -518,6 +526,8 @@ function enqueueBoardJob(
     detail:
       dedupe.kind === "ALREADY_VERIFIED_SUBMITTED"
         ? "job already has a verified submission"
-        : "job has an uncertain submission pending resolution",
+        : dedupe.kind === "POLICY_ABANDONED"
+          ? "posting abandoned by operator/policy — not re-enqueued (#209)"
+          : "job has an uncertain submission pending resolution",
   };
 }

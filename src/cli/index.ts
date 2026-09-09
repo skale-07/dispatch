@@ -526,6 +526,7 @@ prints the enqueue report as JSON.`);
 
   const entries: BoardRegistryEntry[] = [];
   let registryRoleTerms: string[] = [];
+  let registryExcludeTerms: string[] = [];
   let registryPerBoard: number | null = null;
   const registryPath = flags["registry"];
   if (typeof registryPath === "string") {
@@ -533,6 +534,7 @@ prints the enqueue report as JSON.`);
     for (const e of loaded.errors) console.error(`registry: ${e}`);
     entries.push(...loaded.entries);
     registryRoleTerms = loaded.roleTerms;
+    registryExcludeTerms = loaded.excludeTerms;
     registryPerBoard = loaded.maxNewPerBoard;
   }
   const inlineCompany =
@@ -572,7 +574,8 @@ prints the enqueue report as JSON.`);
     const report = await runAtsBoardDiscovery({
       db,
       entries,
-      globalFilter: { include: split(flags["match"]), exclude: split(flags["drop"]) },
+      // Registry exclude_terms ride the same global filter as --drop (#209).
+      globalFilter: { include: split(flags["match"]), exclude: [...split(flags["drop"]), ...registryExcludeTerms] },
       ...(Number.isFinite(limit) && limit > 0
         ? { maxNewApplications: limit }
         : {}),

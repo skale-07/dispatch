@@ -383,6 +383,22 @@ Board-sourced (twin resolver #207), Compose wait #210 in effect: 8/8
 drafts landed. Datadog Summer (1b47d169) is the worker's next pending
 item. Running total today: 23 drafts DRAFTED, 3 FAILED (pre-#210).
 
+## 19:43 refresh — 2 enqueued, both Coinbase non-engineering again; abandoned rows were re-created
+
+"People Analytics Intern" (abandoned by hand at 19:06) came back as a NEW
+row (43d9f685) plus "User Research Intern": (a) `role_terms` passed them on
+"analytics"/"research"; (b) the dedupe treats FAILED_FINAL as terminal
+and creates a fresh application. Fixes: registry top-level
+`exclude_terms` (ridden into the global --drop filter; boards.json now
+lists finance/HR/design/support phrasings) and dedupe kind
+`POLICY_ABANDONED` — a FAILED_FINAL whose closing reason names an
+operator/policy decision blocks re-creation (board sweep → "blocked",
+JobRight discovery → skipped, manual enqueue → refused); an attempt-cap
+or error FAILED_FINAL still allows a fresh attempt. Both rows abandoned
+by hand again. The inspection step's OWN navigation (runPipeline
+`fetchEmployerPageHtml`, not liveInspect) was the goto that reset on
+Coinbase — it now carries the same embed fallback on both its page paths.
+
 ## Note — never run `tests/unit/auto-cycle.test.ts` while the loop runs
 
 It writes real `artifacts/console/auto-cycle/cycle-*.json` files

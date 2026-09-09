@@ -7,6 +7,7 @@ import { resetConfigCache } from "../../src/config/index.js";
 import { closeDatabase, migrate, openDatabase } from "../../src/storage/db/client.js";
 import { upsertJobByFingerprint } from "../../src/jobs/repository.js";
 import { getOrCreateApplicationForJob } from "../../src/jobs/applicationDedupe.js";
+import { transitionApplication } from "../../src/queue/stateMachine.js";
 import { runJobRightDiscovery } from "../../src/jobright/discoveryRun.js";
 import { acquireLease, releaseLease, LeaseError } from "../../src/queue/leases.js";
 
@@ -99,6 +100,38 @@ describe("Phase 5.5 application dedupe", () => {
     const b = getOrCreateApplicationForJob(db, { jobId: job.id });
     expect(b.kind).toBe("EXISTING_ACTIVE");
     expect(b.applicationId).toBe(a.applicationId);
+    closeDatabase(db);
+  });
+
+  // #209 (day28): a posting abandoned by an operator/policy decision must
+  // not be re-created by the next sweep; a pipeline failure still may.
+  it("POLICY_ABANDONED blocks re-creation after an operator/policy abandon; an ordinary FAILED_FINAL does not", () => {
+    const db = openDatabase(dbPath);
+    migrate(db);
+    const abandonedJob = upsertJobByFingerprint(db, {
+      company: "Acme", role: "People Analytics Intern", jobrightJobId: "pol001", applicationUrl: "https://example.com/jobs/2",
+    });
+    const a = getOrCreateApplicationForJob(db, { jobId: abandonedJob.id });
+    expect(a.kind).toBe("CREATED");
+    transitionApplication(db, {
+      applicationId: a.applicationId,
+      nextState: "FAILED_FINAL",
+      reason: "day28 #209: non-engineering intern posting — operator scope is software/AI",
+    });
+    const again = getOrCreateApplicationForJob(db, { jobId: abandonedJob.id });
+    expect(again.kind).toBe("POLICY_ABANDONED");
+    expect(again.applicationId).toBe(a.applicationId);
+
+    const failedJob = upsertJobByFingerprint(db, {
+      company: "Acme", role: "SWE Intern", jobrightJobId: "fail001", applicationUrl: "https://example.com/jobs/3",
+    });
+    const f = getOrCreateApplicationForJob(db, { jobId: failedJob.id });
+    transitionApplication(db, {
+      applicationId: f.applicationId,
+      nextState: "FAILED_FINAL",
+      reason: "retry cap reached (3/3)",
+    });
+    expect(getOrCreateApplicationForJob(db, { jobId: failedJob.id }).kind).toBe("CREATED");
     closeDatabase(db);
   });
 

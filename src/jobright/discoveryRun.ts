@@ -212,7 +212,9 @@ export async function runJobRightDiscovery(
 
         if (
           dedupe.kind === "ALREADY_VERIFIED_SUBMITTED" ||
-          dedupe.kind === "UNCERTAIN_SUBMISSION"
+          dedupe.kind === "UNCERTAIN_SUBMISSION" ||
+          // #209: abandoned by operator/policy — stays abandoned.
+          dedupe.kind === "POLICY_ABANDONED"
         ) {
           report.jobs_skipped_submitted += 1;
           if (claim.action === "execute") {

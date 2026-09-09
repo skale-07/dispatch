@@ -251,7 +251,9 @@ export function enqueueOneJobRightJob(
 
   if (
     dedupe.kind === "ALREADY_VERIFIED_SUBMITTED" ||
-    dedupe.kind === "UNCERTAIN_SUBMISSION"
+    dedupe.kind === "UNCERTAIN_SUBMISSION" ||
+    // #209: abandoned by operator/policy — a manual enqueue must say so, not silently revive.
+    dedupe.kind === "POLICY_ABANDONED"
   ) {
     return {
       input: parsed.input,

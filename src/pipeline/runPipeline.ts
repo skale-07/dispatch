@@ -45,6 +45,7 @@ import { PlaywrightServiceSession } from "../auth/serviceSession.js";
 import type { Page } from "playwright";
 import { ATS_BINDINGS } from "../applications/atsBindings.js";
 import { detectAtsFromUrl } from "../ats/shared/urlValidationDispatch.js";
+import { greenhouseEmbedFallbackUrl } from "../ats/greenhouse/liveFill.js";
 import {
   ensureResumeForApplication,
   getRegisteredResume,
@@ -449,9 +450,28 @@ async function fetchEmployerPageHtml(
       title: "fixture",
     };
   }
+  // #212 (live Coinbase, day28 cycles 58–67): boards.greenhouse.io/<token>/
+  // jobs/<id> resets the connection on its redirect to the company site;
+  // the canonical embed app is derivable from the URL we hold and skips
+  // that hop. Null for every non-Greenhouse URL — no other ATS is touched.
+  const embedFallback =
+    detectAtsFromUrl(url).ats === "greenhouse"
+      ? greenhouseEmbedFallbackUrl(url, null, url)
+      : null;
   return withNavHandoffPage(ctx, async (handoff) => {
     if (handoff) {
-      await handoff.goto(url, { waitUntil: "domcontentloaded", timeout: 60_000 });
+      try {
+        await handoff.goto(url, { waitUntil: "domcontentloaded", timeout: 60_000 });
+      } catch (err) {
+        const message = err instanceof Error ? err.message : String(err);
+        if (!embedFallback || !/net::ERR_|ECONNRESET|ETIMEDOUT/.test(message)) throw err;
+        logger.warn("inspection navigation failed — retrying via the canonical embed app", {
+          service: "pipeline",
+          action: "inspect_nav_fallback",
+          metadata: { url, fallback: embedFallback, error: message.slice(0, 120) },
+        });
+        await handoff.goto(embedFallback, { waitUntil: "domcontentloaded", timeout: 60_000 });
+      }
       return {
         html: await handoff.content(),
         finalUrl: handoff.url(),
@@ -465,7 +485,12 @@ async function fetchEmployerPageHtml(
         finalUrl: page.url(),
         title: await page.title().catch(() => ""),
       }),
-      { headless: ctx.options.headless ?? true },
+      {
+        headless: ctx.options.headless ?? true,
+        fallbackUrl: embedFallback,
+        onFallback: (note) =>
+          logger.warn(note, { service: "pipeline", action: "inspect_nav_fallback", metadata: { url } }),
+      },
     );
   });
 }

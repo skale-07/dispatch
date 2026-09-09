@@ -20,6 +20,8 @@ export const TERMINAL_APPLICATION_STATES = [
 export type ApplicationDeduplicationResult =
   | { kind: "CREATED"; applicationId: string; application: ApplicationRow }
   | { kind: "EXISTING_ACTIVE"; applicationId: string; application: ApplicationRow }
+  /** #209: the latest row was abandoned by an operator/policy decision — never re-created. */
+  | { kind: "POLICY_ABANDONED"; applicationId: string; application: ApplicationRow }
   | {
       kind: "ALREADY_VERIFIED_SUBMITTED";
       applicationId: string;
@@ -56,6 +58,21 @@ function findLatestApplication(
        ORDER BY created_at DESC LIMIT 1`,
     )
     .get(jobId) as ApplicationRow | undefined;
+}
+
+/** Closing-transition reasons that mean "a person or a policy said no" (#209). */
+const POLICY_ABANDON_REASON =
+  /operator abandoned|operator policy|role-fit|non-engineering|automation: skipped|policy \d{4}-\d{2}-\d{2}|day\d+ #\d+/i;
+
+export function wasAbandonedByPolicy(db: Db, applicationId: string): boolean {
+  const row = db
+    .prepare(
+      `SELECT reason FROM application_events
+       WHERE application_id = ? AND next_state = 'FAILED_FINAL'
+       ORDER BY timestamp DESC LIMIT 1`,
+    )
+    .get(applicationId) as { reason: string | null } | undefined;
+  return Boolean(row?.reason && POLICY_ABANDON_REASON.test(row.reason));
 }
 
 function hasVerifiedSubmission(db: Db, applicationId: string): boolean {
@@ -115,6 +132,19 @@ export function getOrCreateApplicationForJob(
       if (hasUncertainSubmission(db, latest.id)) {
         return {
           kind: "UNCERTAIN_SUBMISSION" as const,
+          applicationId: latest.id,
+          application: latest,
+        };
+      }
+      // #209 (day28): a posting the operator / a policy abandoned must stay
+      // abandoned — the next board sweep re-created "People Analytics
+      // Intern" minutes after it was abandoned by hand. A FAILED_FINAL row
+      // whose closing transition names an operator or policy decision
+      // blocks a new application for the same posting; a pipeline failure
+      // (attempt cap, error) still allows a fresh attempt.
+      if (latest.state === "FAILED_FINAL" && wasAbandonedByPolicy(db, latest.id)) {
+        return {
+          kind: "POLICY_ABANDONED" as const,
           applicationId: latest.id,
           application: latest,
         };
