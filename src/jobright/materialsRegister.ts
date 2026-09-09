@@ -5,7 +5,10 @@ import { getApplication } from "../queue/stateMachine.js";
 import { getConfig } from "../config/index.js";
 import { logger } from "../logging/logger.js";
 import { saveVerifiedResume } from "./resumeDownload.js";
-import { educationForApplication } from "../candidate/applicationEducation.js";
+import {
+  educationForApplication,
+  resumeForApplication,
+} from "../candidate/applicationEducation.js";
 
 export type RegisteredMaterial = {
   material_id: string;
@@ -87,10 +90,15 @@ export function ensureResumeForApplication(
   applicationId: string,
 ): EnsureResumeResult {
   const selection = educationForApplication(db, applicationId);
-  const defaultPath = selection?.resume_path ?? getConfig().defaultResumePath;
+  // #228: with no early-graduation requirement the pipeline used ONE
+  // configured default for every posting, so a data-science role was sent
+  // the SWE resume. The role picks the family; the 2028 selection above
+  // still wins when the posting requires that graduation year.
+  const chosen = resumeForApplication(db, applicationId);
+  const defaultPath = chosen?.path ?? getConfig().defaultResumePath;
   const registered = getRegisteredResume(db, applicationId);
-  if (registered && !selection) return "already";
-  if (registered && selection) {
+  if (registered && !chosen) return "already";
+  if (registered && chosen) {
     const meta = db.prepare(`SELECT metadata_json FROM materials WHERE application_id = ? AND kind = 'resume' AND verified = 1`).get(applicationId) as { metadata_json: string } | undefined;
     if (meta && JSON.parse(meta.metadata_json).original_path === path.resolve(defaultPath)) return "already";
   }
@@ -107,7 +115,7 @@ export function ensureResumeForApplication(
     db,
     applicationId,
     filePath: defaultPath,
-    label: selection ? `approved early graduation ${selection.graduation_year}: ${selection.variant}` : "default",
+    label: chosen?.label ?? "default",
   });
   return "attached";
 }

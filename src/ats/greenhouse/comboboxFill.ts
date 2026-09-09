@@ -1334,6 +1334,24 @@ export function findOtherOptionLabel(options: string[]): string | null {
   return options.find((o) => OTHER_OPTION_RE.test(o.trim())) ?? null;
 }
 
+/**
+ * A list entry that is not a real answer: the prompt row every select
+ * ships with. Used by the #225 last resort so "the first option" is never
+ * "Select one".
+ */
+const PLACEHOLDER_OPTION_RE =
+  /^(\s*|-+|—+|select(\s|$).*|please\s+select.*|choose(\s|$).*|pick\s+one.*|none(\s+selected)?|n\/?a)$/i;
+
+/** First option that is an actual answer, or null (#225). */
+export function firstRealOptionLabel(options: string[]): string | null {
+  return (
+    options.find((o) => {
+      const t = o.trim();
+      return t.length > 0 && !PLACEHOLDER_OPTION_RE.test(t) && !OTHER_OPTION_RE.test(t);
+    }) ?? null
+  );
+}
+
 /** Attribute used to hand a DOM-walked specify input back to Playwright. */
 const SPECIFY_ATTR = "data-dispatch-other-specify";
 
@@ -1437,6 +1455,14 @@ export async function fillComboboxControl(
     allowOtherFallback?: boolean;
     /** Text typed into the "please specify" box after picking Other (#223). */
     otherSpecifyValue?: string;
+    /**
+     * #225 (operator directive 2026-09-09, how-did-you-hear): last resort
+     * for an IRRELEVANT question that must not block the submit — take the
+     * list's first real option when nothing else matched. Callers set this
+     * for that one canonical field; it is never a general behaviour, and
+     * never for demographics.
+     */
+    lastResortFirstOption?: boolean;
   } = {},
 ): Promise<ComboboxFillResult> {
   const notes: string[] = [];
@@ -1949,6 +1975,15 @@ export async function fillComboboxControl(
         `planned "${expectedText}" not on this list — taking the form's own "${other}" (#223)`,
       );
       pick = { ok: true, label: other, via: "other_fallback" };
+    } else if (opts.lastResortFirstOption && firstRealOptionLabel(options)) {
+      // #225: an irrelevant required question (how-did-you-hear) with no
+      // matching option and no "Other". The operator's call: take the
+      // first real option rather than block the submit.
+      const first = firstRealOptionLabel(options)!;
+      notes.push(
+        `planned "${expectedText}" and its alternates are not on this list and it offers no "Other" — taking the first real option "${first}" (#225, operator directive: this question must not block the submit)`,
+      );
+      pick = { ok: true, label: first, via: "other_fallback" };
     } else {
       notes.push(pick.reason);
       await page.keyboard.press("Escape").catch(() => undefined);
@@ -2019,6 +2054,29 @@ export async function fillComboboxControl(
       notes.push(
         `multi residue after clear: display shows "${committedLabel}" (wanted only "${pick.label}")`,
       );
+    }
+  }
+  // #229 (operator directive 2026-09-09: "for filling anything with
+  // dropdowns/lists/options, ensure you click enter — that's what's
+  // required for the query to register"). Some list widgets treat the
+  // option click as a highlight and only commit on Enter; live S&P /
+  // Leidos Workday `source--source` clicked a real option and still read
+  // back empty. Enter is a RECOVERY rung, not the default gesture: on a
+  // widget that already committed, a stray Enter can submit the form, and
+  // this pipeline gates submission deliberately. So it fires only when the
+  // read-back says the click did not take.
+  if (!committed) {
+    const focused = await loc
+      .evaluate((el: { ownerDocument: { activeElement: unknown } }) => el.ownerDocument.activeElement === el)
+      .catch(() => false);
+    if (!focused) await loc.click({ timeout: 2_000 }).catch(() => undefined);
+    await page.keyboard.press("Enter").catch(() => undefined);
+    await page.waitForTimeout(300);
+    const afterEnter = await pollCommittedRead();
+    if (afterEnter && labelsCompatible(pick.label, afterEnter)) {
+      committedLabel = afterEnter;
+      committed = true;
+      notes.push(`click did not register — Enter committed "${pick.label}" (#229)`);
     }
   }
   if (!committed) {

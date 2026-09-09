@@ -2,7 +2,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { selectEducationPolicy, educationProfile, educationBank, type ApplicationEducationPolicy } from "../../src/candidate/applicationEducation.js";
+import { selectEducationPolicy, educationProfile, educationBank, resumeVariantForRole, baselineResumeForRole, type ApplicationEducationPolicy } from "../../src/candidate/applicationEducation.js";
 import { publicProfileSchema } from "../../src/candidate/publicProfile.js";
 import { openDatabase, migrate, closeDatabase, type Db } from "../../src/storage/db/client.js";
 import { upsertJobByFingerprint } from "../../src/jobs/repository.js";
@@ -15,6 +15,54 @@ import { useIsolatedFillEnv } from "../helpers/fillEnvIsolation.js";
 const pdf = path.resolve("tests/fixtures/ats/greenhouse/sample-resume.pdf");
 const policy: ApplicationEducationPolicy = { version: 1, graduation_year: 2028, graduation_month: "May", academic_standing: "Sophomore", statement: "I am a sophomore graduating early in May 2028.", resumes: { general: pdf, ds_ai: pdf } };
 const profile = publicProfileSchema.parse({ legal_name: { first: "Test", last: "Applicant" }, email: "candidate@example.test", graduation_month: "May", graduation_year: 2029 });
+
+// #228 (operator directive 2026-09-09): DS/ML/AI roles take the DS resume,
+// everything else the SWE one — at the baseline graduation year too, not
+// only when a posting forces the 2028 variants.
+describe("resume family by role (UNIT_CONFIRMED)", () => {
+  it.each([
+    "Data Science Intern",
+    "Data Scientist, Summer 2027",
+    "Machine Learning Engineer Intern",
+    "ML Engineer (Intern)",
+    "Artificial Intelligence Intern",
+    "AI Ecosystem Intern",
+    "Applied Scientist Intern",
+    "Deep Learning Research Intern",
+    "Data Analytics Intern",
+    "NLP Engineer Intern",
+    "Computer Vision Intern",
+  ])("routes %s to the DS/AI resume", (role) => {
+    expect(resumeVariantForRole(role)).toBe("ds_ai");
+  });
+
+  it.each([
+    "Software Engineer Intern",
+    "Backend Software Engineering Intern",
+    "Frontend Engineer, New Grad",
+    "Embedded Software Engineering Intern",
+    "Security Software Engineering Intern",
+    "Full Stack Developer Intern",
+  ])("routes %s to the general/SWE resume", (role) => {
+    expect(resumeVariantForRole(role)).toBe("general");
+  });
+
+  it("the same split drives the 2028 selection, so one role can never get two families", () => {
+    const ds = selectEducationPolicy(policy, { role: "Data Science Intern", description: "Required: expected graduation in May 2028." })!;
+    const swe = selectEducationPolicy(policy, { role: "Software Engineer Intern", description: "Required: expected graduation in May 2028." })!;
+    expect(ds.variant).toBe(resumeVariantForRole("Data Science Intern"));
+    expect(swe.variant).toBe(resumeVariantForRole("Software Engineer Intern"));
+  });
+
+  it("baseline picks the configured per-role resume, and falls through for general", () => {
+    const withBaseline: ApplicationEducationPolicy = { ...policy, baseline_resumes: { general: pdf, ds_ai: pdf } };
+    expect(baselineResumeForRole("Data Science Intern", withBaseline)).toBe(path.resolve(pdf));
+    expect(baselineResumeForRole("Software Engineer Intern", withBaseline)).toBe(path.resolve(pdf));
+    // No baseline map: general defers to the configured default (null here),
+    // so existing behaviour for SWE roles is unchanged.
+    expect(baselineResumeForRole("Software Engineer Intern", policy)).toBeNull();
+  });
+});
 
 describe("conditional education (UNIT_CONFIRMED)", () => {
   it.each(["Summer 2028 internship", "Graduation dates between May 2028 and May 2029", "Graduation in 2028 preferred", "Work on the 2028 roadmap"])('does not override from %s', description => {
