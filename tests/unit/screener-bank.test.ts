@@ -70,6 +70,42 @@ describe("screener registry + matcher (UNIT_CONFIRMED)", () => {
     ).toBe("referral_name");
   });
 
+  // #228 (operator directive 2026-09-09): consent / acknowledgement /
+  // certification is always affirmative — a blank one blocks the submit
+  // and the answer is never in doubt. What matters as much as the match
+  // is what it must NOT claim.
+  it("consent, acknowledgement and certification route to consent_agreement", () => {
+    for (const label of [
+      "I consent to the processing of my personal data",
+      "Do you agree to our terms and conditions?",
+      "I certify that the information provided is true and complete",
+      "I acknowledge and agree to the privacy policy",
+      "Do you consent to a background check?",
+    ]) {
+      expect(matchScreenerKey(label)?.key).toBe("consent_agreement");
+    }
+  });
+
+  it("consent never claims demographic self-ID, authorization, or salary", () => {
+    // Demographic consent stays unmapped here — sensitive profile or nothing.
+    expect(matchScreenerKey("I consent to provide my race and ethnicity")?.key).not.toBe(
+      "consent_agreement",
+    );
+    expect(matchScreenerKey("Do you consent to disclose your gender identity?")?.key).not.toBe(
+      "consent_agreement",
+    );
+    // These own their answers, and sponsorship's is the opposite (#227).
+    expect(matchScreenerKey("Do you require visa sponsorship?")?.key).toBe(
+      "requires_sponsorship",
+    );
+    expect(matchScreenerKey("Are you legally authorized to work in the US?")?.key).toBe(
+      "work_authorization",
+    );
+    expect(matchScreenerKey("What are your salary expectations?")?.key).toBe(
+      "salary_expectations",
+    );
+  });
+
   it("on-site ability is willing_to_relocate, not remote_or_onsite", () => {
     expect(
       matchScreenerKey("Are you able to work on-site in Strongsville, OH?")?.key,

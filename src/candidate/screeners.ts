@@ -55,6 +55,61 @@ const NO = ["no", "n", "false"];
  * more specific keys sit above generic ones.
  */
 export const SCREENER_REGISTRY: ScreenerDef[] = [
+  // #228 (operator directive 2026-09-09): consent / acknowledgement /
+  // certification questions are always affirmative. These are the
+  // applicant agreeing to the employer's own terms — a blank one blocks
+  // the submit, and the answer is never in doubt. Sits FIRST so consent
+  // phrasing is claimed here before a generic key can take it.
+  //
+  // The excludes matter more than the patterns: EEO/demographic consent
+  // ("I consent to provide my race…") must never be auto-answered, and
+  // sponsorship/authorization questions have their own keys with their
+  // own (opposite) answers. Demographics are already filtered upstream;
+  // this is the second lock on the same door.
+  {
+    key: "consent_agreement",
+    description:
+      "Consent, acknowledgement, or certification of the employer's own terms — privacy notice, terms and conditions, background check, or certifying the application is truthful. Always affirmative. NOT demographic self-identification and NOT work authorization.",
+    kind: "yes_no",
+    policy: "auto_fill",
+    patterns: [
+      /\bi (consent|agree|acknowledge|certify)\b/,
+      /do you (consent|agree|acknowledge)\b/,
+      /\bconsent to\b/,
+      /\bagree to the\b/,
+      /\backnowledge (and )?(agree|accept|understand)/,
+      /\bcertify that\b/,
+      /terms and conditions/,
+      /privacy (policy|notice|statement)/,
+    ],
+    excludePatterns: [
+      // Demographic self-ID consent — sensitive profile or nothing.
+      /\b(race|racial|ethnic|gender|sex|pronoun|veteran|disabilit|sexual orientation|transgender)\b/,
+      // Authorization/sponsorship own their answers (#227) and invert.
+      /\b(sponsor|work authoriz|authorized to work|visa)\b/,
+      // Money and dates are never a blanket yes.
+      /\b(salary|compensation|pay expectation|notice period)\b/,
+    ],
+    synonyms: {
+      Yes: [
+        ...YES,
+        "i agree",
+        "agree",
+        "i consent",
+        "consent",
+        "i acknowledge",
+        "acknowledge",
+        "i accept",
+        "accept",
+        "i certify",
+        "certify",
+        "i understand",
+        "understood",
+        "confirmed",
+      ],
+      No: NO,
+    },
+  },
   {
     key: "availability_full_time",
     description:
