@@ -1,0 +1,40 @@
+{
+  "run_id": "[REDACTED]",
+  "outcome": "stopped",
+  "steps": [
+    {
+      "observation": "4d6220d706933c0c",
+      "action": "wait",
+      "reason": "Page shows 'Apply for this job' text but no Apply control is exposed yet; wait for the embedded application widget to load.",
+      "result": "waited for rendering",
+      "model": "claude-opus-5"
+    },
+    {
+      "observation": "4d6220d706933c0c",
+      "action": "wait",
+      "reason": "page unchanged after a wait — waiting once more (no model)",
+      "result": "waited for rendering"
+    },
+    {
+      "observation": "4d6220d706933c0c",
+      "action": "open_frame",
+      "reason": "The page contains an 'Apply for this job' section (likely a Greenhouse embedded application) but no Apply control is exposed; waiting twice made no progress, so open the frame to surface the embedded application document.",
+      "result": "action failed: unknown or inadmissible frame",
+      "model": "claude-opus-5",
+      "target": "frame-0"
+    },
+    {
+      "observation": "4d6220d706933c0c",
+      "action": "stop",
+      "reason": "no progress: this page state was observed 4 times",
+      "result": "model stopped"
+    }
+  ],
+  "notes": [
+    "model calls: 2 of 4 steps"
+  ],
+  "evidence": [
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-616c08bb-2211-462a-b3d7-fa0f07ecf6f0\\observation.json",
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-616c08bb-2211-462a-b3d7-fa0f07ecf6f0\\page.png"
+  ]
+}
