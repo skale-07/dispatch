@@ -443,6 +443,21 @@ so the budget goes to fillable rows. Gmail: American Equity (d2633c0f)
 side of the dedupe is untested until a second posting from the same
 company submits.
 
+## Issue #216 — token profile 18:50→20:12 and the outreach prompt's zero cache reads
+
+136 model calls, 400k input / 58k output, 281k cache reads. Spend:
+outreach email prompt 45 calls / 153k input / 0 cache (the duplicate
+drafts — now suppressed by #214); nav supervisor 26 calls / 180k input
+(Two Sigma, Peraton, CACI grinds — now excluded); screener predict 20
+calls but 143k of it cached; essays 18 calls, 119k cached. Fix for the
+outreach surface: `buildEmailPrompt` now puts the operator template +
+schema and the persona into two cached context blocks (the client marks
+each with a cache breakpoint) and leaves only contact + job in the user
+turn — on the next tail the ~3k-token template and persona read from
+cache. Test contacts-email 24/24 updated. Remaining structural item for
+#201: a Register/Sign-in landing (page_class auth) should end the nav
+supervisor at step 1 instead of spending its 5-call budget.
+
 ## Note — never run `tests/unit/auto-cycle.test.ts` while the loop runs
 
 It writes real `artifacts/console/auto-cycle/cycle-*.json` files
