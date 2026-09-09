@@ -258,6 +258,27 @@ aggregator; before phase C when nothing resolved):
   correct URL stored; `npm run run -- --pipeline --app 79e75805… --submit
   --headed --yes` resumes it on a network that reaches coinbase.com.
 
+## Job #2 — Daylit, Full Stack AI Engineer Co-Op (7669acfe, JobRight 6aa07112)
+
+Cycle 2 (22:33, backlog). Phase A: anchor reads as "polymer" (11
+external links). Phase B: popup → `jobs.polymer.co/lendica/41094`,
+stored. Fill gate: `fill refused: stored URL is for "polymer", not
+Daylit` → triage `park_for_operator` (review item). Read-only CDP probe
+(`private/tmp-probe-polymer-20260908.ts`, screenshot
+`artifacts/console/probe-polymer-lendica.png`): title "… at Daylit
+(Formerly Lendica)", a live 8-field form (Name, Email, Phone, Location,
+Resume, work-auth, sponsorship, referral). Correct URL, wrong refusal.
+
+## Issue #197 — vendor host read as employer; rebrand slug accuses a correct URL
+
+Two layers:
+1. `polymer.co` added to `MULTI_EMPLOYER_HOSTS` (congruence.ts) — Polymer
+   is an ATS (`jobs.polymer.co/<org>/<id>`); the hostname must never be
+   read as identity.
+2. With that, the path org slug "lendica" (the company's FORMER name)
+   would accuse instead and the fill gate would still refuse. See the
+   fix below.
+
 ## Gmail tail — how it actually runs (operator asked 22:31)
 
 - `auto:cycle` (automation worker) runs `runOutreachTail` after every
