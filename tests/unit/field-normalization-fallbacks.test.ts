@@ -17,6 +17,33 @@ describe("matchCanonicalField name/id fallbacks", () => {
     ).toBe("current_company");
   });
 
+  // #227 (operator directive 2026-09-09): "require work authorization" is
+  // the SPONSORSHIP question (answer No); "are you authorized" is the
+  // status question (answer Yes). They share vocabulary and invert.
+  it("splits 'do you require work authorization' from 'are you authorized to work'", () => {
+    const q = (label: string) => ({ id: "f1", label, type: "select" as const, required: true, name: "" });
+    // The REQUIRE form -> sponsorship (profile answers "No").
+    for (const label of [
+      "Do you require work authorization?",
+      "Will you now or in the future require work authorization?",
+      "Do you require sponsorship for employment visa status?",
+      "Will you require visa sponsorship now or in the future?",
+      "Do you need employment authorization sponsorship?",
+    ]) {
+      expect(matchCanonicalField(q(label), {})).toBe("requires_sponsorship");
+    }
+    // The STATUS form -> work authorization (profile answers "Yes"),
+    // including the phrasing that mentions sponsorship in passing.
+    for (const label of [
+      "Are you legally authorized to work in the United States?",
+      "Are you authorized to work for any employer in the U.S.?",
+      "Are you authorized to work in the US without requiring sponsorship?",
+      "Are you eligible to work lawfully in the United States?",
+    ]) {
+      expect(matchCanonicalField(q(label), {})).toBe("work_authorization");
+    }
+  });
+
   // #226 (live Palantir 2026-09-09; operator: "it couldn't complete a
   // question that asked to plug in today's date").
   it("a bare signature-block Date/Signature maps; dated questions with their own meaning do not", async () => {

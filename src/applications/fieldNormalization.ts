@@ -256,6 +256,43 @@ function matchCanonicalFieldInner(
     return "skills";
   }
 
+  // #227 (operator directive 2026-09-09, emphatic: "FOR ANY QUESTION THAT
+  // ASKS DO YOU REQUIRE WORK AUTHORIZATION THE ANSWER SHOULD BE NO").
+  //
+  // Two questions share this vocabulary and take OPPOSITE answers for a US
+  // citizen, so the split is decided here, ahead of the alias phrase map:
+  //
+  //   "Are you legally authorized to work in the US?"      -> YES
+  //   "Do you require work authorization / sponsorship?"   -> NO
+  //
+  // The alias list carries bare phrases ("Work authorization", "Authorized
+  // to work") that were claiming the REQUIRE form of the question and
+  // answering "Yes" from work_authorization — which an employer reads as
+  // "I need sponsorship", the exact inversion of the truth.
+  //
+  // Status phrasing wins first, because "Are you authorized to work
+  // WITHOUT requiring sponsorship?" contains both cues and is still the
+  // status question (answer Yes).
+  {
+    const asksStatus =
+      /^(are|is)\s+(you|the\s+applicant)\b/.test(normalized) ||
+      /\b(are|is)\s+you\s+(currently\s+|legally\s+)?(authorized|eligible|able|permitted)\b/.test(
+        normalized,
+      ) ||
+      /\bdo\s+you\s+have\s+(the\s+)?(legal\s+)?(right|authorization)\b/.test(normalized);
+    // NB: no trailing \b after "authoriz" — there is no word boundary
+    // inside "authorization", so `authoriz\b` matches nothing at all.
+    const asksRequire =
+      /\b(require|requiring|requires|need|needs)\b/.test(normalized) &&
+      /\b(sponsor\w*|work\s+authoriz\w*|employment\s+authoriz\w*|visa)\b/.test(
+        normalized,
+      );
+    if (asksRequire && !asksStatus) return "requires_sponsorship";
+    if (asksStatus && /\b(authoriz\w*|eligible\s+to\s+work|work\s+lawfully)\b/.test(normalized)) {
+      return "work_authorization";
+    }
+  }
+
   // #226 (live Palantir 2026-09-09; operator: "it couldn't complete a
   // question that asked to plug in today's date"). Acknowledgement blocks
   // end with a bare "Name" + "Date" pair the alias map does not claim, and
