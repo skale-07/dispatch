@@ -1,0 +1,35 @@
+{
+  "started_at": "2026-09-09T15:42:36.896Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\swe.pdf)",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "96f53ac8-6d86-4c21-bcbd-a8936aad2566",
+    "armed_until": "2026-09-09T17:40:23.551Z",
+    "seconds_remaining": 7067,
+    "max_submits": 1,
+    "submits_used": 0,
+    "max_apps": 1,
+    "apps_started": 1,
+    "discover_max": 1,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": null,
+  "outcome": "skipped_already_armed",
+  "notes": [
+    "an armed session is already live — not double-arming (arm 96f53ac8, 1/1 apps, 118 min left)"
+  ]
+}
