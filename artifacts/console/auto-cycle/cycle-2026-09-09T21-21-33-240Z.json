@@ -1,0 +1,73 @@
+{
+  "started_at": "2026-09-09T21:21:33.240Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\swe.pdf)",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "a47004eb-6e37-48fa-9e2b-3b9a62744b8d",
+    "armed_until": "2026-09-09T23:21:33.279Z",
+    "seconds_remaining": 7200,
+    "max_submits": 1,
+    "submits_used": 0,
+    "max_apps": 1,
+    "apps_started": 0,
+    "discover_max": 1,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": {
+    "arm_run_id": "a47004eb-6e37-48fa-9e2b-3b9a62744b8d",
+    "apps_started": 1,
+    "submits_used": 0,
+    "stopped_reason": "apps_cap",
+    "discover_runs": 0,
+    "emails_generated": 0,
+    "drafts_saved": 0,
+    "essay_drafts_generated": 0,
+    "screener_predictions_generated": 0,
+    "notes": [
+      "nav audit: 0 wrong-employer URL(s) cleared for re-navigation, 2 parked for review",
+      "triage sweep: 0 confirmed, 1 refuted, 0 expired of 68 pending",
+      "triage e56b7e7a: park_for_operator (executed) — review item created: 1bb37dc2-d719-4150-90b6-88d5d016e3fa",
+      "artifact autopush: 10 file(s) pushed to master as ed2b4c2a"
+    ],
+    "per_app": [
+      {
+        "application_id": "e56b7e7a-e77b-4e2a-b05c-4e79bcad1b57",
+        "end_state": "FAILED_RETRYABLE",
+        "stopped": "gate",
+        "stop_reason": "submission not verified: FAILED_BEFORE_CLICK — Refusing to click submit: 1 required question(s) unanswered — Have you ever been issued a Cisco Employee ID or Cisco Email Address?* [radio_group]",
+        "submitted": false,
+        "outreach": null
+      }
+    ],
+    "nav_audit": {
+      "checked": 294,
+      "repaired": 0,
+      "parked": 2
+    },
+    "triage": {
+      "decided": 1,
+      "executed": 1
+    },
+    "artifact_autopush": {
+      "pushed": true,
+      "commit": "ed2b4c2a",
+      "files_staged": 10
+    }
+  },
+  "outcome": "completed",
+  "notes": []
+}
