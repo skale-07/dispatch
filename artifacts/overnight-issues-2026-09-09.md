@@ -343,6 +343,13 @@ longer returns early; the deterministic rungs still run and the final
 posting-shell check refuses. Tests: greenhouse-reach-form 5/5,
 greenhouse-embed-fallback 5/5. Live confirmation = the next Datadog cycle.
 
+## Job #10 — Datadog SWE Intern (Summer) (1b47d169, Greenhouse via company-hosted shell) — SUBMITTED_VERIFIED
+
+Cycle 56 (19:17→19:22), first pick after #212 landed: embed-first rung
+took the posting shell straight to the canonical embed app, deterministic
+fill verified, submit verified. Three earlier cycles on the same shape
+had refused FORM_NOT_FOUND. LIVE_MUTATION_CONFIRMED for #212.
+
 ## Note — never run `tests/unit/auto-cycle.test.ts` while the loop runs
 
 It writes real `artifacts/console/auto-cycle/cycle-*.json` files
