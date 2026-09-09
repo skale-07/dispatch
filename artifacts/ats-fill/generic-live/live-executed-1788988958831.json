@@ -1,0 +1,375 @@
+{
+  "ats": "generic",
+  "url": "https://careers.cisco.com/global/en/job/CISCISGLOBAL2025180EXTERNALENGLOBAL/Software-Consulting-Engineer-I-Intern-United-States",
+  "requested_url": "https://careers.cisco.com/global/en/job/CISCISGLOBAL2025180EXTERNALENGLOBAL/Software-Consulting-Engineer-I-Intern-United-States",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://careers.cisco.com/global/en/apply?jobSeqNo=CISCISGLOBAL2025180EXTERNALENGLOBAL&step=1&stepname=personalInformation",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 11,
+    "skipped_count": 5,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "country",
+      "label": "Country or Region",
+      "type": "select",
+      "canonical_field": "screener:custom:country_or_region",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "cntryFields.firstName",
+      "label": "Legal First Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "cntryFields.lastName",
+      "label": "Legal Last Name",
+      "type": "text",
+      "canonical_field": "legal_name.last",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "cntryFields.preferredName",
+      "label": "I have a preferred name",
+      "type": "select",
+      "canonical_field": "screener:custom:has_preferred_name",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "cntryFields.city",
+      "label": "City",
+      "type": "text",
+      "canonical_field": "address.city",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "cntryFields.region",
+      "label": "State",
+      "type": "select",
+      "canonical_field": "address.state",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "email",
+      "label": "Email Address",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "deviceType",
+      "label": "Phone Device Type",
+      "type": "select",
+      "canonical_field": "screener:custom:phone_device_type",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "phoneWidget.countryPhoneCode",
+      "label": "Country Phone Code",
+      "type": "select",
+      "canonical_field": "screener:custom:phone_country_code",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "phoneWidget.phoneNumber",
+      "label": "Phone Number",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "applicantSource",
+      "label": "How Did You Hear About Us?",
+      "type": "select",
+      "canonical_field": "how_heard",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "referredBy",
+      "label": "What's their name or email address?",
+      "type": "text",
+      "canonical_field": "screener:referral_name",
+      "action": "SKIP",
+      "reason": "referral_name empty in bank — optional, skipped"
+    },
+    {
+      "field_id": "previousWorkerConfirmation",
+      "label": "Yes",
+      "type": "radio",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "consent",
+      "label": "Send SMS",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "emailOptIn",
+      "label": "Send Emails",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "whatsAppConsent",
+      "label": "Send WhatsApp",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\generic-live\\form-snapshot-1788988947331.html",
+  "fill": {
+    "filled": [
+      "screener:custom:country_or_region",
+      "legal_name.first",
+      "legal_name.last",
+      "screener:custom:has_preferred_name",
+      "address.city",
+      "address.state",
+      "email",
+      "screener:custom:phone_device_type",
+      "screener:custom:phone_country_code",
+      "phone",
+      "how_heard"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "country",
+        "canonical_field": "screener:custom:country_or_region",
+        "control_kind": "native_select",
+        "selected_option": "United States of America",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "cntryFields.firstName",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "cntryFields.lastName",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "cntryFields.preferredName",
+        "canonical_field": "screener:custom:has_preferred_name",
+        "control_kind": "native_select",
+        "selected_option": "No",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "cntryFields.city",
+        "canonical_field": "address.city",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "cntryFields.region",
+        "canonical_field": "address.state",
+        "control_kind": "native_select",
+        "selected_option": "Maryland",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "deviceType",
+        "canonical_field": "screener:custom:phone_device_type",
+        "control_kind": "native_select",
+        "selected_option": "Mobile",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "phoneWidget.countryPhoneCode",
+        "canonical_field": "screener:custom:phone_country_code",
+        "control_kind": "native_select",
+        "selected_option": "United States of America (+1)",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "phoneWidget.phoneNumber",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "applicantSource",
+        "canonical_field": "how_heard",
+        "control_kind": "native_select",
+        "selected_option": "LinkedIn",
+        "match_via": "exact"
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "screener:custom:country_or_region",
+        "expected": "United States of America",
+        "observed": {
+          "value": "USA",
+          "label": "United States of America"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.last",
+        "expected": "Kale",
+        "observed": "Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:has_preferred_name",
+        "expected": "No",
+        "observed": {
+          "value": "No",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "address.city",
+        "expected": "Baltimore",
+        "observed": "Baltimore",
+        "match": true
+      },
+      {
+        "canonical_field": "address.state",
+        "expected": "Maryland",
+        "observed": {
+          "value": "USA-MD",
+          "label": "Maryland"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:phone_device_type",
+        "expected": "[REDACTED_PHONE]",
+        "observed": "[REDACTED]",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:phone_country_code",
+        "expected": "[REDACTED_PHONE]",
+        "observed": "[REDACTED]",
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "how_heard",
+        "expected": "LinkedIn",
+        "observed": {
+          "value": "APPLICANT_SOURCE_LINKEDIN",
+          "label": "LinkedIn"
+        },
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 113810,
+      "verified": true,
+      "evidence": "input files: [{\"name\":\"resume-dd9093dd.pdf\",\"size\":113810}]; stillAttached=true; chip=false"
+    }
+  ],
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: posting (no fields, Apply CTA present)",
+    "landed on a posting (no fields, Apply CTA present); clicking Apply via role=button accessible name is Apply",
+    "Apply landed on: posting (no fields, Apply CTA present)",
+    "posting page (no fields, Apply CTA present) but no Apply control found — not filling the posting; no visible apply-ish controls",
+    "navigation supervisor after Apply miss: form_ready (1 steps)",
+    "section-expand: expanded 6 collapsed section(s)",
+    "section-expand: expanded \"Why Work Here\"",
+    "section-expand: expanded \"How We Hire\"",
+    "section-expand: expanded \"Global\"",
+    "section-expand: expanded \"Why Work Here\"",
+    "section-expand: expanded \"How We Hire\"",
+    "section-expand: expanded \"Global\"",
+    "timing: base page (16 planned) — plan 1s, fill 8s, verify 1s",
+    "form-advance: no Next/Continue advance control matched (account-setup tier: page marker did NOT match, 1 file input(s))",
+    "form-advance: no visible enabled CTA on the page (3 inventoried)",
+    "form-advance: no Next/Continue after page 1 — stopping",
+    "submit not attempted — live fill never submits"
+  ],
+  "navigation_supervisor": {
+    "run_id": "supervisor-3681c9e8-9ef8-43e6-b280-a2ee311d0fa4",
+    "outcome": "form_ready",
+    "steps": [
+      {
+        "observation": "f9004e0469b3b000",
+        "action": "wait",
+        "reason": "Apply page still loading ('Loading...' widget, blank render); allow content to render before acting.",
+        "result": "waited for rendering",
+        "model": "claude-opus-5"
+      }
+    ],
+    "notes": [
+      "model calls: 1 of 1 steps"
+    ],
+    "evidence": [
+      "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-3681c9e8-9ef8-43e6-b280-a2ee311d0fa4\\observation.json",
+      "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-3681c9e8-9ef8-43e6-b280-a2ee311d0fa4\\page.png"
+    ]
+  },
+  "harvested_options": [],
+  "wizard_pages": [],
+  "written_at": "2026-09-09T21:22:38.873Z"
+}
