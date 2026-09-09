@@ -1,0 +1,50 @@
+{
+  "run_id": "[REDACTED]",
+  "outcome": "stopped",
+  "steps": [
+    {
+      "observation": "a80a296b8f949337",
+      "action": "click",
+      "reason": "Apply link to iCIMS application for this exact req 170320.",
+      "result": "clicked observed control; next observation checks progress",
+      "model": "claude-opus-5",
+      "target": "control-4"
+    },
+    {
+      "observation": "e0a5940491bbf886",
+      "action": "form_ready",
+      "reason": "iCIMS application start form for req 170320 is loaded with applicant email field and consent checkboxes.",
+      "result": "refused: applicant form not independently observed",
+      "model": "claude-opus-5"
+    },
+    {
+      "observation": "6b45c4b609cca1f7",
+      "action": "open_frame",
+      "reason": "The applicant email/consent form lives in the embedded iCIMS frame; opening it in this tab should let the checker observe the actual identity fields.",
+      "result": "opened observed frame URL",
+      "model": "claude-opus-5",
+      "target": "frame-1"
+    },
+    {
+      "observation": "b94f9d0ad9260565",
+      "action": "form_ready",
+      "reason": "iCIMS applicant form with Email field and consent checkboxes is now loaded directly in this tab for req 170320.",
+      "result": "refused: applicant form not independently observed",
+      "model": "claude-opus-5"
+    },
+    {
+      "observation": "3ebdfdcfe7fe8d05",
+      "action": "stop",
+      "reason": "The iCIMS applicant email/consent page for req 170320 is reached, but form_ready was refused twice (checker sees field_count 0) and an hCaptcha challenge frame is active, blocking further progress. A captcha is a concrete blocker requiring human/anti-bot handling.",
+      "result": "model stopped",
+      "model": "claude-opus-5"
+    }
+  ],
+  "notes": [
+    "model calls: 5 of 5 steps"
+  ],
+  "evidence": [
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-0ca4078e-ef7f-4e80-bc4e-610bb7480847\\observation.json",
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-0ca4078e-ef7f-4e80-bc4e-610bb7480847\\page.png"
+  ]
+}
