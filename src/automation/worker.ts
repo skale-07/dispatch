@@ -8,6 +8,7 @@ import {
 } from "../pipeline/runPipeline.js";
 import { runJobRightDiscovery } from "../jobright/discoveryRun.js";
 import { runPostSubmitGmail, type OutreachPipelineJobResult } from "../outreach/outreachPipeline.js";
+import { recordGmailTailOutcome } from "../outreach/outreachWorker.js";
 import { getApplication, transitionApplication } from "../queue/stateMachine.js";
 import { judgePostingAge } from "../jobs/postingAge.js";
 import {
@@ -145,6 +146,12 @@ export type AutomationSessionInput = {
   db: Db;
   armRunId: string;
   headless?: boolean;
+  /**
+   * Operator 2026-09-09: leave the post-submit Gmail tail to the parallel
+   * `outreach:worker` process instead of running it inline between
+   * applications. The tail still ALWAYS runs — just not in this process.
+   */
+  deferGmail?: boolean;
   /** 0 disables discovery entirely (process only the existing queue). */
   discoverMax?: number;
   /** Fresh feed only when discovery is enabled; backlog requires explicit selection. */
@@ -762,10 +769,16 @@ export async function runAutomationSession(
             `skipped ${appId} on operator request — moving to the next job`,
           );
         }
-        if (appResult.submitted && (getConfig().gmailDraftsEnabled || input.gmailRunner)) {
+        if (appResult.submitted && input.deferGmail) {
+          // The parallel outreach worker picks this up from the VERIFIED
+          // submission row; nothing here to wait on.
+          appResult.outreach = { email_status: null, draft_status: null, skip_reason: "deferred to outreach:worker" };
+          report.notes.push(`gmail ${appId}: deferred to outreach:worker`);
+        } else if (appResult.submitted && (getConfig().gmailDraftsEnabled || input.gmailRunner)) {
           // Complete Gmail before the next feed read, including COMPLETED/no-contact apps.
           await dropNavSession();
           const gmail = await (input.gmailRunner ?? runPostSubmitGmail)({ db, applicationId: appId, headless: input.headless ?? true });
+          recordGmailTailOutcome(db, appId, gmail);
           appResult.gmail = gmail;
           report.emails_generated += gmail.generated;
           report.drafts_saved += gmail.drafted;

@@ -173,7 +173,8 @@ Commands:
   gmail:auth --email <mailbox> --client-id <id> --client-secret <secret>   One-time readonly OAuth
   gmail:check                           Read-only Gmail token smoke test
   verify:mailbox [--since <minutes>] [--show] [--headed]   Smoke-test mailbox scan (gmail-web/outlook)
-  auto:cycle [--no-update] [--headed] [--backlog] [--duration <min>] [--max-submits N] [--max-apps N] [--app-deadline <sec>]   One fresh-job session cycle (operator-guide §19)
+  auto:cycle [--no-update] [--headed] [--backlog] [--duration <min>] [--max-submits N] [--max-apps N] [--app-deadline <sec>] [--defer-gmail]   One fresh-job session cycle (operator-guide §19)
+  outreach:worker [--headed] [--since <hours>] [--max N] [--loop --duration <min> --interval <sec>]   Gmail tail for every verified submission not yet drafted (parallel to auto:cycle --defer-gmail; GMAIL_DRAFTS_ENABLED)
   viz:timeline [--limit N]              Render artifacts/console/run-timeline.html (read-only)
   review
   review:resolve --id <review_item_id> --outcome submitted|not-submitted [--requeue]
@@ -2072,6 +2073,7 @@ async function main(): Promise<void> {
         skipUpdate: flags["no-update"] === true,
         backlog: flags["backlog"] === true,
         headless: flags["headed"] !== true,
+        deferGmail: flags["defer-gmail"] === true,
         ...(num("duration") !== undefined ? { durationMinutes: num("duration")! } : {}),
         ...(num("max-submits") !== undefined ? { maxSubmits: num("max-submits")! } : {}),
         ...(num("max-apps") !== undefined ? { maxApps: num("max-apps")! } : {}),
@@ -2111,6 +2113,41 @@ async function main(): Promise<void> {
     case "outreach":
       await cmdOutreach(flags);
       return;
+    case "outreach:worker": {
+      const { runOutreachWorkerPass } = await import("../outreach/outreachWorker.js");
+      const num = (k: string, dflt: number): number =>
+        typeof flags[k] === "string" && Number.isFinite(Number(flags[k])) ? Number(flags[k]) : dflt;
+      const sinceHours = num("since", 12);
+      const since = new Date(Date.now() - sinceHours * 36e5);
+      const loop = flags["loop"] === true;
+      // Bounded by construction: a loop runs for --duration minutes (default
+      // 480) at --interval seconds (default 60), never forever.
+      const endAt = Date.now() + Math.max(1, num("duration", 480)) * 60_000;
+      const intervalMs = Math.max(10, num("interval", 60)) * 1000;
+      const db = openDatabase();
+      let failures = 0;
+      try {
+        migrate(db);
+        let pass = 0;
+        do {
+          pass += 1;
+          const report = await runOutreachWorkerPass({
+            db,
+            since,
+            headless: flags["headed"] !== true,
+            ...(typeof flags["max"] === "string" ? { limit: num("max", 5) } : {}),
+          });
+          console.log(JSON.stringify({ pass, at: new Date().toISOString(), ...report }));
+          failures += report.processed.filter((p) => !p.ok && !p.done).length;
+          if (!loop || Date.now() >= endAt) break;
+          await new Promise((r) => setTimeout(r, intervalMs));
+        } while (Date.now() < endAt);
+      } finally {
+        closeDatabase(db);
+      }
+      process.exitCode = failures > 0 ? 1 : 0;
+      return;
+    }
     case "jobright:ext-check":
       await cmdExtCheck(flags);
       return;

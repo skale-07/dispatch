@@ -1391,6 +1391,35 @@ Standing behavior (operator directive 2026-09-01):
   Every unproven-board attempt is a chance to generalize the platform;
   there is no time-of-day gating.
 
+### Post-submit Gmail tail in parallel (`--defer-gmail` + `outreach:worker`)
+
+Operator directive 2026-09-09: the Gmail tail (insider triage → generate →
+Gmail draft, never send) ALWAYS runs after a verified submit, and it runs
+in its own process so an armed window is spent on applications, not on
+drafting between them.
+
+```powershell
+npm run auto:cycle -- --backlog --no-update --headed --max-apps 1 --defer-gmail   # submit only
+npm run cli -- outreach:worker --headed --loop --duration 480 --interval 60        # parallel tail
+npm run cli -- outreach:worker --headed --since 6                                  # one pass, last 6h
+```
+
+- `--defer-gmail` makes the worker note `gmail <id>: deferred to
+  outreach:worker` instead of running the tail inline. Without it the
+  inline behavior is unchanged.
+- `outreach:worker` picks every VERIFIED submission newer than `--since`
+  hours (default 12) whose tail is not done, newest first, and runs the
+  same `runPostSubmitGmail` the inline path runs. The outcome is recorded
+  on the application (`versions_json.gmail_tail`: attempts, ok, done,
+  drafted, error); a done tail is never re-run, so drafts are never
+  duplicated. Transient failures retry on a later pass up to 3 attempts;
+  a row with no JobRight job (board-discovered) is terminal at once with
+  that reason. `--loop` is bounded by `--duration` minutes.
+- The two processes never touch the same application row: the apply loop
+  picks non-terminal rows, the outreach worker rows with a verified
+  submission. Both need `GMAIL_DRAFTS_ENABLED`; drafts open in the debug
+  Chrome (CDP) as before.
+
 `--app-deadline <sec>` is a per-application wall-clock budget. It is checked
 at pipeline step boundaries (the same cooperative seam as the console Skip
 button — never mid-click), so a job that is still in flight past the budget

@@ -131,6 +131,8 @@ export async function runAutoCycle(
     headless?: boolean;
     /** Per-application wall-clock budget in seconds (worker appDeadlineMs). */
     appDeadlineSeconds?: number;
+    /** Leave the post-submit Gmail tail to the parallel outreach:worker. */
+    deferGmail?: boolean;
   } = {},
   seams: AutoCycleSeams = {},
 ): Promise<AutoCycleReport> {
@@ -192,6 +194,7 @@ async function runAutoCycleInner(
     maxApps?: number;
     headless?: boolean;
     appDeadlineSeconds?: number;
+    deferGmail?: boolean;
   },
   seams: AutoCycleSeams,
 ): Promise<AutoCycleReport> {
@@ -392,6 +395,7 @@ async function runAutoCycleInner(
           // ignoring a discover_max the operator/console set.
           discoverMax: input.backlog ? 0 : (report.arm?.discover_max ?? 1),
           queueMode: input.backlog ? "backlog" : "fresh",
+          ...(input.deferGmail ? { deferGmail: true } : {}),
           ...(input.appDeadlineSeconds !== undefined && input.appDeadlineSeconds > 0
             ? { appDeadlineMs: Math.round(input.appDeadlineSeconds * 1000) }
             : {}),
