@@ -193,6 +193,85 @@ Recorded for triage after the loop; none acted on tonight:
 7. codeProviders.ts ~117: Outlook code polling envelope up to ~6×70s,
    providers serial (six failures ≈350s each).
 
+## Job #1 — Coinbase, Data Science Intern (79e75805, JobRight 6aa08b4b)
+
+Cycle 1 (22:16, fresh discovery: 2 inspected, 1 eligible). Phase A: no
+congruent href (11 external: linkedin, x, crunchbase, glassdoor,
+coinbase.com…). Phase B: Apply → "Apply Without Customizing" → popup to
+`linkedin.com/jobs/view/4464900528` — recorded with congruence
+`unknown`, resolved_ats generic. Fill refused `NAVIGATION_INCOMPLETE`;
+the supervisor ran inside the fill: clicked "Easy Apply", the model
+claimed form_ready on LinkedIn's "Apply to Coinbase" modal (pixels
+confirm identity fields — LinkedIn's Easy Apply form, prefilled), code
+refused it (classifier saw 3 non-identity fields; the modal is
+LinkedIn's, not Coinbase's — refusal is the right outcome). Triage:
+`requeue_reopen_navigation` → APPLICATION_OPENING attempt 2 — which would
+replay the identical path.
+
+**#194 live evidence (LIVE_READ_ONLY_CONFIRMED):** `model calls: 3 of 5
+steps` (was 6–10). Ledger: thinking 0 / 0 / 128 tokens (was 8,312 per
+run); call 2 `cache_read_input_tokens: 1614` (job context cached); call 3
+re-wrote the cache (1614) because the effort bump to `medium` changes the
+cache key — a 1.6K-token cost per escalation, acceptable. Uncached
+observation+history is still 23–39K tokens per call — follow-up: trim
+frame text / history when the screenshot carries the state.
+
+## Issue #196 — aggregator → employer-board hop (UNIT_CONFIRMED; live pending)
+
+`src/navigation/employerBoardHop.ts` + two call sites in
+`runNavigation.ts` (phase B when the captured URL is a consumer
+aggregator; before phase C when nothing resolved):
+
+- Consumer aggregators (linkedin, indeed, glassdoor, ziprecruiter, dice,
+  builtin, wellfound, simplyhired, monster, lensa) are REPOSTS; their
+  Easy Apply is the aggregator's form. The employer usually runs a public
+  Greenhouse/Lever/Ashby board — `boards-api.greenhouse.io/v1/boards/
+  coinbase/jobs` lists id 8175462 "Data Science Intern", Hybrid - San
+  Francisco (LIVE_READ_ONLY_CONFIRMED, curl 22:24).
+- Slugs from the company name (≤3: joined, hyphenated, first word when
+  long), 3 ATSes × 3 slugs ≤ 9 GETs, 20s deadline. Match = exact
+  normalized title, else a unique containment; several exact titles are
+  tie-broken by a shared location token and otherwise REFUSED. A matched
+  URL whose hostname names another company is refused (congruence
+  reused). No model, no browser.
+- `NavigationMethod` gains `employer_board`; trace phase `B_board_hop`;
+  every note rides the report. Miss ⇒ the aggregator URL stays as before.
+- `getJobIdentity` now returns `location` too.
+- Tests `tests/unit/nav-board-hop.test.ts` (8): the Coinbase payload
+  shape, no-board cap, board-without-role stops that ATS, ambiguity
+  refused, cross-company URL refused, no company ⇒ zero requests.
+  Graph + operator guide updated.
+- Prediction: run 2 of 79e75805 resolves `employer_board` →
+  coinbase.com/careers/positions/8175462?gh_jid=8175462 (Greenhouse
+  embed), adapter greenhouse, fill proceeds.
+- **Run 2 (22:29, LIVE_READ_ONLY_CONFIRMED for the hop):** phase A miss →
+  `B_board_hop` "resolved on the employer's greenhouse board (exact
+  title)" in 4s, `method: employer_board`, employer_url exactly as
+  predicted. Then APPLICATION_INSPECTION threw `page.goto:
+  net::ERR_CONNECTION_RESET` on coinbase.com. NOT the code: from this box
+  `curl https://www.coinbase.com/` fails at TCP level in 0.02s (DNS
+  resolves to Cloudflare; connection reset), while
+  job-boards.greenhouse.io answers — and its 302 goes straight back to
+  coinbase.com. The operator switched Wi-Fi at ~22:20; this network
+  blocks coinbase.com (crypto-site filter shape). Job #1 is
+  OPERATOR-BLOCKED (network), parked in APPLICATION_INSPECTION with the
+  correct URL stored; `npm run run -- --pipeline --app 79e75805… --submit
+  --headed --yes` resumes it on a network that reaches coinbase.com.
+
+## Gmail tail — BLOCKED: token missing
+
+`npm run gmail:check` → "Gmail token missing — run `npm run gmail:auth`
+once as the operator." `private/auth/` holds jobright + outlook storage
+only; no `gmail.oauth.json` anywhere in the tree. Consequence: the
+post-submit outreach tail (`runOutreachTail` in the automation worker;
+`outreach` CLI for direct runs) can extract contacts and generate the
+email but cannot save a Gmail draft until the operator runs
+`npm run gmail:auth -- --email <mailbox> --client-id … --client-secret …`
+(OAuth browser consent — cannot be done unattended). Flags are all on
+(GMAIL_DRAFTS, EMAIL_GENERATION); the OAuth client id/secret are in
+`.env`. Every submit tonight will leave the email generated and a
+"draft not saved: token missing" note until then.
+
 ## Loop plan (after the gate clears and the commit lands)
 
 Queue at 21:40 (5 QUEUED, newest first — `--backlog` order): Morningstar

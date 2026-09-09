@@ -1,0 +1,138 @@
+{
+  "decision_id": "f7d55fd6-e0e0-43c0-9616-84d9db29207f",
+  "application_id": "7669acfe-23d5-4b42-8ce0-c930c2a3c51e",
+  "signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|jobs.polymer.co",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "7669acfe-23d5-4b42-8ce0-c930c2a3c51e",
+    "company": "Daylit",
+    "role": "Full Stack AI Engineer Co-Op (Northeastern Students only) Spring 2027",
+    "state": "NATIVE_AUTOFILL_RUNNING",
+    "attempt": 1,
+    "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|jobs.polymer.co",
+    "end_host": "jobs.polymer.co",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route ready_for_fill_later (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-09T02:34:26.546Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-09T02:34:23.560Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-09T02:34:23.550Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-09T02:34:12.445Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 dd9093dde3f8)",
+        "at": "2026-09-09T02:34:12.433Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-09T02:34:12.274Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-09T02:20:15.938Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-09T02:20:15.921Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-09T02:20:15.920Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-09T02:20:15.919Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "apply_click_popup",
+      "notes": [
+        "phase A: anchor reads as \"polymer\" (URL names \"polymer\" (host), which shares nothing with company \"Daylit\") — not preferred, deferring to the Apply click",
+        "phase A: 6 external host(s) seen: jobs.polymer.co, www.linkedin.com, www.crunchbase.com, www.daylit.com, www.businesswire.com, www.crowdfundinsider.com",
+        "Apply control: autofill CTA (tier 0)",
+        "jobright interstitial: clicked \"Apply Without Customizing\"",
+        "popup settled off about:blank after the interstitial",
+        "popup captured on attempt 1",
+        "phase B: captured URL reads as \"polymer\" (URL names \"polymer\" (host), which shares nothing with company \"Daylit\") — kept, provenance is the Apply click",
+        "congruence: URL names \"polymer\", not \"Daylit\" (URL names \"polymer\" (host), which shares nothing with company \"Daylit\") — recorded, not refused"
+      ],
+      "congruence": {
+        "verdict": "mismatch",
+        "slug": "polymer",
+        "detail": "URL names \"polymer\" (host), which shares nothing with company \"Daylit\"",
+        "expected_company": "Daylit",
+        "url": "https://jobs.polymer.co/lendica/41094?jr_id=6aa07112dbc0e60e37e0da70"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "no congruent apply href (11 external links)",
+          "evidence": "jobs.polymer.co, www.linkedin.com, www.crunchbase.com, www.daylit.com, www.businesswire.com, www.crowdfundinsider.com"
+        },
+        {
+          "phase": "B_apply_click",
+          "outcome": "resolved via popup",
+          "evidence": "jobs.polymer.co"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [
+      {
+        "kind": "MANUAL",
+        "title": "Stored application URL belongs to \"polymer\", not Daylit"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"park_for_operator\", \"rationale\": \"Run stalled mid native autofill and the resolved URL (jobs.polymer.co/lendica/...) names \\\"polymer\\\"/lendica, not Daylit — a congruence mismatch already flagged in an open MANUAL review item. No transient signal, materials verified, and no wall; a human must confirm the posting identity before any rerun.\", \"confidence\": \"high\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: 4bcf0563-c94c-49c0-b6b6-d76675ed195c",
+  "rationale_unverified": "Run stalled mid native autofill and the resolved URL (jobs.polymer.co/lendica/...) names \"polymer\"/lendica, not Daylit — a congruence mismatch already flagged in an open MANUAL review item. No transient signal, materials verified, and no wall; a human must confirm the posting identity before any rerun."
+}
