@@ -1,0 +1,693 @@
+{
+  "ats": "workday",
+  "url": "https://leidos.wd5.myworkdayjobs.com/external/job/Annapolis-Junction-MD/Software-Developer-Intern_R-00191713",
+  "requested_url": "https://leidos.wd5.myworkdayjobs.com/external/job/Annapolis-Junction-MD/Software-Developer-Intern_R-00191713",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://leidos.wd5.myworkdayjobs.com/en-US/external/job/Annapolis-Junction%2C-MD/Software-Developer-Intern_R-00191713/apply/applyManually",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 13,
+    "skipped_count": 5,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "source--source",
+      "label": "How Did You Hear About Us?",
+      "type": "select",
+      "canonical_field": "how_heard",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "candidateIsPreviousWorker",
+      "label": "Are you a former employee or returning applicant?",
+      "type": "radio",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "employment row 4 — the profile holds one entry; not answered from the bank"
+    },
+    {
+      "field_id": "f_3",
+      "label": "Have you previously worked for Leidos (including current temporary assignments)?",
+      "type": "text",
+      "canonical_field": "screener:previously_applied_or_worked",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "name--legalName--firstName",
+      "label": "First Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "name--legalName--lastName",
+      "label": "Last Name",
+      "type": "text",
+      "canonical_field": "legal_name.last",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "name--preferredCheck",
+      "label": "I have a preferred name",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "address--addressLine1",
+      "label": "Address Line 1",
+      "type": "text",
+      "canonical_field": "address.line1",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "address--city",
+      "label": "City",
+      "type": "text",
+      "canonical_field": "address.city",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f_9",
+      "label": "Address",
+      "type": "text",
+      "canonical_field": "address.line1",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "address--postalCode",
+      "label": "Postal Code",
+      "type": "text",
+      "canonical_field": "address.postal_code",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f_11",
+      "label": "Phone",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phoneNumber--countryPhoneCode",
+      "label": "Country Phone Code",
+      "type": "select",
+      "canonical_field": "address.country",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phoneNumber--phoneNumber",
+      "label": "Phone Number",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phoneNumber--extension",
+      "label": "Phone Extension",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "j1js7",
+      "label": "field_15",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "country--country",
+      "label": "Country",
+      "type": "select",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "address--countryRegion",
+      "label": "State",
+      "type": "select",
+      "canonical_field": "address.state",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phoneNumber--phoneType",
+      "label": "Phone Device Type",
+      "type": "select",
+      "canonical_field": "screener:custom:phone_device_type",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\workday-live\\form-snapshot-1788988620985.html",
+  "fill": {
+    "filled": [
+      "screener:previously_applied_or_worked",
+      "legal_name.first",
+      "legal_name.last",
+      "address.line1",
+      "address.city",
+      "address.postal_code",
+      "address.country",
+      "phone",
+      "address.state"
+    ],
+    "skipped": [
+      "f_9 (address.line1) — anchorless twin of an anchored canonical (#69)",
+      "f_11 (phone) — anchorless twin of an anchored canonical (#69)"
+    ],
+    "errors": [
+      "source--source: combobox option not committed: opened via control click; filter yielded no/unmatched options; re-collected unfiltered (residue cleared); scroll-harvested 13 option(s); stored answer \"LinkedIn\" not offered — class fallback picked \"Job Board\"",
+      "phoneNumber--phoneType: combobox option not committed: opened via control click; opened via JS click (mouse click swallowed); filter typing skipped: control is a button (not typeable); button popup already open; picking from it directly; drill scan skipped (not a Workday multiselect prompt, or a yes/no answer — flat rows are answers, not categories); no option matches \"Mobile\" (options: United States of America (+1) | United States of America (+1))"
+    ],
+    "field_meta": [
+      {
+        "field_id": "source--source",
+        "canonical_field": "how_heard",
+        "control_kind": "combobox",
+        "selected_option": "Job Board",
+        "match_via": "synonym",
+        "notes": [
+          "opened via control click",
+          "filter yielded no/unmatched options; re-collected unfiltered (residue cleared)",
+          "scroll-harvested 13 option(s)",
+          "stored answer \"LinkedIn\" not offered — class fallback picked \"Job Board\""
+        ]
+      },
+      {
+        "field_id": "f_3",
+        "canonical_field": "screener:previously_applied_or_worked",
+        "control_kind": "text",
+        "selected_option": "No"
+      },
+      {
+        "field_id": "name--legalName--firstName",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "name--legalName--lastName",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "address--addressLine1",
+        "canonical_field": "address.line1",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "address--city",
+        "canonical_field": "address.city",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "address--postalCode",
+        "canonical_field": "address.postal_code",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "phoneNumber--countryPhoneCode",
+        "canonical_field": "address.country",
+        "control_kind": "combobox",
+        "selected_option": "United States of America (+1)",
+        "match_via": "exact",
+        "notes": [
+          "already committed \"United States of America (+1)\""
+        ]
+      },
+      {
+        "field_id": "phoneNumber--phoneNumber",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "address--countryRegion",
+        "canonical_field": "address.state",
+        "control_kind": "combobox",
+        "selected_option": "Maryland",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Maryland\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "phoneNumber--phoneType",
+        "canonical_field": "screener:custom:phone_device_type",
+        "control_kind": "combobox",
+        "selected_option": null,
+        "match_via": null,
+        "notes": [
+          "opened via control click",
+          "opened via JS click (mouse click swallowed)",
+          "filter typing skipped: control is a button (not typeable)",
+          "button popup already open; picking from it directly",
+          "drill scan skipped (not a Workday multiselect prompt, or a yes/no answer — flat rows are answers, not categories)",
+          "no option matches \"Mobile\" (options: United States of America (+1) | United States of America (+1))"
+        ],
+        "options_sample": [
+          "United States of America (+1)",
+          "United States of America (+1)"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": false,
+    "fields": [
+      {
+        "canonical_field": "how_heard",
+        "expected": "LinkedIn",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "match": false
+      },
+      {
+        "canonical_field": "screener:previously_applied_or_worked",
+        "expected": "No",
+        "observed": {
+          "value": "false",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.last",
+        "expected": "Kale",
+        "observed": "Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "address.line1",
+        "expected": "3510 N Charles St",
+        "observed": "3510 N Charles St",
+        "match": true
+      },
+      {
+        "canonical_field": "address.city",
+        "expected": "Baltimore",
+        "observed": "Baltimore",
+        "match": true
+      },
+      {
+        "canonical_field": "address.postal_code",
+        "expected": "21218",
+        "observed": "21218",
+        "match": true
+      },
+      {
+        "canonical_field": "address.country",
+        "expected": "United States",
+        "observed": {
+          "value": "United States of America (+1)",
+          "label": "United States of America (+1)"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "address.state",
+        "expected": "Maryland",
+        "observed": {
+          "value": "Maryland",
+          "label": "Maryland"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:phone_device_type",
+        "expected": "[REDACTED_PHONE]",
+        "observed": "[REDACTED]",
+        "match": false
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 113810,
+      "verified": true,
+      "evidence": "input files: []; stillAttached=true; chip=true; resolved via primary"
+    }
+  ],
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: posting (no fields, Apply CTA present)",
+    "workday page kind at gate: posting",
+    "login wall on leidos.wd5.myworkdayjobs.com: no_form_found; fields[email=false password=false confirm=false]; submit=[Sign In]",
+    "portal auth: clicked \"Apply\" (attempt 1)",
+    "portal auth: clicked Apply Manually (attempt 2)",
+    "portal auth: account form rendered after Apply Manually",
+    "standing portal login used for leidos.wd5.myworkdayjobs.com",
+    "portal auth create: form cleared",
+    "portal auth: created account recorded in the vault for leidos.wd5.myworkdayjobs.com",
+    "workday page kind after auth: wizard",
+    "section-expand: expanded 4 collapsed section(s)",
+    "section-expand: expanded \"English\"",
+    "section-expand: expanded \"skale072007@gmail.com\"",
+    "section-expand: expanded \"English\"",
+    "section-expand: expanded \"skale072007@gmail.com\"",
+    "option harvest: \"Phone Device Type\" is a combobox but offered no readable options",
+    "option harvest: scraped real options for 2/12 control(s) before planning",
+    "timing: base page (18 planned) — plan 5s, fill 94s, verify 1s",
+    "retype: how_heard re-pick not committed — stored answer \"LinkedIn\" not offered — class fallback picked \"Job Board\"",
+    "page error scan: no visible validation errors on the page",
+    "resume on disk but this page has no file input — not an upload miss",
+    "wizard option harvest: scraped real options for 3/12 control(s) before planning",
+    "wizard option harvest: \"Country\"×250, \"State\"×61, \"Phone Device Type\"×7",
+    "wizard fill error: source--source: combobox option not committed: opened via control click; filter yielded no/unmatched options; re-collected unfiltered (residue cleared); scroll-harvested 13 option(s); stored answer \"LinkedIn\" not offered — class fallback picked \"Job Board\"",
+    "wizard plan skips (5): \"Are you a former employee or returning applicant?\"→employment row 4 — the profile holds one entry; no | \"I have a preferred name\"→No answer-alias mapping | \"Phone Extension\"→Predict produced no usable answer | \"field_15\"→No answer-alias mapping | \"Country\"→No answer-alias mapping",
+    "wizard retype: how_heard re-pick not committed — stored answer \"LinkedIn\" not offered — class fallback picked \"Job Board\"",
+    "wizard page error: field \"How Did You Hear About Us?*\": Expanded",
+    "wizard page error: Error: The field How Did You Hear About Us? is required and must have a value.",
+    "wizard option harvest: \"Phone Device Type\" is a combobox but offered no readable options",
+    "wizard option harvest: scraped real options for 2/12 control(s) before planning",
+    "wizard option harvest: \"Country\"×250, \"State\"×61",
+    "wizard fill error: source--source: combobox option not committed: opened via control click; filter yielded no/unmatched options; re-collected unfiltered (residue cleared); scroll-harvested 13 option(s); stored answer \"LinkedIn\" not offered — class fallback picked \"Job Board\"",
+    "wizard plan skips (5): \"Are you a former employee or returning applicant?\"→employment row 4 — the profile holds one entry; no | \"I have a preferred name\"→No answer-alias mapping | \"Phone Extension\"→Predict produced no usable answer | \"field_15\"→No answer-alias mapping | \"Country\"→No answer-alias mapping",
+    "wizard retype: how_heard re-pick not committed — stored answer \"LinkedIn\" not offered — class fallback picked \"Job Board\"",
+    "wizard page error: field \"How Did You Hear About Us?*\": Expanded",
+    "wizard page error: Error: The field How Did You Hear About Us? is required and must have a value.",
+    "wizard option harvest: \"Phone Device Type\" is a combobox but offered no readable options",
+    "wizard option harvest: scraped real options for 2/12 control(s) before planning",
+    "wizard option harvest: \"Country\"×250, \"State\"×61",
+    "wizard fill error: source--source: combobox option not committed: opened via control click; filter yielded no/unmatched options; re-collected unfiltered (residue cleared); scroll-harvested 13 option(s); stored answer \"LinkedIn\" not offered — class fallback picked \"Job Board\"",
+    "wizard plan skips (5): \"Are you a former employee or returning applicant?\"→employment row 4 — the profile holds one entry; no | \"I have a preferred name\"→No answer-alias mapping | \"Phone Extension\"→Predict produced no usable answer | \"field_15\"→No answer-alias mapping | \"Country\"→No answer-alias mapping",
+    "wizard retype: how_heard re-pick not committed — stored answer \"LinkedIn\" not offered — class fallback picked \"Job Board\"",
+    "wizard page error: field \"How Did You Hear About Us?*\": Expanded",
+    "wizard page error: Error: The field How Did You Hear About Us? is required and must have a value.",
+    "wizard option harvest: scraped real options for 3/12 control(s) before planning",
+    "wizard option harvest: \"Country\"×250, \"State\"×61, \"Phone Device Type\"×7",
+    "wizard fill error: source--source: combobox option not committed: opened via control click; filter yielded no/unmatched options; re-collected unfiltered (residue cleared); scroll-harvested 13 option(s); stored answer \"LinkedIn\" not offered — class fallback picked \"Job Board\"",
+    "wizard plan skips (5): \"Are you a former employee or returning applicant?\"→employment row 4 — the profile holds one entry; no | \"I have a preferred name\"→No answer-alias mapping | \"Phone Extension\"→Predict produced no usable answer | \"field_15\"→No answer-alias mapping | \"Country\"→No answer-alias mapping",
+    "wizard retype: how_heard re-pick not committed — stored answer \"LinkedIn\" not offered — class fallback picked \"Job Board\"",
+    "wizard page error: field \"How Did You Hear About Us?*\": Expanded",
+    "wizard page error: Error: The field How Did You Hear About Us? is required and must have a value.",
+    "wizard option harvest: scraped real options for 3/12 control(s) before planning",
+    "wizard option harvest: \"Country\"×250, \"State\"×61, \"Phone Device Type\"×7",
+    "wizard fill error: source--source: combobox option not committed: opened via control click; filter yielded no/unmatched options; re-collected unfiltered (residue cleared); scroll-harvested 13 option(s); stored answer \"LinkedIn\" not offered — class fallback picked \"Job Board\"",
+    "wizard plan skips (4): \"Are you a former employee or returning applicant?\"→employment row 4 — the profile holds one entry; no | \"I have a preferred name\"→No answer-alias mapping | \"field_15\"→No answer-alias mapping | \"Country\"→No answer-alias mapping",
+    "wizard retype: how_heard re-pick not committed — stored answer \"LinkedIn\" not offered — class fallback picked \"Job Board\"",
+    "wizard page error: field \"How Did You Hear About Us?*\": Expanded",
+    "wizard page error: Error: The field How Did You Hear About Us? is required and must have a value.",
+    "wizard option harvest: \"Phone Device Type\" is a combobox but offered no readable options",
+    "wizard option harvest: scraped real options for 2/12 control(s) before planning",
+    "wizard option harvest: \"Country\"×250, \"State\"×61",
+    "wizard fill error: source--source: combobox option not committed: opened via control click; filter yielded no/unmatched options; re-collected unfiltered (residue cleared); scroll-harvested 13 option(s); no option matches \"LinkedIn\" (options: United States of America (+1) | United States of America (+1) | Agency | Agency | College | College | Email_Campaign | Email_Campaign | …)",
+    "wizard plan skips (4): \"Are you a former employee or returning applicant?\"→employment row 4 — the profile holds one entry; no | \"I have a preferred name\"→No answer-alias mapping | \"field_15\"→No answer-alias mapping | \"Country\"→No answer-alias mapping",
+    "wizard retype: how_heard re-picked after empty verify read",
+    "wizard option harvest: scraped real options for 1/10 control(s) before planning",
+    "wizard option harvest: \"Degree\"×7",
+    "wizard fill error: f_8: combobox option not committed: opened via control click; filter yielded no/unmatched options; re-collected unfiltered (residue cleared); scroll-harvested 1 option(s); no option matches \"Johns Hopkins University\" (options: No Items. | No Items.)",
+    "wizard fill error: skills--skills: combobox option not committed: opened via control click; filter yielded no/unmatched options; re-collected unfiltered (residue cleared); scroll-harvested 1 option(s); no option matches \"Python\" (options: No Items. | No Items.)",
+    "wizard plan skips (10): \"Job Title\"→employment row 47 — the profile holds one entry; n | \"Company\"→No answer-alias mapping | \"I currently work here\"→No answer-alias mapping | \"From\"→No answer-alias mapping | \"To\"→No answer-alias mapping | \"Role Description\"→employment row 47 — the profile holds one entry; n | \"School or University\"→education row 48 — the profile holds one entry; no | \"Field of Study\"→education row 48 — the profile holds one entry; no",
+    "wizard retype: screener:custom:education_school_1 keystroke-retyped after empty verify read",
+    "wizard retype: screener:custom:skill_tag re-pick not committed — no option matches \"Python\" (options: No Items. | No Items.)",
+    "wizard option harvest: scraped real options for 1/10 control(s) before planning",
+    "wizard option harvest: \"Degree\"×7",
+    "wizard fill error: f_8: combobox option not committed: opened via control click; filter yielded no/unmatched options; re-collected unfiltered (residue cleared); scroll-harvested 1 option(s); no option matches \"Johns Hopkins University\" (options: No Items. | No Items.)",
+    "wizard fill error: skills--skills: combobox option not committed: opened via control click; filter yielded no/unmatched options; re-collected unfiltered (residue cleared); scroll-harvested 1 option(s); no option matches \"Python\" (options: No Items. | No Items.)",
+    "wizard plan skips (11): \"Job Title\"→employment row 47 — the profile holds one entry; n | \"Company\"→No answer-alias mapping | \"Location\"→employment row 47 already holds \"Baltimore, Maryla | \"I currently work here\"→No answer-alias mapping | \"From\"→No answer-alias mapping | \"To\"→No answer-alias mapping | \"Role Description\"→employment row 47 — the profile holds one entry; n | \"School or University\"→education row 48 — the profile holds one entry; no",
+    "wizard retype: screener:custom:education_school_1 keystroke-retyped after empty verify read",
+    "wizard retype: screener:custom:skill_tag re-pick not committed — no option matches \"Python\" (options: No Items. | No Items.)",
+    "wizard page error: field \"Job Title*\": Error: The field Job Title is required and must have a value.",
+    "wizard page error: field \"Company*\": Error: The field Company is required and must have a value.",
+    "wizard page error: field \"From*\": current value is MM/YYYY",
+    "wizard page error: field \"From*\": invalid (aria-invalid)",
+    "wizard page error: field \"To*\": current value is MM/YYYY",
+    "wizard page error: field \"To*\": invalid (aria-invalid)",
+    "wizard page error: field \"School or University*\": 0 items selected",
+    "wizard page error: field \"\": invalid (aria-invalid)",
+    "wizard page error: field \"Degree*\": Error: The field Degree is required and must have a value.",
+    "wizard page error: field \"Field of Study*\": 0 items selected",
+    "wizard page error: Error: The field Job Title is required and must have a value.",
+    "wizard page error: Error: The field Company is required and must have a value.",
+    "wizard: page 2 never settled on a NEW page (heading still \"Software Developer Intern\") — planning on the current DOM",
+    "wizard: page 2 heading=\"Software Developer Intern\" url…91713/apply/applyManually shot=wizard-page-2-1788987908575.png",
+    "wizard: page 3 never settled on a NEW page (heading still \"Software Developer Intern\") — planning on the current DOM",
+    "wizard: page 3 heading=\"Software Developer Intern\" url…91713/apply/applyManually shot=wizard-page-3-1788988005986.png",
+    "wizard: page 4 never settled on a NEW page (heading still \"Software Developer Intern\") — planning on the current DOM",
+    "wizard: page 4 heading=\"Software Developer Intern\" url…91713/apply/applyManually shot=wizard-page-4-1788988099226.png",
+    "wizard: page 5 never settled on a NEW page (heading still \"Software Developer Intern\") — planning on the current DOM",
+    "wizard: page 5 heading=\"Software Developer Intern\" url…91713/apply/applyManually shot=wizard-page-5-1788988190690.png",
+    "wizard: page 6 never settled on a NEW page (heading still \"Software Developer Intern\") — planning on the current DOM",
+    "wizard: page 6 heading=\"Software Developer Intern\" url…91713/apply/applyManually shot=wizard-page-6-1788988300545.png",
+    "wizard: page 7 never settled on a NEW page (heading still \"Software Developer Intern\") — planning on the current DOM",
+    "wizard: page 7 heading=\"Software Developer Intern\" url…91713/apply/applyManually shot=wizard-page-7-1788988410660.png",
+    "wizard: page 8 never settled on a NEW page (heading still \"Software Developer Intern\") — planning on the current DOM",
+    "wizard: page 8 heading=\"Software Developer Intern\" url…91713/apply/applyManually shot=wizard-page-8-1788988484952.png",
+    "wizard: page 9 never settled on a NEW page (heading still \"Software Developer Intern\") — planning on the current DOM",
+    "wizard: page 9 heading=\"Software Developer Intern\" url…91713/apply/applyManually shot=wizard-page-9-1788988564987.png",
+    "wizard: filled 8 additional page(s) — wizard:10/13, wizard:10/13, wizard:10/13, wizard:10/13, wizard:11/14, wizard:11/14, wizard:2/4, wizard:1/3",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [
+    {
+      "field_id": "country--country",
+      "label": "Country",
+      "answer_space": "closed",
+      "option_count": 250,
+      "options": [
+        "Select One",
+        "Afghanistan",
+        "Åland Islands",
+        "Albania",
+        "Algeria",
+        "American Samoa",
+        "Andorra",
+        "Angola",
+        "Anguilla",
+        "Antigua and Barbuda",
+        "Argentina",
+        "Armenia",
+        "Aruba",
+        "Australia",
+        "Austria",
+        "Azerbaijan",
+        "Bahamas",
+        "Bahrain",
+        "Bangladesh",
+        "Barbados",
+        "Belarus",
+        "Belgium",
+        "Belize",
+        "Benin",
+        "Bermuda"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "address--countryRegion",
+      "label": "State",
+      "answer_space": "closed",
+      "option_count": 61,
+      "options": [
+        "Select One",
+        "Alabama",
+        "Alaska",
+        "American Samoa",
+        "Arizona",
+        "Arkansas",
+        "Armed Forces Americas",
+        "Armed Forces Europe",
+        "Armed Forces Pacific",
+        "California",
+        "Colorado",
+        "Connecticut",
+        "Delaware",
+        "District of Columbia",
+        "Florida",
+        "Georgia",
+        "Guam",
+        "Hawaii",
+        "Idaho",
+        "Illinois",
+        "Indiana",
+        "Iowa",
+        "Kansas",
+        "Kentucky",
+        "Louisiana"
+      ],
+      "other_option": null
+    }
+  ],
+  "wizard_pages": [
+    {
+      "page": 2,
+      "url": "https://leidos.wd5.myworkdayjobs.com/en-US/external/job/Annapolis-Junction%2C-MD/Software-Developer-Intern_R-00191713/apply/applyManually",
+      "kind": "wizard",
+      "fillable": 13,
+      "filled": 10,
+      "verify_passed": false
+    },
+    {
+      "page": 3,
+      "url": "https://leidos.wd5.myworkdayjobs.com/en-US/external/job/Annapolis-Junction%2C-MD/Software-Developer-Intern_R-00191713/apply/applyManually",
+      "kind": "wizard",
+      "fillable": 13,
+      "filled": 10,
+      "verify_passed": false
+    },
+    {
+      "page": 4,
+      "url": "https://leidos.wd5.myworkdayjobs.com/en-US/external/job/Annapolis-Junction%2C-MD/Software-Developer-Intern_R-00191713/apply/applyManually",
+      "kind": "wizard",
+      "fillable": 13,
+      "filled": 10,
+      "verify_passed": false
+    },
+    {
+      "page": 5,
+      "url": "https://leidos.wd5.myworkdayjobs.com/en-US/external/job/Annapolis-Junction%2C-MD/Software-Developer-Intern_R-00191713/apply/applyManually",
+      "kind": "wizard",
+      "fillable": 13,
+      "filled": 10,
+      "verify_passed": false
+    },
+    {
+      "page": 6,
+      "url": "https://leidos.wd5.myworkdayjobs.com/en-US/external/job/Annapolis-Junction%2C-MD/Software-Developer-Intern_R-00191713/apply/applyManually",
+      "kind": "wizard",
+      "fillable": 14,
+      "filled": 11,
+      "verify_passed": false
+    },
+    {
+      "page": 7,
+      "url": "https://leidos.wd5.myworkdayjobs.com/en-US/external/job/Annapolis-Junction%2C-MD/Software-Developer-Intern_R-00191713/apply/applyManually",
+      "kind": "wizard",
+      "fillable": 14,
+      "filled": 11,
+      "verify_passed": false
+    },
+    {
+      "page": 8,
+      "url": "https://leidos.wd5.myworkdayjobs.com/en-US/external/job/Annapolis-Junction%2C-MD/Software-Developer-Intern_R-00191713/apply/applyManually",
+      "kind": "wizard",
+      "fillable": 4,
+      "filled": 2,
+      "verify_passed": false
+    },
+    {
+      "page": 9,
+      "url": "https://leidos.wd5.myworkdayjobs.com/en-US/external/job/Annapolis-Junction%2C-MD/Software-Developer-Intern_R-00191713/apply/applyManually",
+      "kind": "wizard",
+      "fillable": 3,
+      "filled": 1,
+      "verify_passed": false
+    }
+  ],
+  "operator_brief": {
+    "title": "Live fill — workday https://leidos.wd5.myworkdayjobs.com/external/job/Annapolis-Junction-MD/Software-Developer-Intern_R-00191713",
+    "summary": "4 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:how_heard",
+        "question": "How Did You Hear About Us?",
+        "field_id": "source--source",
+        "canonical_field": "how_heard",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"LinkedIn\"; page shows \"(empty)\"",
+        "expected": "LinkedIn",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "how_to_answer": [
+          "Type the intended value on the form (planned: LinkedIn). If a places/autocomplete list appears, select a matching suggestion; plain city text is enough when no list opens.",
+          "System expected \"LinkedIn\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → how_heard",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"how_heard\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:custom:phone_device_type",
+        "question": "Phone Device Type",
+        "field_id": "phoneNumber--phoneType",
+        "canonical_field": "screener:custom:phone_device_type",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Mobile\"; page shows \"Main/Home\"",
+        "expected": "[REDACTED_PHONE]",
+        "observed": "[REDACTED]",
+        "how_to_answer": [
+          "Type the intended value on the form (planned: Mobile). If a places/autocomplete list appears, select a matching suggestion; plain city text is enough when no list opens.",
+          "DOM shows \"Main/Home\" but plan expected \"Mobile\". Correct the value on the form or fix profile/aliases so the plan matches the real answer.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:phone_device_type)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:phone_device_type\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "fill_error:source--source: combobox option not committed: opened via control click; filter ",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "source--source: combobox option not committed: opened via control click; filter yielded no/unmatched options; re-collected unfiltered (residue cleared); scroll-harvested 13 option(s); stored answer \"LinkedIn\" not offered — class fallback picked \"Job Board\"",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:phoneNumber--phoneType: combobox option not committed: opened via control click;",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "phoneNumber--phoneType: combobox option not committed: opened via control click; opened via JS click (mouse click swallowed); filter typing skipped: control is a button (not typeable); button popup already open; picking from it directly; drill scan skipped (not a Workday multiselect prompt, or a yes/no answer — flat rows are answers, not categories); no option matches \"Mobile\" (options: United States of America (+1) | United States of America (+1))",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      }
+    ],
+    "ok_count": 9,
+    "fail_count": 4
+  },
+  "written_at": "2026-09-09T21:17:01.090Z"
+}
