@@ -1,0 +1,46 @@
+{
+  "ats": "workday",
+  "url": "https://spgi.wd5.myworkdayjobs.com/spgi_careers/job/Cambridge-MA/Machine-Learning-Engineer---Summer-Intern-2027_331714-1",
+  "requested_url": "https://spgi.wd5.myworkdayjobs.com/spgi_careers/job/Cambridge-MA/Machine-Learning-Engineer---Summer-Intern-2027_331714-1",
+  "mode": "refused",
+  "gate": {
+    "ok": false,
+    "failure_code": "NAVIGATION_INCOMPLETE",
+    "reason": "model calls: 1 of 1 steps",
+    "final_url": "https://spgi.wd5.myworkdayjobs.com/spgi_careers/job/Cambridge-MA/Machine-Learning-Engineer---Summer-Intern-2027_331714-1",
+    "page_class": "unknown"
+  },
+  "plan_summary": null,
+  "plan_fields": null,
+  "form_snapshot_path": null,
+  "fill": null,
+  "verify": null,
+  "uploads": null,
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "navigation supervisor: stopped (1 steps)"
+  ],
+  "navigation_supervisor": {
+    "run_id": "supervisor-9699ba6b-8268-4e79-aae1-bd4fcf784ba9",
+    "outcome": "stopped",
+    "steps": [
+      {
+        "observation": "984ee756b8f16505",
+        "action": "stop",
+        "reason": "Already applied: page states 'You applied for this job on September 9, 2026' with only a View Application option — no application form to reach.",
+        "result": "model stopped",
+        "model": "claude-opus-5"
+      }
+    ],
+    "notes": [
+      "model calls: 1 of 1 steps"
+    ],
+    "evidence": [
+      "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-9699ba6b-8268-4e79-aae1-bd4fcf784ba9\\observation.json",
+      "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-9699ba6b-8268-4e79-aae1-bd4fcf784ba9\\page.png"
+    ]
+  },
+  "written_at": "2026-09-09T22:14:26.849Z"
+}
