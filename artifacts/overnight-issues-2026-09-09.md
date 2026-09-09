@@ -98,6 +98,62 @@ id" (board-sourced) — see #202.
   contacts from. Probing whether JobRight has a search page that can find
   the twin posting (read-only, `private/tmp-jobright-search-probe.ts`).
 
+## Jobs #4–#6 — Verkada Frontend (67b46321), Embedded (7066cacd), Backend (79185ac4) — SUBMITTED_VERIFIED
+
+67b46321 submitted 14:58 in cycle 4 but the uplink dropped mid-tail (see
+#203): the row is still in state SUBMITTED (VERIFIED submission row, receipt
+png present); the outreach worker already marked its tail terminal, so
+nothing else touches it. 7066cacd (cycle 17, 15:16→15:20) and 79185ac4
+(cycle 18, 15:21→15:26) went end to end deterministically once the link
+was back — same 19-field Greenhouse job-boards shape as Jobs #1–#3.
+
+## Issue #203 — uplink outage burned one queued app per cycle (15:00–15:15 UTC)
+
+Evidence: cycles 4–16 (13 cycles, ~55s each) every `app_begin` ends in
+`pipeline_error: page.goto: net::ERR_INTERNET_DISCONNECTED` (jobright.ai
+or job-boards.greenhouse.io) and the artifact autopush logged "Could not
+resolve host: github.com". Nothing wrong with any page or adapter — the
+box had no internet. Each cycle picked the NEXT queued row (seen-set is
+per session, max-apps 1), so 13 rows were touched (left in
+APPLICATION_OPENING/INSPECTION at attempt 1 — recoverable, and the
+backlog picker re-picks those states, which is how cycle 17 resumed
+7066cacd). The Claude session driving the loop lost its remote too
+("Can't reach teddy"); the bash loop and both worker processes survived.
+
+Fix (this session): `src/automation/connectivity.ts` —
+`isNetworkOutageError` (Chromium/Node transport codes only, never a site
+error) + `waitForConnectivity` (bounded: 8 probes × 15s, first probe
+immediate). Worker: preflight probe before discovery/first pick →
+`stopped_reason: network_unreachable`, zero apps touched; on a transport
+error mid-session the same wait runs and the session stops if the link
+does not return (queue untouched), or continues with a note if it does.
+Seam `connectivityProbe` for tests; the three worker test files mock the
+wait so no unit test touches the network. Tests: `connectivity.test.ts`
+(4) + 3 worker cases (preflight, mid-session stop, transient continue).
+Typecheck ok; `automation-worker.test.ts` 17/17 (one Gmail-ordering test
+timed out twice under live-loop load and passed alone in 16s — load
+artifact, same pattern as the memory note). UNIT/FIXTURE_CONFIRMED; the
+live behaviour under a real outage is UNVERIFIED until the next one.
+
+## Job #7 — Revel Full Stack intern (a3221a28, JobRight-sourced) — SUBMITTED_VERIFIED
+
+Cycle 20 (15:29→15:33). First JobRight-sourced submit of the day, so the
+first one the outreach worker can actually draft for. Essay autofill
+abstained on "How did you hear about us?" (asked 1, answered 0) — the
+free-text how_heard is an essay-tier question here; noted, not blocking.
+
+## Issue #204 — referral field mapped to the candidate's own email (live cisco e56b7e7a, Phenom)
+
+Cycle 19: generic adapter on careers.cisco.com, 9 filled, verification
+failed on `referredBy` ("What's their name or email address?") — canonical
+`email`, expected the operator's address, page shows empty (the control is
+hidden until "Were you referred?" = Yes). The alias phrase "email address"
+claimed a third-person question. Fix: `matchCanonicalFieldInner` returns
+null for free-text controls whose label is third-person ("their") or
+referred-by phrasing, or whose name/id says referr(ed|er); selects such as
+"Referral source" keep their alias mapping. ATS-general — no Cisco-specific
+selector. Cisco requeued after the fix.
+
 ## Note — never run `tests/unit/auto-cycle.test.ts` while the loop runs
 
 It writes real `artifacts/console/auto-cycle/cycle-*.json` files

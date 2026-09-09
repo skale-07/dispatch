@@ -1,0 +1,152 @@
+{
+  "ats": "ashby",
+  "url": "https://jobs.ashbyhq.com/seqholdings/9dc9a7f3-198a-43c0-be75-a3aba228bf2c/application",
+  "requested_url": "https://jobs.ashbyhq.com/seqholdings/9dc9a7f3-198a-43c0-be75-a3aba228bf2c/application",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://jobs.ashbyhq.com/seqholdings/9dc9a7f3-198a-43c0-be75-a3aba228bf2c/application",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 4,
+    "skipped_count": 2,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "f_0",
+      "label": "Application",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "_systemfield_name",
+      "label": "Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Single full-name field: composed legal_name.first + legal_name.last (both safe factual canonicals)"
+    },
+    {
+      "field_id": "_systemfield_email",
+      "label": "Email",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "18fca253-037b-4a0d-b6b7-2b10bab2854a",
+      "label": "Linkedin Profile",
+      "type": "text",
+      "canonical_field": "linkedin_url",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "_systemfield_resume",
+      "label": "Resume",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "e701ad4e-3c42-402d-83c9-aadf289c670b",
+      "label": "Why Sequence?",
+      "type": "textarea",
+      "canonical_field": "essay:generated:e701ad4e-3c42-402d-83c9-aadf289c670b",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\ashby-live\\form-snapshot-1788968200249.html",
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "email",
+      "linkedin_url",
+      "essay:generated:e701ad4e-3c42-402d-83c9-aadf289c670b"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "_systemfield_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "_systemfield_email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "18fca253-037b-4a0d-b6b7-2b10bab2854a",
+        "canonical_field": "linkedin_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "e701ad4e-3c42-402d-83c9-aadf289c670b",
+        "canonical_field": "essay:generated:e701ad4e-3c42-402d-83c9-aadf289c670b",
+        "control_kind": "text"
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham Kale",
+        "observed": "Shubham Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:e701ad4e-3c42-402d-83c9-aadf289c670b",
+        "expected": "What draws me to Sequence is that the work has to survive contact with an existing business. I like problems where there is a concrete user, a real failure mode, and a system that can be tested rather than an AI demo. At Intelehealth I built a resource-availability scoring pipeline across 32 villages combining facility-tier classification, geospatial distance, and weather data, and then designed an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case standard. That second piece changed how I think: generating an output is cheap, deciding whether an operator should trust it is the hard part. I carried that into my job-application agent, where I put every mutating capability behind fail-closed flags and architecturally blocked free-text and demographic fields from autofill, because in a real workflow one wrong browser action is not recoverable. Rebuilding operations and workflows inside acquired companies seems like exactly that kind of problem, where automation has to be deliberate about where it stops. I also want to work somewhere a junior engineer owns a real piece of the system rather than isolated tickets, which is how I have worked at SAC Nexus on the ML core of an anomaly-detection and alert-prioritization system.",
+        "observed": "What draws me to Sequence is that the work has to survive contact with an existing business. I like problems where there is a concrete user, a real failure mode, and a system that can be tested rather than an AI demo. At Intelehealth I built a resource-availability scoring pipeline across 32 villages combining facility-tier classification, geospatial distance, and weather data, and then designed an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case standard. That second piece changed how I think: generating an output is cheap, deciding whether an operator should trust it is the hard part. I carried that into my job-application agent, where I put every mutating capability behind fail-closed flags and architecturally blocked free-text and demographic fields from autofill, because in a real workflow one wrong browser action is not recoverable. Rebuilding operations and workflows inside acquired companies seems like exactly that kind of problem, where automation has to be deliberate about where it stops. I also want to work somewhere a junior engineer owns a real piece of the system rather than isolated tickets, which is how I have worked at SAC Nexus on the ML core of an anomaly-detection and alert-prioritization system.",
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 113810,
+      "verified": true,
+      "evidence": "input files: [{\"name\":\"resume-dd9093dd.pdf\",\"size\":113810}]; stillAttached=true; chip=true; resolved via primary"
+    }
+  ],
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: form (6 fillable field(s))",
+    "timing: base page (6 planned) — plan 8s, fill 7s, verify 1s",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "written_at": "2026-09-09T15:36:48.555Z"
+}
