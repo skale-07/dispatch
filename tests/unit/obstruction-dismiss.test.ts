@@ -36,6 +36,34 @@ describe("obstruction dismisser (FIXTURE_CONFIRMED)", () => {
     45_000,
   );
 
+  // #218 (live redhat.wd5, day28): Workday's header account submenu stayed
+  // open after Create Account and intercepted every field click.
+  it(
+    "collapses an open header menu via Escape, then its expanded trigger, and never clicks a menu item",
+    async () => {
+      const html = `<html><body>
+        <div data-automation-id="header">
+          <button id="account-submenu-button" aria-haspopup="menu" aria-expanded="true"
+            onclick="var m=document.getElementById('menu');m.hidden=!m.hidden;this.setAttribute('aria-expanded',String(!m.hidden))">Account</button>
+          <ul id="menu" role="menu" aria-labelledby="account-submenu-button" style="position:fixed;inset:0;background:#fff">
+            <li role="menuitem"><button id="signout">Sign Out</button></li>
+          </ul>
+        </div>
+        <input id="firstName" />
+      </body></html>`;
+      await withFixtureHtmlPage(html, async (page) => {
+        // Escape does nothing on this fixture; the trigger click must collapse it.
+        const r = await dismissPageObstructions(page);
+        expect(r.dismissed).toEqual(["open menu: account-submenu-button"]);
+        expect(await page.locator("#menu").isVisible()).toBe(false);
+        expect(await page.locator("#signout").count()).toBe(1);
+        // The field underneath is clickable again.
+        await page.locator("#firstName").click({ timeout: 2_000 });
+      });
+    },
+    45_000,
+  );
+
   it(
     "never clicks progression/submission controls, even inside a dialog",
     async () => {

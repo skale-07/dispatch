@@ -55,6 +55,15 @@ export const obstructionSelectorsV1 = {
    */
   flowDialogPattern:
     /\b(apply|submit(?! a review)|continue|sign ?in|log ?in|create account|autofill|use my last application)\b/i,
+  /**
+   * #218: dropdown menus left open over the page (Workday's header
+   * account submenu after Create Account). Only role=menu — a listbox or
+   * a combobox popup belongs to a field and is never touched here.
+   */
+  openMenus: "[role='menu']:not([aria-hidden='true'])",
+  /** The control that opened such a menu (clicked to collapse it). */
+  expandedMenuTriggers:
+    "button[aria-expanded='true'][aria-haspopup='menu'], button[aria-expanded='true'][aria-haspopup='true'], [role='button'][aria-expanded='true'][aria-haspopup]",
   status: "UNVERIFIED_SELECTOR" as const,
 } as const;
 
@@ -79,6 +88,36 @@ export async function dismissPageObstructions(
   const notes: string[] = [];
 
   try {
+    // #218 (live redhat.wd5, day28 cycle 81): after Create Account, Workday
+    // left its header account submenu (<ul role="menu"
+    // aria-labelledby="account-submenu-button">) open, and that menu
+    // intercepted the pointer on EVERY form field — 7 fills timed out and
+    // the how-did-you-hear combobox read the phone-country list instead
+    // of its own. An open menu is chrome, not flow: Escape first, then the
+    // menu's own expanded trigger; never any item inside it.
+    const openMenus = await page.locator(sel.openMenus).all().catch(() => []);
+    for (const menu of openMenus.slice(0, maxDismissals)) {
+      if (!(await menu.isVisible().catch(() => false))) continue;
+      const labelledBy = await menu.getAttribute("aria-labelledby").catch(() => null);
+      await page.keyboard.press("Escape").catch(() => undefined);
+      await page.waitForTimeout(Math.min(settleMs, 300));
+      if (await menu.isVisible().catch(() => false)) {
+        const trigger = labelledBy
+          ? page.locator(`[id="${labelledBy}"][aria-expanded="true"]`).first()
+          : page.locator(sel.expandedMenuTriggers).first();
+        if ((await trigger.count().catch(() => 0)) > 0) {
+          // The open menu often overlays its own trigger, so a pointer
+          // click is intercepted; a dispatched click reaches the handler.
+          await trigger.dispatchEvent("click").catch(() => undefined);
+          await page.waitForTimeout(Math.min(settleMs, 300));
+        }
+      }
+      if (!(await menu.isVisible().catch(() => false))) {
+        dismissed.push(`open menu: ${(labelledBy ?? "role=menu").slice(0, 32)}`);
+      } else {
+        notes.push(`open menu still visible: ${(labelledBy ?? "role=menu").slice(0, 32)}`);
+      }
+    }
     for (let round = 0; round < maxDismissals; round++) {
       const containers = await page.locator(sel.containers).all();
       let clickedThisRound = false;

@@ -811,6 +811,13 @@ export async function runAtsLiveFill(input: {
             report.notes.push("parked: account wall not cleared");
             return persist(report);
           }
+          // #218: Create Account can leave the portal's header account
+          // menu open over the form (live redhat.wd5) — every later field
+          // click was intercepted. Clear chrome once before planning.
+          const postAuth = await dismissPageObstructions(page);
+          if (postAuth.dismissed.length > 0) {
+            report.notes.push(`post-auth obstructions dismissed: ${postAuth.dismissed.join(", ")}`);
+          }
           // Gate HTML is the posting/login we arrived on. Plan AFTER
           // sign-in. Do not treat POSTING_MISMATCH as fatal — apply URL
           // paths often diverge from the normalized posting.
