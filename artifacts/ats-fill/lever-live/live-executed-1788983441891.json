@@ -1,0 +1,1120 @@
+{
+  "ats": "lever",
+  "url": "https://jobs.lever.co/palantir/655f9937-a4ce-4e7d-80e2-a6659af07329/apply",
+  "requested_url": "https://jobs.lever.co/palantir/655f9937-a4ce-4e7d-80e2-a6659af07329/apply",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://jobs.lever.co/palantir/655f9937-a4ce-4e7d-80e2-a6659af07329/apply",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 27,
+    "skipped_count": 56,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "resume-upload-input",
+      "label": "resume",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "name",
+      "label": "Full name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Single full-name field: composed legal_name.first + legal_name.last (both safe factual canonicals)"
+    },
+    {
+      "field_id": "email",
+      "label": "Email",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phone",
+      "label": "Phone",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "location-input",
+      "label": "location",
+      "type": "text",
+      "canonical_field": "address.city",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "org",
+      "label": "Current company",
+      "type": "text",
+      "canonical_field": "current_company",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "urls[LinkedIn]",
+      "label": "LinkedIn URL",
+      "type": "text",
+      "canonical_field": "linkedin_url",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "urls[GitHub]",
+      "label": "GitHub URL",
+      "type": "text",
+      "canonical_field": "github_url",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "urls[Portfolio]",
+      "label": "Portfolio URL",
+      "type": "text",
+      "canonical_field": "personal_website",
+      "action": "SKIP",
+      "reason": "Profile value empty for personal_website"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field1]",
+      "label": "Preferred Name | What would you like us to call you?",
+      "type": "text",
+      "canonical_field": "preferred_name",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field2]",
+      "label": "Name Pronunciation | How do you pronounce your name?",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field0]",
+      "label": "Do you have any, or anticipate any upcoming offer deadlines?",
+      "type": "select",
+      "canonical_field": "screener:custom:offer_deadlines",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]",
+      "label": "If so, what are the dates?",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]",
+      "label": "If so, what are the dates?",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]",
+      "label": "If so, what are the dates?",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]",
+      "label": "If so, what are the dates?",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]",
+      "label": "If so, what are the dates?",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]",
+      "label": "If so, what are the dates?",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]",
+      "label": "If so, what are the dates?",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]",
+      "label": "If so, what are the dates?",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]",
+      "label": "If so, what are the dates?",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]",
+      "label": "If so, what are the dates?",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]",
+      "label": "If so, what are the dates?",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]",
+      "label": "If so, what are the dates?",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]",
+      "label": "If so, what are the dates?",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]",
+      "label": "If so, what are the dates?",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]",
+      "label": "If so, what are the dates?",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]",
+      "label": "If so, what are the dates?",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]",
+      "label": "If so, what are the dates?",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]",
+      "label": "If so, what are the dates?",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]",
+      "label": "If so, what are the dates?",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]",
+      "label": "If so, what are the dates?",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "cards[df4ec61d-484e-4f62-9412-19bbd05ec515][field0]",
+      "label": "By checking the boxes, I confirm that I understand and meet the following requirements:",
+      "type": "checkbox",
+      "canonical_field": "application_consent:cards[df4ec61d-484e-4f62-9412-19bbd05ec515][field0]",
+      "action": "FILL",
+      "reason": "Application terms/confirmation checkbox"
+    },
+    {
+      "field_id": "cards[df4ec61d-484e-4f62-9412-19bbd05ec515][field0]",
+      "label": "By checking the boxes, I confirm that I understand and meet the following requirements:",
+      "type": "checkbox",
+      "canonical_field": "application_consent:cards[df4ec61d-484e-4f62-9412-19bbd05ec515][field0]",
+      "action": "FILL",
+      "reason": "Application terms/confirmation checkbox"
+    },
+    {
+      "field_id": "cards[df4ec61d-484e-4f62-9412-19bbd05ec515][field0]",
+      "label": "By checking the boxes, I confirm that I understand and meet the following requirements:",
+      "type": "checkbox",
+      "canonical_field": "application_consent:cards[df4ec61d-484e-4f62-9412-19bbd05ec515][field0]",
+      "action": "FILL",
+      "reason": "Application terms/confirmation checkbox"
+    },
+    {
+      "field_id": "cards[841c3f3c-3e6e-4665-9391-e360210fb5ee][field0]",
+      "label": "If selected, when would you be able to start?",
+      "type": "select",
+      "canonical_field": "screener:custom:predicted:cards[841c3f3c-3e6e-4665-9391-e360210fb5ee][field0]",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): As a current undergraduate, the candidate would start after the spring semester ends, making May 2026 the earliest realistic option among those listed."
+    },
+    {
+      "field_id": "cards[7736d0ea-6916-4d17-8895-c31776dbef15][field0]",
+      "label": "What position are you most interested in?",
+      "type": "select",
+      "canonical_field": "screener:custom:predicted:cards[7736d0ea-6916-4d17-8895-c31776dbef15][field0]",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): Learned answers show a preference for software development roles."
+    },
+    {
+      "field_id": "cards[f30bc442-2120-4db9-b5ac-2f9bf563cad9][field0]",
+      "label": "Do you currently hold an active US security clearance?",
+      "type": "radio",
+      "canonical_field": "screener:security_clearance",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "cards[f30bc442-2120-4db9-b5ac-2f9bf563cad9][field1]",
+      "label": "Are you eligible to obtain the security clearance specified in the job description? Please see https://state.gov/security-clearances for further details on security clearance requirements.",
+      "type": "radio",
+      "canonical_field": "screener:security_clearance:cards[f30bc442-2120-4db9-b5ac-2f9bf563cad9][field1]",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "cards[1c719ca9-5069-4afe-9e82-39ca420e0edb][field0]",
+      "label": "Are you legally authorized to work in the country for which you are applying?",
+      "type": "radio",
+      "canonical_field": "work_authorization",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "cards[1c719ca9-5069-4afe-9e82-39ca420e0edb][field1]",
+      "label": "Will you now or in the future require sponsorship for employment visa status (e.g., H-1B, etc.)?",
+      "type": "radio",
+      "canonical_field": "requires_sponsorship",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "cards[3da58b41-acf5-40a1-945e-c7f047ef8050][field0]",
+      "label": "Which university are you currently attending or did you last attend? Please select \"Other (School Not Listed)\" if your school is not listed.",
+      "type": "select",
+      "canonical_field": "screener:custom:school_not_listed_name",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "cards[026d7ce7-7ca4-44ed-9db6-1c7857707f0e][field0]",
+      "label": "Please include your intended graduation year for the degree or relevant learning program that you are currently pursuing or have completed.",
+      "type": "select",
+      "canonical_field": "graduation_year",
+      "action": "FILL",
+      "reason": "Mapped from public profile; placed onto \"2029\""
+    },
+    {
+      "field_id": "cards[d54adf7b-3148-4095-93bb-72bef32a61f8][field0]",
+      "label": "High School Name",
+      "type": "textarea",
+      "canonical_field": "school",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "cards[d54adf7b-3148-4095-93bb-72bef32a61f8][field1]",
+      "label": "Year of High School Graduation",
+      "type": "select",
+      "canonical_field": "school",
+      "action": "FILL",
+      "reason": "Mapped from public profile; value \"Johns Hopkins University\" not on the control's list — using the form's own \"Other\""
+    },
+    {
+      "field_id": "cards[037683ac-0e2a-4adf-82d9-49bd682697cc][field0]",
+      "label": "Please tell us how you heard about this internship opportunity.",
+      "type": "select",
+      "canonical_field": "screener:custom:opt_how_did_you_hear_about_this_opportunity",
+      "action": "FILL",
+      "reason": "Screener bank answer (llm_option)"
+    },
+    {
+      "field_id": "cards[73796cde-fc01-4758-9002-c85155f3503d][field0]",
+      "label": "As part of our interview process, we may use AI notetakers to transcribe conversations for accuracy and efficiency. Please see our candidate privacy policy for more information on how we process your data. Your decision to opt in or out of this tooling will not impact your candidacy.",
+      "type": "radio",
+      "canonical_field": "screener:custom:ai_notetaker_consent",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "additional-information",
+      "label": "Additional information",
+      "type": "textarea",
+      "canonical_field": "essay:generated:additional-information",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "eeo[veteran]",
+      "label": "Veteran status Select ... I identify as one or more of the classifications of protected veteran listed above I am not a protected veteran I decline to self-identify for protected veteran status",
+      "type": "select",
+      "canonical_field": "veteran_status",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "disabilitySelectElement",
+      "label": "Disability status Select ... Yes, I have a disability, or have had one in the past No, I do not have a disability and have not had one in the past I do not want to answer",
+      "type": "select",
+      "canonical_field": "disability_status",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\lever-live\\form-snapshot-1788983422737.html",
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "email",
+      "phone",
+      "address.city",
+      "current_company",
+      "linkedin_url",
+      "github_url",
+      "preferred_name",
+      "screener:custom:offer_deadlines",
+      "application_consent:cards[df4ec61d-484e-4f62-9412-19bbd05ec515][field0]",
+      "application_consent:cards[df4ec61d-484e-4f62-9412-19bbd05ec515][field0]",
+      "application_consent:cards[df4ec61d-484e-4f62-9412-19bbd05ec515][field0]",
+      "screener:custom:predicted:cards[841c3f3c-3e6e-4665-9391-e360210fb5ee][field0]",
+      "screener:custom:predicted:cards[7736d0ea-6916-4d17-8895-c31776dbef15][field0]",
+      "screener:security_clearance",
+      "screener:security_clearance:cards[f30bc442-2120-4db9-b5ac-2f9bf563cad9][field1]",
+      "work_authorization",
+      "requires_sponsorship",
+      "screener:custom:school_not_listed_name",
+      "graduation_year",
+      "school",
+      "school",
+      "screener:custom:opt_how_did_you_hear_about_this_opportunity",
+      "screener:custom:ai_notetaker_consent",
+      "essay:generated:additional-information",
+      "veteran_status",
+      "disability_status"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "phone",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "location-input",
+        "canonical_field": "address.city",
+        "control_kind": "text",
+        "notes": [
+          "no clickable suggestion list within timeout — ArrowDown+Enter",
+          "keyboard ArrowDown+Enter",
+          "location cleared on blur — retrying with city token only",
+          "retry: keyboard ArrowDown+Enter",
+          "location committed (blur-stable): Baltimore, MD, USA"
+        ]
+      },
+      {
+        "field_id": "org",
+        "canonical_field": "current_company",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "urls[LinkedIn]",
+        "canonical_field": "linkedin_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "urls[GitHub]",
+        "canonical_field": "github_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field1]",
+        "canonical_field": "preferred_name",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field0]",
+        "canonical_field": "screener:custom:offer_deadlines",
+        "control_kind": "native_select",
+        "selected_option": "No",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "cards[df4ec61d-484e-4f62-9412-19bbd05ec515][field0]",
+        "canonical_field": "application_consent:cards[df4ec61d-484e-4f62-9412-19bbd05ec515][field0]",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "cards[df4ec61d-484e-4f62-9412-19bbd05ec515][field0]",
+        "canonical_field": "application_consent:cards[df4ec61d-484e-4f62-9412-19bbd05ec515][field0]",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "cards[df4ec61d-484e-4f62-9412-19bbd05ec515][field0]",
+        "canonical_field": "application_consent:cards[df4ec61d-484e-4f62-9412-19bbd05ec515][field0]",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "cards[841c3f3c-3e6e-4665-9391-e360210fb5ee][field0]",
+        "canonical_field": "screener:custom:predicted:cards[841c3f3c-3e6e-4665-9391-e360210fb5ee][field0]",
+        "control_kind": "native_select",
+        "selected_option": "May 2026",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "cards[7736d0ea-6916-4d17-8895-c31776dbef15][field0]",
+        "canonical_field": "screener:custom:predicted:cards[7736d0ea-6916-4d17-8895-c31776dbef15][field0]",
+        "control_kind": "native_select",
+        "selected_option": "Software Engineer (Dev)",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "cards[f30bc442-2120-4db9-b5ac-2f9bf563cad9][field0]",
+        "canonical_field": "screener:security_clearance",
+        "control_kind": "text",
+        "selected_option": "No"
+      },
+      {
+        "field_id": "cards[f30bc442-2120-4db9-b5ac-2f9bf563cad9][field1]",
+        "canonical_field": "screener:security_clearance:cards[f30bc442-2120-4db9-b5ac-2f9bf563cad9][field1]",
+        "control_kind": "text",
+        "selected_option": "No"
+      },
+      {
+        "field_id": "cards[1c719ca9-5069-4afe-9e82-39ca420e0edb][field0]",
+        "canonical_field": "work_authorization",
+        "control_kind": "text",
+        "selected_option": "Yes"
+      },
+      {
+        "field_id": "cards[1c719ca9-5069-4afe-9e82-39ca420e0edb][field1]",
+        "canonical_field": "requires_sponsorship",
+        "control_kind": "text",
+        "selected_option": "No"
+      },
+      {
+        "field_id": "cards[3da58b41-acf5-40a1-945e-c7f047ef8050][field0]",
+        "canonical_field": "screener:custom:school_not_listed_name",
+        "control_kind": "native_select",
+        "selected_option": "Johns Hopkins University",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "cards[026d7ce7-7ca4-44ed-9db6-1c7857707f0e][field0]",
+        "canonical_field": "graduation_year",
+        "control_kind": "native_select",
+        "selected_option": "2029",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "cards[d54adf7b-3148-4095-93bb-72bef32a61f8][field0]",
+        "canonical_field": "school",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "cards[d54adf7b-3148-4095-93bb-72bef32a61f8][field1]",
+        "canonical_field": "school",
+        "control_kind": "native_select",
+        "selected_option": "Other",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "cards[037683ac-0e2a-4adf-82d9-49bd682697cc][field0]",
+        "canonical_field": "screener:custom:opt_how_did_you_hear_about_this_opportunity",
+        "control_kind": "native_select",
+        "selected_option": "LinkedIn",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "cards[73796cde-fc01-4758-9002-c85155f3503d][field0]",
+        "canonical_field": "screener:custom:ai_notetaker_consent",
+        "control_kind": "text",
+        "selected_option": "Yes, I consent"
+      },
+      {
+        "field_id": "additional-information",
+        "canonical_field": "essay:generated:additional-information",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "eeo[veteran]",
+        "canonical_field": "veteran_status",
+        "control_kind": "native_select",
+        "selected_option": "I am not a veteran",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "disabilitySelectElement",
+        "canonical_field": "disability_status",
+        "control_kind": "native_select",
+        "selected_option": "No",
+        "match_via": "exact"
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham Kale",
+        "observed": "Shubham Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "address.city",
+        "expected": "Baltimore, Maryland, USA",
+        "observed": "Baltimore, MD, USA",
+        "match": true
+      },
+      {
+        "canonical_field": "current_company",
+        "expected": "Summer Atlantic Capital",
+        "observed": "Summer Atlantic Capital",
+        "match": true
+      },
+      {
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "match": true
+      },
+      {
+        "canonical_field": "github_url",
+        "expected": "https://github.com/skale-07",
+        "observed": "https://github.com/skale-07",
+        "match": true
+      },
+      {
+        "canonical_field": "preferred_name",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:offer_deadlines",
+        "expected": "No",
+        "observed": {
+          "value": "No",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "application_consent:cards[df4ec61d-484e-4f62-9412-19bbd05ec515][field0]",
+        "expected": true,
+        "observed": true,
+        "match": true
+      },
+      {
+        "canonical_field": "application_consent:cards[df4ec61d-484e-4f62-9412-19bbd05ec515][field0]",
+        "expected": true,
+        "observed": true,
+        "match": true
+      },
+      {
+        "canonical_field": "application_consent:cards[df4ec61d-484e-4f62-9412-19bbd05ec515][field0]",
+        "expected": true,
+        "observed": true,
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:cards[841c3f3c-3e6e-4665-9391-e360210fb5ee][field0]",
+        "expected": "May 2026",
+        "observed": {
+          "value": "May 2026",
+          "label": "May 2026"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:cards[7736d0ea-6916-4d17-8895-c31776dbef15][field0]",
+        "expected": "Software Engineer (Dev)",
+        "observed": {
+          "value": "Software Engineer (Dev)",
+          "label": "Software Engineer (Dev)"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:security_clearance",
+        "expected": "No",
+        "observed": {
+          "value": "No",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:security_clearance:cards[f30bc442-2120-4db9-b5ac-2f9bf563cad9][field1]",
+        "expected": "No",
+        "observed": {
+          "value": "No",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "work_authorization",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "requires_sponsorship",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:school_not_listed_name",
+        "expected": "Johns Hopkins University",
+        "observed": {
+          "value": "Johns Hopkins University",
+          "label": "Johns Hopkins University"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "graduation_year",
+        "expected": "2029",
+        "observed": {
+          "value": "2029",
+          "label": "2029"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "school",
+        "expected": "Johns Hopkins University",
+        "observed": "Johns Hopkins University",
+        "match": true
+      },
+      {
+        "canonical_field": "school",
+        "expected": "Other",
+        "observed": {
+          "value": "Other",
+          "label": "Other"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:opt_how_did_you_hear_about_this_opportunity",
+        "expected": "LinkedIn",
+        "observed": {
+          "value": "LinkedIn",
+          "label": "LinkedIn"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:ai_notetaker_consent",
+        "expected": "Yes, I consent",
+        "observed": {
+          "value": "Yes, I consent",
+          "label": "Yes, I consent"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:additional-information",
+        "expected": "Two things that may not come through on a resume.\n\nFirst, most of what I build comes out of problems I actually ran into. The job-application agent started because I was doing the same repetitive browser work over and over, and the interesting part turned out to be deciding where automation should stop. I put every mutating capability behind fail-closed flags like SUBMIT_ENABLED, used SQLite as the single source of truth because browser state diverging across processes is how you accidentally submit something real, and made free-text and demographic fields impossible to auto-fill by design. That instinct about the boundary between machine action and human judgment is the thing I would bring to deployed software.\n\nSecond, a year-long placement matches how I work best. On the SAC Nexus anomaly-detection system I own the repo and CI scaffold, the event-ingestion pipeline, the versioned FastAPI service, the sequence models, and the retrieval-augmented explanation layer, and the parts that mattered most (alert prioritization, failure modes, documentation) only became clear after months with the system. I would rather own something end to end and live with its failure modes than pick up isolated tickets.",
+        "observed": "Two things that may not come through on a resume.\n\nFirst, most of what I build comes out of problems I actually ran into. The job-application agent started because I was doing the same repetitive browser work over and over, and the interesting part turned out to be deciding where automation should stop. I put every mutating capability behind fail-closed flags like SUBMIT_ENABLED, used SQLite as the single source of truth because browser state diverging across processes is how you accidentally submit something real, and made free-text and demographic fields impossible to auto-fill by design. That instinct about the boundary between machine action and human judgment is the thing I would bring to deployed software.\n\nSecond, a year-long placement matches how I work best. On the SAC Nexus anomaly-detection system I own the repo and CI scaffold, the event-ingestion pipeline, the versioned FastAPI service, the sequence models, and the retrieval-augmented explanation layer, and the parts that mattered most (alert prioritization, failure modes, documentation) only became clear after months with the system. I would rather own something end to end and live with its failure modes than pick up isolated tickets.",
+        "match": true
+      },
+      {
+        "canonical_field": "veteran_status",
+        "expected": "I am not a veteran",
+        "observed": {
+          "value": "I am not a Protected Veteran",
+          "label": "I am not a protected veteran"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "disability_status",
+        "expected": "No",
+        "observed": {
+          "value": "No, I do not have a disability and have not had one in the past",
+          "label": "No, I do not have a disability and have not had one in the past"
+        },
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 113810,
+      "verified": true,
+      "evidence": "input files: [{\"name\":\"resume-dd9093dd.pdf\",\"size\":113810}]; stillAttached=true; chip=false; resolved via primary"
+    }
+  ],
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: form (83 fillable field(s))",
+    "other-specify: chose \"Other\" and no text box appeared — nothing further to answer",
+    "timing: base page (83 planned) — plan 38s, fill 16s, verify 3s",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "other_specify": [
+    {
+      "field_id": "cards[d54adf7b-3148-4095-93bb-72bef32a61f8][field1]",
+      "label": "Year of High School Graduation",
+      "revealed_field_id": null,
+      "filled": false,
+      "note": "chose \"Other\" and no text box appeared — nothing further to answer"
+    }
+  ],
+  "written_at": "2026-09-09T19:50:41.937Z"
+}
