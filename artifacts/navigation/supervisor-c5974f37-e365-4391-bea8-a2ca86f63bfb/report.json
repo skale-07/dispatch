@@ -1,0 +1,49 @@
+{
+  "run_id": "[REDACTED]",
+  "outcome": "stopped",
+  "steps": [
+    {
+      "observation": "ba07267040bcc559",
+      "action": "click",
+      "reason": "one unambiguous Apply control",
+      "result": "action failed: elementHandle.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m",
+      "target": "control-0"
+    },
+    {
+      "observation": "9c1209dbf647cff0",
+      "action": "authenticate",
+      "reason": "Login wall on the employer's own careers portal for jobId=14016; use the approved credential service rather than clicking the submit button with empty fields again.",
+      "result": "portal auth: wall_remains",
+      "model": "claude-opus-5"
+    },
+    {
+      "observation": "0fe944e148666fad",
+      "action": "click",
+      "reason": "Login failed; try the Create profile registration route for jobId=14016 instead of repeating auth.",
+      "result": "clicked observed control; next observation checks progress",
+      "model": "claude-opus-5",
+      "target": "control-10"
+    },
+    {
+      "observation": "207388326763a8d5",
+      "action": "form_ready",
+      "reason": "Employer portal registration step 1 of 5 for jobId=14016 shows applicant identity fields (First Name, Last Name, Email, Phone) — form reached.",
+      "result": "refused: applicant form not independently observed",
+      "model": "claude-opus-5"
+    },
+    {
+      "observation": "a725d9665559e65f",
+      "action": "stop",
+      "reason": "Two Sigma's own portal for jobId=14016 gates the application behind a Login/Create Account wall (step 1/5). The approved credential service already returned wall_remains, the login route failed, and the registration page is classified as an auth wall (password/confirm-password fields), so form_ready was refused. No further non-repeating route exists; blocked at portal authentication.",
+      "result": "model stopped",
+      "model": "claude-opus-5"
+    }
+  ],
+  "notes": [
+    "model calls: 4 of 5 steps"
+  ],
+  "evidence": [
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-c5974f37-e365-4391-bea8-a2ca86f63bfb\\observation.json",
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-c5974f37-e365-4391-bea8-a2ca86f63bfb\\page.png"
+  ]
+}

@@ -60,12 +60,12 @@
 </style></head>
 <body><div class="wrap">
 <h1>Dispatch run timeline</h1>
-<p class="sub">Generated 2026-09-09T19:58:47.294Z · 40 navigation run(s) · read-only view of artifacts/</p>
-<div class="stats"><span class="stat"><b>18</b> unknown</span><span class="stat"><b>16</b> resolved</span><span class="stat"><b>4</b> duplicate_url</span><span class="stat"><b>1</b> closed</span><span class="stat"><b>1</b> auth</span></div>
+<p class="sub">Generated 2026-09-09T20:09:31.923Z · 40 navigation run(s) · read-only view of artifacts/</p>
+<div class="stats"><span class="stat"><b>19</b> unknown</span><span class="stat"><b>16</b> resolved</span><span class="stat"><b>4</b> duplicate_url</span><span class="stat"><b>1</b> closed</span></div>
 <section class="cycle">
   <h2>Latest cycle</h2>
   <dl>
-    <div><dt>Started</dt><dd>2026-09-09T19:58:14.676Z</dd></div>
+    <div><dt>Started</dt><dd>2026-09-09T20:07:32.642Z</dd></div>
     <div><dt>Outcome</dt><dd>completed</dd></div>
     <div><dt>Agent leg</dt><dd>available</dd></div>
     <div><dt>Default resume</dt><dd>ready (C:\dev\jobright-application-agent\private\candidate\resumes\swe.pdf)</dd></div>
@@ -73,11 +73,27 @@
     <div><dt>Submits used</dt><dd>0</dd></div>
     <div><dt>Stopped</dt><dd>apps_cap</dd></div>
   </dl>
-  <h3>Session notes</h3><ul class="notes"><li>nav audit: 0 wrong-employer URL(s) cleared for re-navigation, 2 parked for review</li><li>triage sweep: 0 confirmed, 0 refuted, 0 expired of 57 pending</li><li>shared nav session dropped after error on 611ca480-7e48-4d0a-92e5-ca4752756b62: page.goto: Navigation to &quot;https://boards.greenhouse.io/embed/job_app?for=coinbase&amp;token=8168315&quot; is interrupted by anoth</li><li>app 611ca480-7e48-4d0a-92e5-ca4752756b62 error (pipeline_error): page.goto: Navigation to &quot;https://boards.greenhouse.io/embed/job_app?for=coinbase&amp;token=8168315&quot; is interrupted by another navigation to &quot;chrome-error://chromewebdata/&quot;
-Call log:
-[2m  - navigating to</li><li>artifact autopush: 1 file(s) pushed to master as 8ecdedce</li></ul>
+  <h3>Session notes</h3><ul class="notes"><li>nav audit: 0 wrong-employer URL(s) cleared for re-navigation, 2 parked for review</li><li>triage sweep: 0 confirmed, 0 refuted, 0 expired of 57 pending</li><li>triage ed0c4b90: engage_agent_leg — precondition failed: no navigation wall in evidence — agent leg only helps nav-walled apps</li><li>artifact autopush failed (session unaffected): Command failed: git add -A -- artifacts
+fatal: Unable to create 'C:/dev/jobright-application-agent/.git/index.lock': File exists.
+
+Another git process seems to be running in this repository, or the lo</li></ul>
 </section>
 <h2>Applications</h2>
+<details class="app bad">
+  <summary>
+    <span class="id"></span>
+    <span class="co">—</span>
+    <span class="badge">wall: undefined</span>
+    
+    
+    
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li>none recorded</li></ol>
+    <h4>Notes</h4><ul class="notes"><li>model calls: 4 of 5 steps</li></ul>
+    
+  </div>
+</details>
 <details class="app ok">
   <summary>
     <span class="id">d2633c0f</span>
@@ -660,21 +676,6 @@ Call log:
   <div class="body">
     <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>B_board_hop</b> — no employer board route (3 request(s))</li><li><b>D_gmail</b> — verification code retrieved</li><li><b>C_agent</b> — resolved (turn 2, employer match)<span class="ev">jobs.ashbyhq.com</span></li></ol>
     <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>board hop: no public greenhouse/lever/ashby board found for &quot;Acme&quot; (acme; 3 requests)</li><li>agent[2]: continuation ok</li></ul>
-    <h4>Hosts visited</h4><p class="hosts">jobs.ashbyhq.com</p>
-  </div>
-</details>
-<details class="app warn">
-  <summary>
-    <span class="id">97c29364</span>
-    <span class="co">—</span>
-    <span class="badge">wall: auth</span>
-    
-    
-    <span class="chip">agent 1t/4s</span>
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>B_board_hop</b> — no employer board route (3 request(s))</li><li><b>C_agent</b> — needs_input WITHOUT verification evidence on the page — mailbox not consulted, human review</li></ol>
-    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>board hop: no public greenhouse/lever/ashby board found for &quot;Acme&quot; (acme; 3 requests)</li><li>verification need rejected: agent's page evidence shows no verification prompt</li></ul>
     <h4>Hosts visited</h4><p class="hosts">jobs.ashbyhq.com</p>
   </div>
 </details>
