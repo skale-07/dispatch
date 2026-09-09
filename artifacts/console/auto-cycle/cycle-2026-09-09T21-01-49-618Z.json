@@ -1,0 +1,73 @@
+{
+  "started_at": "2026-09-09T21:01:49.618Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\swe.pdf)",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "4023ca79-eaa0-4261-943e-346af44e8461",
+    "armed_until": "2026-09-09T23:01:49.648Z",
+    "seconds_remaining": 7200,
+    "max_submits": 1,
+    "submits_used": 0,
+    "max_apps": 1,
+    "apps_started": 0,
+    "discover_max": 1,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": {
+    "arm_run_id": "4023ca79-eaa0-4261-943e-346af44e8461",
+    "apps_started": 1,
+    "submits_used": 0,
+    "stopped_reason": "apps_cap",
+    "discover_runs": 0,
+    "emails_generated": 0,
+    "drafts_saved": 0,
+    "essay_drafts_generated": 0,
+    "screener_predictions_generated": 0,
+    "notes": [
+      "nav audit: 0 wrong-employer URL(s) cleared for re-navigation, 2 parked for review",
+      "triage sweep: 0 confirmed, 0 refuted, 0 expired of 67 pending",
+      "triage 2fd0c941: park_for_operator (executed) — review item created: 9f7f2cb6-1aee-4fb0-bc38-bf440cb35521",
+      "artifact autopush: 24 file(s) pushed to master as 1b33446d"
+    ],
+    "per_app": [
+      {
+        "application_id": "2fd0c941-3cb6-457c-af9a-64291367487f",
+        "end_state": "AMBIGUOUS_FIELD",
+        "stopped": "review",
+        "stop_reason": "verification failed",
+        "submitted": false,
+        "outreach": null
+      }
+    ],
+    "nav_audit": {
+      "checked": 293,
+      "repaired": 0,
+      "parked": 2
+    },
+    "triage": {
+      "decided": 1,
+      "executed": 1
+    },
+    "artifact_autopush": {
+      "pushed": true,
+      "commit": "1b33446d",
+      "files_staged": 24
+    }
+  },
+  "outcome": "completed",
+  "notes": []
+}
