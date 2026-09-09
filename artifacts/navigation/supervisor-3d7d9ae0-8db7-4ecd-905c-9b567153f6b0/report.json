@@ -1,0 +1,51 @@
+{
+  "run_id": "[REDACTED]",
+  "outcome": "form_ready",
+  "steps": [
+    {
+      "observation": "be1ea9b20608f898",
+      "action": "click",
+      "reason": "one unambiguous Apply control",
+      "result": "clicked observed control; next observation checks progress",
+      "target": "control-0"
+    },
+    {
+      "observation": "677cbe1cd7cba154",
+      "action": "click",
+      "reason": "Choose Apply Manually to reach the applicant form",
+      "result": "action failed: elementHandle.click: Element is not attached to the DOM\nCall log:\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n",
+      "model": "claude-opus-5",
+      "target": "control-1"
+    },
+    {
+      "observation": "be1ea9b20608f898",
+      "action": "click",
+      "reason": "Back on the posting; re-open the Apply route via its href to reach the chooser/form again after the stale-element failure",
+      "result": "clicked observed control; next observation checks progress",
+      "model": "claude-opus-5",
+      "target": "control-0"
+    },
+    {
+      "observation": "677cbe1cd7cba154",
+      "action": "click",
+      "reason": "Chooser is open; Apply Manually leads to applicant form",
+      "result": "action failed: elementHandle.click: Element is not attached to the DOM\nCall log:\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n",
+      "model": "claude-opus-5",
+      "target": "control-1"
+    },
+    {
+      "observation": "be1ea9b20608f898",
+      "action": "authenticate",
+      "reason": "Apply chooser clicks keep failing on stale elements; Workday requires an account to reach the applicant form, so use the portal-auth service to sign in and land in the application flow.",
+      "result": "portal auth: account_created",
+      "model": "claude-opus-5"
+    }
+  ],
+  "notes": [
+    "model calls: 4 of 5 steps"
+  ],
+  "evidence": [
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-3d7d9ae0-8db7-4ecd-905c-9b567153f6b0\\observation.json",
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-3d7d9ae0-8db7-4ecd-905c-9b567153f6b0\\page.png"
+  ]
+}

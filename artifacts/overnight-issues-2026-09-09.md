@@ -472,6 +472,20 @@ store an operator `accounts:set` writes) and redacted as a secret, and
 the create proceeds; no derivation ⇒ the old park. Tests
 login-wall-workday-errors (+1). Red Hat will be re-picked by the loop.
 
+## Issue #218 — Workday header account submenu intercepted every fill click (redhat.wd5, cycle 81)
+
+#217 LIVE_MUTATION_CONFIRMED: the derived password created the account
+and the fill reached the wizard. Then 14 items: 7 identity fields
+"(empty)" with `locator.click: Timeout — <ul role="menu"
+aria-labelledby="account-submenu-button"> … intercepts pointer events`,
+and the how_heard combobox "no option matches LinkedIn (options: United
+States of America (+1))" — the open header menu sat over the form and
+the option read hit the phone-country list. Fix: `dismissPageObstructions`
+collapses a visible role=menu (Escape, then a dispatched click on its
+aria-expanded trigger; never a menu item), and atsLiveFill runs the sweep
+once after portal auth clears. Red Hat requeued via the ambiguous-field
+resolver (Workday re-runs the fill from FIELD_VERIFICATION, #62).
+
 ## Note — never run `tests/unit/auto-cycle.test.ts` while the loop runs
 
 It writes real `artifacts/console/auto-cycle/cycle-*.json` files
