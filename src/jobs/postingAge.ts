@@ -55,6 +55,13 @@ export function judgePostingAge(input: {
   descriptionText: string | null | undefined;
   jobCreatedAt: string | Date | null | undefined;
   appCreatedAt?: string | Date | null | undefined;
+  /**
+   * Absolute publish/update timestamp when the source has one (ATS board
+   * APIs: Greenhouse `updated_at`, Ashby `publishedAt`, Lever `createdAt`).
+   * Takes precedence over the relative-text estimate; an unparseable value
+   * is treated as unknown.
+   */
+  postedAt?: string | Date | null | undefined;
   now?: Date;
   maxAgeHours?: number;
 }): PostingAgeVerdict {
@@ -71,7 +78,8 @@ export function judgePostingAge(input: {
   const agoMin = parsePostedAgoMinutes(input.descriptionText);
   const seenAt = toDate(input.jobCreatedAt);
   const postedAt =
-    agoMin !== null && seenAt ? new Date(seenAt.getTime() - agoMin * 60_000) : null;
+    toDate(input.postedAt) ??
+    (agoMin !== null && seenAt ? new Date(seenAt.getTime() - agoMin * 60_000) : null);
   const postingAge = hoursSince(postedAt);
   const queueAge = hoursSince(toDate(input.appCreatedAt));
 

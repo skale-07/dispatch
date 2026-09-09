@@ -218,6 +218,18 @@ function pickNextApplication(db: Db, seen: Set<string>, scope?: Set<string>): st
     app_created_at: string;
     job_created_at: string | null;
     description_text: string | null;
+    raw_json: string | null;
+  };
+  // Board-discovered rows carry the ATS's own timestamp in raw_json
+  // (posted_at); JobRight rows carry only the relative text.
+  const postedAtOf = (raw: string | null): string | null => {
+    if (!raw) return null;
+    try {
+      const v = (JSON.parse(raw) as { posted_at?: unknown }).posted_at;
+      return typeof v === "string" ? v : null;
+    } catch {
+      return null;
+    }
   };
   const query = (states: string) =>
     db
@@ -227,7 +239,7 @@ function pickNextApplication(db: Db, seen: Set<string>, scope?: Set<string>): st
         // The old ASC order made backlog cycles grind the STALEST parked
         // apps (5-day-old Rivian) while fresh enqueues waited.
         `SELECT a.id, a.versions_json, a.state, a.created_at AS app_created_at,
-                j.created_at AS job_created_at, j.description_text
+                j.created_at AS job_created_at, j.description_text, j.raw_json
          FROM applications a LEFT JOIN jobs j ON j.id = a.job_id
          WHERE a.state IN (${states})
          ORDER BY a.created_at DESC`,
@@ -257,6 +269,7 @@ function pickNextApplication(db: Db, seen: Set<string>, scope?: Set<string>): st
           descriptionText: row.description_text,
           jobCreatedAt: row.job_created_at,
           appCreatedAt: row.app_created_at,
+          postedAt: postedAtOf(row.raw_json),
         });
         if (age.stale) {
           seen.add(row.id);

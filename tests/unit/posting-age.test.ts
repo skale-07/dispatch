@@ -64,6 +64,29 @@ describe("posting-age policy (#199, UNIT_CONFIRMED)", () => {
     expect(v.reason).toMatch(/unknown/);
   });
 
+  it("an absolute posted_at (ATS board APIs) wins over the relative text", () => {
+    const stale = judgePostingAge({
+      descriptionText: "2 hours ago", // would read fresh on its own
+      jobCreatedAt: "2026-09-09T02:00:00Z",
+      postedAt: "2026-09-07T12:00:00Z",
+      now,
+    });
+    expect(stale.stale).toBe(true);
+    expect(stale.posting_age_hours).toBe(39);
+    const fresh = judgePostingAge({
+      descriptionText: null,
+      jobCreatedAt: null,
+      postedAt: "2026-09-08T20:00:00Z",
+      now,
+    });
+    expect(fresh.stale).toBe(false);
+    expect(fresh.posting_age_hours).toBe(7);
+    // garbage timestamp ⇒ unknown, not stale
+    expect(
+      judgePostingAge({ descriptionText: null, jobCreatedAt: null, postedAt: "n/a", now }).stale,
+    ).toBe(false);
+  });
+
   it("the cap is configurable and inclusive of the boundary", () => {
     const v = judgePostingAge({
       descriptionText: "1 hour ago",

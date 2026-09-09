@@ -528,6 +528,45 @@ describe("runAtsBoardDiscovery (UNIT_CONFIRMED)", () => {
     ).toContain("cap (2) reached");
   });
 
+  it("a board posting older than 24h is skipped as stale, never enqueued (#199 on the board side)", async () => {
+    applyControlledFillEnv({ ATS_DISCOVERY_ENABLED: "true" });
+    const old = new Date(Date.now() - 30 * 36e5).toISOString();
+    const recent = new Date(Date.now() - 2 * 36e5).toISOString();
+    const report = await runAtsBoardDiscovery({
+      db,
+      entries: [entry()],
+      deps: {
+        fetchBoard: async (ref) => ({
+          ref,
+          ok: true,
+          error: null,
+          jobs: [
+            { title: "Old Intern", url: "https://job-boards.greenhouse.io/appian/jobs/1", posted: old },
+            { title: "New Intern", url: "https://job-boards.greenhouse.io/appian/jobs/2", posted: recent },
+            { title: "Undated Intern", url: "https://job-boards.greenhouse.io/appian/jobs/3", posted: null },
+          ].map((j, i) => ({
+            ats: ref.ats,
+            board: ref.token,
+            external_id: String(i + 1),
+            title: j.title,
+            location: null,
+            department: null,
+            apply_url: j.url,
+            posted_at: j.posted,
+          })),
+        }),
+      },
+    });
+    expect(report.enqueued).toBe(2);
+    expect(report.stale).toBe(1);
+    expect(report.boards[0]?.stale).toBe(1);
+    const staleRow = report.applications.find((a) => a.outcome === "stale");
+    expect(staleRow?.role).toBe("Old Intern");
+    expect(staleRow?.detail).toMatch(/published 30h ago \(> 24h/);
+    expect(report.notes.join("\n")).toMatch(/1 posting\(s\) older than 24h skipped/);
+    expect(db.prepare(`SELECT COUNT(*) c FROM jobs`).get()).toMatchObject({ c: 2 });
+  });
+
   it("an apply URL that fails ATS validation is rejected, named, and not enqueued", async () => {
     applyControlledFillEnv({ ATS_DISCOVERY_ENABLED: "true" });
     const report = await runAtsBoardDiscovery({

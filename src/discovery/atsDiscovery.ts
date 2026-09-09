@@ -24,6 +24,7 @@ import { transitionApplication } from "../queue/stateMachine.js";
 import { detectAtsFromUrl } from "../ats/shared/urlValidationDispatch.js";
 import { findApplicationsWithEmployerUrl } from "../navigation/congruence.js";
 import { classifyLocation } from "../jobs/locationEligibility.js";
+import { judgePostingAge, MAX_POSTING_AGE_HOURS } from "../jobs/postingAge.js";
 import {
   fetchBoardJobs,
   filterBoardJobs,
@@ -107,7 +108,7 @@ export type DiscoveredApplication = {
   company: string;
   role: string;
   apply_url: string;
-  outcome: "enqueued" | "reused" | "blocked" | "capped" | "rejected_url";
+  outcome: "enqueued" | "reused" | "blocked" | "capped" | "rejected_url" | "stale";
   application_id: string | null;
   state: string | null;
   detail: string | null;
@@ -123,11 +124,14 @@ export type AtsDiscoveryReport = {
     fetched: number;
     filtered_out: number;
     considered: number;
+    /** Postings older than the 24h cap (#199), skipped before enqueue. */
+    stale: number;
   }>;
   enqueued: number;
   reused: number;
   blocked: number;
   capped: number;
+  stale: number;
   max_new_applications: number;
   applications: DiscoveredApplication[];
   notes: string[];
@@ -168,6 +172,7 @@ export async function runAtsBoardDiscovery(input: {
     reused: 0,
     blocked: 0,
     capped: 0,
+    stale: 0,
     max_new_applications: maxNew,
     applications: [],
     notes: [],
@@ -202,7 +207,8 @@ export async function runAtsBoardDiscovery(input: {
           (nonUs.length > 6 ? ", …" : ""),
       );
     }
-    report.boards.push({
+    let stale = 0;
+    const boardRow = {
       ref: formatBoardRef(entry.ref),
       company: entry.company,
       ok: fetched.ok,
@@ -210,9 +216,35 @@ export async function runAtsBoardDiscovery(input: {
       fetched: fetched.jobs.length,
       filtered_out: dropped + nonUs.length,
       considered: kept.length,
-    });
+      stale: 0,
+    };
+    report.boards.push(boardRow);
 
     for (const job of kept) {
+      // #199 (operator directive 2026-09-08) applies to every discovery
+      // source: a board posting whose own timestamp is older than the cap
+      // is not enqueued. Boards give an absolute time (Greenhouse
+      // `updated_at` is the closest it exposes); a missing one is unknown
+      // and passes, same fail-open rule as the JobRight side.
+      const age = judgePostingAge({
+        descriptionText: null,
+        jobCreatedAt: null,
+        postedAt: job.posted_at,
+      });
+      if (age.stale) {
+        stale += 1;
+        report.applications.push({
+          board: formatBoardRef(entry.ref),
+          company: entry.company,
+          role: job.title,
+          apply_url: job.apply_url,
+          outcome: "stale",
+          application_id: null,
+          state: null,
+          detail: age.reason,
+        });
+        continue;
+      }
       if (report.enqueued >= maxNew) {
         report.capped += 1;
         report.applications.push({
@@ -239,6 +271,13 @@ export async function runAtsBoardDiscovery(input: {
       if (last.outcome === "enqueued") report.enqueued += 1;
       else if (last.outcome === "reused") report.reused += 1;
       else if (last.outcome === "blocked") report.blocked += 1;
+    }
+    boardRow.stale = stale;
+    if (stale > 0) {
+      report.stale += stale;
+      report.notes.push(
+        `${formatBoardRef(entry.ref)}: ${stale} posting(s) older than ${MAX_POSTING_AGE_HOURS}h skipped (operator policy 2026-09-08)`,
+      );
     }
   }
   return report;
