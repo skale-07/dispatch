@@ -1,0 +1,51 @@
+{
+  "run_id": "[REDACTED]",
+  "outcome": "form_ready",
+  "steps": [
+    {
+      "observation": "2825b25e26c3b7f3",
+      "action": "click",
+      "reason": "one unambiguous Apply control",
+      "result": "clicked observed control; next observation checks progress",
+      "target": "control-1"
+    },
+    {
+      "observation": "bd8c10b4035387b9",
+      "action": "click",
+      "reason": "Choose Apply Manually to reach the actual application form fields",
+      "result": "action failed: elementHandle.click: Element is not attached to the DOM\nCall log:\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n",
+      "model": "claude-opus-5",
+      "target": "control-2"
+    },
+    {
+      "observation": "2825b25e26c3b7f3",
+      "action": "click",
+      "reason": "Back on the posting; re-open the Apply route to reach the application chooser with a fresh, attached DOM",
+      "result": "clicked observed control; next observation checks progress",
+      "model": "claude-opus-5",
+      "target": "control-1"
+    },
+    {
+      "observation": "bd8c10b4035387b9",
+      "action": "click",
+      "reason": "Modal is open; Apply Manually leads to the actual application form fields",
+      "result": "action failed: elementHandle.click: Element is not attached to the DOM\nCall log:\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n",
+      "model": "claude-opus-5",
+      "target": "control-2"
+    },
+    {
+      "observation": "2825b25e26c3b7f3",
+      "action": "authenticate",
+      "reason": "The Apply modal's 'Apply Manually' control keeps detaching from the DOM, so the chooser route is exhausted. Signing in via the approved portal-auth service on this Workday tenant is a different approach that should carry us into the application flow for this posting.",
+      "result": "portal auth: signed_in",
+      "model": "claude-opus-5"
+    }
+  ],
+  "notes": [
+    "model calls: 4 of 5 steps"
+  ],
+  "evidence": [
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-1297a0c2-d675-451b-9837-1c68cebcac49\\observation.json",
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-1297a0c2-d675-451b-9837-1c68cebcac49\\page.png"
+  ]
+}
