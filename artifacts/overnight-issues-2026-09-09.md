@@ -50,3 +50,24 @@ The nav supervisor is ~85% of input tokens and reads 0% from cache
 deterministic / cache-shaped. Applier surfaces (screener/essay) are
 small and cache well. Tracked as #201 below once evidence from today's
 runs is in.
+
+## Loop start (14:40 UTC) — `private/loop-day28.sh 8`
+
+Serial `auto:cycle --backlog --max-apps 1 --max-submits 1 --app-deadline 300
+--headed`; queue refreshed hourly (JobRight `discover --max-jobs 12` + boards
+registry `--limit 6`), early refresh when the queue drains. Per-cycle
+summary lines: `artifacts/console/day28-status.jsonl`; full log
+`artifacts/console/auto-cycle-2026-09-09-day28.log`. Board sweeps now obey
+the 24h gate (commit eb59af63, board `updated_at`/`publishedAt`).
+
+Refresh 1 (14:40): JobRight 8 inspected / 4 eligible; boards sweep enqueued
+Verkada rows (Greenhouse).
+
+## Job #1 — Verkada (790a631f, Greenhouse job-boards, board-discovered) — SUBMITTED_VERIFIED
+
+Cycle 1, 14:41→14:43 (2.5 min). 16-field plan (identity, address, phone,
+grad month/year, LinkedIn, 1 predicted screener, relocation/availability,
+EEO from the encrypted profile); resume chip verified before fill; submit
+receipt `submission/receipt-attempt-1.png`. No agent leg, no nav model
+call (direct employer URL). LIVE_MUTATION_CONFIRMED by the submit run's
+own read-back. No outreach tail (board-sourced, #181).
