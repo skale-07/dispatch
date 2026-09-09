@@ -77,11 +77,17 @@ export async function autopushArtifacts(input: {
 
     // NO --no-verify: the operator's pre-commit secret gate stays the
     // final check on what leaves the machine.
+    // #211 (day28 19:11 UTC): an operator `git add src/…` landed between
+    // this function's stray check and its commit, and the "art:" commit
+    // swept two source files along. A pathspec commit records ONLY the
+    // artifacts tree whatever else the shared index holds.
     await git(
       "commit",
       "-m",
       input.message ??
         `art: automation session ${input.armRunId.slice(0, 8)} (autopush)`,
+      "--",
+      "artifacts",
     );
     report.commit = await git("rev-parse", "--short", "HEAD");
 

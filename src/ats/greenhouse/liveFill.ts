@@ -385,14 +385,41 @@ export async function reachGreenhouseApplicationForm(
     requestedUrl,
     normalizedUrl,
   );
+  // #212 (day28, live Datadog + Coinbase): boards.greenhouse.io/<token>/
+  // jobs/<id> 301→302s to the company's own careers page (?gh_jid=), a
+  // posting shell with an Apply CTA and no form. The canonical embed app
+  // is deterministic from token + id, so it is the FIRST rung — before
+  // the model-driven supervisor spends its step budget (Datadog: the
+  // supervisor "stopped", and the early return below skipped this rung
+  // entirely; every cycle re-picked the row). Live fill only (the
+  // `supervise` callers): the submit path reuses the filled page, and a
+  // fixture test must never navigate off its own page.
+  if (options?.supervise && gateLooksLikePostingShell(gate) && /^https?:/i.test(working.url())) {
+    const embedUrl = greenhouseEmbedFallbackUrl(requestedUrl, normalizedUrl, gate.finalUrl);
+    if (embedUrl && embedUrl !== working.url()) {
+      notes.push(`posting shell on landing — trying the canonical embed app first ${embedUrl}`);
+      try {
+        await working.goto(embedUrl, { waitUntil: "domcontentloaded" });
+        await settleGreenhouseLanding(working);
+        gate = await verifyPageBeforeMutation(working, requestedUrl, normalizedUrl);
+      } catch (e) {
+        notes.push(
+          `embed-first navigation failed: ${e instanceof Error ? e.message.slice(0, 120) : String(e)}`,
+        );
+      }
+    }
+  }
   if (options?.supervise && (gateLooksLikePostingShell(gate) || gate.failureCode === "LOGIN_WALL")) {
     const supervised = await superviseApplicationNavigation({ page: working, job: { ...options.job, url: requestedUrl } });
     if (supervised.report.outcome !== "disabled") {
       working = supervised.page;
       notes.push(`navigation supervisor: ${supervised.report.outcome}; evidence ${supervised.report.evidence.join(", ")}`);
       gate = await verifyPageBeforeMutation(working, requestedUrl, normalizedUrl);
+      // A supervisor that stops short is not the end of the ladder: the
+      // deterministic rungs below (iframe hop, Apply, embed) still run on
+      // whatever page it left, and the final posting-shell check refuses.
       if (supervised.report.outcome !== "form_ready") {
-        return { page: working, gate: { ...gate, ok: false, failureCode: gate.failureCode ?? "FORM_NOT_FOUND" }, notes };
+        notes.push("navigation supervisor did not reach a form — continuing with the deterministic rungs");
       }
     }
   }

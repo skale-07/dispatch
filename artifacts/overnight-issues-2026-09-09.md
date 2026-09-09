@@ -316,6 +316,33 @@ account establishes the session). Token note for #201: a Register/Sign-in
 landing is deterministic (page_class auth) — the supervisor should stop
 at step 1 and hand to the portal-auth route instead of spending 5 calls.
 
+## Issue #211 — artifact autopush swept two source files into an "art:" commit (19:11 UTC)
+
+Commit 008e93b6 ("art: auto-cycle report …") contains
+src/outreach/gmailDrafts.ts + its test: my `git add src/…` landed between
+the pusher's stray-file check and its `git commit`, and a plain commit
+records the whole shared index. Fix: `git commit … -- artifacts`
+(pathspec commit — only the artifacts tree, whatever else is staged).
+History left as is (already pushed); the #210 diff is in that commit.
+
+## Issue #212 — Greenhouse boards that redirect to company-hosted pages (Datadog, Coinbase)
+
+boards.greenhouse.io/datadog/jobs/8052095 → careers.datadoghq.com/detail/
+8052095/?gh_jid=… : a posting shell (Apply CTA, 0 fields). Cycles 53–55
+refused FORM_NOT_FOUND and re-picked the same row every cycle. Evidence:
+supervisor-83b3cc2c page.png/observation.json. The canonical embed app
+`boards.greenhouse.io/embed/job_app?for=<token>&token=<id>` serves the
+form directly (curl: 200 + form markers for datadog/8052095 AND
+coinbase/8175459). `greenhouseEmbedFallbackUrl` already existed but sat
+behind the supervisor's early return, which also skipped the hop/Apply
+rungs whenever the model navigator "stopped". Fix in
+`reachGreenhouseApplicationForm`: (1) embed-first rung on a posting-shell
+landing (live fill only, real http pages only) BEFORE the supervisor —
+zero model calls for this shape; (2) a supervisor that stops short no
+longer returns early; the deterministic rungs still run and the final
+posting-shell check refuses. Tests: greenhouse-reach-form 5/5,
+greenhouse-embed-fallback 5/5. Live confirmation = the next Datadog cycle.
+
 ## Note — never run `tests/unit/auto-cycle.test.ts` while the loop runs
 
 It writes real `artifacts/console/auto-cycle/cycle-*.json` files
