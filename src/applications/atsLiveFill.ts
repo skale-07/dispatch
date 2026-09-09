@@ -572,6 +572,31 @@ export async function runAtsLiveFill(input: {
   return runInPage(
     async (page) => {
       let gate = await binding.gate(page, input.url, detected.normalizedUrl);
+      // #229 (live Cursor/Ashby, day28 cycle 102): the landing WAS the
+      // application form — jobs.ashbyhq.com/<co>/<id>/application — but the
+      // SPA had not mounted its inputs when the gate read, so it
+      // classified "unknown" (0 fields) and the model navigator spent its
+      // whole budget re-reading the page it was already on. Same shape as
+      // #138 (UKG). A bounded settle and ONE re-gate is deterministic and
+      // costs no model call; anything that is genuinely not a form still
+      // falls through to the rungs below unchanged.
+      if (
+        input.execute &&
+        classifyPage({ html: gate.html, url: gate.finalUrl }).page_class === "unknown"
+      ) {
+        for (let settle = 0; settle < 3; settle += 1) {
+          await page.waitForTimeout(1_500);
+          const reread = await binding.gate(page, input.url, detected.normalizedUrl);
+          const cls = classifyPage({ html: reread.html, url: reread.finalUrl }).page_class;
+          if (cls !== "unknown") {
+            gate = reread;
+            report.notes.push(
+              `landing re-read after ${(settle + 1) * 1.5}s: unknown → ${cls} (SPA mounted late, no model call)`,
+            );
+            break;
+          }
+        }
+      }
       // #220 (operator directive, day28: deterministic first, the agent
       // only where it is struggling). A landing that classifies as auth
       // or posting has a deterministic rung below (portal auth; Apply /
