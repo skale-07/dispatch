@@ -290,6 +290,32 @@ Gmail leg by 19:08: Verkada Backend 3/3 drafted, Embedded 4/4, Frontend
 Tech Support (2e956d3f) re-opened after a 0-people first pass; 3 tails
 pending. 8 drafts today so far, all board-sourced via the twin (#207).
 
+## Issue #210 — Gmail drafts "compose button not found" (3 of 4, Verkada Frontend)
+
+`gmail_drafts.metadata_json` notes: "compose button not found" — each
+draft opens a fresh Gmail page and looked for Compose after a fixed 2s.
+Fix: bounded wait for the control (20s + 5s text fallback,
+`composeWaitMs` seam). Worker restarted on the fix at 19:13; the
+Frontend tail re-opened so the three FAILED rows are retried (a FAILED
+row is not skipped by the existing-draft check). By 19:11: 11 drafts
+DRAFTED today, 3 FAILED.
+
+## Job #10 attempt — Replit New Grad SWE (fb93ad5b, Ashby) — withheld, correctly
+
+Cycle 52: deterministic fill reached READY_TO_SUBMIT; submit refused —
+2 required custom questions "Project URL" / "Project Password" (a
+take-home). Operator input needed; triage agreed ("human decision
+required"). Not a system gap.
+
+## Two Sigma (ed0c4b90) — Register wall, 5 nav model calls
+
+Generic adapter on careers.twosigma.com: the nav supervisor spent 5 of 6
+model steps and ended on `/careers/Register?jobId=14016` (page_class
+auth) → NAVIGATION_INCOMPLETE. Same shape as TIAA-class portals (create
+account establishes the session). Token note for #201: a Register/Sign-in
+landing is deterministic (page_class auth) — the supervisor should stop
+at step 1 and hand to the portal-auth route instead of spending 5 calls.
+
 ## Note — never run `tests/unit/auto-cycle.test.ts` while the loop runs
 
 It writes real `artifacts/console/auto-cycle/cycle-*.json` files
