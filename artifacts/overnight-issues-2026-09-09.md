@@ -266,6 +266,30 @@ embedded, systems, devops, cloud, quant) ANDed after include/exclude, and
 `max_new_per_board` (per-board cap; #180 was the same failure with
 Stripe). CLI `--role-terms` / `--per-board` override.
 
+## Refresh 19:05 UTC — merged registry (47 boards, role_terms, max_new_per_board 3)
+
+`private/discovery/boards.json` now carries the 31 resolving candidates
+plus the original 15, `role_terms` (software/engineer/data/ML/AI/…) and
+`max_new_per_board: 3`. Sweep: 7 enqueued — Coinbase MLE + SWE intern,
+Roblox SWE intern (Summer 2027), Datadog SWE intern ×2, Replit New Grad
+SWE; "People Analytics Intern" slipped through on the "analytics" term
+and was abandoned by hand. 70 stale (>24h) skipped, 12 non-US Stripe
+skipped. Gap: `analytics`/`data`/`systems` match non-engineering titles
+("People Analytics", "Data Entry"); a per-term negative list is the next
+refinement if it recurs.
+
+Coinbase (cycles 49–50): `boards.greenhouse.io/coinbase/jobs/<id>` →
+301 → job-boards → 302 → `www.coinbase.com/careers/positions/<id>?gh_jid`
+(company-hosted embed); Playwright got `net::ERR_CONNECTION_RESET` twice
+(curl 301/302 fine). Classified network_unreachable by #203, probe said
+online → continued; rows sit in APPLICATION_INSPECTION and will be
+re-picked after the QUEUED rows. Not fixed tonight.
+
+Gmail leg by 19:08: Verkada Backend 3/3 drafted, Embedded 4/4, Frontend
+4 generated / 1 drafted (3 FAILED at the Gmail draft step — see log),
+Tech Support (2e956d3f) re-opened after a 0-people first pass; 3 tails
+pending. 8 drafts today so far, all board-sourced via the twin (#207).
+
 ## Note — never run `tests/unit/auto-cycle.test.ts` while the loop runs
 
 It writes real `artifacts/console/auto-cycle/cycle-*.json` files
