@@ -71,3 +71,37 @@ EEO from the encrypted profile); resume chip verified before fill; submit
 receipt `submission/receipt-attempt-1.png`. No agent leg, no nav model
 call (direct employer URL). LIVE_MUTATION_CONFIRMED by the submit run's
 own read-back. No outreach tail (board-sourced, #181).
+
+## Jobs #2, #3 — Verkada Security SWE Intern (fc57b59b) and Mobile SWE Intern (ec74699c) — SUBMITTED_VERIFIED
+
+Cycles 2 and 3 (14:44→14:47, 14:48→14:51), same board, same shape as
+Job #1; all three Greenhouse job-boards fills were deterministic end to
+end (no agent leg, no nav model). Gmail tail on each: "no JobRight job
+id" (board-sourced) — see #202.
+
+## Issue #202 — Gmail tail must ALWAYS run after a submit, in parallel (operator 14:49/14:54 UTC)
+
+- Before: the worker ran `runPostSubmitGmail` inline after each submit
+  (blocking the next pick), and board-sourced rows failed it with "no
+  JobRight job id" → a MANUAL review item per submit.
+- Change (commit pending): `src/outreach/outreachWorker.ts` — pending =
+  VERIFIED submissions newer than `--since` whose
+  `versions_json.gmail_tail` is not done; `runOutreachWorkerPass` runs the
+  same tail and records attempts/ok/done/drafted/error (3-attempt cap;
+  "no JobRight job id" is terminal at once). CLI `outreach:worker
+  [--loop --duration --interval]`; `auto:cycle --defer-gmail` skips the
+  inline tail. Tests `tests/unit/outreach-worker.test.ts` (4).
+- Loop switched to `private/loop-day28b.sh` at 14:57 UTC (old shell
+  stopped; its in-flight cycle 4 left to finish; day28b waits for it,
+  then starts `outreach:worker --loop --since 2` alongside).
+- Open: board-sourced submits still have no JobRight job to read insider
+  contacts from. Probing whether JobRight has a search page that can find
+  the twin posting (read-only, `private/tmp-jobright-search-probe.ts`).
+
+## Note — never run `tests/unit/auto-cycle.test.ts` while the loop runs
+
+It writes real `artifacts/console/auto-cycle/cycle-*.json` files
+(14:51:49–14:53:18, nine of them: refused/error/queue_drained) — the loop's
+status line for cycle 3 summarized a TEST report instead of the real one
+(the real cycle 3 was ec74699c → COMPLETED). Gate that file between runs
+only, as the memory note already says for the suite.
