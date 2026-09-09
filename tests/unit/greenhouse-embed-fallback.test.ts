@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+﻿import { describe, expect, it } from "vitest";
 import { greenhouseEmbedFallbackUrl } from "../../src/ats/greenhouse/liveFill.js";
 
 /**
@@ -16,7 +16,7 @@ describe("greenhouseEmbedFallbackUrl", () => {
         REQUESTED,
         "https://www.zipline.com/open-roles?gh_jid=7980874003",
       ),
-    ).toBe("https://boards.greenhouse.io/embed/job_app?for=flyzipline&token=7980874003");
+    ).toBe("https://job-boards.greenhouse.io/embed/job_app?for=flyzipline&token=7980874003");
   });
 
   it("harder: job id only on the final page, board only on the requested URL", () => {
@@ -26,7 +26,7 @@ describe("greenhouseEmbedFallbackUrl", () => {
         null,
         "https://www.samsara.com/company/careers/roles?gh_jid=8097345",
       ),
-    ).toBe("https://boards.greenhouse.io/embed/job_app?for=samsara&token=8097345");
+    ).toBe("https://job-boards.greenhouse.io/embed/job_app?for=samsara&token=8097345");
   });
 
   it("returns null when the page is already the embed app", () => {
@@ -34,7 +34,7 @@ describe("greenhouseEmbedFallbackUrl", () => {
       greenhouseEmbedFallbackUrl(
         REQUESTED,
         REQUESTED,
-        "https://boards.greenhouse.io/embed/job_app?for=flyzipline&token=7980874003",
+        "https://job-boards.greenhouse.io/embed/job_app?for=flyzipline&token=7980874003",
       ),
     ).toBeNull();
   });
@@ -62,7 +62,7 @@ describe("greenhouseEmbedFallbackUrl", () => {
       null,
       "https://example.com/?gh_jid=42",
     );
-    expect(u).toBe("https://boards.greenhouse.io/embed/job_app?for=fly_zip-line&token=42");
-    expect(new URL(u!).hostname).toBe("boards.greenhouse.io");
+    expect(u).toBe("https://job-boards.greenhouse.io/embed/job_app?for=fly_zip-line&token=42");
+    expect(new URL(u!).hostname).toBe("job-boards.greenhouse.io");
   });
 });

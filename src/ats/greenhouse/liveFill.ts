@@ -317,7 +317,11 @@ export function greenhouseEmbedFallbackUrl(
     extractBoardTokenFromUrl(requestedUrl) ??
     extractBoardTokenFromUrl(finalUrl);
   if (!jobId || !board) return null;
-  return `https://boards.greenhouse.io/embed/job_app?for=${encodeURIComponent(board)}&token=${encodeURIComponent(jobId)}`;
+  // job-boards is the host the embed actually serves from —
+  // boards.greenhouse.io 301s there, and on a CDP-attached Chrome that
+  // extra hop surfaced as "Navigation … is interrupted by another
+  // navigation" (live Coinbase, day28 cycle 71). Land on the final host.
+  return `https://job-boards.greenhouse.io/embed/job_app?for=${encodeURIComponent(board)}&token=${encodeURIComponent(jobId)}`;
 }
 
 function describeFrames(page: Page): string {

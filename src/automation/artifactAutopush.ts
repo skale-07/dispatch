@@ -1,5 +1,10 @@
 import { execFile } from "node:child_process";
+import fs from "node:fs";
+import path from "node:path";
 import { promisify } from "node:util";
+
+/** An index.lock older than this with no git behind it is a leftover (#215). */
+const STALE_INDEX_LOCK_MS = 5 * 60_000;
 
 const exec = promisify(execFile);
 
@@ -50,6 +55,30 @@ export async function autopushArtifacts(input: {
   };
 
   try {
+    // #215 (day28): three times in one evening an `index.lock` outlived the
+    // git that made it (5 MB index, cycles a minute apart), and every later
+    // push — and the operator's own commits — failed on "File exists".
+    // A real git operation never holds the lock for minutes; one that old
+    // with nothing writing it is a leftover, and clearing it is what the
+    // operator would do by hand. Logged as a note either way.
+    const lockPath = path.join(cwd, ".git", "index.lock");
+    try {
+      const stat = fs.statSync(lockPath);
+      const ageMs = Date.now() - stat.mtimeMs;
+      if (ageMs > STALE_INDEX_LOCK_MS) {
+        fs.unlinkSync(lockPath);
+        report.notes.push(
+          `artifact autopush: removed a stale .git/index.lock (${Math.round(ageMs / 60_000)} min old, nothing writing it)`,
+        );
+      } else {
+        report.notes.push(
+          `artifact autopush: .git/index.lock held by a live git (${Math.round(ageMs / 1000)}s old) — skipping this push`,
+        );
+        return report;
+      }
+    } catch {
+      // no lock — the normal case
+    }
     await git("add", "-A", "--", "artifacts");
     const staged = await git("diff", "--cached", "--name-only");
     const files = staged.split("\n").filter((l) => l.trim() !== "");
