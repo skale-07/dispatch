@@ -259,7 +259,9 @@ describe("essay autofill (UNIT_CONFIRMED)", () => {
   it("rejects a draft that fails the same validator a review draft faces", async () => {
     const client = {
       generateJson: async () => ({
-        text: JSON.stringify({ answer: "Too short to be an essay answer." }),
+        text: JSON.stringify({
+          answers: [{ key: "q1", answer: "Too short to be an essay answer." }],
+        }),
       }),
     } as never;
     const out = await generateEssayAnswers({
@@ -272,7 +274,9 @@ describe("essay autofill (UNIT_CONFIRMED)", () => {
 
   it("treats an explicit model abstention as a park, never an empty fill", async () => {
     const client = {
-      generateJson: async () => ({ text: JSON.stringify({ answer: null }) }),
+      generateJson: async () => ({
+        text: JSON.stringify({ answers: [{ key: "q1", answer: null }] }),
+      }),
     } as never;
     const out = await generateEssayAnswers({
       items: [{ fieldId: "f1", question: "Describe a project" }],

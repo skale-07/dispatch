@@ -572,8 +572,18 @@ export async function runAtsLiveFill(input: {
   return runInPage(
     async (page) => {
       let gate = await binding.gate(page, input.url, detected.normalizedUrl);
+      // #220 (operator directive, day28: deterministic first, the agent
+      // only where it is struggling). A landing that classifies as auth
+      // or posting has a deterministic rung below (portal auth; Apply /
+      // Workday's Apply→Apply Manually walk) — the model navigator used
+      // to run FIRST on those and spend its whole step budget (Red Hat
+      // cycles 83–84: "stopped (6 steps)" on the posting it started on,
+      // 180k nav tokens across the evening). It now runs only on a landing
+      // the rungs cannot name, and again below when a rung fails.
+      const landingClass = classifyPage({ html: gate.html, url: gate.finalUrl }).page_class;
+      const rungOwnsLanding = landingClass === "auth" || landingClass === "posting";
       if (input.execute && !TERMINAL_GATE_CODES.has(gate.failureCode ?? "") &&
-          classifyPage({ html: gate.html, url: gate.finalUrl }).page_class !== "form") {
+          landingClass !== "form" && !rungOwnsLanding) {
         // Full job context (posting details + prior nav attempts/events),
         // not just {company, role}: the supervisor's navigation decisions
         // are only as good as what it can see (operator directive 2026-09-07).
@@ -775,15 +785,39 @@ export async function runAtsLiveFill(input: {
             return persist(report);
           }
           if (landing.page_class === "posting") {
-            report.gate.ok = false;
-            report.gate.failure_code = "FORM_NOT_REACHED";
-            report.gate.reason =
-              "still on the job posting after trying Apply — no application form to fill";
-            report.gate.page_class = "posting";
-            report.notes.push(
-              "parked: refused to fill a listing page's own search widgets",
-            );
-            return persist(report);
+            // #220: the deterministic Apply walk is where the agent's
+            // budget is worth spending — ONE supervised attempt here, on
+            // the residual, instead of on every landing up front.
+            const job = input.capture?.applicationId
+              ? buildSupervisorJobContext(input.capture.db, input.capture.applicationId, input.url)
+              : { url: input.url };
+            const rescue = await superviseApplicationNavigation({ page, job,
+              ...(input.supervisorClient ? { client: input.supervisorClient } : {}),
+            });
+            if (rescue.report.outcome !== "disabled") {
+              report.navigation_supervisor = rescue.report;
+              report.notes.push(
+                `navigation supervisor after Apply miss: ${rescue.report.outcome} (${rescue.report.steps.length} steps)`,
+              );
+            }
+            if (rescue.report.outcome === "form_ready") {
+              page = rescue.page;
+              input.onPageChanged?.(page);
+              gate = await binding.gate(page, page.url(), page.url());
+              landing = applyGateToReport(report, gate);
+              planHtml = gate.html;
+              planUrl = gate.finalUrl;
+            } else {
+              report.gate.ok = false;
+              report.gate.failure_code = "FORM_NOT_REACHED";
+              report.gate.reason =
+                "still on the job posting after trying Apply — no application form to fill";
+              report.gate.page_class = "posting";
+              report.notes.push(
+                "parked: refused to fill a listing page's own search widgets",
+              );
+              return persist(report);
+            }
           }
         }
 

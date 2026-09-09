@@ -110,8 +110,13 @@ describe("essay generation receives posting context (UNIT_CONFIRMED)", () => {
         payloads.push(modelPayload(input));
         return {
           text: JSON.stringify({
-            answer:
-              "I want to work at Frobnicator because its industrial tooling matches the reliable-systems work I already do: I build ML tooling and browser automation as an applied-math undergraduate, and the Machine Intelligence Intern role in Strongsville is exactly where that experience applies. I am drawn to teams that ship dependable software, and everything in the posting suggests that is the standard here. I would bring the same care to this role from day one and grow with the team while contributing to the products customers rely on every single day.",
+            answers: [
+              {
+                key: "q1",
+                answer:
+                  "I want to work at Frobnicator because its industrial tooling matches the reliable-systems work I already do: I build ML tooling and browser automation as an applied-math undergraduate, and the Machine Intelligence Intern role in Strongsville is exactly where that experience applies. I am drawn to teams that ship dependable software, and everything in the posting suggests that is the standard here. I would bring the same care to this role from day one and grow with the team while contributing to the products customers rely on every single day.",
+              },
+            ],
           }),
           model: "stub",
         };
@@ -135,33 +140,92 @@ describe("essay generation receives posting context (UNIT_CONFIRMED)", () => {
     expect(payloads[1]!["posting_context"]).toBeNull();
   });
 
-  it("'Second/Third example' follow-ups inherit the parent question and see previous answers (night19 #57)", async () => {
+  const LONG = (n: number) =>
+    `Example number ${n}: I built a reliable ML tooling system as an applied-math undergraduate, and I care about dependable software in everything I ship for teams that rely on it every day. I automated browser workflows end to end, wrote deterministic verification for every fill, and treated every unverified claim as unfinished work until a read-back proved it.`;
+
+  // #222 (operator directive 2026-09-09): one call for the whole form, not
+  // one per question. Follow-ups still inherit their parent question, and
+  // the model sees its siblings directly instead of a replayed transcript.
+  it("sends every question in ONE call; follow-ups inherit the parent question; abstentions are honored", async () => {
     const payloads: Array<Record<string, unknown>> = [];
-    let n = 0;
+    let calls = 0;
     const capture: EmailLlmClient = {
       async generateJson(input) {
+        calls += 1;
         payloads.push(modelPayload(input));
-        n += 1;
-        return { text: JSON.stringify({ answer: n === 3 ? null : `Example number ${n}: I built a reliable ML tooling system as an applied-math undergraduate, and I care about dependable software in everything I ship for teams that rely on it every day. I automated browser workflows end to end, wrote deterministic verification for every fill, and treated every unverified claim as unfinished work until a read-back proved it.` }), model: "stub" };
+        return {
+          text: JSON.stringify({
+            answers: [
+              { key: "q1", answer: LONG(1) },
+              { key: "q2", answer: LONG(2) },
+              { key: "q3", answer: null },
+            ],
+          }),
+          model: "stub",
+        };
       },
     };
     const r = await generateEssayAnswers({
       items: [
-        { fieldId: "q1", question: "We look for evidence of exceptional ability. Please provide us with 3-4 examples highlighting your exceptional ability." },
-        { fieldId: "q2", question: "Second example:" },
-        { fieldId: "q3", question: "Third example:" },
+        { fieldId: "f1", question: "We look for evidence of exceptional ability. Please provide us with 3-4 examples highlighting your exceptional ability." },
+        { fieldId: "f2", question: "Second example:" },
+        { fieldId: "f3", question: "Third example:" },
       ],
       client: capture,
     });
-    // Follow-ups carry the parent question…
-    expect(String(payloads[1]!["question"])).toMatch(/exceptional ability.*Second example:/s);
-    expect(String(payloads[2]!["question"])).toMatch(/exceptional ability.*Third example:/s);
-    // …and the batch's previous answers ride along for distinctness.
-    expect(payloads[0]!["previous_answers"]).toBeNull();
-    expect((payloads[1]!["previous_answers"] as unknown[]).length).toBe(1);
-    expect((payloads[2]!["previous_answers"] as unknown[]).length).toBe(2);
-    // The model's abstention (null) is still honored.
-    expect(r.answers.map((a) => a.fieldId)).toEqual(["q1", "q2"]);
+    expect(calls).toBe(1);
+    const asked = payloads[0]!["questions"] as Array<{ key: string; question: string }>;
+    expect(asked.map((q) => q.key)).toEqual(["q1", "q2", "q3"]);
+    expect(asked[1]!.question).toMatch(/exceptional ability.*Second example:/s);
+    expect(asked[2]!.question).toMatch(/exceptional ability.*Third example:/s);
+    expect(r.answers.map((a) => a.fieldId)).toEqual(["f1", "f2"]);
     expect(r.notes.join(" ")).toMatch(/abstained.*Third example/);
+  });
+
+  // #221: a ranking is a one-line answer; the 40-word essay floor used to
+  // reject every correct response to it (live DRW 2026-09-09).
+  it("a short-answer question keeps its one-line answer, and the model is told what shape to write", async () => {
+    const payloads: Array<Record<string, unknown>> = [];
+    const capture: EmailLlmClient = {
+      async generateJson(input) {
+        payloads.push(modelPayload(input));
+        return {
+          text: JSON.stringify({
+            answers: [{ key: "q1", answer: "Chicago, New York, Austin, Houston, Greenwich." }],
+          }),
+          model: "stub",
+        };
+      },
+    };
+    const r = await generateEssayAnswers({
+      items: [{ fieldId: "loc", question: "Please rank your location preference in order of most to least preferred: Austin, Chicago, Greenwich, Houston, New York" }],
+      client: capture,
+    });
+    const asked = payloads[0]!["questions"] as Array<{ expects: string }>;
+    expect(asked[0]!.expects).toBe("short");
+    expect(r.answers).toHaveLength(1);
+    expect(r.answers[0]!.answer).toBe("Chicago, New York, Austin, Houston, Greenwich.");
+  });
+
+  // House rule: "Demographic / EEO / pronoun fields never take this path."
+  it("never sends a demographic, authorization or compensation question to the model (#221)", async () => {
+    let calls = 0;
+    const capture: EmailLlmClient = {
+      async generateJson() {
+        calls += 1;
+        return { text: JSON.stringify({ answers: [] }), model: "stub" };
+      },
+    };
+    const r = await generateEssayAnswers({
+      items: [
+        { fieldId: "eeo", question: "How would you describe your racial/ethnic background? (mark all that apply)" },
+        { fieldId: "vis", question: "Will you now or in the future require visa sponsorship?" },
+        { fieldId: "pay", question: "What is your desired pay for this role?" },
+      ],
+      client: capture,
+    });
+    expect(calls).toBe(0);
+    expect(r.answers).toEqual([]);
+    expect(r.notes.filter((n) => /never model-answered/.test(n))).toHaveLength(3);
   });
 });

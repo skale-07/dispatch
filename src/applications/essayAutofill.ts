@@ -6,7 +6,22 @@ import {
   type EmailLlmClient,
 } from "../contacts/emailLlm.js";
 import { llmTraceEvent, postSandboxTrace } from "../sandbox/trace.js";
-import { tryLoadAboutMe, validateDraft } from "./essayDraft.js";
+import {
+  MIN_WORDS_BY_SHAPE,
+  expectedAnswerShape,
+  tryLoadAboutMe,
+  validateDraft,
+} from "./essayDraft.js";
+
+/**
+ * Questions the model must never answer, checked before any call (#221).
+ * These fill from the operator's encrypted sensitive profile or stay
+ * empty — never from generated prose. Kept deliberately broad: a false
+ * positive costs one parked field, a false negative writes an invented
+ * demographic or authorization claim to an employer.
+ */
+const SENSITIVE_QUESTION =
+  /\b(rac(e|ial)|ethnic(ity)?|hispanic|latino|gender|sex|pronouns?|veteran|disabilit(y|ies)|disabled|sexual orientation|transgender|citizen(ship)?|visa|sponsorship|work authoriz(ation|ed)|authorized to work|felony|convict(ed|ion)|criminal|salary|compensation|pay expectation|desired pay|date of birth|\bage\b)\b/i;
 
 /**
  * Essay autofill (operator directive 2026-08-13: "Essays should be
@@ -40,12 +55,16 @@ Rules:
 - Facts about the CANDIDATE come ONLY from candidate_context. Never invent an employer, a school, a metric, a date, or a project.
 - posting_context (when present) is text taken from the employer's own posting and application pages — the company name, the role, what the team does. Use it to know who the employer is and to connect the candidate's real background to the role ("why us" reasoning). Never invent employer facts beyond it.
 - If neither context supports an answer, return null. A missing answer is far better than an invented one.
-- previous_answers (when given) are this application's already-written answers to sibling questions. For "Second/Third example" style follow-ups, write a DIFFERENT example than those; return null only when the candidate context has no further distinct material.
+- PREFERENCE and CHOICE questions are different from factual ones: ranking an employer's offices, which team or track interests you, an earliest start date, "why this company". The candidate context will not state these, and returning null leaves a REQUIRED field blank and blocks the application. Answer them: pick a reasonable position grounded in what candidate_context does show (where they live, what they study, what they have built) and state it plainly, with no hedging about how mild the preference is. Return null only when answering would require inventing a fact about their history, credentials, or authorization.
+- Match the length the question asks for. A ranking, a date, or a single choice is one sentence — never pad it to reach a word count.
+- You receive EVERY question on one application form together. Answer each one, and make them work as a set: never reuse the same project or anecdote twice, and for "Second/Third example" style follow-ups give genuinely different material from the sibling answers in the same response.
+- Each question carries an "expects" hint: "short" means a ranking, date or single choice — answer in one sentence; "essay" means prose.
 - Write first person, plain and specific. No preamble, no sign-off, no headings.
-- 90-200 words unless the question asks for less.
+- 90-200 words for an essay question; far less for a preference, ranking, date, or single-choice question.
 - Do not mention being an AI, and do not use bracketed placeholders.
 
-Respond with JSON only: {"answer":"<text>"} or {"answer":null}`;
+Respond with JSON only, one entry per question, each key copied verbatim from the question it answers:
+{"answers":[{"key":"q1","answer":"<text>"},{"key":"q2","answer":null}]}`;
 
 export type EssayAutofillItem = {
   fieldId: string;
@@ -188,50 +207,80 @@ export async function generateEssayAnswers(input: {
 
   const client = input.client ?? makeLlmClient("applier");
   const answers: EssayAutofillResult[] = [];
+  // #222 (operator directive 2026-09-09: "send the questions in batches …
+  // so you're not sending a bunch of prompts and only sending one"): ONE
+  // call carries every answerable question on this form. Beyond the token
+  // saving (the about-me block was resent per question), the model sees
+  // the whole questionnaire at once — which is what actually makes a
+  // "Second example:" follow-up different from its sibling. The old loop
+  // had to replay previous answers to approximate that.
+  //
   // Follow-up shape (live neuralink 2026-08-30): "We look for evidence of
   // exceptional ability… 3-4 examples" then bare "Second example:" /
-  // "Third example:". Sent alone, the model has no parent question and no
-  // way to give a DIFFERENT example — it (correctly) abstained on the
-  // third. Carry the nearest preceding long question into follow-up labels
-  // and pass this batch's previous answers for distinctness.
-  const previous: Array<{ question: string; answer: string }> = [];
+  // "Third example:" — a bare follow-up still carries its parent question
+  // so the model knows what is being asked.
+  const askable: Array<{ key: string; item: EssayAutofillItem; question: string }> = [];
   let parentQuestion: string | null = null;
-  for (const item of items) {
+  for (const [index, item] of items.entries()) {
+    // #221 safety (house rule: "Demographic / EEO / pronoun fields never
+    // take this path"). Essay items are the questions FIELD MAPPING could
+    // not claim, so a mis-mapped demographic question can arrive here —
+    // #213 was exactly that ("How would you describe your racial/ethnic
+    // background?" went unmapped). Those are answered from the operator's
+    // encrypted sensitive profile or not at all; the model never sees
+    // them, so this is a deterministic skip BEFORE the call, not a prompt
+    // rule. Same for work authorization, salary, age and criminal history.
+    if (SENSITIVE_QUESTION.test(item.question)) {
+      notes.push(
+        `essay skipped (never model-answered): ${item.question.slice(0, 80)} — demographic/authorization/compensation questions fill only from the sensitive profile`,
+      );
+      continue;
+    }
     const isFollowUp = /^(first|second|third|fourth|fifth|next|another)?\s*(example|answer|response)\s*:?\s*$/i.test(
       item.question.trim(),
     );
     if (!isFollowUp && item.question.trim().length >= 40) {
       parentQuestion = item.question.trim();
     }
-    const question =
-      isFollowUp && parentQuestion
-        ? `${parentQuestion} — ${item.question.trim()}`
-        : item.question;
+    askable.push({
+      key: `q${index + 1}`,
+      item,
+      question:
+        isFollowUp && parentQuestion
+          ? `${parentQuestion} — ${item.question.trim()}`
+          : item.question,
+    });
+  }
+
+  if (askable.length > 0) {
+    // about-me is identical for every question in every application, and
+    // the posting is stable across one application's questions — both ride
+    // as cacheable context blocks, so only the question list varies.
+    // Effort is left at the provider default: this is prose a human reads,
+    // and validateDraft cannot catch a weak answer.
+    const context = [
+      JSON.stringify({ candidate_context: about }),
+      JSON.stringify({
+        company: input.job?.company ?? null,
+        role: input.job?.role ?? null,
+        posting_context: input.postingContext?.trim() || null,
+      }),
+    ];
+    if (input.approvedContext) {
+      context.push(JSON.stringify({ approved_application_context: input.approvedContext }));
+    }
+    const payload = {
+      questions: askable.map((a) => ({
+        key: a.key,
+        question: a.question,
+        expects: expectedAnswerShape(a.question),
+      })),
+    };
     try {
-      // about-me is identical for every question in every application —
-      // it was resent in full 114 times on 2026-09-03 — so it rides as a
-      // cacheable context block. The posting is stable across one
-      // application's questions, so it goes in a block of its own after
-      // it. Only the question and the sibling answers vary per call.
-      // Effort is left at the provider default: this is prose a human
-      // reads, and validateDraft cannot catch a weak answer.
-      const perCall = {
-        question,
-        previous_answers: previous.length > 0 ? previous.slice(-4) : null,
-      };
-      const context = [
-        JSON.stringify({ candidate_context: about }),
-        JSON.stringify({
-          company: input.job?.company ?? null,
-          role: input.job?.role ?? null,
-          posting_context: input.postingContext?.trim() || null,
-        }),
-      ];
-      if (input.approvedContext) context.push(JSON.stringify({ approved_application_context: input.approvedContext }));
       const { text } = await client.generateJson({
         system: SYSTEM_PROMPT,
         context,
-        user: JSON.stringify(perCall),
+        user: JSON.stringify(payload),
       });
       if (input.traceUrl) {
         await postSandboxTrace(
@@ -239,33 +288,54 @@ export async function generateEssayAnswers(input: {
           llmTraceEvent({
             surface: "essay",
             system: SYSTEM_PROMPT,
-            user: [...context, JSON.stringify(perCall)].join("\n"),
+            user: [...context, JSON.stringify(payload)].join("\n"),
             response: text,
           }),
         );
       }
-      const parsed = JSON.parse(text) as { answer?: unknown };
-      if (parsed.answer === null || parsed.answer === undefined) {
-        notes.push(
-          `essay not answered (model abstained): ${item.question.slice(0, 80)}`,
-        );
-        continue;
+      const parsed = JSON.parse(text) as {
+        answers?: Array<{ key?: unknown; answer?: unknown }>;
+      };
+      const byKey = new Map(askable.map((a) => [a.key, a]));
+      const seen = new Set<string>();
+      for (const row of parsed.answers ?? []) {
+        if (typeof row?.key !== "string") continue;
+        const target = byKey.get(row.key);
+        // A key the model invented answers no field on this form.
+        if (!target || seen.has(row.key)) continue;
+        seen.add(row.key);
+        if (row.answer === null || row.answer === undefined) {
+          notes.push(
+            `essay not answered (model abstained): ${target.item.question.slice(0, 80)}`,
+          );
+          continue;
+        }
+        // Same validator as the human-review drafting path — a generated
+        // answer good enough to fill must be good enough to show a human.
+        // #221: the word floor follows the question's shape, so a correct
+        // one-line ranking is no longer rejected as "too short".
+        const check = validateDraft(row.answer, {
+          minWords: MIN_WORDS_BY_SHAPE[expectedAnswerShape(target.question)],
+        });
+        if (!check.ok) {
+          notes.push(
+            `essay draft rejected (${check.reason}): ${target.item.question.slice(0, 80)}`,
+          );
+          continue;
+        }
+        answers.push({
+          fieldId: target.item.fieldId,
+          question: target.item.question,
+          answer: (row.answer as string).trim(),
+        });
       }
-      // Same validator as the human-review drafting path — a generated
-      // answer good enough to fill must be good enough to show a human.
-      const check = validateDraft(parsed.answer);
-      if (!check.ok) {
-        notes.push(
-          `essay draft rejected (${check.reason}): ${item.question.slice(0, 80)}`,
-        );
-        continue;
+      for (const a of askable) {
+        if (!seen.has(a.key)) {
+          notes.push(
+            `essay not returned by the model: ${a.item.question.slice(0, 80)}`,
+          );
+        }
       }
-      answers.push({
-        fieldId: item.fieldId,
-        question: item.question,
-        answer: (parsed.answer as string).trim(),
-      });
-      previous.push({ question, answer: String(parsed.answer).slice(0, 400) });
     } catch (err) {
       notes.push(
         `essay generation failed (parks as before): ${err instanceof Error ? err.message.slice(0, 140) : String(err)}`,

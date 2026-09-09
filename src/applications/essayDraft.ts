@@ -65,11 +65,43 @@ export type EssayDraftReport = {
   notes: string[];
 };
 
+/**
+ * #221 (live DRW 2026-09-09): "Please rank your location preference in
+ * order of most to least preferred: Austin, Chicago, Greenwich, Houston,
+ * New York" is a one-line answer, and the 40-word floor below rejected
+ * every correct response to it — the draft path only cleared the floor by
+ * padding its ranking with hedging prose. A question that asks the
+ * candidate to rank/choose/list among options it names, or that asks for
+ * brevity outright, expects a short answer; everything else is an essay
+ * and keeps the original floor. Deterministic, question-text only.
+ */
+export function expectedAnswerShape(question: string): "short" | "essay" {
+  const q = question.toLowerCase().replace(/\s+/g, " ");
+  // "Describe/explain/why" wins: "rank the projects you describe…" is prose.
+  if (/\b(describe|explain|elaborate|tell us about|why (do|are|would) you)\b/.test(q)) {
+    return "essay";
+  }
+  if (/\b(rank|order|list|choose|select|specify|indicate)\b/.test(q)) return "short";
+  if (/\b(briefly|one sentence|a few words|short answer)\b/.test(q)) return "short";
+  if (/\bin \d+ words or (less|fewer)\b/.test(q)) return "short";
+  if (/\b(how many|what date|which date|earliest start|notice period|available to start)\b/.test(q)) {
+    return "short";
+  }
+  return "essay";
+}
+
+/** Word floor per answer shape — a ranking is not a weak essay (#221). */
+export const MIN_WORDS_BY_SHAPE = { short: 2, essay: 40 } as const;
+
 /** Deterministic checks the model output must survive — never trusted raw. */
-export function validateDraft(draft: unknown): { ok: boolean; reason: string } {
+export function validateDraft(
+  draft: unknown,
+  options: { minWords?: number } = {},
+): { ok: boolean; reason: string } {
   if (typeof draft !== "string") return { ok: false, reason: "not a string" };
+  const minWords = options.minWords ?? MIN_WORDS_BY_SHAPE.essay;
   const words = draft.trim().split(/\s+/).filter(Boolean).length;
-  if (words < 40) return { ok: false, reason: `too short (${words} words)` };
+  if (words < minWords) return { ok: false, reason: `too short (${words} words)` };
   if (words > 260) return { ok: false, reason: `too long (${words} words)` };
   if (/\[(insert|your|todo|placeholder|name)/i.test(draft)) {
     return { ok: false, reason: "contains placeholder brackets" };
