@@ -1,0 +1,641 @@
+{
+  "ats": "workday",
+  "url": "https://spgi.wd5.myworkdayjobs.com/spgi_careers/job/Cambridge-MA/Machine-Learning-Engineer---Summer-Intern-2027_331714-1",
+  "requested_url": "https://spgi.wd5.myworkdayjobs.com/spgi_careers/job/Cambridge-MA/Machine-Learning-Engineer---Summer-Intern-2027_331714-1",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://spgi.wd5.myworkdayjobs.com/en-US/spgi_careers/job/Cambridge%2C-MA/Machine-Learning-Engineer---Summer-Intern-2027_331714-1/apply/applyManually",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 14,
+    "skipped_count": 4,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "source--source",
+      "label": "How Did You Hear About Us?",
+      "type": "select",
+      "canonical_field": "how_heard",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "candidateIsPreviousWorker",
+      "label": "Are you a former employee or returning applicant?",
+      "type": "radio",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "employment row 44 — the profile holds one entry; not answered from the bank"
+    },
+    {
+      "field_id": "f_3",
+      "label": "Have you previously worked for S&P Global or any of it's affiliates? Current Employees, please exit this site and apply via the internal Workday careers worklet.",
+      "type": "text",
+      "canonical_field": "screener:previously_applied_or_worked",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "name--legalName--firstName",
+      "label": "First Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "name--legalName--lastName",
+      "label": "Last Name",
+      "type": "text",
+      "canonical_field": "legal_name.last",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "name--preferredCheck",
+      "label": "I have a preferred name",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "address--addressLine1",
+      "label": "Address Line 1",
+      "type": "text",
+      "canonical_field": "address.line1",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "address--city",
+      "label": "City",
+      "type": "text",
+      "canonical_field": "address.city",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f_9",
+      "label": "Address",
+      "type": "text",
+      "canonical_field": "address.line1",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "address--postalCode",
+      "label": "Postal Code",
+      "type": "text",
+      "canonical_field": "address.postal_code",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f_11",
+      "label": "Phone",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phoneNumber--countryPhoneCode",
+      "label": "Country Phone Code",
+      "type": "select",
+      "canonical_field": "address.country",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phoneNumber--phoneNumber",
+      "label": "Phone Number",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phoneNumber--extension",
+      "label": "Phone Extension",
+      "type": "text",
+      "canonical_field": "screener:custom:phone_extension",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "a6d47",
+      "label": "field_15",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "country--country",
+      "label": "Country",
+      "type": "select",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "address--countryRegion",
+      "label": "State",
+      "type": "select",
+      "canonical_field": "address.state",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phoneNumber--phoneType",
+      "label": "Phone Device Type",
+      "type": "select",
+      "canonical_field": "screener:custom:phone_device_type",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\workday-live\\form-snapshot-1788990155004.html",
+  "fill": {
+    "filled": [
+      "screener:previously_applied_or_worked",
+      "legal_name.first",
+      "legal_name.last",
+      "address.line1",
+      "address.city",
+      "address.postal_code",
+      "address.country",
+      "phone",
+      "screener:custom:phone_extension",
+      "address.state",
+      "screener:custom:phone_device_type"
+    ],
+    "skipped": [
+      "f_9 (address.line1) — anchorless twin of an anchored canonical (#69)",
+      "f_11 (phone) — anchorless twin of an anchored canonical (#69)"
+    ],
+    "errors": [
+      "source--source: combobox option not committed: opened via control click; filter yielded no/unmatched options; re-collected unfiltered (residue cleared); scroll-harvested 13 option(s); stored answer \"LinkedIn\" not offered — class fallback picked \"Social Media\""
+    ],
+    "field_meta": [
+      {
+        "field_id": "source--source",
+        "canonical_field": "how_heard",
+        "control_kind": "combobox",
+        "selected_option": "Social Media",
+        "match_via": "synonym",
+        "notes": [
+          "opened via control click",
+          "filter yielded no/unmatched options; re-collected unfiltered (residue cleared)",
+          "scroll-harvested 13 option(s)",
+          "stored answer \"LinkedIn\" not offered — class fallback picked \"Social Media\""
+        ]
+      },
+      {
+        "field_id": "f_3",
+        "canonical_field": "screener:previously_applied_or_worked",
+        "control_kind": "text",
+        "selected_option": "No"
+      },
+      {
+        "field_id": "name--legalName--firstName",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "name--legalName--lastName",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "address--addressLine1",
+        "canonical_field": "address.line1",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "address--city",
+        "canonical_field": "address.city",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "address--postalCode",
+        "canonical_field": "address.postal_code",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "phoneNumber--countryPhoneCode",
+        "canonical_field": "address.country",
+        "control_kind": "combobox",
+        "selected_option": "United States of America (+1)",
+        "match_via": "exact",
+        "notes": [
+          "already committed \"United States of America (+1)\""
+        ]
+      },
+      {
+        "field_id": "phoneNumber--phoneNumber",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "phoneNumber--extension",
+        "canonical_field": "screener:custom:phone_extension",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "address--countryRegion",
+        "canonical_field": "address.state",
+        "control_kind": "combobox",
+        "selected_option": "Maryland",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Maryland\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "phoneNumber--phoneType",
+        "canonical_field": "screener:custom:phone_device_type",
+        "control_kind": "combobox",
+        "selected_option": "Mobile",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "opened via JS click (mouse click swallowed)",
+          "picked \"Mobile\" (exact) from open list"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": false,
+    "fields": [
+      {
+        "canonical_field": "how_heard",
+        "expected": "LinkedIn",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "match": false
+      },
+      {
+        "canonical_field": "screener:previously_applied_or_worked",
+        "expected": "No",
+        "observed": {
+          "value": "false",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.last",
+        "expected": "Kale",
+        "observed": "Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "address.line1",
+        "expected": "3510 N Charles St",
+        "observed": "3510 N Charles St",
+        "match": true
+      },
+      {
+        "canonical_field": "address.city",
+        "expected": "Baltimore",
+        "observed": "Baltimore",
+        "match": true
+      },
+      {
+        "canonical_field": "address.postal_code",
+        "expected": "21218",
+        "observed": "21218",
+        "match": true
+      },
+      {
+        "canonical_field": "address.country",
+        "expected": "United States",
+        "observed": {
+          "value": "United States of America (+1)",
+          "label": "United States of America (+1)"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:phone_extension",
+        "expected": "[REDACTED_PHONE]",
+        "observed": "[REDACTED_PHONE]",
+        "match": true
+      },
+      {
+        "canonical_field": "address.state",
+        "expected": "Maryland",
+        "observed": {
+          "value": "Maryland",
+          "label": "Maryland"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:phone_device_type",
+        "expected": "[REDACTED_PHONE]",
+        "observed": "[REDACTED]",
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 113810,
+      "verified": true,
+      "evidence": "input files: []; stillAttached=true; chip=true; resolved via primary"
+    }
+  ],
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: posting (no fields, Apply CTA present)",
+    "workday page kind at gate: posting",
+    "login wall on spgi.wd5.myworkdayjobs.com: no_form_found; fields[email=false password=false confirm=false]; submit=[Sign In | Submit A General Application]",
+    "portal auth: clicked \"Apply\" (attempt 1)",
+    "portal auth: clicked Apply Manually (attempt 2)",
+    "portal auth: account form rendered after Apply Manually",
+    "standing portal login used for spgi.wd5.myworkdayjobs.com",
+    "portal auth: flipped Create Account → Sign In (standing credentials)",
+    "portal auth sign_in: form cleared",
+    "workday page kind after auth: wizard",
+    "section-expand: expanded 2 collapsed section(s)",
+    "section-expand: expanded \"Settings\"",
+    "section-expand: expanded \"skale072007@gmail.com\"",
+    "option harvest: \"Phone Device Type\" is a combobox but offered no readable options",
+    "option harvest: scraped real options for 2/12 control(s) before planning",
+    "timing: base page (18 planned) — plan 2s, fill 80s, verify 1s",
+    "retype: how_heard re-pick not committed — stored answer \"LinkedIn\" not offered — class fallback picked \"Social Media\"",
+    "page error scan: no visible validation errors on the page",
+    "resume on disk but this page has no file input — not an upload miss",
+    "wizard option harvest: \"Phone Device Type\" is a combobox but offered no readable options",
+    "wizard option harvest: scraped real options for 2/12 control(s) before planning",
+    "wizard option harvest: \"Country\"×250, \"State\"×61",
+    "wizard fill error: source--source: combobox option not committed: opened via control click; filter yielded no/unmatched options; re-collected unfiltered (residue cleared); scroll-harvested 13 option(s); stored answer \"LinkedIn\" not offered — class fallback picked \"Social Media\"",
+    "wizard plan skips (4): \"Are you a former employee or returning applicant?\"→employment row 44 — the profile holds one entry; n | \"I have a preferred name\"→No answer-alias mapping | \"field_15\"→No answer-alias mapping | \"Country\"→No answer-alias mapping",
+    "wizard plan skips (1): \"Select files\"→File uploads handled via uploadResume/uploadCoverL",
+    "wizard option harvest: \"As part of the recruitment process, you may be invited to co\" is a combobox but offered no readable options",
+    "wizard option harvest: \"Do you consent to S&P Global retaining your application to c\" is a combobox but offered no readable options",
+    "wizard option harvest: scraped real options for 7/10 control(s) before planning",
+    "wizard option harvest: \"Are you legally authorized to work in th\"×3, \"Do you, or will you in the future, requi\"×3, \"Are you willing to relocate for the posi\"×4, \"What is your notice period?\"×5, \"What types of schedules you are willing \"×4, \"Are any of your personal relations or bl\"×3",
+    "wizard fill error: primaryQuestionnaire--e29ea976174b1001c987ab7c32f00005: combobox option not committed: opened via control click; filter typing skipped: control is a button (not typeable); button popup already open; picking from it directly; no option matches \"Yes\" (options: )",
+    "wizard plan skips (4): \"What is your desired annual gross base salary in your local \"→essay skipped (never model-answered): What is your | \"Candidate Consent: Use of AI-Assisted Screening Tool (HiredS\"→Demographics deferred to sensitive-profile policy  | \"field_9\"→No answer-alias mapping | \"field_10\"→No answer-alias mapping",
+    "wizard retype: screener:custom:predicted:primaryQuestionnaire--e29ea976174b1001c987ab7c32f00005 re-pick not committed — no option matches \"Yes\" (options: )",
+    "wizard option harvest: \"Are you legally authorized to work in the country to which y\" could not be opened (locator.click: Timeout 2500ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[)",
+    "wizard option harvest: scraped real options for 9/11 control(s) before planning",
+    "wizard option harvest: \"Do you, or will you in the future, requi\"×3, \"Are you willing to relocate for the posi\"×4, \"If yes, do you require relocation assist\"×3, \"What is your notice period?\"×5, \"What types of schedules you are willing \"×4, \"Are any of your personal relations or bl\"×3",
+    "wizard plan skips (4): \"What is your desired annual gross base salary in your local \"→essay skipped (never model-answered): What is your | \"Candidate Consent: Use of AI-Assisted Screening Tool (HiredS\"→Demographics deferred to sensitive-profile policy  | \"field_10\"→No answer-alias mapping | \"field_11\"→No answer-alias mapping",
+    "wizard option harvest: \"As part of the recruitment process, you may be invited to co\" is a combobox but offered no readable options",
+    "wizard option harvest: scraped real options for 9/11 control(s) before planning",
+    "wizard option harvest: \"Are you legally authorized to work in th\"×3, \"Do you, or will you in the future, requi\"×3, \"Are you willing to relocate for the posi\"×4, \"If yes, do you require relocation assist\"×3, \"What is your notice period?\"×5, \"What types of schedules you are willing \"×4",
+    "wizard plan skips (4): \"What is your desired annual gross base salary in your local \"→essay skipped (never model-answered): What is your | \"Candidate Consent: Use of AI-Assisted Screening Tool (HiredS\"→Demographics deferred to sensitive-profile policy  | \"field_10\"→No answer-alias mapping | \"field_11\"→No answer-alias mapping",
+    "wizard option harvest: \"If yes, do you require relocation assistance?\" is a combobox but offered no readable options",
+    "wizard option harvest: \"What types of schedules you are willing to work?\" is a combobox but offered no readable options",
+    "wizard option harvest: \"Do you consent to S&P Global retaining your application to c\" is a combobox but offered no readable options",
+    "wizard option harvest: scraped real options for 7/11 control(s) before planning",
+    "wizard option harvest: \"Are you legally authorized to work in th\"×3, \"Do you, or will you in the future, requi\"×3, \"Are you willing to relocate for the posi\"×4, \"What is your notice period?\"×5, \"Are any of your personal relations or bl\"×3, \"As part of the recruitment process, you \"×3",
+    "wizard fill error: primaryQuestionnaire--e29ea976174b1001c987ab7c32f00005: combobox option not committed: opened via control click; filter typing skipped: control is a button (not typeable); button popup was closed; reopened for the unfiltered pick; scroll-harvested 2 option(s); drill scan skipped (not a Workday multiselect prompt, or a yes/no answer — flat rows are answers, not categories); no option matches \"Yes\" (options: Select One | I consent to S&P retaining my application to consider me for future job opportunities, using HiredScore. | I DO NOT consent to S&P retaining my application to consider me for future job opportunities, using HiredScore.)",
+    "wizard plan skips (4): \"What is your desired annual gross base salary in your local \"→essay skipped (never model-answered): What is your | \"Candidate Consent: Use of AI-Assisted Screening Tool (HiredS\"→Demographics deferred to sensitive-profile policy  | \"field_10\"→No answer-alias mapping | \"field_11\"→No answer-alias mapping",
+    "wizard page error: field \"Candidate Consent: Use of AI-Assisted Screening Tool (HiredS\": current value is MM/DD/YYYY",
+    "wizard page error: field \"Candidate Consent: Use of AI-Assisted Screening Tool (HiredS\": invalid (aria-invalid)",
+    "wizard option harvest: \"Are you willing to relocate for the position?\" is a combobox but offered no readable options",
+    "wizard option harvest: \"As part of the recruitment process, you may be invited to co\" is a combobox but offered no readable options",
+    "wizard option harvest: scraped real options for 8/11 control(s) before planning",
+    "wizard option harvest: \"Are you legally authorized to work in th\"×3, \"Do you, or will you in the future, requi\"×3, \"If yes, do you require relocation assist\"×3, \"What is your notice period?\"×5, \"What types of schedules you are willing \"×4, \"Are any of your personal relations or bl\"×3",
+    "wizard plan skips (4): \"What is your desired annual gross base salary in your local \"→essay skipped (never model-answered): What is your | \"Candidate Consent: Use of AI-Assisted Screening Tool (HiredS\"→Demographics deferred to sensitive-profile policy  | \"field_10\"→No answer-alias mapping | \"field_11\"→No answer-alias mapping",
+    "wizard option harvest: \"Are you willing to relocate for the position?\" is a combobox but offered no readable options",
+    "wizard option harvest: \"What types of schedules you are willing to work?\" is a combobox but offered no readable options",
+    "wizard option harvest: \"As part of the recruitment process, you may be invited to co\" is a combobox but offered no readable options",
+    "wizard option harvest: \"Do you consent to S&P Global retaining your application to c\" is a combobox but offered no readable options",
+    "wizard option harvest: \"Are you legally authorized to work in th\"×3, \"Do you, or will you in the future, requi\"×3, \"If yes, do you require relocation assist\"×3, \"What is your notice period?\"×5, \"Are any of your personal relations or bl\"×3, \"Do you consent to S&P Global using Hired\"×3",
+    "wizard fill error: primaryQuestionnaire--e29ea976174b1001c987ab7c32f00005: combobox option not committed: opened via control click; filter typing skipped: control is a button (not typeable); button popup already open; picking from it directly; no option matches \"Yes\" (options: )",
+    "wizard plan skips (4): \"What is your desired annual gross base salary in your local \"→essay skipped (never model-answered): What is your | \"Candidate Consent: Use of AI-Assisted Screening Tool (HiredS\"→Demographics deferred to sensitive-profile policy  | \"field_10\"→No answer-alias mapping | \"field_11\"→No answer-alias mapping",
+    "wizard page error: field \"Candidate Consent: Use of AI-Assisted Screening Tool (HiredS\": current value is MM/DD/YYYY",
+    "wizard page error: field \"Candidate Consent: Use of AI-Assisted Screening Tool (HiredS\": invalid (aria-invalid)",
+    "wizard: page 2 never settled on a NEW page (heading still \"Machine Learning Engineer - Summer Intern 2027\") — planning on the current DOM",
+    "wizard: page 2 heading=\"Machine Learning Engineer - Summer Inter\" url…714-1/apply/applyManually shot=wizard-page-2-1788989569639.png",
+    "wizard: page 3 never settled on a NEW page (heading still \"Machine Learning Engineer - Summer Intern 2027\") — planning on the current DOM",
+    "wizard: page 3 heading=\"Machine Learning Engineer - Summer Inter\" url…714-1/apply/applyManually shot=wizard-page-3-1788989622233.png",
+    "wizard: page 4 never settled on a NEW page (heading still \"Machine Learning Engineer - Summer Intern 2027\") — planning on the current DOM",
+    "wizard: page 4 heading=\"Machine Learning Engineer - Summer Inter\" url…714-1/apply/applyManually shot=wizard-page-4-1788989636350.png",
+    "wizard: page 5 never settled on a NEW page (heading still \"Machine Learning Engineer - Summer Intern 2027\") — planning on the current DOM",
+    "wizard: page 5 heading=\"Machine Learning Engineer - Summer Inter\" url…714-1/apply/applyManually shot=wizard-page-5-1788989868339.png",
+    "wizard: page 6 never settled on a NEW page (heading still \"Machine Learning Engineer - Summer Intern 2027\") — planning on the current DOM",
+    "wizard: page 6 heading=\"Machine Learning Engineer - Summer Inter\" url…714-1/apply/applyManually shot=wizard-page-6-1788989964907.png",
+    "wizard: page 7 never settled on a NEW page (heading still \"Machine Learning Engineer - Summer Intern 2027\") — planning on the current DOM",
+    "wizard: page 7 heading=\"Machine Learning Engineer - Summer Inter\" url…714-1/apply/applyManually shot=wizard-page-7-1788990004232.png",
+    "wizard: page 8 never settled on a NEW page (heading still \"Machine Learning Engineer - Summer Intern 2027\") — planning on the current DOM",
+    "wizard: page 8 heading=\"Machine Learning Engineer - Summer Inter\" url…714-1/apply/applyManually shot=wizard-page-8-1788990063179.png",
+    "wizard: page 9 never settled on a NEW page (heading still \"Machine Learning Engineer - Summer Intern 2027\") — planning on the current DOM",
+    "wizard: page 9 heading=\"Machine Learning Engineer - Summer Inter\" url…714-1/apply/applyManually shot=wizard-page-9-1788990112309.png",
+    "wizard: filled 8 additional page(s) — wizard:11/14, wizard:0/0, wizard:7/14, wizard:9/16, wizard:9/16, wizard:8/16, wizard:9/16, wizard:8/16",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [
+    {
+      "field_id": "country--country",
+      "label": "Country",
+      "answer_space": "closed",
+      "option_count": 250,
+      "options": [
+        "Select One",
+        "Afghanistan",
+        "Åland Islands",
+        "Albania",
+        "Algeria",
+        "American Samoa",
+        "Andorra",
+        "Angola",
+        "Anguilla",
+        "Antigua and Barbuda",
+        "Argentina",
+        "Armenia",
+        "Aruba",
+        "Australia",
+        "Austria",
+        "Azerbaijan",
+        "Bahamas",
+        "Bahrain",
+        "Bangladesh",
+        "Barbados",
+        "Belarus",
+        "Belgium",
+        "Belize",
+        "Benin",
+        "Bermuda"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "address--countryRegion",
+      "label": "State",
+      "answer_space": "closed",
+      "option_count": 61,
+      "options": [
+        "Select One",
+        "Alabama",
+        "Alaska",
+        "American Samoa",
+        "Arizona",
+        "Arkansas",
+        "Armed Forces Americas",
+        "Armed Forces Europe",
+        "Armed Forces Pacific",
+        "California",
+        "Colorado",
+        "Connecticut",
+        "Delaware",
+        "District of Columbia",
+        "Florida",
+        "Georgia",
+        "Guam",
+        "Hawaii",
+        "Idaho",
+        "Illinois",
+        "Indiana",
+        "Iowa",
+        "Kansas",
+        "Kentucky",
+        "Louisiana"
+      ],
+      "other_option": null
+    }
+  ],
+  "wizard_pages": [
+    {
+      "page": 2,
+      "url": "https://spgi.wd5.myworkdayjobs.com/en-US/spgi_careers/job/Cambridge%2C-MA/Machine-Learning-Engineer---Summer-Intern-2027_331714-1/apply/applyManually",
+      "kind": "wizard",
+      "fillable": 14,
+      "filled": 11,
+      "verify_passed": false
+    },
+    {
+      "page": 3,
+      "url": "https://spgi.wd5.myworkdayjobs.com/en-US/spgi_careers/job/Cambridge%2C-MA/Machine-Learning-Engineer---Summer-Intern-2027_331714-1/apply/applyManually",
+      "kind": "wizard",
+      "fillable": 0,
+      "filled": 0,
+      "verify_passed": false
+    },
+    {
+      "page": 4,
+      "url": "https://spgi.wd5.myworkdayjobs.com/en-US/spgi_careers/job/Cambridge%2C-MA/Machine-Learning-Engineer---Summer-Intern-2027_331714-1/apply/applyManually",
+      "kind": "wizard",
+      "fillable": 14,
+      "filled": 7,
+      "verify_passed": false
+    },
+    {
+      "page": 5,
+      "url": "https://spgi.wd5.myworkdayjobs.com/en-US/spgi_careers/job/Cambridge%2C-MA/Machine-Learning-Engineer---Summer-Intern-2027_331714-1/apply/applyManually",
+      "kind": "wizard",
+      "fillable": 16,
+      "filled": 9,
+      "verify_passed": true
+    },
+    {
+      "page": 6,
+      "url": "https://spgi.wd5.myworkdayjobs.com/en-US/spgi_careers/job/Cambridge%2C-MA/Machine-Learning-Engineer---Summer-Intern-2027_331714-1/apply/applyManually",
+      "kind": "wizard",
+      "fillable": 16,
+      "filled": 9,
+      "verify_passed": true
+    },
+    {
+      "page": 7,
+      "url": "https://spgi.wd5.myworkdayjobs.com/en-US/spgi_careers/job/Cambridge%2C-MA/Machine-Learning-Engineer---Summer-Intern-2027_331714-1/apply/applyManually",
+      "kind": "wizard",
+      "fillable": 16,
+      "filled": 8,
+      "verify_passed": false
+    },
+    {
+      "page": 8,
+      "url": "https://spgi.wd5.myworkdayjobs.com/en-US/spgi_careers/job/Cambridge%2C-MA/Machine-Learning-Engineer---Summer-Intern-2027_331714-1/apply/applyManually",
+      "kind": "wizard",
+      "fillable": 16,
+      "filled": 9,
+      "verify_passed": true
+    },
+    {
+      "page": 9,
+      "url": "https://spgi.wd5.myworkdayjobs.com/en-US/spgi_careers/job/Cambridge%2C-MA/Machine-Learning-Engineer---Summer-Intern-2027_331714-1/apply/applyManually",
+      "kind": "wizard",
+      "fillable": 16,
+      "filled": 8,
+      "verify_passed": false
+    }
+  ],
+  "operator_brief": {
+    "title": "Live fill — workday https://spgi.wd5.myworkdayjobs.com/spgi_careers/job/Cambridge-MA/Machine-Learning-Engineer---Summer-Intern-2027_331714-1",
+    "summary": "2 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:how_heard",
+        "question": "How Did You Hear About Us?",
+        "field_id": "source--source",
+        "canonical_field": "how_heard",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"LinkedIn\"; page shows \"(empty)\"",
+        "expected": "LinkedIn",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "how_to_answer": [
+          "Type the intended value on the form (planned: LinkedIn). If a places/autocomplete list appears, select a matching suggestion; plain city text is enough when no list opens.",
+          "System expected \"LinkedIn\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → how_heard",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"how_heard\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "fill_error:source--source: combobox option not committed: opened via control click; filter ",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "source--source: combobox option not committed: opened via control click; filter yielded no/unmatched options; re-collected unfiltered (residue cleared); scroll-harvested 13 option(s); stored answer \"LinkedIn\" not offered — class fallback picked \"Social Media\"",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      }
+    ],
+    "ok_count": 11,
+    "fail_count": 2
+  },
+  "written_at": "2026-09-09T21:42:35.053Z"
+}
