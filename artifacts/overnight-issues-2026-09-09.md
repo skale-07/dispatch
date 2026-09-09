@@ -399,6 +399,21 @@ by hand again. The inspection step's OWN navigation (runPipeline
 `fetchEmployerPageHtml`, not liveInspect) was the goto that reset on
 Coinbase — it now carries the same embed fallback on both its page paths.
 
+## Issue #214 — duplicate outreach: 50 drafts to 13 people (operator 19:53 UTC)
+
+Every submit ran its own tail against the company's insider list, so 7
+Verkada submits → 7 drafts each to pavan.walvekar / krzysztof.dziurda /
+chen.cao (+5 to sanya.sharma), and Datadog's 8 insiders got 2 each.
+Fix: `filterAlreadyContacted` in outreachPipeline — a recipient address
+with a DRAFTED Gmail row for ANY other application inside a 30-day
+window is skipped before generation (no model call), noted per contact;
+same-address rows inside one application collapse too. Worker restarted
+on it at 19:55 (Datadog Summer had already drafted its 8 duplicates).
+Test: outreach-pipeline 10/10. Existing duplicate drafts are in the
+operator's Gmail Drafts; nothing here deletes them.
+
+## Job #12 — American Equity Data Engineer Intern (d2633c0f, JobRight-sourced) — SUBMITTED_VERIFIED (cycle 70)
+
 ## Note — never run `tests/unit/auto-cycle.test.ts` while the loop runs
 
 It writes real `artifacts/console/auto-cycle/cycle-*.json` files
