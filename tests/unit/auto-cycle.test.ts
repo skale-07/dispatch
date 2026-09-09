@@ -9,6 +9,15 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 // + debug Chrome shared this machine (overnight 2026-08-29 — timeouts,
 // never assertions; all pass standalone). File-wide 30s.
 vi.setConfig({ testTimeout: 30_000 });
+// No network in tests: the worker's uplink preflight (#203) reports "up".
+vi.mock("../../src/automation/connectivity.js", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("../../src/automation/connectivity.js")>();
+  return {
+    ...mod,
+    waitForConnectivity: async (opts: Parameters<typeof mod.waitForConnectivity>[0]) =>
+      opts.probe ? mod.waitForConnectivity(opts) : { online: true, probes: 1, waited_ms: 0 },
+  };
+});
 import {
   closeDatabase,
   migrate,

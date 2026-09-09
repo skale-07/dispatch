@@ -2,7 +2,19 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { randomUUID } from "node:crypto";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+
+// The worker's uplink preflight (#203) probes real hosts by default. Tests
+// never touch the network: without an injected probe the link is "up";
+// tests that pass `connectivityProbe` exercise the real bounded wait.
+vi.mock("../../src/automation/connectivity.js", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("../../src/automation/connectivity.js")>();
+  return {
+    ...mod,
+    waitForConnectivity: async (opts: Parameters<typeof mod.waitForConnectivity>[0]) =>
+      opts.probe ? mod.waitForConnectivity(opts) : { online: true, probes: 1, waited_ms: 0 },
+  };
+});
 import {
   closeDatabase,
   migrate,
@@ -461,6 +473,112 @@ describe("L3 automation worker (FIXTURE_CONFIRMED)", () => {
         expect(getApplication(db, second)?.state).toBe("APPLICATION_OPENING");
         expect(getApplication(db, second)?.attempt).toBe(1);
         expect(getApplication(db, first)?.state).toBe("QUEUED");
+      } finally {
+        applySafeFillEnv();
+      }
+    },
+    60_000,
+  );
+
+  it(
+    "preflight: no internet ⇒ network_unreachable before any app is picked (#203)",
+    async () => {
+      const a = seedQueuedApp();
+      const b = seedQueuedApp();
+      let probes = 0;
+      const report = await runAutomationSession({
+        db,
+        armRunId: arm(5, 25),
+        fixtureHtmlPath: GREENHOUSE_FIXTURE,
+        sleep: noSleep,
+        connectivityProbe: async () => {
+          probes += 1;
+          return false;
+        },
+      });
+      expect(report.stopped_reason).toBe("network_unreachable");
+      expect(report.apps_started).toBe(0);
+      expect(report.per_app).toEqual([]);
+      // Bounded: the default cap, never more.
+      expect(probes).toBe(8);
+      expect(report.notes.join(" ")).toMatch(/network unreachable after 8 probe\(s\)/);
+      // Nothing burned: both rows exactly as seeded.
+      expect(getApplication(db, a)?.state).toBe("QUEUED");
+      expect(getApplication(db, b)?.state).toBe("QUEUED");
+      expect(getApplication(db, a)?.attempt).toBe(1);
+    },
+    60_000,
+  );
+
+  it(
+    "mid-session uplink loss stops the session; the touched app keeps its state and the rest is untouched (#203)",
+    async () => {
+      const first = seedQueuedApp(true, false);
+      const second = seedQueuedApp(true, false);
+      applyControlledFillEnv({ NAVIGATION_ENABLED: "true" });
+      // Online at preflight, gone once the first navigation dies.
+      let online = true;
+      let restarts = 0;
+      try {
+        const report = await runAutomationSession({
+          db,
+          armRunId: arm(5, 25),
+          fixtureHtmlPath: GREENHOUSE_FIXTURE,
+          sleep: noSleep,
+          connectivityProbe: async () => online,
+          navigationRunner: async () => {
+            online = false;
+            throw new Error(
+              'page.goto: net::ERR_INTERNET_DISCONNECTED at https://jobright.ai/jobs/recommend\nCall log:\n  - navigating to "https://jobright.ai/jobs/recommend"',
+            );
+          },
+          cdpRestarter: async () => {
+            restarts += 1;
+            return { reachable: true, notes: [] };
+          },
+        });
+        expect(report.stopped_reason).toBe("network_unreachable");
+        expect(report.apps_started).toBe(1);
+        // Not a CDP wall — the Chrome restart path must not fire.
+        expect(restarts).toBe(0);
+        expect(report.notes.join(" ")).toMatch(/error \(network_unreachable\)/);
+        // Newest first: `second` was touched and parked pre-nav; `first` never picked.
+        expect(getApplication(db, second)?.state).toBe("APPLICATION_OPENING");
+        expect(getApplication(db, second)?.attempt).toBe(1);
+        expect(getApplication(db, first)?.state).toBe("QUEUED");
+      } finally {
+        applySafeFillEnv();
+      }
+    },
+    60_000,
+  );
+
+  it(
+    "a transient transport error continues when the probe says the link is back (#203)",
+    async () => {
+      const first = seedQueuedApp(true, false);
+      const second = seedQueuedApp(true, false);
+      applyControlledFillEnv({ NAVIGATION_ENABLED: "true" });
+      let navCalls = 0;
+      try {
+        const report = await runAutomationSession({
+          db,
+          armRunId: arm(5, 25),
+          fixtureHtmlPath: GREENHOUSE_FIXTURE,
+          sleep: noSleep,
+          connectivityProbe: async () => true,
+          navigationRunner: async () => {
+            navCalls += 1;
+            throw new Error("page.goto: net::ERR_NETWORK_CHANGED at https://example.com/apply");
+          },
+        });
+        // Both apps were attempted — the blip did not end the session.
+        expect(report.apps_started).toBe(2);
+        expect(navCalls).toBe(2);
+        expect(report.stopped_reason).toBe("queue_drained");
+        expect(report.notes.join(" ")).toMatch(/transient network error on .* — connectivity verified, continuing/);
+        expect(getApplication(db, first)?.state).toBe("APPLICATION_OPENING");
+        expect(getApplication(db, second)?.state).toBe("APPLICATION_OPENING");
       } finally {
         applySafeFillEnv();
       }

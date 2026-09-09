@@ -17,6 +17,40 @@ describe("matchCanonicalField name/id fallbacks", () => {
     ).toBe("current_company");
   });
 
+  // #204 (live cisco 2026-09-09, Phenom): the referrer's name/email is a
+  // third-person question — an identity alias must never claim it.
+  it("third-person / referred-by free-text fields never map to the candidate's identity", () => {
+    const aliases: Record<string, string[]> = {
+      email: ["Email", "Email address", "Email Address"],
+      "legal_name.first": ["First name", "Name"],
+      how_heard: ["How did you hear about us?", "Referral source"],
+    };
+    const text = (label: string, id = "f1", name = "") => ({
+      id,
+      label,
+      type: "text" as const,
+      required: false,
+      name,
+    });
+    // Label says "their" — the referrer, not the applicant.
+    expect(
+      matchCanonicalField(text("What's their name or email address?", "referredBy"), aliases),
+    ).toBeNull();
+    // Machine name alone is the tell when the label is generic.
+    expect(matchCanonicalField(text("Email address", "referrer_email"), aliases)).toBeNull();
+    expect(matchCanonicalField(text("Name", "f9", "referredByName"), aliases)).toBeNull();
+    expect(matchCanonicalField(text("Referred by", "f2"), aliases)).toBeNull();
+    // The applicant's own fields still map.
+    expect(matchCanonicalField(text("Email address", "email"), aliases)).toBe("email");
+    // A SELECT "Referral source" is a how-did-you-hear question and keeps its alias.
+    expect(
+      matchCanonicalField(
+        { id: "src", label: "Referral source", type: "select", required: false, name: "source" },
+        aliases,
+      ),
+    ).toBe("how_heard");
+  });
+
   // Live 2026-08-29 (Stripe 420e19f5): bare "University"/"Degree" aliases
   // hijacked verbose screener questions, and the fill typed profile values
   // into an internship-length dropdown. Single-word aliases claim labels,

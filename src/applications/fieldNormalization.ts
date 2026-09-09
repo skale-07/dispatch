@@ -172,6 +172,24 @@ function matchCanonicalFieldInner(
     return null;
   }
 
+  // #204 (live cisco 2026-09-09, Phenom `referredBy`): "What's their name
+  // or email address?" is the REFERRER's identity, not the candidate's.
+  // The phrase map's "email address" claimed it, the fill typed the
+  // operator's email into a field the form keeps hidden until "Were you
+  // referred?" is Yes, and verification parked the app. Third-person or
+  // referred-by phrasing on a free-text control never maps to an identity
+  // fact — ATS-general; a SELECT like "Referral source" still maps to
+  // how_heard through the alias map.
+  const freeText = field.type !== "select" && field.type !== "radio" && field.type !== "checkbox";
+  if (
+    freeText &&
+    (/\btheir\b/.test(normalized) ||
+      /\breferr(?:er|ed by)\b/.test(normalized) ||
+      /referr(?:ed|er)(?:by|name|email)?/i.test(`${nameHint} ${field.id ?? ""}`))
+  ) {
+    return null;
+  }
+
   let best: { canonical: string; score: number } | null = null;
 
   for (const [canonical, phrases] of Object.entries(aliases)) {

@@ -27,6 +27,11 @@ import {
 } from "./navRequeue.js";
 import { clearSkipRequest, isSkipRequested } from "./skipRequests.js";
 import { probeCdpAttach, restartCdpChrome } from "./cdpChrome.js";
+import {
+  DEFAULT_CONNECTIVITY_WAIT,
+  isNetworkOutageError,
+  waitForConnectivity,
+} from "./connectivity.js";
 import { auditEmployerUrls } from "../navigation/auditEmployerUrls.js";
 import { probeCdpEndpoint, type NavSession } from "../navigation/runNavigation.js";
 import { PlaywrightServiceSession } from "../auth/serviceSession.js";
@@ -83,6 +88,14 @@ export type AutomationStopReason =
    * cycle instead.
    */
   | "cdp_unrecoverable"
+  /**
+   * The box has no internet (issue #203, day28 2026-09-09: a 12-minute
+   * uplink drop burned 13 queued apps, one per cycle, against
+   * `net::ERR_INTERNET_DISCONNECTED`). Detected by a bounded probe before
+   * the first pick and again when an app dies of a transport error; the
+   * queue is left for the next cycle. ATS-agnostic by construction.
+   */
+  | "network_unreachable"
   | "error";
 
 export type AutomationAppResult = {
@@ -182,6 +195,11 @@ export type AutomationSessionInput = {
   cdpAttachProbe?: () => Promise<boolean>;
   /** Test seam: replaces the mid-session debug-Chrome restart. */
   cdpRestarter?: () => Promise<{ reachable: boolean; notes: string[] }>;
+  /**
+   * Test seam: replaces the internet probe (#203). Production probes two
+   * well-known hosts; the wait between probes goes through `sleep`.
+   */
+  connectivityProbe?: () => Promise<boolean>;
   /** Test seams for the post-submit outreach tail (drafts only, never send). */
   emailClient?: EmailLlmClient;
   /** Test seam for the post-session essay draft batch. */
@@ -556,7 +574,42 @@ export async function runAutomationSession(
     );
   }
 
-  await tryDiscover();
+  // Uplink preflight (#203): with no internet every pick is a guaranteed
+  // burn, so no application is touched until a bounded probe says the
+  // network is there. Same seam re-runs when an app dies of a transport
+  // error mid-session (see the catch below).
+  let networkDead = false;
+  const waitForNetwork = async (): Promise<boolean> => {
+    const r = await waitForConnectivity({
+      ...DEFAULT_CONNECTIVITY_WAIT,
+      ...(input.connectivityProbe ? { probe: input.connectivityProbe } : {}),
+      sleep,
+    });
+    if (!r.online) {
+      networkDead = true;
+      noteError("network_unreachable");
+      report.notes.push(
+        `network unreachable after ${r.probes} probe(s) over ${Math.round(r.waited_ms / 1000)}s — session stopped, queue left for the next cycle`,
+      );
+    }
+    return r.online;
+  };
+  /** Names the stop and logs it; the loop head and the app catch both use it. */
+  const stopForNetwork = (): void => {
+    report.stopped_reason = "network_unreachable";
+    logger.warn("automation loop exit: internet unreachable", {
+      service: "automation",
+      action: "session_stop",
+      metadata: {
+        arm_run_id: armRunId,
+        stopped_reason: report.stopped_reason,
+        apps_started: report.apps_started,
+      },
+    });
+  };
+  // Discovery is a network read too — skip it offline; the loop head below
+  // then exits through the same post-session path every other stop uses.
+  if (await waitForNetwork()) await tryDiscover();
   let appsSinceDiscover = 0;
   // Each app is attempted at most once per session (see pickNextApplication).
   const seen = new Set<string>();
@@ -593,6 +646,10 @@ export async function runAutomationSession(
   // The active-arm helper both validates status+expiry and lazily sweeps an
   // expired row, so it is the single source of truth for "still armed".
   for (let iter = 0; ; iter++) {
+    if (networkDead) {
+      stopForNetwork();
+      break;
+    }
     emit();
     // Liveness ping: a scheduled auto:cycle uses this to tell a working
     // session apart from a row left RUNNING by a killed process.
@@ -822,12 +879,15 @@ export async function runAutomationSession(
       }
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
+      const netWall = isNetworkOutageError(message);
       noteError(
         /lease/i.test(message)
           ? "lease_held"
           : /AUTH_REQUIRED/.test(message)
             ? "jobright_auth"
-            : "pipeline_error",
+            : netWall
+              ? "network_unreachable"
+              : "pipeline_error",
       );
       report.notes.push(`app ${appId} error (${lastErrorCode}): ${message.slice(0, 200)}`);
       logger.warn("automation worker: app error, continuing", {
@@ -870,7 +930,20 @@ export async function runAutomationSession(
         // Restart budget spent and the wall is back: every further app would
         // die the same way. Stop the session; the apps keep their state.
         cdpDead = true;
+      } else if (netWall) {
+        // Transport error, not a page: the app keeps its pre-nav state.
+        // Wait (bounded) for the link; continue only if it comes back.
+        if (await waitForNetwork()) {
+          report.notes.push(
+            `transient network error on ${appId} — connectivity verified, continuing`,
+          );
+        }
       }
+    }
+
+    if (networkDead) {
+      stopForNetwork();
+      break;
     }
 
     if (cdpDead) {

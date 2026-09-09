@@ -596,6 +596,7 @@
         "src/automation/autoCycle.ts": "scheduled headless cycle (desktop task)",
         "src/automation/artifactAutopush.ts": "ARTIFACT_AUTOPUSH_ENABLED git push of run artifacts",
         "src/automation/cdpChrome.ts": "CDP_AUTOLAUNCH_ENABLED debug-Chrome self-repair",
+        "src/automation/connectivity.ts": "#203 uplink guard: isNetworkOutageError + bounded waitForConnectivity; worker stops network_unreachable instead of burning the queue",
         "src/automation/skipRequests.ts": "requestSkip — cooperative operator skip; runPipeline reads it between steps so a stuck job can be abandoned at a safe boundary",
         "src/automation/extensionPreflight.ts": "extension presence probes (CDP target scan + DOM markers); verdict present|unknown, never confident absent"
       },

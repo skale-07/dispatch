@@ -1208,7 +1208,11 @@ tail counts (`emails_generated`, `drafts_saved`), and why the session
 stopped (`disarmed` / `expired` / `apps_cap` / `queue_drained` /
 `cdp_unrecoverable` — the debug Chrome would not attach and the bounded
 in-session restarts failed or ran out; the remaining queue is left untouched
-for the next cycle instead of failing every app in turn). Leftover
+for the next cycle instead of failing every app in turn /
+`network_unreachable` — the box has no internet: a bounded probe (8 tries
+over ~2 min) before the first pick, and again when an app dies of a
+transport error, came back empty; no further app is touched and the queue
+waits for the next cycle). Leftover
 apps sit at `READY_TO_SUBMIT` (budget spent) or in review (walls). Review
 items are the worklist; Outlook Drafts is the outreach review surface —
 nothing has been sent.
