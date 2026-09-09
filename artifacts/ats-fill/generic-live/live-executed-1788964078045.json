@@ -1,0 +1,236 @@
+{
+  "ats": "generic",
+  "url": "https://fa-etbx-saasfaprod1.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/32261",
+  "requested_url": "https://fa-etbx-saasfaprod1.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/32261",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://fa-etbx-saasfaprod1.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/32261/apply/email",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 2,
+    "skipped_count": 2,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "oda-work-summary-text-area|input",
+      "label": "Work Summary",
+      "type": "textarea",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "essay generation failed (parks as before): 401 {\"type\":\"error\",\"error\":{\"type\":\"authentication_error\",\"message\":\"API key is invalid.\"},\"request_id\":null}"
+    },
+    {
+      "field_id": "primary-email-1",
+      "label": "Email Address",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "legal-disclaimer-checkbox",
+      "label": "I agree to receive Navy Federal recruiting related messages via the communication method I have selected above. Please review our Terms and Conditions and Privacy Policy.",
+      "type": "checkbox",
+      "canonical_field": "application_consent:legal-disclaimer-checkbox",
+      "action": "FILL",
+      "reason": "Application terms/confirmation checkbox"
+    },
+    {
+      "field_id": "oda-chat-user-text-input",
+      "label": "Please type your request",
+      "type": "textarea",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "essay generation failed (parks as before): 401 {\"type\":\"error\",\"error\":{\"type\":\"authentication_error\",\"message\":\"API key is invalid.\"},\"request_id\":null}"
+    },
+    {
+      "field_id": "oda-work-summary-text-area|input",
+      "label": "Work Summary",
+      "type": "textarea",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "essay generation failed (parks as before): 401 {\"type\":\"error\",\"error\":{\"type\":\"authentication_error\",\"message\":\"API key is invalid.\"},\"request_id\":null}"
+    },
+    {
+      "field_id": "primary-email-1",
+      "label": "Email Address",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "legal-disclaimer-checkbox",
+      "label": "I agree to receive Navy Federal recruiting related messages via the communication method I have selected above. Please review our Terms and Conditions and Privacy Policy.",
+      "type": "checkbox",
+      "canonical_field": "application_consent:legal-disclaimer-checkbox",
+      "action": "FILL",
+      "reason": "Application terms/confirmation checkbox"
+    },
+    {
+      "field_id": "oda-chat-user-text-input",
+      "label": "Please type your request",
+      "type": "textarea",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "essay generation failed (parks as before): 401 {\"type\":\"error\",\"error\":{\"type\":\"authentication_error\",\"message\":\"API key is invalid.\"},\"request_id\":null}"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\generic-live\\form-snapshot-1788964077750.html",
+  "fill": {
+    "filled": [
+      "email",
+      "application_consent:legal-disclaimer-checkbox",
+      "email"
+    ],
+    "skipped": [],
+    "errors": [
+      "legal-disclaimer-checkbox: locator.check: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[id=\"legal-disclaimer-checkbox\"]').first()\u001b[22m\n"
+    ],
+    "field_meta": [
+      {
+        "field_id": "primary-email-1",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "legal-disclaimer-checkbox",
+        "canonical_field": "application_consent:legal-disclaimer-checkbox",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "primary-email-1",
+        "canonical_field": "email",
+        "control_kind": "text",
+        "notes": [
+          "already holds \"skale072007@gmail.com\" — verified in place, not retyped"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": false,
+    "fields": [
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "application_consent:legal-disclaimer-checkbox",
+        "expected": true,
+        "observed": null,
+        "match": false
+      }
+    ],
+    "uploads": [],
+    "warnings": [
+      "verify application_consent:legal-disclaimer-checkbox: control not found on the page (label \"I agree to receive Navy Federal recruiting related messages \") — failing fast instead of waiting 30s"
+    ]
+  },
+  "uploads": null,
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "navigation supervisor: form_ready (3 steps)",
+    "page class at gate: form (4 fillable field(s))",
+    "timing: base page (4 planned) — plan 1s, fill 1s, verify 0s",
+    "resume on disk but this page has no file input — not an upload miss",
+    "timing: revealed page (4 planned) — plan 0s, fill 134s, verify 29s",
+    "resolved advance: \"Next\"",
+    "form-advance: no page change after click — one retry (sweep + scroll + re-click)",
+    "form-advance: verify failed on page 2 — not advancing further",
+    "form-advance: filled 1 additional page(s) — form:1/2",
+    "submit not attempted — live fill never submits"
+  ],
+  "navigation_supervisor": {
+    "run_id": "supervisor-d61e2c65-ba9d-48c5-aba6-e5c089ef2caa",
+    "outcome": "form_ready",
+    "steps": [
+      {
+        "observation": "a3a95d94c74fa863",
+        "action": "click",
+        "reason": "one unambiguous Apply control",
+        "result": "action failed: elementHandle.click: Element is not attached to the DOM\nCall log:\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n",
+        "target": "control-0"
+      },
+      {
+        "observation": "0cc587f770114c95",
+        "action": "click",
+        "reason": "one unambiguous Apply control",
+        "result": "action failed: elementHandle.click: Timeout 5000ms exceeded.",
+        "target": "control-0"
+      },
+      {
+        "observation": "481388a4692788c1",
+        "action": "click",
+        "reason": "one unambiguous Apply control",
+        "result": "clicked observed control; next observation checks progress",
+        "target": "control-0"
+      }
+    ],
+    "notes": [
+      "model calls: 0 of 3 steps"
+    ],
+    "evidence": [
+      "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-d61e2c65-ba9d-48c5-aba6-e5c089ef2caa\\observation.json",
+      "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-d61e2c65-ba9d-48c5-aba6-e5c089ef2caa\\page.png"
+    ]
+  },
+  "harvested_options": [],
+  "wizard_pages": [
+    {
+      "page": 2,
+      "url": "https://fa-etbx-saasfaprod1.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/32261/apply/section/1",
+      "kind": "form",
+      "fillable": 2,
+      "filled": 1,
+      "verify_passed": false
+    }
+  ],
+  "operator_brief": {
+    "title": "Live fill — generic https://fa-etbx-saasfaprod1.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/32261/apply/email",
+    "summary": "2 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:application_consent:legal-disclaimer-checkbox",
+        "question": "I agree to receive Navy Federal recruiting related messages via the communication method I have selected above. Please review our Terms and Conditions and Privacy Policy.",
+        "field_id": "legal-disclaimer-checkbox",
+        "canonical_field": "application_consent:legal-disclaimer-checkbox",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"true\"; page shows \"(empty)\"",
+        "expected": true,
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"true\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: application_consent:legal-disclaimer-checkbox)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"application_consent:legal-disclaimer-checkbox\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "fill_error:legal-disclaimer-checkbox: locator.check: Timeout 30000ms exceeded.\nCall log:\n\u001b[",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "legal-disclaimer-checkbox: locator.check: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[id=\"legal-disclaimer-checkbox\"]').first()\u001b[22m\n",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      }
+    ],
+    "ok_count": 1,
+    "fail_count": 2
+  },
+  "written_at": "2026-09-09T14:27:58.259Z"
+}

@@ -298,6 +298,129 @@ Two layers:
   `fill_gate_page_identity page_hit: daylit`, the generic adapter plans
   the 8-field Polymer form.
 
+- Rerun 2 (22:44): refused before the gate — the two MANUAL items cycle 2
+  opened block the pipeline. Dismissed both by id
+  (`private/tmp-dismiss-daylit-reviews-20260908.ts`, note names #197);
+  rerun 3 launched 22:51.
+- **Rerun 3 (22:51, #197 LIVE_MUTATION_CONFIRMED for the gate):** phase B
+  → polymer URL; congruence now reads the PATH slug ("anchor reads as
+  lendica", polymer.co no longer an employer); fill gate logged
+  `fill_gate_page_identity page_hit: daylit, page_title "… at Daylit
+  (Formerly Lendica)"` and proceeded. Generic fill ran 9 fields
+  (fill_run 612ef648); verify failed → AMBIGUOUS_FIELD (detail below).
+
+## Issue #200 — careers-page subscription box planned as the applicant email; long react-select label lost (FIXTURE_CONFIRMED)
+
+Daylit rerun 3 verify: `email` expected the operator's address, page
+"(empty)" — but the report's verify list carries TWO `email` rows and the
+second (the real "Email address", `inputEmailaddress`) MATCHED. The empty
+one is `careers_page_subscription_email`: Polymer's "Subscribe to
+updates" modal (`<div class="subscribe-modal">`, CSS-hidden, same
+document) — planned FILL as canonical `email`. Had the fill reached it,
+the operator's real address would have gone into a job-alert signup
+(#162 doctrine). Second miss on the same form: `react-select-3-input`
+("Do you now, or will you ever require employment sponsorship…",
+REQUIRED) discovered as `field_7` and was SKIPPED, while its sibling
+`react-select-2-input` ("Are you legally authorized…") resolved — the
+sibling's label is 56 chars, this one 78: the wrapper div overflowed the
+caption regex's 200-char window, the "(required)" span cleaned to nothing,
+"select" is uninformative, no heading within 4KB ⇒ field_N.
+
+Fix (`applications/fieldDiscovery.ts`):
+- `isSubscriptionFurnitureAttrs`: id/class/data-target/data-controller
+  matching subscribe/subscription/newsletter/job-alert ⇒ the subtree is
+  dropped before discovery (same seam as the OneTrust strip).
+  `isListingPageChrome` also names `subscri(be|ption)_email` /
+  `newsletter_email` machine ids as chrome.
+- `nearestBareQuestionLabelInScope`: for a text/select input with an
+  uninformative label, a bare `<label>` (no `for`, no nested control)
+  sitting AFTER the previous form control is that field's own question —
+  taken before the caption/heading guess. Scoped so another field's label
+  can never be stolen.
+- Test `tests/unit/field-discovery-polymer.test.ts` (3) on the live
+  snapshot's markup: no subscription field, exactly one Email address,
+  both react-selects labeled, no `field_N` on the page.
+- Run 4 (23:02) exposed the first strip as too broad: Polymer mounts its
+  Stimulus controller on `<body data-controller="subscribe">`, so the
+  WHOLE document was dropped, discovery found 0 fields, the gate read
+  the page as `captcha` and refused NAVIGATION_INCOMPLETE. Narrowed to
+  id/class/data-target and guarded: a subscription-marked subtree with
+  more than 3 form controls is the page, never a widget (test added with
+  the live body attribute). Run 5 launched 23:06.
+- Run 5 (23:06–23:11): the #197 page read could not attach — "Debug
+  Chrome at 9222 is unresponsive (port answers but the CDP session won't
+  attach)"; the gate refused fail-closed (correct). By 23:12 no chrome.exe
+  existed at all: box at 220 MB free (Edge 2 GB, memory compression
+  1.2 GB, Cursor, WSL VM, OneDrive) — the debug Chrome died under memory
+  pressure. Dismissed the refusal's review item, restarted the debug
+  Chrome (`chrome:debug:jobright`, CDP up in 4s on the persistent
+  profile), run 6 launched 23:13. Direct `run --pipeline` has no CDP
+  restart preflight (the worker does) — follow-up.
+- Run 6 (23:13–23:16): identical attach failure on the FRESH Chrome. At
+  23:17 the box is at 82 MB free, chrome.exe down to one 28 MB process,
+  9222 no longer answering — the debug Chrome dies within minutes of
+  starting. Free memory fell 1.7 GB (21:35) → 477 MB (22:13) → 220 MB
+  (23:12) → 82 MB (23:17) as Cursor, a WSL VM and OneDrive joined Edge
+  (2 GB) and 1.2 GB of memory compression. This is the workstation's
+  load, not the project's. LIVE RUNS PAUSED; operator notified. Daylit
+  7669acfe sits in NATIVE_AUTOFILL_RUNNING with the correct URL and all
+  fixes in place; `run --pipeline --app 7669acfe… --submit --headed
+  --yes` resumes it once a debug Chrome can stay up.
+- Also seen: "page error: option Yes focused, 1 of 2…" is react-select's
+  aria-live announcement read by the page-error reader as an error —
+  warning only, no effect on the outcome; follow-up.
+
+## Job #3 — Morningstar Business Summer Internship (5acb1974, Workday)
+
+Cycle 3 (22:37, backlog). Phase A resolved `morningstar.wd5.myworkdayjobs.com`
+(anchor_href, congruence match). Workday walk reached My Information;
+fill reported "6 filled (held for submit)" but verify read ALL 12
+fields "(empty)" → AMBIGUOUS_FIELD, triage `park_for_operator`. The
+review payload's Playwright call logs are unambiguous: every field click
+timed out at 5s because `<ul role="menu" aria-labelledby=
+"account-submenu-button">` (and a sibling div) inside
+`[data-automation-id="header"]` "intercepts pointer events" — the
+header's account submenu was left OPEN over the form (the sign-in flow
+ends on the account menu). No typing ever reached the inputs.
+
+## Issue #198 — Workday header menu overlays the wizard (FIXTURE_CONFIRMED)
+
+- `workdaySelectorsV1.header.openMenu` (registry) names the open-menu
+  shapes; `closeWorkdayHeaderMenus(page)` (ats/workday/fill.ts) presses
+  Escape, then clicks the page heading as a neutral blur target, two
+  rounds, never a menu item; notes ride the report.
+- Called in atsLiveFill before the first Workday plan and at the top of
+  every wizard-page callback (a menu can reopen on any page).
+- Test `tests/unit/workday-header-menu.test.ts` (2): the live menu shape
+  over an input → closed via Escape, Sign Out never clicked, the field
+  is clickable afterwards; no menu ⇒ no-op.
+- Morningstar itself is NOT rerun tonight: by #199 it is now >24h old
+  (posted ~22:00 EDT 09-07). #198 is validated on the next Workday app.
+
+## Issue #199 — 24-hour posting/queue age policy (operator directive 22:47)
+
+"If the application was published over 24hrs ago it's not worth
+applying to. If an app in the queue is older than 24hrs then don't apply."
+
+- `src/jobs/postingAge.ts`: `parsePostedAgoMinutes` reads JobRight's
+  "N hours/days ago" text (kept in `description_text`; no structured
+  posted-at exists); `judgePostingAge` = stale when posting age > 24h
+  (job `created_at` − ago) OR queue age > 24h (app `created_at`).
+  Unknown posting age is not stale by itself (fail-open on missing
+  evidence; the queue-age half still applies).
+- Discovery: `evaluateEligibility` gains a `posting_age` check — a card
+  older than 24h is ineligible at discovery, with the age as evidence.
+- Loop: `pickNextApplication` (worker) joins the job row and, for QUEUED
+  rows only, abandons a stale row through the state machine
+  (`QUEUED → FAILED_FINAL`, reason "automation: skipped — posting
+  published Nh ago (> 24h; operator policy 2026-09-08)") and logs
+  `stale_skip`; in-flight states are the pipeline's to finish. Direct
+  `run --pipeline --app` is unaffected (operator override).
+- Tests `tests/unit/posting-age.test.ts` (6). Effect on tonight's queue:
+  IBM ×3 (queued 02:03–02:18 UTC 09-08) and Databricks (00:17) are
+  abandoned at the next pick; Morningstar (already parked) untouched.
+- Saved to memory: `posting-age-24h-policy`.
+
 ## Gmail tail — how it actually runs (operator asked 22:31)
 
 - `auto:cycle` (automation worker) runs `runOutreachTail` after every
