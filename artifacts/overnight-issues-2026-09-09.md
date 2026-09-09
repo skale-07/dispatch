@@ -414,6 +414,35 @@ operator's Gmail Drafts; nothing here deletes them.
 
 ## Job #12 — American Equity Data Engineer Intern (d2633c0f, JobRight-sourced) — SUBMITTED_VERIFIED (cycle 70)
 
+## Coinbase (all 6 rows) — excluded from automation for tonight (#212b)
+
+With the inspection fallback in place the embed app itself
+(job-boards.greenhouse.io/embed/job_app?for=coinbase&token=…) dies in
+this Chrome with "interrupted by another navigation to
+chrome-error://chromewebdata/" — a network-level failure for the
+coinbase board from the debug Chrome (curl from the same box: 200).
+Cycle 74 even relaunched the debug Chrome. Six rows
+(611ca480, 17422304, 34d05a05, 88b2bcfb, 08c46234, 79e75805) set
+automation_excluded so the picker moves on; not a code gap left open,
+a host to investigate with pixels when the loop is idle.
+
+## Issue #215 — stale .git/index.lock blocked autopush and operator commits (three times)
+
+index.lock files 4–7 min old with no git process behind them (5 MB
+index, cycles a minute apart). Fix in artifactAutopush: a lock older
+than 5 min is removed (with a note); a younger one held by a live git
+skips that push instead of failing it.
+
+## 20:12 — Two Sigma (ed0c4b90) and Peraton (3d6d6631) excluded for tonight
+
+Both are account-registration walls (Register / jibeapply); each pick
+cost 5 nav-supervisor model calls and ended NAVIGATION_INCOMPLETE
+(cycles 46, 51, 77, 78 for Two Sigma). Operator input needed; excluded
+so the budget goes to fillable rows. Gmail: American Equity (d2633c0f)
+5 people / 3 emails / 3 drafts — first tail under #214; the JobRight
+side of the dedupe is untested until a second posting from the same
+company submits.
+
 ## Note — never run `tests/unit/auto-cycle.test.ts` while the loop runs
 
 It writes real `artifacts/console/auto-cycle/cycle-*.json` files
