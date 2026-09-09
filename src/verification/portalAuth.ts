@@ -203,6 +203,89 @@ async function formOf(loc: Locator): Promise<Locator | null> {
   return loc.locator("xpath=./ancestor::form[1]");
 }
 
+/**
+ * Paced credential typing shared by the sign-in/create attempt and the
+ * username-first step. #102: fill()'s synthetic write passes read-back but
+ * some tenants' anti-bot layers ignore it — click, clear, type keystrokes;
+ * fill() only when the click is intercepted.
+ */
+async function typeCredential(f: Locator, text: string, settle: number): Promise<void> {
+  const clicked = await f.click({ timeout: 3_000 }).then(() => true, () => false);
+  if (!clicked) {
+    await f.fill(text, { timeout: 5_000 }).catch(() => undefined);
+    return;
+  }
+  await f.fill("").catch(() => undefined);
+  await f.pressSequentially(text, { delay: settle === 0 ? 0 : 60 }).catch(() => undefined);
+}
+
+/** Hosts/paths that are a sign-in surface by name (login.ibm.com, /oidc, /sso …). */
+const SIGN_IN_URL_RE =
+  /(^|\/\/|\.)(login|signin|sign-in|auth|accounts?|idp?|sso|idaas)\.|\/(login|signin|sign-in|auth|oidc|sso|idaas)(\/|$|\?)/i;
+const USERNAME_FIRST_SUBMIT_RE = /^(continue|next|sign in|log ?in|submit)$/i;
+
+/**
+ * #195 (live IBMid 2026-09-08, login.ibm.com; #192): a username-first wall
+ * shows ONE identifier input and a Continue — the password field renders
+ * only after the identifier is accepted. `locateAuthFields` read
+ * email=true / password=false and the flow answered not_an_auth_wall,
+ * while the navigation model had correctly called the page a sign-in
+ * gate three times. Type the standing username, click the page's own
+ * Continue, and wait (bounded) for a password input; the normal sign-in
+ * path then runs on the completed form.
+ *
+ * Guarded to sign-in shapes only — a login-looking URL, federated buttons,
+ * or a continue/next/sign-in submit — never a stray email input on a
+ * job-alert or newsletter form. "wall" means the page IS a sign-in gate
+ * but did not advance (identifier unknown to this portal, or a further
+ * wall): the caller reports wall_remains so the pipeline parks for auth
+ * instead of re-queuing into the same wall.
+ */
+async function advanceUsernameFirstWall(input: {
+  page: Page;
+  emailField: Locator;
+  username: string;
+  diagnosis: LoginWallDiagnosis;
+  notes: string[];
+  settle: number;
+}): Promise<"advanced" | "wall" | "not_sign_in"> {
+  const { page, emailField, username, diagnosis, notes, settle } = input;
+  const looksLikeSignIn =
+    SIGN_IN_URL_RE.test(page.url()) ||
+    diagnosis.federatedProviders.length > 0 ||
+    diagnosis.submitControls.some((n) => USERNAME_FIRST_SUBMIT_RE.test(n.trim()));
+  if (!looksLikeSignIn) return "not_sign_in";
+  const root = await authScope(page);
+  const submit =
+    (await visibleNamed(root, USERNAME_FIRST_SUBMIT_RE)) ??
+    (await firstVisible(root, "button[type='submit'], input[type='submit']"));
+  if (!submit) {
+    notes.push("portal auth: username-first wall has no continue control (#195)");
+    return "wall";
+  }
+  await typeCredential(emailField, username, settle);
+  if ((await emailField.inputValue().catch(() => "")).trim() === "") {
+    notes.push("portal auth: username-first identifier did not take — retyped once");
+    await typeCredential(emailField, username, settle);
+  }
+  await submit.click({ timeout: 5_000 }).catch(() => undefined);
+  const passwordRendered = await page
+    .locator(`${workdaySelectorsV1.auth.passwordInput}, input[type='password']`)
+    .first()
+    .waitFor({ state: "visible", timeout: AUTH_RESPONSE_WAIT_MS })
+    .then(() => true, () => false);
+  await settlePage(page, settle, 500);
+  if (passwordRendered) {
+    notes.push("portal auth: username-first wall — identifier accepted, password step rendered (#195)");
+    return "advanced";
+  }
+  const after = await diagnoseLoginWall(page);
+  notes.push(
+    `portal auth: username-first wall — no password step after Continue (${after.classification}${after.errorText ? ` — "${after.errorText.slice(0, 100)}"` : ""}); the identifier is likely unknown to this portal (#195)`,
+  );
+  return "wall";
+}
+
 async function locateAuthFields(page: Page): Promise<{
   email: Locator | null;
   password: Locator | null;
@@ -519,15 +602,30 @@ export async function authenticateAtsPortal(
       escalated: false,
     });
     if (codeOnly) return codeOnly;
-    notes.push("portal auth: no sign-in form on this page");
-    return {
-      status: "not_an_auth_wall",
-      verification_used: false,
-      escalated_to_create: false,
-      diagnosis: await diagnoseLoginWall(page),
-      notes,
-      secrets,
-    };
+    // #195: identifier-only sign-in step (IBMid, Okta/Auth0-style walls).
+    if (fields.email && !fields.password && typeof creds.credentials.username === "string") {
+      const step = await advanceUsernameFirstWall({
+        page,
+        emailField: fields.email,
+        username: creds.credentials.username,
+        diagnosis,
+        notes,
+        settle,
+      });
+      if (step === "advanced") fields = await locateAuthFields(page);
+      else if (step === "wall") return done("wall_remains", { diag: await diagnoseLoginWall(page) });
+    }
+    if (!fields.email || !fields.password) {
+      notes.push("portal auth: no sign-in form on this page");
+      return {
+        status: "not_an_auth_wall",
+        verification_used: false,
+        escalated_to_create: false,
+        diagnosis: await diagnoseLoginWall(page),
+        notes,
+        secrets,
+      };
+    }
   }
 
   if (!creds.credentials.available) {
@@ -654,20 +752,8 @@ export async function authenticateAtsPortal(
     // page answers NOTHING. The paced diagnostic that signs in every time
     // clicks the field and types real keystrokes; do exactly that, with
     // fill() only as the fallback when the field click is intercepted.
-    const typeInto = async (
-      f: NonNullable<typeof emailField>,
-      text: string,
-    ): Promise<void> => {
-      const clicked = await f
-        .click({ timeout: 3_000 })
-        .then(() => true, () => false);
-      if (!clicked) {
-        await f.fill(text, { timeout: 5_000 }).catch(() => undefined);
-        return;
-      }
-      await f.fill("").catch(() => undefined);
-      await f.pressSequentially(text, { delay: settle === 0 ? 0 : 60 }).catch(() => undefined);
-    };
+    const typeInto = (f: NonNullable<typeof emailField>, text: string): Promise<void> =>
+      typeCredential(f, text, settle);
     if (emailField && (await emailField.count().catch(() => 0)) > 0) {
       await typeInto(emailField, username);
     }

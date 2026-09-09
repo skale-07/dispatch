@@ -106,6 +106,89 @@ describe("workday portal auth (FIXTURE_CONFIRMED)", () => {
     }
   }, 30_000);
 
+  it("advances a username-first wall to its password step and signs in on the completed form (#195, IBMid shape)", async () => {
+    // login.ibm.com 2026-09-08: one identifier input + Continue; the
+    // password input renders only after the identifier is accepted. The
+    // old read (email=true, password=false) answered not_an_auth_wall.
+    const USERNAME_FIRST_HTML = `<!DOCTYPE html><html><body>
+      <h1>Log in to IBM</h1>
+      <form onsubmit="return false">
+        <label>IBMid <input id="username" autocomplete="username" type="text" /></label>
+        <button id="continue" type="button" onclick="
+          document.getElementById('step2').innerHTML =
+            '<label>Password <input id=&quot;pw&quot; type=&quot;password&quot; /></label>' +
+            '<button id=&quot;login&quot; type=&quot;button&quot;>Log in</button>';
+          this.remove();">Continue</button>
+        <div id="step2"></div>
+      </form>
+      <button type="button">Continue with Google</button>
+    </body></html>`;
+    applyControlledFillEnv({ NAVIGATION_ENABLED: "true" });
+    resetConfigCache();
+    try {
+      await onWorkdayPage(USERNAME_FIRST_HTML, async (page) => {
+        const r = await authenticateAtsPortal(page, {
+          emailOverride: "candidate@fixture.test",
+          settleMs: 0,
+          waiter: async () => ({ kind: "code", code: "0", messageId: "m", pollsUsed: 1 }),
+        });
+        expect(r.status).not.toBe("not_an_auth_wall");
+        expect(r.notes.join(" ")).toMatch(/username-first wall — identifier accepted, password step rendered/);
+        expect(await page.locator("#username").inputValue()).toBe("candidate@fixture.test");
+        const pw = await page.locator("#pw").inputValue();
+        expect(pw.length).toBeGreaterThan(0);
+        expect(r.secrets).toContain(pw);
+        expect(r.notes.join(" ")).not.toContain(pw);
+      });
+    } finally {
+      applySafeFillEnv();
+    }
+  }, 30_000);
+
+  it("reports wall_remains — not not_an_auth_wall — when the identifier step does not advance (#195/#192)", async () => {
+    const DEAD_END_HTML = `<!DOCTYPE html><html><body>
+      <h1>Log in</h1>
+      <form onsubmit="return false">
+        <input id="username" autocomplete="username" type="text" />
+        <button type="button" onclick="document.getElementById('err').textContent='We could not find an account for that email. Create an IBMid to continue.'">Continue</button>
+        <p id="err"></p>
+      </form>
+    </body></html>`;
+    applyControlledFillEnv({ NAVIGATION_ENABLED: "true" });
+    resetConfigCache();
+    try {
+      await onWorkdayPage(DEAD_END_HTML, async (page) => {
+        const r = await authenticateAtsPortal(page, { emailOverride: "candidate@fixture.test", settleMs: 0, waiter: null });
+        expect(r.status).toBe("wall_remains");
+        expect(r.notes.join(" ")).toMatch(/no password step after Continue/);
+        expect(await page.locator("#username").inputValue()).toBe("candidate@fixture.test");
+      });
+    } finally {
+      applySafeFillEnv();
+    }
+  }, 30_000);
+
+  it("leaves a lone email input on a non-sign-in page alone (#195 guard)", async () => {
+    const ALERTS_HTML = `<!DOCTYPE html><html><body>
+      <h1>Job alerts</h1>
+      <form onsubmit="return false"><input type="email" name="email" /><button type="button">Subscribe</button></form>
+    </body></html>`;
+    applyControlledFillEnv({ NAVIGATION_ENABLED: "true" });
+    resetConfigCache();
+    const context = await browser.newContext();
+    const page = await context.newPage();
+    await context.route("**/*", (route) => route.fulfill({ body: ALERTS_HTML, contentType: "text/html" }));
+    await page.goto("https://interdigital.wd5.myworkdayjobs.com/en-US/Careers/alerts", { waitUntil: "domcontentloaded" });
+    try {
+      const r = await authenticateAtsPortal(page, { emailOverride: "candidate@fixture.test", settleMs: 0, waiter: null });
+      expect(r.status).toBe("not_an_auth_wall");
+      expect(await page.locator("input[type=email]").inputValue()).toBe("");
+    } finally {
+      applySafeFillEnv();
+      await context.close().catch(() => undefined);
+    }
+  }, 30_000);
+
   it("creates the account with the candidate email + vault password, no inbox scan without a prompt", async () => {
     applyControlledFillEnv({ NAVIGATION_ENABLED: "true" });
     resetConfigCache();
