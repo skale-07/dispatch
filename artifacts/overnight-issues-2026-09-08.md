@@ -258,19 +258,24 @@ aggregator; before phase C when nothing resolved):
   correct URL stored; `npm run run -- --pipeline --app 79e75805… --submit
   --headed --yes` resumes it on a network that reaches coinbase.com.
 
-## Gmail tail — BLOCKED: token missing
+## Gmail tail — how it actually runs (operator asked 22:31)
 
-`npm run gmail:check` → "Gmail token missing — run `npm run gmail:auth`
-once as the operator." `private/auth/` holds jobright + outlook storage
-only; no `gmail.oauth.json` anywhere in the tree. Consequence: the
-post-submit outreach tail (`runOutreachTail` in the automation worker;
-`outreach` CLI for direct runs) can extract contacts and generate the
-email but cannot save a Gmail draft until the operator runs
-`npm run gmail:auth -- --email <mailbox> --client-id … --client-secret …`
-(OAuth browser consent — cannot be done unattended). Flags are all on
-(GMAIL_DRAFTS, EMAIL_GENERATION); the OAuth client id/secret are in
-`.env`. Every submit tonight will leave the email generated and a
-"draft not saved: token missing" note until then.
+- `auto:cycle` (automation worker) runs `runOutreachTail` after every
+  VERIFIED submit of a JobRight-sourced app when GMAIL_DRAFTS_ENABLED:
+  contacts:insider → email:generate → Gmail draft (worker.ts:701, :850;
+  session report `emails_generated` / `drafts_saved`).
+- A DIRECT `run --pipeline` stops at the CONTACTS_EXTRACTED gate
+  ("outreach generation runs via email:generate"); the tail must then be
+  run by hand: `npm run outreach -- --application <uuid> --headed`.
+- Drafting is `createGmailDraft` (outreach/gmailDrafts.ts): the Gmail WEB
+  UI in the debug Chrome via CDP (compose → Drafts read-back verify). It
+  does NOT use the OAuth token — `gmail:check`'s "token missing" only
+  disables verification-code recovery (`gmail.oauth.json`), not drafts.
+  Requirement for drafts: the debug-Chrome profile signed into Gmail.
+  (First note here said "BLOCKED: token missing" — wrong, corrected.)
+- Every auto:cycle log this month shows `drafts_saved: 0` — consistent
+  with zero verified JobRight-sourced submits (boards have no tail, #181),
+  not with a drafting failure.
 
 ## Loop plan (after the gate clears and the commit lands)
 
