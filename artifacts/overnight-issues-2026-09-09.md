@@ -154,6 +154,58 @@ referred-by phrasing, or whose name/id says referr(ed|er); selects such as
 "Referral source" keep their alias mapping. ATS-general — no Cisco-specific
 selector. Cisco requeued after the fix.
 
+## Job #8 — Sequence Holdings SWE intern (4858a87e, JobRight-sourced) — SUBMITTED_VERIFIED
+
+Cycle 22 (15:36→15:38). Outreach tail ran within the minute: insider
+triage checked 0 people (as for Revel) — the JobRight page lists no
+insiders for either small company; generated/drafted 0, ok. The first
+large JobRight-sourced submit (Cisco/CACI/Red Hat/Leidos) is the real
+test of contact extraction; if that also reads 0 people, treat it as a
+DOM change (#186-class), not "no contacts".
+
+## Issue #205 — a page dialog killed the cycle process (cisco, cycle 24, 15:41 UTC)
+
+Evidence: `ProtocolError: Protocol error (Page.handleJavaScriptDialog):
+No dialog is showing` thrown from Playwright's own `DialogManager.
+dialogDidOpen` → unhandled rejection → `node:internal/process/promises
+triggerUncaughtException` → cycle 24 exit 1 mid-`NATIVE_AUTOFILL_RUNNING`.
+No code in src registered a `dialog` listener, so Playwright auto-
+dismissed and its dismiss raced a dialog the page had already closed
+(CDP-attached Chrome). Side effects: the app stayed in
+NATIVE_AUTOFILL_RUNNING (pickable — fine), the loop's status line
+re-summarised cycle 23's report (no report was written), and the arm row
+96f53ac8 stayed RUNNING — see #206.
+
+Fix: `src/browser/dialogGuard.ts` `attachDialogGuard(context, service)`
+— a context-level listener (turns Playwright's auto-dismiss off), logs
+type+message, dismisses with the rejection swallowed; attached by every
+browser seam (`PlaywrightServiceSession.open`, `openPublicUrlSession` both
+paths, `withFixtureHtmlPage`) and detached on close so the operator's
+Chrome is left as found. Last line: `src/cli/processGuards.ts`
+`installProcessGuards()` from CLI `main()` only — an unhandled rejection
+is logged (`cli/unhandled_rejection`, stack) and the process survives;
+never installed from library code or tests. Tests: `dialog-guard.test.ts`
+(fake-context race UNIT_CONFIRMED; real fixture page confirm/alert
+FIXTURE_CONFIRMED).
+
+## Issue #206 — crashed cycle's arm blocked the loop ("already armed", 118 min left)
+
+Cycle 25 (15:42): `skipped_already_armed` — arm 96f53ac8 from the crashed
+cycle 24 was still RUNNING with a heartbeat 2 min old; the sweep only
+fires after 15 min of heartbeat silence and the heartbeat ticks once per
+application, so a mid-fill crash looks like a long fill. The bash loop
+read apps=0 as "queue drained" and would have retried every 300s until
+~15:58. Manual: `private/tmp-disarm-stale-arm.ts 96f53ac8` (id-guarded)
+at 15:47 UTC.
+
+Fix: arm metadata records `worker_pid` (auto:cycle passes its own PID);
+`sweepAbandonedArmSessions` completes an arm whose PID is dead at once
+(`reason: worker_pid_dead`, never its own PID, `process.kill(pid, 0)` with
+EPERM = alive), and keeps the heartbeat rule for rows without a PID
+(console-armed). Tests: 3 new cases in `automation-arm.test.ts`. The
+auto-cycle test file was NOT run (it writes real cycle artifacts while
+the loop runs — see the note below); it is due at the next solo gate.
+
 ## Note — never run `tests/unit/auto-cycle.test.ts` while the loop runs
 
 It writes real `artifacts/console/auto-cycle/cycle-*.json` files
