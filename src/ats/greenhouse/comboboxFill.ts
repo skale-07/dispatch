@@ -1322,6 +1322,82 @@ async function clickListedOption(
 }
 
 /**
+ * The list's own catch-all option, or null (#223). Anchored so "Mother
+ * tongue" / "Otherwise" can never match; the optional tail covers the
+ * shapes forms actually use ("Other:", "Other (please specify)",
+ * "Other - please specify").
+ */
+const OTHER_OPTION_RE =
+  /^other\s*(?:\((?:please\s*)?specify\)|[:–—-]\s*(?:please\s*specify)?)?\s*$/i;
+
+export function findOtherOptionLabel(options: string[]): string | null {
+  return options.find((o) => OTHER_OPTION_RE.test(o.trim())) ?? null;
+}
+
+/** Attribute used to hand a DOM-walked specify input back to Playwright. */
+const SPECIFY_ATTR = "data-dispatch-other-specify";
+
+/**
+ * Type the intended answer into the free-text box that picking "Other"
+ * reveals (#223). Walks up a few ancestors from the combobox looking for a
+ * visible, EMPTY text input that is not the combobox itself — the shape
+ * every "Other (please specify)" pairing uses. Returns false when no such
+ * box appears, which is a legitimate outcome, not an error.
+ */
+async function fillOtherSpecifyBox(
+  page: Page,
+  loc: Locator,
+  value: string,
+): Promise<boolean> {
+  // The box mounts on the selection's re-render.
+  await page.waitForTimeout(400);
+  type El = {
+    parentElement: El | null;
+    querySelectorAll: (s: string) => Iterable<El>;
+    setAttribute: (k: string, v: string) => void;
+    offsetParent: unknown;
+    value?: string;
+    disabled?: boolean;
+    readOnly?: boolean;
+  };
+  const tagged = await loc
+    .evaluate((el: El, attr: string) => {
+      let node: El | null = el.parentElement;
+      for (let depth = 0; depth < 5 && node; depth += 1) {
+        const boxes = Array.from(
+          node.querySelectorAll("input[type='text'], input:not([type]), textarea"),
+        ).filter(
+          (c) =>
+            c !== (el as unknown as El) &&
+            c.offsetParent !== null &&
+            !c.disabled &&
+            !c.readOnly &&
+            !(c.value ?? "").trim(),
+        );
+        if (boxes.length > 0) {
+          boxes[0]!.setAttribute(attr, "1");
+          return true;
+        }
+        node = node.parentElement;
+      }
+      return false;
+    }, SPECIFY_ATTR)
+    .catch(() => false);
+  if (!tagged) return false;
+  const box = page.locator(`[${SPECIFY_ATTR}="1"]`).first();
+  const ok = await box
+    .fill(value, { timeout: 3_000 })
+    .then(() => true)
+    .catch(() => false);
+  await box
+    .evaluate((el: { removeAttribute: (k: string) => void }, attr: string) =>
+      el.removeAttribute(attr),
+    SPECIFY_ATTR)
+    .catch(() => undefined);
+  return ok;
+}
+
+/**
  * Open → (filter) → pick a real option → confirm commitment.
  * Returns committed:false with notes rather than leaving filter residue —
  * the caller records an error and the field stays honestly unfilled.
@@ -1348,6 +1424,19 @@ export async function fillComboboxControl(
      * run left "CS" — both had to go before the right pick).
      */
     preserveExistingChips?: boolean;
+    /**
+     * #223 (operator directive 2026-09-09, live Workday `source--source`):
+     * when the planned answer is not on the OPEN list, take the form's own
+     * "Other" and type the intended answer into the specify box it
+     * reveals. `applicationFiller` already does this at PLAN time, but only
+     * for controls whose options are in the static HTML — Workday's
+     * how-did-you-hear list exists only once the listbox opens, so the
+     * escape hatch has to be available here too. Callers set this only for
+     * NON-demographic fields; EEO/self-ID never takes an escape hatch.
+     */
+    allowOtherFallback?: boolean;
+    /** Text typed into the "please specify" box after picking Other (#223). */
+    otherSpecifyValue?: string;
   } = {},
 ): Promise<ComboboxFillResult> {
   const notes: string[] = [];
@@ -1850,6 +1939,16 @@ export async function fillComboboxControl(
         `sole consent option "${options[0]}" accepted for affirmative "${expectedText}" (synonym)`,
       );
       pick = { ok: true, label: options[0]!, via: "synonym" };
+    } else if (opts.allowOtherFallback && findOtherOptionLabel(options)) {
+      // #223: the list is open and the planned answer is provably absent.
+      // The form's own "Other" is the escape hatch, and the intended
+      // answer goes in its specify box below — so the field carries the
+      // truth instead of blocking the submit.
+      const other = findOtherOptionLabel(options)!;
+      notes.push(
+        `planned "${expectedText}" not on this list — taking the form's own "${other}" (#223)`,
+      );
+      pick = { ok: true, label: other, via: "other_fallback" };
     } else {
       notes.push(pick.reason);
       await page.keyboard.press("Escape").catch(() => undefined);
@@ -1925,6 +2024,16 @@ export async function fillComboboxControl(
   if (!committed) {
     notes.push(
       `commit not confirmed: display shows ${committedLabel === null ? "placeholder" : `"${committedLabel}"`}`,
+    );
+  }
+  // #223: "Other" alone says nothing — put the intended answer in the
+  // specify box the choice reveals (live: how-did-you-hear ⇒ "LinkedIn").
+  if (committed && pick.via === "other_fallback" && opts.otherSpecifyValue) {
+    const typed = await fillOtherSpecifyBox(page, loc, opts.otherSpecifyValue);
+    notes.push(
+      typed
+        ? `typed "${opts.otherSpecifyValue}" into the "Other" specify box`
+        : `no "Other" specify box appeared — the choice stands alone`,
     );
   }
   // Prefer the richer option label over dial-code-only collapse ("+1").

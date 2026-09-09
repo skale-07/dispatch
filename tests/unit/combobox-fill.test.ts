@@ -5,6 +5,7 @@ import {
   buildFilterCandidates,
   detectControlKind,
   fillComboboxControl,
+  findOtherOptionLabel,
   labelsCompatible,
   pickOptionLabel,
   readComboboxValue,
@@ -47,6 +48,26 @@ function entry(
     ...overrides,
   };
 }
+
+// #223 (operator directive 2026-09-09): a how-did-you-hear list that does
+// not offer "LinkedIn" should take the form's own "Other" rather than
+// block the submit. The label match is anchored so it can never grab a
+// question that merely contains the word.
+describe("findOtherOptionLabel (UNIT_CONFIRMED)", () => {
+  it("matches the shapes forms actually use", () => {
+    expect(findOtherOptionLabel(["Job Board", "Other", "Referral"])).toBe("Other");
+    expect(findOtherOptionLabel(["Other (please specify)"])).toBe("Other (please specify)");
+    expect(findOtherOptionLabel(["Other:"])).toBe("Other:");
+    expect(findOtherOptionLabel(["Other - please specify"])).toBe("Other - please specify");
+    expect(findOtherOptionLabel(["  Other  "])).toBe("  Other  ");
+  });
+
+  it("never matches a word that merely contains 'other'", () => {
+    expect(findOtherOptionLabel(["Mother tongue", "Otherwise", "Another source"])).toBeNull();
+    expect(findOtherOptionLabel(["Other duties as assigned"])).toBeNull();
+    expect(findOtherOptionLabel([])).toBeNull();
+  });
+});
 
 describe("pickOptionLabel (UNIT_CONFIRMED)", () => {
   const options = [

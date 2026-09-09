@@ -17,6 +17,7 @@ import {
   type ApprovedFillPlanEntry,
 } from "../../applications/approvedFillPlan.js";
 import { assertFormFillAllowed } from "../../applications/formFillGuards.js";
+import { isDemographicsField } from "../../applications/essayDetector.js";
 import {
   detectControlKind,
   fillComboboxControl,
@@ -1200,7 +1201,20 @@ export async function greenhouseFillFromPlan(
             page,
             loc,
             comboboxExpected(entry.canonical_field, entry.value),
-            { alternates: comboboxAlternates(entry.canonical_field, entry.value) },
+            {
+              alternates: comboboxAlternates(entry.canonical_field, entry.value),
+              // #223: a planned answer that is not on the OPEN list takes
+              // the form's own "Other", with the intended answer typed in
+              // the specify box. Never for demographics/EEO — a wrong
+              // guess there puts words in the candidate's mouth.
+              allowOtherFallback: !isDemographicsField({
+                id: entry.field_id,
+                label: entry.label ?? "",
+                type: "text",
+                required: false,
+              }),
+              otherSpecifyValue: String(entry.value),
+            },
           );
           field_meta.push({
             field_id: entry.field_id,
@@ -1320,7 +1334,20 @@ export async function greenhouseFillFromPlan(
             page,
             loc,
             comboboxExpected(entry.canonical_field, entry.value),
-            { alternates: comboboxAlternates(entry.canonical_field, entry.value) },
+            {
+              alternates: comboboxAlternates(entry.canonical_field, entry.value),
+              // #223: a planned answer that is not on the OPEN list takes
+              // the form's own "Other", with the intended answer typed in
+              // the specify box. Never for demographics/EEO — a wrong
+              // guess there puts words in the candidate's mouth.
+              allowOtherFallback: !isDemographicsField({
+                id: entry.field_id,
+                label: entry.label ?? "",
+                type: "text",
+                required: false,
+              }),
+              otherSpecifyValue: String(entry.value),
+            },
           );
           field_meta.push({
             field_id: entry.field_id,
