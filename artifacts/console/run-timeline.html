@@ -60,12 +60,12 @@
 </style></head>
 <body><div class="wrap">
 <h1>Dispatch run timeline</h1>
-<p class="sub">Generated 2026-09-09T16:33:39.663Z · 40 navigation run(s) · read-only view of artifacts/</p>
-<div class="stats"><span class="stat"><b>17</b> unknown</span><span class="stat"><b>15</b> resolved</span><span class="stat"><b>2</b> duplicate_url</span><span class="stat"><b>2</b> auth</span><span class="stat"><b>2</b> budget</span><span class="stat"><b>1</b> closed</span><span class="stat"><b>1</b> submit_risk</span></div>
+<p class="sub">Generated 2026-09-09T16:36:35.598Z · 40 navigation run(s) · read-only view of artifacts/</p>
+<div class="stats"><span class="stat"><b>18</b> unknown</span><span class="stat"><b>14</b> resolved</span><span class="stat"><b>2</b> duplicate_url</span><span class="stat"><b>2</b> auth</span><span class="stat"><b>2</b> budget</span><span class="stat"><b>1</b> closed</span><span class="stat"><b>1</b> submit_risk</span></div>
 <section class="cycle">
   <h2>Latest cycle</h2>
   <dl>
-    <div><dt>Started</dt><dd>2026-09-09T16:17:29.298Z</dd></div>
+    <div><dt>Started</dt><dd>2026-09-09T16:34:32.259Z</dd></div>
     <div><dt>Outcome</dt><dd>completed</dd></div>
     <div><dt>Agent leg</dt><dd>available</dd></div>
     <div><dt>Default resume</dt><dd>ready (C:\dev\jobright-application-agent\private\candidate\resumes\swe.pdf)</dd></div>
@@ -73,9 +73,24 @@
     <div><dt>Submits used</dt><dd>0</dd></div>
     <div><dt>Stopped</dt><dd>apps_cap</dd></div>
   </dl>
-  <h3>Session notes</h3><ul class="notes"><li>nav audit: 0 wrong-employer URL(s) cleared for re-navigation, 2 parked for review</li><li>triage sweep: 0 confirmed, 0 refuted, 0 expired of 46 pending</li><li>triage f7e2a815: park_for_operator (executed) — review item created: 22cf563a-9184-4325-b858-cb5b385d3146</li><li>artifact autopush: 26 file(s) pushed to master as 90ac6963</li></ul>
+  <h3>Session notes</h3><ul class="notes"><li>nav audit: 0 wrong-employer URL(s) cleared for re-navigation, 2 parked for review</li><li>triage sweep: 0 confirmed, 1 refuted, 0 expired of 47 pending</li><li>triage 3d6d6631: engage_agent_leg — precondition failed: no navigation wall in evidence — agent leg only helps nav-walled apps</li><li>artifact autopush: 7 file(s) pushed to master as 912d519a</li></ul>
 </section>
 <h2>Applications</h2>
+<details class="app bad">
+  <summary>
+    <span class="id"></span>
+    <span class="co">—</span>
+    <span class="badge">wall: undefined</span>
+    
+    
+    
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li>none recorded</li></ol>
+    <h4>Notes</h4><ul class="notes"><li>model calls: 5 of 6 steps</li></ul>
+    
+  </div>
+</details>
 <details class="app bad">
   <summary>
     <span class="id"></span>
@@ -658,21 +673,6 @@
   <div class="body">
     <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — resolved (11 candidates, employer match)<span class="ev">morningstar.wd5.myworkdayjobs.com</span></li></ol>
     <h4>Notes</h4><ul class="notes"><li>none</li></ul>
-    
-  </div>
-</details>
-<details class="app ok">
-  <summary>
-    <span class="id">7669acfe</span>
-    <span class="co">Daylit</span>
-    <span class="badge">resolved</span>
-    <span class="chip">apply_click_popup</span>
-    <span class="chip">generic</span>
-    
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no congruent apply href (11 external links)<span class="ev">jobs.polymer.co, www.linkedin.com, www.crunchbase.com, www.daylit.com, www.businesswire.com, www.crowdfundinsider.com</span></li><li><b>B_apply_click</b> — resolved via popup<span class="ev">jobs.polymer.co</span></li></ol>
-    <h4>Notes</h4><ul class="notes"><li>phase A: anchor reads as &quot;polymer&quot; (URL names &quot;polymer&quot; (host), which shares nothing with company &quot;Daylit&quot;) — not preferred, deferring to the Apply click</li><li>phase A: 6 external host(s) seen: jobs.polymer.co, www.linkedin.com, www.crunchbase.com, www.daylit.com, www.businesswire.com, www.crowdfundinsider.com</li><li>Apply control: autofill CTA (tier 0)</li><li>jobright interstitial: clicked &quot;Apply Without Customizing&quot;</li><li>popup settled off about:blank after the interstitial</li><li>popup captured on attempt 1</li><li>phase B: captured URL reads as &quot;polymer&quot; (URL names &quot;polymer&quot; (host), which shares nothing with company &quot;Daylit&quot;) — kept, provenance is the Apply click</li><li>congruence: URL names &quot;polymer&quot;, not &quot;Daylit&quot; (URL names &quot;polymer&quot; (host), which shares nothing with company &quot;Daylit&quot;) — recorded, not refused</li></ul>
     
   </div>
 </details>
