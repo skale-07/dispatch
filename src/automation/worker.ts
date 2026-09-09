@@ -354,10 +354,22 @@ function pickNextApplication(db: Db, seen: Set<string>, scope?: Set<string>): st
       )
       .all() as PickRow[];
 
-  /** #228: easy ATSes first, then unresolved, Workday, bespoke sites. */
+  /**
+   * #228: easy ATSes first, then unresolved, Workday, bespoke sites.
+   *
+   * READY_TO_SUBMIT outranks all of it: that app is one click from a
+   * submit whatever its ATS, and the per-app deadline keeps cutting slow
+   * Workday forms at exactly that point (live Red Hat cycle 96, Leidos
+   * cycle 100 — both filled and verified, both stopped at the boundary).
+   * Finishing one costs seconds; re-filling it later costs minutes.
+   */
   const byAtsThenRecency = (rows: PickRow[]): PickRow[] =>
     rows
-      .map((row, index) => ({ row, index, tier: applicationAtsTier(row) }))
+      .map((row, index) => ({
+        row,
+        index,
+        tier: row.state === "READY_TO_SUBMIT" ? -1 : applicationAtsTier(row),
+      }))
       .sort((a, b) => a.tier - b.tier || a.index - b.index)
       .map((r) => r.row);
 
