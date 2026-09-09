@@ -213,7 +213,9 @@
         "src/navigation/auditEmployerUrls.ts": "offline sweep: repairs poisoned URLs, parks duplicates",
         "src/navigation/navigationGuards.ts": "NAVIGATION_ENABLED assertion",
         "src/navigation/applicationSupervisor.ts": "Bounded observed-action LLM application navigator: screenshot/frame/history context; deterministic control checks and form readiness.",
-        "src/navigation/supervisorContext.ts": "buildSupervisorJobContext: capped, redacted job context for the supervisor (posting details, prior navigation attempts, recent state events) — evidence only, never form values (#178)"
+        "src/navigation/supervisorContext.ts": "buildSupervisorJobContext: capped, redacted job context for the supervisor (posting details, prior navigation attempts, recent state events) — evidence only, never form values (#178)",
+        "src/navigation/employerBoardHop.ts": "aggregator → employer-board hop (#196): when Apply lands on a LinkedIn/Indeed repost or resolves nothing, find the posting on the employer's public Greenhouse/Lever/Ashby board — read-only, ≤9 requests, ambiguity refused",
+        "src/navigation/pageIdentity.ts": "confirmEmployerOnPage (#197): read-only page title/heading/text read that overrules a URL-slug mismatch at the fill gate when the page itself names the company (rebrands, legal names)"
       },
       "key_exports": {
         "src/navigation/runNavigation.ts": [
@@ -243,6 +245,15 @@
         ],
         "src/navigation/supervisorContext.ts": [
           "buildSupervisorJobContext"
+        ],
+        "src/navigation/employerBoardHop.ts": [
+          "hopToEmployerBoard",
+          "isConsumerAggregatorUrl",
+          "matchBoardJob",
+          "boardSlugCandidates"
+        ],
+        "src/navigation/pageIdentity.ts": [
+          "confirmEmployerOnPage"
         ]
       },
       "gates": [

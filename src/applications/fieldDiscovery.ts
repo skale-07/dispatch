@@ -82,7 +82,7 @@ export function isListingPageChrome(field: {
   // (`notifiedEmail`, `jobAlertEmail`) and the save-to-cart checkbox
   // (`save-<REQ-ID>`). "email" on its own is never enough.
   if (
-    /(^|[\s_-])(notified|notify|alert|jobalert|subscribe)[\s_-]?e?mail([\s_-]|$)/.test(
+    /(^|[\s_-])(notified|notify|alert|jobalert|subscri(?:be|ption)|newsletter)[\s_-]?e?mail([\s_-]|$)/.test(
       machine,
     ) ||
     /(^|[\s_-])e?mail[\s_-]?(alert|friend|job)s?([\s_-]|$)/.test(machine) ||
@@ -309,21 +309,37 @@ export function discoverFieldsFromHtml(
     // prediction tier rejected them as "unusable label". Look upward for
     // the nearest legend/heading instead of giving up.
     if (isUninformativeLabel(label)) {
-      // #112: the NEARER of section heading vs bare-span caption wins —
-      // on Gem the description's "About the Role" h2 sits 4k chars back
-      // while the field's own caption span is right above it. Caption
-      // recovery is for plain inputs only: a radio/checkbox member's
-      // nearest text run is its OPTION, handled below.
-      const heading = nearestSectionHeadingWithDistance(html, m.index);
-      const caption =
+      // #200 (live Daylit / Polymer 2026-09-08): react-select renders
+      // `<label>` with no `for` above an id-only search input. The caption
+      // scan below only matches short span/div runs, so a 78-char question
+      // ("Do you now, or will you ever require employment sponsorship…")
+      // overflowed its wrapper's 200-char window and the REQUIRED field
+      // discovered as field_7 while its 56-char sibling resolved. A bare
+      // question label after the previous control is this field's own
+      // label — take it before any caption/heading guess.
+      const bareLabel =
         fieldType !== "radio" && fieldType !== "checkbox"
-          ? nearestPrecedingCaption(html, m.index)
+          ? nearestBareQuestionLabelInScope(html, m.index)
           : null;
-      const nearby =
-        caption && (!heading || caption.distance < heading.distance)
-          ? caption.text
-          : (heading?.text ?? null);
-      if (nearby) label = nearby;
+      if (bareLabel) {
+        label = bareLabel;
+      } else {
+        // #112: the NEARER of section heading vs bare-span caption wins —
+        // on Gem the description's "About the Role" h2 sits 4k chars back
+        // while the field's own caption span is right above it. Caption
+        // recovery is for plain inputs only: a radio/checkbox member's
+        // nearest text run is its OPTION, handled below.
+        const heading = nearestSectionHeadingWithDistance(html, m.index);
+        const caption =
+          fieldType !== "radio" && fieldType !== "checkbox"
+            ? nearestPrecedingCaption(html, m.index)
+            : null;
+        const nearby =
+          caption && (!heading || caption.distance < heading.distance)
+            ? caption.text
+            : (heading?.text ?? null);
+        if (nearby) label = nearby;
+      }
     }
 
     if (opts?.preferGreenhouse && name) {
@@ -639,6 +655,38 @@ function isConsentManagerAttrs(attrs: string): boolean {
   return /\bdata-optanongroupid\s*=/i.test(attrs);
 }
 
+/**
+ * #200 (live Daylit / jobs.polymer.co 2026-09-08): the careers page ships
+ * a "Subscribe to updates" modal — `<div class="subscribe-modal">` hidden
+ * by CSS, holding `<input type=email id="careers_page_subscription_email">`
+ * — in the same document as the application form. Discovery planned it
+ * as the applicant's email (canonical `email`, FILL); the real Email
+ * address input was filled and verified, the subscription box read back
+ * empty and the app parked AMBIGUOUS_FIELD. Worse if it HAD been filled:
+ * that is a job-alert signup with the operator's real address (#162 —
+ * posting furniture must never be filled). A newsletter / job-alert /
+ * subscription container is not the application: drop the subtree.
+ */
+function isSubscriptionFurnitureAttrs(attrs: string): boolean {
+  // id / class / data-target only. NOT data-controller: Polymer mounts its
+  // Stimulus controller on `<body data-controller="subscribe">` (live run 4,
+  // 23:02) — matching it stripped the whole document, discovery found 0
+  // fields and the gate refused NAVIGATION_INCOMPLETE.
+  const marker = `${getAttr(attrs, "id") ?? ""} ${getAttr(attrs, "class") ?? ""} ${
+    getAttr(attrs, "data-target") ?? ""
+  }`;
+  return /(^|[\s_.-])(subscri(be|ption)|newsletter|job[\s_-]?alerts?)([\s_-]|$|__|-)/i.test(
+    marker,
+  );
+}
+
+/** A widget holds a couple of controls; a subtree with more is the page. */
+const MAX_FURNITURE_CONTROLS = 3;
+
+function subtreeControlCount(html: string, start: number, end: number): number {
+  return (html.slice(start, end).match(/<(input|select|textarea)\b/gi) ?? []).length;
+}
+
 function stripHiddenSubtrees(html: string): string {
   const openRe = /<([a-z][a-z0-9]*)\b([^>]*?)>/gi;
   let out = "";
@@ -648,10 +696,20 @@ function stripHiddenSubtrees(html: string): string {
     const tag = (m[1] ?? "").toLowerCase();
     const attrs = m[2] ?? "";
     if (VOID_TAGS.has(tag)) continue;
-    if (!isHiddenAttrs(attrs) && !isConsentManagerAttrs(attrs)) continue;
+    const hidden = isHiddenAttrs(attrs) || isConsentManagerAttrs(attrs);
+    const furniture = !hidden && isSubscriptionFurnitureAttrs(attrs);
+    if (!hidden && !furniture) continue;
     if (/\/\s*$/.test(attrs)) continue;
     const end = matchingCloseIndex(html, tag, m.index + m[0].length);
     if (end < 0) continue;
+    // Furniture is small. A subscription-marked wrapper that holds the
+    // application's own controls is the page, never a widget — keep it.
+    if (
+      furniture &&
+      subtreeControlCount(html, m.index + m[0].length, end) > MAX_FURNITURE_CONTROLS
+    ) {
+      continue;
+    }
     out += html.slice(last, m.index);
     last = end;
     openRe.lastIndex = end;
@@ -813,6 +871,36 @@ function nearestBareQuestionLabel(html: string, position: number): string | null
     if (/<input\b/i.test(body)) continue;
     const text = cleanLabel(decodeEntities(stripTags(body)));
     if (text.length < 8 || text.length > 300) continue;
+    if (looksLikeOptionOnlyLabel(text) || isUninformativeLabel(text)) continue;
+    best = text;
+  }
+  return best;
+}
+
+/**
+ * #200: `nearestBareQuestionLabel` scoped to AFTER the previous form
+ * control, so a plain input can only claim a bare label that sits between
+ * the last control and itself — never another field's question.
+ */
+function nearestBareQuestionLabelInScope(html: string, position: number): string | null {
+  const window = html.slice(Math.max(0, position - 1_500), position);
+  const lastControl = Math.max(
+    window.lastIndexOf("<input"),
+    window.lastIndexOf("<select"),
+    window.lastIndexOf("<textarea"),
+    window.lastIndexOf("<button"),
+  );
+  const scope = window.slice(lastControl >= 0 ? lastControl : 0);
+  const re = /<label\b([^>]*)>([\s\S]*?)<\/label>/gi;
+  let best: string | null = null;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(scope)) !== null) {
+    const attrs = m[1] ?? "";
+    if (getAttr(attrs, "for")) continue;
+    const body = m[2] ?? "";
+    if (/<(input|select|textarea)\b/i.test(body)) continue;
+    const text = cleanLabel(decodeEntities(stripTags(body)));
+    if (text.length < 4 || text.length > 300) continue;
     if (looksLikeOptionOnlyLabel(text) || isUninformativeLabel(text)) continue;
     best = text;
   }

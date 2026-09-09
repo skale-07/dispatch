@@ -1333,6 +1333,28 @@ verdicts never unblock anything; `same_job` feeds the (shadow-first)
 `engage_agent_leg` decision grants ONE agent-phase run past a
 host-policy park; consuming the marker is what makes it one-shot.
 
+**Aggregator → employer board.** When the Apply click lands on a consumer
+aggregator's job page (LinkedIn / Indeed / Glassdoor repost — LinkedIn
+"Easy Apply" is the aggregator's form, not the employer's), or when
+neither deterministic phase resolves anything, navigation looks the
+posting up on the employer's own public Greenhouse / Lever / Ashby board
+(the same JSON APIs `discover:ats` reads): board slugs come from the
+company name, the posting must match the job's role title (exact, or a
+unique containment; several exact matches are tie-broken by location and
+otherwise refused), and the board URL must not name a different company.
+Read-only, at most 9 requests, no model. A hit records
+`method: "employer_board"` and the phase trace `B_board_hop`; a miss
+leaves the aggregator URL as the fallback with the reasons on the report.
+
+**Wrong-employer gate reads the page.** The fill gate still refuses a
+stored URL whose slug names a different company, but only after one
+read-only look at the page itself (title, headings, first few KB of
+text, in the debug Chrome when it is up). A page that names the
+company — `jobs.polymer.co/lendica/…` titled "at Daylit (Formerly
+Lendica)" — clears the gate and the log records `fill_gate_page_identity`
+with the hit; a page that does not, or cannot be read, parks with the
+page evidence on the review item as before.
+
 **Nav agent while armed.** The ArmCard shows `nav agent:
 available/unavailable` before you arm. Available means the shell exported
 `AGENT_FALLBACK_ENABLED=true` AND your CDP Chrome

@@ -62,6 +62,42 @@ export async function workdayUploadFile(
   };
 }
 
+/**
+ * #198: close any open Workday header menu that sits over the wizard.
+ * Escape first (Workday menus honour it), then a click on the page's own
+ * heading as a neutral blur target. Never clicks inside the menu. Bounded
+ * to two rounds; returns what it saw for the run notes.
+ */
+export async function closeWorkdayHeaderMenus(
+  page: Page,
+): Promise<{ closed: boolean; notes: string[] }> {
+  const notes: string[] = [];
+  const open = page.locator(workdaySelectorsV1.header.openMenu).first();
+  const visible = async (): Promise<boolean> =>
+    (await open.count().catch(() => 0)) > 0 && (await open.isVisible().catch(() => false));
+  if (!(await visible())) return { closed: false, notes };
+  notes.push("workday header: an open menu overlays the page — closing before fill (#198)");
+  for (let round = 0; round < 2; round++) {
+    await page.keyboard.press("Escape").catch(() => undefined);
+    await page.waitForTimeout(300);
+    if (!(await visible())) {
+      notes.push("workday header: menu closed via Escape");
+      return { closed: true, notes };
+    }
+    const heading = page.locator("main h1, main h2, h1, h2").first();
+    if ((await heading.count().catch(() => 0)) > 0) {
+      await heading.click({ timeout: 1_500, position: { x: 2, y: 2 } }).catch(() => undefined);
+      await page.waitForTimeout(300);
+      if (!(await visible())) {
+        notes.push("workday header: menu closed via heading click");
+        return { closed: true, notes };
+      }
+    }
+  }
+  notes.push("workday header: menu still open after Escape + heading click");
+  return { closed: false, notes };
+}
+
 export async function workdayResetForm(page: Page): Promise<FormResetResult> {
   assertFormFillAllowed("workday.resetForm");
   // Workday wizards have no single <form> reset — this is a no-op that

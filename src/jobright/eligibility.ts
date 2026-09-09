@@ -1,6 +1,7 @@
 import { z } from "zod";
 import type { EducationSelection } from "../candidate/applicationEducation.js";
 import { classifyLocation } from "../jobs/locationEligibility.js";
+import { judgePostingAge } from "../jobs/postingAge.js";
 
 export type EligibilityCheck = {
   name: string;
@@ -52,6 +53,8 @@ export function evaluateEligibility(input: {
   education?: EducationSelection | null;
   /** Posting location as listed; US-only rule (operator 2026-09-07). */
   location?: string | null;
+  /** Test seam for the posting-age clock (#199). */
+  now?: Date;
 }): EligibilityDecision {
   const text = [input.role, input.employmentType ?? "", input.description ?? ""]
     .join("\n")
@@ -125,6 +128,20 @@ export function evaluateEligibility(input: {
   if (location.verdict === "unknown" && (input.location ?? "").trim()) {
     warnings.push(`Location not confidently US: ${location.evidence}`);
   }
+
+  // #199 (operator directive 2026-09-08): a posting published more than
+  // 24h ago is not worth applying to. JobRight's "N hours ago" text is
+  // read at discovery time, so the posting's age IS that text.
+  const age = judgePostingAge({
+    descriptionText: input.description ?? null,
+    jobCreatedAt: input.now ?? new Date(),
+    now: input.now ?? new Date(),
+  });
+  checks.push({
+    name: "posting_age",
+    result: !age.stale,
+    evidence: age.reason,
+  });
 
   const eligible = checks.every((c) => c.result);
   return { eligible, checks, warnings };

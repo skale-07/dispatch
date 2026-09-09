@@ -89,6 +89,47 @@ export function companyIdentity(rawCompany: string): CompanyIdentity {
   };
 }
 
+/**
+ * #197 (live Daylit 2026-09-08): does this PAGE TEXT name the company?
+ * URL slugs carry former names (jobs.polymer.co/lendica → "Daylit
+ * (Formerly Lendica)"), legal names and parent brands; the page's own
+ * title/heading is stronger identity evidence than a path label. Single-
+ * token companies match on that word (≥4 chars) or a parenthetical alias;
+ * multi-token companies must appear as the phrase (stopwords dropped) or
+ * joined ("JumpTrading") — a lone common token ("energy", "systems") never
+ * counts. Read-only text comparison; the caller decides what it gates.
+ */
+export function pageNamesCompany(
+  company: string,
+  text: string,
+): { named: boolean; hit: string | null } {
+  if (isPlaceholderCompany(company)) return { named: false, hit: null };
+  const id = companyIdentity(company);
+  const words = text
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .split(" ")
+    .filter((w) => w.length > 0 && !STOPWORDS.has(w));
+  if (words.length === 0) return { named: false, hit: null };
+  const wordSet = new Set(words);
+  const spaced = ` ${words.join(" ")} `;
+  const compact = words.join("");
+  for (const alias of id.aliases) {
+    if (alias.length >= 3 && wordSet.has(alias)) return { named: true, hit: alias };
+  }
+  if (id.tokens.length === 1) {
+    const t = id.tokens[0]!;
+    if (t.length >= 4 && wordSet.has(t)) return { named: true, hit: t };
+    return { named: false, hit: null };
+  }
+  if (id.tokens.length > 1) {
+    const phrase = ` ${id.tokens.join(" ")} `;
+    if (spaced.includes(phrase)) return { named: true, hit: id.tokens.join(" ") };
+    if (id.joined.length >= 6 && compact.includes(id.joined)) return { named: true, hit: id.joined };
+  }
+  return { named: false, hit: null };
+}
+
 /** Org slug from a supported-ATS URL, or null when the host is unknown. */
 export function extractOrgSlug(url: string): string | null {
   let parsed: URL;
@@ -189,6 +230,10 @@ const MULTI_EMPLOYER_HOSTS = [
   // Live 2026-08-14: TRG Apply captured secure7.saashr.com (UKG). "secure7"
   // was read as an employer name and the URL was thrown away as a mismatch.
   "saashr.com",
+  // Live 2026-09-08 (night27 #197, Daylit): jobs.polymer.co/<org>/<id> —
+  // Polymer is an ATS; "polymer" was read as the employer and the fill
+  // gate refused a correct Apply-click URL. The org is the first path label.
+  "polymer.co",
 ];
 
 /**
@@ -503,13 +548,13 @@ function slugMatchesCompany(
 export function getJobIdentity(
   db: Db,
   applicationId: string,
-): { company: string; role: string } | null {
+): { company: string; role: string; location: string | null } | null {
   const row = db
     .prepare(
-      `SELECT j.company, j.role FROM jobs j
+      `SELECT j.company, j.role, j.location FROM jobs j
        JOIN applications a ON a.job_id = j.id WHERE a.id = ?`,
     )
-    .get(applicationId) as { company: string; role: string } | undefined;
+    .get(applicationId) as { company: string; role: string; location: string | null } | undefined;
   return row ?? null;
 }
 

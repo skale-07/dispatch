@@ -6,6 +6,7 @@ import {
 } from "../verification/portalAuth.js";
 import { classifyWorkdayPage } from "../ats/workday/pageKind.js";
 import { workdaySelectorsV1 } from "../ats/workday/selectors.js";
+import { closeWorkdayHeaderMenus } from "../ats/workday/fill.js";
 import { readPageValidationErrors } from "./pageErrors.js";
 import { walkWorkdayWizard } from "./workdayWizard.js";
 import {
@@ -1132,6 +1133,12 @@ export async function runAtsLiveFill(input: {
           ),
         });
       }
+      // #198 (live morningstar.wd5): an open header menu over the wizard
+      // intercepts every field click. Close it before the first plan.
+      if (binding.id === "workday") {
+        const headerMenu = await closeWorkdayHeaderMenus(page);
+        report.notes.push(...headerMenu.notes);
+      }
       const planStartedAt = Date.now();
       const { adapter, plan, approvedPlan, fields: plannedFields, otherFallbacks } =
         await planApplicationFill({
@@ -1355,6 +1362,9 @@ export async function runAtsLiveFill(input: {
       let wizardTranscriptDone = false;
       if (binding.id === "workday") {
         const walk = await walkWorkdayWizard(page, async ({ html, url }) => {
+          // #198: a header menu can be (re)opened on any wizard page.
+          const headerMenu = await closeWorkdayHeaderMenus(page);
+          if (headerMenu.notes.length > 0) report.notes.push(...headerMenu.notes);
           // #126b (live finastra 2026-09-01, operator-diagnosed): wizard
           // pages planned with ZERO option data — the harvest only ever
           // ran on the first page, so the questions page's listbox

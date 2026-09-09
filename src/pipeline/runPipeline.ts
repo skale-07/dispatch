@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import { getConfig } from "../config/index.js";
 import { logger } from "../logging/logger.js";
+import { confirmEmployerOnPage } from "../navigation/pageIdentity.js";
 import type { Db } from "../storage/db/client.js";
 import type { ApplicationState } from "../queue/states.js";
 import {
@@ -1282,22 +1283,53 @@ async function step(
         if (fillIdentity?.company) {
           const cong = checkUrlCongruence(fillIdentity.company, url);
           if (cong.verdict === "mismatch") {
-            upsertOpenReviewItem(db, {
-              applicationId: app.id,
-              kind: "MANUAL",
-              title: `Stored application URL belongs to "${cong.slug}", not ${fillIdentity.company}`,
-              payload: {
-                stage: "fill",
-                employer_url: url,
-                congruence: cong,
-                hint: "Navigation stored the wrong company's page for this job. Clear/replace the URL, then requeue.",
-              },
-            });
-            return {
-              to: null,
-              note: `fill refused: stored URL is for "${cong.slug}", not ${fillIdentity.company}`,
-              stop: "gate",
-            };
+            // #197 (live Daylit 2026-09-08): the slug is a label the ATS
+            // assigned once — jobs.polymer.co/lendica/… is titled "at
+            // Daylit (Formerly Lendica)". Read the page before refusing on
+            // the URL alone; fixture runs have no page to read and park
+            // exactly as before.
+            const pageIdentity = ctx.options.fixtureHtmlPath
+              ? null
+              : await confirmEmployerOnPage({
+                  url,
+                  company: fillIdentity.company,
+                  cdpUrl: getConfig().agentCdpUrl,
+                  headless: ctx.options.headless ?? true,
+                });
+            if (pageIdentity?.named) {
+              logger.info("fill gate: URL slug mismatch overruled by page identity", {
+                service: "pipeline",
+                action: "fill_gate_page_identity",
+                application_id: app.id,
+                metadata: {
+                  employer_url: url,
+                  url_slug: cong.slug,
+                  company: fillIdentity.company,
+                  page_hit: pageIdentity.hit,
+                  page_title: pageIdentity.title?.slice(0, 160) ?? null,
+                },
+              });
+            } else {
+              upsertOpenReviewItem(db, {
+                applicationId: app.id,
+                kind: "MANUAL",
+                title: `Stored application URL belongs to "${cong.slug}", not ${fillIdentity.company}`,
+                payload: {
+                  stage: "fill",
+                  employer_url: url,
+                  congruence: cong,
+                  page_identity: pageIdentity,
+                  hint: "Navigation stored the wrong company's page for this job. Clear/replace the URL, then requeue.",
+                },
+              });
+              return {
+                to: null,
+                note: `fill refused: stored URL is for "${cong.slug}", not ${fillIdentity.company}${
+                  pageIdentity ? ` (page ${pageIdentity.error ? `unreadable: ${pageIdentity.error}` : "does not name the company either"})` : ""
+                }`,
+                stop: "gate",
+              };
+            }
           }
         }
         const detected = detectAtsFromUrl(url);

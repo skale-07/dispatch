@@ -8,7 +8,8 @@ import {
 } from "../pipeline/runPipeline.js";
 import { runJobRightDiscovery } from "../jobright/discoveryRun.js";
 import { runPostSubmitGmail, type OutreachPipelineJobResult } from "../outreach/outreachPipeline.js";
-import { getApplication } from "../queue/stateMachine.js";
+import { getApplication, transitionApplication } from "../queue/stateMachine.js";
+import { judgePostingAge } from "../jobs/postingAge.js";
 import {
   isRetryablePortalAuthWall,
   listOpenReviewItems,
@@ -210,6 +211,14 @@ function pickNextApplication(db: Db, seen: Set<string>, scope?: Set<string>): st
       .map((it) => it.application_id as string),
   );
 
+  type PickRow = {
+    id: string;
+    versions_json: string;
+    state: string;
+    app_created_at: string;
+    job_created_at: string | null;
+    description_text: string | null;
+  };
   const query = (states: string) =>
     db
       .prepare(
@@ -217,15 +226,15 @@ function pickNextApplication(db: Db, seen: Set<string>, scope?: Set<string>): st
         // the discovery page are prioritized — recency is the proxy).
         // The old ASC order made backlog cycles grind the STALEST parked
         // apps (5-day-old Rivian) while fresh enqueues waited.
-        `SELECT a.id, a.versions_json FROM applications a
+        `SELECT a.id, a.versions_json, a.state, a.created_at AS app_created_at,
+                j.created_at AS job_created_at, j.description_text
+         FROM applications a LEFT JOIN jobs j ON j.id = a.job_id
          WHERE a.state IN (${states})
          ORDER BY a.created_at DESC`,
       )
-      .all() as Array<{ id: string; versions_json: string }>;
+      .all() as PickRow[];
 
-  const firstEligible = (
-    rows: Array<{ id: string; versions_json: string }>,
-  ): string | null => {
+  const firstEligible = (rows: PickRow[]): string | null => {
     for (const row of rows) {
       if (scope && !scope.has(row.id)) continue;
       if (seen.has(row.id)) continue;
@@ -237,7 +246,49 @@ function pickNextApplication(db: Db, seen: Set<string>, scope?: Set<string>): st
       } catch {
         excluded = false;
       }
-      if (!excluded) return row.id;
+      if (excluded) continue;
+      // #199 (operator directive 2026-09-08): a QUEUED row whose posting
+      // was published, or which was enqueued, more than 24h ago is not
+      // applied to. Abandoned through the state machine with the policy
+      // named, so it never re-enters a pick; in-flight states are the
+      // pipeline's to finish.
+      if (row.state === "QUEUED") {
+        const age = judgePostingAge({
+          descriptionText: row.description_text,
+          jobCreatedAt: row.job_created_at,
+          appCreatedAt: row.app_created_at,
+        });
+        if (age.stale) {
+          seen.add(row.id);
+          try {
+            transitionApplication(db, {
+              applicationId: row.id,
+              nextState: "FAILED_FINAL",
+              reason: `automation: skipped — ${age.reason}`,
+            });
+          } catch (err) {
+            logger.warn("stale-posting abandon failed", {
+              service: "automation",
+              action: "stale_skip_error",
+              application_id: row.id,
+              metadata: { error: err instanceof Error ? err.message.slice(0, 160) : String(err) },
+            });
+            continue;
+          }
+          logger.info("automation skipped a stale posting", {
+            service: "automation",
+            action: "stale_skip",
+            application_id: row.id,
+            metadata: {
+              posting_age_hours: age.posting_age_hours,
+              queue_age_hours: age.queue_age_hours,
+              reason: age.reason,
+            },
+          });
+          continue;
+        }
+      }
+      return row.id;
     }
     return null;
   };

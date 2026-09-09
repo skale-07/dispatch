@@ -109,6 +109,19 @@ export const workdaySelectorsV1 = {
     badCredentialsMarkers:
       /incorrect|invalid|doesn'?t match|does not match|no account|can'?t find|verify your email/i,
   },
+  /**
+   * #198 (live morningstar.wd5 2026-09-08): the header's account submenu
+   * (`ul[role=menu][aria-labelledby=account-submenu-button]`) was left OPEN
+   * over the My Information page and intercepted every pointer event —
+   * 6 field clicks timed out at 5s, 12 verify mismatches, all "(empty)".
+   * Any open header menu is closed (Escape, then a click on the page
+   * heading) before the wizard is filled; never a menu item.
+   */
+  header: {
+    container: "[data-automation-id='header']",
+    openMenu:
+      "[data-automation-id='header'] [role='menu'], [data-automation-id='header'] ul[aria-labelledby='account-submenu-button'], [data-automation-id='header'] [aria-expanded='true']",
+  },
   wizard: {
     /** Wizard page container + progress bar. */
     pageMarkers:

@@ -49,6 +49,7 @@ import { consumeAgentLegOverride } from "../triage/agentLegOverride.js";
 import { adjudicateAnchorCandidates } from "./anchorLlmAdjudicate.js";
 import { adjudicateDuplicate } from "./dupAdjudicate.js";
 import { resolveTokenOnlyGreenhouseEmbed } from "./greenhouseEmbedResolve.js";
+import { hopToEmployerBoard, isConsumerAggregatorUrl } from "./employerBoardHop.js";
 import {
   employerSiblingHosts,
   explainAtsAnchorMisses,
@@ -158,6 +159,12 @@ export type NavigationMethod =
   | "portal_auth"
   /** LLM promoted one already-harvested phase-A candidate (M6, NAV_LLM_ASSIST_ENABLED). */
   | "anchor_llm"
+  /**
+   * #196: the Apply path landed on a consumer aggregator (LinkedIn/Indeed
+   * repost) or resolved nothing, and the job was found on the employer's
+   * own public Greenhouse/Lever/Ashby board — deterministic, read-only.
+   */
+  | "employer_board"
   | "agent"
   | null;
 
@@ -355,6 +362,33 @@ export async function runNavigation(
     return checkUrlCongruence(jobIdentity.company, url);
   };
 
+  /**
+   * #196: the employer's own public board (Greenhouse/Lever/Ashby JSON
+   * API) as a deterministic route when the Apply path landed on an
+   * aggregator repost or on nothing. Read-only, ≤9 requests, one
+   * deadline; every note rides on the report.
+   */
+  const tryEmployerBoardHop = async (phase: string): Promise<string | null> => {
+    const hop = await hopToEmployerBoard({
+      company: jobIdentity?.company ?? null,
+      role: jobIdentity?.role ?? null,
+      location: jobIdentity?.location ?? null,
+    }).catch((err: unknown) => ({
+      hit: null,
+      notes: [`board hop failed: ${err instanceof Error ? err.message.slice(0, 120) : "unknown"}`],
+      fetches: 0,
+    }));
+    report.notes.push(...hop.notes);
+    trace({
+      phase,
+      outcome: hop.hit
+        ? `resolved on the employer's ${hop.hit.ats} board (${hop.hit.basis})`
+        : `no employer board route (${hop.fetches} request(s))`,
+      ...(hop.hit ? { evidence: safeHostOf(hop.hit.url) } : {}),
+    });
+    return hop.hit?.url ?? null;
+  };
+
   // Agent phase (N3) needs the operator's CDP Chrome; when it's available,
   // phases A/B run in the SAME Chrome so the agent continues seamlessly.
   const cfg0 = getConfig();
@@ -522,6 +556,21 @@ export async function runNavigation(
       // the URL: the pipeline routes needs_login to fill, and fill owns
       // portal sign-in (086820f) — its pre-mutation gate + portal auth
       // mean application values can never be typed into a login form.
+      // #196 (live Coinbase 2026-09-08): JobRight's Apply landed on
+      // linkedin.com/jobs/view — LinkedIn Easy Apply, a repost. Storing it
+      // sent the fill into NAVIGATION_INCOMPLETE and triage requeued into
+      // the same page. The employer's own board is the route the pipeline
+      // actually fills; the aggregator URL stays the fallback when no
+      // board lists the posting.
+      if (isConsumerAggregatorUrl(capture.url)) {
+        report.notes.push(
+          `phase B: Apply landed on aggregator ${safeHostOf(capture.url)} — looking for the employer's own board first`,
+        );
+        const boardUrl = await tryEmployerBoardHop("B_board_hop");
+        if (boardUrl) {
+          return await resolveAndPersist(report, db, applicationId, boardUrl, "employer_board");
+        }
+      }
       const captureCong = congruent(capture.url);
       if (captureCong.verdict === "mismatch") {
         // The Apply CLICK produced this URL — the strongest provenance the
@@ -646,6 +695,13 @@ export async function runNavigation(
             `anchor adjudication failed (continuing): ${err instanceof Error ? err.message.slice(0, 120) : "unknown"}`,
           );
         }
+      }
+
+      // #196: before the agent budget, one deterministic look at the
+      // employer's own public board for this exact posting.
+      const boardUrl = await tryEmployerBoardHop("B_board_hop");
+      if (boardUrl) {
+        return await resolveAndPersist(report, db, applicationId, boardUrl, "employer_board");
       }
     }
 
