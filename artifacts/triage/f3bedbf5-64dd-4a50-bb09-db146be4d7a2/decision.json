@@ -1,0 +1,119 @@
+{
+  "decision_id": "f3bedbf5-64dd-4a50-bb09-db146be4d7a2",
+  "application_id": "3d6d6631-99b7-4b02-8d52-cfcef0c253e5",
+  "signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|peraton.jibeapply.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "3d6d6631-99b7-4b02-8d52-cfcef0c253e5",
+    "company": "Peraton",
+    "role": "Summer 2027 Data Science Intern",
+    "state": "NATIVE_AUTOFILL_RUNNING",
+    "attempt": 1,
+    "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|peraton.jibeapply.com",
+    "end_host": "peraton.jibeapply.com",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-09T16:11:56.900Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-09T16:11:49.173Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-09T16:11:49.142Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-09T16:11:43.406Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 dd9093dde3f8)",
+        "at": "2026-09-09T16:11:43.392Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-09T16:11:43.301Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-09T15:42:13.685Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-09T15:42:13.663Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-09T15:42:13.661Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-09T15:42:13.658Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "peraton",
+        "detail": "token \"peraton\" ~ slug \"peraton\" (from URL host)",
+        "expected_company": "Peraton",
+        "url": "https://peraton.jibeapply.com/jobs/170320?jr_id=6aa170c03272060a8e3efc2e"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (10 candidates, employer match)",
+          "evidence": "peraton.jibeapply.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"requeue_same\", \"rationale\": \"Attempt 1 stalled mid-run in NATIVE_AUTOFILL_RUNNING with no wall, no fill gate, and a validated employer URL (congruence match). No prior failed attempts on this host and no forbidden actions; a plain rerun is the cheapest step that could complete the autofill.\", \"confidence\": \"medium\"}",
+  "parsed_action": "requeue_same",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "requeued at attempt 2",
+  "rationale_unverified": "Attempt 1 stalled mid-run in NATIVE_AUTOFILL_RUNNING with no wall, no fill gate, and a validated employer URL (congruence match). No prior failed attempts on this host and no forbidden actions; a plain rerun is the cheapest step that could complete the autofill."
+}
