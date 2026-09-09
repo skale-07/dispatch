@@ -27,6 +27,7 @@ import {
 } from "./navRequeue.js";
 import { clearSkipRequest, isSkipRequested } from "./skipRequests.js";
 import { probeCdpAttach, restartCdpChrome } from "./cdpChrome.js";
+import { detectAtsFromUrl } from "../ats/shared/urlValidationDispatch.js";
 import {
   DEFAULT_CONNECTIVITY_WAIT,
   isNetworkOutageError,
@@ -221,6 +222,65 @@ export type AutomationSessionInput = {
 };
 
 /**
+ * #228 (operator directive 2026-09-09): "prioritise apps from lever,
+ * greenhouse, ashby, that are super easy to fill out. then apply to
+ * workday apps."
+ *
+ * Tonight's evidence agrees: all 13 submits came from vendor-hosted forms,
+ * while Workday cost several cycles each (account creation, header menus,
+ * how-did-you-hear) and bespoke career sites (Phenom, jibeapply, Paylocity)
+ * mostly ended in walls.
+ *
+ *   0 — greenhouse / lever / ashby / workable: one page, known selectors
+ *   1 — not yet resolved (a JobRight row before navigation): unknown, and
+ *       most resolve INTO tier 0, so they outrank the slow tiers
+ *   2 — workday: reachable but expensive
+ *   3 — anything else (bespoke career sites): the biggest time sinks
+ *
+ * Recency still decides inside a tier, so the 24h policy is unaffected.
+ */
+export function applicationAtsTier(row: {
+  source_ats?: string | null;
+  versions_json?: string | null;
+}): number {
+  let ats = (row.source_ats ?? "").trim().toLowerCase();
+  if (!ats && row.versions_json) {
+    try {
+      const v = JSON.parse(row.versions_json) as { employer_application_url?: unknown };
+      const url =
+        typeof v.employer_application_url === "string" ? v.employer_application_url : "";
+      if (url) {
+        // detectAtsFromUrl only names greenhouse and "generic", so the
+        // vendor hosts are matched here directly — otherwise every Ashby,
+        // Lever and Workday row fell into the unresolved tier (caught by
+        // probing the real detector rather than trusting it).
+        const host = new URL(url).hostname.toLowerCase();
+        ats =
+          /(^|\.)myworkdayjobs\.com$|(^|\.)myworkdaysite\.com$|(^|\.)workday\.com$/.test(host)
+            ? "workday"
+            : /(^|\.)ashbyhq\.com$/.test(host)
+              ? "ashby"
+              : /(^|\.)lever\.co$/.test(host)
+                ? "lever"
+                : /(^|\.)greenhouse\.io$/.test(host)
+                  ? "greenhouse"
+                  : /(^|\.)workable\.com$/.test(host)
+                    ? "workable"
+                    : (detectAtsFromUrl(url).ats ?? "").toLowerCase();
+      }
+    } catch {
+      ats = "";
+    }
+  }
+  if (!ats || ats === "unknown") return 1;
+  if (ats === "greenhouse" || ats === "lever" || ats === "ashby" || ats === "workable") {
+    return 0;
+  }
+  if (ats === "workday") return 2;
+  return 3;
+}
+
+/**
  * Next QUEUED (else any advanceable) app with no open review, not excluded,
  * and not already processed this session. The seen-set matters because a
  * single runPipeline call takes an app as far as it can go; if it stops at
@@ -247,6 +307,7 @@ function pickNextApplication(db: Db, seen: Set<string>, scope?: Set<string>): st
     job_created_at: string | null;
     description_text: string | null;
     raw_json: string | null;
+    source_ats: string | null;
   };
   // Board-discovered rows carry the ATS's own timestamp in raw_json
   // (posted_at); JobRight rows carry only the relative text.
@@ -259,6 +320,24 @@ function pickNextApplication(db: Db, seen: Set<string>, scope?: Set<string>): st
       return null;
     }
   };
+  /**
+   * #228 (operator directive 2026-09-09): "prioritise apps from lever,
+   * greenhouse, ashby, that are super easy to fill out. then apply to
+   * workday apps."
+   *
+   * Tonight's evidence agrees: all 13 submits came from vendor-hosted
+   * forms, while Workday cost multiple cycles each (account creation,
+   * header menus, how-did-you-hear) and bespoke company sites (Phenom,
+   * jibeapply, Paylocity) mostly ended in walls.
+   *
+   *   0 — greenhouse / lever / ashby / workable: one page, known selectors
+   *   1 — not yet resolved (a JobRight row before navigation): unknown,
+   *       and most resolve INTO tier 0, so they outrank the slow tier
+   *   2 — workday: reachable but expensive
+   *   3 — anything else (bespoke career sites): the biggest time sinks
+   *
+   * Recency still decides inside a tier, so the 24h policy is unaffected.
+   */
   const query = (states: string) =>
     db
       .prepare(
@@ -267,12 +346,20 @@ function pickNextApplication(db: Db, seen: Set<string>, scope?: Set<string>): st
         // The old ASC order made backlog cycles grind the STALEST parked
         // apps (5-day-old Rivian) while fresh enqueues waited.
         `SELECT a.id, a.versions_json, a.state, a.created_at AS app_created_at,
-                j.created_at AS job_created_at, j.description_text, j.raw_json
+                j.created_at AS job_created_at, j.description_text, j.raw_json,
+                j.source_ats
          FROM applications a LEFT JOIN jobs j ON j.id = a.job_id
          WHERE a.state IN (${states})
          ORDER BY a.created_at DESC`,
       )
       .all() as PickRow[];
+
+  /** #228: easy ATSes first, then unresolved, Workday, bespoke sites. */
+  const byAtsThenRecency = (rows: PickRow[]): PickRow[] =>
+    rows
+      .map((row, index) => ({ row, index, tier: applicationAtsTier(row) }))
+      .sort((a, b) => a.tier - b.tier || a.index - b.index)
+      .map((r) => r.row);
 
   const firstEligible = (rows: PickRow[]): string | null => {
     for (const row of rows) {
@@ -334,11 +421,12 @@ function pickNextApplication(db: Db, seen: Set<string>, scope?: Set<string>): st
     return null;
   };
 
-  // QUEUED first, then anything else the pipeline can still advance.
-  const queued = firstEligible(query("'QUEUED'"));
+  // QUEUED first, then anything else the pipeline can still advance —
+  // each set ordered easy-ATS-first (#228), recency deciding within a tier.
+  const queued = firstEligible(byAtsThenRecency(query("'QUEUED'")));
   if (queued) return queued;
   return firstEligible(
-    query(
+    byAtsThenRecency(query(
       `'MATERIALS_GENERATING','RESUME_DOWNLOADED','APPLICATION_OPENING',` +
         `'ATS_DETECTION','APPLICATION_INSPECTION','NATIVE_AUTOFILL_RUNNING',` +
         // X2: an app crashed mid-extension-first-fill resumes safely — the
@@ -346,7 +434,7 @@ function pickNextApplication(db: Db, seen: Set<string>, scope?: Set<string>): st
         // "run the full native fill".
         `'JOBRIGHT_AUTOFILL_RUNNING','JOBRIGHT_AUTOFILL_VERIFICATION','FORM_RESETTING',` +
         `'FIELD_VERIFICATION','READY_TO_SUBMIT'`,
-    ),
+    )),
   );
 }
 
