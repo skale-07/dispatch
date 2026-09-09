@@ -60,12 +60,12 @@
 </style></head>
 <body><div class="wrap">
 <h1>Dispatch run timeline</h1>
-<p class="sub">Generated 2026-09-09T20:09:31.923Z · 40 navigation run(s) · read-only view of artifacts/</p>
-<div class="stats"><span class="stat"><b>19</b> unknown</span><span class="stat"><b>16</b> resolved</span><span class="stat"><b>4</b> duplicate_url</span><span class="stat"><b>1</b> closed</span></div>
+<p class="sub">Generated 2026-09-09T20:11:33.217Z · 40 navigation run(s) · read-only view of artifacts/</p>
+<div class="stats"><span class="stat"><b>20</b> unknown</span><span class="stat"><b>15</b> resolved</span><span class="stat"><b>4</b> duplicate_url</span><span class="stat"><b>1</b> closed</span></div>
 <section class="cycle">
   <h2>Latest cycle</h2>
   <dl>
-    <div><dt>Started</dt><dd>2026-09-09T20:07:32.642Z</dd></div>
+    <div><dt>Started</dt><dd>2026-09-09T20:09:54.783Z</dd></div>
     <div><dt>Outcome</dt><dd>completed</dd></div>
     <div><dt>Agent leg</dt><dd>available</dd></div>
     <div><dt>Default resume</dt><dd>ready (C:\dev\jobright-application-agent\private\candidate\resumes\swe.pdf)</dd></div>
@@ -73,12 +73,24 @@
     <div><dt>Submits used</dt><dd>0</dd></div>
     <div><dt>Stopped</dt><dd>apps_cap</dd></div>
   </dl>
-  <h3>Session notes</h3><ul class="notes"><li>nav audit: 0 wrong-employer URL(s) cleared for re-navigation, 2 parked for review</li><li>triage sweep: 0 confirmed, 0 refuted, 0 expired of 57 pending</li><li>triage ed0c4b90: engage_agent_leg — precondition failed: no navigation wall in evidence — agent leg only helps nav-walled apps</li><li>artifact autopush failed (session unaffected): Command failed: git add -A -- artifacts
-fatal: Unable to create 'C:/dev/jobright-application-agent/.git/index.lock': File exists.
-
-Another git process seems to be running in this repository, or the lo</li></ul>
+  <h3>Session notes</h3><ul class="notes"><li>nav audit: 0 wrong-employer URL(s) cleared for re-navigation, 2 parked for review</li><li>triage sweep: 0 confirmed, 0 refuted, 0 expired of 58 pending</li><li>triage ed0c4b90: park_for_operator (executed) — review item created: bd322ffc-5222-4eaf-b687-b8f287756767</li><li>artifact autopush: removed a stale .git/index.lock (9 min old, nothing writing it)</li><li>artifact autopush: 20 file(s) pushed to master as 73b7c7db</li></ul>
 </section>
 <h2>Applications</h2>
+<details class="app bad">
+  <summary>
+    <span class="id"></span>
+    <span class="co">—</span>
+    <span class="badge">wall: undefined</span>
+    
+    
+    
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li>none recorded</li></ol>
+    <h4>Notes</h4><ul class="notes"><li>model calls: 5 of 6 steps</li></ul>
+    
+  </div>
+</details>
 <details class="app bad">
   <summary>
     <span class="id"></span>
@@ -662,21 +674,6 @@ Another git process seems to be running in this repository, or the lo</li></ul>
     <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>B_board_hop</b> — no employer board route (3 request(s))</li><li><b>C_agent</b> — resolved (turn 1, employer match)<span class="ev">careers.acme.com</span></li></ol>
     <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>board hop: no public greenhouse/lever/ashby board found for &quot;Acme&quot; (acme; 3 requests)</li><li>agent[1]: cred_available:false</li><li>agent[1]: leaked:none</li></ul>
     <h4>Hosts visited</h4><p class="hosts">careers.acme.com</p>
-  </div>
-</details>
-<details class="app ok">
-  <summary>
-    <span class="id">7b54a55e</span>
-    <span class="co">Acme</span>
-    <span class="badge">resolved</span>
-    <span class="chip">agent</span>
-    <span class="chip">ashby</span>
-    <span class="chip">agent 2t/6s</span>
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>B_board_hop</b> — no employer board route (3 request(s))</li><li><b>D_gmail</b> — verification code retrieved</li><li><b>C_agent</b> — resolved (turn 2, employer match)<span class="ev">jobs.ashbyhq.com</span></li></ol>
-    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>board hop: no public greenhouse/lever/ashby board found for &quot;Acme&quot; (acme; 3 requests)</li><li>agent[2]: continuation ok</li></ul>
-    <h4>Hosts visited</h4><p class="hosts">jobs.ashbyhq.com</p>
   </div>
 </details>
 <footer>Every row is one navigation run. Green = employer URL resolved; amber = auth/CAPTCHA wall; red = unresolved; grey = posting closed. Expand a row for its phase trace and the notes that explain the stop.</footer>
