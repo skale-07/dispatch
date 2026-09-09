@@ -1,0 +1,27 @@
+{
+  "run_id": "[REDACTED]",
+  "outcome": "form_ready",
+  "steps": [
+    {
+      "observation": "8174dbfab3f5940f",
+      "action": "click",
+      "reason": "one unambiguous Apply control",
+      "result": "clicked observed control; next observation checks progress",
+      "target": "control-0"
+    },
+    {
+      "observation": "51f3104a3ec207e3",
+      "action": "wait",
+      "reason": "Apply step-1 personalInformation page is still loading (widget 'Loading...'); wait for fields to render",
+      "result": "waited for rendering",
+      "model": "claude-opus-5"
+    }
+  ],
+  "notes": [
+    "model calls: 1 of 2 steps"
+  ],
+  "evidence": [
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-8239861d-f230-4b25-bafe-57f495a40c9e\\observation.json",
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-8239861d-f230-4b25-bafe-57f495a40c9e\\page.png"
+  ]
+}
