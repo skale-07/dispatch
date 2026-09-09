@@ -206,6 +206,66 @@ EPERM = alive), and keeps the heartbeat rule for rows without a PID
 auto-cycle test file was NOT run (it writes real cycle artifacts while
 the loop runs — see the note below); it is due at the next solo gate.
 
+## 15:50→18:50 UTC — zero submits: queue drained, feed static, boards exhausted
+
+Cycles 27–46: the JobRight recommend feed showed the same 8 cards on
+every refresh (15:53, 18:40 — "inspected 8, eligible 4, reused 4"), the
+15-board registry filtered out everything fresh, and the loop ground the
+parked walls: S&P Global Workday (how_heard combobox not committed),
+Peraton jibeapply NAVIGATION_INCOMPLETE ×4, CACI POSTING_MISMATCH ×3,
+EOSYS (state select + skills picker empty), Equipment & Controls
+paylocity verify mismatch, Cisco (1 required question unanswered),
+Palantir (name pronunciation + conditional dates). Also #208 below.
+
+## Issue #207 — Gmail tail for board-sourced submits via a company twin (operator 18:51 UTC)
+
+"For submitted apps run the gmail generation to company employees."
+All 7 Verkada submits were board-sourced (no JobRight job id) and the
+tail ended terminal. JobRight's insider list is per COMPANY, and the DB
+already held a JobRight Verkada posting (6a8ddb11). Fix:
+`getStoredJobInspectionTargetByApplicationId` resolves the newest stored
+JobRight job of the same company (exact name, case/space-insensitive —
+`findCompanyTwinJob`) when the app's own job has none; `hasJobRightJobId`
+agrees. Tails re-opened (`private/tmp-reopen-gmail-tails.ts`, 7 rows),
+outreach worker restarted on the new code at 18:55.
+Result (LIVE_MUTATION_CONFIRMED by the worker's own read-back): 79185ac4
+→ 7 people checked, 3 emails found, 3 Gmail drafts DRAFTED; 7066cacd →
+7 people, 4 emails, drafting. First re-opened tail (2e956d3f, 18:56) still
+read 0 people — the insider panels sit behind "View" expanders and the
+first pass after a fresh session tagged nothing; later passes expanded
+fine. Revel/Sequence 0 people = genuinely no insiders listed.
+
+## Issue #208 — cycle 39 held for 1h54m after its session ended
+
+`session_end` 16:46:07, process exit 18:40:24; report notes empty, so the
+time went before the report persisted — the only unbounded await on that
+path is `dropNavSession` → `serviceSession.close()` (CDP disconnect) in
+the session's finally. Fix: the close is raced against a 20s timer
+(`NAV_SESSION_CLOSE_TIMEOUT_MS`). UNVERIFIED against a real wedge until it
+recurs; every other await on that path is already bounded.
+
+## Issue #209 — board discovery: one board took all 12 slots, 9 of them finance/ops
+
+New registry of 42 candidate boards (private/discovery/boards-day28-
+candidates.json): 31 resolve (Coinbase, Robinhood, Airbnb, DoorDash, Lyft,
+Pinterest, Dropbox, Discord, Brex, Affirm, Gusto, Instacart, Asana,
+Duolingo, MongoDB, Elastic, Okta, Twilio, Flexport, Nuro, Roblox, Reddit,
+Datadog, Waymo, Vercel, Linear, Replit, Cohere, Perplexity, Cursor,
+Sierra, Palantir/lever); 404: plaid, hashicorp, rippling,
+appliedintuition, deepmind, cruise, snapchat, nvidia; anduril aborted.
+First sweep enqueued 12 — all Coinbase, and `include: ["intern"]` let
+Accounting / Business Controller / Credit Risk / Crypto Inventory Ops /
+Employee Experience / Finance Ops / FP&A / Internal Audit / Accelerations
+Programs through; the loop had already picked Internal Audit (cycle 47).
+Those 9 were abandoned through the state machine (reason names the
+policy); Analytics Engineer / Data Engineer / Data Science kept.
+Fix: registry-wide `role_terms` (title must contain one — software,
+engineer, developer, data, machine learning, ml, ai, research, analytics,
+platform, infrastructure, security, full stack, frontend, backend, mobile,
+embedded, systems, devops, cloud, quant) ANDed after include/exclude, and
+`max_new_per_board` (per-board cap; #180 was the same failure with
+Stripe). CLI `--role-terms` / `--per-board` override.
+
 ## Note — never run `tests/unit/auto-cycle.test.ts` while the loop runs
 
 It writes real `artifacts/console/auto-cycle/cycle-*.json` files
