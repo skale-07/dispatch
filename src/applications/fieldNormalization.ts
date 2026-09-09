@@ -265,7 +265,16 @@ function matchCanonicalFieldInner(
   if (
     /eeo\[?\s*race|name=["']?eeo\[race\]/i.test(nameHint) ||
     /eeo\[race\]/i.test(normalized) ||
-    (/\brace\b/.test(normalized) && !/trace|brace/.test(normalized))
+    (/\brace\b/.test(normalized) && !/trace|brace/.test(normalized)) ||
+    // #213 (live roblox 2026-09-09): "How would you describe your
+    // racial/ethnic background? (mark all that apply)" — the adjective
+    // forms never matched \brace\b, so a REQUIRED EEO question went
+    // unmapped and the submit was withheld. Sensitive-profile path only;
+    // no value on file still means skipped.
+    (/\bracial\b|\bethnic(?:ity)?\b|\bethnic background\b/.test(normalized) &&
+      // #148: UKG's "Ethnic Origin" is the Hispanic/Latino question by its
+      // control name — that rule (below) must keep winning.
+      !/hispanic/i.test(`${nameHint} ${field.id ?? ""}`))
   )
     return "race_ethnicity";
   if (/eeo\[?\s*veteran|eeo\[veteran\]/i.test(nameHint) || /eeo\[veteran\]/i.test(normalized))

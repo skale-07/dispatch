@@ -666,10 +666,26 @@ export async function runGreenhouseLiveFill(input: {
     if (input.existingPage) {
       const page = input.existingPage;
       base.notes.push("session: handoff (caller-owned page, not closed here)");
-      await page.goto(urlValidation.normalizedUrl ?? input.url, {
-        waitUntil: "domcontentloaded",
-        timeout: 60_000,
-      });
+      const target = urlValidation.normalizedUrl ?? input.url;
+      try {
+        await page.goto(target, { waitUntil: "domcontentloaded", timeout: 60_000 });
+      } catch (err) {
+        // #212 (live Coinbase, day28 cycles 49/50/58): boards.greenhouse.io/
+        // coinbase/jobs/<id> answered the browser with net::ERR_CONNECTION_
+        // RESET on the 301→302 hop to the company site (curl 301/302 fine),
+        // and the error escaped before any landing rung ran. The canonical
+        // embed app is derivable from the URL we already hold and skips the
+        // company-hosted redirect entirely; one retry there, then rethrow.
+        const message = err instanceof Error ? err.message : String(err);
+        const embedUrl = /net::ERR_|ECONNRESET|ETIMEDOUT/.test(message)
+          ? greenhouseEmbedFallbackUrl(input.url, urlValidation.normalizedUrl, target)
+          : null;
+        if (!embedUrl) throw err;
+        base.notes.push(
+          `landing navigation failed (${message.slice(0, 80)}) — retrying via the canonical embed app ${embedUrl}`,
+        );
+        await page.goto(embedUrl, { waitUntil: "domcontentloaded", timeout: 60_000 });
+      }
       return fn(page);
     }
     return withPublicUrlPage(urlValidation.normalizedUrl ?? input.url, fn, {

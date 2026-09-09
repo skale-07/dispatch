@@ -17,6 +17,17 @@ describe("matchCanonicalField name/id fallbacks", () => {
     ).toBe("current_company");
   });
 
+  // #213 (live roblox 2026-09-09): EEO race question phrased as an adjective.
+  it("racial/ethnic-background phrasing maps to race_ethnicity (sensitive-profile path)", () => {
+    const q = (label: string) => ({ id: "q1", label, type: "select" as const, required: true, name: "" });
+    expect(
+      matchCanonicalField(q("How would you describe your racial/ethnic background? (mark all that apply)"), {}),
+    ).toBe("race_ethnicity");
+    expect(matchCanonicalField(q("Ethnicity"), {})).toBe("race_ethnicity");
+    // Unrelated words that contain "race" stay unmapped.
+    expect(matchCanonicalField(q("Trace ID"), {})).toBeNull();
+  });
+
   // #204 (live cisco 2026-09-09, Phenom): the referrer's name/email is a
   // third-person question — an identity alias must never claim it.
   it("third-person / referred-by free-text fields never map to the candidate's identity", () => {
