@@ -486,6 +486,54 @@ aria-expanded trigger; never a menu item), and atsLiveFill runs the sweep
 once after portal auth clears. Red Hat requeued via the ambiguous-field
 resolver (Workday re-runs the fill from FIELD_VERIFICATION, #62).
 
+## Issues #220–#222 — operator directives 21:00 UTC (deterministic/agent split; essays always filled, batched)
+
+Operator: (1) pick whichever split is stronger, ~70/30, and leave the
+account-creation algorithm alone; (2) essays fill regardless, and the
+questions go to the model in ONE batched prompt, not one call each.
+
+**#220 deterministic-first.** Decision made on tonight's evidence: all 12
+submits came from deterministic rungs (embed-first, Apply walk, portal
+auth); the nav supervisor spent ~180k input tokens and still stopped on
+the page it started from (Red Hat cycles 83–84, "stopped (6 steps)" on
+its own posting; Two Sigma 5 of 6 steps ending on /careers/Register).
+So an auth or posting landing goes straight to its rung, and the
+supervisor runs only on a landing the rungs cannot name plus ONE attempt
+after an Apply miss. Account creation is untouched and reached sooner.
+
+**#221 essays abstained AND were length-rejected.** DRW's "rank your
+location preference: Austin, Chicago, Greenwich, Houston, New York"
+blocked the submit. The prompt told the model to abstain on anything not
+grounded in a stored candidate fact — a preference is not one — and
+`validateDraft` rejected anything under 40 words, so a correct one-line
+ranking could never pass. That is why the review-draft path produced
+"My ranking is: Chicago, New York… I want to be honest that the
+preference is mild": padding to clear the floor. Now
+`expectedAnswerShape()` picks the floor from the question text
+(rank/choose/list/date/brief ⇒ 2 words, essay ⇒ 40) and the prompt
+answers preference/choice questions. Safety added in the same pass: a
+deterministic `SENSITIVE_QUESTION` guard skips demographic,
+authorization, criminal-history and compensation questions BEFORE any
+model call — #213 proved a mis-mapped EEO question can reach this layer.
+
+**#222 one batched call.** `generateEssayAnswers` sends every answerable
+question keyed in a single call, with about-me and the posting as cached
+context blocks. The model seeing the whole questionnaire is also what
+makes a "Second example:" follow-up genuinely differ from its sibling;
+the old loop replayed previous answers per call to approximate that.
+
+Tests: essay-posting-context + essay-draft 14/14, autonomy-unblockers
+24/24, typecheck. Commit dbb34534. UNIT_CONFIRMED only — the live proof
+is DRW's next cycle (requeued 21:05 with Cisco and DV Trading).
+
+## Parked on operator-only answers (not system gaps)
+
+- Replit (fb93ad5b): "Project URL" / "Project Password" — a take-home.
+- Palantir (1b95eb66): "Name" + "Date" — an acknowledgement signature
+  block. Deterministic and general (full legal name + today's date), but
+  not built tonight; noted for the next session.
+- Roblox (fba0e3d2): "Roblox Username" + campus-partner organizations.
+
 ## Note — never run `tests/unit/auto-cycle.test.ts` while the loop runs
 
 It writes real `artifacts/console/auto-cycle/cycle-*.json` files
