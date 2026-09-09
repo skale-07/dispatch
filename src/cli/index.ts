@@ -507,6 +507,8 @@ async function cmdDiscoverAts(
   --match     keep only titles containing ANY term (comma-separated)
   --drop      drop titles containing ANY term (exclude wins)
   --limit     max NEW applications this run (default 25)
+  --role-terms a,b   title must ALSO contain one of these (registry "role_terms" by default)
+  --per-board N      max NEW applications per board this run (registry "max_new_per_board")
 
 Requires ATS_DISCOVERY_ENABLED=true in .env. Read-only against the network;
 prints the enqueue report as JSON.`);
@@ -523,11 +525,15 @@ prints the enqueue report as JSON.`);
       : [];
 
   const entries: BoardRegistryEntry[] = [];
+  let registryRoleTerms: string[] = [];
+  let registryPerBoard: number | null = null;
   const registryPath = flags["registry"];
   if (typeof registryPath === "string") {
     const loaded = loadBoardRegistry(registryPath);
     for (const e of loaded.errors) console.error(`registry: ${e}`);
     entries.push(...loaded.entries);
+    registryRoleTerms = loaded.roleTerms;
+    registryPerBoard = loaded.maxNewPerBoard;
   }
   const inlineCompany =
     typeof flags["company"] === "string" ? flags["company"] : undefined;
@@ -556,6 +562,10 @@ prints the enqueue report as JSON.`);
   if (entries.length === 0) usage();
 
   const limit = typeof flags["limit"] === "string" ? Number(flags["limit"]) : NaN;
+  // #209: --role-terms / --per-board override the registry's own values.
+  const roleTerms = split(flags["role-terms"]).length > 0 ? split(flags["role-terms"]) : registryRoleTerms;
+  const perBoardFlag = typeof flags["per-board"] === "string" ? Number(flags["per-board"]) : NaN;
+  const perBoard = Number.isFinite(perBoardFlag) && perBoardFlag > 0 ? perBoardFlag : registryPerBoard;
   const db = openDatabase();
   try {
     migrate(db);
@@ -566,6 +576,8 @@ prints the enqueue report as JSON.`);
       ...(Number.isFinite(limit) && limit > 0
         ? { maxNewApplications: limit }
         : {}),
+      ...(roleTerms.length > 0 ? { roleTerms } : {}),
+      ...(perBoard !== null ? { maxNewPerBoard: perBoard } : {}),
     });
     console.log(JSON.stringify(report, null, 2));
     if (report.boards.every((b) => !b.ok)) process.exitCode = 1;

@@ -344,6 +344,73 @@ describe("runAtsBoardDiscovery (UNIT_CONFIRMED)", () => {
       error: null,
     });
 
+  // #209 (day28): `include: ["intern"]` alone let one board enqueue nine
+  // finance/ops internships; the registry-wide role gate is ANDed on top.
+  it("role terms are ANDed after include/exclude; a per-board cap leaves room for later boards", async () => {
+    applyControlledFillEnv({ ATS_DISCOVERY_ENABLED: "true" });
+    const jobsFor = (token: string, titles: string[]) =>
+      titles.map((t, i) => ({ title: t, url: `https://job-boards.greenhouse.io/${token}/jobs/${i + 1}` }));
+    const deps = {
+      fetchBoard: async (ref: AtsBoardRef): Promise<BoardFetchResult> => {
+        const titles =
+          ref.token === "appian"
+            ? ["Accounting Intern", "Software Engineer Intern", "Data Science Intern", "FP&A Intern", "Machine Learning Engineer Intern"]
+            : ["Backend Engineer Intern", "Credit Risk Intern"];
+        return (await stubFetch(jobsFor(ref.token, titles))(ref));
+      },
+    };
+    const second: BoardRegistryEntry = {
+      ref: { ats: "greenhouse", token: "acme" },
+      company: "Acme",
+      include: ["intern"],
+      exclude: [],
+    };
+    const report = await runAtsBoardDiscovery({
+      db,
+      entries: [entry({ include: ["intern"] }), second],
+      roleTerms: ["software", "engineer", "data", "machine learning"],
+      maxNewPerBoard: 2,
+      maxNewApplications: 10,
+      deps,
+    });
+    const enqueued = report.applications.filter((a) => a.outcome === "enqueued").map((a) => `${a.company}:${a.role}`);
+    // Appian: 3 role-fit titles, capped at 2; Acme: its 1 role-fit title still lands.
+    expect(enqueued).toEqual([
+      "Appian:Software Engineer Intern",
+      "Appian:Data Science Intern",
+      "Acme:Backend Engineer Intern",
+    ]);
+    expect(report.applications.filter((a) => a.outcome === "capped").map((a) => a.detail)).toEqual([
+      "per-board cap (2) reached — next sweep continues",
+    ]);
+    // Finance/ops titles never reached the queue.
+    expect(report.boards.map((b) => [b.company, b.filtered_out])).toEqual([["Appian", 2], ["Acme", 1]]);
+    expect(report.notes.join(" ")).toMatch(/greenhouse:appian: 2 posting\(s\) outside role terms skipped/);
+  });
+
+  it("registry top-level role_terms / max_new_per_board are parsed; absent = no gate", () => {
+    const p = path.join(os.tmpdir(), `jaa-reg-${randomUUID()}.json`);
+    fs.writeFileSync(
+      p,
+      JSON.stringify({
+        role_terms: ["software", " data ", 7, ""],
+        max_new_per_board: 3.7,
+        boards: [{ ref: "greenhouse:appian", company: "Appian", include: ["intern"] }],
+      }),
+    );
+    try {
+      const loaded = loadBoardRegistry(p);
+      expect(loaded.roleTerms).toEqual(["software", " data "]);
+      expect(loaded.maxNewPerBoard).toBe(3);
+      fs.writeFileSync(p, JSON.stringify({ boards: [] }));
+      const bare = loadBoardRegistry(p);
+      expect(bare.roleTerms).toEqual([]);
+      expect(bare.maxNewPerBoard).toBeNull();
+    } finally {
+      fs.unlinkSync(p);
+    }
+  });
+
   it("refuses when ATS_DISCOVERY_ENABLED is off — fail closed", async () => {
     await expect(
       runAtsBoardDiscovery({

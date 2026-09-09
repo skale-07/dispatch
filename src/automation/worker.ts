@@ -32,6 +32,9 @@ import {
   isNetworkOutageError,
   waitForConnectivity,
 } from "./connectivity.js";
+
+/** Upper bound on closing/disconnecting the shared nav session (#208). */
+const NAV_SESSION_CLOSE_TIMEOUT_MS = 20_000;
 import { auditEmployerUrls } from "../navigation/auditEmployerUrls.js";
 import { probeCdpEndpoint, type NavSession } from "../navigation/runNavigation.js";
 import { PlaywrightServiceSession } from "../auth/serviceSession.js";
@@ -639,7 +642,20 @@ export async function runAutomationSession(
   const dropNavSession = async (): Promise<void> => {
     const s = sharedNavSession;
     sharedNavSession = null;
-    if (s) await s.close().catch(() => undefined);
+    if (!s) return;
+    // #208 (day28 cycle 39): the session's own log said "finished" at
+    // 16:46 and the process exited at 18:40 — a CDP disconnect that never
+    // resolved held the cycle for two hours (no app, no budget, no
+    // heartbeat). A close is best-effort; it gets a bounded wait.
+    let timer: NodeJS.Timeout | undefined;
+    await Promise.race([
+      s.close().catch(() => undefined),
+      new Promise<void>((resolve) => {
+        timer = setTimeout(resolve, NAV_SESSION_CLOSE_TIMEOUT_MS);
+      }),
+    ]).finally(() => {
+      if (timer) clearTimeout(timer);
+    });
   };
 
   try {

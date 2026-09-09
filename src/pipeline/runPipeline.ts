@@ -49,6 +49,7 @@ import {
   ensureResumeForApplication,
   getRegisteredResume,
 } from "../jobright/materialsRegister.js";
+import { findCompanyTwinJob } from "../jobright/storedJobTarget.js";
 import {
   openPublicUrlSession,
   withPublicUrlPage,
@@ -165,10 +166,13 @@ export {
 export function hasJobRightJobId(db: Db, applicationId: string): boolean {
   const row = db
     .prepare(
-      `SELECT j.jobright_job_id AS id FROM applications a JOIN jobs j ON j.id = a.job_id WHERE a.id = ?`,
+      `SELECT j.jobright_job_id AS id, j.company AS company FROM applications a JOIN jobs j ON j.id = a.job_id WHERE a.id = ?`,
     )
-    .get(applicationId) as { id: string | null } | undefined;
-  return Boolean(row?.id && String(row.id).trim().length > 0);
+    .get(applicationId) as { id: string | null; company: string | null } | undefined;
+  if (row?.id && String(row.id).trim().length > 0) return true;
+  // #207: a board-discovered row can still read insiders through a stored
+  // JobRight job of the same company (see storedJobTarget.findCompanyTwinJob).
+  return Boolean(row && findCompanyTwinJob(db, row.company));
 }
 import {
   getEmployerApplicationUrl,

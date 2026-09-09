@@ -13,6 +13,13 @@ export type StoredJobInspectionTarget = {
   role: string | null;
   applicationId: string | null;
   applicationState: string | null;
+  /**
+   * #207: set when the application's own job has no JobRight id and the
+   * target was resolved from another stored JobRight job of the same
+   * company (value = the application's own job db id). Contacts read
+   * this way are company employees, not posting-specific.
+   */
+  companyTwinOf?: string;
 };
 
 export type StoredJobResolveFailure =
@@ -201,10 +208,31 @@ export function getStoredJobInspectionTargetByApplicationId(
     };
   }
   if (!joined.jobright_job_id) {
+    // #207 (day28, operator directive 2026-09-09: "for submitted apps run
+    // the gmail generation to company employees"): a board-discovered
+    // application has no JobRight posting of its own, but JobRight's
+    // insider list is per COMPANY, not per posting — any stored JobRight
+    // job for the same employer reads the same people. Resolve the newest
+    // such twin; only when there is none is there nothing to read from.
+    const twin = findCompanyTwinJob(db, joined.company);
+    if (!twin) {
+      return {
+        ok: false,
+        code: "NOT_FOUND",
+        message: `Application ${appId} has no JobRight job id`,
+      };
+    }
+    const viaTwin = targetFromJobRow(db, twin, twin.jobright_job_id!);
+    if (!viaTwin.ok) return viaTwin;
     return {
-      ok: false,
-      code: "NOT_FOUND",
-      message: `Application ${appId} has no JobRight job id`,
+      ok: true,
+      target: {
+        ...viaTwin.target,
+        // The caller's application, not whichever one the twin job holds.
+        applicationId: joined.application_id,
+        applicationState: joined.application_state,
+        companyTwinOf: joined.id,
+      },
     };
   }
 
@@ -218,4 +246,26 @@ export function getStoredJobInspectionTargetByApplicationId(
       applicationState: joined.application_state,
     },
   };
+}
+
+/**
+ * Newest stored JobRight job for the same company (case/whitespace-
+ * insensitive exact name; no fuzzy matching — "Verkada" must not read
+ * "Verkada Partners"). Null when the company has never appeared in the
+ * JobRight feed.
+ */
+export function findCompanyTwinJob(db: Db, company: string | null): JobRowFull | null {
+  const name = (company ?? "").trim().toLowerCase();
+  if (!name) return null;
+  const row = db
+    .prepare(
+      `SELECT id, jobright_job_id, normalized_application_url, company, role, raw_json
+       FROM jobs
+       WHERE jobright_job_id IS NOT NULL AND trim(jobright_job_id) <> ''
+         AND lower(trim(company)) = ?
+       ORDER BY created_at DESC
+       LIMIT 1`,
+    )
+    .get(name) as JobRowFull | undefined;
+  return row?.jobright_job_id ? row : null;
 }

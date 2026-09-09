@@ -51,6 +51,15 @@ export type BoardRegistryEntry = {
 export type BoardRegistryLoad = {
   entries: BoardRegistryEntry[];
   errors: string[];
+  /**
+   * #209 (day28): registry-wide role fit — a title must contain one of
+   * these (word-boundary) on top of each board's own include/exclude.
+   * `include: ["intern"]` alone let one Greenhouse board hand the queue
+   * nine finance/ops internships in a single sweep. Empty = no gate.
+   */
+  roleTerms: string[];
+  /** #180/#209: max NEW applications one board may add per sweep (null = unlimited). */
+  maxNewPerBoard: number | null;
 };
 
 /**
@@ -73,12 +82,22 @@ export function loadBoardRegistry(filePath: string): BoardRegistryLoad {
           err instanceof Error ? err.message : String(err)
         }`,
       ],
+      roleTerms: [],
+      maxNewPerBoard: null,
     };
   }
   const boards = (parsed as { boards?: unknown })?.boards;
   if (!Array.isArray(boards)) {
-    return { entries: [], errors: [`registry has no "boards" array`] };
+    return { entries: [], errors: [`registry has no "boards" array`], roleTerms: [], maxNewPerBoard: null };
   }
+  const top = parsed as { role_terms?: unknown; max_new_per_board?: unknown };
+  const roleTerms = Array.isArray(top.role_terms)
+    ? top.role_terms.filter((s): s is string => typeof s === "string" && s.trim() !== "")
+    : [];
+  const maxNewPerBoard =
+    typeof top.max_new_per_board === "number" && Number.isFinite(top.max_new_per_board) && top.max_new_per_board > 0
+      ? Math.floor(top.max_new_per_board)
+      : null;
   const entries: BoardRegistryEntry[] = [];
   for (const [i, b] of boards.entries()) {
     const rawRef = (b as { ref?: unknown }).ref;
@@ -100,7 +119,7 @@ export function loadBoardRegistry(filePath: string): BoardRegistryLoad {
       exclude: strings((b as { exclude?: unknown }).exclude),
     });
   }
-  return { entries, errors };
+  return { entries, errors, roleTerms, maxNewPerBoard };
 }
 
 export type DiscoveredApplication = {
@@ -147,6 +166,10 @@ export async function runAtsBoardDiscovery(input: {
   /** Extra title filter ANDed onto every entry's own (CLI --match/--drop). */
   globalFilter?: DiscoveryTitleFilter;
   maxNewApplications?: number;
+  /** #209: title must contain ANY of these (word-boundary), on top of include/exclude. */
+  roleTerms?: string[];
+  /** #180/#209: cap on NEW applications per board per sweep. */
+  maxNewPerBoard?: number;
   deps?: AtsDiscoveryDeps;
 }): Promise<AtsDiscoveryReport> {
   const cfg = getConfig();
@@ -164,6 +187,11 @@ export async function runAtsBoardDiscovery(input: {
     1,
     Math.floor(input.maxNewApplications ?? DEFAULT_MAX_NEW_APPLICATIONS),
   );
+  const roleTerms = (input.roleTerms ?? []).map((s) => s.trim()).filter(Boolean);
+  const maxPerBoard =
+    input.maxNewPerBoard !== undefined && Number.isFinite(input.maxNewPerBoard) && input.maxNewPerBoard > 0
+      ? Math.floor(input.maxNewPerBoard)
+      : null;
 
   const report: AtsDiscoveryReport = {
     enabled: true,
@@ -189,7 +217,22 @@ export async function runAtsBoardDiscovery(input: {
       include: [...entry.include, ...(input.globalFilter?.include ?? [])],
       exclude: [...entry.exclude, ...(input.globalFilter?.exclude ?? [])],
     };
-    const { kept: titleKept, dropped } = filterBoardJobs(fetched.jobs, merged);
+    const first = filterBoardJobs(fetched.jobs, merged);
+    // #209: the registry-wide role gate is ANDed after include/exclude —
+    // "intern" says it is an internship, the role terms say it is one the
+    // operator applies to (software/data/AI …), never finance/ops.
+    const roleFit =
+      roleTerms.length > 0
+        ? filterBoardJobs(first.kept, { include: roleTerms, exclude: [] })
+        : { kept: first.kept, dropped: 0 };
+    const titleKept = roleFit.kept;
+    const dropped = first.dropped + roleFit.dropped;
+    if (roleFit.dropped > 0) {
+      report.notes.push(
+        `${formatBoardRef(entry.ref)}: ${roleFit.dropped} posting(s) outside role terms skipped (#209)`,
+      );
+    }
+    let enqueuedThisBoard = 0;
     // Operator directive 2026-09-07 ("US only"): six non-US Stripe intern
     // postings were submitted because the sweep only looked at titles. A
     // confident non-US location drops the posting here; unknown passes.
@@ -259,6 +302,23 @@ export async function runAtsBoardDiscovery(input: {
         });
         continue;
       }
+      // #180/#209: one board must not monopolise the sweep (Stripe took
+      // 7/8 on night26, Coinbase 12/12 on day28). Later boards still get
+      // their share; the next sweep continues this one.
+      if (maxPerBoard !== null && enqueuedThisBoard >= maxPerBoard) {
+        report.capped += 1;
+        report.applications.push({
+          board: formatBoardRef(entry.ref),
+          company: entry.company,
+          role: job.title,
+          apply_url: job.apply_url,
+          outcome: "capped",
+          application_id: null,
+          state: null,
+          detail: `per-board cap (${maxPerBoard}) reached — next sweep continues`,
+        });
+        continue;
+      }
       report.applications.push(
         enqueueBoardJob(input.db, entry, job.title, job.apply_url, {
           external_id: job.external_id,
@@ -268,8 +328,10 @@ export async function runAtsBoardDiscovery(input: {
         }),
       );
       const last = report.applications[report.applications.length - 1]!;
-      if (last.outcome === "enqueued") report.enqueued += 1;
-      else if (last.outcome === "reused") report.reused += 1;
+      if (last.outcome === "enqueued") {
+        report.enqueued += 1;
+        enqueuedThisBoard += 1;
+      } else if (last.outcome === "reused") report.reused += 1;
       else if (last.outcome === "blocked") report.blocked += 1;
     }
     boardRow.stale = stale;

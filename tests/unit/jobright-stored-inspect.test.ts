@@ -322,6 +322,61 @@ describe("stored JobRight inspection — SQLite resolver (UNIT_CONFIRMED)", () =
     }
   });
 
+  // #207 (day28): a board-discovered application has no JobRight job of
+  // its own; JobRight's insider list is per company, so the newest stored
+  // JobRight job for the same employer is the contact source.
+  it("resolves a board-sourced application through a same-company JobRight twin", () => {
+    const { db, jobDbId: twinJob } = seedJob({
+      dbPath,
+      artifactsDir,
+      jobrightJobId: STORED_ID,
+      company: "Verkada",
+      role: "Backend Intern",
+      withApplication: false,
+    });
+    try {
+      const now = new Date().toISOString();
+      const boardJob = randomUUID();
+      db.prepare(
+        `INSERT INTO jobs (id, jobright_job_id, normalized_application_url, company, role,
+           job_fingerprint, raw_json, created_at, updated_at)
+         VALUES (?, NULL, ?, ?, ?, ?, ?, ?, ?)`,
+      ).run(
+        boardJob,
+        "https://job-boards.greenhouse.io/verkada/jobs/1",
+        " verkada ",
+        "Embedded Intern",
+        "fp-board-1",
+        JSON.stringify({ posted_at: now }),
+        now,
+        now,
+      );
+      const app = createApplication(db, { jobId: boardJob });
+      const resolved = getStoredJobInspectionTargetByApplicationId(db, app.id);
+      expect(resolved.ok).toBe(true);
+      if (resolved.ok) {
+        expect(resolved.target.jobrightJobId).toBe(STORED_ID);
+        expect(resolved.target.jobDbId).toBe(twinJob);
+        // The caller's application, not the twin's.
+        expect(resolved.target.applicationId).toBe(app.id);
+        expect(resolved.target.companyTwinOf).toBe(boardJob);
+      }
+      // A different company (exact name, no fuzzy match) has no twin.
+      const other = randomUUID();
+      db.prepare(
+        `INSERT INTO jobs (id, jobright_job_id, normalized_application_url, company, role,
+           job_fingerprint, raw_json, created_at, updated_at)
+         VALUES (?, NULL, ?, ?, ?, ?, ?, ?, ?)`,
+      ).run(other, "https://job-boards.greenhouse.io/x/jobs/2", "Verkada Partners", "Intern", "fp-board-2", "{}", now, now);
+      const app2 = createApplication(db, { jobId: other });
+      const none = getStoredJobInspectionTargetByApplicationId(db, app2.id);
+      expect(none.ok).toBe(false);
+      if (!none.ok) expect(none.message).toMatch(/has no JobRight job id/);
+    } finally {
+      closeDatabase(db);
+    }
+  });
+
   it("resolves via application UUID", () => {
     const { db, applicationId } = seedJob({
       dbPath,
