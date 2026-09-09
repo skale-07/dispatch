@@ -1,0 +1,62 @@
+{
+  "started_at": "2026-09-09T18:58:44.878Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\swe.pdf)",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "e753db94-d5e4-4719-94e4-36bc83336526",
+    "armed_until": "2026-09-09T20:58:44.919Z",
+    "seconds_remaining": 7200,
+    "max_submits": 1,
+    "submits_used": 0,
+    "max_apps": 1,
+    "apps_started": 0,
+    "discover_max": 1,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": {
+    "arm_run_id": "e753db94-d5e4-4719-94e4-36bc83336526",
+    "apps_started": 1,
+    "submits_used": 0,
+    "stopped_reason": "apps_cap",
+    "discover_runs": 0,
+    "emails_generated": 0,
+    "drafts_saved": 0,
+    "essay_drafts_generated": 0,
+    "screener_predictions_generated": 0,
+    "notes": [
+      "nav audit: 0 wrong-employer URL(s) cleared for re-navigation, 2 parked for review",
+      "triage sweep: 0 confirmed, 0 refuted, 0 expired of 54 pending",
+      "shared nav session dropped after error on e36efc14-1807-4548-a6d7-ca5be0c26906: page.goto: net::ERR_CONNECTION_RESET at https://boards.greenhouse.io/coinbase/jobs/8175432\nCall log:\n\u001b[2m  - navigating ",
+      "app e36efc14-1807-4548-a6d7-ca5be0c26906 error (network_unreachable): page.goto: net::ERR_CONNECTION_RESET at https://boards.greenhouse.io/coinbase/jobs/8175432\nCall log:\n\u001b[2m  - navigating to \"https://boards.greenhouse.io/coinbase/jobs/8175432\", waiting until \"domconte",
+      "transient network error on e36efc14-1807-4548-a6d7-ca5be0c26906 — connectivity verified, continuing",
+      "artifact autopush: 3 file(s) pushed to master as 5b1106fc"
+    ],
+    "per_app": [],
+    "nav_audit": {
+      "checked": 276,
+      "repaired": 0,
+      "parked": 2
+    },
+    "artifact_autopush": {
+      "pushed": true,
+      "commit": "5b1106fc",
+      "files_staged": 3
+    }
+  },
+  "outcome": "completed",
+  "notes": []
+}
