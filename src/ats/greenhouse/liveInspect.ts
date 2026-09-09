@@ -10,6 +10,7 @@ import { getConfig } from "../../config/index.js";
 import { redactObject } from "../../logging/redaction.js";
 import { writeJsonAtomic } from "../../storage/atomicJson.js";
 import { greenhouseSelectorsV1 } from "./selectors.js";
+import { greenhouseEmbedFallbackUrl } from "./liveFill.js";
 import {
   detectClosedJobSignals,
   detectErrorPageSignals,
@@ -463,7 +464,14 @@ export async function inspectGreenhouseApplication(options: {
             report,
           });
         },
-        { headless: options.headless ?? false },
+        {
+          headless: options.headless ?? false,
+          // #212: boards.greenhouse.io/<token>/jobs/<id> can reset the
+          // connection on its redirect to a company-hosted page (live
+          // Coinbase); the canonical embed app skips that hop.
+          fallbackUrl: greenhouseEmbedFallbackUrl(options.url, navigateUrl, navigateUrl),
+          onFallback: (note) => report.warnings.push(note),
+        },
       );
     }
 

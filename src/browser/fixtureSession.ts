@@ -119,14 +119,39 @@ export async function openPublicUrlSession(options?: {
 export async function withPublicUrlPage<T>(
   url: string,
   fn: (page: Page) => Promise<T>,
-  options?: { headless?: boolean; channel?: BrowserChannel; cdpUrl?: string },
+  options?: {
+    headless?: boolean;
+    channel?: BrowserChannel;
+    cdpUrl?: string;
+    /**
+     * #212: tried ONCE when the first navigation dies of a transport error
+     * (net::ERR_*, ECONNRESET …) — never on an HTTP status or a page that
+     * loaded. Callers derive it deterministically (Greenhouse's canonical
+     * embed app for a board URL whose redirect the browser cannot follow).
+     */
+    fallbackUrl?: string | null;
+    onFallback?: (note: string) => void;
+  },
 ): Promise<T> {
   const session = await openPublicUrlSession(options);
   try {
-    await session.page.goto(url, {
-      waitUntil: "domcontentloaded",
-      timeout: 60_000,
-    });
+    try {
+      await session.page.goto(url, {
+        waitUntil: "domcontentloaded",
+        timeout: 60_000,
+      });
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      const transport = /net::ERR_|ECONNRESET|ETIMEDOUT|ENOTFOUND/.test(message);
+      if (!transport || !options?.fallbackUrl || options.fallbackUrl === url) throw err;
+      options.onFallback?.(
+        `navigation to ${url} failed (${message.slice(0, 80)}) — retrying via ${options.fallbackUrl}`,
+      );
+      await session.page.goto(options.fallbackUrl, {
+        waitUntil: "domcontentloaded",
+        timeout: 60_000,
+      });
+    }
     return await fn(session.page);
   } finally {
     await session.close();

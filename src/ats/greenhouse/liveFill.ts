@@ -688,8 +688,12 @@ export async function runGreenhouseLiveFill(input: {
       }
       return fn(page);
     }
-    return withPublicUrlPage(urlValidation.normalizedUrl ?? input.url, fn, {
+    const launchTarget = urlValidation.normalizedUrl ?? input.url;
+    return withPublicUrlPage(launchTarget, fn, {
       headless: input.headless ?? false,
+      // #212: same embed retry as the handoff path above.
+      fallbackUrl: greenhouseEmbedFallbackUrl(input.url, urlValidation.normalizedUrl, launchTarget),
+      onFallback: (note) => base.notes.push(note),
     });
   };
 

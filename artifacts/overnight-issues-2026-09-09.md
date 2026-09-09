@@ -366,6 +366,17 @@ coinbase/jobs/<id> dies with ERR_CONNECTION_RESET before any landing rung
 error at that navigation (commit caa17da2). Live confirmation = next
 Coinbase pick.
 
+## Jobs #11 — Datadog SWE Intern (Winter) (0bf3d023) — SUBMITTED_VERIFIED (cycle 60, embed rung)
+
+Roblox (fba0e3d2) after #213: still blocked by two employer-specific
+required answers — "Roblox Username" and the campus-partner
+organizations question — operator input; its open MANUAL items keep it
+out of the picker (by design). Cycles 58/59/61/62 ground the Coinbase
+rows on ERR_CONNECTION_RESET at the INSPECTION navigation (a launched
+browser via withPublicUrlPage, not the fill's handoff page) — the embed
+retry now lives in `withPublicUrlPage` (`fallbackUrl`) and both
+inspection and fill pass the canonical embed app.
+
 ## Note — never run `tests/unit/auto-cycle.test.ts` while the loop runs
 
 It writes real `artifacts/console/auto-cycle/cycle-*.json` files
