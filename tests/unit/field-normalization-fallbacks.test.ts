@@ -17,6 +17,25 @@ describe("matchCanonicalField name/id fallbacks", () => {
     ).toBe("current_company");
   });
 
+  // #226 (live Palantir 2026-09-09; operator: "it couldn't complete a
+  // question that asked to plug in today's date").
+  it("a bare signature-block Date/Signature maps; dated questions with their own meaning do not", async () => {
+    const { todayUsDate } = await import("../../src/candidate/publicProfile.js");
+    const text = (label: string) => ({ id: "f1", label, type: "text" as const, required: true, name: "" });
+    expect(matchCanonicalField(text("Date"), {})).toBe("signature_date");
+    expect(matchCanonicalField(text("Today's Date"), {})).toBe("signature_date");
+    expect(matchCanonicalField(text("Date Signed"), {})).toBe("signature_date");
+    expect(matchCanonicalField(text("Signature"), {})).toBe("signature_name");
+    // Dates that mean something else keep their own mapping — and date of
+    // birth is sensitive, never auto-filled from here.
+    expect(matchCanonicalField(text("Graduation Date"), {})).not.toBe("signature_date");
+    expect(matchCanonicalField(text("Start Date"), {})).not.toBe("signature_date");
+    expect(matchCanonicalField(text("Date of Birth"), {})).not.toBe("signature_date");
+    // The value is today, in the US format these blocks print beside them.
+    expect(todayUsDate(new Date("2026-09-09T12:00:00"))).toBe("09/09/2026");
+    expect(todayUsDate(new Date("2026-12-25T12:00:00"))).toBe("12/25/2026");
+  });
+
   // #213 (live roblox 2026-09-09): EEO race question phrased as an adjective.
   it("racial/ethnic-background phrasing maps to race_ethnicity (sensitive-profile path)", () => {
     const q = (label: string) => ({ id: "q1", label, type: "select" as const, required: true, name: "" });

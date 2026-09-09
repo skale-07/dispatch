@@ -64,6 +64,13 @@ export function parsePublicProfile(data: unknown): PublicProfile {
   return publicProfileSchema.parse(data);
 }
 
+/** Today as MM/DD/YYYY — the shape US application signature blocks expect (#226). */
+export function todayUsDate(now: Date = new Date()): string {
+  const mm = String(now.getMonth() + 1).padStart(2, "0");
+  const dd = String(now.getDate()).padStart(2, "0");
+  return `${mm}/${dd}/${now.getFullYear()}`;
+}
+
 /** Resolve dotted canonical keys like legal_name.first from the profile. */
 export function getProfileValue(
   profile: PublicProfile,
@@ -93,6 +100,18 @@ export function getProfileValue(
   if (canonical === "preferred_name") return profile.preferred_name;
   if (canonical === "current_company") return profile.current_company ?? "";
   if (canonical === "skills") return profile.skills;
+  // #226 (operator 2026-09-09: "it couldn't complete a question that asked
+  // to plug in today's date"). Acknowledgement/signature blocks ask for a
+  // name and the date the applicant signs — both are facts, not answers to
+  // invent, so they resolve deterministically here rather than parking for
+  // a human. US M/D/YYYY: every ATS seen so far renders these next to a
+  // US-format hint, and a date typed as text is compared as text.
+  if (canonical === "signature_date") return todayUsDate();
+  if (canonical === "signature_name") {
+    return [profile.legal_name.first, profile.legal_name.last]
+      .filter((p) => String(p ?? "").trim().length > 0)
+      .join(" ");
+  }
 
   const parts = canonical.split(".");
   let cur: unknown = profile;

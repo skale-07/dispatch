@@ -256,6 +256,20 @@ function matchCanonicalFieldInner(
     return "skills";
   }
 
+  // #226 (live Palantir 2026-09-09; operator: "it couldn't complete a
+  // question that asked to plug in today's date"). Acknowledgement blocks
+  // end with a bare "Name" + "Date" pair the alias map does not claim, and
+  // the submit gate then refuses on two fields whose answers are facts.
+  // Anchored to BARE labels only: "Graduation Date", "Start Date", "Date
+  // of Birth" all contain "date" and must keep their own mappings (date
+  // of birth is sensitive and never auto-filled).
+  if (/^(today'?s\s+)?date$/.test(normalized) || /^date\s+(signed|of\s+signature)$/.test(normalized)) {
+    return "signature_date";
+  }
+  if (/^(e-?)?signature$/.test(normalized) || /^signature\s+of\s+applicant$/.test(normalized)) {
+    return "signature_name";
+  }
+
   // Name/id-based hints when phrase map missed (Lever EEO / org / location)
   // "What are your preferred pronouns?" / "Pronouns" (live DV Trading
   // 2026-08-30, REQUIRED): operator-supplied only, via the sensitive profile.

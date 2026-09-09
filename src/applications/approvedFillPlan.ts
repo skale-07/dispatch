@@ -37,6 +37,11 @@ export const SAFE_FACTUAL_CANONICALS = new Set([
   "restrictive_covenants",
   "current_company",
   "skills",
+  // #226: acknowledgement/signature blocks. Both are facts the profile or
+  // the clock already owns — the applicant's legal name and the date they
+  // are signing — so they fill like any other profile value.
+  "signature_name",
+  "signature_date",
 ]);
 
 /** Operator-supplied EEO / self-ID values (sensitive profile), never invented. */
