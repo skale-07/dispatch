@@ -276,8 +276,27 @@ Two layers:
    is an ATS (`jobs.polymer.co/<org>/<id>`); the hostname must never be
    read as identity.
 2. With that, the path org slug "lendica" (the company's FORMER name)
-   would accuse instead and the fill gate would still refuse. See the
-   fix below.
+   would accuse instead and the fill gate would still refuse. Fix: the
+   gate now reads the PAGE before refusing on a URL-only mismatch —
+   `confirmEmployerOnPage` (navigation/pageIdentity.ts): one read-only
+   load in the CDP Chrome (Cloudflare interstitials clear there; bounded
+   10s wait), title + headings + first 6KB of text →
+   `pageNamesCompany(company, text)` (congruence.ts): single-token names
+   match on the word (≥4 chars) or a parenthetical alias; multi-token
+   names need the phrase or the joined form, never one common word.
+   Named ⇒ proceed, `fill_gate_page_identity` logged with the hit;
+   not named / unreadable / interstitial ⇒ park exactly as before with
+   the page evidence on the review item. Fixture runs skip the read.
+   The existing URL-path `POSTING_MISMATCH` check in the fill is a path
+   check, not an employer check — nothing downstream would have caught a
+   wrong employer, so the gate had to read the page rather than pass.
+- Tests `tests/unit/page-identity.test.ts` (5): polymer.co no longer read
+  as an employer; Daylit title names the company; multi-token rules;
+  placeholder/short names never match; the confirm helper with a
+  readPage seam (named / interstitial / other company / thrown).
+- Prediction: rerun of 7669acfe passes the gate with
+  `fill_gate_page_identity page_hit: daylit`, the generic adapter plans
+  the 8-field Polymer form.
 
 ## Gmail tail — how it actually runs (operator asked 22:31)
 
