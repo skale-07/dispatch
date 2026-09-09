@@ -602,11 +602,27 @@ export async function runAtsLiveFill(input: {
           }
           gate = await binding.gate(page, input.url, detected.normalizedUrl);
           if (supervised.report.outcome !== "form_ready") {
-            applyGateToReport(report, gate);
-            report.gate.ok = false;
-            report.gate.failure_code = "NAVIGATION_INCOMPLETE";
-            report.gate.reason = supervised.report.notes.join("; ") || "navigation supervisor did not reach an applicant form";
-            return persist(report);
+            // #219 (operator 2026-09-09 20:29 UTC: "you should be able to
+            // submit Workday and account-registration walls — you have an
+            // email and password in env and can read the verification
+            // mail"): a supervisor that stops ON an auth wall (Two Sigma's
+            // /careers/Register, Peraton's jibeapply sign-up) is not
+            // navigation failure — it found the wall. Fall through to the
+            // page-class decision below, where auth → portal auth (create /
+            // sign in, mailbox verification) exactly as a direct landing
+            // would. Only a non-auth stop is NAVIGATION_INCOMPLETE.
+            const stoppedOn = classifyPage({ html: gate.html, url: gate.finalUrl }).page_class;
+            if (stoppedOn === "auth" || gate.failureCode === "LOGIN_WALL") {
+              report.notes.push(
+                `navigation supervisor stopped on an auth wall (${gate.finalUrl.slice(0, 100)}) — handing to portal auth (#219)`,
+              );
+            } else {
+              applyGateToReport(report, gate);
+              report.gate.ok = false;
+              report.gate.failure_code = "NAVIGATION_INCOMPLETE";
+              report.gate.reason = supervised.report.notes.join("; ") || "navigation supervisor did not reach an applicant form";
+              return persist(report);
+            }
           }
         }
       }
