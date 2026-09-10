@@ -1,0 +1,149 @@
+{
+  "decision_id": "68cd8ecd-0709-42c6-8382-ca9c86619b67",
+  "application_id": "36e3ce7f-ea29-4e18-8d33-6f6d0e1cbeaa",
+  "signature": "FAILED_RETRYABLE|-|unknown|jobs.ashbyhq.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "36e3ce7f-ea29-4e18-8d33-6f6d0e1cbeaa",
+    "company": "Interplay",
+    "role": "AI Labs Intern",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 2,
+    "failure_signature": "FAILED_RETRYABLE|-|unknown|jobs.ashbyhq.com",
+    "end_host": "jobs.ashbyhq.com",
+    "recent_events": [
+      {
+        "from": "SUBMITTING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "required questions unanswered — click withheld",
+        "at": "2026-09-10T05:58:30.660Z"
+      },
+      {
+        "from": "READY_TO_SUBMIT",
+        "to": "SUBMITTING",
+        "reason": "human-approved submission started",
+        "at": "2026-09-10T05:58:27.175Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "READY_TO_SUBMIT",
+        "reason": "pipeline: fill rehearsal verified",
+        "at": "2026-09-10T05:58:21.025Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (ashby live fill: 10 filled (held for submit))",
+        "at": "2026-09-10T05:58:21.025Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route ready_for_fill_later (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-10T05:58:06.856Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-10T05:58:05.240Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: ashby URL validated",
+        "at": "2026-09-10T05:58:05.223Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-10T05:58:05.219Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 db6f3f869124)",
+        "at": "2026-09-10T05:58:05.216Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-10T05:58:05.203Z"
+      },
+      {
+        "from": "FAILED_RETRYABLE",
+        "to": "QUEUED",
+        "reason": "retry 2/3",
+        "at": "2026-09-10T04:24:12.125Z"
+      },
+      {
+        "from": "SUBMITTING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "pre-submit verification failed",
+        "at": "2026-09-10T04:22:56.875Z"
+      },
+      {
+        "from": "READY_TO_SUBMIT",
+        "to": "SUBMITTING",
+        "reason": "human-approved submission started",
+        "at": "2026-09-10T04:22:44.645Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "READY_TO_SUBMIT",
+        "reason": "pipeline: fill rehearsal verified",
+        "at": "2026-09-10T04:22:38.107Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (ashby live fill: 9 filled (held for submit))",
+        "at": "2026-09-10T04:22:38.107Z"
+      }
+    ],
+    "nav": null,
+    "submit": {
+      "outcome": "FAILED_BEFORE_CLICK",
+      "reason": "Refusing to click submit: 2 required question(s) unanswered — Please take this test and upload a screenshot of the results below: https://www.16personalities.com/free-personality-tes [file]; Then, please select the personality combination that matches your results by answering the questions below. P",
+      "brief_items": []
+    },
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": true
+    },
+    "open_review_items": [
+      {
+        "kind": "MANUAL",
+        "title": "Answer needed: \"Then, please select the personality combination that matches your results by ans\""
+      },
+      {
+        "kind": "MANUAL",
+        "title": "2 required question(s) unanswered — answer via screeners.json/essay workflow, then requeue"
+      }
+    ],
+    "prior_decisions": [
+      {
+        "action": "park_for_operator",
+        "failure_signature": "FAILED_RETRYABLE|-|verify_mismatch|jobs.ashbyhq.com",
+        "outcome_status": "PENDING",
+        "created_at": "2026-09-10T04:23:05.305Z"
+      }
+    ],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"no_action\", \"rationale\": \"Blocker is a human-only requirement: a personality test screenshot upload plus matching answers. Two open MANUAL review items already capture this, and a prior park_for_operator is still PENDING. No requeue would change the outcome until a human supplies the answers.\", \"confidence\": \"high\"}",
+  "parsed_action": "no_action",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "recorded only",
+  "rationale_unverified": "Blocker is a human-only requirement: a personality test screenshot upload plus matching answers. Two open MANUAL review items already capture this, and a prior park_for_operator is still PENDING. No requeue would change the outcome until a human supplies the answers."
+}
