@@ -489,3 +489,106 @@ predicted value ("I have not yet completed…") that matches no option on
 the page. Worth a session with a solo gate: when a checkbox group's
 options are known, a prediction that matches none of them should be
 rejected at plan time rather than refused at fill time.
+
+## Issue #244 — checkbox groups had no answer space, so the model wrote AT them
+
+**Symptom.** Shield AI (lever): the required "Which degrees have you
+already completed, if any?" got the predicted answer "I have not yet
+completed a degree" — a string that appears nowhere on the page — and the
+fill refused it. The report showed `harvested count: 0` for the whole
+form.
+
+**Cause.** `isHarvestCandidate` accepted only `select` and `text`, so
+checkbox and radio GROUPS were excluded from the option harvest outright.
+#235 had just started routing required groups to the predict tier, which
+therefore saw no options and answered as free text. The two halves were
+individually reasonable and jointly broken.
+
+**Fix.** A group's options are its own member labels: a shared `name` IS
+the HTML definition of a group, and otherwise the nearest fieldset /
+role=group scopes it. Read-only, nothing opened, no clicks. With the list
+known, `validatePrediction`'s verbatim membership check does its job and
+the model CHOOSES from the page instead of writing at it.
+
+A lone consent checkbox is deliberately not turned into a one-option
+"list" — the consent path owns those.
+
+Tests: option-harvest 17/17. FIXTURE_CONFIRMED.
+
+## Issue #245 — a group's shared name is not an option label
+
+**Symptom.** Barnes & Thornburg (ashby), twice:
+
+```
+no option matches "4805897636" (options: communicationConsent | communicationConsent)
+verify_mismatch | Phone Number | Expected "4805897636"; page shows "communicationConsent"
+```
+
+**Cause.** The native-group option reader's last resort was the input's
+NAME. A name is shared by every member of a group, so it cannot
+distinguish one option from another: both members of the phone-consent
+group came back labelled `communicationConsent`. That became the option
+list the matcher was offered, and — because a member was checked by
+default — the value the read-back reported for the phone field. The submit
+gate then saw a control holding a DIFFERENT non-empty value than planned,
+which is the one thing #240 must never waive, and both applications were
+blocked. **The gate was right; the label was a fiction.**
+
+**Fix.** Member-specific sources only, in order of how directly they name
+THIS option: `label[for]` (group-scoped, then document-scoped), a wrapping
+label, aria-label, the value attribute, the parent's text. A `value` of
+on/true/1 is a form-encoding artifact and is rejected too. An unlabeled
+member stays honestly unlabeled — the callers already drop empty labels,
+which is truthful rather than invented.
+
+Tests: ashby-fill 9/9 with a new case; ashby-native-group 13/13.
+
+## Issue #245b — a named function inside page.evaluate never reaches the page
+
+**This one invalidated my own verification method, and it had a
+long-standing silent victim.**
+
+**Symptom.** The Barnes retry after #245 failed three fills with
+`locator.evaluate: ReferenceError: __name is not defined` — on the code I
+had just written and unit-tested.
+
+**Cause.** The live pipeline runs under **tsx**, whose esbuild keeps
+function names by wrapping every named function in a `__name(...)` helper.
+That helper lives in the Node module, not in the page. So a function
+declared INSIDE an evaluate callback compiles to code the browser cannot
+run. Reduced to a two-line probe:
+
+```
+named arrow inside evaluate -> ReferenceError: __name is not defined
+the same logic inlined      -> OK
+```
+
+**Vitest compiles differently and does not reproduce it.** The fixture
+tests for #244 and #245 passed while the live run failed; they were never
+evidence for this class of bug. Worth remembering the next time a fixture
+test is offered as proof that browser-side code works.
+
+**The silent victim.** `diagnoseDisabledSubmit` needs helpers (`labelFor`
+is used from two places, `describe` from two more) and its caller
+`.catch(...)`es into an EMPTY diagnosis. So it has been reporting "no code
+input, no invalid fields, no errors" for **every** disabled submit — which
+is exactly the signal the emailed-verification-code recovery keys on. On
+the same fixture, before and after:
+
+```
+before: {"detected":false,"input_selector":null, …}
+after:  {"detected":true,"input_selector":"#code",
+         "summary":"email verification code required; 1 required field(s)
+                    invalid: Full name; visible errors: …"}
+```
+
+**Fix.** The new group readers had their helpers inlined. The whole
+diagnostic scan became a string expression — the same shape
+`requiredCompleteness` already uses — because a string is never compiled
+and so cannot be rewritten. A source-level guard test now catches the
+shape across `src/`, and pins its own scanner against a sample so it
+cannot silently stop detecting anything.
+
+Relevant to the operator's directive "ensure you access gmail if
+verification code/link is needed": that path could not have worked before
+this fix, whatever the mailbox contained.
