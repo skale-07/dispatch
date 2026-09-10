@@ -1,0 +1,116 @@
+{
+  "decision_id": "34e656f4-71d3-4dda-acda-2409cc47593a",
+  "application_id": "10a08a51-1063-488f-8971-9d7ce4dd50d0",
+  "signature": "AMBIGUOUS_FIELD|-|verify_mismatch|jobs.lever.co",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "10a08a51-1063-488f-8971-9d7ce4dd50d0",
+    "company": "Palantir Technologies",
+    "role": "Software Engineer, Internship",
+    "state": "AMBIGUOUS_FIELD",
+    "attempt": 1,
+    "failure_signature": "AMBIGUOUS_FIELD|-|verify_mismatch|jobs.lever.co",
+    "end_host": "jobs.lever.co",
+    "recent_events": [
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "AMBIGUOUS_FIELD",
+        "reason": "pipeline: read-back verification failed",
+        "at": "2026-09-10T10:06:42.906Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (lever live fill: 26 filled (held for submit))",
+        "at": "2026-09-10T10:06:42.905Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route needs_review_unmapped (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-10T10:05:31.040Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-10T10:05:28.812Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: lever URL validated",
+        "at": "2026-09-10T10:05:28.810Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-10T10:05:28.807Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 dd9093dde3f8)",
+        "at": "2026-09-10T10:05:28.804Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-10T10:05:28.785Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-10T10:05:20.598Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-10T10:05:20.591Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-10T10:05:20.590Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-10T10:05:20.589Z"
+      }
+    ],
+    "nav": null,
+    "submit": null,
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": false
+    },
+    "open_review_items": [
+      {
+        "kind": "AMBIGUOUS_FIELD",
+        "title": "Fill verification failed"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\":\"park_for_operator\",\"rationale\":\"Fill executed (26 fields) but read-back verification mismatched on a live Lever form with an already-open AMBIGUOUS_FIELD review item. No transient signal, materials verified, URL validated, no nav exhaustion — a rerun would repeat the same mismatch. A human should inspect the ambiguous fields.\",\"confidence\":\"high\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: e1bfe49d-0f7f-4676-bf92-00d7c42efa49",
+  "rationale_unverified": "Fill executed (26 fields) but read-back verification mismatched on a live Lever form with an already-open AMBIGUOUS_FIELD review item. No transient signal, materials verified, URL validated, no nav exhaustion — a rerun would repeat the same mismatch. A human should inspect the ambiguous fields."
+}
