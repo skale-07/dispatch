@@ -3,6 +3,7 @@ import {
   isValidJobrightJobId,
   resolveCanonicalInspectionUrl,
 } from "./jobInspectionUrl.js";
+import { companyNameVariants } from "./companySearch.js";
 
 export type StoredJobInspectionTarget = {
   jobDbId: string;
@@ -257,7 +258,7 @@ export function getStoredJobInspectionTargetByApplicationId(
 export function findCompanyTwinJob(db: Db, company: string | null): JobRowFull | null {
   const name = (company ?? "").trim().toLowerCase();
   if (!name) return null;
-  const row = db
+  const exact = db
     .prepare(
       `SELECT id, jobright_job_id, normalized_application_url, company, role, raw_json
        FROM jobs
@@ -267,5 +268,30 @@ export function findCompanyTwinJob(db: Db, company: string | null): JobRowFull |
        LIMIT 1`,
     )
     .get(name) as JobRowFull | undefined;
-  return row?.jobright_job_id ? row : null;
+  if (exact?.jobright_job_id) return exact;
+
+  // #242 (night29): the SAME employer is spelled two ways in our own
+  // database — a boards sweep wrote "Rocket Lab USA" at 04:35 and
+  // "Rocket Lab" at 06:05, from two registry entries for one board — so a
+  // twin stored minutes earlier became invisible to an exact match. Retry
+  // through the qualifier-aware variants, which equate ONLY legal-entity
+  // and country tails (Inc / LLC / Ltd / Corp / USA). "Verkada" still
+  // never reads "Verkada Partners": a distinguishing word is never
+  // stripped, so the discipline this function was written for holds.
+  const want = new Set(companyNameVariants(name));
+  if (want.size === 0) return null;
+  const rows = db
+    .prepare(
+      `SELECT id, jobright_job_id, normalized_application_url, company, role, raw_json
+       FROM jobs
+       WHERE jobright_job_id IS NOT NULL AND trim(jobright_job_id) <> ''
+       ORDER BY created_at DESC
+       LIMIT 400`,
+    )
+    .all() as JobRowFull[];
+  for (const row of rows) {
+    if (!row.jobright_job_id) continue;
+    if (companyNameVariants(row.company).some((v) => want.has(v))) return row;
+  }
+  return null;
 }

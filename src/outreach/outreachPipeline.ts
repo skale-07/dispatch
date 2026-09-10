@@ -7,6 +7,7 @@ import {
   type EnqueueJobsReport,
 } from "../jobright/enqueueJobs.js";
 import { getStoredJobInspectionTargetByApplicationId } from "../jobright/storedJobTarget.js";
+import { ensureCompanyTwinJob } from "../jobright/companySearch.js";
 import {
   readJobDetailSnapshot,
   type JobDetailSnapshot,
@@ -262,6 +263,52 @@ export async function enrichJobFromJobRightPage(input: {
   }
 }
 
+/**
+ * #242: give a board-discovered application a JobRight job to read people
+ * through. No-op (and no browser) when the app already has its own
+ * JobRight id or a stored company twin. Returns a note, or null when
+ * nothing was needed.
+ */
+async function ensureCompanyTwin(input: {
+  db: Db;
+  applicationId: string;
+  headless: boolean;
+}): Promise<string | null> {
+  const already = getStoredJobInspectionTargetByApplicationId(
+    input.db,
+    input.applicationId,
+  );
+  if (already.ok) return null;
+  const row = input.db
+    .prepare(
+      `SELECT j.company FROM jobs j JOIN applications a ON a.job_id = j.id WHERE a.id = ?`,
+    )
+    .get(input.applicationId) as { company: string | null } | undefined;
+  if (!row?.company) return null;
+  const session = new PlaywrightServiceSession({
+    service: "jobright",
+    headless: input.headless,
+    slowMoMs: 40,
+  });
+  let opened = false;
+  try {
+    await session.open();
+    opened = true;
+    const outcome = await ensureCompanyTwinJob({
+      db: input.db,
+      company: row.company,
+      openPage: () => session.newPage({ purpose: "outreach_company_search" }),
+    });
+    return `company twin (#242): ${outcome.note}`;
+  } catch (err) {
+    return `company twin (#242) unavailable: ${
+      err instanceof Error ? err.message.slice(0, 140) : String(err)
+    }`;
+  } finally {
+    if (opened) await session.close().catch(() => undefined);
+  }
+}
+
 export async function runOutreachPipeline(input: {
   db: Db;
   refs: string[];
@@ -349,6 +396,21 @@ export async function runOutreachPipeline(input: {
         excludeFromAutomation(input.db, applicationId);
         result.notes.push("excluded from auto-apply");
       }
+      // #242: a board-discovered application has no JobRight posting, so
+      // every step below — enrich, insider triage, contacts — has nothing
+      // to read. #207 borrows a STORED JobRight job of the same employer;
+      // when there is none, JobRight's own search resolves the company
+      // (live: 373 results for "Rocket Lab", including the very intern
+      // postings this run had just applied to through the board). Without
+      // it, night29 produced ZERO drafts against twelve verified submits.
+      // Fail-open: no hit, or a search that errors, leaves the run exactly
+      // as it was and the tail reports the honest reason.
+      const twin = await ensureCompanyTwin({
+        db: input.db,
+        applicationId,
+        headless,
+      });
+      if (twin) result.notes.push(twin);
       await enrichJob({ db: input.db, applicationId, headless });
       const triageReport = await triage({
         db: input.db,
