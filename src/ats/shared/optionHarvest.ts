@@ -175,14 +175,15 @@ async function readGroupMemberLabels(loc: Locator): Promise<string[]> {
       querySelector: (s: string) => { textContent?: string | null } | null;
     };
   }) => {
-    const clean = (t: string | null | undefined): string =>
-      (t ?? "").replace(/\s+/g, " ").trim().slice(0, 120);
+    // NOTE: no helper functions inside this callback — tsx/esbuild wraps a
+    // named arrow in `__name(...)`, which does not exist in the page (live
+    // Barnes 2026-09-10: `ReferenceError: __name is not defined`).
     const doc = el.ownerDocument;
-    const escape = (v: string): string => v.replace(/"/g, '\\"');
     let members: ArrayLike<{ id?: string; parentElement?: { textContent?: string | null } | null }> = [];
     if (el.name) {
+      const n = el.name.replace(/"/g, '\\"');
       members = doc.querySelectorAll(
-        'input[type="checkbox"][name="' + escape(el.name) + '"], input[type="radio"][name="' + escape(el.name) + '"]',
+        'input[type="checkbox"][name="' + n + '"], input[type="radio"][name="' + n + '"]',
       );
     }
     if (members.length <= 1) {
@@ -195,10 +196,12 @@ async function readGroupMemberLabels(loc: Locator): Promise<string[]> {
     for (const m of Array.from(members)) {
       let text = "";
       if (m.id) {
-        const lab = doc.querySelector('label[for="' + escape(m.id) + '"]');
-        text = clean(lab?.textContent);
+        const lab = doc.querySelector('label[for="' + m.id.replace(/"/g, '\\"') + '"]');
+        text = (lab?.textContent ?? "").replace(/\s+/g, " ").trim().slice(0, 120);
       }
-      if (!text) text = clean(m.parentElement?.textContent);
+      if (!text) {
+        text = (m.parentElement?.textContent ?? "").replace(/\s+/g, " ").trim().slice(0, 120);
+      }
       if (text && !out.includes(text)) out.push(text);
     }
     return out;

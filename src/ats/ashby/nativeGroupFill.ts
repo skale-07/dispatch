@@ -136,21 +136,21 @@ export async function readNativeGroupOptions(
       checked: boolean;
       inputId: string | null;
     }[] = [];
-    const clean = (t: string | null | undefined): string =>
-      (t ?? "").replace(/\s+/g, " ").trim();
+    // NOTE: no helper functions inside this callback. tsx/esbuild compiles
+    // a named arrow into a `__name(...)` wrapper, and that helper does not
+    // exist in the page — live Barnes tonight failed three fills with
+    // `ReferenceError: __name is not defined` until these were inlined.
     const inputs = el.querySelectorAll(
       'input[type="radio"], input[type="checkbox"]',
     );
     for (let i = 0; i < inputs.length; i++) {
       const inp = inputs[i]!;
       const id = inp.getAttribute("id");
-      const esc = (v: string): string => v.replace(/"/g, '\\"');
       let text = "";
       if (id) {
-        const lab =
-          el.querySelector('label[for="' + esc(id) + '"]') ??
-          el.ownerDocument.querySelector('label[for="' + esc(id) + '"]');
-        text = clean(lab?.textContent);
+        const sel = 'label[for="' + id.replace(/"/g, '\\"') + '"]';
+        const lab = el.querySelector(sel) ?? el.ownerDocument.querySelector(sel);
+        text = (lab?.textContent ?? "").replace(/\s+/g, " ").trim();
       }
       // #245 (live Barnes & Thornburg ashby 2026-09-10, twice): the last
       // resort here was the input's NAME. A name is shared by every member
@@ -167,10 +167,14 @@ export async function readNativeGroupOptions(
       // Member-specific sources only, in order of how directly they name
       // THIS option. An unlabeled member stays honestly unlabeled: the
       // callers already drop empty labels, which is the truthful outcome.
-      if (!text) text = clean(inp.closest?.("label")?.textContent);
-      if (!text) text = clean(inp.getAttribute("aria-label"));
-      if (!text) text = clean(inp.getAttribute("value"));
-      if (!text) text = clean(inp.parentElement?.textContent);
+      if (!text) {
+        text = (inp.closest?.("label")?.textContent ?? "").replace(/\s+/g, " ").trim();
+      }
+      if (!text) text = (inp.getAttribute("aria-label") ?? "").replace(/\s+/g, " ").trim();
+      if (!text) text = (inp.getAttribute("value") ?? "").replace(/\s+/g, " ").trim();
+      if (!text) {
+        text = (inp.parentElement?.textContent ?? "").replace(/\s+/g, " ").trim();
+      }
       // A "value" of on/true/1 is a form-encoding artifact, not an answer.
       if (/^(on|true|false|1|0|yes-no)$/i.test(text)) text = "";
       out.push({

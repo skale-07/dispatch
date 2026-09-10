@@ -126,140 +126,130 @@ export async function diagnoseDisabledSubmit(
   return buildDiagnosis(merged);
 }
 
-async function scanFrame(page: Pick<Page, "evaluate">) {
-  const scan = await page
-    .evaluate(
-      // Runs in the browser; DOM globals are typed locally (the repo's
-      // tsconfig lib is ES2022-only, so no ambient DOM types here).
-      ({ strongSelector, weakSelector }) => {
-        type El = {
-          getBoundingClientRect(): { width: number; height: number };
-          getAttribute(name: string): string | null;
-          textContent: string | null;
-          tagName: string;
-          id: string;
-          name?: string;
-          type?: string;
-          checkValidity?: () => boolean;
-        };
-        const doc = (
-          globalThis as unknown as {
-            document: {
-              querySelector(s: string): El | null;
-              querySelectorAll(s: string): ArrayLike<El>;
-              body?: { innerText?: string };
-            };
-          }
-        ).document;
-        const all = (s: string): El[] => Array.from(doc.querySelectorAll(s));
-        const visible = (el: El): boolean => {
-          const rect = el.getBoundingClientRect();
-          return rect.width > 0 && rect.height > 0;
-        };
-        const labelFor = (el: El): string => {
-          if (el.id) {
-            const label = doc.querySelector(
-              `label[for="${el.id.replace(/"/g, '\\"')}"]`,
-            );
-            if (label?.textContent) return label.textContent.trim().slice(0, 120);
-          }
-          return (
-            el.getAttribute("aria-label") ??
-            el.getAttribute("placeholder") ??
-            el.name ??
-            el.id ??
-            "?"
-          ).slice(0, 120);
-        };
+/**
+ * #245b: this scan runs as a STRING expression, not a compiled callback.
+ *
+ * The live pipeline runs under tsx, whose esbuild keeps function names by
+ * wrapping every named function in a `__name(...)` helper that exists in
+ * the Node module and NOT in the page. This body needs helpers
+ * (`labelFor` is used from two places, `describe` from two more), so as a
+ * compiled callback every call threw `ReferenceError: __name is not
+ * defined` — and because the caller `.catch(...)`es into an empty
+ * diagnosis, it failed SILENTLY: `diagnoseDisabledSubmit` has been
+ * reporting "no code input, no invalid fields, no errors" for every
+ * disabled submit, which is exactly the signal the emailed-verification-
+ * code recovery depends on. A string is never compiled, so it cannot be
+ * rewritten — the same reason requiredCompleteness's scan is a string.
+ *
+ * The two selectors are interpolated as JSON literals, so the expression
+ * takes no arguments.
+ */
+const DIAGNOSTIC_SCAN_EXPRESSION = `(() => {
+  const doc = globalThis.document;
+  const all = (s) => Array.from(doc.querySelectorAll(s));
+  const visible = (el) => {
+    const rect = el.getBoundingClientRect();
+    return rect.width > 0 && rect.height > 0;
+  };
+  const labelFor = (el) => {
+    if (el.id) {
+      const label = doc.querySelector('label[for="' + el.id.replace(/"/g, '\\\\"') + '"]');
+      if (label && label.textContent) return label.textContent.trim().slice(0, 120);
+    }
+    return (
+      el.getAttribute("aria-label") ??
+      el.getAttribute("placeholder") ??
+      el.name ??
+      el.id ??
+      "?"
+    ).slice(0, 120);
+  };
+  const describe = (el) => ({
+    id: el.id || null,
+    name: el.name || null,
+    autocomplete: el.getAttribute("autocomplete"),
+    strong: false,
+    // Everything a "is this really an OTP field" filter needs.
+    context: [
+      labelFor(el),
+      el.name ?? "",
+      el.id ?? "",
+      el.getAttribute("placeholder") ?? "",
+      el.getAttribute("aria-label") ?? "",
+    ].join(" "),
+  });
 
-        const describe = (el: El): {
-          id: string | null;
-          name: string | null;
-          autocomplete: string | null;
-          strong: boolean;
-          context: string;
-        } => ({
-          id: el.id || null,
-          name: el.name || null,
-          autocomplete: el.getAttribute("autocomplete"),
-          strong: false,
-          // Everything a "is this really an OTP field" filter needs.
-          context: [
-            labelFor(el),
-            el.name ?? "",
-            el.id ?? "",
-            el.getAttribute("placeholder") ?? "",
-            el.getAttribute("aria-label") ?? "",
-          ].join(" "),
-        });
-        const strong = all(strongSelector).filter(visible).map(describe);
-        for (const s of strong) s.strong = true;
-        const weak = all(weakSelector)
-          .filter(visible)
-          .map(describe)
-          .filter((w) => !strong.some((s) => s.id === w.id && s.name === w.name));
-        const codeInputs = [...strong, ...weak];
+  const strong = all(${JSON.stringify(STRONG_CODE_SELECTOR)}).filter(visible).map(describe);
+  for (const s of strong) s.strong = true;
+  const weak = all(${JSON.stringify(WEAK_CODE_SELECTOR)})
+    .filter(visible)
+    .map(describe)
+    .filter((w) => !strong.some((s) => s.id === w.id && s.name === w.name));
+  const codeInputs = [...strong, ...weak];
 
-        // Split-box widget: 6–12 visible single-char inputs (live
-        // 2026-08-30, TransMarket/job-boards "Security code": 8 bare
-        // <input maxlength="1"> cells with no code-ish attributes at all —
-        // invisible to both selector tiers above; 5 clicks parked
-        // UNCERTAIN with the code sitting in the mailbox).
-        const singles = all('input[maxlength="1"]').filter(visible);
-        const splitBox =
-          singles.length >= 6 && singles.length <= 12
-            ? {
-                id: singles[0]!.id || null,
-                name: singles[0]!.name || null,
-                count: singles.length,
-              }
-            : null;
+  // Split-box widget: 6-12 visible single-char inputs (live 2026-08-30,
+  // TransMarket/job-boards "Security code": 8 bare <input maxlength="1">
+  // cells with no code-ish attributes at all - invisible to both selector
+  // tiers above; 5 clicks parked UNCERTAIN with the code in the mailbox).
+  const singles = all('input[maxlength="1"]').filter(visible);
+  const splitBox =
+    singles.length >= 6 && singles.length <= 12
+      ? { id: singles[0].id || null, name: singles[0].name || null, count: singles.length }
+      : null;
 
-        const requiredInvalid = all(
-          "input[required], select[required], textarea[required]",
-        )
-          .filter(visible)
-          .filter((el) => {
-            if (el.getAttribute("aria-invalid") === "true") return true;
-            try {
-              return el.checkValidity ? !el.checkValidity() : false;
-            } catch {
-              return false;
-            }
-          })
-          .slice(0, 15)
-          .map((el) => ({
-            label: labelFor(el),
-            name: el.name || el.id || "?",
-            type: el.type || el.tagName.toLowerCase(),
-          }));
+  const requiredInvalid = all("input[required], select[required], textarea[required]")
+    .filter(visible)
+    .filter((el) => {
+      if (el.getAttribute("aria-invalid") === "true") return true;
+      try {
+        return el.checkValidity ? !el.checkValidity() : false;
+      } catch (e) {
+        return false;
+      }
+    })
+    .slice(0, 15)
+    .map((el) => ({
+      label: labelFor(el),
+      name: el.name || el.id || "?",
+      type: el.type || el.tagName.toLowerCase(),
+    }));
 
-        const errorNodes = all(
-          '[role="alert"], .error, .field-error, .validation-error, [class*="error-message" i]',
-        )
-          .filter(visible)
-          .map((el) => (el.textContent ?? "").trim())
-          .filter((t) => t.length > 0 && t.length < 300)
-          .slice(0, 10);
+  const errorNodes = all(
+    '[role="alert"], .error, .field-error, .validation-error, [class*="error-message" i]',
+  )
+    .filter(visible)
+    .map((el) => (el.textContent ?? "").trim())
+    .filter((t) => t.length > 0 && t.length < 300)
+    .slice(0, 10);
 
-        // Center the text window on the wall wording when it sits deep in
-        // a long posting page (the old flat 20k cap cut it off).
-        const full = doc.body?.innerText ?? "";
-        const wallIdx = full.search(/verification code|security code|one[- ]time code/i);
-        const bodyText =
-          wallIdx >= 0
-            ? full.slice(Math.max(0, wallIdx - 2_000), wallIdx + 4_000)
-            : full.slice(0, 20000);
-        return {
-          codeInputs,
-          splitBox,
-          requiredInvalid,
-          errorNodes,
-          bodyText,
-        };
-      },
-      { strongSelector: STRONG_CODE_SELECTOR, weakSelector: WEAK_CODE_SELECTOR },
-    )
+  // Center the text window on the wall wording when it sits deep in a long
+  // posting page (the old flat 20k cap cut it off).
+  const full = (doc.body && doc.body.innerText) || "";
+  const wallIdx = full.search(/verification code|security code|one[- ]time code/i);
+  const bodyText =
+    wallIdx >= 0
+      ? full.slice(Math.max(0, wallIdx - 2000), wallIdx + 4000)
+      : full.slice(0, 20000);
+  return { codeInputs, splitBox, requiredInvalid, errorNodes, bodyText };
+})()`;
+
+/** What DIAGNOSTIC_SCAN_EXPRESSION returns (a string expression carries no types). */
+type DiagnosticScan = {
+  codeInputs: Array<{
+    id: string | null;
+    name: string | null;
+    autocomplete: string | null;
+    strong: boolean;
+    context: string;
+  }>;
+  splitBox: { id: string | null; name: string | null; count: number } | null;
+  requiredInvalid: Array<{ label: string; name: string; type: string }>;
+  errorNodes: string[];
+  bodyText: string;
+};
+
+async function scanFrame(page: Pick<Page, "evaluate">): Promise<DiagnosticScan> {
+  const scan = await (page.evaluate(DIAGNOSTIC_SCAN_EXPRESSION) as Promise<DiagnosticScan>)
     .catch(() => ({
       codeInputs: [] as Array<{
         id: string | null;
