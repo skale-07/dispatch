@@ -1,0 +1,152 @@
+{
+  "decision_id": "8547fa51-7719-47b4-871e-8a4a8be7e09c",
+  "application_id": "57479860-e278-4455-825a-bec287e27111",
+  "signature": "AMBIGUOUS_FIELD|-|verify_mismatch|careers.tractian.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "57479860-e278-4455-825a-bec287e27111",
+    "company": "TRACTIAN",
+    "role": "Software Engineering Internship",
+    "state": "AMBIGUOUS_FIELD",
+    "attempt": 1,
+    "failure_signature": "AMBIGUOUS_FIELD|-|verify_mismatch|careers.tractian.com",
+    "end_host": "careers.tractian.com",
+    "recent_events": [
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "AMBIGUOUS_FIELD",
+        "reason": "pipeline: read-back verification failed",
+        "at": "2026-09-10T07:48:09.636Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (generic live fill: 16 filled (held for submit))",
+        "at": "2026-09-10T07:48:09.634Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route ready_for_fill_later (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-10T07:47:33.307Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-10T07:47:31.822Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-10T07:47:31.818Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-10T07:47:29.821Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 dd9093dde3f8)",
+        "at": "2026-09-10T07:47:29.818Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-10T07:47:29.795Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-10T07:41:52.646Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-10T07:41:52.635Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-10T07:41:52.634Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-10T07:41:52.632Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "tractian",
+        "detail": "token \"tractian\" ~ slug \"tractian\" (from URL host)",
+        "expected_company": "TRACTIAN",
+        "url": "https://careers.tractian.com/jobs/am9icG9zdDqK6R2RRkZIqPQy-CuLpZH2/apply?src=jobright&jr_id=6a84efe2e12474455273d2e5"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (12 candidates, employer match)",
+          "evidence": "careers.tractian.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": false
+    },
+    "open_review_items": [
+      {
+        "kind": "MANUAL",
+        "title": "Answer needed: \"Elementary (A1 / A2)\""
+      },
+      {
+        "kind": "MANUAL",
+        "title": "Answer needed: \"Community College\""
+      },
+      {
+        "kind": "MANUAL",
+        "title": "Answer needed: \"Heterosexual\""
+      },
+      {
+        "kind": "AMBIGUOUS_FIELD",
+        "title": "Fill verification failed"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\":\"park_for_operator\",\"rationale\":\"Read-back verification failed on a form with several ambiguous questions (language level, education, demographic) already awaiting manual answers. Navigation and materials are sound, so requeueing changes nothing; a human must supply the answers/confirm fields.\",\"confidence\":\"high\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: 301b3fdd-5ace-4aca-a49b-0b58511bca52",
+  "rationale_unverified": "Read-back verification failed on a form with several ambiguous questions (language level, education, demographic) already awaiting manual answers. Navigation and materials are sound, so requeueing changes nothing; a human must supply the answers/confirm fields."
+}

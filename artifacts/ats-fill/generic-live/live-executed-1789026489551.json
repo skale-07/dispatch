@@ -1,0 +1,522 @@
+{
+  "ats": "generic",
+  "url": "https://careers.tractian.com/jobs/am9icG9zdDqK6R2RRkZIqPQy-CuLpZH2/apply",
+  "requested_url": "https://careers.tractian.com/jobs/am9icG9zdDqK6R2RRkZIqPQy-CuLpZH2/apply",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://careers.tractian.com/jobs/am9icG9zdDqK6R2RRkZIqPQy-CuLpZH2/apply",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 16,
+    "skipped_count": 11,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "fullName",
+      "label": "Full Name",
+      "type": "text",
+      "canonical_field": "screener:custom:legal_name_if_different",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "email",
+      "label": "E-mail",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phone",
+      "label": "Phone Number",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "city",
+      "label": "City of Residence",
+      "type": "text",
+      "canonical_field": "address.city",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "state",
+      "label": "State/Province of Residence",
+      "type": "text",
+      "canonical_field": "address.state",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "country",
+      "label": "Country of Residence",
+      "type": "select",
+      "canonical_field": "address.country",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "linkedin",
+      "label": "Your Linkedin Profile",
+      "type": "text",
+      "canonical_field": "linkedin_url",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "github",
+      "label": "Your Github Profile",
+      "type": "text",
+      "canonical_field": "github_url",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "referral",
+      "label": "referral",
+      "type": "radio",
+      "canonical_field": "screener:how_heard",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "englishLevel",
+      "label": "Basic (A1 / A2)",
+      "type": "radio",
+      "canonical_field": "screener:custom:predicted:englishLevel",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): Candidate is a US-based undergraduate at Johns Hopkins writing and working in English, so native-level proficiency is the fitting option."
+    },
+    {
+      "field_id": "educationalBackground",
+      "label": "High School / Secondary School",
+      "type": "radio",
+      "canonical_field": "school",
+      "action": "FILL",
+      "reason": "Mapped from public profile; value \"Johns Hopkins University\" not on the control's list — using the form's own \"Other / Self-taught\""
+    },
+    {
+      "field_id": "workAuthorization",
+      "label": "Yes",
+      "type": "radio",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "visaSponsorship",
+      "label": "Yes",
+      "type": "radio",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cXVlczoJ7DTXGDd-kBDYiyuZgCEa",
+      "label": "Forms Default: City and State of Residence",
+      "type": "text",
+      "canonical_field": "screener:custom:predicted:cXVlczoJ7DTXGDd-kBDYiyuZgCEa",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): Profile facts and a prior learned answer both give Baltimore, Maryland."
+    },
+    {
+      "field_id": "cXVlczqBeoDUFnfYcJaL0Goxxru6",
+      "label": "Forms Default: Country of Residence",
+      "type": "text",
+      "canonical_field": "screener:custom:predicted:cXVlczqBeoDUFnfYcJaL0Goxxru6",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): Profile facts list country as United States."
+    },
+    {
+      "field_id": "cXVlczrpmtA0lnYjDjgetaaYUvpW",
+      "label": "Forms Default: Share a link of something you've done or describe a successful case!",
+      "type": "textarea",
+      "canonical_field": "essay:generated:cXVlczrpmtA0lnYjDjgetaaYUvpW",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "cXVlczrmNTEkdTJWD0IrpUBy6fFO",
+      "label": "Others",
+      "type": "radio",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cXVlczpdPwAM-8nZupNkJ0eRuIUt",
+      "label": "Forms Default: Name of Tractian Employee that Referred",
+      "type": "textarea",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Essay generation produced no answer"
+    },
+    {
+      "field_id": "cXVlczrp_BAWGqZr6CQZuA6m1WAz",
+      "label": "Forms Default: How did you find out about the role? (Others Field)",
+      "type": "textarea",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Essay generation produced no answer"
+    },
+    {
+      "field_id": "cXVlczqcRzxZG5_mb-0DRWjRE_6A",
+      "label": "Elementary (A1 / A2)",
+      "type": "radio",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "cXVlczqJi9oubrH9IKsnn1pbwghZ",
+      "label": "Community College",
+      "type": "radio",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "cXVlczoTIgVQgTP0kNSwW5QcSLr6",
+      "label": "Male",
+      "type": "radio",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cXVlczrHBMrklA7110P-CYxLwDbG",
+      "label": "Heterosexual",
+      "type": "radio",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "cXVlczqtcU8wUZYHpEjTX-hwrBat",
+      "label": "Asian (not Hispanic or Latino)",
+      "type": "radio",
+      "canonical_field": "hispanic_latino",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "cXVlczqEAoDddNFmw3OOIrULoJ-j",
+      "label": "Yes",
+      "type": "radio",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cXVlczoDHejsGY6XuNhaOTzi-9WP",
+      "label": "I am a veteran",
+      "type": "radio",
+      "canonical_field": "veteran_status",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "demographicSurvey",
+      "label": "Yes",
+      "type": "radio",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\generic-live\\form-snapshot-1789026479382.html",
+  "fill": {
+    "filled": [
+      "screener:custom:legal_name_if_different",
+      "email",
+      "phone",
+      "address.city",
+      "address.state",
+      "address.country",
+      "linkedin_url",
+      "github_url",
+      "screener:how_heard",
+      "screener:custom:predicted:englishLevel",
+      "school",
+      "screener:custom:predicted:cXVlczoJ7DTXGDd-kBDYiyuZgCEa",
+      "screener:custom:predicted:cXVlczqBeoDUFnfYcJaL0Goxxru6",
+      "essay:generated:cXVlczrpmtA0lnYjDjgetaaYUvpW",
+      "hispanic_latino",
+      "veteran_status"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "fullName",
+        "canonical_field": "screener:custom:legal_name_if_different",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "phone",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "city",
+        "canonical_field": "address.city",
+        "control_kind": "text",
+        "notes": [
+          "no clickable suggestion list within timeout — ArrowDown+Enter",
+          "keyboard ArrowDown+Enter",
+          "location committed (blur-stable): Baltimore"
+        ]
+      },
+      {
+        "field_id": "state",
+        "canonical_field": "address.state",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "country",
+        "canonical_field": "address.country",
+        "control_kind": "native_select",
+        "selected_option": "United States",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "linkedin",
+        "canonical_field": "linkedin_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "github",
+        "canonical_field": "github_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "referral",
+        "canonical_field": "screener:how_heard",
+        "control_kind": "text",
+        "selected_option": "LinkedIn"
+      },
+      {
+        "field_id": "englishLevel",
+        "canonical_field": "screener:custom:predicted:englishLevel",
+        "control_kind": "text",
+        "selected_option": "Native or Bilingual"
+      },
+      {
+        "field_id": "educationalBackground",
+        "canonical_field": "school",
+        "control_kind": "text",
+        "selected_option": "Other / Self-taught"
+      },
+      {
+        "field_id": "cXVlczoJ7DTXGDd-kBDYiyuZgCEa",
+        "canonical_field": "screener:custom:predicted:cXVlczoJ7DTXGDd-kBDYiyuZgCEa",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "cXVlczqBeoDUFnfYcJaL0Goxxru6",
+        "canonical_field": "screener:custom:predicted:cXVlczqBeoDUFnfYcJaL0Goxxru6",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "cXVlczrpmtA0lnYjDjgetaaYUvpW",
+        "canonical_field": "essay:generated:cXVlczrpmtA0lnYjDjgetaaYUvpW",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "cXVlczqtcU8wUZYHpEjTX-hwrBat",
+        "canonical_field": "hispanic_latino",
+        "control_kind": "text",
+        "selected_option": "Asian (not Hispanic or Latino)"
+      },
+      {
+        "field_id": "cXVlczoDHejsGY6XuNhaOTzi-9WP",
+        "canonical_field": "veteran_status",
+        "control_kind": "text",
+        "selected_option": "I am not a veteran"
+      }
+    ]
+  },
+  "verify": {
+    "passed": false,
+    "fields": [
+      {
+        "canonical_field": "screener:custom:legal_name_if_different",
+        "expected": "N/A",
+        "observed": "N/A",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "[REDACTED_PHONE]",
+        "match": false
+      },
+      {
+        "canonical_field": "address.city",
+        "expected": "Baltimore",
+        "observed": "Baltimore",
+        "match": true
+      },
+      {
+        "canonical_field": "address.state",
+        "expected": "Maryland",
+        "observed": "Maryland",
+        "match": true
+      },
+      {
+        "canonical_field": "address.country",
+        "expected": "United States",
+        "observed": {
+          "value": "United States",
+          "label": "United States"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "match": true
+      },
+      {
+        "canonical_field": "github_url",
+        "expected": "https://github.com/skale-07",
+        "observed": "https://github.com/skale-07",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:how_heard",
+        "expected": "LinkedIn",
+        "observed": {
+          "value": "LinkedIn",
+          "label": "LinkedIn"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:englishLevel",
+        "expected": "Native or Bilingual",
+        "observed": {
+          "value": "Native or Bilingual",
+          "label": "Native or Bilingual"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "school",
+        "expected": "Other / Self-taught",
+        "observed": {
+          "value": "Other / Self-taught",
+          "label": "Other / Self-taught"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:cXVlczoJ7DTXGDd-kBDYiyuZgCEa",
+        "expected": "Baltimore, Maryland",
+        "observed": "Baltimore, Maryland",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:cXVlczqBeoDUFnfYcJaL0Goxxru6",
+        "expected": "United States",
+        "observed": "United States",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:cXVlczrpmtA0lnYjDjgetaaYUvpW",
+        "expected": "The closest thing to your problem space is the anomaly-detection and alert-prioritization system I work on at Summer Atlantic Capital / SAC Nexus, where I build and own major parts of the ML core. I set up the repository and CI scaffold, the event-ingestion pipeline, a versioned FastAPI microservice, and the public detection API. On the modeling side I do temporal sequence modeling over event streams using RNN and Transformer-style approaches, anomaly scoring, and a learning-to-rank layer that decides which alerts an analyst should see first. The thing I care most about there is not raw model performance. An anomaly system that fires too often just replaces one problem with another, so I spent a lot of time on prioritization, failure modes, documentation, and an LLM explanation layer built with retrieval-augmented generation so an output can be turned into something a human analyst can actually act on. That is also the part I would want to work on at Tractian: monitoring systems only matter if the person receiving the alert trusts it and knows what to do next.",
+        "observed": "The closest thing to your problem space is the anomaly-detection and alert-prioritization system I work on at Summer Atlantic Capital / SAC Nexus, where I build and own major parts of the ML core. I s",
+        "match": true
+      },
+      {
+        "canonical_field": "hispanic_latino",
+        "expected": "No",
+        "observed": {
+          "value": "cXVlc29wdDpB6LEcXYfRYP6Jh9NrK2Sm",
+          "label": "Asian (not Hispanic or Latino)"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "veteran_status",
+        "expected": "I am not a veteran",
+        "observed": {
+          "value": "cXVlc29wdDpfbAbGr-CwDPKzOcJ2k-Yd",
+          "label": "I am not a veteran"
+        },
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": null,
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: form (27 fillable field(s))",
+    "section-expand: expanded 1 collapsed section(s)",
+    "other-specify: chose \"Other\" and no text box appeared — nothing further to answer",
+    "timing: base page (27 planned) — plan 24s, fill 9s, verify 1s",
+    "page error scan: no visible validation errors on the page",
+    "page-complete waiver not applied: 1 field(s) hold a different value than planned (phone)",
+    "resume on disk but this page has no file input — not an upload miss",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "other_specify": [
+    {
+      "field_id": "educationalBackground",
+      "label": "High School / Secondary School",
+      "revealed_field_id": null,
+      "filled": false,
+      "note": "chose \"Other\" and no text box appeared — nothing further to answer"
+    }
+  ],
+  "operator_brief": {
+    "title": "Live fill — generic https://careers.tractian.com/jobs/am9icG9zdDqK6R2RRkZIqPQy-CuLpZH2/apply",
+    "summary": "1 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:phone",
+        "question": "Phone Number",
+        "field_id": "phone",
+        "canonical_field": "phone",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"4805897636\"; page shows \"+1 \"",
+        "expected": "***-***-7636",
+        "observed": "[REDACTED_PHONE]",
+        "how_to_answer": [
+          "DOM shows \"+1 \" but plan expected \"4805897636\". Correct the value on the form or fix profile/aliases so the plan matches the real answer.",
+          "Profile source: private/candidate/public-profile.json → phone",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"phone\" should match the on-form question text."
+        ]
+      }
+    ],
+    "ok_count": 15,
+    "fail_count": 1
+  },
+  "written_at": "2026-09-10T07:48:09.587Z"
+}
