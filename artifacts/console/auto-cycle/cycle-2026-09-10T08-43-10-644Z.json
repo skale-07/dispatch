@@ -1,0 +1,71 @@
+{
+  "started_at": "2026-09-10T08:43:10.644Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\swe.pdf)",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "131c2e90-5ab9-4798-b9d7-cd6620504c38",
+    "armed_until": "2026-09-10T10:43:10.668Z",
+    "seconds_remaining": 7200,
+    "max_submits": 1,
+    "submits_used": 0,
+    "max_apps": 1,
+    "apps_started": 0,
+    "discover_max": 1,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": {
+    "arm_run_id": "131c2e90-5ab9-4798-b9d7-cd6620504c38",
+    "apps_started": 1,
+    "submits_used": 0,
+    "stopped_reason": "apps_cap",
+    "discover_runs": 0,
+    "emails_generated": 0,
+    "drafts_saved": 0,
+    "essay_drafts_generated": 0,
+    "screener_predictions_generated": 0,
+    "notes": [
+      "triage sweep: 1 confirmed, 1 refuted, 0 expired of 92 pending",
+      "artifact autopush: 4 file(s) pushed to master as c85521e9"
+    ],
+    "per_app": [
+      {
+        "application_id": "92ef488f-1461-426b-b308-03bfad6e0da3",
+        "end_state": "FAILED_RETRYABLE",
+        "stopped": "gate",
+        "stop_reason": "submission not verified: FAILED_BEFORE_CLICK — Refusing to click submit: field verification or upload did not pass",
+        "submitted": false,
+        "outreach": null
+      }
+    ],
+    "nav_audit": {
+      "checked": 354,
+      "repaired": 0,
+      "parked": 0
+    },
+    "triage": {
+      "decided": 0,
+      "executed": 0
+    },
+    "artifact_autopush": {
+      "pushed": true,
+      "commit": "c85521e9",
+      "files_staged": 4
+    }
+  },
+  "outcome": "completed",
+  "notes": []
+}
