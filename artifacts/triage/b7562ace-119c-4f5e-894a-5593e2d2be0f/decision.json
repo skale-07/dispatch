@@ -1,0 +1,318 @@
+{
+  "decision_id": "b7562ace-119c-4f5e-894a-5593e2d2be0f",
+  "application_id": "c22b3f4f-86dc-4e78-bdb4-1cbaa3895d68",
+  "signature": "FAILED_RETRYABLE|-|verify_mismatch|www.amazon.jobs",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "c22b3f4f-86dc-4e78-bdb4-1cbaa3895d68",
+    "company": "Amazon Web Services (AWS)",
+    "role": "Software Dev Engineer internship - Embedded Development",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 1,
+    "failure_signature": "FAILED_RETRYABLE|-|verify_mismatch|www.amazon.jobs",
+    "end_host": "www.amazon.jobs",
+    "recent_events": [
+      {
+        "from": "SUBMITTING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "pre-submit verification failed",
+        "at": "2026-09-10T09:43:17.621Z"
+      },
+      {
+        "from": "READY_TO_SUBMIT",
+        "to": "SUBMITTING",
+        "reason": "human-approved submission started",
+        "at": "2026-09-10T09:41:49.218Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "READY_TO_SUBMIT",
+        "reason": "pipeline: essays complete — final verification occurs pre-click in submit",
+        "at": "2026-09-10T09:41:39.360Z"
+      },
+      {
+        "from": "AMBIGUOUS_FIELD",
+        "to": "FIELD_VERIFICATION",
+        "reason": "operator resolved ambiguous field (console)",
+        "at": "2026-09-10T06:21:09.716Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "AMBIGUOUS_FIELD",
+        "reason": "pipeline: read-back verification failed",
+        "at": "2026-09-10T06:00:15.417Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (generic live fill: 2 filled (held for submit))",
+        "at": "2026-09-10T06:00:15.417Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route ready_for_fill_later (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-10T05:59:23.091Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-10T05:59:22.170Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-10T05:59:22.167Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-10T05:59:19.986Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 dd9093dde3f8)",
+        "at": "2026-09-10T05:59:19.983Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-10T05:59:19.964Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-10T04:36:37.128Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-10T04:36:37.121Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-10T04:36:37.120Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "amazon",
+        "detail": "token \"amazon\" ~ slug \"amazon\" (from URL host)",
+        "expected_company": "Amazon Web Services (AWS)",
+        "url": "https://www.amazon.jobs/jobs/3134271/software-dev-engineer-internship--embedded-development?cmpid=SPLICX0248M&utm_campaign=cxro&utm_medium=social_media&utm_content=job_posting&ss=paid&jr_id=6a84a90e2f4f0014cae22049"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (10 candidates, employer match)",
+          "evidence": "www.amazon.jobs"
+        }
+      ]
+    },
+    "submit": {
+      "outcome": "FAILED_BEFORE_CLICK",
+      "reason": "Refusing to click submit: field verification or upload did not pass",
+      "brief_items": [
+        {
+          "id": "verify:screener:custom:predicted:search_typeahead-navigation",
+          "question": "Search for jobs by title or keyword",
+          "field_id": "search_typeahead-navigation",
+          "canonical_field": "screener:custom:predicted:search_typeahead-navigation",
+          "kind": "verify_mismatch",
+          "problem": "Expected \"Software Engineer Intern\"; page shows \"(empty)\"",
+          "expected": "Software Engineer Intern",
+          "observed": {
+            "value": "",
+            "label": ""
+          },
+          "how_to_answer": [
+            "System expected \"Software Engineer Intern\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+            "Profile source: private/candidate/public-profile.json (key: screener:custom:predicted:search_typeahead-navigation)",
+            "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:predicted:search_typeahead-navigation\" should match the on-form question text."
+          ]
+        },
+        {
+          "id": "verify:address.city",
+          "question": "city",
+          "field_id": "city",
+          "canonical_field": "address.city",
+          "kind": "verify_mismatch",
+          "problem": "Expected \"Baltimore\"; page shows \"(empty)\"",
+          "expected": "Baltimore",
+          "observed": {
+            "value": "",
+            "label": ""
+          },
+          "how_to_answer": [
+            "Type the intended value on the form (planned: Baltimore). If a places/autocomplete list appears, select a matching suggestion; plain city text is enough when no list opens.",
+            "System expected \"Baltimore\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+            "Profile source: private/candidate/public-profile.json → address.city",
+            "Alias check: private/candidate/answer-aliases.json phrases for \"address.city\" should match the on-form question text."
+          ]
+        },
+        {
+          "id": "verify:address.city",
+          "question": "city",
+          "field_id": "city",
+          "canonical_field": "address.city",
+          "kind": "verify_mismatch",
+          "problem": "Expected \"Baltimore\"; page shows \"false\"",
+          "expected": "Baltimore",
+          "observed": "false",
+          "how_to_answer": [
+            "Type the intended value on the form (planned: Baltimore). If a places/autocomplete list appears, select a matching suggestion; plain city text is enough when no list opens.",
+            "DOM shows \"false\" but plan expected \"Baltimore\". Correct the value on the form or fix profile/aliases so the plan matches the real answer.",
+            "Profile source: private/candidate/public-profile.json → address.city",
+            "Alias check: private/candidate/answer-aliases.json phrases for \"address.city\" should match the on-form question text."
+          ]
+        },
+        {
+          "id": "verify:address.country",
+          "question": "country",
+          "field_id": "country",
+          "canonical_field": "address.country",
+          "kind": "verify_mismatch",
+          "problem": "Expected \"United States\"; page shows \"(empty)\"",
+          "expected": "United States",
+          "observed": "",
+          "how_to_answer": [
+            "System expected \"United States\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+            "Profile source: private/candidate/public-profile.json → address.country",
+            "Alias check: private/candidate/answer-aliases.json phrases for \"address.country\" should match the on-form question text."
+          ]
+        },
+        {
+          "id": "verify:address.city",
+          "question": "city",
+          "field_id": "city",
+          "canonical_field": "address.city",
+          "kind": "verify_mismatch",
+          "problem": "Expected \"Baltimore\"; page shows \"(empty)\"",
+          "expected": "Baltimore",
+          "observed": "",
+          "how_to_answer": [
+            "Type the intended value on the form (planned: Baltimore). If a places/autocomplete list appears, select a matching suggestion; plain city text is enough when no list opens.",
+            "System expected \"Baltimore\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+            "Profile source: private/candidate/public-profile.json → address.city",
+            "Alias check: private/candidate/answer-aliases.json phrases for \"address.city\" should match the on-form question text."
+          ]
+        },
+        {
+          "id": "verify:screener:custom:predicted:search_typeahead-modal",
+          "question": "Search for jobs by title or keyword",
+          "field_id": "search_typeahead-modal",
+          "canonical_field": "screener:custom:predicted:search_typeahead-modal",
+          "kind": "verify_mismatch",
+          "problem": "Expected \"Software Engineer Intern\"; page shows \"(empty)\"",
+          "expected": "Software Engineer Intern",
+          "observed": {
+            "value": "",
+            "label": ""
+          },
+          "how_to_answer": [
+            "System expected \"Software Engineer Intern\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+            "Profile source: private/candidate/public-profile.json (key: screener:custom:predicted:search_typeahead-modal)",
+            "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:predicted:search_typeahead-modal\" should match the on-form question text."
+          ]
+        },
+        {
+          "id": "verify:address.city",
+          "question": "city",
+          "field_id": "city",
+          "canonical_field": "address.city",
+          "kind": "verify_mismatch",
+          "problem": "Expected \"Baltimore\"; page shows \"(empty)\"",
+          "expected": "Baltimore",
+          "observed": {
+            "value": "",
+            "label": ""
+          },
+          "how_to_answer": [
+            "Type the intended value on the form (planned: Baltimore). If a places/autocomplete list appears, select a matching suggestion; plain city text is enough when no list opens.",
+            "System expected \"Baltimore\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+            "Profile source: private/candidate/public-profile.json → address.city",
+            "Alias check: private/candidate/answer-aliases.json phrases for \"address.city\" should match the on-form question text."
+          ]
+        },
+        {
+          "id": "upload:resume",
+          "question": "Upload: resume",
+          "field_id": null,
+          "canonical_field": null,
+          "kind": "upload_failed",
+          "problem": "no file input resolved: primary resume selector not attached within 3s; retrying resolve after 1500ms; primary resume selector not attached within 3s; no resume file input; 0 file inputs on page; filechooser fallback: no upload-like control found",
+          "expected": "resume-dd9093dd.pdf",
+          "observed": null,
+          "how_to_answer": [
+            "Resume is system-owned: materials:register + adapter.uploadResume on submit/fill — not a free-text profile field.",
+            "If this is ats:fill without --resume, pass --resume <pdf> or use application submit (uses registered material).",
+            "Evidence: no file input resolved: primary resume selector not attached within 3s; retrying resolve after 1500ms; primary resume selector not attached within 3s; no resume file input; 0 file inputs on page; filechooser fallback: no upload-like control found"
+          ]
+        }
+      ]
+    },
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": false
+    },
+    "open_review_items": [
+      {
+        "kind": "MANUAL",
+        "title": "Answer needed: \"373 results for \" Rocket Lab \"\""
+      },
+      {
+        "kind": "MANUAL",
+        "title": "Answer needed: \"latitude\""
+      },
+      {
+        "kind": "MANUAL",
+        "title": "Answer needed: \"longitude\""
+      },
+      {
+        "kind": "MANUAL",
+        "title": "Answer needed: \"loc_group_id\""
+      }
+    ],
+    "prior_decisions": [
+      {
+        "action": "park_for_operator",
+        "failure_signature": "AMBIGUOUS_FIELD|-|verify_mismatch|www.amazon.jobs",
+        "outcome_status": "PENDING",
+        "created_at": "2026-09-10T06:00:24.704Z"
+      }
+    ],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"park_for_operator\", \"rationale\": \"Fill targeted search typeahead/latitude/longitude widgets, not a real application form — no file input exists on the page, so this is a job-search page, not the apply form. Retrying or regenerating materials won't change it; nav congruence matched so URL isn't stale. Needs a human to inspect field mapping/page.\", \"confidence\": \"medium\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: 5e649352-7b86-42e2-9b9d-dada6c01d68d",
+  "rationale_unverified": "Fill targeted search typeahead/latitude/longitude widgets, not a real application form — no file input exists on the page, so this is a job-search page, not the apply form. Retrying or regenerating materials won't change it; nav congruence matched so URL isn't stale. Needs a human to inspect field mapping/page."
+}
