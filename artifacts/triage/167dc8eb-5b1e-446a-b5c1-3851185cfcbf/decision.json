@@ -1,0 +1,121 @@
+{
+  "decision_id": "167dc8eb-5b1e-446a-b5c1-3851185cfcbf",
+  "application_id": "bff71205-5546-470f-b571-734b0bf5c533",
+  "signature": "FAILED_RETRYABLE|duplicate_url|duplicate_url|-",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "bff71205-5546-470f-b571-734b0bf5c533",
+    "company": "Tesla",
+    "role": "Internship, Machine Learning Engineer, Factory Software (Winter/Spring 2027)",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 1,
+    "failure_signature": "FAILED_RETRYABLE|duplicate_url|duplicate_url|-",
+    "end_host": null,
+    "recent_events": [
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "navigation: employer URL already held by another application",
+        "at": "2026-09-10T06:18:34.078Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-10T06:18:31.491Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 db6f3f869124)",
+        "at": "2026-09-10T06:18:31.488Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-10T06:18:31.461Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-10T04:36:37.046Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-10T04:36:37.037Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-10T04:36:37.036Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-10T04:36:37.035Z"
+      }
+    ],
+    "nav": {
+      "wall": "duplicate_url",
+      "method": null,
+      "notes": [
+        "employer URL already held by 1 other application(s): 69d61fd6 (Tesla — Internship, Machine Learning Engineer, Factory Software (Winter/Spring 2027), AMBIGUOUS_FIELD)"
+      ],
+      "congruence": {
+        "verdict": "match",
+        "slug": "tesla",
+        "detail": "token \"tesla\" ~ slug \"tesla\" (from URL host)",
+        "expected_company": "Tesla",
+        "url": "https://www.tesla.com/careers/search/job/282916?source=Indeed&jr_id=6aa1e71def23570cae246c55"
+      },
+      "duplicates": [
+        {
+          "application_id": "69d61fd6-b76c-4ee9-beb5-663fca07e4d2",
+          "state": "AMBIGUOUS_FIELD",
+          "company": "Tesla",
+          "role": "Internship, Machine Learning Engineer, Factory Software (Winter/Spring 2027)"
+        }
+      ],
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (11 candidates, employer match)",
+          "evidence": "www.tesla.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [
+      {
+        "kind": "MANUAL",
+        "title": "Duplicate posting — another application already targets this URL"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"abandon_duplicate\", \"rationale\": \"Same URL, company, and role are already owned by application 69d61fd6, which is active (AMBIGUOUS_FIELD). No retry changes this; this record is the redundant one.\", \"confidence\": \"high\"}",
+  "parsed_action": "abandon_duplicate",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "abandoned to FAILED_FINAL",
+  "rationale_unverified": "Same URL, company, and role are already owned by application 69d61fd6, which is active (AMBIGUOUS_FIELD). No retry changes this; this record is the redundant one."
+}

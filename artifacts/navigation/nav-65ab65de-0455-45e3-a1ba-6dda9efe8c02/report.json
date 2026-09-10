@@ -1,0 +1,48 @@
+{
+  "run_id": "nav-65ab65de-0455-45e3-a1ba-6dda9efe8c02",
+  "application_id": "bff71205-5546-470f-b571-734b0bf5c533",
+  "jobright_job_id": "6aa1e71def23570cae246c55",
+  "method": null,
+  "resolved_url": null,
+  "resolved_ats": null,
+  "wall": "duplicate_url",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "resolved (11 candidates, employer match)",
+      "evidence": "www.tesla.com"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "employer URL already held by 1 other application(s): 69d61fd6 (Tesla — Internship, Machine Learning Engineer, Factory Software (Winter/Spring 2027), AMBIGUOUS_FIELD)"
+  ],
+  "congruence": {
+    "verdict": "match",
+    "slug": "tesla",
+    "detail": "token \"tesla\" ~ slug \"tesla\" (from URL host)",
+    "expected_company": "Tesla",
+    "url": "https://www.tesla.com/careers/search/job/282916?source=Indeed&jr_id=6aa1e71def23570cae246c55"
+  },
+  "duplicates": [
+    {
+      "application_id": "69d61fd6-b76c-4ee9-beb5-663fca07e4d2",
+      "state": "AMBIGUOUS_FIELD",
+      "company": "Tesla",
+      "role": "Internship, Machine Learning Engineer, Factory Software (Winter/Spring 2027)"
+    }
+  ],
+  "login_wall": null,
+  "evidence": [
+    "navigation\\nav-65ab65de-0455-45e3-a1ba-6dda9efe8c02\\giveup-duplicate_url.html",
+    "navigation\\nav-65ab65de-0455-45e3-a1ba-6dda9efe8c02\\giveup-duplicate_url.png"
+  ],
+  "written_at": "2026-09-10T06:18:34.048Z"
+}
