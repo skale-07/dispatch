@@ -1,0 +1,166 @@
+{
+  "decision_id": "60c74f5b-183e-4f96-b960-6cb72af62fec",
+  "application_id": "b6cc7902-f948-460a-9d41-ab1b6cf6b493",
+  "signature": "FAILED_RETRYABLE|-|unknown|waystar.wd1.myworkdayjobs.com",
+  "forbidden_actions": [
+    "requeue_reopen_navigation"
+  ],
+  "bundle": {
+    "application_id": "b6cc7902-f948-460a-9d41-ab1b6cf6b493",
+    "company": "Waystar",
+    "role": "Application Engineer - Intern",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 2,
+    "failure_signature": "FAILED_RETRYABLE|-|unknown|waystar.wd1.myworkdayjobs.com",
+    "end_host": "waystar.wd1.myworkdayjobs.com",
+    "recent_events": [
+      {
+        "from": "READY_TO_SUBMIT",
+        "to": "FAILED_RETRYABLE",
+        "reason": "submit page gate failed: NO_APPLICATION_FORM",
+        "at": "2026-09-10T09:21:50.557Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "READY_TO_SUBMIT",
+        "reason": "pipeline: fill rehearsal verified",
+        "at": "2026-09-10T09:20:58.995Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (workday live fill: 10 filled (held for submit))",
+        "at": "2026-09-10T09:20:58.994Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route inspect_only (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-10T08:46:46.425Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-10T08:46:45.751Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: workday URL validated",
+        "at": "2026-09-10T08:46:45.748Z"
+      },
+      {
+        "from": "FAILED_RETRYABLE",
+        "to": "APPLICATION_OPENING",
+        "reason": "triage: cleared employer URL, re-resolving (FAILED_RETRYABLE|-|unknown|waystar.wd1.myworkdayjobs.com)",
+        "at": "2026-09-10T08:41:32.123Z"
+      },
+      {
+        "from": "READY_TO_SUBMIT",
+        "to": "FAILED_RETRYABLE",
+        "reason": "submit page gate failed: NO_APPLICATION_FORM",
+        "at": "2026-09-10T08:41:27.256Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "READY_TO_SUBMIT",
+        "reason": "pipeline: fill rehearsal verified",
+        "at": "2026-09-10T08:22:24.446Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (workday live fill: 10 filled (held for submit))",
+        "at": "2026-09-10T08:22:24.445Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route inspect_only (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-10T06:41:44.335Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-10T06:41:43.849Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: workday URL validated",
+        "at": "2026-09-10T06:41:43.845Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-10T06:41:41.936Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 dd9093dde3f8)",
+        "at": "2026-09-10T06:41:41.931Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "waystar",
+        "detail": "token \"waystar\" ~ slug \"waystar\"",
+        "expected_company": "Waystar",
+        "url": "https://waystar.wd1.myworkdayjobs.com/rise_with_waystar/job/Atlanta-GA/Application-Engineer---Intern_R3376?jr_id=6aa1935f500b01124c77d890"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (12 candidates, employer match)",
+          "evidence": "waystar.wd1.myworkdayjobs.com"
+        }
+      ]
+    },
+    "submit": {
+      "outcome": "FAILED_BEFORE_CLICK",
+      "reason": "Page failed identity gate (NO_APPLICATION_FORM): form markers matched but the page has no fillable fields — this is a posting/description page, not the application form",
+      "brief_items": []
+    },
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": true
+    },
+    "open_review_items": [],
+    "prior_decisions": [
+      {
+        "action": "requeue_reopen_navigation",
+        "failure_signature": "FAILED_RETRYABLE|-|unknown|waystar.wd1.myworkdayjobs.com",
+        "outcome_status": "CONFIRMED",
+        "created_at": "2026-09-10T08:41:32.122Z"
+      }
+    ],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"engage_agent_leg\", \"rationale\": \"Navigation resolves and congruence matches, but deterministic flow lands on the posting page rather than the actual Workday application form — submit gate fails with NO_APPLICATION_FORM twice. Reopening navigation was already tried and refuted. A bounded agent leg can click through Apply/account steps to reach the real form.\", \"confidence\": \"medium\"}",
+  "parsed_action": "engage_agent_leg",
+  "validation_note": null,
+  "precondition": {
+    "ok": false,
+    "reason": "no navigation wall in evidence — agent leg only helps nav-walled apps"
+  },
+  "mode": "act",
+  "executed": false,
+  "execution_detail": "precondition failed: no navigation wall in evidence — agent leg only helps nav-walled apps",
+  "rationale_unverified": "Navigation resolves and congruence matches, but deterministic flow lands on the posting page rather than the actual Workday application form — submit gate fails with NO_APPLICATION_FORM twice. Reopening navigation was already tried and refuted. A bounded agent leg can click through Apply/account steps to reach the real form."
+}
