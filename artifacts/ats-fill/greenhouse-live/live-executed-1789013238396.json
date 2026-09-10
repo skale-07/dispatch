@@ -1,0 +1,838 @@
+{
+  "mode": "executed",
+  "ats": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/smartlyio/jobs/6186905004",
+  "plan": {
+    "answers": {
+      "legal_name.first": "Shubham",
+      "legal_name.last": "Kale",
+      "screener:custom:has_preferred_name": "No",
+      "email": "s***@gmail.com",
+      "address.country": "United States",
+      "phone": "***-***-7636",
+      "address.city": "Baltimore",
+      "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+      "work_authorization": "[REDACTED_SPONSORSHIP]",
+      "screener:willing_to_relocate": "Yes",
+      "race_ethnicity": "Asian",
+      "veteran_status": "I am not a veteran",
+      "screener:custom:predicted:4024990004": "18-20"
+    },
+    "entries": [
+      {
+        "field_id": "first_name",
+        "label": "First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "fill",
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "last_name",
+        "label": "Last Name",
+        "type": "text",
+        "canonical_field": "legal_name.last",
+        "action": "fill",
+        "value": "Kale",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "preferred_name",
+        "label": "Preferred First Name",
+        "type": "text",
+        "canonical_field": "screener:custom:has_preferred_name",
+        "action": "fill",
+        "value": "No",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "email",
+        "label": "Email",
+        "type": "text",
+        "canonical_field": "email",
+        "action": "fill",
+        "value": "s***@gmail.com",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "country",
+        "label": "Country",
+        "type": "text",
+        "canonical_field": "address.country",
+        "action": "fill",
+        "value": "United States +1",
+        "reason": "Mapped from public profile; placed onto \"United States +1\""
+      },
+      {
+        "field_id": "phone",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "fill",
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "candidate-location",
+        "label": "Location (City)",
+        "type": "text",
+        "canonical_field": "address.city",
+        "action": "fill",
+        "value": "Baltimore",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "resume",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "skip_file",
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "cover_letter",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "skip_file",
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "question_19929216004",
+        "label": "LinkedIn Profile",
+        "type": "text",
+        "canonical_field": "linkedin_url",
+        "action": "fill",
+        "value": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_19929217004",
+        "label": "Website",
+        "type": "text",
+        "canonical_field": "personal_website",
+        "action": "skip_empty",
+        "value": null,
+        "reason": "Profile value empty for personal_website"
+      },
+      {
+        "field_id": "question_19929218004",
+        "label": "Are you authorized to work in the country for which you are applying?",
+        "type": "text",
+        "canonical_field": "work_authorization",
+        "action": "fill",
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_19929219004",
+        "label": "I will need visa sponsorship to be authorized to work in the country I'm applying to now or in the future.",
+        "type": "text",
+        "canonical_field": "work_authorization",
+        "action": "fill",
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_19938510004",
+        "label": "Are you able to work from our Chicago office three days per week for the duration of the internship?",
+        "type": "text",
+        "canonical_field": "screener:willing_to_relocate",
+        "action": "fill",
+        "value": "Yes",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "4000038004",
+        "label": "What gender do you identify as?",
+        "type": "text",
+        "canonical_field": null,
+        "action": "skip_demographics",
+        "value": null,
+        "reason": "Demographics deferred to sensitive-profile policy path"
+      },
+      {
+        "field_id": "4000040004",
+        "label": "I identify my ethnicity as",
+        "type": "text",
+        "canonical_field": "race_ethnicity",
+        "action": "fill",
+        "value": "Asian",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "4000041004",
+        "label": "Veteran Status",
+        "type": "text",
+        "canonical_field": "veteran_status",
+        "action": "fill",
+        "value": "I am not a veteran",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "4000042004",
+        "label": "Are you a person with a disability?",
+        "type": "text",
+        "canonical_field": null,
+        "action": "skip_demographics",
+        "value": null,
+        "reason": "Demographics deferred to sensitive-profile policy path"
+      },
+      {
+        "field_id": "4024990004",
+        "label": "What is your age range?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:4024990004",
+        "action": "fill",
+        "value": "18-20",
+        "reason": "Predicted from operator context (llm_predict): Candidate is an undergraduate who started college in August 2025 with graduation in 2029, and a prior answer indicated under 30, placing them in the 18-20 range."
+      }
+    ],
+    "fillable_count": 14,
+    "skipped_count": 5,
+    "review_required_count": 0
+  },
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "schema diff: 10/12 declared question(s) matched onto 19 DOM field(s); 2 declared-only (1 required); 9 DOM-only",
+    "board API declared 12 question(s); matched complete option lists onto 1 field(s)",
+    "option harvest: \"Location (City)\" is a combobox but offered no readable options",
+    "option harvest: scraped real options for 6/16 control(s) before planning",
+    "frozen after fill→verify→upload — no further field mutation; submit never called"
+  ],
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "final_url": "https://job-boards.greenhouse.io/smartlyio/jobs/6186905004",
+  "identity_verification": {
+    "requestedUrl": "https://job-boards.greenhouse.io/smartlyio/jobs/6186905004",
+    "finalUrl": "https://job-boards.greenhouse.io/smartlyio/jobs/6186905004",
+    "requestedJobId": "6186905004",
+    "observedJobId": "6186905004",
+    "company": "smartlyio",
+    "role": "Job Application for Business Analytics Intern at Smartly",
+    "formDetected": true,
+    "fieldCount": 19,
+    "warnings": [],
+    "passed": true,
+    "failureCode": null,
+    "failureReason": null
+  },
+  "captcha_detection": {
+    "detected": false,
+    "confidence": "LOW",
+    "signals": [],
+    "dormantMarkers": [
+      "recaptcha_api_script_loaded",
+      "generic_captcha_word_only"
+    ]
+  },
+  "login_wall_detection": {
+    "detected": false,
+    "confidence": "LOW",
+    "signals": []
+  },
+  "failure_code": null,
+  "mutation_attempted": true,
+  "schema_diff": {
+    "board": "smartlyio",
+    "job_id": "6186905004",
+    "declared_count": 12,
+    "dom_count": 19,
+    "matched": 10,
+    "api_only": [
+      {
+        "label": "Resume/CV",
+        "required": true
+      },
+      {
+        "label": "Cover Letter",
+        "required": false
+      }
+    ],
+    "dom_only": [
+      "Country",
+      "Location (City)",
+      "Attach",
+      "Attach",
+      "What gender do you identify as?",
+      "I identify my ethnicity as",
+      "Veteran Status",
+      "Are you a person with a disability?",
+      "What is your age range?"
+    ],
+    "option_mismatches": []
+  },
+  "harvested_options": [
+    {
+      "field_id": "country",
+      "label": "Country",
+      "answer_space": "closed",
+      "option_count": 244,
+      "options": [
+        "United States +1",
+        "Afghanistan +93",
+        "Åland Islands +358",
+        "Albania +355",
+        "Algeria +213",
+        "American Samoa +1",
+        "Andorra +376",
+        "Angola +244",
+        "Anguilla +1",
+        "Antigua & Barbuda +1",
+        "Argentina +54",
+        "Armenia +374",
+        "Aruba +297",
+        "Ascension Island +247",
+        "Australia +61",
+        "Austria +43",
+        "Azerbaijan +994",
+        "Bahamas +1",
+        "Bahrain +973",
+        "Bangladesh +880",
+        "Barbados +1",
+        "Belarus +375",
+        "Belgium +32",
+        "Belize +501",
+        "Benin +229"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "4000038004",
+      "label": "What gender do you identify as?",
+      "answer_space": "closed",
+      "option_count": 8,
+      "options": [
+        "Female",
+        "Male",
+        "Non-binary",
+        "Agender",
+        "Androgynous",
+        "Transgender",
+        "Option to self-describe",
+        "I don't wish to answer"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "4000040004",
+      "label": "I identify my ethnicity as",
+      "answer_space": "closed",
+      "option_count": 10,
+      "options": [
+        "Asian",
+        "Black or African American",
+        "Middle Eastern or North African",
+        "Hispanic, Latino, or Spanish origin",
+        "Native Hawaiian or other Pacific Islander",
+        "Indigenous Peoples, First Nations, Native American, or Alaska Native",
+        "White / Caucasian",
+        "Mixed or multiple ethnic groups",
+        "Option to self-describe",
+        "I don't wish to answer"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "4000041004",
+      "label": "Veteran Status",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "Not a veteran",
+        "Veteran",
+        "I don't wish to answer"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "4000042004",
+      "label": "Are you a person with a disability?",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "Yes",
+        "No",
+        "I don't wish to answer"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "4024990004",
+      "label": "What is your age range?",
+      "answer_space": "closed",
+      "option_count": 8,
+      "options": [
+        "17 or younger",
+        "18-20",
+        "21-29",
+        "30-39",
+        "40-49",
+        "50-59",
+        "60 or older",
+        "I don't wish to answer"
+      ],
+      "other_option": null
+    }
+  ],
+  "approved_plan": {
+    "entries": [
+      {
+        "field_id": "first_name",
+        "label": "First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "FILL",
+        "approved": true,
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "last_name",
+        "label": "Last Name",
+        "type": "text",
+        "canonical_field": "legal_name.last",
+        "action": "FILL",
+        "approved": true,
+        "value": "Kale",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "preferred_name",
+        "label": "Preferred First Name",
+        "type": "text",
+        "canonical_field": "screener:custom:has_preferred_name",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "email",
+        "label": "Email",
+        "type": "text",
+        "canonical_field": "email",
+        "action": "FILL",
+        "approved": true,
+        "value": "s***@gmail.com",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "country",
+        "label": "Country",
+        "type": "text",
+        "canonical_field": "address.country",
+        "action": "FILL",
+        "approved": true,
+        "value": "United States +1",
+        "reason": "Mapped from public profile; placed onto \"United States +1\""
+      },
+      {
+        "field_id": "phone",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "FILL",
+        "approved": true,
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "candidate-location",
+        "label": "Location (City)",
+        "type": "text",
+        "canonical_field": "address.city",
+        "action": "FILL",
+        "approved": true,
+        "value": "Baltimore",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "resume",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "cover_letter",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "question_19929216004",
+        "label": "LinkedIn Profile",
+        "type": "text",
+        "canonical_field": "linkedin_url",
+        "action": "FILL",
+        "approved": true,
+        "value": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_19929217004",
+        "label": "Website",
+        "type": "text",
+        "canonical_field": "personal_website",
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "Profile value empty for personal_website"
+      },
+      {
+        "field_id": "question_19929218004",
+        "label": "Are you authorized to work in the country for which you are applying?",
+        "type": "text",
+        "canonical_field": "work_authorization",
+        "action": "FILL",
+        "approved": true,
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_19929219004",
+        "label": "I will need visa sponsorship to be authorized to work in the country I'm applying to now or in the future.",
+        "type": "text",
+        "canonical_field": "work_authorization",
+        "action": "FILL",
+        "approved": true,
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_19938510004",
+        "label": "Are you able to work from our Chicago office three days per week for the duration of the internship?",
+        "type": "text",
+        "canonical_field": "screener:willing_to_relocate",
+        "action": "FILL",
+        "approved": true,
+        "value": "Yes",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "4000038004",
+        "label": "What gender do you identify as?",
+        "type": "text",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "Demographics deferred to sensitive-profile policy path"
+      },
+      {
+        "field_id": "4000040004",
+        "label": "I identify my ethnicity as",
+        "type": "text",
+        "canonical_field": "race_ethnicity",
+        "action": "FILL",
+        "approved": true,
+        "value": "Asian",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "4000041004",
+        "label": "Veteran Status",
+        "type": "text",
+        "canonical_field": "veteran_status",
+        "action": "FILL",
+        "approved": true,
+        "value": "I am not a veteran",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "4000042004",
+        "label": "Are you a person with a disability?",
+        "type": "text",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "Demographics deferred to sensitive-profile policy path"
+      },
+      {
+        "field_id": "4024990004",
+        "label": "What is your age range?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:4024990004",
+        "action": "FILL",
+        "approved": true,
+        "value": "18-20",
+        "reason": "Predicted from operator context (llm_predict): Candidate is an undergraduate who started college in August 2025 with graduation in 2029, and a prior answer indicated under 30, placing them in the 18-20 range."
+      }
+    ],
+    "answers": {
+      "legal_name.first": "Shubham",
+      "legal_name.last": "Kale",
+      "screener:custom:has_preferred_name": "No",
+      "email": "s***@gmail.com",
+      "address.country": "United States +1",
+      "phone": "***-***-7636",
+      "address.city": "Baltimore",
+      "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+      "work_authorization": "[REDACTED_SPONSORSHIP]",
+      "screener:willing_to_relocate": "Yes",
+      "race_ethnicity": "Asian",
+      "veteran_status": "I am not a veteran",
+      "screener:custom:predicted:4024990004": "18-20"
+    },
+    "fillable_count": 14,
+    "skipped_count": 5,
+    "review_required_count": 0
+  },
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "legal_name.last",
+      "screener:custom:has_preferred_name",
+      "email",
+      "address.country",
+      "phone",
+      "address.city",
+      "linkedin_url",
+      "work_authorization",
+      "work_authorization",
+      "screener:willing_to_relocate",
+      "race_ethnicity",
+      "veteran_status",
+      "screener:custom:predicted:4024990004"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "first_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "last_name",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "preferred_name",
+        "canonical_field": "screener:custom:has_preferred_name",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "country",
+        "canonical_field": "address.country",
+        "control_kind": "combobox",
+        "selected_option": "+1",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"United States +1\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "phone",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "candidate-location",
+        "canonical_field": "address.city",
+        "control_kind": "combobox",
+        "selected_option": "Baltimore, Maryland, United States",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "filter \"Baltimore\" then picked \"Baltimore, Maryland, United States\" (exact)"
+        ]
+      },
+      {
+        "field_id": "question_19929216004",
+        "canonical_field": "linkedin_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_19929218004",
+        "canonical_field": "work_authorization",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_19929219004",
+        "canonical_field": "work_authorization",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_19938510004",
+        "canonical_field": "screener:willing_to_relocate",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "4000040004",
+        "canonical_field": "race_ethnicity",
+        "control_kind": "combobox",
+        "selected_option": "Asian",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Asian\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "4000041004",
+        "canonical_field": "veteran_status",
+        "control_kind": "combobox",
+        "selected_option": "Not a veteran",
+        "match_via": "synonym",
+        "notes": [
+          "opened via control click",
+          "picked \"Not a veteran\" (synonym) from open list"
+        ]
+      },
+      {
+        "field_id": "4024990004",
+        "canonical_field": "screener:custom:predicted:4024990004",
+        "control_kind": "combobox",
+        "selected_option": "18-20",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"18-20\" (exact) from open list"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.last",
+        "expected": "Kale",
+        "observed": "Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:has_preferred_name",
+        "expected": "No",
+        "observed": "No",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "address.country",
+        "expected": "United States +1",
+        "observed": {
+          "value": "+1",
+          "label": "+1"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "address.city",
+        "expected": "Baltimore",
+        "observed": {
+          "value": "Baltimore, Maryland, United States",
+          "label": "Baltimore, Maryland, United States"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "match": true
+      },
+      {
+        "canonical_field": "work_authorization",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "work_authorization",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:willing_to_relocate",
+        "expected": "Yes",
+        "observed": "Yes",
+        "match": true
+      },
+      {
+        "canonical_field": "race_ethnicity",
+        "expected": "Asian",
+        "observed": {
+          "value": "Asian",
+          "label": "Asian"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "veteran_status",
+        "expected": "I am not a veteran",
+        "observed": {
+          "value": "Not a veteran",
+          "label": "Not a veteran"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:4024990004",
+        "expected": "18-20",
+        "observed": {
+          "value": "18-20",
+          "label": "18-20"
+        },
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 113810,
+      "verified": true,
+      "evidence": "input files: []; stillAttached=false; chip=true"
+    }
+  ],
+  "written_at": "2026-09-10T04:07:18.414Z"
+}
