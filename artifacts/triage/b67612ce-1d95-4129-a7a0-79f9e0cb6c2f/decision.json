@@ -1,0 +1,165 @@
+{
+  "decision_id": "b67612ce-1d95-4129-a7a0-79f9e0cb6c2f",
+  "application_id": "93cd1870-e759-4a51-9f78-de24e2d20e18",
+  "signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|spgi.wd5.myworkdayjobs.com",
+  "forbidden_actions": [
+    "requeue_same",
+    "engage_agent_leg"
+  ],
+  "bundle": {
+    "application_id": "93cd1870-e759-4a51-9f78-de24e2d20e18",
+    "company": "S&P Global",
+    "role": "Software Engineer - Summer Intern 2027",
+    "state": "NATIVE_AUTOFILL_RUNNING",
+    "attempt": 2,
+    "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|spgi.wd5.myworkdayjobs.com",
+    "end_host": "spgi.wd5.myworkdayjobs.com",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-10T05:37:07.488Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-10T05:37:06.783Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: workday URL validated",
+        "at": "2026-09-10T05:37:06.781Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-10T05:37:06.778Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 dd9093dde3f8)",
+        "at": "2026-09-10T05:37:06.775Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-10T05:37:06.763Z"
+      },
+      {
+        "from": "FAILED_RETRYABLE",
+        "to": "QUEUED",
+        "reason": "retry 2/3",
+        "at": "2026-09-10T05:36:25.214Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "triage: demoting gate-parked NATIVE_AUTOFILL_RUNNING for requeue (NATIVE_AUTOFILL_RUNNING|-|unknown|spgi.wd5.myworkdayjobs.com)",
+        "at": "2026-09-10T05:36:25.213Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-10T05:35:50.654Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-10T05:35:49.987Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: workday URL validated",
+        "at": "2026-09-10T05:35:49.983Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-10T05:35:47.812Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 dd9093dde3f8)",
+        "at": "2026-09-10T05:35:47.810Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-10T05:35:47.791Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-10T05:12:55.514Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "spgi",
+        "detail": "initials \"spg\" prefix slug \"spgi\"",
+        "expected_company": "S&P Global",
+        "url": "https://spgi.wd5.myworkdayjobs.com/spgi_careers/job/Cambridge-MA/Software-Engineer---Summer-Intern-2027_331717-2?jr_id=6aa17ab7500b01124c77cd44"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (11 candidates, employer match)",
+          "evidence": "spgi.wd5.myworkdayjobs.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [],
+    "prior_decisions": [
+      {
+        "action": "engage_agent_leg",
+        "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|spgi.wd5.myworkdayjobs.com",
+        "outcome_status": "PENDING",
+        "created_at": "2026-09-10T09:24:19.610Z"
+      },
+      {
+        "action": "requeue_same",
+        "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|spgi.wd5.myworkdayjobs.com",
+        "outcome_status": "REFUTED",
+        "created_at": "2026-09-10T05:36:25.212Z"
+      }
+    ],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": true
+  },
+  "raw_model_text": "{\"action\": \"park_for_operator\", \"rationale\": \"Stalls at NATIVE_AUTOFILL_RUNNING on Workday portal sign-in; requeue_same already refuted and agent leg already granted (pending). Navigation URL is congruent and materials verified (resume sha256 dd9093dde3f8), so regeneration or re-resolving navigation would not change the outcome. No login/captcha wall recorded, so no basis to abandon. Human decision on portal credentials needed.\", \"confidence\": \"high\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: 1c5a7859-b1fe-4e79-9061-67a7ce2783f1",
+  "rationale_unverified": "Stalls at NATIVE_AUTOFILL_RUNNING on Workday portal sign-in; requeue_same already refuted and agent leg already granted (pending). Navigation URL is congruent and materials verified (resume sha256 dd9093dde3f8), so regeneration or re-resolving navigation would not change the outcome. No login/captcha wall recorded, so no basis to abandon. Human decision on portal credentials needed."
+}
