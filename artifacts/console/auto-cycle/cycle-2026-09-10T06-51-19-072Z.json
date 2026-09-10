@@ -1,0 +1,71 @@
+{
+  "started_at": "2026-09-10T06:51:19.072Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\swe.pdf)",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "6ac240ba-3540-4de1-848b-1122d5cc7865",
+    "armed_until": "2026-09-10T08:51:19.092Z",
+    "seconds_remaining": 7200,
+    "max_submits": 1,
+    "submits_used": 0,
+    "max_apps": 1,
+    "apps_started": 0,
+    "discover_max": 1,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": {
+    "arm_run_id": "6ac240ba-3540-4de1-848b-1122d5cc7865",
+    "apps_started": 1,
+    "submits_used": 0,
+    "stopped_reason": "apps_cap",
+    "discover_runs": 0,
+    "emails_generated": 0,
+    "drafts_saved": 0,
+    "essay_drafts_generated": 0,
+    "screener_predictions_generated": 0,
+    "notes": [
+      "triage sweep: 0 confirmed, 0 refuted, 0 expired of 95 pending",
+      "artifact autopush: 6 file(s) pushed to master as d11c4aaf"
+    ],
+    "per_app": [
+      {
+        "application_id": "b2b07e4b-ec47-4511-afd7-47d56e2dad4d",
+        "end_state": "NATIVE_AUTOFILL_RUNNING",
+        "stopped": "gate",
+        "stop_reason": "workday live fill refused: NAVIGATION_INCOMPLETE",
+        "submitted": false,
+        "outreach": null
+      }
+    ],
+    "nav_audit": {
+      "checked": 348,
+      "repaired": 0,
+      "parked": 0
+    },
+    "triage": {
+      "decided": 0,
+      "executed": 0
+    },
+    "artifact_autopush": {
+      "pushed": true,
+      "commit": "d11c4aaf",
+      "files_staged": 6
+    }
+  },
+  "outcome": "completed",
+  "notes": []
+}
