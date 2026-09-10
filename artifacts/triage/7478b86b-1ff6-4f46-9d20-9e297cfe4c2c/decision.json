@@ -1,0 +1,116 @@
+{
+  "decision_id": "7478b86b-1ff6-4f46-9d20-9e297cfe4c2c",
+  "application_id": "4bd39bdf-bc54-4f80-96c9-45d58b839450",
+  "signature": "AMBIGUOUS_FIELD|-|verify_mismatch|jobs.lever.co",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "4bd39bdf-bc54-4f80-96c9-45d58b839450",
+    "company": "Crest Industries",
+    "role": "Developer Intern",
+    "state": "AMBIGUOUS_FIELD",
+    "attempt": 1,
+    "failure_signature": "AMBIGUOUS_FIELD|-|verify_mismatch|jobs.lever.co",
+    "end_host": "jobs.lever.co",
+    "recent_events": [
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "AMBIGUOUS_FIELD",
+        "reason": "pipeline: read-back verification failed",
+        "at": "2026-09-10T04:21:26.381Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (lever live fill: 8 filled (held for submit))",
+        "at": "2026-09-10T04:21:26.380Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route needs_review_unmapped (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-10T04:21:05.105Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-10T04:21:02.622Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: lever URL validated",
+        "at": "2026-09-10T04:21:02.618Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-10T04:21:02.613Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 dd9093dde3f8)",
+        "at": "2026-09-10T04:21:02.610Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-10T04:21:02.587Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "ats board discovery: ready for materials/pipeline",
+        "at": "2026-09-10T04:06:45.607Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "ats board discovery: operator-listed board, title filter passed",
+        "at": "2026-09-10T04:06:45.606Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "ats board discovery: dedupe pass",
+        "at": "2026-09-10T04:06:45.606Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-10T04:06:45.606Z"
+      }
+    ],
+    "nav": null,
+    "submit": null,
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": false
+    },
+    "open_review_items": [
+      {
+        "kind": "AMBIGUOUS_FIELD",
+        "title": "Fill verification failed"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"park_for_operator\", \"rationale\": \"Fill executed (8 fields held for submit) but read-back verification mismatched on a live Lever form; an AMBIGUOUS_FIELD review item is already open. Nothing suggests transience, stale materials, or bad URL, and a blind rerun would repeat the same mismatch. A human should inspect the field values.\", \"confidence\": \"medium\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: abe958fa-1658-4f5c-8fba-f9f1fc2635b6",
+  "rationale_unverified": "Fill executed (8 fields held for submit) but read-back verification mismatched on a live Lever form; an AMBIGUOUS_FIELD review item is already open. Nothing suggests transience, stale materials, or bad URL, and a blind rerun would repeat the same mismatch. A human should inspect the field values."
+}
