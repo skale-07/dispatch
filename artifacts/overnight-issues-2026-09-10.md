@@ -592,3 +592,127 @@ cannot silently stop detecting anything.
 Relevant to the operator's directive "ensure you access gmail if
 verification code/link is needed": that path could not have worked before
 this fix, whatever the mailbox contained.
+
+---
+
+# Night29 handoff — 2026-09-10
+
+## Numbers
+
+- **19 verified submits** (queue was reset to zero at 04:00 UTC).
+- **4 Gmail drafts** to 4 distinct people (Rocket Lab ×3, DV Trading ×1),
+  drafts only — nothing sent.
+- **7 commits**, issues #230–#245b. Gate green at every one
+  (typecheck, full suite, check:forbidden, check:secrets).
+- Suite grew 1802 → 1831 tests; 5 tests that were already RED at the
+  session's starting commit are fixed.
+
+Submits, in order: Lexington Medical ×2, Saronic ×3, Rocket Lab USA ×8,
+Smartly.io, DV Trading ×2, Applied Intuition, GreatAmerica-class tail.
+
+## Why the drafts number is 4 and not 19
+
+It is #214 working, not a shortfall. Rocket Lab exposed 3 insiders and DV
+Trading 1; one person gets one email per company per 30-day window, so the
+four extra Rocket Lab submits and the second DV Trading submit correctly
+skipped people already drafted. Saronic, Lexington Medical and Smartly.io
+are simply not listed on JobRight, and the tail says so rather than
+inventing a recipient.
+
+Before #242 the number was **0** — see below.
+
+## The four changes that mattered most
+
+1. **#230 supply.** The board registry is refreshed from public internship
+   listing feeds (`npm run boards:refresh`) instead of hand-guessed slugs.
+   47 → 115 boards; the next sweep enqueued 20 applications where the stale
+   registry had managed 2.
+
+2. **#240 the page's own rules decide completeness.** Applications were
+   being abandoned over a plan-vs-page difference about a control the page
+   itself was content to leave empty. The required-completeness scan now
+   decides, and it fails closed on every axis that matters — a control
+   holding a DIFFERENT non-empty value still blocks, uploads are never
+   waivable, and a fill error is waivable only when its own message proves
+   nothing was written.
+
+3. **#241 a requeued application can actually be picked again.** Two holes:
+   the picker and the pipeline disagreed about what a review item means,
+   and the LLM triage's park outlived both requeue paths. At one point 12
+   of 14 applications — every one requeued to prove a fix — were invisible
+   while the loop idled. Clearing them took the night from 13 submits to 19
+   in about twenty minutes, with no change to the fill path.
+
+4. **#242 outreach for board submits.** JobRight's insider panel is keyed
+   to a JobRight job, board applications have none, and the stored-twin
+   fallback had nothing to borrow. A JobRight company search resolves any
+   employer (373 results for "Rocket Lab", including the very intern
+   postings we had just applied to through the board).
+
+## One thing you should know about, unprompted
+
+`diagnoseDisabledSubmit` has been silently broken — probably for a long
+time. A named function inside a `page.evaluate` callback does not survive
+tsx's compilation (`ReferenceError: __name is not defined`), and its caller
+catches into an empty diagnosis, so **every** disabled submit was reported
+as "no code input, no invalid fields, no errors". That is exactly the
+signal the emailed-verification-code recovery keys on, so that path could
+not have worked whatever was in the mailbox. Fixed in #245b and verified
+under tsx.
+
+The same trap invalidated my own testing method for two hours: vitest
+compiles differently and never reproduces it, so the fixture tests for
+#244/#245 passed while the live run failed. There is now a source-level
+guard test.
+
+## Your directives, and what happened to each
+
+- **Reset the queue, start applying** — done at 04:00 UTC, 20 rows cleared
+  through the state machine.
+- **Prioritise Lever/Ashby/Greenhouse, still do the long ones** — already
+  implemented as #228 before this session; all 19 submits came from the
+  fast tier. Workday and bespoke sites were attempted and still cost 2–4
+  cycles each without landing.
+- **Gmail for verification codes** — see #245b above; that path was dead
+  and is now alive, though no submit tonight actually needed a code.
+- **Gmail pipeline after every submission** — running; see the drafts note.
+- **"Where did you find this job" → Other → LinkedIn** — #223's fill-time
+  hatch was already in place from last session; no form hit that wall
+  tonight, so it is still UNVERIFIED live.
+- **Resume logic untouched** — kept. I did fix two unit tests that were
+  reading your real `private/` resume policy and so passed or failed by
+  machine; the behaviour is unchanged.
+- **Separate Chrome for Gmail** — built (#233, `npm run chrome:debug:gmail`
+  + `OUTREACH_CDP_URL`). It falls back to the applier browser by design:
+  Google binds its session to the profile, so the second Chrome landed on
+  the account chooser. **Sign into Gmail once in the 9223 window and it
+  switches over automatically** — that is the one manual thing waiting for
+  you.
+- **Don't overfit** — every fix is keyed to a structural fact (a shared
+  control id, a group's member labels, an option list's presence), not to
+  the company that surfaced it. Where I could not find a general rule I
+  left the app parked and said so.
+
+## Top item for the next session (unchanged from night28, now better evidenced)
+
+**#224: required controls the live page has but plan-time discovery does
+not.** Crest Industries ×2 is blocked on a bare "Name" + "Date"
+acknowledgement block — an answer that is completely deterministic (your
+legal name, today's date) — and the plan simply never sees those controls:
+12 discovered fields, neither of them present, while the live scan finds
+both. Interplay wants a 16personalities screenshot; CIM Group wants a
+salary number, which is policy-blocked and correct.
+
+The fix is to feed the live completeness scan back into PLAN-time
+discovery so the answers flow through the normal approved plan — not to
+answer at submit time, which would put values on a form that never passed
+the plan gate. It wants a session with a solo gate, not the last hour
+beside a live browser.
+
+## Still parked on you specifically
+
+- Replit — take-home Project URL / Password.
+- Interplay — personality-test screenshot.
+- CIM Group, DRW — salary expectations (policy: never model-answered).
+- Lexington Medical (1 of 3) — a portfolio file for an engineering-work
+  question.
