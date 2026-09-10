@@ -1,0 +1,48 @@
+{
+  "outcome": "FAILED_BEFORE_CLICK",
+  "application_id": "2bea6873-d0d9-4fec-aa8c-908d81b063a5",
+  "submission_id": "6b26a8ce-24b3-4d38-b429-a9b21d5a5355",
+  "attempt": 1,
+  "receipt": null,
+  "review_item_id": null,
+  "reason": "Refusing to click submit: field verification or upload did not pass",
+  "artifact_path": null,
+  "operator_brief": {
+    "title": "Submit blocked — generic app 2bea6873-d0d9-4fec-aa8c-908d81b063a5",
+    "summary": "2 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:essay:generated:oda-work-summary-text-area|input",
+        "question": "Work Summary",
+        "field_id": "oda-work-summary-text-area|input",
+        "canonical_field": "essay:generated:oda-work-summary-text-area|input",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"I'm an undergraduate at Johns Hopkins studying Applied Mathematics & Statistics and Economics, class of 2029, and most of my work sits between software engineering, machine learning, and product. Right now I build the machine-learning core of an anomaly-detection and alert-prioritization system at Summer Atlantic Capital / SAC Nexus, where I own the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, a learning-to-rank layer for alerts, and a retrieval-augmented explanation layer so analysts can act on the output. Before that I worked with Intelehealth on AI and data systems for rural telemedicine, including a resource-availability scoring pipeline across 32 villages and an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case standard. I co-founded Open Health Intelligence and am technical lead for ClarityAtlas, an iOS app I built in Swift/SwiftUI with Supabase and HealthKit, including passive sleep estimation without a wearable, shipped into a live Hopkins pilot with 30+ users. I've also served as lead model developer on a Gates Foundation-funded health equity project using XGBoost and G-formula simulations on roughly 10 million records.\"; page shows \"(empty)\"",
+        "expected": "I'm an undergraduate at Johns Hopkins studying Applied Mathematics & Statistics and Economics, class of 2029, and most of my work sits between software engineering, machine learning, and product. Right now I build the machine-learning core of an anomaly-detection and alert-prioritization system at Summer Atlantic Capital / SAC Nexus, where I own the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, a learning-to-rank layer for alerts, and a retrieval-augmented explanation layer so analysts can act on the output. Before that I worked with Intelehealth on AI and data systems for rural telemedicine, including a resource-availability scoring pipeline across 32 villages and an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case standard. I co-founded Open Health Intelligence and am technical lead for ClarityAtlas, an iOS app I built in Swift/SwiftUI with Supabase and HealthKit, including passive sleep estimation without a wearable, shipped into a live Hopkins pilot with 30+ users. I've also served as lead model developer on a Gates Foundation-funded health equity project using XGBoost and G-formula simulations on roughly 10 million records.",
+        "observed": "",
+        "how_to_answer": [
+          "System expected \"I'm an undergraduate at Johns Hopkins studying Applied Mathematics & Statistics and Economics, class of 2029, and most of my work sits between software engineering, machine learning, and product. Right now I build the machine-learning core of an anomaly-detection and alert-prioritization system at Summer Atlantic Capital / SAC Nexus, where I own the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, a learning-to-rank layer for alerts, and a retrieval-augmented explanation layer so analysts can act on the output. Before that I worked with Intelehealth on AI and data systems for rural telemedicine, including a resource-availability scoring pipeline across 32 villages and an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case standard. I co-founded Open Health Intelligence and am technical lead for ClarityAtlas, an iOS app I built in Swift/SwiftUI with Supabase and HealthKit, including passive sleep estimation without a wearable, shipped into a live Hopkins pilot with 30+ users. I've also served as lead model developer on a Gates Foundation-funded health equity project using XGBoost and G-formula simulations on roughly 10 million records.\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: essay:generated:oda-work-summary-text-area|input)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"essay:generated:oda-work-summary-text-area|input\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "upload:resume",
+        "question": "Upload: resume",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "upload_failed",
+        "problem": "no file input resolved: primary resume selector not attached within 3s; retrying resolve after 1500ms; primary resume selector not attached within 3s; no resume file input; 0 file inputs on page; filechooser fallback: no upload-like control found",
+        "expected": "resume-db6f3f86.pdf",
+        "observed": null,
+        "how_to_answer": [
+          "Resume is system-owned: materials:register + adapter.uploadResume on submit/fill — not a free-text profile field.",
+          "If this is ats:fill without --resume, pass --resume <pdf> or use application submit (uses registered material).",
+          "Evidence: no file input resolved: primary resume selector not attached within 3s; retrying resolve after 1500ms; primary resume selector not attached within 3s; no resume file input; 0 file inputs on page; filechooser fallback: no upload-like control found"
+        ]
+      }
+    ],
+    "ok_count": 0,
+    "fail_count": 2
+  }
+}
