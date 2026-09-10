@@ -1,0 +1,27 @@
+{
+  "run_id": "[REDACTED]",
+  "outcome": "form_ready",
+  "steps": [
+    {
+      "observation": "605d8c15badad6b4",
+      "action": "click",
+      "reason": "Continue Application leads to the actual application form for this exact posting.",
+      "result": "clicked observed control; next observation checks progress",
+      "model": "claude-opus-5",
+      "target": "control-9"
+    },
+    {
+      "observation": "3d5fea71454c29e3",
+      "action": "wait",
+      "reason": "no navigable controls yet — waiting for rendering (no model)",
+      "result": "waited for rendering"
+    }
+  ],
+  "notes": [
+    "model calls: 1 of 2 steps"
+  ],
+  "evidence": [
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-de5e48da-2894-4195-a761-e202c3c98a3c\\observation.json",
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-de5e48da-2894-4195-a761-e202c3c98a3c\\page.png"
+  ]
+}
