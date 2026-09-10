@@ -60,12 +60,12 @@
 </style></head>
 <body><div class="wrap">
 <h1>Dispatch run timeline</h1>
-<p class="sub">Generated 2026-09-10T09:48:20.575Z · 40 navigation run(s) · read-only view of artifacts/</p>
+<p class="sub">Generated 2026-09-10T09:59:33.890Z · 40 navigation run(s) · read-only view of artifacts/</p>
 <div class="stats"><span class="stat"><b>16</b> resolved</span><span class="stat"><b>12</b> unknown</span><span class="stat"><b>4</b> auth</span><span class="stat"><b>4</b> budget</span><span class="stat"><b>2</b> closed</span><span class="stat"><b>2</b> submit_risk</span></div>
 <section class="cycle">
   <h2>Latest cycle</h2>
   <dl>
-    <div><dt>Started</dt><dd>2026-09-10T09:45:51.167Z</dd></div>
+    <div><dt>Started</dt><dd>2026-09-10T09:48:44.033Z</dd></div>
     <div><dt>Outcome</dt><dd>completed</dd></div>
     <div><dt>Agent leg</dt><dd>available</dd></div>
     <div><dt>Default resume</dt><dd>ready (C:\dev\jobright-application-agent\private\candidate\resumes\swe.pdf)</dd></div>
@@ -73,9 +73,24 @@
     <div><dt>Submits used</dt><dd>0</dd></div>
     <div><dt>Stopped</dt><dd>apps_cap</dd></div>
   </dl>
-  <h3>Session notes</h3><ul class="notes"><li>triage sweep: 0 confirmed, 1 refuted, 0 expired of 99 pending</li><li>triage 071f3ce5: park_for_operator (executed) — review item created: 32ed33b6-9342-49dc-a2fe-4010ac3ca075</li><li>artifact autopush: 5 file(s) pushed to master as b4e69134</li></ul>
+  <h3>Session notes</h3><ul class="notes"><li>triage sweep: 0 confirmed, 0 refuted, 0 expired of 99 pending</li><li>triage 6d0806c4: park_for_operator (executed) — review item created: a1075143-c937-4e98-b40b-e3ac655e9c3e</li><li>artifact autopush: 25 file(s) pushed to master as b3ad37b8</li></ul>
 </section>
 <h2>Applications</h2>
+<details class="app ok">
+  <summary>
+    <span class="id">6d0806c4</span>
+    <span class="co">Merck</span>
+    <span class="badge">resolved</span>
+    <span class="chip">anchor_href</span>
+    <span class="chip">generic</span>
+    
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — resolved (10 candidates, employer match)<span class="ev">jobs.merck.com</span></li></ol>
+    <h4>Notes</h4><ul class="notes"><li>none</li></ul>
+    
+  </div>
+</details>
 <details class="app ok">
   <summary>
     <span class="id">67018d02</span>
@@ -659,21 +674,6 @@
     <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — resolved via popup<span class="ev">careers.acme.com</span></li></ol>
     <h4>Notes</h4><ul class="notes"><li>popup captured on attempt 1</li><li>phase B: landing shows a sign-in wall — stored anyway; fill owns portal auth</li></ul>
     
-  </div>
-</details>
-<details class="app ok">
-  <summary>
-    <span class="id">9f006026</span>
-    <span class="co">Acme</span>
-    <span class="badge">resolved</span>
-    <span class="chip">agent</span>
-    <span class="chip">lever</span>
-    <span class="chip">agent 1t/5s</span>
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>B_board_hop</b> — no employer board route (3 request(s))</li><li><b>C_agent</b> — resolved (turn 1, employer unverified)<span class="ev">jobs.lever.co</span></li></ol>
-    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>board hop: no public greenhouse/lever/ashby board found for &quot;Acme&quot; (acme; 3 requests)</li><li>agent[1]: reached form</li><li>agent[1]: URL reads as &quot;othercorp&quot; (slug &quot;othercorp&quot; shares nothing with company &quot;Acme&quot;) — kept</li><li>congruence: URL names &quot;othercorp&quot;, not &quot;Acme&quot; (slug &quot;othercorp&quot; shares nothing with company &quot;Acme&quot;) — recorded, not refused</li></ul>
-    <h4>Hosts visited</h4><p class="hosts">jobright.ai → jobs.lever.co</p>
   </div>
 </details>
 <footer>Every row is one navigation run. Green = employer URL resolved; amber = auth/CAPTCHA wall; red = unresolved; grey = posting closed. Expand a row for its phase trace and the notes that explain the stop.</footer>
