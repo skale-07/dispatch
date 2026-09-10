@@ -1,0 +1,177 @@
+{
+  "ats": "generic",
+  "url": "https://www.amazon.jobs/jobs/3134271/software-dev-engineer-internship--embedded-development?cmpid=SPLICX0248M&ss=paid",
+  "requested_url": "https://www.amazon.jobs/jobs/3134271/software-dev-engineer-internship--embedded-development?cmpid=SPLICX0248M&ss=paid",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://passport.amazon.jobs/",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 1,
+    "skipped_count": 0,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "preLoginEmailField",
+      "label": "Email",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "preLoginEmailField",
+      "label": "Email",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "rc_select_2",
+      "label": "Search by title or company",
+      "type": "unknown",
+      "canonical_field": "current_company",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "rc_select_3",
+      "label": "373 results for \" Rocket Lab \"",
+      "type": "unknown",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\generic-live\\form-snapshot-1789020015378.html",
+  "fill": {
+    "filled": [
+      "email",
+      "email"
+    ],
+    "skipped": [],
+    "errors": [
+      "rc_select_2: locator.count: Target page, context or browser has been closed"
+    ],
+    "field_meta": [
+      {
+        "field_id": "preLoginEmailField",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "preLoginEmailField",
+        "canonical_field": "email",
+        "control_kind": "text",
+        "notes": [
+          "already holds \"skale072007@gmail.com\" — verified in place, not retyped"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": false,
+    "fields": [
+      {
+        "canonical_field": "current_company",
+        "expected": "Summer Atlantic Capital",
+        "observed": null,
+        "match": false
+      }
+    ],
+    "uploads": [],
+    "warnings": [
+      "verify current_company: locator.count: Target page, context or browser has been closed"
+    ]
+  },
+  "uploads": null,
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: posting (Apply CTA present and none of the 21 field(s) ask who you are — page furniture, not an application)",
+    "landed on a posting (Apply CTA present and none of the 21 field(s) ask who you are — page furniture, not an application); clicking Apply via role=link \"Apply now\"",
+    "Apply landed on: unknown (no signals matched)",
+    "section-expand: expanded 1 collapsed section(s)",
+    "section-expand: expanded \"English\"",
+    "timing: base page (1 planned) — plan 0s, fill 0s, verify 0s",
+    "resume on disk but this page has no file input — not an upload miss",
+    "timing: revealed page (1 planned) — plan 0s, fill 0s, verify 0s",
+    "revealed-select: could not re-read the page after fill",
+    "timing: revealed page (2 planned) — plan 4s, fill 0s, verify 0s",
+    "resolved advance: \"Continue\"",
+    "form-advance: click attempt 1 failed: locator.click: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('form').first().getBy",
+    "resolved advance: \"Continue\"",
+    "form-advance: click attempt 1 failed: locator.click: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('form').first().getBy",
+    "form-advance: no page change after click — one retry (sweep + scroll + re-click)",
+    "form-advance: click attempt 2 failed: locator.click: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('form').first().getBy",
+    "form-advance: click opened a tab — flow adopted https://jobright.ai/jobs/search?value=Rocket+Lab&searchType=job_title&country=US&jobTaxonomyList=%5B%7B%22taxonomyId%22%3A%2200-00-00%22%2C%22title%22%3A%22Rocket+Lab%22%7D%5D&isH1BOnly=false&excludeStaffingAgency=false&excludeSecurityClearance=false&excludeUsCitizen=false&recommendationPreference=2&refresh=true&position=0&sortCondition=0",
+    "form-advance: click opened a tab — continuing on the adopted page",
+    "form-advance: verify failed on page 3 — not advancing further",
+    "form-advance: filled 2 additional page(s) — form:1/1, posting:0/1",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "wizard_pages": [
+    {
+      "page": 2,
+      "url": "https://passport.amazon.jobs/",
+      "kind": "form",
+      "fillable": 1,
+      "filled": 1,
+      "verify_passed": true
+    },
+    {
+      "page": 3,
+      "url": "https://jobright.ai/jobs/search?value=Rocket+Lab&searchType=job_title&country=US&jobTaxonomyList=%5B%7B%22taxonomyId%22%3A%2200-00-00%22%2C%22title%22%3A%22Rocket+Lab%22%7D%5D&isH1BOnly=false&excludeStaffingAgency=false&excludeSecurityClearance=false&excludeUsCitizen=false&recommendationPreference=2&refresh=true&position=0&sortCondition=0",
+      "kind": "posting",
+      "fillable": 1,
+      "filled": 0,
+      "verify_passed": false
+    }
+  ],
+  "operator_brief": {
+    "title": "Live fill — generic https://passport.amazon.jobs/",
+    "summary": "2 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:current_company",
+        "question": "current_company",
+        "field_id": null,
+        "canonical_field": "current_company",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Summer Atlantic Capital\"; page shows \"(empty)\"",
+        "expected": "Summer Atlantic Capital",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"Summer Atlantic Capital\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → current_company",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"current_company\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "fill_error:rc_select_2: locator.count: Target page, context or browser has been closed",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "rc_select_2: locator.count: Target page, context or browser has been closed",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      }
+    ],
+    "ok_count": 0,
+    "fail_count": 2
+  },
+  "written_at": "2026-09-10T06:00:15.389Z"
+}
