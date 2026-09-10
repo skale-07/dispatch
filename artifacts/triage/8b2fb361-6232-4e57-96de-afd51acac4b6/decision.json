@@ -1,0 +1,158 @@
+{
+  "decision_id": "8b2fb361-6232-4e57-96de-afd51acac4b6",
+  "application_id": "071f3ce5-be8d-404b-bfc2-dafff31f19e5",
+  "signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|nvidia.wd5.myworkdayjobs.com",
+  "forbidden_actions": [
+    "requeue_same"
+  ],
+  "bundle": {
+    "application_id": "071f3ce5-be8d-404b-bfc2-dafff31f19e5",
+    "company": "NVIDIA",
+    "role": "NVIDIA 2027 Internships: Deep Learning",
+    "state": "NATIVE_AUTOFILL_RUNNING",
+    "attempt": 2,
+    "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|nvidia.wd5.myworkdayjobs.com",
+    "end_host": "nvidia.wd5.myworkdayjobs.com",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route inspect_only (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-10T06:05:19.228Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-10T06:05:18.576Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: workday URL validated",
+        "at": "2026-09-10T06:05:18.573Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-10T06:05:18.570Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 db6f3f869124)",
+        "at": "2026-09-10T06:05:18.566Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-10T06:05:18.554Z"
+      },
+      {
+        "from": "FAILED_RETRYABLE",
+        "to": "QUEUED",
+        "reason": "retry 2/3",
+        "at": "2026-09-10T06:04:29.647Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "triage: demoting gate-parked NATIVE_AUTOFILL_RUNNING for requeue (NATIVE_AUTOFILL_RUNNING|-|unknown|nvidia.wd5.myworkdayjobs.com)",
+        "at": "2026-09-10T06:04:29.646Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route inspect_only (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-10T06:02:57.581Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-10T06:02:56.959Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: workday URL validated",
+        "at": "2026-09-10T06:02:56.957Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-10T06:02:55.052Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 db6f3f869124)",
+        "at": "2026-09-10T06:02:55.050Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-10T06:02:55.024Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-10T04:36:37.065Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "nvidia",
+        "detail": "token \"nvidia\" ~ slug \"nvidia\"",
+        "expected_company": "NVIDIA",
+        "url": "https://nvidia.wd5.myworkdayjobs.com/nvidiaexternalcareersite/job/US-CA-Santa-Clara/NVIDIA-2027-Internships--Deep-Learning_JR2023497-1?jr_id=6a8562bae459fa3baa862398"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (11 candidates, employer match)",
+          "evidence": "nvidia.wd5.myworkdayjobs.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [],
+    "prior_decisions": [
+      {
+        "action": "requeue_same",
+        "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|nvidia.wd5.myworkdayjobs.com",
+        "outcome_status": "REFUTED",
+        "created_at": "2026-09-10T06:04:29.646Z"
+      }
+    ],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"park_for_operator\", \"rationale\": \"Navigation resolved cleanly (no wall, employer match) and resume verified, yet the run stalls silently in NATIVE_AUTOFILL_RUNNING twice; requeue_same was already refuted. No evidence of stale materials, bad URL, duplicate, or block, and deterministic navigation didn't exhaust tiers, so agent leg isn't indicated. Human review needed.\", \"confidence\": \"medium\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: 32ed33b6-9342-49dc-a2fe-4010ac3ca075",
+  "rationale_unverified": "Navigation resolved cleanly (no wall, employer match) and resume verified, yet the run stalls silently in NATIVE_AUTOFILL_RUNNING twice; requeue_same was already refuted. No evidence of stale materials, bad URL, duplicate, or block, and deterministic navigation didn't exhaust tiers, so agent leg isn't indicated. Human review needed."
+}
