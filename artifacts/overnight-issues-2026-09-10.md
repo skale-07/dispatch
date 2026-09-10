@@ -795,3 +795,36 @@ Ashby blocks that mix a text input with a consent group.
 The general lesson is already banked in #246: only the live probe knows
 what a control really is, so a free-text fact must be re-checked against
 the live control and never written into a group.
+
+## Issue #247 (OPEN, found while tallying) — stored job ROLE labels were overwritten
+
+Reading the night's submit list back, all eight Rocket Lab rows report the
+role "Senior Software Engineer I/II - Digital Engineering".
+
+**The applications are fine.** The eight submissions carry eight DISTINCT
+confirmation URLs —
+
+```
+rocketlab/jobs/7987046003/confirmation   rocketlab/jobs/7986788003/confirmation
+rocketlab/jobs/7987044003/confirmation   rocketlab/jobs/7989722003/confirmation
+rocketlab/jobs/7990268003/confirmation   rocketlab/jobs/7989724003/confirmation
+rocketlab/jobs/7986794003/confirmation   rocketlab/jobs/7989733003/confirmation
+```
+
+— i.e. eight different intern postings, no duplicate submitted. Each job
+row's `normalized_application_url` is still correct and distinct too. What
+is wrong is only the `role` (and `company`) TEXT stored on those rows, which
+now all read the same senior posting.
+
+So this is a reporting/data-integrity bug, not an applying bug. It does mean
+tonight's role column cannot be trusted; the apply URLs can.
+
+Suspected path: `upsertJobByFingerprint` matching an existing row and
+rewriting `company = ?, role = ?` (its UPDATE sets both unconditionally),
+reached either by a boards sweep or by #242's company-twin insert. I could
+not pin which from the artifacts alone, and did not want to guess in the
+log — the check is to re-run a sweep against a scratch DB and watch whether
+sibling rows' role text changes.
+
+Worth fixing before the role column is used for anything (outreach subject
+lines read `jobs.role`).
