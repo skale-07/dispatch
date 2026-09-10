@@ -1,0 +1,156 @@
+{
+  "decision_id": "591782c0-8cd1-4343-acca-2911dfd18eee",
+  "application_id": "fccb6e41-76e0-4675-8bb1-06c3210ec023",
+  "signature": "FAILED_RETRYABLE|-|unknown|crowe.wd12.myworkdayjobs.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "fccb6e41-76e0-4675-8bb1-06c3210ec023",
+    "company": "Crowe",
+    "role": "AI Functional Intern - WINTER 2027",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 1,
+    "failure_signature": "FAILED_RETRYABLE|-|unknown|crowe.wd12.myworkdayjobs.com",
+    "end_host": "crowe.wd12.myworkdayjobs.com",
+    "recent_events": [
+      {
+        "from": "SUBMITTING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "required questions unanswered — click withheld",
+        "at": "2026-09-10T16:34:49.501Z"
+      },
+      {
+        "from": "READY_TO_SUBMIT",
+        "to": "SUBMITTING",
+        "reason": "human-approved submission started",
+        "at": "2026-09-10T16:34:41.711Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "READY_TO_SUBMIT",
+        "reason": "pipeline: fill rehearsal verified",
+        "at": "2026-09-10T16:34:40.072Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (workday live fill: 12 filled (held for submit))",
+        "at": "2026-09-10T16:34:40.070Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route inspect_only (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-10T16:32:02.005Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-10T16:32:01.131Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: workday URL validated",
+        "at": "2026-09-10T16:32:01.122Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-10T16:31:59.101Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 db6f3f869124)",
+        "at": "2026-09-10T16:31:59.096Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-10T16:31:59.066Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-10T16:31:53.971Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-10T16:31:53.957Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-10T16:31:53.955Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-10T16:31:53.954Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "crowe",
+        "detail": "token \"crowe\" ~ slug \"crowe\"",
+        "expected_company": "Crowe",
+        "url": "https://crowe.wd12.myworkdayjobs.com/external_careers/job/Chicago-IL-USA/AI-Functional-Intern---WINTER-2027_R-71015?jr_id=6a85d59de459fa3baa8640cb"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (11 candidates, employer match)",
+          "evidence": "crowe.wd12.myworkdayjobs.com"
+        }
+      ]
+    },
+    "submit": {
+      "outcome": "FAILED_BEFORE_CLICK",
+      "reason": "Refusing to click submit: 2 required question(s) unanswered — Name* [text]; Yes, I have a disability, or have had one in the past [checkbox_group]",
+      "brief_items": []
+    },
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": true
+    },
+    "open_review_items": [
+      {
+        "kind": "MANUAL",
+        "title": "2 required question(s) unanswered — answer via screeners.json/essay workflow, then requeue"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\":\"park_for_operator\",\"rationale\":\"Submit was withheld because 2 required questions (Name text, disability self-identification) are unanswered — a human must supply these answers via the screeners/essay workflow. A review item already exists; no requeue would change the outcome until answers are provided.\",\"confidence\":\"high\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: 925c3f3f-1e0b-49e9-9f78-5ecc3267c390",
+  "rationale_unverified": "Submit was withheld because 2 required questions (Name text, disability self-identification) are unanswered — a human must supply these answers via the screeners/essay workflow. A review item already exists; no requeue would change the outcome until answers are provided."
+}
