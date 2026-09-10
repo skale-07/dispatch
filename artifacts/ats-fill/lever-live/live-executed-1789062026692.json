@@ -1,0 +1,2422 @@
+{
+  "ats": "lever",
+  "url": "https://jobs.lever.co/palantir/655f9937-a4ce-4e7d-80e2-a6659af07329/apply",
+  "requested_url": "https://jobs.lever.co/palantir/655f9937-a4ce-4e7d-80e2-a6659af07329/apply",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://jobs.lever.co/palantir/655f9937-a4ce-4e7d-80e2-a6659af07329/apply",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 26,
+    "skipped_count": 57,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "resume-upload-input",
+      "label": "resume",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "name",
+      "label": "Full name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Single full-name field: composed legal_name.first + legal_name.last (both safe factual canonicals)"
+    },
+    {
+      "field_id": "email",
+      "label": "Email",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phone",
+      "label": "Phone",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "location-input",
+      "label": "location",
+      "type": "text",
+      "canonical_field": "address.city",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "org",
+      "label": "Current company",
+      "type": "text",
+      "canonical_field": "current_company",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "urls[LinkedIn]",
+      "label": "LinkedIn URL",
+      "type": "text",
+      "canonical_field": "linkedin_url",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "urls[GitHub]",
+      "label": "GitHub URL",
+      "type": "text",
+      "canonical_field": "github_url",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "urls[Portfolio]",
+      "label": "Portfolio URL",
+      "type": "text",
+      "canonical_field": "personal_website",
+      "action": "SKIP",
+      "reason": "Profile value empty for personal_website"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": "screener:custom:language_skills_33",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]) — answered once"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]) — answered once"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]) — answered once"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]) — answered once"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]) — answered once"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]) — answered once"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]) — answered once"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]) — answered once"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]) — answered once"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]) — answered once"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]) — answered once"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]) — answered once"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]) — answered once"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]) — answered once"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]) — answered once"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]) — answered once"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]) — answered once"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]) — answered once"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]) — answered once"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]) — answered once"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]) — answered once"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]) — answered once"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]) — answered once"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]) — answered once"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]) — answered once"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]) — answered once"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]) — answered once"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]) — answered once"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]) — answered once"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]) — answered once"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]) — answered once"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Language Skill(s) (Check all that apply)",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]) — answered once"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field1]",
+      "label": "Preferred Name | What would you like us to call you?",
+      "type": "text",
+      "canonical_field": "preferred_name",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field2]",
+      "label": "Name Pronunciation | How do you pronounce your name?",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field0]",
+      "label": "Do you have any, or anticipate any upcoming offer deadlines?",
+      "type": "select",
+      "canonical_field": "screener:custom:offer_deadlines",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]",
+      "label": "If so, what are the dates?",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]",
+      "label": "If so, what are the dates?",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]) — answered once"
+    },
+    {
+      "field_id": "cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]",
+      "label": "If so, what are the dates?",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]) — answered once"
+    },
+    {
+      "field_id": "cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]",
+      "label": "If so, what are the dates?",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]) — answered once"
+    },
+    {
+      "field_id": "cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]",
+      "label": "If so, what are the dates?",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]) — answered once"
+    },
+    {
+      "field_id": "cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]",
+      "label": "If so, what are the dates?",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]) — answered once"
+    },
+    {
+      "field_id": "cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]",
+      "label": "If so, what are the dates?",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]) — answered once"
+    },
+    {
+      "field_id": "cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]",
+      "label": "If so, what are the dates?",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]) — answered once"
+    },
+    {
+      "field_id": "cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]",
+      "label": "If so, what are the dates?",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]) — answered once"
+    },
+    {
+      "field_id": "cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]",
+      "label": "If so, what are the dates?",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]) — answered once"
+    },
+    {
+      "field_id": "cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]",
+      "label": "If so, what are the dates?",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]) — answered once"
+    },
+    {
+      "field_id": "cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]",
+      "label": "If so, what are the dates?",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]) — answered once"
+    },
+    {
+      "field_id": "cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]",
+      "label": "If so, what are the dates?",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]) — answered once"
+    },
+    {
+      "field_id": "cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]",
+      "label": "If so, what are the dates?",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]) — answered once"
+    },
+    {
+      "field_id": "cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]",
+      "label": "If so, what are the dates?",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]) — answered once"
+    },
+    {
+      "field_id": "cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]",
+      "label": "If so, what are the dates?",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]) — answered once"
+    },
+    {
+      "field_id": "cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]",
+      "label": "If so, what are the dates?",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]) — answered once"
+    },
+    {
+      "field_id": "cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]",
+      "label": "If so, what are the dates?",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]) — answered once"
+    },
+    {
+      "field_id": "cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]",
+      "label": "If so, what are the dates?",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]) — answered once"
+    },
+    {
+      "field_id": "cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]",
+      "label": "If so, what are the dates?",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field1]) — answered once"
+    },
+    {
+      "field_id": "cards[df4ec61d-484e-4f62-9412-19bbd05ec515][field0]",
+      "label": "By checking the boxes, I confirm that I understand and meet the following requirements:",
+      "type": "checkbox",
+      "canonical_field": "application_consent:cards[df4ec61d-484e-4f62-9412-19bbd05ec515][field0]",
+      "action": "FILL",
+      "reason": "Application terms/confirmation checkbox"
+    },
+    {
+      "field_id": "cards[df4ec61d-484e-4f62-9412-19bbd05ec515][field0]",
+      "label": "By checking the boxes, I confirm that I understand and meet the following requirements:",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[df4ec61d-484e-4f62-9412-19bbd05ec515][field0]) — answered once"
+    },
+    {
+      "field_id": "cards[df4ec61d-484e-4f62-9412-19bbd05ec515][field0]",
+      "label": "By checking the boxes, I confirm that I understand and meet the following requirements:",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[df4ec61d-484e-4f62-9412-19bbd05ec515][field0]) — answered once"
+    },
+    {
+      "field_id": "cards[841c3f3c-3e6e-4665-9391-e360210fb5ee][field0]",
+      "label": "If selected, when would you be able to start?",
+      "type": "select",
+      "canonical_field": "screener:custom:start_availability_month",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "cards[7736d0ea-6916-4d17-8895-c31776dbef15][field0]",
+      "label": "What position are you most interested in?",
+      "type": "select",
+      "canonical_field": "screener:custom:what_position_are_you_most",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "cards[f30bc442-2120-4db9-b5ac-2f9bf563cad9][field0]",
+      "label": "Do you currently hold an active US security clearance?",
+      "type": "radio",
+      "canonical_field": "screener:security_clearance",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "cards[f30bc442-2120-4db9-b5ac-2f9bf563cad9][field1]",
+      "label": "Are you eligible to obtain the security clearance specified in the job description? Please see https://state.gov/security-clearances for further details on security clearance requirements.",
+      "type": "radio",
+      "canonical_field": "screener:security_clearance:cards[f30bc442-2120-4db9-b5ac-2f9bf563cad9][field1]",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "cards[1c719ca9-5069-4afe-9e82-39ca420e0edb][field0]",
+      "label": "Are you legally authorized to work in the country for which you are applying?",
+      "type": "radio",
+      "canonical_field": "work_authorization",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "cards[1c719ca9-5069-4afe-9e82-39ca420e0edb][field1]",
+      "label": "Will you now or in the future require sponsorship for employment visa status (e.g., H-1B, etc.)?",
+      "type": "radio",
+      "canonical_field": "requires_sponsorship",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "cards[3da58b41-acf5-40a1-945e-c7f047ef8050][field0]",
+      "label": "Which university are you currently attending or did you last attend? Please select \"Other (School Not Listed)\" if your school is not listed.",
+      "type": "select",
+      "canonical_field": "screener:custom:school_not_listed_name",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "cards[026d7ce7-7ca4-44ed-9db6-1c7857707f0e][field0]",
+      "label": "Please include your intended graduation year for the degree or relevant learning program that you are currently pursuing or have completed.",
+      "type": "select",
+      "canonical_field": "graduation_year",
+      "action": "FILL",
+      "reason": "Mapped from public profile; placed onto \"2029\""
+    },
+    {
+      "field_id": "cards[d54adf7b-3148-4095-93bb-72bef32a61f8][field0]",
+      "label": "High School Name",
+      "type": "textarea",
+      "canonical_field": "school",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "cards[d54adf7b-3148-4095-93bb-72bef32a61f8][field1]",
+      "label": "Year of High School Graduation",
+      "type": "select",
+      "canonical_field": "school",
+      "action": "FILL",
+      "reason": "Mapped from public profile; value \"Johns Hopkins University\" not on the control's list — using the form's own \"Other\""
+    },
+    {
+      "field_id": "cards[037683ac-0e2a-4adf-82d9-49bd682697cc][field0]",
+      "label": "Please tell us how you heard about this internship opportunity.",
+      "type": "select",
+      "canonical_field": "screener:custom:opt_how_did_you_hear_about_this_opportunity",
+      "action": "FILL",
+      "reason": "Screener bank answer (llm_option)"
+    },
+    {
+      "field_id": "cards[73796cde-fc01-4758-9002-c85155f3503d][field0]",
+      "label": "As part of our interview process, we may use AI notetakers to transcribe conversations for accuracy and efficiency. Please see our candidate privacy policy for more information on how we process your data. Your decision to opt in or out of this tooling will not impact your candidacy.",
+      "type": "radio",
+      "canonical_field": "screener:custom:ai_notetaker_consent",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "additional-information",
+      "label": "Additional information",
+      "type": "textarea",
+      "canonical_field": "essay:generated:additional-information",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "eeo[veteran]",
+      "label": "Veteran status Select ... I identify as one or more of the classifications of protected veteran listed above I am not a protected veteran I decline to self-identify for protected veteran status",
+      "type": "select",
+      "canonical_field": "veteran_status",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "disabilitySelectElement",
+      "label": "Disability status Select ... Yes, I have a disability, or have had one in the past No, I do not have a disability and have not had one in the past I do not want to answer",
+      "type": "select",
+      "canonical_field": "disability_status",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\lever-live\\form-snapshot-1789062019589.html",
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "email",
+      "phone"
+    ],
+    "skipped": [],
+    "errors": [
+      "location-input: page.waitForTimeout: Target page, context or browser has been closed",
+      "org: locator.count: Target page, context or browser has been closed",
+      "urls[LinkedIn]: locator.count: Target page, context or browser has been closed",
+      "urls[GitHub]: locator.count: Target page, context or browser has been closed",
+      "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]: locator.count: Target page, context or browser has been closed",
+      "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field1]: locator.count: Target page, context or browser has been closed",
+      "cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field0]: locator.count: Target page, context or browser has been closed",
+      "cards[df4ec61d-484e-4f62-9412-19bbd05ec515][field0]: locator.count: Target page, context or browser has been closed",
+      "cards[841c3f3c-3e6e-4665-9391-e360210fb5ee][field0]: locator.count: Target page, context or browser has been closed",
+      "cards[7736d0ea-6916-4d17-8895-c31776dbef15][field0]: locator.count: Target page, context or browser has been closed",
+      "cards[f30bc442-2120-4db9-b5ac-2f9bf563cad9][field0]: locator.count: Target page, context or browser has been closed",
+      "cards[f30bc442-2120-4db9-b5ac-2f9bf563cad9][field1]: locator.count: Target page, context or browser has been closed",
+      "cards[1c719ca9-5069-4afe-9e82-39ca420e0edb][field0]: locator.count: Target page, context or browser has been closed",
+      "cards[1c719ca9-5069-4afe-9e82-39ca420e0edb][field1]: locator.count: Target page, context or browser has been closed",
+      "cards[3da58b41-acf5-40a1-945e-c7f047ef8050][field0]: locator.count: Target page, context or browser has been closed",
+      "cards[026d7ce7-7ca4-44ed-9db6-1c7857707f0e][field0]: locator.count: Target page, context or browser has been closed",
+      "cards[d54adf7b-3148-4095-93bb-72bef32a61f8][field0]: locator.count: Target page, context or browser has been closed",
+      "cards[d54adf7b-3148-4095-93bb-72bef32a61f8][field1]: locator.count: Target page, context or browser has been closed",
+      "cards[037683ac-0e2a-4adf-82d9-49bd682697cc][field0]: locator.count: Target page, context or browser has been closed",
+      "cards[73796cde-fc01-4758-9002-c85155f3503d][field0]: locator.count: Target page, context or browser has been closed",
+      "additional-information: locator.count: Target page, context or browser has been closed",
+      "eeo[veteran]: locator.count: Target page, context or browser has been closed",
+      "disabilitySelectElement: locator.count: Target page, context or browser has been closed"
+    ],
+    "field_meta": [
+      {
+        "field_id": "name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "phone",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      }
+    ]
+  },
+  "verify": {
+    "passed": false,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham Kale",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "address.city",
+        "expected": "Baltimore, Maryland, USA",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "current_company",
+        "expected": "Summer Atlantic Capital",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "github_url",
+        "expected": "https://github.com/skale-07",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "screener:custom:language_skills_33",
+        "expected": "English (ENG)",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "preferred_name",
+        "expected": "Shubham",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "screener:custom:offer_deadlines",
+        "expected": "No",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "application_consent:cards[df4ec61d-484e-4f62-9412-19bbd05ec515][field0]",
+        "expected": true,
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "screener:custom:start_availability_month",
+        "expected": "May 2026",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "screener:custom:what_position_are_you_most",
+        "expected": "Software Engineer (Dev)",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "screener:security_clearance",
+        "expected": "No",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "screener:security_clearance:cards[f30bc442-2120-4db9-b5ac-2f9bf563cad9][field1]",
+        "expected": "No",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "work_authorization",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "requires_sponsorship",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "screener:custom:school_not_listed_name",
+        "expected": "Johns Hopkins University",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "graduation_year",
+        "expected": "2029",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "school",
+        "expected": "Johns Hopkins University",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "school",
+        "expected": "Other",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "screener:custom:opt_how_did_you_hear_about_this_opportunity",
+        "expected": "LinkedIn",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "screener:custom:ai_notetaker_consent",
+        "expected": "Yes, I consent",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "essay:generated:additional-information",
+        "expected": "I'm an undergraduate at Johns Hopkins studying Applied Mathematics & Statistics and Economics, class of 2029, and most of what I know comes from building systems rather than coursework. The work most relevant to Palantir is probably my job-application agent, a local Playwright and TypeScript system where I used SQLite as the single source of truth because browser automation gets dangerous when application state can diverge across processes. Every application moves through an explicit state machine, every mutating capability sits behind fail-closed flags that never default on, and free-text and demographic fields are architecturally prevented from being auto-filled. I also built a validation ladder so a capability isn't called working just because it passed against a local fixture. Separately, I build the machine-learning core of an anomaly-detection and alert-prioritization system at Summer Atlantic Capital, including the ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, and a retrieval-augmented explanation layer so analysts can act on the output. The theme across both is that I care about where automation should stop, not only where it can go.",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "veteran_status",
+        "expected": "I am not a veteran",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "disability_status",
+        "expected": "No",
+        "observed": null,
+        "match": false
+      }
+    ],
+    "uploads": [],
+    "warnings": [
+      "verify legal_name.first: locator.count: Target page, context or browser has been closed",
+      "verify email: locator.count: Target page, context or browser has been closed",
+      "verify phone: locator.count: Target page, context or browser has been closed",
+      "verify address.city: locator.count: Target page, context or browser has been closed",
+      "verify current_company: locator.count: Target page, context or browser has been closed",
+      "verify linkedin_url: locator.count: Target page, context or browser has been closed",
+      "verify github_url: locator.count: Target page, context or browser has been closed",
+      "verify screener:custom:language_skills_33: locator.count: Target page, context or browser has been closed",
+      "verify preferred_name: locator.count: Target page, context or browser has been closed",
+      "verify screener:custom:offer_deadlines: locator.count: Target page, context or browser has been closed",
+      "verify application_consent:cards[df4ec61d-484e-4f62-9412-19bbd05ec515][field0]: locator.count: Target page, context or browser has been closed",
+      "verify screener:custom:start_availability_month: locator.count: Target page, context or browser has been closed",
+      "verify screener:custom:what_position_are_you_most: locator.count: Target page, context or browser has been closed",
+      "verify screener:security_clearance: locator.count: Target page, context or browser has been closed",
+      "verify screener:security_clearance:cards[f30bc442-2120-4db9-b5ac-2f9bf563cad9][field1]: locator.count: Target page, context or browser has been closed",
+      "verify work_authorization: locator.count: Target page, context or browser has been closed",
+      "verify requires_sponsorship: locator.count: Target page, context or browser has been closed",
+      "verify screener:custom:school_not_listed_name: locator.count: Target page, context or browser has been closed",
+      "verify graduation_year: locator.count: Target page, context or browser has been closed",
+      "verify school: locator.count: Target page, context or browser has been closed",
+      "verify school: locator.count: Target page, context or browser has been closed",
+      "verify screener:custom:opt_how_did_you_hear_about_this_opportunity: locator.count: Target page, context or browser has been closed",
+      "verify screener:custom:ai_notetaker_consent: locator.count: Target page, context or browser has been closed",
+      "verify essay:generated:additional-information: locator.count: Target page, context or browser has been closed",
+      "verify veteran_status: locator.count: Target page, context or browser has been closed",
+      "verify disability_status: locator.count: Target page, context or browser has been closed"
+    ]
+  },
+  "uploads": null,
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: form (83 fillable field(s))",
+    "option harvest: 66 select-like controls, capped at 30",
+    "option harvest: scraped real options for 22/30 control(s) before planning",
+    "other-specify: could not re-read the page after fill",
+    "revealed-select: could not re-read the page after fill",
+    "timing: base page (83 planned) — plan 23s, fill 7s, verify 0s",
+    "page error scan: no visible validation errors on the page",
+    "page-complete waiver not applied: required-completeness scan did not run",
+    "resume on disk but this page has no file input — not an upload miss",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "English (ENG)",
+      "answer_space": "closed",
+      "option_count": 33,
+      "options": [
+        "English (ENG)",
+        "Spanish (SPA)",
+        "French (FRA)",
+        "German (DEU)",
+        "Japanese (JPN)",
+        "Cantonese (CANT)",
+        "Mandarin (MAN)",
+        "Dutch (NLD)",
+        "Hindi (HIN)",
+        "Arabic (ARA)",
+        "Danish (DAN)",
+        "Turkish (TUR)",
+        "Portuguese (POR)",
+        "Hebrew (HEB)",
+        "Swedish (SWE)",
+        "Norwegian (NOR)",
+        "Italian (ITA)",
+        "Vietnamese (VIE)",
+        "Tagalog (TGL)",
+        "Khmer (KHM)",
+        "Hmong (HMN)",
+        "Telugu (TEL)",
+        "Bengali (BNE)",
+        "Marathi (MAR)",
+        "Urdu (URD)"
+      ],
+      "other_option": "Other"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Spanish (SPA)",
+      "answer_space": "closed",
+      "option_count": 33,
+      "options": [
+        "English (ENG)",
+        "Spanish (SPA)",
+        "French (FRA)",
+        "German (DEU)",
+        "Japanese (JPN)",
+        "Cantonese (CANT)",
+        "Mandarin (MAN)",
+        "Dutch (NLD)",
+        "Hindi (HIN)",
+        "Arabic (ARA)",
+        "Danish (DAN)",
+        "Turkish (TUR)",
+        "Portuguese (POR)",
+        "Hebrew (HEB)",
+        "Swedish (SWE)",
+        "Norwegian (NOR)",
+        "Italian (ITA)",
+        "Vietnamese (VIE)",
+        "Tagalog (TGL)",
+        "Khmer (KHM)",
+        "Hmong (HMN)",
+        "Telugu (TEL)",
+        "Bengali (BNE)",
+        "Marathi (MAR)",
+        "Urdu (URD)"
+      ],
+      "other_option": "Other"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "French (FRA)",
+      "answer_space": "closed",
+      "option_count": 33,
+      "options": [
+        "English (ENG)",
+        "Spanish (SPA)",
+        "French (FRA)",
+        "German (DEU)",
+        "Japanese (JPN)",
+        "Cantonese (CANT)",
+        "Mandarin (MAN)",
+        "Dutch (NLD)",
+        "Hindi (HIN)",
+        "Arabic (ARA)",
+        "Danish (DAN)",
+        "Turkish (TUR)",
+        "Portuguese (POR)",
+        "Hebrew (HEB)",
+        "Swedish (SWE)",
+        "Norwegian (NOR)",
+        "Italian (ITA)",
+        "Vietnamese (VIE)",
+        "Tagalog (TGL)",
+        "Khmer (KHM)",
+        "Hmong (HMN)",
+        "Telugu (TEL)",
+        "Bengali (BNE)",
+        "Marathi (MAR)",
+        "Urdu (URD)"
+      ],
+      "other_option": "Other"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "German (DEU)",
+      "answer_space": "closed",
+      "option_count": 33,
+      "options": [
+        "English (ENG)",
+        "Spanish (SPA)",
+        "French (FRA)",
+        "German (DEU)",
+        "Japanese (JPN)",
+        "Cantonese (CANT)",
+        "Mandarin (MAN)",
+        "Dutch (NLD)",
+        "Hindi (HIN)",
+        "Arabic (ARA)",
+        "Danish (DAN)",
+        "Turkish (TUR)",
+        "Portuguese (POR)",
+        "Hebrew (HEB)",
+        "Swedish (SWE)",
+        "Norwegian (NOR)",
+        "Italian (ITA)",
+        "Vietnamese (VIE)",
+        "Tagalog (TGL)",
+        "Khmer (KHM)",
+        "Hmong (HMN)",
+        "Telugu (TEL)",
+        "Bengali (BNE)",
+        "Marathi (MAR)",
+        "Urdu (URD)"
+      ],
+      "other_option": "Other"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Japanese (JPN)",
+      "answer_space": "closed",
+      "option_count": 33,
+      "options": [
+        "English (ENG)",
+        "Spanish (SPA)",
+        "French (FRA)",
+        "German (DEU)",
+        "Japanese (JPN)",
+        "Cantonese (CANT)",
+        "Mandarin (MAN)",
+        "Dutch (NLD)",
+        "Hindi (HIN)",
+        "Arabic (ARA)",
+        "Danish (DAN)",
+        "Turkish (TUR)",
+        "Portuguese (POR)",
+        "Hebrew (HEB)",
+        "Swedish (SWE)",
+        "Norwegian (NOR)",
+        "Italian (ITA)",
+        "Vietnamese (VIE)",
+        "Tagalog (TGL)",
+        "Khmer (KHM)",
+        "Hmong (HMN)",
+        "Telugu (TEL)",
+        "Bengali (BNE)",
+        "Marathi (MAR)",
+        "Urdu (URD)"
+      ],
+      "other_option": "Other"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Cantonese (CANT)",
+      "answer_space": "closed",
+      "option_count": 33,
+      "options": [
+        "English (ENG)",
+        "Spanish (SPA)",
+        "French (FRA)",
+        "German (DEU)",
+        "Japanese (JPN)",
+        "Cantonese (CANT)",
+        "Mandarin (MAN)",
+        "Dutch (NLD)",
+        "Hindi (HIN)",
+        "Arabic (ARA)",
+        "Danish (DAN)",
+        "Turkish (TUR)",
+        "Portuguese (POR)",
+        "Hebrew (HEB)",
+        "Swedish (SWE)",
+        "Norwegian (NOR)",
+        "Italian (ITA)",
+        "Vietnamese (VIE)",
+        "Tagalog (TGL)",
+        "Khmer (KHM)",
+        "Hmong (HMN)",
+        "Telugu (TEL)",
+        "Bengali (BNE)",
+        "Marathi (MAR)",
+        "Urdu (URD)"
+      ],
+      "other_option": "Other"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Mandarin (MAN)",
+      "answer_space": "closed",
+      "option_count": 33,
+      "options": [
+        "English (ENG)",
+        "Spanish (SPA)",
+        "French (FRA)",
+        "German (DEU)",
+        "Japanese (JPN)",
+        "Cantonese (CANT)",
+        "Mandarin (MAN)",
+        "Dutch (NLD)",
+        "Hindi (HIN)",
+        "Arabic (ARA)",
+        "Danish (DAN)",
+        "Turkish (TUR)",
+        "Portuguese (POR)",
+        "Hebrew (HEB)",
+        "Swedish (SWE)",
+        "Norwegian (NOR)",
+        "Italian (ITA)",
+        "Vietnamese (VIE)",
+        "Tagalog (TGL)",
+        "Khmer (KHM)",
+        "Hmong (HMN)",
+        "Telugu (TEL)",
+        "Bengali (BNE)",
+        "Marathi (MAR)",
+        "Urdu (URD)"
+      ],
+      "other_option": "Other"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Dutch (NLD)",
+      "answer_space": "closed",
+      "option_count": 33,
+      "options": [
+        "English (ENG)",
+        "Spanish (SPA)",
+        "French (FRA)",
+        "German (DEU)",
+        "Japanese (JPN)",
+        "Cantonese (CANT)",
+        "Mandarin (MAN)",
+        "Dutch (NLD)",
+        "Hindi (HIN)",
+        "Arabic (ARA)",
+        "Danish (DAN)",
+        "Turkish (TUR)",
+        "Portuguese (POR)",
+        "Hebrew (HEB)",
+        "Swedish (SWE)",
+        "Norwegian (NOR)",
+        "Italian (ITA)",
+        "Vietnamese (VIE)",
+        "Tagalog (TGL)",
+        "Khmer (KHM)",
+        "Hmong (HMN)",
+        "Telugu (TEL)",
+        "Bengali (BNE)",
+        "Marathi (MAR)",
+        "Urdu (URD)"
+      ],
+      "other_option": "Other"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Hindi (HIN)",
+      "answer_space": "closed",
+      "option_count": 33,
+      "options": [
+        "English (ENG)",
+        "Spanish (SPA)",
+        "French (FRA)",
+        "German (DEU)",
+        "Japanese (JPN)",
+        "Cantonese (CANT)",
+        "Mandarin (MAN)",
+        "Dutch (NLD)",
+        "Hindi (HIN)",
+        "Arabic (ARA)",
+        "Danish (DAN)",
+        "Turkish (TUR)",
+        "Portuguese (POR)",
+        "Hebrew (HEB)",
+        "Swedish (SWE)",
+        "Norwegian (NOR)",
+        "Italian (ITA)",
+        "Vietnamese (VIE)",
+        "Tagalog (TGL)",
+        "Khmer (KHM)",
+        "Hmong (HMN)",
+        "Telugu (TEL)",
+        "Bengali (BNE)",
+        "Marathi (MAR)",
+        "Urdu (URD)"
+      ],
+      "other_option": "Other"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Arabic (ARA)",
+      "answer_space": "closed",
+      "option_count": 33,
+      "options": [
+        "English (ENG)",
+        "Spanish (SPA)",
+        "French (FRA)",
+        "German (DEU)",
+        "Japanese (JPN)",
+        "Cantonese (CANT)",
+        "Mandarin (MAN)",
+        "Dutch (NLD)",
+        "Hindi (HIN)",
+        "Arabic (ARA)",
+        "Danish (DAN)",
+        "Turkish (TUR)",
+        "Portuguese (POR)",
+        "Hebrew (HEB)",
+        "Swedish (SWE)",
+        "Norwegian (NOR)",
+        "Italian (ITA)",
+        "Vietnamese (VIE)",
+        "Tagalog (TGL)",
+        "Khmer (KHM)",
+        "Hmong (HMN)",
+        "Telugu (TEL)",
+        "Bengali (BNE)",
+        "Marathi (MAR)",
+        "Urdu (URD)"
+      ],
+      "other_option": "Other"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Danish (DAN)",
+      "answer_space": "closed",
+      "option_count": 33,
+      "options": [
+        "English (ENG)",
+        "Spanish (SPA)",
+        "French (FRA)",
+        "German (DEU)",
+        "Japanese (JPN)",
+        "Cantonese (CANT)",
+        "Mandarin (MAN)",
+        "Dutch (NLD)",
+        "Hindi (HIN)",
+        "Arabic (ARA)",
+        "Danish (DAN)",
+        "Turkish (TUR)",
+        "Portuguese (POR)",
+        "Hebrew (HEB)",
+        "Swedish (SWE)",
+        "Norwegian (NOR)",
+        "Italian (ITA)",
+        "Vietnamese (VIE)",
+        "Tagalog (TGL)",
+        "Khmer (KHM)",
+        "Hmong (HMN)",
+        "Telugu (TEL)",
+        "Bengali (BNE)",
+        "Marathi (MAR)",
+        "Urdu (URD)"
+      ],
+      "other_option": "Other"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Turkish (TUR)",
+      "answer_space": "closed",
+      "option_count": 33,
+      "options": [
+        "English (ENG)",
+        "Spanish (SPA)",
+        "French (FRA)",
+        "German (DEU)",
+        "Japanese (JPN)",
+        "Cantonese (CANT)",
+        "Mandarin (MAN)",
+        "Dutch (NLD)",
+        "Hindi (HIN)",
+        "Arabic (ARA)",
+        "Danish (DAN)",
+        "Turkish (TUR)",
+        "Portuguese (POR)",
+        "Hebrew (HEB)",
+        "Swedish (SWE)",
+        "Norwegian (NOR)",
+        "Italian (ITA)",
+        "Vietnamese (VIE)",
+        "Tagalog (TGL)",
+        "Khmer (KHM)",
+        "Hmong (HMN)",
+        "Telugu (TEL)",
+        "Bengali (BNE)",
+        "Marathi (MAR)",
+        "Urdu (URD)"
+      ],
+      "other_option": "Other"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Portuguese (POR)",
+      "answer_space": "closed",
+      "option_count": 33,
+      "options": [
+        "English (ENG)",
+        "Spanish (SPA)",
+        "French (FRA)",
+        "German (DEU)",
+        "Japanese (JPN)",
+        "Cantonese (CANT)",
+        "Mandarin (MAN)",
+        "Dutch (NLD)",
+        "Hindi (HIN)",
+        "Arabic (ARA)",
+        "Danish (DAN)",
+        "Turkish (TUR)",
+        "Portuguese (POR)",
+        "Hebrew (HEB)",
+        "Swedish (SWE)",
+        "Norwegian (NOR)",
+        "Italian (ITA)",
+        "Vietnamese (VIE)",
+        "Tagalog (TGL)",
+        "Khmer (KHM)",
+        "Hmong (HMN)",
+        "Telugu (TEL)",
+        "Bengali (BNE)",
+        "Marathi (MAR)",
+        "Urdu (URD)"
+      ],
+      "other_option": "Other"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Hebrew (HEB)",
+      "answer_space": "closed",
+      "option_count": 33,
+      "options": [
+        "English (ENG)",
+        "Spanish (SPA)",
+        "French (FRA)",
+        "German (DEU)",
+        "Japanese (JPN)",
+        "Cantonese (CANT)",
+        "Mandarin (MAN)",
+        "Dutch (NLD)",
+        "Hindi (HIN)",
+        "Arabic (ARA)",
+        "Danish (DAN)",
+        "Turkish (TUR)",
+        "Portuguese (POR)",
+        "Hebrew (HEB)",
+        "Swedish (SWE)",
+        "Norwegian (NOR)",
+        "Italian (ITA)",
+        "Vietnamese (VIE)",
+        "Tagalog (TGL)",
+        "Khmer (KHM)",
+        "Hmong (HMN)",
+        "Telugu (TEL)",
+        "Bengali (BNE)",
+        "Marathi (MAR)",
+        "Urdu (URD)"
+      ],
+      "other_option": "Other"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Swedish (SWE)",
+      "answer_space": "closed",
+      "option_count": 33,
+      "options": [
+        "English (ENG)",
+        "Spanish (SPA)",
+        "French (FRA)",
+        "German (DEU)",
+        "Japanese (JPN)",
+        "Cantonese (CANT)",
+        "Mandarin (MAN)",
+        "Dutch (NLD)",
+        "Hindi (HIN)",
+        "Arabic (ARA)",
+        "Danish (DAN)",
+        "Turkish (TUR)",
+        "Portuguese (POR)",
+        "Hebrew (HEB)",
+        "Swedish (SWE)",
+        "Norwegian (NOR)",
+        "Italian (ITA)",
+        "Vietnamese (VIE)",
+        "Tagalog (TGL)",
+        "Khmer (KHM)",
+        "Hmong (HMN)",
+        "Telugu (TEL)",
+        "Bengali (BNE)",
+        "Marathi (MAR)",
+        "Urdu (URD)"
+      ],
+      "other_option": "Other"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Norwegian (NOR)",
+      "answer_space": "closed",
+      "option_count": 33,
+      "options": [
+        "English (ENG)",
+        "Spanish (SPA)",
+        "French (FRA)",
+        "German (DEU)",
+        "Japanese (JPN)",
+        "Cantonese (CANT)",
+        "Mandarin (MAN)",
+        "Dutch (NLD)",
+        "Hindi (HIN)",
+        "Arabic (ARA)",
+        "Danish (DAN)",
+        "Turkish (TUR)",
+        "Portuguese (POR)",
+        "Hebrew (HEB)",
+        "Swedish (SWE)",
+        "Norwegian (NOR)",
+        "Italian (ITA)",
+        "Vietnamese (VIE)",
+        "Tagalog (TGL)",
+        "Khmer (KHM)",
+        "Hmong (HMN)",
+        "Telugu (TEL)",
+        "Bengali (BNE)",
+        "Marathi (MAR)",
+        "Urdu (URD)"
+      ],
+      "other_option": "Other"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Italian (ITA)",
+      "answer_space": "closed",
+      "option_count": 33,
+      "options": [
+        "English (ENG)",
+        "Spanish (SPA)",
+        "French (FRA)",
+        "German (DEU)",
+        "Japanese (JPN)",
+        "Cantonese (CANT)",
+        "Mandarin (MAN)",
+        "Dutch (NLD)",
+        "Hindi (HIN)",
+        "Arabic (ARA)",
+        "Danish (DAN)",
+        "Turkish (TUR)",
+        "Portuguese (POR)",
+        "Hebrew (HEB)",
+        "Swedish (SWE)",
+        "Norwegian (NOR)",
+        "Italian (ITA)",
+        "Vietnamese (VIE)",
+        "Tagalog (TGL)",
+        "Khmer (KHM)",
+        "Hmong (HMN)",
+        "Telugu (TEL)",
+        "Bengali (BNE)",
+        "Marathi (MAR)",
+        "Urdu (URD)"
+      ],
+      "other_option": "Other"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Vietnamese (VIE)",
+      "answer_space": "closed",
+      "option_count": 33,
+      "options": [
+        "English (ENG)",
+        "Spanish (SPA)",
+        "French (FRA)",
+        "German (DEU)",
+        "Japanese (JPN)",
+        "Cantonese (CANT)",
+        "Mandarin (MAN)",
+        "Dutch (NLD)",
+        "Hindi (HIN)",
+        "Arabic (ARA)",
+        "Danish (DAN)",
+        "Turkish (TUR)",
+        "Portuguese (POR)",
+        "Hebrew (HEB)",
+        "Swedish (SWE)",
+        "Norwegian (NOR)",
+        "Italian (ITA)",
+        "Vietnamese (VIE)",
+        "Tagalog (TGL)",
+        "Khmer (KHM)",
+        "Hmong (HMN)",
+        "Telugu (TEL)",
+        "Bengali (BNE)",
+        "Marathi (MAR)",
+        "Urdu (URD)"
+      ],
+      "other_option": "Other"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Tagalog (TGL)",
+      "answer_space": "closed",
+      "option_count": 33,
+      "options": [
+        "English (ENG)",
+        "Spanish (SPA)",
+        "French (FRA)",
+        "German (DEU)",
+        "Japanese (JPN)",
+        "Cantonese (CANT)",
+        "Mandarin (MAN)",
+        "Dutch (NLD)",
+        "Hindi (HIN)",
+        "Arabic (ARA)",
+        "Danish (DAN)",
+        "Turkish (TUR)",
+        "Portuguese (POR)",
+        "Hebrew (HEB)",
+        "Swedish (SWE)",
+        "Norwegian (NOR)",
+        "Italian (ITA)",
+        "Vietnamese (VIE)",
+        "Tagalog (TGL)",
+        "Khmer (KHM)",
+        "Hmong (HMN)",
+        "Telugu (TEL)",
+        "Bengali (BNE)",
+        "Marathi (MAR)",
+        "Urdu (URD)"
+      ],
+      "other_option": "Other"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Khmer (KHM)",
+      "answer_space": "closed",
+      "option_count": 33,
+      "options": [
+        "English (ENG)",
+        "Spanish (SPA)",
+        "French (FRA)",
+        "German (DEU)",
+        "Japanese (JPN)",
+        "Cantonese (CANT)",
+        "Mandarin (MAN)",
+        "Dutch (NLD)",
+        "Hindi (HIN)",
+        "Arabic (ARA)",
+        "Danish (DAN)",
+        "Turkish (TUR)",
+        "Portuguese (POR)",
+        "Hebrew (HEB)",
+        "Swedish (SWE)",
+        "Norwegian (NOR)",
+        "Italian (ITA)",
+        "Vietnamese (VIE)",
+        "Tagalog (TGL)",
+        "Khmer (KHM)",
+        "Hmong (HMN)",
+        "Telugu (TEL)",
+        "Bengali (BNE)",
+        "Marathi (MAR)",
+        "Urdu (URD)"
+      ],
+      "other_option": "Other"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Hmong (HMN)",
+      "answer_space": "closed",
+      "option_count": 33,
+      "options": [
+        "English (ENG)",
+        "Spanish (SPA)",
+        "French (FRA)",
+        "German (DEU)",
+        "Japanese (JPN)",
+        "Cantonese (CANT)",
+        "Mandarin (MAN)",
+        "Dutch (NLD)",
+        "Hindi (HIN)",
+        "Arabic (ARA)",
+        "Danish (DAN)",
+        "Turkish (TUR)",
+        "Portuguese (POR)",
+        "Hebrew (HEB)",
+        "Swedish (SWE)",
+        "Norwegian (NOR)",
+        "Italian (ITA)",
+        "Vietnamese (VIE)",
+        "Tagalog (TGL)",
+        "Khmer (KHM)",
+        "Hmong (HMN)",
+        "Telugu (TEL)",
+        "Bengali (BNE)",
+        "Marathi (MAR)",
+        "Urdu (URD)"
+      ],
+      "other_option": "Other"
+    },
+    {
+      "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+      "label": "Telugu (TEL)",
+      "answer_space": "closed",
+      "option_count": 33,
+      "options": [
+        "English (ENG)",
+        "Spanish (SPA)",
+        "French (FRA)",
+        "German (DEU)",
+        "Japanese (JPN)",
+        "Cantonese (CANT)",
+        "Mandarin (MAN)",
+        "Dutch (NLD)",
+        "Hindi (HIN)",
+        "Arabic (ARA)",
+        "Danish (DAN)",
+        "Turkish (TUR)",
+        "Portuguese (POR)",
+        "Hebrew (HEB)",
+        "Swedish (SWE)",
+        "Norwegian (NOR)",
+        "Italian (ITA)",
+        "Vietnamese (VIE)",
+        "Tagalog (TGL)",
+        "Khmer (KHM)",
+        "Hmong (HMN)",
+        "Telugu (TEL)",
+        "Bengali (BNE)",
+        "Marathi (MAR)",
+        "Urdu (URD)"
+      ],
+      "other_option": "Other"
+    }
+  ],
+  "other_specify": [
+    {
+      "field_id": "cards[d54adf7b-3148-4095-93bb-72bef32a61f8][field1]",
+      "label": "Year of High School Graduation",
+      "revealed_field_id": null,
+      "filled": false,
+      "note": "could not re-read the page after fill"
+    }
+  ],
+  "operator_brief": {
+    "title": "Live fill — lever https://jobs.lever.co/palantir/655f9937-a4ce-4e7d-80e2-a6659af07329/apply",
+    "summary": "49 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:legal_name.first",
+        "question": "Full name",
+        "field_id": "name",
+        "canonical_field": "legal_name.first",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Shubham Kale\"; page shows \"(empty)\"",
+        "expected": "Shubham Kale",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"Shubham Kale\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → legal_name.first",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"legal_name.first\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:email",
+        "question": "Email",
+        "field_id": "email",
+        "canonical_field": "email",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"skale072007@gmail.com\"; page shows \"(empty)\"",
+        "expected": "s***@gmail.com",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"skale072007@gmail.com\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → email",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"email\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:phone",
+        "question": "Phone",
+        "field_id": "phone",
+        "canonical_field": "phone",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"4805897636\"; page shows \"(empty)\"",
+        "expected": "***-***-7636",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"4805897636\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → phone",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"phone\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:address.city",
+        "question": "location",
+        "field_id": "location-input",
+        "canonical_field": "address.city",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Baltimore, Maryland, USA\"; page shows \"(empty)\"",
+        "expected": "Baltimore, Maryland, USA",
+        "observed": null,
+        "how_to_answer": [
+          "Type the intended value on the form (planned: Baltimore, Maryland, USA). If a places/autocomplete list appears, select a matching suggestion; plain city text is enough when no list opens.",
+          "System expected \"Baltimore, Maryland, USA\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → address.city",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"address.city\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:current_company",
+        "question": "Current company",
+        "field_id": "org",
+        "canonical_field": "current_company",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Summer Atlantic Capital\"; page shows \"(empty)\"",
+        "expected": "Summer Atlantic Capital",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"Summer Atlantic Capital\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → current_company",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"current_company\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:linkedin_url",
+        "question": "LinkedIn URL",
+        "field_id": "urls[LinkedIn]",
+        "canonical_field": "linkedin_url",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"https://www.linkedin.com/in/shubham-kale-8ab044288/\"; page shows \"(empty)\"",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"https://www.linkedin.com/in/shubham-kale-8ab044288/\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → linkedin_url",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"linkedin_url\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:github_url",
+        "question": "GitHub URL",
+        "field_id": "urls[GitHub]",
+        "canonical_field": "github_url",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"https://github.com/skale-07\"; page shows \"(empty)\"",
+        "expected": "https://github.com/skale-07",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"https://github.com/skale-07\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → github_url",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"github_url\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:custom:language_skills_33",
+        "question": "Language Skill(s) (Check all that apply)",
+        "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+        "canonical_field": "screener:custom:language_skills_33",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"English (ENG)\"; page shows \"(empty)\"",
+        "expected": "English (ENG)",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"English (ENG)\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:language_skills_33)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:language_skills_33\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:preferred_name",
+        "question": "Preferred Name | What would you like us to call you?",
+        "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field1]",
+        "canonical_field": "preferred_name",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Shubham\"; page shows \"(empty)\"",
+        "expected": "Shubham",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"Shubham\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: preferred_name)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"preferred_name\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:custom:offer_deadlines",
+        "question": "Do you have any, or anticipate any upcoming offer deadlines?",
+        "field_id": "cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field0]",
+        "canonical_field": "screener:custom:offer_deadlines",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"No\"; page shows \"(empty)\"",
+        "expected": "No",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"No\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:offer_deadlines)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:offer_deadlines\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:application_consent:cards[df4ec61d-484e-4f62-9412-19bbd05ec515][field0]",
+        "question": "By checking the boxes, I confirm that I understand and meet the following requirements:",
+        "field_id": "cards[df4ec61d-484e-4f62-9412-19bbd05ec515][field0]",
+        "canonical_field": "application_consent:cards[df4ec61d-484e-4f62-9412-19bbd05ec515][field0]",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"true\"; page shows \"(empty)\"",
+        "expected": true,
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"true\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: application_consent:cards[df4ec61d-484e-4f62-9412-19bbd05ec515][field0])",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"application_consent:cards[df4ec61d-484e-4f62-9412-19bbd05ec515][field0]\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:custom:start_availability_month",
+        "question": "If selected, when would you be able to start?",
+        "field_id": "cards[841c3f3c-3e6e-4665-9391-e360210fb5ee][field0]",
+        "canonical_field": "screener:custom:start_availability_month",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"May 2026\"; page shows \"(empty)\"",
+        "expected": "May 2026",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"May 2026\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:start_availability_month)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:start_availability_month\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:custom:what_position_are_you_most",
+        "question": "What position are you most interested in?",
+        "field_id": "cards[7736d0ea-6916-4d17-8895-c31776dbef15][field0]",
+        "canonical_field": "screener:custom:what_position_are_you_most",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Software Engineer (Dev)\"; page shows \"(empty)\"",
+        "expected": "Software Engineer (Dev)",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"Software Engineer (Dev)\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:what_position_are_you_most)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:what_position_are_you_most\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:security_clearance",
+        "question": "Do you currently hold an active US security clearance?",
+        "field_id": "cards[f30bc442-2120-4db9-b5ac-2f9bf563cad9][field0]",
+        "canonical_field": "screener:security_clearance",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"No\"; page shows \"(empty)\"",
+        "expected": "No",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"No\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:security_clearance)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:security_clearance\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:security_clearance:cards[f30bc442-2120-4db9-b5ac-2f9bf563cad9][field1]",
+        "question": "Are you eligible to obtain the security clearance specified in the job description? Please see https://state.gov/security-clearances for further details on security clearance requirements.",
+        "field_id": "cards[f30bc442-2120-4db9-b5ac-2f9bf563cad9][field1]",
+        "canonical_field": "screener:security_clearance:cards[f30bc442-2120-4db9-b5ac-2f9bf563cad9][field1]",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"No\"; page shows \"(empty)\"",
+        "expected": "No",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"No\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:security_clearance:cards[f30bc442-2120-4db9-b5ac-2f9bf563cad9][field1])",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:security_clearance:cards[f30bc442-2120-4db9-b5ac-2f9bf563cad9][field1]\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:work_authorization",
+        "question": "Are you legally authorized to work in the country for which you are applying?",
+        "field_id": "cards[1c719ca9-5069-4afe-9e82-39ca420e0edb][field0]",
+        "canonical_field": "work_authorization",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Yes\"; page shows \"(empty)\"",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"Yes\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → work_authorization",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"work_authorization\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:requires_sponsorship",
+        "question": "Will you now or in the future require sponsorship for employment visa status (e.g., H-1B, etc.)?",
+        "field_id": "cards[1c719ca9-5069-4afe-9e82-39ca420e0edb][field1]",
+        "canonical_field": "requires_sponsorship",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"No\"; page shows \"(empty)\"",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"No\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → requires_sponsorship",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"requires_sponsorship\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:custom:school_not_listed_name",
+        "question": "Which university are you currently attending or did you last attend? Please select \"Other (School Not Listed)\" if your school is not listed.",
+        "field_id": "cards[3da58b41-acf5-40a1-945e-c7f047ef8050][field0]",
+        "canonical_field": "screener:custom:school_not_listed_name",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Johns Hopkins University\"; page shows \"(empty)\"",
+        "expected": "Johns Hopkins University",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"Johns Hopkins University\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:school_not_listed_name)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:school_not_listed_name\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:graduation_year",
+        "question": "Please include your intended graduation year for the degree or relevant learning program that you are currently pursuing or have completed.",
+        "field_id": "cards[026d7ce7-7ca4-44ed-9db6-1c7857707f0e][field0]",
+        "canonical_field": "graduation_year",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"2029\"; page shows \"(empty)\"",
+        "expected": "2029",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"2029\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: graduation_year)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"graduation_year\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:school",
+        "question": "Year of High School Graduation",
+        "field_id": "cards[d54adf7b-3148-4095-93bb-72bef32a61f8][field1]",
+        "canonical_field": "school",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Johns Hopkins University\"; page shows \"(empty)\"",
+        "expected": "Johns Hopkins University",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"Johns Hopkins University\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: school)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"school\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:school",
+        "question": "Year of High School Graduation",
+        "field_id": "cards[d54adf7b-3148-4095-93bb-72bef32a61f8][field1]",
+        "canonical_field": "school",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Other\"; page shows \"(empty)\"",
+        "expected": "Other",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"Other\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: school)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"school\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:custom:opt_how_did_you_hear_about_this_opportunity",
+        "question": "Please tell us how you heard about this internship opportunity.",
+        "field_id": "cards[037683ac-0e2a-4adf-82d9-49bd682697cc][field0]",
+        "canonical_field": "screener:custom:opt_how_did_you_hear_about_this_opportunity",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"LinkedIn\"; page shows \"(empty)\"",
+        "expected": "LinkedIn",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"LinkedIn\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:opt_how_did_you_hear_about_this_opportunity)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:opt_how_did_you_hear_about_this_opportunity\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:custom:ai_notetaker_consent",
+        "question": "As part of our interview process, we may use AI notetakers to transcribe conversations for accuracy and efficiency. Please see our candidate privacy policy for more information on how we process your data. Your decision to opt in or out of this tooling will not impact your candidacy.",
+        "field_id": "cards[73796cde-fc01-4758-9002-c85155f3503d][field0]",
+        "canonical_field": "screener:custom:ai_notetaker_consent",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Yes, I consent\"; page shows \"(empty)\"",
+        "expected": "Yes, I consent",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"Yes, I consent\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:ai_notetaker_consent)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:ai_notetaker_consent\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:essay:generated:additional-information",
+        "question": "Additional information",
+        "field_id": "additional-information",
+        "canonical_field": "essay:generated:additional-information",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"I'm an undergraduate at Johns Hopkins studying Applied Mathematics & Statistics and Economics, class of 2029, and most of what I know comes from building systems rather than coursework. The work most relevant to Palantir is probably my job-application agent, a local Playwright and TypeScript system where I used SQLite as the single source of truth because browser automation gets dangerous when application state can diverge across processes. Every application moves through an explicit state machine, every mutating capability sits behind fail-closed flags that never default on, and free-text and demographic fields are architecturally prevented from being auto-filled. I also built a validation ladder so a capability isn't called working just because it passed against a local fixture. Separately, I build the machine-learning core of an anomaly-detection and alert-prioritization system at Summer Atlantic Capital, including the ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, and a retrieval-augmented explanation layer so analysts can act on the output. The theme across both is that I care about where automation should stop, not only where it can go.\"; page shows \"(empty)\"",
+        "expected": "I'm an undergraduate at Johns Hopkins studying Applied Mathematics & Statistics and Economics, class of 2029, and most of what I know comes from building systems rather than coursework. The work most relevant to Palantir is probably my job-application agent, a local Playwright and TypeScript system where I used SQLite as the single source of truth because browser automation gets dangerous when application state can diverge across processes. Every application moves through an explicit state machine, every mutating capability sits behind fail-closed flags that never default on, and free-text and demographic fields are architecturally prevented from being auto-filled. I also built a validation ladder so a capability isn't called working just because it passed against a local fixture. Separately, I build the machine-learning core of an anomaly-detection and alert-prioritization system at Summer Atlantic Capital, including the ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, and a retrieval-augmented explanation layer so analysts can act on the output. The theme across both is that I care about where automation should stop, not only where it can go.",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"I'm an undergraduate at Johns Hopkins studying Applied Mathematics & Statistics and Economics, class of 2029, and most of what I know comes from building systems rather than coursework. The work most relevant to Palantir is probably my job-application agent, a local Playwright and TypeScript system where I used SQLite as the single source of truth because browser automation gets dangerous when application state can diverge across processes. Every application moves through an explicit state machine, every mutating capability sits behind fail-closed flags that never default on, and free-text and demographic fields are architecturally prevented from being auto-filled. I also built a validation ladder so a capability isn't called working just because it passed against a local fixture. Separately, I build the machine-learning core of an anomaly-detection and alert-prioritization system at Summer Atlantic Capital, including the ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, and a retrieval-augmented explanation layer so analysts can act on the output. The theme across both is that I care about where automation should stop, not only where it can go.\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: essay:generated:additional-information)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"essay:generated:additional-information\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:veteran_status",
+        "question": "Veteran status Select ... I identify as one or more of the classifications of protected veteran listed above I am not a protected veteran I decline to self-identify for protected veteran status",
+        "field_id": "eeo[veteran]",
+        "canonical_field": "veteran_status",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"I am not a veteran\"; page shows \"(empty)\"",
+        "expected": "I am not a veteran",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"I am not a veteran\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: veteran_status)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"veteran_status\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:disability_status",
+        "question": "Disability status Select ... Yes, I have a disability, or have had one in the past No, I do not have a disability and have not had one in the past I do not want to answer",
+        "field_id": "disabilitySelectElement",
+        "canonical_field": "disability_status",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"No\"; page shows \"(empty)\"",
+        "expected": "No",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"No\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: disability_status)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"disability_status\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "fill_error:location-input: page.waitForTimeout: Target page, context or browser has been cl",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "location-input: page.waitForTimeout: Target page, context or browser has been closed",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:org: locator.count: Target page, context or browser has been closed",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "org: locator.count: Target page, context or browser has been closed",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:urls[LinkedIn]: locator.count: Target page, context or browser has been closed",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "urls[LinkedIn]: locator.count: Target page, context or browser has been closed",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:urls[GitHub]: locator.count: Target page, context or browser has been closed",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "urls[GitHub]: locator.count: Target page, context or browser has been closed",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]: locator.count: Target page,",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]: locator.count: Target page, context or browser has been closed",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field1]: locator.count: Target page,",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field1]: locator.count: Target page, context or browser has been closed",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field0]: locator.count: Target page,",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "cards[877379a1-2abf-4eab-9c51-81e7b5828b3e][field0]: locator.count: Target page, context or browser has been closed",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:cards[df4ec61d-484e-4f62-9412-19bbd05ec515][field0]: locator.count: Target page,",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "cards[df4ec61d-484e-4f62-9412-19bbd05ec515][field0]: locator.count: Target page, context or browser has been closed",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:cards[841c3f3c-3e6e-4665-9391-e360210fb5ee][field0]: locator.count: Target page,",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "cards[841c3f3c-3e6e-4665-9391-e360210fb5ee][field0]: locator.count: Target page, context or browser has been closed",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:cards[7736d0ea-6916-4d17-8895-c31776dbef15][field0]: locator.count: Target page,",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "cards[7736d0ea-6916-4d17-8895-c31776dbef15][field0]: locator.count: Target page, context or browser has been closed",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:cards[f30bc442-2120-4db9-b5ac-2f9bf563cad9][field0]: locator.count: Target page,",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "cards[f30bc442-2120-4db9-b5ac-2f9bf563cad9][field0]: locator.count: Target page, context or browser has been closed",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:cards[f30bc442-2120-4db9-b5ac-2f9bf563cad9][field1]: locator.count: Target page,",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "cards[f30bc442-2120-4db9-b5ac-2f9bf563cad9][field1]: locator.count: Target page, context or browser has been closed",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:cards[1c719ca9-5069-4afe-9e82-39ca420e0edb][field0]: locator.count: Target page,",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "cards[1c719ca9-5069-4afe-9e82-39ca420e0edb][field0]: locator.count: Target page, context or browser has been closed",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:cards[1c719ca9-5069-4afe-9e82-39ca420e0edb][field1]: locator.count: Target page,",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "cards[1c719ca9-5069-4afe-9e82-39ca420e0edb][field1]: locator.count: Target page, context or browser has been closed",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:cards[3da58b41-acf5-40a1-945e-c7f047ef8050][field0]: locator.count: Target page,",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "cards[3da58b41-acf5-40a1-945e-c7f047ef8050][field0]: locator.count: Target page, context or browser has been closed",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:cards[026d7ce7-7ca4-44ed-9db6-1c7857707f0e][field0]: locator.count: Target page,",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "cards[026d7ce7-7ca4-44ed-9db6-1c7857707f0e][field0]: locator.count: Target page, context or browser has been closed",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:cards[d54adf7b-3148-4095-93bb-72bef32a61f8][field0]: locator.count: Target page,",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "cards[d54adf7b-3148-4095-93bb-72bef32a61f8][field0]: locator.count: Target page, context or browser has been closed",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:cards[d54adf7b-3148-4095-93bb-72bef32a61f8][field1]: locator.count: Target page,",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "cards[d54adf7b-3148-4095-93bb-72bef32a61f8][field1]: locator.count: Target page, context or browser has been closed",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:cards[037683ac-0e2a-4adf-82d9-49bd682697cc][field0]: locator.count: Target page,",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "cards[037683ac-0e2a-4adf-82d9-49bd682697cc][field0]: locator.count: Target page, context or browser has been closed",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:cards[73796cde-fc01-4758-9002-c85155f3503d][field0]: locator.count: Target page,",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "cards[73796cde-fc01-4758-9002-c85155f3503d][field0]: locator.count: Target page, context or browser has been closed",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:additional-information: locator.count: Target page, context or browser has been ",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "additional-information: locator.count: Target page, context or browser has been closed",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:eeo[veteran]: locator.count: Target page, context or browser has been closed",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "eeo[veteran]: locator.count: Target page, context or browser has been closed",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:disabilitySelectElement: locator.count: Target page, context or browser has been",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "disabilitySelectElement: locator.count: Target page, context or browser has been closed",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      }
+    ],
+    "ok_count": 0,
+    "fail_count": 49
+  },
+  "written_at": "2026-09-10T17:40:26.806Z"
+}
