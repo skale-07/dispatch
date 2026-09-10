@@ -1,0 +1,50 @@
+{
+  "run_id": "nav-4c948128-1f07-4178-a470-9cdae5d8b99b",
+  "application_id": "2bea6873-d0d9-4fec-aa8c-908d81b063a5",
+  "jobright_job_id": "6aa1fc6d0ffb3d4fea6b8174",
+  "method": "anchor_llm",
+  "resolved_url": "https://ecnf.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/job/301902",
+  "resolved_ats": "generic",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no congruent apply href (8 external links)",
+      "evidence": "ecnf.fa.us2.oraclecloud.com, www.linkedin.com, x.com, www.crunchbase.com, financefeeds.com, institutionalassetmanager.co.uk"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "unresolved by deterministic phases"
+    },
+    {
+      "phase": "A_anchor_llm",
+      "outcome": "candidate promoted by adjudication",
+      "evidence": "ecnf.fa.us2.oraclecloud.com"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "phase A: 7 external host(s) seen: ecnf.fa.us2.oraclecloud.com, www.linkedin.com, x.com, www.crunchbase.com, financefeeds.com, institutionalassetmanager.co.uk, www.businesswire.com",
+    "no standard Apply control found (exact and broad name tiers both empty)",
+    "anchor adjudication: promoted ecnf.fa.us2.oraclecloud.com",
+    "anchor adjudication rationale (UNVERIFIED): Only ATS application link (Oracle HCM candidate experience); others are news articles.",
+    "employer congruence unverifiable (URL carries no employer name specific enough to verify against \"ICD Portal\") — recorded"
+  ],
+  "congruence": {
+    "verdict": "unknown",
+    "slug": "ecnf",
+    "detail": "URL carries no employer name specific enough to verify against \"ICD Portal\"",
+    "expected_company": "ICD Portal",
+    "url": "https://ecnf.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/job/301902?jr_id=6aa1fc6d0ffb3d4fea6b8174"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-09-10T06:33:46.706Z"
+}

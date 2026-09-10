@@ -388,3 +388,104 @@ tonight's fixes could actually be re-tested.
 Tests: review-item-blocking 3/3, pinning that real walls (AMBIGUOUS_FIELD,
 CAPTCHA_REQUIRED, AUTH_REQUIRED, UNSUPPORTED_ATS) and unrecognised MANUAL
 items still block. UNIT_CONFIRMED.
+
+## Issue #242 — twelve submits, zero Gmail drafts (the outreach chain had no contact source)
+
+**Symptom.** Twelve verified submits by 06:00 UTC and ZERO Gmail drafts,
+against the operator's standing directive to run the Gmail pipeline after
+every submission. Every tail ended
+`Cannot resolve stored job: Application <id> has no JobRight job id`.
+
+**Cause.** Outreach reaches people through JobRight's insider panel, which
+is keyed to a JobRight JOB. Every submission of the night was
+board-discovered, so none had one, and #207's fallback — borrow any STORED
+JobRight job of the same employer — had nothing to borrow: under the 24h
+posting policy the JobRight feed now contributes almost nothing, so the
+companies we apply to have never appeared in it. The gap was not partial;
+it was total, and it widens as board discovery carries more of the supply.
+
+**Fix.** JobRight's own search resolves any employer.
+`/jobs/search?value=<company>` returned 373 results for "Rocket Lab" —
+including the very intern postings this run had just applied to through
+the board. One search yields a JobRight job id, which is all the insider
+panel needs. Read-only against JobRight (a navigation and a DOM read, no
+clicks on cards, nothing applied to); the only write is a local `jobs`
+row, so the NEXT lookup is the deterministic stored-twin path again.
+
+A result card is accepted only when the company occupies the card's own
+company slot ("…Intern Summer 2027Rocket Lab/Aerospace · …"), never
+because the text merely mentions the employer — otherwise every
+"competitor to Rocket Lab" posting would qualify.
+
+**Company naming needed the same care.** Two catalogues spell one employer
+differently ("Rocket Lab USA" on the board, "Rocket Lab" on JobRight) —
+and so does our own database: a boards sweep wrote "Rocket Lab USA" at
+04:35 and "Rocket Lab" at 06:05 from two registry entries for one board,
+which made a twin stored minutes earlier invisible to
+`findCompanyTwinJob`'s exact match. Both now compare through variants that
+equate ONLY legal-entity and country tails (Inc / LLC / Ltd / Corp / USA /
+a .io suffix). Words that DISTINGUISH employers are never stripped, so
+"Verkada" still never reads "Verkada Partners" — the discipline that
+function was written for is intact, and the tests pin it.
+
+**Live proof** (Rocket Lab, application 244d11bf):
+
+```
+company twin (#242): JobRight search resolved Rocket Lab USA
+  -> 6a84cdbbd34f700f87fbb2e8
+insider triage: 8 people checked, 3 emails found
+3 generated, 3 Gmail drafts saved (2 read-back verified)
+```
+
+LIVE_MUTATION_CONFIRMED. Drafts only — nothing is ever sent.
+
+**What the backlog then produced, and why the number is right.** After the
+twelve terminal marks were cleared, the worker re-ran them all: Rocket Lab
+found 3 insiders on each of 5 applications and DV Trading 1 on each of 2,
+but only **4 drafts** were written — to 4 distinct people. That is #214
+working: one person gets one email per company per window, so the four
+duplicate Rocket Lab applications and the second DV Trading application
+correctly skipped people already drafted. Saronic, Lexington Medical and
+Smartly.io are simply not listed on JobRight, and the tail says so.
+
+Tests: company-search 7/7 (company-slot matching, the "mentions the
+company" rejection, id parsing, role recovery, qualifier variants, and the
+"Verkada Partners" guard). UNIT_CONFIRMED + LIVE_MUTATION_CONFIRMED.
+
+## Issue #243 — one control, N plan entries
+
+**Symptom.** Shield AI (lever): the fill logged the SAME refusal 6 times
+for "Which degrees have you already completed" and 9 times for "Are you a
+member of any of the following student groups", and the canonical grew on
+every pass (`screener:custom:predicted:cards[…]:cards[…]`).
+
+**Cause.** Lever renders a multi-select question as N checkbox inputs that
+all share ONE control name, and discovery emits one field per MEMBER — so
+the plan carried 6 and 9 identical entries (same id, same label, same
+planned answer) and the fill attempted the identical write once per
+member.
+
+**Fix.** Two fields with the same id are the same control by definition:
+the first entry owns it, the rest are skipped by name. The checkbox-group
+fill already picks the right member out of the group, so nothing about how
+the question is ANSWERED changes — only how many times it is attempted.
+
+Tests: composite-control-duplicate 4/4. UNIT_CONFIRMED.
+
+## Note — the #240 waiver is refusing for the right reason
+
+Cycles 48–52 all ended AMBIGUOUS_FIELD with the waiver declining, and the
+reason it recorded was correct every time:
+
+```
+page-complete waiver not applied: page requires 2 unanswered question(s)
+page-complete waiver not applied: page requires 1 unanswered question(s)
+```
+
+Those pages genuinely still want an answer, so the waiver is doing its
+job. The remaining blocker on that class is the ANSWER, not the gate —
+Shield AI's required "Which degrees have you already completed" got a
+predicted value ("I have not yet completed…") that matches no option on
+the page. Worth a session with a solo gate: when a checkbox group's
+options are known, a prediction that matches none of them should be
+rejected at plan time rather than refused at fill time.
