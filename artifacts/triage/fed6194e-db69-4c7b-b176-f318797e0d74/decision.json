@@ -1,0 +1,145 @@
+{
+  "decision_id": "fed6194e-db69-4c7b-b176-f318797e0d74",
+  "application_id": "52633cd1-f4a1-406d-a9d9-7c72efebd270",
+  "signature": "FAILED_RETRYABLE|-|unknown|jobs.lever.co",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "52633cd1-f4a1-406d-a9d9-7c72efebd270",
+    "company": "CIM Group",
+    "role": "Data Science Intern",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 3,
+    "failure_signature": "FAILED_RETRYABLE|-|unknown|jobs.lever.co",
+    "end_host": "jobs.lever.co",
+    "recent_events": [
+      {
+        "from": "SUBMITTING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "required questions unanswered — click withheld",
+        "at": "2026-09-10T08:26:42.614Z"
+      },
+      {
+        "from": "READY_TO_SUBMIT",
+        "to": "SUBMITTING",
+        "reason": "human-approved submission started",
+        "at": "2026-09-10T08:26:39.064Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "READY_TO_SUBMIT",
+        "reason": "pipeline: fill rehearsal verified",
+        "at": "2026-09-10T08:26:38.169Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (lever live fill: 12 filled (held for submit))",
+        "at": "2026-09-10T08:26:38.168Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route needs_review_unmapped (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-10T08:26:24.255Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-10T08:26:22.337Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: lever URL validated",
+        "at": "2026-09-10T08:26:22.334Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-10T08:26:22.329Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 db6f3f869124)",
+        "at": "2026-09-10T08:26:22.326Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-10T08:26:22.310Z"
+      },
+      {
+        "from": "FAILED_RETRYABLE",
+        "to": "QUEUED",
+        "reason": "retry 3/3",
+        "at": "2026-09-10T08:10:44.377Z"
+      },
+      {
+        "from": "SUBMITTING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "required questions unanswered — click withheld",
+        "at": "2026-09-10T05:53:16.161Z"
+      },
+      {
+        "from": "READY_TO_SUBMIT",
+        "to": "SUBMITTING",
+        "reason": "human-approved submission started",
+        "at": "2026-09-10T05:53:12.647Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "READY_TO_SUBMIT",
+        "reason": "pipeline: fill rehearsal verified",
+        "at": "2026-09-10T05:53:11.730Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (lever live fill: 12 filled (held for submit))",
+        "at": "2026-09-10T05:53:11.730Z"
+      }
+    ],
+    "nav": null,
+    "submit": {
+      "outcome": "FAILED_BEFORE_CLICK",
+      "reason": "Refusing to click submit: 1 required question(s) unanswered — What are your salary expectations?✱ [text]",
+      "brief_items": []
+    },
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": true
+    },
+    "open_review_items": [
+      {
+        "kind": "MANUAL",
+        "title": "1 required question(s) unanswered — answer via screeners.json/essay workflow, then requeue"
+      }
+    ],
+    "prior_decisions": [
+      {
+        "action": "park_for_operator",
+        "failure_signature": "FAILED_RETRYABLE|-|unknown|jobs.lever.co",
+        "outcome_status": "REFUTED",
+        "created_at": "2026-09-10T04:08:32.218Z"
+      }
+    ],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\":\"no_action\",\"rationale\":\"Blocked on an unanswered required salary question; a MANUAL review item is already open and prior park_for_operator was refuted (duplicate). Retrying without the answer will fail identically; materials/navigation are fine. Leave as-is until the screener answer is supplied, then requeue.\",\"confidence\":\"medium\"}",
+  "parsed_action": "no_action",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "recorded only",
+  "rationale_unverified": "Blocked on an unanswered required salary question; a MANUAL review item is already open and prior park_for_operator was refuted (duplicate). Retrying without the answer will fail identically; materials/navigation are fine. Leave as-is until the screener answer is supplied, then requeue."
+}
