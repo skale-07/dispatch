@@ -63,9 +63,20 @@ if (await reachable(cdpUrl)) {
   process.exit(0);
 }
 
-/** Cookies out of the running applier browser (empty when it is closed). */
+/**
+ * Cookies out of the running applier browser — ONLY on a first launch.
+ *
+ * Once this profile exists it holds its own Google session (the operator
+ * signs in once in this window), and Google binds a session to the profile
+ * anyway, so a transfer would add nothing. It would also fight the applier:
+ * attaching to that browser mid-fill times out, which is exactly what
+ * happened on the night29 relaunch. A profile that exists is left alone.
+ */
+const firstLaunch = !fs.existsSync(gmailDir);
 let cookies: Cookie[] = [];
-if (await reachable(applierCdp)) {
+if (!firstLaunch) {
+  console.log(`Reusing the existing Gmail profile at ${gmailDir} (no cookie transfer needed)`);
+} else if (await reachable(applierCdp)) {
   const browser = await chromium.connectOverCDP(applierCdp, { timeout: 20_000 });
   try {
     const context = browser.contexts()[0];
