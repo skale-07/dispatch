@@ -1,0 +1,411 @@
+{
+  "ats": "ashby",
+  "url": "https://jobs.ashbyhq.com/replit/b5e81eae-06f9-4798-8988-2d06ca936dbc/application",
+  "requested_url": "https://jobs.ashbyhq.com/replit/b5e81eae-06f9-4798-8988-2d06ca936dbc/application",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://jobs.ashbyhq.com/replit/b5e81eae-06f9-4798-8988-2d06ca936dbc/application",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 14,
+    "skipped_count": 5,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "f_0",
+      "label": "Application",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "_systemfield_name",
+      "label": "Full Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Single full-name field: composed legal_name.first + legal_name.last (both safe factual canonicals)"
+    },
+    {
+      "field_id": "_systemfield_email",
+      "label": "Email",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "66f031b6-85ae-4b95-831b-2c25f229d0b0",
+      "label": "Phone Number",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "_systemfield_resume",
+      "label": "Resume",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "d454fa21-15bc-4f7d-b44a-3b52a74c3650",
+      "label": "Project URL",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "fb078510-5c8d-4c9e-903a-00e2df0cb25d",
+      "label": "Project Password",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "81370790-4d12-4476-bfb4-333c40d4d955",
+      "label": "Please tell us about your submitted project",
+      "type": "textarea",
+      "canonical_field": "essay:generated:81370790-4d12-4476-bfb4-333c40d4d955",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "1788c2c7-a75b-48aa-841a-e3559fb8d829",
+      "label": "Linkedin Profile URL",
+      "type": "text",
+      "canonical_field": "linkedin_url",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "dccc0812-1c75-4aaa-850e-df9d2a354e40",
+      "label": "Replit Profile URL",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "f51bc122-89c5-4df1-97aa-67437a6d845b",
+      "label": "Github Profile URL",
+      "type": "text",
+      "canonical_field": "github_url",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "ba1b0394-0cc1-44a7-b280-da1b124f8d78",
+      "label": "Why are you interested in Replit?",
+      "type": "textarea",
+      "canonical_field": "essay:generated:ba1b0394-0cc1-44a7-b280-da1b124f8d78",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "_systemfield_eeoc_gender",
+      "label": "Gender",
+      "type": "select",
+      "canonical_field": "gender",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "_systemfield_eeoc_race",
+      "label": "Race",
+      "type": "select",
+      "canonical_field": "race_ethnicity",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "_systemfield_eeoc_veteran_status",
+      "label": "Veteran Status",
+      "type": "select",
+      "canonical_field": "veteran_status",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "11b8777b-1661-41cf-8c65-33716c46d93f",
+      "label": "Are you able to work from our Foster City, CA HQ 3 days per week?",
+      "type": "select",
+      "canonical_field": "screener:willing_to_relocate",
+      "action": "FILL",
+      "reason": "Screener bank answer (synonym_option)"
+    },
+    {
+      "field_id": "2bc8f561-355e-43f5-ad5c-4cb7545bc74f",
+      "label": "If not currently in the Bay Area, are you willing to relocate near our Foster City, CA Office?",
+      "type": "select",
+      "canonical_field": "relocation",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "470c0500-c735-41b5-bc00-d671dd581144",
+      "label": "Are you legally authorized to work in the United States?",
+      "type": "select",
+      "canonical_field": "work_authorization",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "5224c78b-d124-42f2-bfa1-702887e12321",
+      "label": "Will you now, or in the future, require sponsorship for employment visa status (e.g. H-1B visa status)?",
+      "type": "select",
+      "canonical_field": "requires_sponsorship",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\ashby-live\\form-snapshot-1789013130485.html",
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "email",
+      "phone",
+      "essay:generated:81370790-4d12-4476-bfb4-333c40d4d955",
+      "linkedin_url",
+      "github_url",
+      "essay:generated:ba1b0394-0cc1-44a7-b280-da1b124f8d78",
+      "gender",
+      "race_ethnicity",
+      "veteran_status",
+      "screener:willing_to_relocate",
+      "relocation",
+      "work_authorization",
+      "requires_sponsorship"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "_systemfield_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "_systemfield_email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "66f031b6-85ae-4b95-831b-2c25f229d0b0",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "81370790-4d12-4476-bfb4-333c40d4d955",
+        "canonical_field": "essay:generated:81370790-4d12-4476-bfb4-333c40d4d955",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "1788c2c7-a75b-48aa-841a-e3559fb8d829",
+        "canonical_field": "linkedin_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "f51bc122-89c5-4df1-97aa-67437a6d845b",
+        "canonical_field": "github_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "ba1b0394-0cc1-44a7-b280-da1b124f8d78",
+        "canonical_field": "essay:generated:ba1b0394-0cc1-44a7-b280-da1b124f8d78",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "_systemfield_eeoc_gender",
+        "canonical_field": "gender",
+        "control_kind": "native_radio_group",
+        "selected_option": "Male",
+        "match_via": "exact",
+        "notes": [
+          "picked \"Male\" (exact)"
+        ]
+      },
+      {
+        "field_id": "_systemfield_eeoc_race",
+        "canonical_field": "race_ethnicity",
+        "control_kind": "native_radio_group",
+        "selected_option": "Asian (Not Hispanic or Latino)",
+        "match_via": "unique_substring",
+        "notes": [
+          "picked \"Asian (Not Hispanic or Latino)\" (unique_substring)"
+        ]
+      },
+      {
+        "field_id": "_systemfield_eeoc_veteran_status",
+        "canonical_field": "veteran_status",
+        "control_kind": "native_radio_group",
+        "selected_option": "I am not a protected veteran",
+        "match_via": "synonym",
+        "notes": [
+          "picked \"I am not a protected veteran\" (synonym)"
+        ]
+      },
+      {
+        "field_id": "11b8777b-1661-41cf-8c65-33716c46d93f",
+        "canonical_field": "screener:willing_to_relocate",
+        "control_kind": "native_yesno_group",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "picked \"Yes\" (exact)"
+        ]
+      },
+      {
+        "field_id": "2bc8f561-355e-43f5-ad5c-4cb7545bc74f",
+        "canonical_field": "relocation",
+        "control_kind": "native_yesno_group",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "picked \"Yes\" (exact)"
+        ]
+      },
+      {
+        "field_id": "470c0500-c735-41b5-bc00-d671dd581144",
+        "canonical_field": "work_authorization",
+        "control_kind": "native_yesno_group",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "picked \"Yes\" (exact)"
+        ]
+      },
+      {
+        "field_id": "5224c78b-d124-42f2-bfa1-702887e12321",
+        "canonical_field": "requires_sponsorship",
+        "control_kind": "native_yesno_group",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "picked \"No\" (exact)"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham Kale",
+        "observed": "Shubham Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:81370790-4d12-4476-bfb4-333c40d4d955",
+        "expected": "I submitted jobright-application-agent, a local Playwright-based job-application agent I wrote in TypeScript and Node. The problem was that job hunting is mostly repetitive browser work: finding roles, opening ATS pages, refilling the same information, tracking state. But a fully autonomous browser agent is dangerous here, because one wrong action submits a real application or fabricates an answer in a legal or demographic field. So I built it as a deterministic, operator-controlled agent instead. Every application moves through an explicit state machine (DISCOVERED through ELIGIBILITY_CHECK, FILL, READY_TO_SUBMIT, SUBMITTED, COMPLETED) rather than being mutated ad hoc, and SQLite is the single source of truth because state diverging across processes is what makes automation unsafe. Every mutating capability sits behind fail-closed flags like SUBMIT_ENABLED that never default on. I also built a validation ladder from UNIT_CONFIRMED to LIVE_MUTATION_CONFIRMED, so a capability is not called working just because it passes against a fixture. Free-text essays and demographic fields are architecturally blocked from auto-fill and always generate a human-review item. It supports Greenhouse, partially Lever and Ashby, and deliberately skips Workday and iCIMS rather than handling them unreliably.",
+        "observed": "I submitted jobright-application-agent, a local Playwright-based job-application agent I wrote in TypeScript and Node. The problem was that job hunting is mostly repetitive browser work: finding roles, opening ATS pages, refilling the same information, tracking state. But a fully autonomous browser agent is dangerous here, because one wrong action submits a real application or fabricates an answer in a legal or demographic field. So I built it as a deterministic, operator-controlled agent instead. Every application moves through an explicit state machine (DISCOVERED through ELIGIBILITY_CHECK, FILL, READY_TO_SUBMIT, SUBMITTED, COMPLETED) rather than being mutated ad hoc, and SQLite is the single source of truth because state diverging across processes is what makes automation unsafe. Every mutating capability sits behind fail-closed flags like SUBMIT_ENABLED that never default on. I also built a validation ladder from UNIT_CONFIRMED to LIVE_MUTATION_CONFIRMED, so a capability is not called working just because it passes against a fixture. Free-text essays and demographic fields are architecturally blocked from auto-fill and always generate a human-review item. It supports Greenhouse, partially Lever and Ashby, and deliberately skips Workday and iCIMS rather than handling them unreliably.",
+        "match": true
+      },
+      {
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "match": true
+      },
+      {
+        "canonical_field": "github_url",
+        "expected": "https://github.com/skale-07",
+        "observed": "https://github.com/skale-07",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:ba1b0394-0cc1-44a7-b280-da1b124f8d78",
+        "expected": "Replit is building the thing I keep running into from the other side. I have shipped products that real people used: ClarityAtlas, an iOS health app I built end to end in Swift, SwiftUI, and Supabase, including a passive sleep-estimation system from HealthKit and Core Motion signals, which went into a live Hopkins pilot with 30+ users. Most of the difficulty was never the model or the idea, it was the distance between something working on my machine and something a user can actually run. That is the gap Replit closes, and doing it through natural language for millions of people is a much harder version of the problem than the one I solved for myself. The part I would want to work on is the reliability layer. At Intelehealth I built an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case standard, and it convinced me that generating output is cheap while deciding whether to trust it is hard. Agentic software creation has the same asymmetry: correctness, failure modes, and where the agent should stop and ask a human matter more as generation gets cheaper.",
+        "observed": "Replit is building the thing I keep running into from the other side. I have shipped products that real people used: ClarityAtlas, an iOS health app I built end to end in Swift, SwiftUI, and Supabase, including a passive sleep-estimation system from HealthKit and Core Motion signals, which went into a live Hopkins pilot with 30+ users. Most of the difficulty was never the model or the idea, it was the distance between something working on my machine and something a user can actually run. That is the gap Replit closes, and doing it through natural language for millions of people is a much harder version of the problem than the one I solved for myself. The part I would want to work on is the reliability layer. At Intelehealth I built an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case standard, and it convinced me that generating output is cheap while deciding whether to trust it is hard. Agentic software creation has the same asymmetry: correctness, failure modes, and where the agent should stop and ask a human matter more as generation gets cheaper.",
+        "match": true
+      },
+      {
+        "canonical_field": "gender",
+        "expected": "Male",
+        "observed": "Male",
+        "match": true
+      },
+      {
+        "canonical_field": "race_ethnicity",
+        "expected": "Asian",
+        "observed": "Asian (Not Hispanic or Latino)",
+        "match": true
+      },
+      {
+        "canonical_field": "veteran_status",
+        "expected": "I am not a veteran",
+        "observed": "I am not a protected veteran",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:willing_to_relocate",
+        "expected": "Yes",
+        "observed": "Yes",
+        "match": true
+      },
+      {
+        "canonical_field": "relocation",
+        "expected": "Yes",
+        "observed": "Yes",
+        "match": true
+      },
+      {
+        "canonical_field": "work_authorization",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "requires_sponsorship",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 113810,
+      "verified": true,
+      "evidence": "input files: [{\"name\":\"resume-dd9093dd.pdf\",\"size\":113810}]; stillAttached=true; chip=true; resolved via primary"
+    }
+  ],
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: form (19 fillable field(s))",
+    "timing: base page (19 planned) — plan 25s, fill 5s, verify 0s",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "written_at": "2026-09-10T04:05:36.100Z"
+}
