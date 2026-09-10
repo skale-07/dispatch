@@ -1,0 +1,105 @@
+{
+  "outcome": "FAILED_BEFORE_CLICK",
+  "application_id": "92ef488f-1461-426b-b308-03bfad6e0da3",
+  "submission_id": "f5191a5d-1497-4ece-b88d-c8b713dcdc65",
+  "attempt": 1,
+  "receipt": null,
+  "review_item_id": null,
+  "reason": "Refusing to click submit: field verification or upload did not pass",
+  "artifact_path": null,
+  "operator_brief": {
+    "title": "Submit blocked — ashby app 92ef488f-1461-426b-b308-03bfad6e0da3",
+    "summary": "6 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:screener:custom:conditional_dates_na",
+        "question": "If so, please provide dates",
+        "field_id": "fe82a98a-209d-4742-a1db-832d995e6f92",
+        "canonical_field": "screener:custom:conditional_dates_na",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"N/A\"; page shows \"(empty)\"",
+        "expected": "N/A",
+        "observed": "",
+        "how_to_answer": [
+          "System expected \"N/A\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:conditional_dates_na)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:conditional_dates_na\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:phone",
+        "question": "Phone Number",
+        "field_id": "d242bb2e-5fde-45a7-8c44-d7d55cceae2c",
+        "canonical_field": "phone",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"4805897636\"; page shows \"communicationConsent\"",
+        "expected": "4805897636",
+        "observed": "communicationConsent",
+        "how_to_answer": [
+          "DOM shows \"communicationConsent\" but plan expected \"4805897636\". Correct the value on the form or fix profile/aliases so the plan matches the real answer.",
+          "Profile source: private/candidate/public-profile.json → phone",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"phone\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:custom:predicted:communicationConsent",
+        "question": "Phone Number",
+        "field_id": "communicationConsent",
+        "canonical_field": "screener:custom:predicted:communicationConsent",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Yes - I consent to receiving text messages\"; page shows \"(empty)\"",
+        "expected": "Yes - I consent to receiving text messages",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"Yes - I consent to receiving text messages\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:predicted:communicationConsent)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:predicted:communicationConsent\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "fill_error:fe82a98a-209d-4742-a1db-832d995e6f92: date input requires an approved month and ",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "fe82a98a-209d-4742-a1db-832d995e6f92: date input requires an approved month and year",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:d242bb2e-5fde-45a7-8c44-d7d55cceae2c: native radio group option not committed: n",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "d242bb2e-5fde-45a7-8c44-d7d55cceae2c: native radio group option not committed: no option matches \"4805897636\" (options: communicationConsent | communicationConsent)",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:communicationConsent: button group not found by data-field-id or accessible name",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "communicationConsent: button group not found by data-field-id or accessible name",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      }
+    ],
+    "ok_count": 15,
+    "fail_count": 6
+  }
+}
