@@ -60,12 +60,12 @@
 </style></head>
 <body><div class="wrap">
 <h1>Dispatch run timeline</h1>
-<p class="sub">Generated 2026-09-10T05:33:25.738Z · 40 navigation run(s) · read-only view of artifacts/</p>
-<div class="stats"><span class="stat"><b>16</b> unknown</span><span class="stat"><b>11</b> resolved</span><span class="stat"><b>4</b> auth</span><span class="stat"><b>4</b> budget</span><span class="stat"><b>3</b> closed</span><span class="stat"><b>2</b> submit_risk</span></div>
+<p class="sub">Generated 2026-09-10T05:35:22.132Z · 40 navigation run(s) · read-only view of artifacts/</p>
+<div class="stats"><span class="stat"><b>15</b> unknown</span><span class="stat"><b>12</b> resolved</span><span class="stat"><b>4</b> auth</span><span class="stat"><b>4</b> budget</span><span class="stat"><b>3</b> closed</span><span class="stat"><b>2</b> submit_risk</span></div>
 <section class="cycle">
   <h2>Latest cycle</h2>
   <dl>
-    <div><dt>Started</dt><dd>2026-09-10T05:32:16.326Z</dd></div>
+    <div><dt>Started</dt><dd>2026-09-10T05:33:48.417Z</dd></div>
     <div><dt>Outcome</dt><dd>completed</dd></div>
     <div><dt>Agent leg</dt><dd>available</dd></div>
     <div><dt>Default resume</dt><dd>ready (C:\dev\jobright-application-agent\private\candidate\resumes\swe.pdf)</dd></div>
@@ -73,9 +73,24 @@
     <div><dt>Submits used</dt><dd>0</dd></div>
     <div><dt>Stopped</dt><dd>apps_cap</dd></div>
   </dl>
-  <h3>Session notes</h3><ul class="notes"><li>triage sweep: 0 confirmed, 0 refuted, 0 expired of 85 pending</li><li>triage 75c09cf3: park_for_operator (executed) — review item created: fa162cf4-4c18-4e98-8c14-0bba2b2ea3de</li><li>artifact autopush: 6 file(s) pushed to master as 5c3dabca</li></ul>
+  <h3>Session notes</h3><ul class="notes"><li>triage sweep: 0 confirmed, 0 refuted, 0 expired of 86 pending</li><li>triage d149cf4d: park_for_operator (executed) — review item created: 31b76970-b4f4-4f22-a2e9-aa516e42e1c1</li><li>artifact autopush: 7 file(s) pushed to master as 15d75ac8</li></ul>
 </section>
 <h2>Applications</h2>
+<details class="app ok">
+  <summary>
+    <span class="id">d149cf4d</span>
+    <span class="co">ICD Portal</span>
+    <span class="badge">resolved</span>
+    <span class="chip">anchor_llm</span>
+    <span class="chip">generic</span>
+    
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no congruent apply href (8 external links)<span class="ev">ecnf.fa.us2.oraclecloud.com, www.linkedin.com, x.com, www.crunchbase.com, financefeeds.com, institutionalassetmanager.co.uk</span></li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>A_anchor_llm</b> — candidate promoted by adjudication<span class="ev">ecnf.fa.us2.oraclecloud.com</span></li></ol>
+    <h4>Notes</h4><ul class="notes"><li>phase A: 7 external host(s) seen: ecnf.fa.us2.oraclecloud.com, www.linkedin.com, x.com, www.crunchbase.com, financefeeds.com, institutionalassetmanager.co.uk, www.businesswire.com</li><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>anchor adjudication: promoted ecnf.fa.us2.oraclecloud.com</li><li>anchor adjudication rationale (UNVERIFIED): Only ATS (Oracle Recruiting) job link; others are news articles.</li><li>employer congruence unverifiable (URL carries no employer name specific enough to verify against &quot;ICD Portal&quot;) — recorded</li></ul>
+    
+  </div>
+</details>
 <details class="app muted">
   <summary>
     <span class="id">1c7d3535</span>
@@ -659,21 +674,6 @@
     <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>B_board_hop</b> — no employer board route (3 request(s))</li><li><b>C_agent</b> — resolved (turn 1, employer match)<span class="ev">careers.acme.com</span></li></ol>
     <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>board hop: no public greenhouse/lever/ashby board found for &quot;Acme&quot; (acme; 3 requests)</li><li>agent[1]: cred_available:false</li><li>agent[1]: leaked:none</li></ul>
     <h4>Hosts visited</h4><p class="hosts">careers.acme.com</p>
-  </div>
-</details>
-<details class="app bad">
-  <summary>
-    <span class="id"></span>
-    <span class="co">—</span>
-    <span class="badge">wall: undefined</span>
-    
-    
-    
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li>none recorded</li></ol>
-    <h4>Notes</h4><ul class="notes"><li>model calls: 2 of 2 steps</li></ul>
-    
   </div>
 </details>
 <footer>Every row is one navigation run. Green = employer URL resolved; amber = auth/CAPTCHA wall; red = unresolved; grey = posting closed. Expand a row for its phase trace and the notes that explain the stop.</footer>
