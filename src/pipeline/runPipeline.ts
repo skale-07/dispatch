@@ -13,6 +13,7 @@ import { acquireLease, releaseLease } from "../queue/leases.js";
 import {
   isAdvisoryReviewItem,
   isCompletenessUnansweredReview,
+  isTriageParkReview,
   isRetryablePortalAuthWall,
   listOpenReviewItems,
   resolveReviewItem,
@@ -1860,10 +1861,17 @@ export function retryFailedApplications(
       action: "requeued",
       attempt: row.attempt + 1,
     });
+    // #241 (night29): a requeue IS the decision the triage park asked for.
+    // The LLM triage opens "Triage: operator decision needed …" when it
+    // parks an app; that item outlived `retry --app`, so an application
+    // explicitly returned to QUEUED could never be picked again. Live
+    // tonight: four apps requeued to prove a fix sat unreachable behind
+    // their own park. Clearing it here keeps the park meaningful (it still
+    // stops the loop) without making it permanent.
     for (const item of listOpenReviewItems(db)) {
       if (
         item.application_id === row.id &&
-        isCompletenessUnansweredReview(item)
+        (isCompletenessUnansweredReview(item) || isTriageParkReview(item))
       ) {
         resolveReviewItem(
           db,

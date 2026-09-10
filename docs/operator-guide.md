@@ -697,6 +697,7 @@ contract rather than trusted.
 | `ESSAY_REQUIRED_GATE_ENABLED` | `false` | Hard-stop on heuristic essay detection (`ESSAY_REQUIRED`); off until heuristics are better |
 | `OUTLOOK_VERIFICATION_ENABLED` | `false` | Read-only Outlook mailbox scan for submit verification codes (§17) |
 | `ATS_DISCOVERY_ENABLED` | `false` | Enqueue from public ATS board APIs (`discover:ats`, §21) — creates jobs + applications |
+| `OUTREACH_CDP_URL` | *(empty)* | Run the Gmail tail (drafts + verification-code reads) in its OWN debug Chrome so it never competes with the applier for the browser a live fill is typing into. Start it with `npm run chrome:debug:gmail`, then point this at it (e.g. `http://127.0.0.1:9223`) and sign into Gmail once in that window. Empty, unreachable, or not signed in ⇒ the Gmail tail uses `AGENT_CDP_URL` exactly as before — a second browser is an optimisation, never a precondition for drafting. |
 | `SUPABASE_SYNC_ENABLED` | `false` | One-way aggregate status mirror to Supabase (`cloud:sync`, §25) — never PII, never read back; also gates `cloud:schema -- apply` (§26), `invites:mint --load` and `invites:roundtrip` (§24) |
 | `CONSOLE_HOSTED_MODE_ENABLED` | `false` | Console may bind a public interface: Supabase JWT on every `/api` request + hostname/user allowlists + read-only (§16, "Hosted mode"). Never on the engine machine's local console |
 
@@ -1947,8 +1948,34 @@ new applications at `--limit` (default 25), marking the overflow `capped`.
 
 Discovered jobs carry `employer_application_url` from ingestion, so they
 skip the JobRight navigation leg entirely — `run --pipeline` goes straight
-to the form. Boards are swept at most 50 per run, one request per board,
-throttled per host.
+to the form. Boards are swept at most 150 per run, one request per board,
+throttled per host; `--limit` (new applications) is the real spend cap.
+
+### Keeping the registry current — `npm run boards:refresh` (#230)
+
+A hand-maintained registry goes stale, and you cannot guess a board token
+from a company name (`greenhouse:snowflake`, `lever:netflix`, `ashby:xai`
+are all 404). The community internship trackers publish every posting they
+have seen as `listings.json`, and each row carries the posting's REAL apply
+URL — which names its board token exactly.
+
+```
+npm run boards:refresh                   # report what it would add
+npm run boards:refresh -- --write        # merge into the registry
+npm run boards:refresh -- --registry <path> --lookback-hours 168
+```
+
+It keeps rows that are active, visible, recent, role-fitting (your
+registry's own `role_terms` / `exclude_terms`) and not confidently non-US,
+extracts the Tier-1 board token from each apply URL, and prepends the new
+boards to `boards.json` (newly-productive ones first, since `--limit` caps
+what a sweep may enqueue). Nothing downstream changes — the sweep still
+applies role terms, the US gate, the 24h posting policy and the per-board
+cap. The lookback is for registry MEMBERSHIP only; the 24h rule on what
+you actually apply to is untouched.
+
+Night29: 47 → 115 boards, and the next sweep enqueued 20 applications
+(all Lever/Ashby/Greenhouse) where the stale registry had managed 2.
 
 ## 22. CAPTCHAs — the human-in-the-loop contract
 

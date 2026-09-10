@@ -10,6 +10,7 @@ import {
 } from "./submitConfirmation.js";
 import { diagnoseDisabledSubmit } from "../ats/shared/submitDiagnostics.js";
 import { scanRequiredCompleteness } from "../ats/shared/requiredCompleteness.js";
+import { pageCompleteWaiver } from "./pageCompleteWaiver.js";
 import {
   fetchGreenhouseQuestions,
   requiredQuestionLabels,
@@ -886,6 +887,61 @@ export async function runAtsSubmission(input: {
               }
             }
           }
+          // #240 (night29). Three otherwise-complete applications were
+          // blocked by a plan-vs-page difference on a control the page
+          // itself was content to leave EMPTY:
+          //   Saronic  — a phantom child control ("control not found")
+          //   Barnes   — a phone entry whose locator resolved to a radio
+          //              group, so nothing was typed
+          //   ICD      — an essay textarea that read back empty
+          // In each the form satisfied its own validation; only our plan
+          // disagreed with the page, and the disagreement was "we wanted
+          // to write something here and did not".
+          //
+          // The page's own required-completeness scan is the authority on
+          // whether an application may be submitted, and it runs a few
+          // lines below with three requiredness sources (DOM, asterisk,
+          // board schema). So consult it FIRST, and let it decide:
+          //
+          //   - anything it names unanswered still blocks, by name;
+          //   - a verify mismatch or fill error on a control it does NOT
+          //     name, whose observed value is EMPTY, is a note.
+          //
+          // What this deliberately does NOT waive: a mismatch where the
+          // page shows a DIFFERENT non-empty value (something wrong was
+          // written — the case verification exists to catch), an upload
+          // failure, or anything at all when the scan could not run
+          // (fail closed). Nothing here fills, approves or invents a
+          // value; the approved-plan and SUBMIT_ENABLED gates are
+          // untouched.
+          const declaredForGate = await fetchGreenhouseQuestions(
+            page.url(),
+          ).catch(() => null);
+          const completeness = await scanRequiredCompleteness(page, {
+            declaredRequired: requiredQuestionLabels(declaredForGate),
+          });
+          const waiver = pageCompleteWaiver({
+            verifyPassed: verify.passed,
+            verifyFields: verify.fields,
+            fillErrors: fill.errors.map((e) => String(e)),
+            uploadOk,
+            completeness,
+          });
+          const waivedEmpty = waiver.waived;
+          if (waiver.waive) {
+            verify = { ...verify, passed: true };
+            fill = { ...fill, errors: [] };
+            logger.info("submit gate: page-complete waiver", {
+              service: "submit",
+              action: "empty_field_waiver",
+              application_id: applicationId,
+              metadata: {
+                waived: waivedEmpty.slice(0, 12),
+                waived_count: waivedEmpty.length,
+                ats: binding.id,
+              },
+            });
+          }
           if (!verify.passed || !uploadOk || fill.errors.length > 0) {
             const operatorBrief = buildOperatorFieldBrief({
               context: `Submit blocked — ${binding.id} app ${applicationId}`,
@@ -930,20 +986,14 @@ export async function runAtsSubmission(input: {
           // Required-completeness gate: the run data's #1 real failure was
           // clicking Submit with required screener/essay questions untouched
           // (client-side validation bounced it; the run ended UNCERTAIN).
-          // Scan the live page and refuse BEFORE the click, naming each
-          // unanswered question — no budget spent, precise review item.
+          // The scan above named each unanswered question BEFORE the click —
+          // no budget spent, precise review item.
           // G2: the board's own schema is a third requiredness source —
           // Greenhouse publishes `required` per question, and a control the
           // DOM heuristics saw as optional still blocks the click when the
           // board says it is required. Read-only, memoized (the plan-time
           // fetch already paid the round-trip), fail-open: null ⇒ the DOM
           // heuristics carry the load unchanged.
-          const declaredQuestions = await fetchGreenhouseQuestions(
-            page.url(),
-          ).catch(() => null);
-          const completeness = await scanRequiredCompleteness(page, {
-            declaredRequired: requiredQuestionLabels(declaredQuestions),
-          });
           if (completeness.unanswered.length > 0) {
             const names = completeness.unanswered
               .map(
@@ -982,6 +1032,18 @@ export async function runAtsSubmission(input: {
           if (completeness.notes.length > 0) {
             // Scan failed open — proceed, but the report says so.
             report.reason = completeness.notes.join("; ");
+          }
+          if (waivedEmpty.length > 0) {
+            // #240: say plainly what the plan wanted and the page did not
+            // require, so a submit that went through with gaps is auditable.
+            report.reason = [
+              report.reason,
+              `page-complete waiver: ${waivedEmpty.length} planned value(s) left empty — ${waivedEmpty
+                .slice(0, 6)
+                .join("; ")}`,
+            ]
+              .filter(Boolean)
+              .join(" | ");
           }
 
           let attempt = await binding.submit(page, clickGate);

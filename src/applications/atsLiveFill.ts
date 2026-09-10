@@ -14,6 +14,7 @@ import {
   walkSectionEditors,
 } from "./genericFormAdvance.js";
 import { discoverFieldsFromHtml } from "./fieldDiscovery.js";
+import { pageCompleteWaiver } from "./pageCompleteWaiver.js";
 import { scrubHtmlForSnapshot } from "./htmlScrub.js";
 import {
   attemptExtensionAutofill,
@@ -1399,7 +1400,7 @@ export async function runAtsLiveFill(input: {
       // #66a (operator directive): EVERY platform paints its own
       // validation errors — read them on any failed verify so the page's
       // wording names the blocker. Vendor extras come from the registry.
-      if (!report.verify.passed) {
+      if (!report.verify.passed || (report.fill?.errors.length ?? 0) > 0) {
         const pageErrors = await readPageValidationErrors(page, {
           extraSelectors:
             binding.id === "workday"
@@ -1414,6 +1415,37 @@ export async function runAtsLiveFill(input: {
           report.notes.push(
             "page error scan: no visible validation errors on the page",
           );
+        }
+        // #240: the same "the page's own rules decide" waiver the submit
+        // gate applies, at the EARLIER gate where it actually matters.
+        // Most of tonight's losses never reached submit — a fill-stage
+        // verify miss parks the application AMBIGUOUS_FIELD, so a form the
+        // page considered finished was abandoned three steps before the
+        // click. Fail closed: the completeness scan must run and name
+        // nothing, the page must paint no error of its own, every mismatch
+        // must read EMPTY, and every fill error must prove it wrote
+        // nothing. See pageCompleteWaiver.ts for the full contract.
+        const uploadsOk = (report.uploads ?? []).every((u) => u.verified);
+        const completeness = await scanRequiredCompleteness(page, {
+          declaredRequired: requiredQuestionLabels(declared),
+        }).catch(() => ({ scanned: false, unanswered: [], notes: [] }));
+        const waiver = pageCompleteWaiver({
+          verifyPassed: report.verify.passed,
+          verifyFields: report.verify.fields,
+          fillErrors: (report.fill?.errors ?? []).map((e) => String(e)),
+          uploadOk: uploadsOk,
+          completeness,
+          pageValidationErrors: pageErrors,
+        });
+        if (waiver.waive) {
+          report.verify = { ...report.verify, passed: true };
+          if (report.fill) report.fill = { ...report.fill, errors: [] };
+          report.notes.push(
+            `page-complete waiver (#240): the page requires nothing further and shows no error; ` +
+              `${waiver.waived.length} planned value(s) left empty — ${waiver.waived.slice(0, 6).join("; ")}`,
+          );
+        } else if (waiver.blocked_by) {
+          report.notes.push(`page-complete waiver not applied: ${waiver.blocked_by}`);
         }
       }
       await postSandboxTrace(input.url, {

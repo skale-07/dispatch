@@ -66,6 +66,19 @@ export function isCompletenessUnansweredReview(item: {
   return item.kind === "MANUAL" && COMPLETENESS_UNANSWERED_RE.test(item.title);
 }
 
+/**
+ * #241: the LLM triage's own park. It is a real stop for the loop, but a
+ * later explicit requeue (`retry --app`) is the decision it was waiting
+ * for — otherwise the park outlives the answer and the application is
+ * unreachable forever.
+ */
+export function isTriageParkReview(item: {
+  kind: ReviewKind;
+  title: string;
+}): boolean {
+  return item.kind === "MANUAL" && item.title.startsWith("Triage: operator decision needed");
+}
+
 /** Nav parked on an employer sign-in page. Not congruence; not a human captcha. */
 export const PORTAL_AUTH_WALL_TITLE =
   "Navigation blocked by employer identity wall";

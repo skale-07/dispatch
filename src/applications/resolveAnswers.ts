@@ -151,6 +151,40 @@ export function buildFillPlan(
   const entries: FillPlanEntry[] = [];
 
   for (const field of mapped) {
+    // #239 (live Saronic ashby 2026-09-10, three apps): Ashby's education
+    // block exposes ONE datum through two ids — the widget
+    // `_systemfield_education_history` (labelled "College/University") and
+    // a child input `_systemfield_education_history-school` (labelled
+    // "School"). Both map to canonical `school`. The widget fills fine;
+    // by the time the fill reaches the child the block has re-rendered
+    // into its committed state and the child id is gone, so the run ends
+    // `control not found on the page (label "School")` — a hard fill
+    // error that blocks an otherwise complete submit.
+    //
+    // A child id that is the parent's id plus a suffix, carrying the SAME
+    // canonical, is the same question asked twice by one composite
+    // widget. Answer it once, through the parent. Structural and
+    // ATS-general: it needs a shared canonical AND an id that is literally
+    // scoped under the earlier control's, so two genuinely different
+    // fields can never collapse into one.
+    const compositeParent = entries.find(
+      (e) =>
+        e.canonical_field !== null &&
+        e.canonical_field === field.canonical_field &&
+        field.id.startsWith(`${e.field_id}-`),
+    );
+    if (compositeParent) {
+      entries.push({
+        field_id: field.id,
+        label: field.label,
+        type: field.type,
+        canonical_field: field.canonical_field,
+        action: "skip_empty",
+        value: null,
+        reason: `same datum as "${compositeParent.label}" (${compositeParent.field_id}) — one composite control, answered once`,
+      });
+      continue;
+    }
     if (
       isConditionalYesFollowUp(field.label) &&
       precedingYesNo(entries) === "no"

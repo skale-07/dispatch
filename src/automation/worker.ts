@@ -12,6 +12,7 @@ import { recordGmailTailOutcome } from "../outreach/outreachWorker.js";
 import { getApplication, transitionApplication } from "../queue/stateMachine.js";
 import { judgePostingAge } from "../jobs/postingAge.js";
 import {
+  isAdvisoryReviewItem,
   isRetryablePortalAuthWall,
   listOpenReviewItems,
   upsertOpenReviewItem,
@@ -294,6 +295,16 @@ function pickNextApplication(db: Db, seen: Set<string>, scope?: Set<string>): st
       .filter(
         (it) =>
           it.application_id !== null &&
+          // #241 (night29): the picker and the pipeline disagreed about
+          // what a review item MEANS. runPipeline has treated
+          // "Answer needed: …" and the completeness-gate leftovers as
+          // ADVISORY since night19 (#29) — they want an answer, they are
+          // not a full stop — but the picker blocked on any open item, so
+          // an application the pipeline would happily continue could never
+          // be handed to it again. Live tonight: 5 of 20 QUEUED rows were
+          // unreachable, including every app requeued to prove a fix.
+          // One definition, used by both layers.
+          !isAdvisoryReviewItem(it) &&
           !isRetryablePortalAuthWall(it, standingPortalPassword),
       )
       .map((it) => it.application_id as string),
