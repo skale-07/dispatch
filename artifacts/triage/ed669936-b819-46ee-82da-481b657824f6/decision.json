@@ -1,0 +1,140 @@
+{
+  "decision_id": "ed669936-b819-46ee-82da-481b657824f6",
+  "application_id": "dd858765-08fc-4ec1-bb56-d3f10565aa33",
+  "signature": "AMBIGUOUS_FIELD|-|verify_mismatch|job-boards.greenhouse.io",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "dd858765-08fc-4ec1-bb56-d3f10565aa33",
+    "company": "Epic Games",
+    "role": "Backend Services Programmer Intern",
+    "state": "AMBIGUOUS_FIELD",
+    "attempt": 1,
+    "failure_signature": "AMBIGUOUS_FIELD|-|verify_mismatch|job-boards.greenhouse.io",
+    "end_host": "job-boards.greenhouse.io",
+    "recent_events": [
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "AMBIGUOUS_FIELD",
+        "reason": "pipeline: read-back verification failed",
+        "at": "2026-09-10T06:30:05.284Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (live fill: 27 filled (held for submit))",
+        "at": "2026-09-10T06:30:05.284Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-10T06:29:06.226Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-10T06:29:03.673Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: greenhouse URL validated",
+        "at": "2026-09-10T06:29:03.670Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-10T06:29:01.212Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 dd9093dde3f8)",
+        "at": "2026-09-10T06:29:01.207Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-10T06:29:01.190Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-10T04:04:53.589Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-10T04:04:53.583Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-10T04:04:53.582Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-10T04:04:53.582Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "epicgames",
+        "detail": "token \"epic\" ~ slug \"epicgames\"",
+        "expected_company": "Epic Games",
+        "url": "https://job-boards.greenhouse.io/embed/job_app?for=epicgames&token=6183293004&jr_id=6aa204852f936e4a53daf36d"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (11 candidates, employer match)",
+          "evidence": "job-boards.greenhouse.io"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": null,
+      "verify_passed": false
+    },
+    "open_review_items": [
+      {
+        "kind": "AMBIGUOUS_FIELD",
+        "title": "Fill verification failed"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"requeue_same\", \"rationale\": \"First attempt; nav resolved cleanly with employer match, no wall, resume verified. Only read-back verification of the fill failed, which is commonly transient (timing/re-render on Greenhouse embed). Nothing tried before, so cheapest plausible fix is one identical rerun.\", \"confidence\": \"medium\"}",
+  "parsed_action": "requeue_same",
+  "validation_note": null,
+  "precondition": {
+    "ok": false,
+    "reason": "state is AMBIGUOUS_FIELD, needs FAILED_RETRYABLE or a gate-parked mid-state"
+  },
+  "mode": "act",
+  "executed": false,
+  "execution_detail": "precondition failed: state is AMBIGUOUS_FIELD, needs FAILED_RETRYABLE or a gate-parked mid-state",
+  "rationale_unverified": "First attempt; nav resolved cleanly with employer match, no wall, resume verified. Only read-back verification of the fill failed, which is commonly transient (timing/re-render on Greenhouse embed). Nothing tried before, so cheapest plausible fix is one identical rerun."
+}

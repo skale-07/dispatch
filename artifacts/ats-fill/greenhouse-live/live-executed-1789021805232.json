@@ -1,0 +1,1558 @@
+{
+  "mode": "executed",
+  "ats": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/epicgames/jobs/6183293004",
+  "plan": {
+    "answers": {
+      "legal_name.first": "Shubham",
+      "legal_name.last": "Kale",
+      "screener:custom:has_preferred_name": "No",
+      "email": "s***@gmail.com",
+      "address.country": "United States",
+      "phone": "***-***-7636",
+      "address.city": "Baltimore",
+      "degree": "Bachelor of Science",
+      "major": "Applied Mathematics and Statistics",
+      "start_year": "2025",
+      "graduation_month": "May",
+      "graduation_year": "2029",
+      "screener:custom:current_job_title": "Machine Learning Engineer Intern",
+      "screener:custom:predicted:question_19887994004": "Summer Atlantic Capital",
+      "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+      "screener:previously_applied_or_worked": "No",
+      "screener:how_heard": "LinkedIn",
+      "requires_sponsorship": "[REDACTED_SPONSORSHIP]",
+      "work_authorization": "[REDACTED_SPONSORSHIP]",
+      "screener:custom:opt_are_you_able_to_work_an_average_of_40_hours_per_week_mon": "Yes",
+      "screener:custom:demonstrated_discipline_experience": "Yes",
+      "screener:custom:resume_project_links": "Yes",
+      "screener:custom:privacy_notice_acknowledgement": "I Acknowledge / I Agree",
+      "screener:custom:application_truthfulness_confirmation": "I Acknowledge / I Agree",
+      "gender_identity": "Man",
+      "transgender": "No",
+      "race_ethnicity": "Asian",
+      "veteran_status": "I am not a veteran"
+    },
+    "entries": [
+      {
+        "field_id": "first_name",
+        "label": "First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "fill",
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "last_name",
+        "label": "Last Name",
+        "type": "text",
+        "canonical_field": "legal_name.last",
+        "action": "fill",
+        "value": "Kale",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "preferred_name",
+        "label": "Preferred First Name",
+        "type": "text",
+        "canonical_field": "screener:custom:has_preferred_name",
+        "action": "fill",
+        "value": "No",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "email",
+        "label": "Email",
+        "type": "text",
+        "canonical_field": "email",
+        "action": "fill",
+        "value": "s***@gmail.com",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "country",
+        "label": "Country",
+        "type": "text",
+        "canonical_field": "address.country",
+        "action": "fill",
+        "value": "United States +1",
+        "reason": "Mapped from public profile; placed onto \"United States +1\""
+      },
+      {
+        "field_id": "phone",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "fill",
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "candidate-location",
+        "label": "Location (City)",
+        "type": "text",
+        "canonical_field": "address.city",
+        "action": "fill",
+        "value": "Baltimore",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "resume",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "skip_file",
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "cover_letter",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "skip_file",
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "school--0",
+        "label": "School",
+        "type": "text",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "degree--0",
+        "label": "Degree",
+        "type": "text",
+        "canonical_field": "degree",
+        "action": "fill",
+        "value": "Bachelors",
+        "reason": "Mapped from public profile; placed onto \"Bachelors\""
+      },
+      {
+        "field_id": "discipline--0",
+        "label": "Discipline",
+        "type": "text",
+        "canonical_field": "major",
+        "action": "fill",
+        "value": "Mathematics",
+        "reason": "Mapped from public profile; placed onto \"Mathematics\""
+      },
+      {
+        "field_id": "start-year--0",
+        "label": "Start date year",
+        "type": "text",
+        "canonical_field": "start_year",
+        "action": "fill",
+        "value": "2025",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "end-month--0",
+        "label": "End date month",
+        "type": "text",
+        "canonical_field": "graduation_month",
+        "action": "fill",
+        "value": "May",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "end-year--0",
+        "label": "End date year",
+        "type": "text",
+        "canonical_field": "graduation_year",
+        "action": "fill",
+        "value": "2029",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_19887993004",
+        "label": "Current Job Title",
+        "type": "text",
+        "canonical_field": "screener:custom:current_job_title",
+        "action": "fill",
+        "value": "Machine Learning Engineer Intern",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "question_19887994004",
+        "label": "Current Employer",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_19887994004",
+        "action": "fill",
+        "value": "Summer Atlantic Capital",
+        "reason": "Predicted from operator context (llm_predict): Profile facts list current company as Summer Atlantic Capital, matching the learned employer answer."
+      },
+      {
+        "field_id": "question_19887995004",
+        "label": "LinkedIn Profile",
+        "type": "text",
+        "canonical_field": "linkedin_url",
+        "action": "fill",
+        "value": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_19887996004",
+        "label": "Website / Portfolio",
+        "type": "text",
+        "canonical_field": "personal_website",
+        "action": "skip_empty",
+        "value": null,
+        "reason": "Profile value empty for personal_website"
+      },
+      {
+        "field_id": "question_19887997004",
+        "label": "Have you previously worked for Epic Games or any of its subsidiaries in any capacity (e.g., full-time employee, contractor, intern, etc.)?",
+        "type": "text",
+        "canonical_field": "screener:previously_applied_or_worked",
+        "action": "fill",
+        "value": "No",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_19887998004",
+        "label": "How did you hear about this job posting?",
+        "type": "text",
+        "canonical_field": "screener:how_heard",
+        "action": "fill",
+        "value": "LinkedIn",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_19887999004",
+        "label": "Do you now, or will you in the future, require sponsorship for employment authorization in order to legally work in the location associated with this job posting?",
+        "type": "text",
+        "canonical_field": "requires_sponsorship",
+        "action": "fill",
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_19888000004",
+        "label": "Do you have legal authorization to work in the geographic region specified for the internship?",
+        "type": "text",
+        "canonical_field": "work_authorization",
+        "action": "fill",
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_19888001004",
+        "label": "Are you able to work an average of 40 hours per week, Monday through Friday?",
+        "type": "text",
+        "canonical_field": "screener:custom:opt_are_you_able_to_work_an_average_of_40_hours_per_week_mon",
+        "action": "fill",
+        "value": "Yes",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_19888002004",
+        "label": "Do you have demonstrated experience in the specified discipline either in the form of school, work, or personal projects included in your resume?",
+        "type": "text",
+        "canonical_field": "screener:custom:demonstrated_discipline_experience",
+        "action": "fill",
+        "value": "Yes",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_19888003004",
+        "label": "Will you be including a link on your resume to samples of projects you've worked on, where you were either the sole or a direct contributor?",
+        "type": "text",
+        "canonical_field": "screener:custom:resume_project_links",
+        "action": "fill",
+        "value": "Yes",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_19888004004",
+        "label": "I acknowledge that I have read and understand the Epic Games Candidate Privacy Notice.",
+        "type": "text",
+        "canonical_field": "screener:custom:privacy_notice_acknowledgement",
+        "action": "fill",
+        "value": "I Acknowledge / I Agree",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_19888005004",
+        "label": "I confirm all answers provided by me within this application are true and correct.",
+        "type": "text",
+        "canonical_field": "screener:custom:application_truthfulness_confirmation",
+        "action": "fill",
+        "value": "I Acknowledge / I Agree",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "4000367004",
+        "label": "Gender Identity",
+        "type": "text",
+        "canonical_field": "gender_identity",
+        "action": "fill",
+        "value": "Man",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "4000463004",
+        "label": "Transgender Status",
+        "type": "text",
+        "canonical_field": "transgender",
+        "action": "fill",
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "4000464004",
+        "label": "Race/Ethnicity",
+        "type": "text",
+        "canonical_field": "race_ethnicity",
+        "action": "fill",
+        "value": "Asian",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "4000465004",
+        "label": "Veteran Status",
+        "type": "text",
+        "canonical_field": "veteran_status",
+        "action": "fill",
+        "value": "I am not a veteran",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      }
+    ],
+    "fillable_count": 28,
+    "skipped_count": 4,
+    "review_required_count": 0
+  },
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "posting shell on landing — trying the canonical embed app first https://job-boards.greenhouse.io/embed/job_app?for=epicgames&token=6183293004",
+    "schema diff: 18/20 declared question(s) matched onto 32 DOM field(s); 2 declared-only (1 required); 14 DOM-only",
+    "board API declared 20 question(s); matched complete option lists onto 9 field(s)",
+    "option harvest: \"Location (City)\" is a combobox but offered no readable options",
+    "option harvest: scraped real options for 9/21 control(s) before planning",
+    "heal pass: recovered 0/1; final verify passed: false",
+    "frozen after fill→verify→upload — no further field mutation; submit never called"
+  ],
+  "validation_level": "UNVERIFIED",
+  "final_url": "https://job-boards.greenhouse.io/embed/job_app?for=epicgames&token=6183293004",
+  "identity_verification": {
+    "requestedUrl": "https://job-boards.greenhouse.io/epicgames/jobs/6183293004",
+    "finalUrl": "https://job-boards.greenhouse.io/embed/job_app?for=epicgames&token=6183293004",
+    "requestedJobId": "6183293004",
+    "observedJobId": "6183293004",
+    "company": "epicgames",
+    "role": "Job Application for Backend Services Programmer Intern at Epic Games",
+    "formDetected": true,
+    "fieldCount": 32,
+    "warnings": [],
+    "passed": true,
+    "failureCode": null,
+    "failureReason": null
+  },
+  "captcha_detection": {
+    "detected": false,
+    "confidence": "LOW",
+    "signals": [],
+    "dormantMarkers": [
+      "generic_captcha_word_only"
+    ]
+  },
+  "login_wall_detection": {
+    "detected": false,
+    "confidence": "LOW",
+    "signals": []
+  },
+  "failure_code": null,
+  "mutation_attempted": true,
+  "schema_diff": {
+    "board": "epicgames",
+    "job_id": "6183293004",
+    "declared_count": 20,
+    "dom_count": 32,
+    "matched": 18,
+    "api_only": [
+      {
+        "label": "Resume/CV",
+        "required": true
+      },
+      {
+        "label": "Cover Letter",
+        "required": false
+      }
+    ],
+    "dom_only": [
+      "Country",
+      "Location (City)",
+      "Attach",
+      "Attach",
+      "School",
+      "Degree",
+      "Discipline",
+      "Start date year",
+      "End date month",
+      "End date year",
+      "Gender Identity",
+      "Transgender Status",
+      "Race/Ethnicity",
+      "Veteran Status"
+    ],
+    "option_mismatches": []
+  },
+  "harvested_options": [
+    {
+      "field_id": "country",
+      "label": "Country",
+      "answer_space": "closed",
+      "option_count": 244,
+      "options": [
+        "United States +1",
+        "Afghanistan +93",
+        "Åland Islands +358",
+        "Albania +355",
+        "Algeria +213",
+        "American Samoa +1",
+        "Andorra +376",
+        "Angola +244",
+        "Anguilla +1",
+        "Antigua & Barbuda +1",
+        "Argentina +54",
+        "Armenia +374",
+        "Aruba +297",
+        "Ascension Island +247",
+        "Australia +61",
+        "Austria +43",
+        "Azerbaijan +994",
+        "Bahamas +1",
+        "Bahrain +973",
+        "Bangladesh +880",
+        "Barbados +1",
+        "Belarus +375",
+        "Belgium +32",
+        "Belize +501",
+        "Benin +229"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "school--0",
+      "label": "School",
+      "answer_space": "closed",
+      "option_count": 100,
+      "options": [
+        "Aalborg University",
+        "Aalto University",
+        "Aarhus University",
+        "Abertay University",
+        "Aberystwyth University",
+        "Abilene Christian University",
+        "Abo Akademi University",
+        "Abraham Baldwin Agricultural College",
+        "Abu Dhabi University",
+        "Academy of Art University",
+        "Academy of Interactive Entertainment Pty. Ltd.",
+        "Acadia University",
+        "Acharya Nagarjuna University",
+        "Acupuncture and Integrative Medicine College - Berkeley",
+        "Adams State University",
+        "Adelphi University",
+        "Adrian College",
+        "Adventist University of Health Sciences",
+        "Agnes Scott College",
+        "AIB College of Business",
+        "Ain Shams University",
+        "Airlangga University",
+        "Ajou University",
+        "Alabama A&M University",
+        "Alabama State University"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "degree--0",
+      "label": "Degree",
+      "answer_space": "closed",
+      "option_count": 14,
+      "options": [
+        "Associates",
+        "Autre",
+        "Baccalauréat",
+        "Bachelors",
+        "Diplôme d'études collégiales (DEC)",
+        "Diplôme d'études secondaires (DES)",
+        "Doctorat",
+        "Doctorate",
+        "High School / Secondary Education",
+        "Maîtrise",
+        "Masters",
+        "Other",
+        "Postdoctoral Studies",
+        "Postdoctorat"
+      ],
+      "other_option": "Other"
+    },
+    {
+      "field_id": "discipline--0",
+      "label": "Discipline",
+      "answer_space": "closed",
+      "option_count": 91,
+      "options": [
+        "3D",
+        "Accounting",
+        "Administration des affaires",
+        "African Studies",
+        "Agriculture",
+        "Animation",
+        "Anthropology",
+        "Applied Health Services",
+        "Architecture",
+        "Art",
+        "Artificial Intelligence",
+        "Asian Studies",
+        "Audio",
+        "Autre",
+        "Biology",
+        "Business",
+        "Business Administration",
+        "Chemistry",
+        "Classical Languages",
+        "Commerce",
+        "Communications & Film",
+        "Comptabilité",
+        "Computer Science",
+        "Dentistry",
+        "Dévelopement de jeux"
+      ],
+      "other_option": "Other"
+    },
+    {
+      "field_id": "end-month--0",
+      "label": "End date month",
+      "answer_space": "closed",
+      "option_count": 12,
+      "options": [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "4000367004",
+      "label": "Gender Identity",
+      "answer_space": "closed",
+      "option_count": 5,
+      "options": [
+        "Man",
+        "Woman",
+        "Non-Binary",
+        "Intersex",
+        "I don't wish to answer"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "4000463004",
+      "label": "Transgender Status",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "Yes",
+        "No",
+        "I don't wish to answer"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "4000464004",
+      "label": "Race/Ethnicity",
+      "answer_space": "closed",
+      "option_count": 8,
+      "options": [
+        "Hispanic or Latino",
+        "American Indian or Alaska Native (Not Hispanic or Latino)",
+        "Asian (Not Hispanic or Latino)",
+        "Black or African American (Not Hispanic or Latino)",
+        "Native Hawaiian or Other Pacific Islander (Not Hispanic or Latino)",
+        "Two or More Races (Not Hispanic or Latino)",
+        "White (Not Hispanic or Latino)",
+        "I don't wish to answer"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "4000465004",
+      "label": "Veteran Status",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "Yes",
+        "No",
+        "I don't wish to answer"
+      ],
+      "other_option": null
+    }
+  ],
+  "approved_plan": {
+    "entries": [
+      {
+        "field_id": "first_name",
+        "label": "First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "FILL",
+        "approved": true,
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "last_name",
+        "label": "Last Name",
+        "type": "text",
+        "canonical_field": "legal_name.last",
+        "action": "FILL",
+        "approved": true,
+        "value": "Kale",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "preferred_name",
+        "label": "Preferred First Name",
+        "type": "text",
+        "canonical_field": "screener:custom:has_preferred_name",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "email",
+        "label": "Email",
+        "type": "text",
+        "canonical_field": "email",
+        "action": "FILL",
+        "approved": true,
+        "value": "s***@gmail.com",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "country",
+        "label": "Country",
+        "type": "text",
+        "canonical_field": "address.country",
+        "action": "FILL",
+        "approved": true,
+        "value": "United States +1",
+        "reason": "Mapped from public profile; placed onto \"United States +1\""
+      },
+      {
+        "field_id": "phone",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "FILL",
+        "approved": true,
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "candidate-location",
+        "label": "Location (City)",
+        "type": "text",
+        "canonical_field": "address.city",
+        "action": "FILL",
+        "approved": true,
+        "value": "Baltimore",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "resume",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "cover_letter",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "school--0",
+        "label": "School",
+        "type": "text",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "degree--0",
+        "label": "Degree",
+        "type": "text",
+        "canonical_field": "degree",
+        "action": "FILL",
+        "approved": true,
+        "value": "Bachelors",
+        "reason": "Mapped from public profile; placed onto \"Bachelors\""
+      },
+      {
+        "field_id": "discipline--0",
+        "label": "Discipline",
+        "type": "text",
+        "canonical_field": "major",
+        "action": "FILL",
+        "approved": true,
+        "value": "Mathematics",
+        "reason": "Mapped from public profile; placed onto \"Mathematics\""
+      },
+      {
+        "field_id": "start-year--0",
+        "label": "Start date year",
+        "type": "text",
+        "canonical_field": "start_year",
+        "action": "FILL",
+        "approved": true,
+        "value": "2025",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "end-month--0",
+        "label": "End date month",
+        "type": "text",
+        "canonical_field": "graduation_month",
+        "action": "FILL",
+        "approved": true,
+        "value": "May",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "end-year--0",
+        "label": "End date year",
+        "type": "text",
+        "canonical_field": "graduation_year",
+        "action": "FILL",
+        "approved": true,
+        "value": "2029",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_19887993004",
+        "label": "Current Job Title",
+        "type": "text",
+        "canonical_field": "screener:custom:current_job_title",
+        "action": "FILL",
+        "approved": true,
+        "value": "Machine Learning Engineer Intern",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "question_19887994004",
+        "label": "Current Employer",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_19887994004",
+        "action": "FILL",
+        "approved": true,
+        "value": "Summer Atlantic Capital",
+        "reason": "Predicted from operator context (llm_predict): Profile facts list current company as Summer Atlantic Capital, matching the learned employer answer."
+      },
+      {
+        "field_id": "question_19887995004",
+        "label": "LinkedIn Profile",
+        "type": "text",
+        "canonical_field": "linkedin_url",
+        "action": "FILL",
+        "approved": true,
+        "value": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_19887996004",
+        "label": "Website / Portfolio",
+        "type": "text",
+        "canonical_field": "personal_website",
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "Profile value empty for personal_website"
+      },
+      {
+        "field_id": "question_19887997004",
+        "label": "Have you previously worked for Epic Games or any of its subsidiaries in any capacity (e.g., full-time employee, contractor, intern, etc.)?",
+        "type": "text",
+        "canonical_field": "screener:previously_applied_or_worked",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_19887998004",
+        "label": "How did you hear about this job posting?",
+        "type": "text",
+        "canonical_field": "screener:how_heard",
+        "action": "FILL",
+        "approved": true,
+        "value": "LinkedIn",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_19887999004",
+        "label": "Do you now, or will you in the future, require sponsorship for employment authorization in order to legally work in the location associated with this job posting?",
+        "type": "text",
+        "canonical_field": "requires_sponsorship",
+        "action": "FILL",
+        "approved": true,
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_19888000004",
+        "label": "Do you have legal authorization to work in the geographic region specified for the internship?",
+        "type": "text",
+        "canonical_field": "work_authorization",
+        "action": "FILL",
+        "approved": true,
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_19888001004",
+        "label": "Are you able to work an average of 40 hours per week, Monday through Friday?",
+        "type": "text",
+        "canonical_field": "screener:custom:opt_are_you_able_to_work_an_average_of_40_hours_per_week_mon",
+        "action": "FILL",
+        "approved": true,
+        "value": "Yes",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_19888002004",
+        "label": "Do you have demonstrated experience in the specified discipline either in the form of school, work, or personal projects included in your resume?",
+        "type": "text",
+        "canonical_field": "screener:custom:demonstrated_discipline_experience",
+        "action": "FILL",
+        "approved": true,
+        "value": "Yes",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_19888003004",
+        "label": "Will you be including a link on your resume to samples of projects you've worked on, where you were either the sole or a direct contributor?",
+        "type": "text",
+        "canonical_field": "screener:custom:resume_project_links",
+        "action": "FILL",
+        "approved": true,
+        "value": "Yes",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_19888004004",
+        "label": "I acknowledge that I have read and understand the Epic Games Candidate Privacy Notice.",
+        "type": "text",
+        "canonical_field": "screener:custom:privacy_notice_acknowledgement",
+        "action": "FILL",
+        "approved": true,
+        "value": "I Acknowledge / I Agree",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_19888005004",
+        "label": "I confirm all answers provided by me within this application are true and correct.",
+        "type": "text",
+        "canonical_field": "screener:custom:application_truthfulness_confirmation",
+        "action": "FILL",
+        "approved": true,
+        "value": "I Acknowledge / I Agree",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "4000367004",
+        "label": "Gender Identity",
+        "type": "text",
+        "canonical_field": "gender_identity",
+        "action": "FILL",
+        "approved": true,
+        "value": "Man",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "4000463004",
+        "label": "Transgender Status",
+        "type": "text",
+        "canonical_field": "transgender",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "4000464004",
+        "label": "Race/Ethnicity",
+        "type": "text",
+        "canonical_field": "race_ethnicity",
+        "action": "FILL",
+        "approved": true,
+        "value": "Asian",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "4000465004",
+        "label": "Veteran Status",
+        "type": "text",
+        "canonical_field": "veteran_status",
+        "action": "FILL",
+        "approved": true,
+        "value": "I am not a veteran",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      }
+    ],
+    "answers": {
+      "legal_name.first": "Shubham",
+      "legal_name.last": "Kale",
+      "screener:custom:has_preferred_name": "No",
+      "email": "s***@gmail.com",
+      "address.country": "United States +1",
+      "phone": "***-***-7636",
+      "address.city": "Baltimore",
+      "degree": "Bachelors",
+      "major": "Mathematics",
+      "start_year": "2025",
+      "graduation_month": "May",
+      "graduation_year": "2029",
+      "screener:custom:current_job_title": "Machine Learning Engineer Intern",
+      "screener:custom:predicted:question_19887994004": "Summer Atlantic Capital",
+      "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+      "screener:previously_applied_or_worked": "No",
+      "screener:how_heard": "LinkedIn",
+      "requires_sponsorship": "[REDACTED_SPONSORSHIP]",
+      "work_authorization": "[REDACTED_SPONSORSHIP]",
+      "screener:custom:opt_are_you_able_to_work_an_average_of_40_hours_per_week_mon": "Yes",
+      "screener:custom:demonstrated_discipline_experience": "Yes",
+      "screener:custom:resume_project_links": "Yes",
+      "screener:custom:privacy_notice_acknowledgement": "I Acknowledge / I Agree",
+      "screener:custom:application_truthfulness_confirmation": "I Acknowledge / I Agree",
+      "gender_identity": "Man",
+      "transgender": "No",
+      "race_ethnicity": "Asian",
+      "veteran_status": "I am not a veteran"
+    },
+    "fillable_count": 28,
+    "skipped_count": 4,
+    "review_required_count": 0
+  },
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "legal_name.last",
+      "screener:custom:has_preferred_name",
+      "email",
+      "address.country",
+      "phone",
+      "address.city",
+      "degree",
+      "major",
+      "start_year",
+      "graduation_month",
+      "graduation_year",
+      "screener:custom:current_job_title",
+      "screener:custom:predicted:question_19887994004",
+      "linkedin_url",
+      "screener:previously_applied_or_worked",
+      "screener:how_heard",
+      "requires_sponsorship",
+      "work_authorization",
+      "screener:custom:opt_are_you_able_to_work_an_average_of_40_hours_per_week_mon",
+      "screener:custom:demonstrated_discipline_experience",
+      "screener:custom:resume_project_links",
+      "screener:custom:privacy_notice_acknowledgement",
+      "screener:custom:application_truthfulness_confirmation",
+      "gender_identity",
+      "transgender",
+      "race_ethnicity"
+    ],
+    "skipped": [],
+    "errors": [
+      "4000465004: combobox option not committed: opened via control click; filter yielded no/unmatched options; re-collected unfiltered (residue cleared); scroll-harvested 3 option(s); drill scan skipped (not a Workday multiselect prompt, or a yes/no answer — flat rows are answers, not categories); no option matches \"I am not a veteran\" (options: Yes | No | I don't wish to answer)"
+    ],
+    "field_meta": [
+      {
+        "field_id": "first_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "last_name",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "preferred_name",
+        "canonical_field": "screener:custom:has_preferred_name",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "country",
+        "canonical_field": "address.country",
+        "control_kind": "combobox",
+        "selected_option": "+1",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"United States +1\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "phone",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "candidate-location",
+        "canonical_field": "address.city",
+        "control_kind": "combobox",
+        "selected_option": "Baltimore, Maryland, United States",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "filter \"Baltimore\" then picked \"Baltimore, Maryland, United States\" (exact)"
+        ]
+      },
+      {
+        "field_id": "degree--0",
+        "canonical_field": "degree",
+        "control_kind": "combobox",
+        "selected_option": "Bachelors",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Bachelors\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "discipline--0",
+        "canonical_field": "major",
+        "control_kind": "combobox",
+        "selected_option": "Mathematics",
+        "match_via": "synonym",
+        "notes": [
+          "opened via control click",
+          "picked \"Mathematics\" (synonym) from open list"
+        ]
+      },
+      {
+        "field_id": "start-year--0",
+        "canonical_field": "start_year",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "end-month--0",
+        "canonical_field": "graduation_month",
+        "control_kind": "combobox",
+        "selected_option": "May",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"May\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "end-year--0",
+        "canonical_field": "graduation_year",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_19887993004",
+        "canonical_field": "screener:custom:current_job_title",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_19887994004",
+        "canonical_field": "screener:custom:predicted:question_19887994004",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_19887995004",
+        "canonical_field": "linkedin_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_19887997004",
+        "canonical_field": "screener:previously_applied_or_worked",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_19887998004",
+        "canonical_field": "screener:how_heard",
+        "control_kind": "combobox",
+        "selected_option": "LinkedIn",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"LinkedIn\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_19887999004",
+        "canonical_field": "requires_sponsorship",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_19888000004",
+        "canonical_field": "work_authorization",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_19888001004",
+        "canonical_field": "screener:custom:opt_are_you_able_to_work_an_average_of_40_hours_per_week_mon",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_19888002004",
+        "canonical_field": "screener:custom:demonstrated_discipline_experience",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_19888003004",
+        "canonical_field": "screener:custom:resume_project_links",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_19888004004",
+        "canonical_field": "screener:custom:privacy_notice_acknowledgement",
+        "control_kind": "combobox",
+        "selected_option": "I Acknowledge / I Agree",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"I Acknowledge / I Agree\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_19888005004",
+        "canonical_field": "screener:custom:application_truthfulness_confirmation",
+        "control_kind": "combobox",
+        "selected_option": "I Acknowledge / I Agree",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"I Acknowledge / I Agree\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "4000367004",
+        "canonical_field": "gender_identity",
+        "control_kind": "combobox",
+        "selected_option": "Man",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Man\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "4000463004",
+        "canonical_field": "transgender",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "4000464004",
+        "canonical_field": "race_ethnicity",
+        "control_kind": "combobox",
+        "selected_option": "Asian (Not Hispanic or Latino)",
+        "match_via": "unique_substring",
+        "notes": [
+          "opened via control click",
+          "picked \"Asian (Not Hispanic or Latino)\" (unique_substring) from open list"
+        ]
+      },
+      {
+        "field_id": "4000465004",
+        "canonical_field": "veteran_status",
+        "control_kind": "combobox",
+        "selected_option": null,
+        "match_via": null,
+        "notes": [
+          "opened via control click",
+          "filter yielded no/unmatched options; re-collected unfiltered (residue cleared)",
+          "scroll-harvested 3 option(s)",
+          "drill scan skipped (not a Workday multiselect prompt, or a yes/no answer — flat rows are answers, not categories)",
+          "no option matches \"I am not a veteran\" (options: Yes | No | I don't wish to answer)"
+        ],
+        "options_sample": [
+          "Yes",
+          "No",
+          "I don't wish to answer"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": false,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.last",
+        "expected": "Kale",
+        "observed": "Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:has_preferred_name",
+        "expected": "No",
+        "observed": "No",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "address.country",
+        "expected": "United States +1",
+        "observed": {
+          "value": "+1",
+          "label": "+1"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "address.city",
+        "expected": "Baltimore",
+        "observed": {
+          "value": "Baltimore, Maryland, United States",
+          "label": "Baltimore, Maryland, United States"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "degree",
+        "expected": "Bachelors",
+        "observed": {
+          "value": "Bachelors",
+          "label": "Bachelors"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "major",
+        "expected": "Mathematics",
+        "observed": {
+          "value": "Mathematics",
+          "label": "Mathematics"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "start_year",
+        "expected": "2025",
+        "observed": "2025",
+        "match": true
+      },
+      {
+        "canonical_field": "graduation_month",
+        "expected": "May",
+        "observed": {
+          "value": "May",
+          "label": "May"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "graduation_year",
+        "expected": "2029",
+        "observed": "2029",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:current_job_title",
+        "expected": "Machine Learning Engineer Intern",
+        "observed": "Machine Learning Engineer Intern",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_19887994004",
+        "expected": "Summer Atlantic Capital",
+        "observed": "Summer Atlantic Capital",
+        "match": true
+      },
+      {
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:previously_applied_or_worked",
+        "expected": "No",
+        "observed": {
+          "value": "No",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:how_heard",
+        "expected": "LinkedIn",
+        "observed": {
+          "value": "LinkedIn",
+          "label": "LinkedIn"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "requires_sponsorship",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "work_authorization",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:opt_are_you_able_to_work_an_average_of_40_hours_per_week_mon",
+        "expected": "Yes",
+        "observed": {
+          "value": "Yes",
+          "label": "Yes"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:demonstrated_discipline_experience",
+        "expected": "Yes",
+        "observed": {
+          "value": "Yes",
+          "label": "Yes"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:resume_project_links",
+        "expected": "Yes",
+        "observed": {
+          "value": "Yes",
+          "label": "Yes"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:privacy_notice_acknowledgement",
+        "expected": "I Acknowledge / I Agree",
+        "observed": {
+          "value": "I Acknowledge / I Agree",
+          "label": "I Acknowledge / I Agree"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:application_truthfulness_confirmation",
+        "expected": "I Acknowledge / I Agree",
+        "observed": {
+          "value": "I Acknowledge / I Agree",
+          "label": "I Acknowledge / I Agree"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "gender_identity",
+        "expected": "Man",
+        "observed": {
+          "value": "Man",
+          "label": "Man"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "transgender",
+        "expected": "No",
+        "observed": {
+          "value": "No",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "race_ethnicity",
+        "expected": "Asian",
+        "observed": {
+          "value": "Asian (Not Hispanic or Latino)",
+          "label": "Asian (Not Hispanic or Latino)"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "veteran_status",
+        "expected": "I am not a veteran",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "match": false
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "heal": {
+    "attempted": 1,
+    "healed": [
+      "4000465004"
+    ],
+    "still_failing": [],
+    "attempts": [
+      {
+        "field_id": "4000465004",
+        "layer": "heuristic",
+        "candidate": {
+          "selector": "[id=\"4000463004\"]",
+          "via": "label_text",
+          "score": 0.6,
+          "inputId": "4000463004"
+        },
+        "healed": true,
+        "notes": [
+          "heuristic candidate [id=\"4000465004\"] (1) did not verify"
+        ]
+      }
+    ],
+    "sidecar_used": false
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 113810,
+      "verified": true,
+      "evidence": "input files: []; stillAttached=false; chip=true"
+    }
+  ],
+  "operator_brief": {
+    "title": "Live fill — greenhouse https://job-boards.greenhouse.io/embed/job_app?for=epicgames&token=6183293004",
+    "summary": "2 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:veteran_status",
+        "question": "Veteran Status",
+        "field_id": "4000465004",
+        "canonical_field": "veteran_status",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"I am not a veteran\"; page shows \"(empty)\"",
+        "expected": "I am not a veteran",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "how_to_answer": [
+          "Type the intended value on the form (planned: I am not a veteran). If a places/autocomplete list appears, select a matching suggestion; plain city text is enough when no list opens.",
+          "System expected \"I am not a veteran\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: veteran_status)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"veteran_status\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "fill_error:4000465004: combobox option not committed: opened via control click; filter yiel",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "4000465004: combobox option not committed: opened via control click; filter yielded no/unmatched options; re-collected unfiltered (residue cleared); scroll-harvested 3 option(s); drill scan skipped (not a Workday multiselect prompt, or a yes/no answer — flat rows are answers, not categories); no option matches \"I am not a veteran\" (options: Yes | No | I don't wish to answer)",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      }
+    ],
+    "ok_count": 27,
+    "fail_count": 2
+  },
+  "written_at": "2026-09-10T06:30:05.249Z"
+}
