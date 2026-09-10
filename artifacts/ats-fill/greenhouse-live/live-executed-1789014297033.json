@@ -1,0 +1,1466 @@
+{
+  "mode": "executed",
+  "ats": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/rocketlab/jobs/7989722003",
+  "plan": {
+    "answers": {
+      "legal_name.first": "Shubham",
+      "legal_name.last": "Kale",
+      "email": "s***@gmail.com",
+      "address.country": "United States",
+      "phone": "***-***-7636",
+      "screener:custom:predicted:question_32747198003": "3.7 out of 4.0",
+      "screener:custom:predicted:question_32747199003": "Not Applicable",
+      "screener:custom:predicted:question_32747200003": "05/2029",
+      "screener:custom:predicted:question_32747201003": "Not Listed",
+      "screener:custom:predicted:question_32747202003": "Yes",
+      "screener:custom:predicted:question_32747203003": "10+ months",
+      "screener:custom:predicted:question_32747204003": "None of the above",
+      "screener:custom:predicted:question_32747205003": "None",
+      "screener:custom:predicted:question_32747206003": "Monday, May 31, 2027- August 20, 2027",
+      "screener:custom:predicted:question_32747207003": "12",
+      "screener:custom:predicted:question_32747208003[]": "No",
+      "screener:custom:opt_how_did_you_hear_about_this_opportunity": "LinkedIn",
+      "screener:how_heard": "LinkedIn",
+      "screener:previously_applied_or_worked": "No",
+      "screener:willing_to_relocate": "Yes",
+      "screener:custom:predicted:question_32747213003": "1) U.S. citizen or national of the United States",
+      "screener:security_clearance": "Not Applicable",
+      "screener:consent_agreement": "Yes",
+      "screener:custom:prior_experience_details": "I currently work on applied machine learning at Summer Atlantic Capital / SAC Nexus, where I build the ML core of an anomaly-detection and alert-prioritization system, including the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, and a retrieval-augmented explanation layer. Before that I worked with Intelehealth on AI and data systems for rural telemedicine, including a resource-availability scoring pipeline across 32 villages and an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case clinical standard.",
+      "gender": "Male",
+      "hispanic_latino": "No",
+      "veteran_status": "I am not a veteran",
+      "disability_status": "No"
+    },
+    "entries": [
+      {
+        "field_id": "first_name",
+        "label": "First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "fill",
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "last_name",
+        "label": "Last Name",
+        "type": "text",
+        "canonical_field": "legal_name.last",
+        "action": "fill",
+        "value": "Kale",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "email",
+        "label": "Email",
+        "type": "text",
+        "canonical_field": "email",
+        "action": "fill",
+        "value": "s***@gmail.com",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "country",
+        "label": "Country",
+        "type": "text",
+        "canonical_field": "address.country",
+        "action": "fill",
+        "value": "United States +1",
+        "reason": "Mapped from public profile; placed onto \"United States +1\""
+      },
+      {
+        "field_id": "phone",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "fill",
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "resume",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "skip_file",
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "cover_letter",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "skip_file",
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "question_32747198003",
+        "label": "Undergraduate GPA: Please convert your GPA to a 4.0 scale. Select \"Not Applicable\" if you do not have a graduate GPA",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_32747198003",
+        "action": "fill",
+        "value": "3.7 out of 4.0",
+        "reason": "Predicted from operator context (llm_predict): Profile lists GPA of 3.7 on a 4.0 scale."
+      },
+      {
+        "field_id": "question_32747199003",
+        "label": "Graduate GPA: Please convert your GPA to a 4.0 scale. Select \"Not Applicable\" if you do not have a doctorate GPA",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_32747199003",
+        "action": "fill",
+        "value": "Not Applicable",
+        "reason": "Predicted from operator context (llm_predict): Candidate is an undergraduate with no graduate degree."
+      },
+      {
+        "field_id": "question_32747200003",
+        "label": "Select your anticipated bachelor's degree graduation date",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_32747200003",
+        "action": "fill",
+        "value": "05/2029",
+        "reason": "Predicted from operator context (llm_predict): Expected graduation is May 2029."
+      },
+      {
+        "field_id": "question_32747201003",
+        "label": "Select your anticipated master's degree graduation date",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_32747201003",
+        "action": "fill",
+        "value": "Not Listed",
+        "reason": "Predicted from operator context (llm_predict): No master's degree is planned or in progress, so the not-listed hatch applies."
+      },
+      {
+        "field_id": "question_32747202003",
+        "label": "Do you meet all the essential qualifications that are listed under the \"You'll Bring These Qualifications\" section?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_32747202003",
+        "action": "fill",
+        "value": "Yes",
+        "reason": "Predicted from operator context (llm_predict): Candidate affirms meeting posted qualifications by default."
+      },
+      {
+        "field_id": "question_32747203003",
+        "label": "Outside of university coursework, what amount of software engineering experience do you have? This can include research/ laboratory work, and/or personal/team project experience.",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_32747203003",
+        "action": "fill",
+        "value": "10+ months",
+        "reason": "Predicted from operator context (llm_predict): Multiple shipped products, internships, and research systems span well over a year."
+      },
+      {
+        "field_id": "question_32747204003",
+        "label": "Engineering Organization Involvement: Indicate if you are an active participant in any of the following engineering student groups or competitions listed below:",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_32747204003",
+        "action": "fill",
+        "value": "None of the above",
+        "reason": "Predicted from operator context (llm_predict): No aerospace, robotics, or vehicle competition involvement appears in the profile."
+      },
+      {
+        "field_id": "question_32747205003",
+        "label": "Other Engineering Organization Involvement:",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_32747205003",
+        "action": "fill",
+        "value": "None",
+        "reason": "Predicted from operator context (llm_predict): No other engineering student organizations are listed in the profile."
+      },
+      {
+        "field_id": "question_32747206003",
+        "label": "Preferred Internship/Co-Op Start Date",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_32747206003",
+        "action": "fill",
+        "value": "Monday, May 31, 2027- August 20, 2027",
+        "reason": "Predicted from operator context (llm_predict): Candidate is flexible and aligned to the posted term; a late-May start fits after the Johns Hopkins spring semester and ends before fall classes."
+      },
+      {
+        "field_id": "question_32747207003",
+        "label": "Preferred Internship/Co-Op Duration: Confirm the number of consecutive weeks you are available to work full-time and in-person.",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_32747207003",
+        "action": "fill",
+        "value": "12",
+        "reason": "Predicted from operator context (llm_predict): Candidate is available full-time for a standard summer term, and each listed date range spans about 12 weeks."
+      },
+      {
+        "field_id": "question_32747208003[]",
+        "label": "Are you a participant of the following scholarship, fellowships, or initiatives we support?",
+        "type": "checkbox",
+        "canonical_field": "screener:custom:predicted:question_32747208003[]",
+        "action": "fill",
+        "value": "No",
+        "reason": "Predicted from operator context (llm_predict): None of the listed fellowship programs appear in the candidate's background."
+      },
+      {
+        "field_id": "question_32747209003",
+        "label": "How did you hear about this opportunity?",
+        "type": "text",
+        "canonical_field": "screener:custom:opt_how_did_you_hear_about_this_opportunity",
+        "action": "fill",
+        "value": "LinkedIn",
+        "reason": "Screener bank answer (llm_option)"
+      },
+      {
+        "field_id": "question_32747210003",
+        "label": "Other: How did you hear about this opportunity?",
+        "type": "text",
+        "canonical_field": "screener:how_heard",
+        "action": "fill",
+        "value": "LinkedIn",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "question_32747211003",
+        "label": "Have you previously interviewed at Rocket Lab?",
+        "type": "text",
+        "canonical_field": "screener:previously_applied_or_worked",
+        "action": "fill",
+        "value": "No",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_32747212003",
+        "label": "Are you willing to work onsite?",
+        "type": "text",
+        "canonical_field": "screener:willing_to_relocate",
+        "action": "fill",
+        "value": "Yes",
+        "reason": "Screener bank answer (synonym_option)"
+      },
+      {
+        "field_id": "question_32747213003",
+        "label": "Citizenship Status",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_32747213003",
+        "action": "fill",
+        "value": "1) U.S. citizen or national of the United States",
+        "reason": "Predicted from operator context (llm_predict): Learned answers state the candidate is a U.S. citizen."
+      },
+      {
+        "field_id": "question_32747214003",
+        "label": "If Citizenship Status Other, please explain:",
+        "type": "text",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "Predict produced no usable answer"
+      },
+      {
+        "field_id": "question_32747215003[]",
+        "label": "Active Security Clearance(s)",
+        "type": "checkbox",
+        "canonical_field": "screener:security_clearance",
+        "action": "fill",
+        "value": "Not Applicable",
+        "reason": "Screener bank answer (llm_option)"
+      },
+      {
+        "field_id": "question_32747216003",
+        "label": "Any offer of employment with Rocket Lab is contingent on a successful criminal background check, drug screen, and professional reference check. Please indicate below if you can meet these hiring requirements",
+        "type": "text",
+        "canonical_field": "screener:consent_agreement",
+        "action": "fill",
+        "value": "Yes",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_32747217003",
+        "label": "Please specify",
+        "type": "text",
+        "canonical_field": "screener:custom:prior_experience_details",
+        "action": "fill",
+        "value": "I currently work on applied machine learning at Summer Atlantic Capital / SAC Nexus, where I build the ML core of an anomaly-detection and alert-prioritization system, including the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, and a retrieval-augmented explanation layer. Before that I worked with Intelehealth on AI and data systems for rural telemedicine, including a resource-availability scoring pipeline across 32 villages and an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case clinical standard.",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "gender",
+        "label": "Gender",
+        "type": "text",
+        "canonical_field": "gender",
+        "action": "fill",
+        "value": "Male",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "hispanic_ethnicity",
+        "label": "Are you Hispanic/Latino?",
+        "type": "text",
+        "canonical_field": "hispanic_latino",
+        "action": "fill",
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "veteran_status",
+        "label": "Veteran Status",
+        "type": "text",
+        "canonical_field": "veteran_status",
+        "action": "fill",
+        "value": "I am not a veteran",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "disability_status",
+        "label": "Disability Status",
+        "type": "text",
+        "canonical_field": "disability_status",
+        "action": "fill",
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      }
+    ],
+    "fillable_count": 28,
+    "skipped_count": 3,
+    "review_required_count": 0
+  },
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "schema diff: 24/26 declared question(s) matched onto 31 DOM field(s); 2 declared-only (1 required); 7 DOM-only",
+    "board API declared 26 question(s); matched complete option lists onto 16 field(s)",
+    "option harvest: scraped real options for 5/13 control(s) before planning",
+    "heal pass: recovered 0/2; final verify passed: false (sidecar consulted)",
+    "frozen after fill→verify→upload — no further field mutation; submit never called"
+  ],
+  "validation_level": "UNVERIFIED",
+  "final_url": "https://job-boards.greenhouse.io/rocketlab/jobs/7989722003",
+  "identity_verification": {
+    "requestedUrl": "https://job-boards.greenhouse.io/rocketlab/jobs/7989722003",
+    "finalUrl": "https://job-boards.greenhouse.io/rocketlab/jobs/7989722003",
+    "requestedJobId": "7989722003",
+    "observedJobId": "7989722003",
+    "company": "rocketlab",
+    "role": "Job Application for Flight Software Intern Summer 2027 at Rocket Lab Corporation",
+    "formDetected": true,
+    "fieldCount": 31,
+    "warnings": [],
+    "passed": true,
+    "failureCode": null,
+    "failureReason": null
+  },
+  "captcha_detection": {
+    "detected": false,
+    "confidence": "LOW",
+    "signals": [],
+    "dormantMarkers": []
+  },
+  "login_wall_detection": {
+    "detected": false,
+    "confidence": "LOW",
+    "signals": []
+  },
+  "failure_code": null,
+  "mutation_attempted": true,
+  "schema_diff": {
+    "board": "rocketlab",
+    "job_id": "7989722003",
+    "declared_count": 26,
+    "dom_count": 31,
+    "matched": 24,
+    "api_only": [
+      {
+        "label": "Resume/CV",
+        "required": true
+      },
+      {
+        "label": "Cover Letter",
+        "required": false
+      }
+    ],
+    "dom_only": [
+      "Country",
+      "Attach",
+      "Attach",
+      "Gender",
+      "Are you Hispanic/Latino?",
+      "Veteran Status",
+      "Disability Status"
+    ],
+    "option_mismatches": []
+  },
+  "harvested_options": [
+    {
+      "field_id": "country",
+      "label": "Country",
+      "answer_space": "closed",
+      "option_count": 244,
+      "options": [
+        "United States +1",
+        "Afghanistan +93",
+        "Åland Islands +358",
+        "Albania +355",
+        "Algeria +213",
+        "American Samoa +1",
+        "Andorra +376",
+        "Angola +244",
+        "Anguilla +1",
+        "Antigua & Barbuda +1",
+        "Argentina +54",
+        "Armenia +374",
+        "Aruba +297",
+        "Ascension Island +247",
+        "Australia +61",
+        "Austria +43",
+        "Azerbaijan +994",
+        "Bahamas +1",
+        "Bahrain +973",
+        "Bangladesh +880",
+        "Barbados +1",
+        "Belarus +375",
+        "Belgium +32",
+        "Belize +501",
+        "Benin +229"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "gender",
+      "label": "Gender",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "Male",
+        "Female",
+        "Decline To Self Identify"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "hispanic_ethnicity",
+      "label": "Are you Hispanic/Latino?",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "Yes",
+        "No",
+        "Decline To Self Identify"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "veteran_status",
+      "label": "Veteran Status",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "I am not a protected veteran",
+        "I identify as one or more of the classifications of a protected veteran",
+        "I don't wish to answer"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "disability_status",
+      "label": "Disability Status",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "Yes, I have a disability, or have had one in the past",
+        "No, I do not have a disability and have not had one in the past",
+        "I do not want to answer"
+      ],
+      "other_option": null
+    }
+  ],
+  "approved_plan": {
+    "entries": [
+      {
+        "field_id": "first_name",
+        "label": "First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "FILL",
+        "approved": true,
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "last_name",
+        "label": "Last Name",
+        "type": "text",
+        "canonical_field": "legal_name.last",
+        "action": "FILL",
+        "approved": true,
+        "value": "Kale",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "email",
+        "label": "Email",
+        "type": "text",
+        "canonical_field": "email",
+        "action": "FILL",
+        "approved": true,
+        "value": "s***@gmail.com",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "country",
+        "label": "Country",
+        "type": "text",
+        "canonical_field": "address.country",
+        "action": "FILL",
+        "approved": true,
+        "value": "United States +1",
+        "reason": "Mapped from public profile; placed onto \"United States +1\""
+      },
+      {
+        "field_id": "phone",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "FILL",
+        "approved": true,
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "resume",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "cover_letter",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "question_32747198003",
+        "label": "Undergraduate GPA: Please convert your GPA to a 4.0 scale. Select \"Not Applicable\" if you do not have a graduate GPA",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_32747198003",
+        "action": "FILL",
+        "approved": true,
+        "value": "3.7 out of 4.0",
+        "reason": "Predicted from operator context (llm_predict): Profile lists GPA of 3.7 on a 4.0 scale."
+      },
+      {
+        "field_id": "question_32747199003",
+        "label": "Graduate GPA: Please convert your GPA to a 4.0 scale. Select \"Not Applicable\" if you do not have a doctorate GPA",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_32747199003",
+        "action": "FILL",
+        "approved": true,
+        "value": "Not Applicable",
+        "reason": "Predicted from operator context (llm_predict): Candidate is an undergraduate with no graduate degree."
+      },
+      {
+        "field_id": "question_32747200003",
+        "label": "Select your anticipated bachelor's degree graduation date",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_32747200003",
+        "action": "FILL",
+        "approved": true,
+        "value": "05/2029",
+        "reason": "Predicted from operator context (llm_predict): Expected graduation is May 2029."
+      },
+      {
+        "field_id": "question_32747201003",
+        "label": "Select your anticipated master's degree graduation date",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_32747201003",
+        "action": "FILL",
+        "approved": true,
+        "value": "Not Listed",
+        "reason": "Predicted from operator context (llm_predict): No master's degree is planned or in progress, so the not-listed hatch applies."
+      },
+      {
+        "field_id": "question_32747202003",
+        "label": "Do you meet all the essential qualifications that are listed under the \"You'll Bring These Qualifications\" section?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_32747202003",
+        "action": "FILL",
+        "approved": true,
+        "value": "Yes",
+        "reason": "Predicted from operator context (llm_predict): Candidate affirms meeting posted qualifications by default."
+      },
+      {
+        "field_id": "question_32747203003",
+        "label": "Outside of university coursework, what amount of software engineering experience do you have? This can include research/ laboratory work, and/or personal/team project experience.",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_32747203003",
+        "action": "FILL",
+        "approved": true,
+        "value": "10+ months",
+        "reason": "Predicted from operator context (llm_predict): Multiple shipped products, internships, and research systems span well over a year."
+      },
+      {
+        "field_id": "question_32747204003",
+        "label": "Engineering Organization Involvement: Indicate if you are an active participant in any of the following engineering student groups or competitions listed below:",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_32747204003",
+        "action": "FILL",
+        "approved": true,
+        "value": "None of the above",
+        "reason": "Predicted from operator context (llm_predict): No aerospace, robotics, or vehicle competition involvement appears in the profile."
+      },
+      {
+        "field_id": "question_32747205003",
+        "label": "Other Engineering Organization Involvement:",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_32747205003",
+        "action": "FILL",
+        "approved": true,
+        "value": "None",
+        "reason": "Predicted from operator context (llm_predict): No other engineering student organizations are listed in the profile."
+      },
+      {
+        "field_id": "question_32747206003",
+        "label": "Preferred Internship/Co-Op Start Date",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_32747206003",
+        "action": "FILL",
+        "approved": true,
+        "value": "Monday, May 31, 2027- August 20, 2027",
+        "reason": "Predicted from operator context (llm_predict): Candidate is flexible and aligned to the posted term; a late-May start fits after the Johns Hopkins spring semester and ends before fall classes."
+      },
+      {
+        "field_id": "question_32747207003",
+        "label": "Preferred Internship/Co-Op Duration: Confirm the number of consecutive weeks you are available to work full-time and in-person.",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_32747207003",
+        "action": "FILL",
+        "approved": true,
+        "value": "12",
+        "reason": "Predicted from operator context (llm_predict): Candidate is available full-time for a standard summer term, and each listed date range spans about 12 weeks."
+      },
+      {
+        "field_id": "question_32747208003[]",
+        "label": "Are you a participant of the following scholarship, fellowships, or initiatives we support?",
+        "type": "checkbox",
+        "canonical_field": "screener:custom:predicted:question_32747208003[]",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Predicted from operator context (llm_predict): None of the listed fellowship programs appear in the candidate's background."
+      },
+      {
+        "field_id": "question_32747209003",
+        "label": "How did you hear about this opportunity?",
+        "type": "text",
+        "canonical_field": "screener:custom:opt_how_did_you_hear_about_this_opportunity",
+        "action": "FILL",
+        "approved": true,
+        "value": "LinkedIn",
+        "reason": "Screener bank answer (llm_option)"
+      },
+      {
+        "field_id": "question_32747210003",
+        "label": "Other: How did you hear about this opportunity?",
+        "type": "text",
+        "canonical_field": "screener:how_heard",
+        "action": "FILL",
+        "approved": true,
+        "value": "LinkedIn",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "question_32747211003",
+        "label": "Have you previously interviewed at Rocket Lab?",
+        "type": "text",
+        "canonical_field": "screener:previously_applied_or_worked",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_32747212003",
+        "label": "Are you willing to work onsite?",
+        "type": "text",
+        "canonical_field": "screener:willing_to_relocate",
+        "action": "FILL",
+        "approved": true,
+        "value": "Yes",
+        "reason": "Screener bank answer (synonym_option)"
+      },
+      {
+        "field_id": "question_32747213003",
+        "label": "Citizenship Status",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_32747213003",
+        "action": "FILL",
+        "approved": true,
+        "value": "1) U.S. citizen or national of the United States",
+        "reason": "Predicted from operator context (llm_predict): Learned answers state the candidate is a U.S. citizen."
+      },
+      {
+        "field_id": "question_32747214003",
+        "label": "If Citizenship Status Other, please explain:",
+        "type": "text",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "Predict produced no usable answer"
+      },
+      {
+        "field_id": "question_32747215003[]",
+        "label": "Active Security Clearance(s)",
+        "type": "checkbox",
+        "canonical_field": "screener:security_clearance",
+        "action": "FILL",
+        "approved": true,
+        "value": "Not Applicable",
+        "reason": "Screener bank answer (llm_option)"
+      },
+      {
+        "field_id": "question_32747216003",
+        "label": "Any offer of employment with Rocket Lab is contingent on a successful criminal background check, drug screen, and professional reference check. Please indicate below if you can meet these hiring requirements",
+        "type": "text",
+        "canonical_field": "screener:consent_agreement",
+        "action": "FILL",
+        "approved": true,
+        "value": "Yes",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_32747217003",
+        "label": "Please specify",
+        "type": "text",
+        "canonical_field": "screener:custom:prior_experience_details",
+        "action": "FILL",
+        "approved": true,
+        "value": "I currently work on applied machine learning at Summer Atlantic Capital / SAC Nexus, where I build the ML core of an anomaly-detection and alert-prioritization system, including the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, and a retrieval-augmented explanation layer. Before that I worked with Intelehealth on AI and data systems for rural telemedicine, including a resource-availability scoring pipeline across 32 villages and an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case clinical standard.",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "gender",
+        "label": "Gender",
+        "type": "text",
+        "canonical_field": "gender",
+        "action": "FILL",
+        "approved": true,
+        "value": "Male",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "hispanic_ethnicity",
+        "label": "Are you Hispanic/Latino?",
+        "type": "text",
+        "canonical_field": "hispanic_latino",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "veteran_status",
+        "label": "Veteran Status",
+        "type": "text",
+        "canonical_field": "veteran_status",
+        "action": "FILL",
+        "approved": true,
+        "value": "I am not a veteran",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "disability_status",
+        "label": "Disability Status",
+        "type": "text",
+        "canonical_field": "disability_status",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      }
+    ],
+    "answers": {
+      "legal_name.first": "Shubham",
+      "legal_name.last": "Kale",
+      "email": "s***@gmail.com",
+      "address.country": "United States +1",
+      "phone": "***-***-7636",
+      "screener:custom:predicted:question_32747198003": "3.7 out of 4.0",
+      "screener:custom:predicted:question_32747199003": "Not Applicable",
+      "screener:custom:predicted:question_32747200003": "05/2029",
+      "screener:custom:predicted:question_32747201003": "Not Listed",
+      "screener:custom:predicted:question_32747202003": "Yes",
+      "screener:custom:predicted:question_32747203003": "10+ months",
+      "screener:custom:predicted:question_32747204003": "None of the above",
+      "screener:custom:predicted:question_32747205003": "None",
+      "screener:custom:predicted:question_32747206003": "Monday, May 31, 2027- August 20, 2027",
+      "screener:custom:predicted:question_32747207003": "12",
+      "screener:custom:predicted:question_32747208003[]": "No",
+      "screener:custom:opt_how_did_you_hear_about_this_opportunity": "LinkedIn",
+      "screener:how_heard": "LinkedIn",
+      "screener:previously_applied_or_worked": "No",
+      "screener:willing_to_relocate": "Yes",
+      "screener:custom:predicted:question_32747213003": "1) U.S. citizen or national of the United States",
+      "screener:security_clearance": "Not Applicable",
+      "screener:consent_agreement": "Yes",
+      "screener:custom:prior_experience_details": "I currently work on applied machine learning at Summer Atlantic Capital / SAC Nexus, where I build the ML core of an anomaly-detection and alert-prioritization system, including the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, and a retrieval-augmented explanation layer. Before that I worked with Intelehealth on AI and data systems for rural telemedicine, including a resource-availability scoring pipeline across 32 villages and an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case clinical standard.",
+      "gender": "Male",
+      "hispanic_latino": "No",
+      "veteran_status": "I am not a veteran",
+      "disability_status": "No"
+    },
+    "fillable_count": 28,
+    "skipped_count": 3,
+    "review_required_count": 0
+  },
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "legal_name.last",
+      "email",
+      "address.country",
+      "phone",
+      "screener:custom:predicted:question_32747198003",
+      "screener:custom:predicted:question_32747200003",
+      "screener:custom:predicted:question_32747201003",
+      "screener:custom:predicted:question_32747202003",
+      "screener:custom:predicted:question_32747203003",
+      "screener:custom:predicted:question_32747204003",
+      "screener:custom:predicted:question_32747205003",
+      "screener:custom:predicted:question_32747206003",
+      "screener:custom:predicted:question_32747207003",
+      "screener:custom:predicted:question_32747208003[]",
+      "screener:custom:opt_how_did_you_hear_about_this_opportunity",
+      "screener:how_heard",
+      "screener:previously_applied_or_worked",
+      "screener:willing_to_relocate",
+      "screener:custom:predicted:question_32747213003",
+      "screener:security_clearance",
+      "screener:consent_agreement",
+      "screener:custom:prior_experience_details",
+      "gender",
+      "hispanic_latino",
+      "veteran_status",
+      "disability_status"
+    ],
+    "skipped": [],
+    "errors": [
+      "question_32747199003: combobox option not committed: opened via control click; picked \"Not Applicable\" (exact) from open list; commit not confirmed: display shows \"4.0 out of 4.0\""
+    ],
+    "field_meta": [
+      {
+        "field_id": "first_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "last_name",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "country",
+        "canonical_field": "address.country",
+        "control_kind": "combobox",
+        "selected_option": "+1",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"United States +1\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "phone",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_32747198003",
+        "canonical_field": "screener:custom:predicted:question_32747198003",
+        "control_kind": "combobox",
+        "selected_option": "3.7 out of 4.0",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"3.7 out of 4.0\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_32747199003",
+        "canonical_field": "screener:custom:predicted:question_32747199003",
+        "control_kind": "combobox",
+        "selected_option": null,
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Not Applicable\" (exact) from open list",
+          "commit not confirmed: display shows \"4.0 out of 4.0\""
+        ]
+      },
+      {
+        "field_id": "question_32747200003",
+        "canonical_field": "screener:custom:predicted:question_32747200003",
+        "control_kind": "combobox",
+        "selected_option": "05/2029",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"05/2029\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_32747201003",
+        "canonical_field": "screener:custom:predicted:question_32747201003",
+        "control_kind": "combobox",
+        "selected_option": "Not Listed",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Not Listed\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_32747202003",
+        "canonical_field": "screener:custom:predicted:question_32747202003",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_32747203003",
+        "canonical_field": "screener:custom:predicted:question_32747203003",
+        "control_kind": "combobox",
+        "selected_option": "10+ months",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"10+ months\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_32747204003",
+        "canonical_field": "screener:custom:predicted:question_32747204003",
+        "control_kind": "combobox",
+        "selected_option": "None of the above",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"None of the above\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_32747205003",
+        "canonical_field": "screener:custom:predicted:question_32747205003",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_32747206003",
+        "canonical_field": "screener:custom:predicted:question_32747206003",
+        "control_kind": "combobox",
+        "selected_option": "Monday, May 31, 2027- August 20, 2027",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Monday, May 31, 2027- August 20, 2027\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_32747207003",
+        "canonical_field": "screener:custom:predicted:question_32747207003",
+        "control_kind": "combobox",
+        "selected_option": "12",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"12\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_32747208003[]",
+        "canonical_field": "screener:custom:predicted:question_32747208003[]",
+        "control_kind": "checkbox_group",
+        "selected_option": "No"
+      },
+      {
+        "field_id": "question_32747209003",
+        "canonical_field": "screener:custom:opt_how_did_you_hear_about_this_opportunity",
+        "control_kind": "combobox",
+        "selected_option": "LinkedIn",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"LinkedIn\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_32747210003",
+        "canonical_field": "screener:how_heard",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_32747211003",
+        "canonical_field": "screener:previously_applied_or_worked",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_32747212003",
+        "canonical_field": "screener:willing_to_relocate",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_32747213003",
+        "canonical_field": "screener:custom:predicted:question_32747213003",
+        "control_kind": "combobox",
+        "selected_option": "1) U.S. citizen or national of the United States",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"1) U.S. citizen or national of the United States\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_32747215003[]",
+        "canonical_field": "screener:security_clearance",
+        "control_kind": "checkbox_group",
+        "selected_option": "Not Applicable"
+      },
+      {
+        "field_id": "question_32747216003",
+        "canonical_field": "screener:consent_agreement",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_32747217003",
+        "canonical_field": "screener:custom:prior_experience_details",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "gender",
+        "canonical_field": "gender",
+        "control_kind": "combobox",
+        "selected_option": "Male",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Male\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "hispanic_ethnicity",
+        "canonical_field": "hispanic_latino",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "veteran_status",
+        "canonical_field": "veteran_status",
+        "control_kind": "combobox",
+        "selected_option": "I am not a protected veteran",
+        "match_via": "synonym",
+        "notes": [
+          "opened via control click",
+          "picked \"I am not a protected veteran\" (synonym) from open list"
+        ]
+      },
+      {
+        "field_id": "disability_status",
+        "canonical_field": "disability_status",
+        "control_kind": "combobox",
+        "selected_option": "No, I do not have a disability and have not had one in the past",
+        "match_via": "synonym",
+        "notes": [
+          "opened via control click",
+          "picked \"No, I do not have a disability and have not had one in the past\" (synonym) from open list"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": false,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.last",
+        "expected": "Kale",
+        "observed": "Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "address.country",
+        "expected": "United States +1",
+        "observed": {
+          "value": "+1",
+          "label": "+1"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_32747198003",
+        "expected": "3.7 out of 4.0",
+        "observed": {
+          "value": "Not Applicable",
+          "label": "Not Applicable"
+        },
+        "match": false
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_32747199003",
+        "expected": "Not Applicable",
+        "observed": {
+          "value": "4.0 out of 4.0",
+          "label": "4.0 out of 4.0"
+        },
+        "match": false
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_32747200003",
+        "expected": "05/2029",
+        "observed": {
+          "value": "05/2029",
+          "label": "05/2029"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_32747201003",
+        "expected": "Not Listed",
+        "observed": {
+          "value": "Not Listed",
+          "label": "Not Listed"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_32747202003",
+        "expected": "Yes",
+        "observed": {
+          "value": "Yes",
+          "label": "Yes"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_32747203003",
+        "expected": "10+ months",
+        "observed": {
+          "value": "10+ months",
+          "label": "10+ months"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_32747204003",
+        "expected": "None of the above",
+        "observed": {
+          "value": "None of the above",
+          "label": "None of the above"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_32747205003",
+        "expected": "None",
+        "observed": "None",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_32747206003",
+        "expected": "Monday, May 31, 2027- August 20, 2027",
+        "observed": {
+          "value": "Monday, May 31, 2027- August 20, 2027",
+          "label": "Monday, May 31, 2027- August 20, 2027"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_32747207003",
+        "expected": "12",
+        "observed": {
+          "value": "12",
+          "label": "12"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_32747208003[]",
+        "expected": "No",
+        "observed": true,
+        "match": false
+      },
+      {
+        "canonical_field": "screener:custom:opt_how_did_you_hear_about_this_opportunity",
+        "expected": "LinkedIn",
+        "observed": {
+          "value": "LinkedIn",
+          "label": "LinkedIn"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:how_heard",
+        "expected": "LinkedIn",
+        "observed": "LinkedIn",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:previously_applied_or_worked",
+        "expected": "No",
+        "observed": {
+          "value": "No",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:willing_to_relocate",
+        "expected": "Yes",
+        "observed": {
+          "value": "Yes",
+          "label": "Yes"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_32747213003",
+        "expected": "1) U.S. citizen or national of the United States",
+        "observed": {
+          "value": "1) U.S. citizen or national of the United States",
+          "label": "1) U.S. citizen or national of the United States"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:security_clearance",
+        "expected": "Not Applicable",
+        "observed": {
+          "value": "Not Applicable",
+          "label": "Not Applicable"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:consent_agreement",
+        "expected": "Yes",
+        "observed": {
+          "value": "Yes",
+          "label": "Yes"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:prior_experience_details",
+        "expected": "I currently work on applied machine learning at Summer Atlantic Capital / SAC Nexus, where I build the ML core of an anomaly-detection and alert-prioritization system, including the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, and a retrieval-augmented explanation layer. Before that I worked with Intelehealth on AI and data systems for rural telemedicine, including a resource-availability scoring pipeline across 32 villages and an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case clinical standard.",
+        "observed": "I currently work on applied machine learning at Summer Atlantic Capital / SAC Nexus, where I build the ML core of an anomaly-detection and alert-prioritization system, including the event-ingestion pipeline, a versioned FastAPI detection service, temporal",
+        "match": true
+      },
+      {
+        "canonical_field": "gender",
+        "expected": "Male",
+        "observed": {
+          "value": "Male",
+          "label": "Male"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "hispanic_latino",
+        "expected": "No",
+        "observed": {
+          "value": "No",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "veteran_status",
+        "expected": "I am not a veteran",
+        "observed": {
+          "value": "I am not a protected veteran",
+          "label": "I am not a protected veteran"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "disability_status",
+        "expected": "No",
+        "observed": {
+          "value": "No, I do not have a disability and have not had one in the past",
+          "label": "No, I do not have a disability and have not had one in the past"
+        },
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "heal": {
+    "attempted": 2,
+    "healed": [
+      "question_32747199003"
+    ],
+    "still_failing": [
+      "question_32747208003[]"
+    ],
+    "attempts": [
+      {
+        "field_id": "question_32747199003",
+        "layer": "heuristic",
+        "candidate": {
+          "selector": "#question_32747198003",
+          "via": "label_text",
+          "score": 1,
+          "inputId": "question_32747198003"
+        },
+        "healed": true,
+        "notes": []
+      },
+      {
+        "field_id": "question_32747208003[]",
+        "layer": null,
+        "candidate": null,
+        "healed": false,
+        "notes": [
+          "heuristic candidate #question_32747204003 (0.5833333333333334) did not verify",
+          "sidecar candidate #question_32747204003 (0.583) did not verify"
+        ]
+      }
+    ],
+    "sidecar_used": true
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 113810,
+      "verified": true,
+      "evidence": "input files: []; stillAttached=false; chip=true"
+    }
+  ],
+  "operator_brief": {
+    "title": "Live fill — greenhouse https://job-boards.greenhouse.io/rocketlab/jobs/7989722003",
+    "summary": "4 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:screener:custom:predicted:question_32747198003",
+        "question": "Undergraduate GPA: Please convert your GPA to a 4.0 scale. Select \"Not Applicable\" if you do not have a graduate GPA",
+        "field_id": "question_32747198003",
+        "canonical_field": "screener:custom:predicted:question_32747198003",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"3.7 out of 4.0\"; page shows \"Not Applicable\"",
+        "expected": "3.7 out of 4.0",
+        "observed": {
+          "value": "Not Applicable",
+          "label": "Not Applicable"
+        },
+        "how_to_answer": [
+          "Type the intended value on the form (planned: 3.7 out of 4.0). If a places/autocomplete list appears, select a matching suggestion; plain city text is enough when no list opens.",
+          "DOM shows \"Not Applicable\" but plan expected \"3.7 out of 4.0\". Correct the value on the form or fix profile/aliases so the plan matches the real answer.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:predicted:question_32747198003)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:predicted:question_32747198003\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:custom:predicted:question_32747199003",
+        "question": "Graduate GPA: Please convert your GPA to a 4.0 scale. Select \"Not Applicable\" if you do not have a doctorate GPA",
+        "field_id": "question_32747199003",
+        "canonical_field": "screener:custom:predicted:question_32747199003",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Not Applicable\"; page shows \"4.0 out of 4.0\"",
+        "expected": "Not Applicable",
+        "observed": {
+          "value": "4.0 out of 4.0",
+          "label": "4.0 out of 4.0"
+        },
+        "how_to_answer": [
+          "Type the intended value on the form (planned: Not Applicable). If a places/autocomplete list appears, select a matching suggestion; plain city text is enough when no list opens.",
+          "DOM shows \"4.0 out of 4.0\" but plan expected \"Not Applicable\". Correct the value on the form or fix profile/aliases so the plan matches the real answer.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:predicted:question_32747199003)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:predicted:question_32747199003\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:custom:predicted:question_32747208003[]",
+        "question": "Are you a participant of the following scholarship, fellowships, or initiatives we support?",
+        "field_id": "question_32747208003[]",
+        "canonical_field": "screener:custom:predicted:question_32747208003[]",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"No\"; page shows \"true\"",
+        "expected": "No",
+        "observed": true,
+        "how_to_answer": [
+          "DOM shows \"true\" but plan expected \"No\". Correct the value on the form or fix profile/aliases so the plan matches the real answer.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:predicted:question_32747208003[])",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:predicted:question_32747208003[]\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "fill_error:question_32747199003: combobox option not committed: opened via control click; p",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "question_32747199003: combobox option not committed: opened via control click; picked \"Not Applicable\" (exact) from open list; commit not confirmed: display shows \"4.0 out of 4.0\"",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      }
+    ],
+    "ok_count": 25,
+    "fail_count": 4
+  },
+  "written_at": "2026-09-10T04:24:57.056Z"
+}
