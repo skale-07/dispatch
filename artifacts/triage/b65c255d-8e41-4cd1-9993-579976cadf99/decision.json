@@ -1,0 +1,255 @@
+{
+  "decision_id": "b65c255d-8e41-4cd1-9993-579976cadf99",
+  "application_id": "dd858765-08fc-4ec1-bb56-d3f10565aa33",
+  "signature": "FAILED_RETRYABLE|-|verify_mismatch|job-boards.greenhouse.io",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "dd858765-08fc-4ec1-bb56-d3f10565aa33",
+    "company": "Epic Games",
+    "role": "Backend Services Programmer Intern",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 1,
+    "failure_signature": "FAILED_RETRYABLE|-|verify_mismatch|job-boards.greenhouse.io",
+    "end_host": "job-boards.greenhouse.io",
+    "recent_events": [
+      {
+        "from": "SUBMITTING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "pre-submit verification failed",
+        "at": "2026-09-10T10:12:23.002Z"
+      },
+      {
+        "from": "READY_TO_SUBMIT",
+        "to": "SUBMITTING",
+        "reason": "human-approved submission started",
+        "at": "2026-09-10T10:10:29.023Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "READY_TO_SUBMIT",
+        "reason": "pipeline: essays complete — final verification occurs pre-click in submit",
+        "at": "2026-09-10T10:10:08.018Z"
+      },
+      {
+        "from": "AMBIGUOUS_FIELD",
+        "to": "FIELD_VERIFICATION",
+        "reason": "operator resolved ambiguous field (console)",
+        "at": "2026-09-10T08:10:41.647Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "AMBIGUOUS_FIELD",
+        "reason": "pipeline: read-back verification failed",
+        "at": "2026-09-10T06:30:05.284Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (live fill: 27 filled (held for submit))",
+        "at": "2026-09-10T06:30:05.284Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-10T06:29:06.226Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-10T06:29:03.673Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: greenhouse URL validated",
+        "at": "2026-09-10T06:29:03.670Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-10T06:29:01.212Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 dd9093dde3f8)",
+        "at": "2026-09-10T06:29:01.207Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-10T06:29:01.190Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-10T04:04:53.589Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-10T04:04:53.583Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-10T04:04:53.582Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "epicgames",
+        "detail": "token \"epic\" ~ slug \"epicgames\"",
+        "expected_company": "Epic Games",
+        "url": "https://job-boards.greenhouse.io/embed/job_app?for=epicgames&token=6183293004&jr_id=6aa204852f936e4a53daf36d"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (11 candidates, employer match)",
+          "evidence": "job-boards.greenhouse.io"
+        }
+      ]
+    },
+    "submit": {
+      "outcome": "FAILED_BEFORE_CLICK",
+      "reason": "Refusing to click submit: field verification or upload did not pass",
+      "brief_items": [
+        {
+          "id": "verify:legal_name.first",
+          "question": "Enter",
+          "field_id": "questions.first_name",
+          "canonical_field": "legal_name.first",
+          "kind": "verify_mismatch",
+          "problem": "Expected \"Shubham\"; page shows \"I build backend systems around problems I actually run into. At Summer Atlantic Capital / SAC Nexus, I own major parts of the machine-learning core of an anomaly-detection and alert-prioritization system: the repository and CI scaffold, the event-ingestion pipeline, a versioned FastAPI microservice, and the public detection API. The modeling side is temporal sequence modeling over event streams with RNN and Transformer-style approaches, anomaly scoring, and a learning-to-rank layer, plus a retrieval-augmented explanation layer so analysts can act on outputs. What I care about there is not just model metrics but operational usefulness, since a system that fires too many alerts creates a second problem instead of solving the first. That is the same concern I would bring to backend services at Epic Online Services, where the systems sit under real players and have to hold up under load and failure. I want to work somewhere a junior engineer owns substantial pieces of a service rather than isolated tickets, and Epic's services team looks like that kind of environment.\"",
+          "expected": "Shubham",
+          "observed": "I build backend systems around problems I actually run into. At Summer Atlantic Capital / SAC Nexus, I own major parts of the machine-learning core of an anomaly-detection and alert-prioritization system: the repository and CI scaffold, the event-ingestion pipeline, a versioned FastAPI microservice, and the public detection API. The modeling side is temporal sequence modeling over event streams with RNN and Transformer-style approaches, anomaly scoring, and a learning-to-rank layer, plus a retrieval-augmented explanation layer so analysts can act on outputs. What I care about there is not just model metrics but operational usefulness, since a system that fires too many alerts creates a second problem instead of solving the first. That is the same concern I would bring to backend services at Epic Online Services, where the systems sit under real players and have to hold up under load and failure. I want to work somewhere a junior engineer owns substantial pieces of a service rather than isolated tickets, and Epic's services team looks like that kind of environment.",
+          "how_to_answer": [
+            "DOM shows \"I build backend systems around problems I actually run into. At Summer Atlantic Capital / SAC Nexus, I own major parts of the machine-learning core of an anomaly-detection and alert-prioritization system: the repository and CI scaffold, the event-ingestion pipeline, a versioned FastAPI microservice, and the public detection API. The modeling side is temporal sequence modeling over event streams with RNN and Transformer-style approaches, anomaly scoring, and a learning-to-rank layer, plus a retrieval-augmented explanation layer so analysts can act on outputs. What I care about there is not just model metrics but operational usefulness, since a system that fires too many alerts creates a second problem instead of solving the first. That is the same concern I would bring to backend services at Epic Online Services, where the systems sit under real players and have to hold up under load and failure. I want to work somewhere a junior engineer owns substantial pieces of a service rather than isolated tickets, and Epic's services team looks like that kind of environment.\" but plan expected \"Shubham\". Correct the value on the form or fix profile/aliases so the plan matches the real answer.",
+            "Profile source: private/candidate/public-profile.json → legal_name.first",
+            "Alias check: private/candidate/answer-aliases.json phrases for \"legal_name.first\" should match the on-form question text."
+          ]
+        },
+        {
+          "id": "verify:essay:generated:questions.resume_text",
+          "question": "Enter",
+          "field_id": "questions.resume_text",
+          "canonical_field": "essay:generated:questions.resume_text",
+          "kind": "verify_mismatch",
+          "problem": "Expected \"I build backend systems around problems I actually run into. At Summer Atlantic Capital / SAC Nexus, I own major parts of the machine-learning core of an anomaly-detection and alert-prioritization system: the repository and CI scaffold, the event-ingestion pipeline, a versioned FastAPI microservice, and the public detection API. The modeling side is temporal sequence modeling over event streams with RNN and Transformer-style approaches, anomaly scoring, and a learning-to-rank layer, plus a retrieval-augmented explanation layer so analysts can act on outputs. What I care about there is not just model metrics but operational usefulness, since a system that fires too many alerts creates a second problem instead of solving the first. That is the same concern I would bring to backend services at Epic Online Services, where the systems sit under real players and have to hold up under load and failure. I want to work somewhere a junior engineer owns substantial pieces of a service rather than isolated tickets, and Epic's services team looks like that kind of environment.\"; page shows \"(empty)\"",
+          "expected": "I build backend systems around problems I actually run into. At Summer Atlantic Capital / SAC Nexus, I own major parts of the machine-learning core of an anomaly-detection and alert-prioritization system: the repository and CI scaffold, the event-ingestion pipeline, a versioned FastAPI microservice, and the public detection API. The modeling side is temporal sequence modeling over event streams with RNN and Transformer-style approaches, anomaly scoring, and a learning-to-rank layer, plus a retrieval-augmented explanation layer so analysts can act on outputs. What I care about there is not just model metrics but operational usefulness, since a system that fires too many alerts creates a second problem instead of solving the first. That is the same concern I would bring to backend services at Epic Online Services, where the systems sit under real players and have to hold up under load and failure. I want to work somewhere a junior engineer owns substantial pieces of a service rather than isolated tickets, and Epic's services team looks like that kind of environment.",
+          "observed": "",
+          "how_to_answer": [
+            "System expected \"I build backend systems around problems I actually run into. At Summer Atlantic Capital / SAC Nexus, I own major parts of the machine-learning core of an anomaly-detection and alert-prioritization system: the repository and CI scaffold, the event-ingestion pipeline, a versioned FastAPI microservice, and the public detection API. The modeling side is temporal sequence modeling over event streams with RNN and Transformer-style approaches, anomaly scoring, and a learning-to-rank layer, plus a retrieval-augmented explanation layer so analysts can act on outputs. What I care about there is not just model metrics but operational usefulness, since a system that fires too many alerts creates a second problem instead of solving the first. That is the same concern I would bring to backend services at Epic Online Services, where the systems sit under real players and have to hold up under load and failure. I want to work somewhere a junior engineer owns substantial pieces of a service rather than isolated tickets, and Epic's services team looks like that kind of environment.\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+            "Profile source: private/candidate/public-profile.json (key: essay:generated:questions.resume_text)",
+            "Alias check: private/candidate/answer-aliases.json phrases for \"essay:generated:questions.resume_text\" should match the on-form question text."
+          ]
+        },
+        {
+          "id": "verify:essay:generated:questions.cover_letter_text",
+          "question": "Enter",
+          "field_id": "questions.cover_letter_text",
+          "canonical_field": "essay:generated:questions.cover_letter_text",
+          "kind": "verify_mismatch",
+          "problem": "Expected \"The engineering habit I would bring is being explicit about state and about where automation should stop. I built a local Playwright job-application agent in TypeScript and Node, and the design decision that mattered most was making it deterministic and operator-controlled instead of a general autonomous browser agent. Every application moves through an explicit state machine, from DISCOVERED through ELIGIBILITY_CHECK, QUEUED, INSPECT, FILL, READY_TO_SUBMIT, SUBMITTING, and SUBMITTED, rather than being mutated ad hoc. I used SQLite as the single source of truth because browser automation gets dangerous when application state diverges across processes, and every mutating capability sits behind fail-closed environment flags that never default on. I also built a validation ladder, from unit-confirmed up to live-mutation-confirmed, so nothing gets called working just because it passed against a local fixture. Free-text and demographic fields are architecturally blocked from auto-fill and always route to human review. Writing backend services that other teams and players depend on rewards exactly that discipline: clear state transitions, safe defaults, and honesty about what has actually been verified.\"; page shows \"(empty)\"",
+          "expected": "The engineering habit I would bring is being explicit about state and about where automation should stop. I built a local Playwright job-application agent in TypeScript and Node, and the design decision that mattered most was making it deterministic and operator-controlled instead of a general autonomous browser agent. Every application moves through an explicit state machine, from DISCOVERED through ELIGIBILITY_CHECK, QUEUED, INSPECT, FILL, READY_TO_SUBMIT, SUBMITTING, and SUBMITTED, rather than being mutated ad hoc. I used SQLite as the single source of truth because browser automation gets dangerous when application state diverges across processes, and every mutating capability sits behind fail-closed environment flags that never default on. I also built a validation ladder, from unit-confirmed up to live-mutation-confirmed, so nothing gets called working just because it passed against a local fixture. Free-text and demographic fields are architecturally blocked from auto-fill and always route to human review. Writing backend services that other teams and players depend on rewards exactly that discipline: clear state transitions, safe defaults, and honesty about what has actually been verified.",
+          "observed": "",
+          "how_to_answer": [
+            "System expected \"The engineering habit I would bring is being explicit about state and about where automation should stop. I built a local Playwright job-application agent in TypeScript and Node, and the design decision that mattered most was making it deterministic and operator-controlled instead of a general autonomous browser agent. Every application moves through an explicit state machine, from DISCOVERED through ELIGIBILITY_CHECK, QUEUED, INSPECT, FILL, READY_TO_SUBMIT, SUBMITTING, and SUBMITTED, rather than being mutated ad hoc. I used SQLite as the single source of truth because browser automation gets dangerous when application state diverges across processes, and every mutating capability sits behind fail-closed environment flags that never default on. I also built a validation ladder, from unit-confirmed up to live-mutation-confirmed, so nothing gets called working just because it passed against a local fixture. Free-text and demographic fields are architecturally blocked from auto-fill and always route to human review. Writing backend services that other teams and players depend on rewards exactly that discipline: clear state transitions, safe defaults, and honesty about what has actually been verified.\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+            "Profile source: private/candidate/public-profile.json (key: essay:generated:questions.cover_letter_text)",
+            "Alias check: private/candidate/answer-aliases.json phrases for \"essay:generated:questions.cover_letter_text\" should match the on-form question text."
+          ]
+        },
+        {
+          "id": "verify:screener:consent_agreement",
+          "question": "Epic Games Candidate Privacy Notice",
+          "field_id": "react-select-9-input",
+          "canonical_field": "screener:consent_agreement",
+          "kind": "verify_mismatch",
+          "problem": "Expected \"Yes\"; page shows \"(empty)\"",
+          "expected": "Yes",
+          "observed": {
+            "value": "",
+            "label": ""
+          },
+          "how_to_answer": [
+            "System expected \"Yes\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+            "Profile source: private/candidate/public-profile.json (key: screener:consent_agreement)",
+            "Alias check: private/candidate/answer-aliases.json phrases for \"screener:consent_agreement\" should match the on-form question text."
+          ]
+        },
+        {
+          "id": "verify:school",
+          "question": "School⁠⁠⁠*⁠:",
+          "field_id": "react-select-11-input",
+          "canonical_field": "school",
+          "kind": "verify_mismatch",
+          "problem": "Expected \"Johns Hopkins University\"; page shows \"(empty)\"",
+          "expected": "Johns Hopkins University",
+          "observed": {
+            "value": "",
+            "label": ""
+          },
+          "how_to_answer": [
+            "System expected \"Johns Hopkins University\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+            "Profile source: private/candidate/public-profile.json (key: school)",
+            "Alias check: private/candidate/answer-aliases.json phrases for \"school\" should match the on-form question text."
+          ]
+        }
+      ]
+    },
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": null,
+      "verify_passed": false
+    },
+    "open_review_items": [
+      {
+        "kind": "MANUAL",
+        "title": "Answer needed: \"United States Diversity, Equity, and Inclusion Questions\""
+      },
+      {
+        "kind": "MANUAL",
+        "title": "Answer needed: \"demographicQuestions.optionID4000465004\""
+      }
+    ],
+    "prior_decisions": [
+      {
+        "action": "requeue_same",
+        "failure_signature": "AMBIGUOUS_FIELD|-|verify_mismatch|job-boards.greenhouse.io",
+        "outcome_status": "PENDING",
+        "created_at": "2026-09-10T06:30:10.916Z"
+      }
+    ],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"park_for_operator\", \"rationale\": \"Field mapping is broken, not transient: essay text landed in the first_name field while resume/cover-letter, consent, and school selects are empty, plus two open MANUAL demographic items. This needs human fixes to profile/aliases and fill mapping; a plain requeue or materials regen would reproduce the same misfill.\", \"confidence\": \"high\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: 91acb7e9-a088-489f-8e19-2d97cf9119e1",
+  "rationale_unverified": "Field mapping is broken, not transient: essay text landed in the first_name field while resume/cover-letter, consent, and school selects are empty, plus two open MANUAL demographic items. This needs human fixes to profile/aliases and fill mapping; a plain requeue or materials regen would reproduce the same misfill."
+}

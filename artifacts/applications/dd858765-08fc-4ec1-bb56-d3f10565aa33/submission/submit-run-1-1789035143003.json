@@ -1,0 +1,99 @@
+{
+  "outcome": "FAILED_BEFORE_CLICK",
+  "application_id": "dd858765-08fc-4ec1-bb56-d3f10565aa33",
+  "submission_id": "77d31d82-8d75-491f-ae18-d8822c6d30be",
+  "attempt": 1,
+  "receipt": null,
+  "review_item_id": null,
+  "reason": "Refusing to click submit: field verification or upload did not pass",
+  "artifact_path": null,
+  "operator_brief": {
+    "title": "Submit blocked — greenhouse app dd858765-08fc-4ec1-bb56-d3f10565aa33",
+    "summary": "5 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:legal_name.first",
+        "question": "Enter",
+        "field_id": "questions.first_name",
+        "canonical_field": "legal_name.first",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Shubham\"; page shows \"I build backend systems around problems I actually run into. At Summer Atlantic Capital / SAC Nexus, I own major parts of the machine-learning core of an anomaly-detection and alert-prioritization system: the repository and CI scaffold, the event-ingestion pipeline, a versioned FastAPI microservice, and the public detection API. The modeling side is temporal sequence modeling over event streams with RNN and Transformer-style approaches, anomaly scoring, and a learning-to-rank layer, plus a retrieval-augmented explanation layer so analysts can act on outputs. What I care about there is not just model metrics but operational usefulness, since a system that fires too many alerts creates a second problem instead of solving the first. That is the same concern I would bring to backend services at Epic Online Services, where the systems sit under real players and have to hold up under load and failure. I want to work somewhere a junior engineer owns substantial pieces of a service rather than isolated tickets, and Epic's services team looks like that kind of environment.\"",
+        "expected": "Shubham",
+        "observed": "I build backend systems around problems I actually run into. At Summer Atlantic Capital / SAC Nexus, I own major parts of the machine-learning core of an anomaly-detection and alert-prioritization system: the repository and CI scaffold, the event-ingestion pipeline, a versioned FastAPI microservice, and the public detection API. The modeling side is temporal sequence modeling over event streams with RNN and Transformer-style approaches, anomaly scoring, and a learning-to-rank layer, plus a retrieval-augmented explanation layer so analysts can act on outputs. What I care about there is not just model metrics but operational usefulness, since a system that fires too many alerts creates a second problem instead of solving the first. That is the same concern I would bring to backend services at Epic Online Services, where the systems sit under real players and have to hold up under load and failure. I want to work somewhere a junior engineer owns substantial pieces of a service rather than isolated tickets, and Epic's services team looks like that kind of environment.",
+        "how_to_answer": [
+          "DOM shows \"I build backend systems around problems I actually run into. At Summer Atlantic Capital / SAC Nexus, I own major parts of the machine-learning core of an anomaly-detection and alert-prioritization system: the repository and CI scaffold, the event-ingestion pipeline, a versioned FastAPI microservice, and the public detection API. The modeling side is temporal sequence modeling over event streams with RNN and Transformer-style approaches, anomaly scoring, and a learning-to-rank layer, plus a retrieval-augmented explanation layer so analysts can act on outputs. What I care about there is not just model metrics but operational usefulness, since a system that fires too many alerts creates a second problem instead of solving the first. That is the same concern I would bring to backend services at Epic Online Services, where the systems sit under real players and have to hold up under load and failure. I want to work somewhere a junior engineer owns substantial pieces of a service rather than isolated tickets, and Epic's services team looks like that kind of environment.\" but plan expected \"Shubham\". Correct the value on the form or fix profile/aliases so the plan matches the real answer.",
+          "Profile source: private/candidate/public-profile.json → legal_name.first",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"legal_name.first\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:essay:generated:questions.resume_text",
+        "question": "Enter",
+        "field_id": "questions.resume_text",
+        "canonical_field": "essay:generated:questions.resume_text",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"I build backend systems around problems I actually run into. At Summer Atlantic Capital / SAC Nexus, I own major parts of the machine-learning core of an anomaly-detection and alert-prioritization system: the repository and CI scaffold, the event-ingestion pipeline, a versioned FastAPI microservice, and the public detection API. The modeling side is temporal sequence modeling over event streams with RNN and Transformer-style approaches, anomaly scoring, and a learning-to-rank layer, plus a retrieval-augmented explanation layer so analysts can act on outputs. What I care about there is not just model metrics but operational usefulness, since a system that fires too many alerts creates a second problem instead of solving the first. That is the same concern I would bring to backend services at Epic Online Services, where the systems sit under real players and have to hold up under load and failure. I want to work somewhere a junior engineer owns substantial pieces of a service rather than isolated tickets, and Epic's services team looks like that kind of environment.\"; page shows \"(empty)\"",
+        "expected": "I build backend systems around problems I actually run into. At Summer Atlantic Capital / SAC Nexus, I own major parts of the machine-learning core of an anomaly-detection and alert-prioritization system: the repository and CI scaffold, the event-ingestion pipeline, a versioned FastAPI microservice, and the public detection API. The modeling side is temporal sequence modeling over event streams with RNN and Transformer-style approaches, anomaly scoring, and a learning-to-rank layer, plus a retrieval-augmented explanation layer so analysts can act on outputs. What I care about there is not just model metrics but operational usefulness, since a system that fires too many alerts creates a second problem instead of solving the first. That is the same concern I would bring to backend services at Epic Online Services, where the systems sit under real players and have to hold up under load and failure. I want to work somewhere a junior engineer owns substantial pieces of a service rather than isolated tickets, and Epic's services team looks like that kind of environment.",
+        "observed": "",
+        "how_to_answer": [
+          "System expected \"I build backend systems around problems I actually run into. At Summer Atlantic Capital / SAC Nexus, I own major parts of the machine-learning core of an anomaly-detection and alert-prioritization system: the repository and CI scaffold, the event-ingestion pipeline, a versioned FastAPI microservice, and the public detection API. The modeling side is temporal sequence modeling over event streams with RNN and Transformer-style approaches, anomaly scoring, and a learning-to-rank layer, plus a retrieval-augmented explanation layer so analysts can act on outputs. What I care about there is not just model metrics but operational usefulness, since a system that fires too many alerts creates a second problem instead of solving the first. That is the same concern I would bring to backend services at Epic Online Services, where the systems sit under real players and have to hold up under load and failure. I want to work somewhere a junior engineer owns substantial pieces of a service rather than isolated tickets, and Epic's services team looks like that kind of environment.\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: essay:generated:questions.resume_text)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"essay:generated:questions.resume_text\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:essay:generated:questions.cover_letter_text",
+        "question": "Enter",
+        "field_id": "questions.cover_letter_text",
+        "canonical_field": "essay:generated:questions.cover_letter_text",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"The engineering habit I would bring is being explicit about state and about where automation should stop. I built a local Playwright job-application agent in TypeScript and Node, and the design decision that mattered most was making it deterministic and operator-controlled instead of a general autonomous browser agent. Every application moves through an explicit state machine, from DISCOVERED through ELIGIBILITY_CHECK, QUEUED, INSPECT, FILL, READY_TO_SUBMIT, SUBMITTING, and SUBMITTED, rather than being mutated ad hoc. I used SQLite as the single source of truth because browser automation gets dangerous when application state diverges across processes, and every mutating capability sits behind fail-closed environment flags that never default on. I also built a validation ladder, from unit-confirmed up to live-mutation-confirmed, so nothing gets called working just because it passed against a local fixture. Free-text and demographic fields are architecturally blocked from auto-fill and always route to human review. Writing backend services that other teams and players depend on rewards exactly that discipline: clear state transitions, safe defaults, and honesty about what has actually been verified.\"; page shows \"(empty)\"",
+        "expected": "The engineering habit I would bring is being explicit about state and about where automation should stop. I built a local Playwright job-application agent in TypeScript and Node, and the design decision that mattered most was making it deterministic and operator-controlled instead of a general autonomous browser agent. Every application moves through an explicit state machine, from DISCOVERED through ELIGIBILITY_CHECK, QUEUED, INSPECT, FILL, READY_TO_SUBMIT, SUBMITTING, and SUBMITTED, rather than being mutated ad hoc. I used SQLite as the single source of truth because browser automation gets dangerous when application state diverges across processes, and every mutating capability sits behind fail-closed environment flags that never default on. I also built a validation ladder, from unit-confirmed up to live-mutation-confirmed, so nothing gets called working just because it passed against a local fixture. Free-text and demographic fields are architecturally blocked from auto-fill and always route to human review. Writing backend services that other teams and players depend on rewards exactly that discipline: clear state transitions, safe defaults, and honesty about what has actually been verified.",
+        "observed": "",
+        "how_to_answer": [
+          "System expected \"The engineering habit I would bring is being explicit about state and about where automation should stop. I built a local Playwright job-application agent in TypeScript and Node, and the design decision that mattered most was making it deterministic and operator-controlled instead of a general autonomous browser agent. Every application moves through an explicit state machine, from DISCOVERED through ELIGIBILITY_CHECK, QUEUED, INSPECT, FILL, READY_TO_SUBMIT, SUBMITTING, and SUBMITTED, rather than being mutated ad hoc. I used SQLite as the single source of truth because browser automation gets dangerous when application state diverges across processes, and every mutating capability sits behind fail-closed environment flags that never default on. I also built a validation ladder, from unit-confirmed up to live-mutation-confirmed, so nothing gets called working just because it passed against a local fixture. Free-text and demographic fields are architecturally blocked from auto-fill and always route to human review. Writing backend services that other teams and players depend on rewards exactly that discipline: clear state transitions, safe defaults, and honesty about what has actually been verified.\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: essay:generated:questions.cover_letter_text)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"essay:generated:questions.cover_letter_text\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:consent_agreement",
+        "question": "Epic Games Candidate Privacy Notice",
+        "field_id": "react-select-9-input",
+        "canonical_field": "screener:consent_agreement",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Yes\"; page shows \"(empty)\"",
+        "expected": "Yes",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "how_to_answer": [
+          "System expected \"Yes\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:consent_agreement)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:consent_agreement\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:school",
+        "question": "School⁠⁠⁠*⁠:",
+        "field_id": "react-select-11-input",
+        "canonical_field": "school",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Johns Hopkins University\"; page shows \"(empty)\"",
+        "expected": "Johns Hopkins University",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "how_to_answer": [
+          "System expected \"Johns Hopkins University\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: school)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"school\" should match the on-form question text."
+        ]
+      }
+    ],
+    "ok_count": 8,
+    "fail_count": 5
+  }
+}
