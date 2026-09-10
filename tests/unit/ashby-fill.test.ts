@@ -366,3 +366,51 @@ describe("Ashby fill/upload/verify (M5)", () => {
     45_000,
   );
 });
+
+/**
+ * #245 (live Barnes & Thornburg ashby 2026-09-10, two applications). The
+ * native-group option reader's last resort was the input's NAME. A name is
+ * shared by every member of a group, so it cannot distinguish one option
+ * from another: both members of the phone-consent group came back labelled
+ * `communicationConsent`, that became the option list the matcher was
+ * offered, and — because a member was checked by default — the value the
+ * read-back reported. The submit gate then saw a control holding a
+ * DIFFERENT non-empty value than planned, which is the one thing it must
+ * never waive, and two otherwise-complete applications were blocked.
+ */
+describe("native group options are labelled per MEMBER, never by the shared name (#245)", () => {
+  it("reads real member labels and leaves an unlabeled member empty", async () => {
+    const html = `<!DOCTYPE html><html><body>
+      <div id="consent" role="group">
+        <label for="c1">Yes - I consent to receiving text messages</label>
+        <input type="radio" id="c1" name="communicationConsent" value="yes" checked />
+        <label for="c2">No - I do not consent</label>
+        <input type="radio" id="c2" name="communicationConsent" value="no" />
+      </div>
+      <div id="nameonly" role="group">
+        <input type="radio" id="n1" name="communicationConsent2" value="on" />
+        <input type="radio" id="n2" name="communicationConsent2" value="on" />
+      </div>
+    </body></html>`;
+    const { readNativeGroupOptions, readNativeGroupValue } = await import(
+      "../../src/ats/ashby/nativeGroupFill.js"
+    );
+    await withFixtureHtmlPage(html, async (page) => {
+      const labelled = await readNativeGroupOptions(page.locator("#consent"), "radio");
+      expect(labelled.map((o) => o.label)).toEqual([
+        "Yes - I consent to receiving text messages",
+        "No - I do not consent",
+      ]);
+      expect(await readNativeGroupValue(page.locator("#consent"), "radio")).toBe(
+        "Yes - I consent to receiving text messages",
+      );
+
+      // No per-member label anywhere: the members stay honestly unlabeled
+      // instead of all inheriting the group's name (and `value="on"` is a
+      // form-encoding artifact, not an answer).
+      const unlabelled = await readNativeGroupOptions(page.locator("#nameonly"), "radio");
+      expect(unlabelled.every((o) => o.label === "")).toBe(true);
+      expect(unlabelled.map((o) => o.label)).not.toContain("communicationConsent2");
+    });
+  }, 45_000);
+});

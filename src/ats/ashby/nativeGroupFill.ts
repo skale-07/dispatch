@@ -117,12 +117,17 @@ export async function readNativeGroupOptions(
   kind: NativeGroupKind = "radio",
 ): Promise<NativeGroupOption[]> {
   if (kind === "yesno") return readYesNoOptions(group);
+  type Node = {
+    getAttribute: (n: string) => string | null;
+    checked?: boolean;
+    textContent?: string | null;
+    closest?: (s: string) => { textContent: string | null } | null;
+    parentElement?: { textContent: string | null } | null;
+  };
   type El = {
-    querySelectorAll: (s: string) => ArrayLike<{
-      getAttribute: (n: string) => string | null;
-      checked?: boolean;
-    }>;
+    querySelectorAll: (s: string) => ArrayLike<Node>;
     querySelector: (s: string) => { textContent: string | null } | null;
+    ownerDocument: { querySelector: (s: string) => { textContent: string | null } | null };
   };
   const raw = await group.evaluate((el: El) => {
     const out: {
@@ -131,23 +136,46 @@ export async function readNativeGroupOptions(
       checked: boolean;
       inputId: string | null;
     }[] = [];
+    const clean = (t: string | null | undefined): string =>
+      (t ?? "").replace(/\s+/g, " ").trim();
     const inputs = el.querySelectorAll(
       'input[type="radio"], input[type="checkbox"]',
     );
     for (let i = 0; i < inputs.length; i++) {
       const inp = inputs[i]!;
       const id = inp.getAttribute("id");
+      const esc = (v: string): string => v.replace(/"/g, '\\"');
       let text = "";
       if (id) {
-        const lab = el.querySelector(
-          'label[for="' + id.replace(/"/g, '\\"') + '"]',
-        );
-        if (lab && lab.textContent) text = lab.textContent;
+        const lab =
+          el.querySelector('label[for="' + esc(id) + '"]') ??
+          el.ownerDocument.querySelector('label[for="' + esc(id) + '"]');
+        text = clean(lab?.textContent);
       }
-      if (!text) text = inp.getAttribute("name") || "";
+      // #245 (live Barnes & Thornburg ashby 2026-09-10, twice): the last
+      // resort here was the input's NAME. A name is shared by every member
+      // of a group, so it cannot distinguish one option from another — it
+      // gave both members of the phone-consent group the identical "label"
+      // `communicationConsent`, which then became the option list the
+      // matcher was offered ("no option matches 4805897636 (options:
+      // communicationConsent | communicationConsent)") and, because a
+      // member was checked by default, the value the read-back reported.
+      // The submit gate saw a control holding a DIFFERENT non-empty value
+      // than planned — the one thing it must never waive — and blocked two
+      // otherwise-complete applications.
+      //
+      // Member-specific sources only, in order of how directly they name
+      // THIS option. An unlabeled member stays honestly unlabeled: the
+      // callers already drop empty labels, which is the truthful outcome.
+      if (!text) text = clean(inp.closest?.("label")?.textContent);
+      if (!text) text = clean(inp.getAttribute("aria-label"));
+      if (!text) text = clean(inp.getAttribute("value"));
+      if (!text) text = clean(inp.parentElement?.textContent);
+      // A "value" of on/true/1 is a form-encoding artifact, not an answer.
+      if (/^(on|true|false|1|0|yes-no)$/i.test(text)) text = "";
       out.push({
         index: i,
-        label: text.replace(/\s+/g, " ").trim(),
+        label: text,
         checked: inp.checked === true,
         inputId: id,
       });
