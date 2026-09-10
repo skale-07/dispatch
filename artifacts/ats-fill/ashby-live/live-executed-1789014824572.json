@@ -1,0 +1,571 @@
+{
+  "ats": "ashby",
+  "url": "https://jobs.ashbyhq.com/saronic/c7779462-3c4c-44d9-8314-1be93a0e478a/application",
+  "requested_url": "https://jobs.ashbyhq.com/saronic/c7779462-3c4c-44d9-8314-1be93a0e478a/application",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://jobs.ashbyhq.com/saronic/c7779462-3c4c-44d9-8314-1be93a0e478a/application",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 18,
+    "skipped_count": 4,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "f_0",
+      "label": "Application",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "_systemfield_name",
+      "label": "Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Single full-name field: composed legal_name.first + legal_name.last (both safe factual canonicals)"
+    },
+    {
+      "field_id": "1dbf8c83-7bb7-4b43-81ad-989679e42955",
+      "label": "Legal First and Last Name",
+      "type": "text",
+      "canonical_field": "legal_name.last",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "_systemfield_email",
+      "label": "Email",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "_systemfield_resume",
+      "label": "Resume",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "38ba80ff-c89c-4066-8eb5-1289504996e8",
+      "label": "LinkedIn Profile",
+      "type": "text",
+      "canonical_field": "linkedin_url",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "9c5d39d1-b9ad-4402-8f34-88bccaf19280",
+      "label": "GitHub Profile",
+      "type": "text",
+      "canonical_field": "github_url",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "133e643f-55a1-4ff5-88dc-efeb6f27c4ed",
+      "label": "Portfolio Link",
+      "type": "text",
+      "canonical_field": "personal_website",
+      "action": "SKIP",
+      "reason": "Profile value empty for personal_website"
+    },
+    {
+      "field_id": "_systemfield_education_history",
+      "label": "College/University",
+      "type": "text",
+      "canonical_field": "school",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "7d3558c4-69b0-490b-a0f9-b45f778260ff",
+      "label": "Major/Field of Study",
+      "type": "text",
+      "canonical_field": "major",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "c1013c29-1ecb-4910-9f79-ea1347cdeb48",
+      "label": "If yes, please provide the employee’s name and your relationship",
+      "type": "textarea",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "essay not answered (model abstained): If yes, please provide the employee’s name and your relationship"
+    },
+    {
+      "field_id": "b3908587-b235-4eb0-8514-1b378436f1b9",
+      "label": "Degree Level Currently Pursuing",
+      "type": "select",
+      "canonical_field": "screener:education_level",
+      "action": "FILL",
+      "reason": "Screener bank answer (synonym_option)"
+    },
+    {
+      "field_id": "19d61cd0-5808-4d30-b39e-2ef066d0852c",
+      "label": "Expected Graduation Month",
+      "type": "select",
+      "canonical_field": "screener:custom:expected_graduation_term",
+      "action": "FILL",
+      "reason": "Screener bank answer (llm_option)"
+    },
+    {
+      "field_id": "cedd629e-e42b-405e-89f3-cd3390d761e5",
+      "label": "Expected Graduation Year",
+      "type": "select",
+      "canonical_field": "graduation_year",
+      "action": "FILL",
+      "reason": "Mapped from public profile; placed onto \"2029\""
+    },
+    {
+      "field_id": "_systemfield_eeoc_gender",
+      "label": "Gender",
+      "type": "select",
+      "canonical_field": "gender",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "_systemfield_eeoc_race",
+      "label": "Race",
+      "type": "select",
+      "canonical_field": "race_ethnicity",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "_systemfield_eeoc_veteran_status",
+      "label": "Veteran Status",
+      "type": "select",
+      "canonical_field": "veteran_status",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "_systemfield_eeoc_disability_status",
+      "label": "Disability Status",
+      "type": "select",
+      "canonical_field": "disability_status",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "_systemfield_education_history-school",
+      "label": "School",
+      "type": "text",
+      "canonical_field": "school",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "95d400d6-3207-4a6e-a74b-02daaa234611",
+      "label": "We require all employees onsite, in-person. Are you able to accommodate an onsite full-time work schedule?",
+      "type": "select",
+      "canonical_field": "screener:willing_to_relocate",
+      "action": "FILL",
+      "reason": "Screener bank answer (synonym_option)"
+    },
+    {
+      "field_id": "53fdb5e4-d260-4e24-8d99-2c42b8e2fb3a",
+      "label": "The individual performing this role will need to access material that legally requires “U.S. Person” status. A “U.S. Person” must meet ONE of the following three criteria: 1) A U.S. citizen, 2) A legal permanent resident (also known as a green card holder), OR 3) A refugee or successful asylee (someone who has completed the asylum process and formally received a grant of asylum). To ensure eligibility for this role, please confirm whether you fall into one of the three statuses above.",
+      "type": "select",
+      "canonical_field": "screener:work_authorization",
+      "action": "FILL",
+      "reason": "Screener bank answer (profile_derived)"
+    },
+    {
+      "field_id": "e12e7859-71e0-4136-ac5b-8c2bc69909e6",
+      "label": "Are you related to any current Saronic employees?",
+      "type": "select",
+      "canonical_field": "screener:custom:related_to_saronic_employees",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\ashby-live\\form-snapshot-1789014756077.html",
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "legal_name.last",
+      "email",
+      "linkedin_url",
+      "github_url",
+      "major",
+      "screener:education_level",
+      "screener:custom:expected_graduation_term",
+      "graduation_year",
+      "gender",
+      "race_ethnicity",
+      "veteran_status",
+      "disability_status",
+      "screener:willing_to_relocate",
+      "screener:work_authorization",
+      "screener:custom:related_to_saronic_employees"
+    ],
+    "skipped": [],
+    "errors": [
+      "_systemfield_education_history-school: control not found on the page (label \"School\") — failing fast instead of waiting 30s",
+      "_systemfield_education_history: combobox option not committed: listbox opened after typing; ambiguous match for \"Johns Hopkins University\" (3 candidates): Johns Hopkins UniversityUnited Statesjhu.edu | Johns Hopkins University School of Advanced International StudiesUnited Statessais-jhu.edu | Johns Hopkins University SAIS Bologna CenterItalysais-jhu.edu"
+    ],
+    "field_meta": [
+      {
+        "field_id": "_systemfield_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "1dbf8c83-7bb7-4b43-81ad-989679e42955",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "_systemfield_email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "38ba80ff-c89c-4066-8eb5-1289504996e8",
+        "canonical_field": "linkedin_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "9c5d39d1-b9ad-4402-8f34-88bccaf19280",
+        "canonical_field": "github_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "7d3558c4-69b0-490b-a0f9-b45f778260ff",
+        "canonical_field": "major",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "b3908587-b235-4eb0-8514-1b378436f1b9",
+        "canonical_field": "screener:education_level",
+        "control_kind": "native_radio_group",
+        "selected_option": "Bachelor's",
+        "match_via": "exact",
+        "notes": [
+          "picked \"Bachelor's\" (exact)"
+        ]
+      },
+      {
+        "field_id": "19d61cd0-5808-4d30-b39e-2ef066d0852c",
+        "canonical_field": "screener:custom:expected_graduation_term",
+        "control_kind": "native_radio_group",
+        "selected_option": "April/May/June",
+        "match_via": "exact",
+        "notes": [
+          "picked \"April/May/June\" (exact)"
+        ]
+      },
+      {
+        "field_id": "cedd629e-e42b-405e-89f3-cd3390d761e5",
+        "canonical_field": "graduation_year",
+        "control_kind": "native_radio_group",
+        "selected_option": "2029",
+        "match_via": "exact",
+        "notes": [
+          "picked \"2029\" (exact)"
+        ]
+      },
+      {
+        "field_id": "_systemfield_eeoc_gender",
+        "canonical_field": "gender",
+        "control_kind": "native_radio_group",
+        "selected_option": "Male",
+        "match_via": "exact",
+        "notes": [
+          "picked \"Male\" (exact)"
+        ]
+      },
+      {
+        "field_id": "_systemfield_eeoc_race",
+        "canonical_field": "race_ethnicity",
+        "control_kind": "native_radio_group",
+        "selected_option": "Asian (Not Hispanic or Latino)",
+        "match_via": "unique_substring",
+        "notes": [
+          "picked \"Asian (Not Hispanic or Latino)\" (unique_substring)"
+        ]
+      },
+      {
+        "field_id": "_systemfield_eeoc_veteran_status",
+        "canonical_field": "veteran_status",
+        "control_kind": "native_radio_group",
+        "selected_option": "I am not a protected veteran",
+        "match_via": "synonym",
+        "notes": [
+          "picked \"I am not a protected veteran\" (synonym)"
+        ]
+      },
+      {
+        "field_id": "_systemfield_eeoc_disability_status",
+        "canonical_field": "disability_status",
+        "control_kind": "native_radio_group",
+        "selected_option": "No, I do not have a disability and have not had one in the past",
+        "match_via": "synonym",
+        "notes": [
+          "picked \"No, I do not have a disability and have not had one in the past\" (synonym)"
+        ]
+      },
+      {
+        "field_id": "95d400d6-3207-4a6e-a74b-02daaa234611",
+        "canonical_field": "screener:willing_to_relocate",
+        "control_kind": "native_yesno_group",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "picked \"Yes\" (exact)"
+        ]
+      },
+      {
+        "field_id": "53fdb5e4-d260-4e24-8d99-2c42b8e2fb3a",
+        "canonical_field": "screener:work_authorization",
+        "control_kind": "native_yesno_group",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "picked \"Yes\" (exact)"
+        ]
+      },
+      {
+        "field_id": "e12e7859-71e0-4136-ac5b-8c2bc69909e6",
+        "canonical_field": "screener:custom:related_to_saronic_employees",
+        "control_kind": "native_yesno_group",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "picked \"No\" (exact)"
+        ]
+      },
+      {
+        "field_id": "_systemfield_education_history",
+        "canonical_field": "school",
+        "control_kind": "combobox",
+        "selected_option": null,
+        "match_via": null,
+        "notes": [
+          "listbox opened after typing",
+          "ambiguous match for \"Johns Hopkins University\" (3 candidates): Johns Hopkins UniversityUnited Statesjhu.edu | Johns Hopkins University School of Advanced International StudiesUnited Statessais-jhu.edu | Johns Hopkins University SAIS Bologna CenterItalysais-jhu.edu"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": false,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham Kale",
+        "observed": "Shubham Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.last",
+        "expected": "Kale",
+        "observed": "Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "match": true
+      },
+      {
+        "canonical_field": "github_url",
+        "expected": "https://github.com/skale-07",
+        "observed": "https://github.com/skale-07",
+        "match": true
+      },
+      {
+        "canonical_field": "major",
+        "expected": "Applied Mathematics and Statistics",
+        "observed": "Applied Mathematics and Statistics",
+        "match": true
+      },
+      {
+        "canonical_field": "school",
+        "expected": "Johns Hopkins University",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "screener:education_level",
+        "expected": "Bachelor's",
+        "observed": "Bachelor's",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:expected_graduation_term",
+        "expected": "April/May/June",
+        "observed": "April/May/June",
+        "match": true
+      },
+      {
+        "canonical_field": "graduation_year",
+        "expected": "2029",
+        "observed": "2029",
+        "match": true
+      },
+      {
+        "canonical_field": "gender",
+        "expected": "Male",
+        "observed": "Male",
+        "match": true
+      },
+      {
+        "canonical_field": "race_ethnicity",
+        "expected": "Asian",
+        "observed": "Asian (Not Hispanic or Latino)",
+        "match": true
+      },
+      {
+        "canonical_field": "veteran_status",
+        "expected": "I am not a veteran",
+        "observed": "I am not a protected veteran",
+        "match": true
+      },
+      {
+        "canonical_field": "disability_status",
+        "expected": "No",
+        "observed": "No, I do not have a disability and have not had one in the past",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:willing_to_relocate",
+        "expected": "Yes",
+        "observed": "Yes",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:work_authorization",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:related_to_saronic_employees",
+        "expected": "No",
+        "observed": "No",
+        "match": true
+      },
+      {
+        "canonical_field": "school",
+        "expected": "Johns Hopkins University",
+        "observed": null,
+        "match": false
+      }
+    ],
+    "uploads": [],
+    "warnings": [
+      "verify school: control not found on the page (label \"School\") — failing fast instead of waiting 30s"
+    ]
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 113810,
+      "verified": true,
+      "evidence": "input files: [{\"name\":\"resume-dd9093dd.pdf\",\"size\":113810}]; stillAttached=true; chip=true; resolved via primary"
+    }
+  ],
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: form (21 fillable field(s))",
+    "timing: base page (22 planned) — plan 5s, fill 37s, verify 31s",
+    "page error scan: no visible validation errors on the page",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "operator_brief": {
+    "title": "Live fill — ashby https://jobs.ashbyhq.com/saronic/c7779462-3c4c-44d9-8314-1be93a0e478a/application",
+    "summary": "4 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:school",
+        "question": "School",
+        "field_id": "_systemfield_education_history-school",
+        "canonical_field": "school",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Johns Hopkins University\"; page shows \"(empty)\"",
+        "expected": "Johns Hopkins University",
+        "observed": null,
+        "how_to_answer": [
+          "Type the intended value on the form (planned: Johns Hopkins University). If a places/autocomplete list appears, select a matching suggestion; plain city text is enough when no list opens.",
+          "System expected \"Johns Hopkins University\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: school)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"school\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:school",
+        "question": "School",
+        "field_id": "_systemfield_education_history-school",
+        "canonical_field": "school",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Johns Hopkins University\"; page shows \"(empty)\"",
+        "expected": "Johns Hopkins University",
+        "observed": null,
+        "how_to_answer": [
+          "Type the intended value on the form (planned: Johns Hopkins University). If a places/autocomplete list appears, select a matching suggestion; plain city text is enough when no list opens.",
+          "System expected \"Johns Hopkins University\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: school)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"school\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "fill_error:_systemfield_education_history-school: control not found on the page (label \"Sch",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "_systemfield_education_history-school: control not found on the page (label \"School\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:_systemfield_education_history: combobox option not committed: listbox opened af",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "_systemfield_education_history: combobox option not committed: listbox opened after typing; ambiguous match for \"Johns Hopkins University\" (3 candidates): Johns Hopkins UniversityUnited Statesjhu.edu | Johns Hopkins University School of Advanced International StudiesUnited Statessais-jhu.edu | Johns Hopkins University SAIS Bologna CenterItalysais-jhu.edu",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      }
+    ],
+    "ok_count": 16,
+    "fail_count": 4
+  },
+  "written_at": "2026-09-10T04:33:44.584Z"
+}
