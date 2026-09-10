@@ -1,0 +1,72 @@
+{
+  "started_at": "2026-09-10T09:27:55.461Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\swe.pdf)",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "75bf7501-fd8d-4498-bb4e-624f8825ff58",
+    "armed_until": "2026-09-10T11:27:55.482Z",
+    "seconds_remaining": 7200,
+    "max_submits": 1,
+    "submits_used": 0,
+    "max_apps": 1,
+    "apps_started": 0,
+    "discover_max": 1,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": {
+    "arm_run_id": "75bf7501-fd8d-4498-bb4e-624f8825ff58",
+    "apps_started": 1,
+    "submits_used": 0,
+    "stopped_reason": "apps_cap",
+    "discover_runs": 0,
+    "emails_generated": 0,
+    "drafts_saved": 0,
+    "essay_drafts_generated": 0,
+    "screener_predictions_generated": 0,
+    "notes": [
+      "triage sweep: 0 confirmed, 1 refuted, 0 expired of 95 pending",
+      "triage b098574a: engage_agent_leg — precondition failed: no navigation wall in evidence — agent leg only helps nav-walled apps",
+      "artifact autopush: 7 file(s) pushed to master as 54761b50"
+    ],
+    "per_app": [
+      {
+        "application_id": "b098574a-da2f-4930-9f04-4bc58875a783",
+        "end_state": "NATIVE_AUTOFILL_RUNNING",
+        "stopped": "gate",
+        "stop_reason": "generic live fill refused: FORM_NOT_REACHED",
+        "submitted": false,
+        "outreach": null
+      }
+    ],
+    "nav_audit": {
+      "checked": 355,
+      "repaired": 0,
+      "parked": 0
+    },
+    "triage": {
+      "decided": 1,
+      "executed": 0
+    },
+    "artifact_autopush": {
+      "pushed": true,
+      "commit": "54761b50",
+      "files_staged": 7
+    }
+  },
+  "outcome": "completed",
+  "notes": []
+}
