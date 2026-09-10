@@ -1,0 +1,262 @@
+{
+  "decision_id": "f432ca80-bdf8-4f7a-ac64-a5fdebb4074e",
+  "application_id": "d7b93bb8-3573-4025-9370-50c6298ffdbd",
+  "signature": "FAILED_RETRYABLE|-|verify_mismatch|jobs.lever.co",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "d7b93bb8-3573-4025-9370-50c6298ffdbd",
+    "company": "Palantir Technologies",
+    "role": "Software Engineer, Internship",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 1,
+    "failure_signature": "FAILED_RETRYABLE|-|verify_mismatch|jobs.lever.co",
+    "end_host": "jobs.lever.co",
+    "recent_events": [
+      {
+        "from": "SUBMITTING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "pre-submit verification failed",
+        "at": "2026-09-10T10:14:32.368Z"
+      },
+      {
+        "from": "READY_TO_SUBMIT",
+        "to": "SUBMITTING",
+        "reason": "human-approved submission started",
+        "at": "2026-09-10T10:14:10.239Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "READY_TO_SUBMIT",
+        "reason": "pipeline: essays complete — final verification occurs pre-click in submit",
+        "at": "2026-09-10T10:13:13.811Z"
+      },
+      {
+        "from": "AMBIGUOUS_FIELD",
+        "to": "FIELD_VERIFICATION",
+        "reason": "operator resolved ambiguous field (console)",
+        "at": "2026-09-10T08:10:41.644Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "AMBIGUOUS_FIELD",
+        "reason": "pipeline: read-back verification failed",
+        "at": "2026-09-10T06:32:45.090Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (lever live fill: 27 filled (held for submit))",
+        "at": "2026-09-10T06:32:45.090Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route needs_review_unmapped (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-10T06:31:01.453Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-10T06:30:57.606Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: lever URL validated",
+        "at": "2026-09-10T06:30:57.602Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-10T06:30:55.377Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 dd9093dde3f8)",
+        "at": "2026-09-10T06:30:55.374Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-10T06:30:55.345Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-10T04:04:53.580Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-10T04:04:53.575Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-10T04:04:53.575Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "palantir",
+        "detail": "token \"palantir\" ~ slug \"palantir\"",
+        "expected_company": "Palantir Technologies",
+        "url": "https://jobs.lever.co/palantir/7d69cf8a-06fd-4f05-bd84-27149db29c4d/apply?jr_id=6a552986377f983ce8a982eb"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (10 candidates, employer match)",
+          "evidence": "jobs.lever.co"
+        }
+      ]
+    },
+    "submit": {
+      "outcome": "FAILED_BEFORE_CLICK",
+      "reason": "Refusing to click submit: field verification or upload did not pass",
+      "brief_items": [
+        {
+          "id": "verify:screener:custom:language_skills_33",
+          "question": "Language Skill(s) (Check all that apply)",
+          "field_id": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]",
+          "canonical_field": "screener:custom:language_skills_33",
+          "kind": "verify_mismatch",
+          "problem": "Expected \"English (ENG)\"; page shows \"(empty)\"",
+          "expected": "English (ENG)",
+          "observed": {
+            "value": "",
+            "label": ""
+          },
+          "how_to_answer": [
+            "System expected \"English (ENG)\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+            "Profile source: private/candidate/public-profile.json (key: screener:custom:language_skills_33)",
+            "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:language_skills_33\" should match the on-form question text."
+          ]
+        },
+        {
+          "id": "verify:screener:custom:predicted:cards[dbe30cab-7c88-4981-b9c9-a1ed816d52e0][field0]",
+          "question": "What are your preferred office location(s) to work from in addition to the location you are applying to? Select 1-3 from below.",
+          "field_id": "cards[dbe30cab-7c88-4981-b9c9-a1ed816d52e0][field0]",
+          "canonical_field": "screener:custom:predicted:cards[dbe30cab-7c88-4981-b9c9-a1ed816d52e0][field0]",
+          "kind": "verify_mismatch",
+          "problem": "Expected \"Washington, DC\"; page shows \"(empty)\"",
+          "expected": "Washington, DC",
+          "observed": {
+            "value": "",
+            "label": ""
+          },
+          "how_to_answer": [
+            "Type the intended value on the form (planned: Washington, DC). If a places/autocomplete list appears, select a matching suggestion; plain city text is enough when no list opens.",
+            "System expected \"Washington, DC\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+            "Profile source: private/candidate/public-profile.json (key: screener:custom:predicted:cards[dbe30cab-7c88-4981-b9c9-a1ed816d52e0][field0])",
+            "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:predicted:cards[dbe30cab-7c88-4981-b9c9-a1ed816d52e0][field0]\" should match the on-form question text."
+          ]
+        },
+        {
+          "id": "verify:screener:custom:palantir_product_pref_4",
+          "question": "What are your preferred Palantir product(s)? Please pick 1-2.",
+          "field_id": "cards[cdc438de-cb61-4895-8e0e-73204a8dc814][field0]",
+          "canonical_field": "screener:custom:palantir_product_pref_4",
+          "kind": "verify_mismatch",
+          "problem": "Expected \"Foundry - https://www.palantir.com/platforms/foundry/\"; page shows \"(empty)\"",
+          "expected": "Foundry - https://www.palantir.com/platforms/foundry/",
+          "observed": {
+            "value": "",
+            "label": ""
+          },
+          "how_to_answer": [
+            "System expected \"Foundry - https://www.palantir.com/platforms/foundry/\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+            "Profile source: private/candidate/public-profile.json (key: screener:custom:palantir_product_pref_4)",
+            "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:palantir_product_pref_4\" should match the on-form question text."
+          ]
+        },
+        {
+          "id": "fill_error:cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]: checkbox group has no optio",
+          "question": "(fill error — see problem)",
+          "field_id": null,
+          "canonical_field": null,
+          "kind": "fill_error",
+          "problem": "cards[a69a985a-eae9-4c14-90fb-b5a4b891523e][field0]: checkbox group has no option matching \"English (ENG)\" (options: English (ENG), Spanish (SPA), French (FRA), German (DEU), Japanese (JPN), Cantonese (CANT), Mandarin (MAN), Dutch (NLD))",
+          "expected": null,
+          "observed": null,
+          "how_to_answer": [
+            "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+            "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+          ]
+        },
+        {
+          "id": "fill_error:cards[dbe30cab-7c88-4981-b9c9-a1ed816d52e0][field0]: checkbox group has no optio",
+          "question": "(fill error — see problem)",
+          "field_id": null,
+          "canonical_field": null,
+          "kind": "fill_error",
+          "problem": "cards[dbe30cab-7c88-4981-b9c9-a1ed816d52e0][field0]: checkbox group has no option matching \"Washington, DC\" (options: New York, NY, Washington, DC, Palo Alto, CA, Seattle, WA, Denver, CO)",
+          "expected": null,
+          "observed": null,
+          "how_to_answer": [
+            "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+            "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+          ]
+        },
+        {
+          "id": "fill_error:cards[cdc438de-cb61-4895-8e0e-73204a8dc814][field0]: checkbox group has no optio",
+          "question": "(fill error — see problem)",
+          "field_id": null,
+          "canonical_field": null,
+          "kind": "fill_error",
+          "problem": "cards[cdc438de-cb61-4895-8e0e-73204a8dc814][field0]: checkbox group has no option matching \"Foundry - https://www.palantir.com/platforms/foundry/\" (options: Foundry - https://www.palantir.com/platforms/foundry/, Gotham - https://www.palantir.com/platforms/gotham/, Foundations - https://jobs.lever.co/palantir/4abf26b4-795c-420a-bf22-1ab98db268b4, Apollo - https://www.palantir.com/platforms/apollo/)",
+          "expected": null,
+          "observed": null,
+          "how_to_answer": [
+            "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+            "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+          ]
+        }
+      ]
+    },
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": false
+    },
+    "open_review_items": [],
+    "prior_decisions": [
+      {
+        "action": "park_for_operator",
+        "failure_signature": "AMBIGUOUS_FIELD|-|verify_mismatch|jobs.lever.co",
+        "outcome_status": "PENDING",
+        "created_at": "2026-09-10T06:32:51.869Z"
+      }
+    ],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"park_for_operator\", \"rationale\": \"Checkbox-group fill bug: options literally contain the expected values yet matching fails, so a rerun would repeat identically. Not transient, materials/navigation are fine (resume verified, congruence match, no wall). A human must fix the checkbox fill path or tick the three boxes manually.\", \"confidence\": \"high\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: dc5159c1-0b66-4651-8bec-357c231af7d9",
+  "rationale_unverified": "Checkbox-group fill bug: options literally contain the expected values yet matching fails, so a rerun would repeat identically. Not transient, materials/navigation are fine (resume verified, congruence match, no wall). A human must fix the checkbox fill path or tick the three boxes manually."
+}
