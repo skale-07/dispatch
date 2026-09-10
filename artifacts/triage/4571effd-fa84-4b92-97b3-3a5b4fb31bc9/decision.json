@@ -1,0 +1,145 @@
+{
+  "decision_id": "4571effd-fa84-4b92-97b3-3a5b4fb31bc9",
+  "application_id": "417741f0-7b81-43b0-952d-788a78d4c0f1",
+  "signature": "FAILED_RETRYABLE|-|unknown|www.amazon.jobs",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "417741f0-7b81-43b0-952d-788a78d4c0f1",
+    "company": "Amazon",
+    "role": "2026 Applied Science Internship - United States, Undergrad Student Science Recruiting, Frontier AI & Robotics",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 1,
+    "failure_signature": "FAILED_RETRYABLE|-|unknown|www.amazon.jobs",
+    "end_host": "www.amazon.jobs",
+    "recent_events": [
+      {
+        "from": "READY_TO_SUBMIT",
+        "to": "FAILED_RETRYABLE",
+        "reason": "submit page gate failed: POSTING_MISMATCH",
+        "at": "2026-09-10T09:39:13.372Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "READY_TO_SUBMIT",
+        "reason": "pipeline: fill rehearsal verified",
+        "at": "2026-09-10T09:39:13.295Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (generic live fill: 2 filled (held for submit))",
+        "at": "2026-09-10T09:39:13.294Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route ready_for_fill_later (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-10T05:44:25.305Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-10T05:44:23.946Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-10T05:44:23.942Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-10T05:44:22.234Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 db6f3f869124)",
+        "at": "2026-09-10T05:44:22.231Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-10T05:44:22.206Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-10T04:36:37.140Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-10T04:36:37.133Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-10T04:36:37.133Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-10T04:36:37.132Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "amazon",
+        "detail": "token \"amazon\" ~ slug \"amazon\" (from URL host)",
+        "expected_company": "Amazon",
+        "url": "https://www.amazon.jobs/en/jobs/3131316/2026-applied-science-internship-united-states-undergrad-student-science-recruiting-frontier-ai-robotics?jr_id=6a43257a78fcb767e2755c22"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (10 candidates, employer match)",
+          "evidence": "www.amazon.jobs"
+        }
+      ]
+    },
+    "submit": {
+      "outcome": "FAILED_BEFORE_CLICK",
+      "reason": "Page failed identity gate (POSTING_MISMATCH): final path  is not the validated posting /en/jobs/3131316/2026-applied-science-internship-united-states-undergrad-student-science-recruiting-frontier-ai-robotics — redirected posting is never filled",
+      "brief_items": []
+    },
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": true
+    },
+    "open_review_items": [],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"requeue_reopen_navigation\", \"rationale\": \"Submit blocked by POSTING_MISMATCH: the stored URL led to a page whose final path no longer matches the validated posting (empty final path suggests redirect/stale listing). Clearing the URL and re-resolving navigation is the cheapest action that could plausibly land on the correct posting.\", \"confidence\": \"medium\"}",
+  "parsed_action": "requeue_reopen_navigation",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "URL cleared, → APPLICATION_OPENING",
+  "rationale_unverified": "Submit blocked by POSTING_MISMATCH: the stored URL led to a page whose final path no longer matches the validated posting (empty final path suggests redirect/stale listing). Clearing the URL and re-resolving navigation is the cheapest action that could plausibly land on the correct posting."
+}
