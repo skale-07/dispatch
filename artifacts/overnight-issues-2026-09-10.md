@@ -770,3 +770,28 @@ questions fall out of the same pass if it lands — GreatAmerica's
 through the sensitive profile (#213/#231). The genuinely operator-only
 remainder is small: Replit's take-home URL/password, Interplay's
 personality-test screenshot, and salary (policy).
+
+## Barnes & Thornburg after #245/#245b/#246 — what is left, and why I stopped
+
+The three fixes did what they claimed. On the retry the observed values are
+all `(empty)` — nothing wrong is written any more — the fake
+`communicationConsent` option labels are gone, and the `__name` errors are
+gone.
+
+What remains is narrow and specific to this form: Ashby renders the phone
+input and a phone-CONSENT radio group inside one block, and discovery hands
+BOTH plan entries the label "Phone Number" with their ids effectively
+swapped — the `phone` entry resolves to the consent group (now skipped,
+#246) and the consent entry reports `button group not found by
+data-field-id`. So the real phone input is never targeted, phone is
+required, and the completeness gate blocks. Correctly.
+
+Chasing that needs a live DOM probe of this employer's block, and the fix
+would be shaped by one form. The operator's standing instruction is not to
+overfit, so it stays recorded rather than patched: two applications
+(af9258a6, 1881dbc0) parked on a discovery label/id association bug in
+Ashby blocks that mix a text input with a consent group.
+
+The general lesson is already banked in #246: only the live probe knows
+what a control really is, so a free-text fact must be re-checked against
+the live control and never written into a group.
