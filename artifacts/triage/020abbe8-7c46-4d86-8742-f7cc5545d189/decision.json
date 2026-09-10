@@ -1,0 +1,156 @@
+{
+  "decision_id": "020abbe8-7c46-4d86-8742-f7cc5545d189",
+  "application_id": "40a919f5-a4fd-43a2-bde0-61248510bb17",
+  "signature": "AMBIGUOUS_FIELD|-|verify_mismatch|fa-etbx-saasfaprod1.fa.ocs.oraclecloud.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "40a919f5-a4fd-43a2-bde0-61248510bb17",
+    "company": "Navy Federal Credit Union",
+    "role": "Summer Associate Internship (AI Engineer)",
+    "state": "AMBIGUOUS_FIELD",
+    "attempt": 1,
+    "failure_signature": "AMBIGUOUS_FIELD|-|verify_mismatch|fa-etbx-saasfaprod1.fa.ocs.oraclecloud.com",
+    "end_host": "[REDACTED]",
+    "recent_events": [
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "AMBIGUOUS_FIELD",
+        "reason": "pipeline: read-back verification failed",
+        "at": "2026-09-10T14:10:47.977Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (generic live fill: 0 filled (held for submit))",
+        "at": "2026-09-10T14:10:47.976Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route ready_for_fill_later (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-10T14:10:19.845Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-10T14:10:17.718Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-10T14:10:17.702Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-10T14:10:10.448Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 db6f3f869124)",
+        "at": "2026-09-10T14:10:10.444Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-10T14:10:10.418Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-10T14:08:12.487Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-10T14:08:12.474Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-10T14:08:12.473Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-10T14:08:12.472Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_llm",
+      "notes": [
+        "phase A: anchor reads as \"saasfaprod1\" (URL names \"saasfaprod1\" (tenant), which shares nothing with company \"Navy Federal Credit Union\") — not preferred, deferring to the Apply click",
+        "phase A: 8 external host(s) seen: fa-etbx-saasfaprod1.fa.ocs.oraclecloud.com, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, www.newswire.com, www.businesswire.com, www.globenewswire.com",
+        "no standard Apply control found (exact and broad name tiers both empty)",
+        "anchor adjudication: promoted fa-etbx-saasfaprod1.fa.ocs.oraclecloud.com",
+        "anchor adjudication rationale (UNVERIFIED): Oracle HCM candidate experience site is the employer's own ATS job posting; others are news articles.",
+        "congruence: URL names \"saasfaprod1\", not \"Navy Federal Credit Union\" (URL names \"saasfaprod1\" (tenant), which shares nothing with company \"Navy Federal Credit Union\") — recorded, not refused"
+      ],
+      "congruence": {
+        "verdict": "mismatch",
+        "slug": "saasfaprod1",
+        "detail": "URL names \"saasfaprod1\" (tenant), which shares nothing with company \"Navy Federal Credit Union\"",
+        "expected_company": "Navy Federal Credit Union",
+        "url": "https://fa-etbx-saasfaprod1.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/32261?jr_id=6aa16319dbc0e60e37e110ed"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "no congruent apply href (9 external links)",
+          "evidence": "fa-etbx-saasfaprod1.fa.ocs.oraclecloud.com, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, www.newswire.com"
+        },
+        {
+          "phase": "B_apply_click",
+          "outcome": "unresolved by deterministic phases"
+        },
+        {
+          "phase": "A_anchor_llm",
+          "outcome": "candidate promoted by adjudication",
+          "evidence": "[REDACTED]"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": false
+    },
+    "open_review_items": [
+      {
+        "kind": "AMBIGUOUS_FIELD",
+        "title": "Fill verification failed"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"engage_agent_leg\", \"rationale\": \"Deterministic tiers exhausted (no Apply control in exact/broad tiers, phase B unresolved; URL promoted only by unverified anchor adjudication) and native fill filled 0 fields, failing read-back. URL is a plausible Oracle HCM tenant, so reopening navigation is unlikely to help; one bounded agent attempt can locate the real apply form. No prior agent leg used.\", \"confidence\": \"medium\"}",
+  "parsed_action": "engage_agent_leg",
+  "validation_note": null,
+  "precondition": {
+    "ok": false,
+    "reason": "no navigation wall in evidence — agent leg only helps nav-walled apps"
+  },
+  "mode": "act",
+  "executed": false,
+  "execution_detail": "precondition failed: no navigation wall in evidence — agent leg only helps nav-walled apps",
+  "rationale_unverified": "Deterministic tiers exhausted (no Apply control in exact/broad tiers, phase B unresolved; URL promoted only by unverified anchor adjudication) and native fill filled 0 fields, failing read-back. URL is a plausible Oracle HCM tenant, so reopening navigation is unlikely to help; one bounded agent attempt can locate the real apply form. No prior agent leg used."
+}
