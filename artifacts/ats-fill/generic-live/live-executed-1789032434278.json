@@ -1,0 +1,229 @@
+{
+  "ats": "generic",
+  "url": "https://www.tesla.com/careers/search/job/282916",
+  "requested_url": "https://www.tesla.com/careers/search/job/282916",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://www.tesla.com/careers/search/job/apply/282916",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 7,
+    "skipped_count": 2,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "9e2384c5-9cf8-4e98-a4bc-ff28b72e845f",
+      "label": "Legal First Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "a4bfd6c6-a891-4743-bfd1-1e867fe4c059",
+      "label": "Legal Last Name",
+      "type": "text",
+      "canonical_field": "legal_name.last",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "c03b58fc-857e-48da-bd01-5183cc7c6020",
+      "label": "Middle Name (Optional)",
+      "type": "text",
+      "canonical_field": "legal_name.middle",
+      "action": "SKIP",
+      "reason": "Profile value empty for legal_name.middle"
+    },
+    {
+      "field_id": "29335d45-0b6b-49ab-810c-1f4f4c6ea44c",
+      "label": "Preferred Name (Optional)",
+      "type": "text",
+      "canonical_field": "screener:custom:has_preferred_name",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "f8ba0db2-e878-4d1d-a226-11635cae5d5d",
+      "label": "Phone Number",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "49db0897-3ae7-4ef9-a127-fb94cebb4ca2",
+      "label": "Contact Phone Type",
+      "type": "select",
+      "canonical_field": "screener:custom:contact_phone_type",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "7f7a4972-09d7-4140-ae63-31c385148ee6",
+      "label": "Email",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "b3c14e72-32e3-46d2-b1b6-0d5c44c2935b",
+      "label": "Country/Region of Residence",
+      "type": "select",
+      "canonical_field": "address.country",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "57bc0dfb-13a4-400f-94fb-15805a81197f",
+      "label": "Select File",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "901bcfcf-a693-4b56-b313-8283d7caea6b",
+      "label": "When are you available to start an internship?",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "employment row 13 — the profile holds one entry; not answered from the bank"
+    },
+    {
+      "field_id": "5b855307-7d33-497e-86d0-5053e7807ba0",
+      "label": "How many months are you available for an internship? Internships must be at least three months long.",
+      "type": "select",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "employment row 0 already holds \"- Select -\" (resume parse) — kept"
+    },
+    {
+      "field_id": "9926ce51-fbe9-4d54-8385-313908ea3ffd",
+      "label": "Are you available for a full-time internship? Only full-time positions are offered.",
+      "type": "select",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "employment row 85 already holds \"- Select -\" (resume parse) — kept"
+    },
+    {
+      "field_id": "job.jobInternshipThesis",
+      "label": "Yes",
+      "type": "radio",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\generic-live\\form-snapshot-1789032434276.html",
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "legal_name.last",
+      "screener:custom:has_preferred_name",
+      "phone",
+      "screener:custom:contact_phone_type",
+      "email",
+      "address.country"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "9e2384c5-9cf8-4e98-a4bc-ff28b72e845f",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "a4bfd6c6-a891-4743-bfd1-1e867fe4c059",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "29335d45-0b6b-49ab-810c-1f4f4c6ea44c",
+        "canonical_field": "screener:custom:has_preferred_name",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "f8ba0db2-e878-4d1d-a226-11635cae5d5d",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "49db0897-3ae7-4ef9-a127-fb94cebb4ca2",
+        "canonical_field": "screener:custom:contact_phone_type",
+        "control_kind": "native_select",
+        "selected_option": "Mobile",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "7f7a4972-09d7-4140-ae63-31c385148ee6",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "b3c14e72-32e3-46d2-b1b6-0d5c44c2935b",
+        "canonical_field": "address.country",
+        "control_kind": "native_select",
+        "selected_option": "United States",
+        "match_via": "exact"
+      }
+    ]
+  },
+  "verify": {
+    "passed": false,
+    "fields": [],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 125751,
+      "verified": true,
+      "evidence": "input files: [{\"name\":\"resume-db6f3f86.pdf\",\"size\":125751}]; stillAttached=true; chip=true"
+    }
+  ],
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: posting (no fields, Apply CTA present)",
+    "landed on a posting (no fields, Apply CTA present); clicking Apply via role=link accessible name is Apply",
+    "Apply landed on: unknown (no signals matched)",
+    "Apply opened a new tab — the flow continues there",
+    "timing: base page (9 planned) — plan 0s, fill 2s, verify 0s",
+    "timing: revealed page (4 planned) — plan 2s, fill 0s, verify 0s",
+    "resolved advance: \"Next\"",
+    "form-advance: verify failed on page 2 — not advancing further",
+    "form-advance: filled 1 additional page(s) — form:0/0",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "wizard_pages": [
+    {
+      "page": 2,
+      "url": "https://www.tesla.com/careers/search/job/apply/282916",
+      "kind": "form",
+      "fillable": 0,
+      "filled": 0,
+      "verify_passed": false
+    }
+  ],
+  "operator_brief": {
+    "title": "Live fill — generic https://www.tesla.com/careers/search/job/apply/282916",
+    "summary": "No open field issues in this report.",
+    "items": [],
+    "ok_count": 0,
+    "fail_count": 0
+  },
+  "written_at": "2026-09-10T09:27:14.283Z"
+}
