@@ -1,0 +1,140 @@
+{
+  "decision_id": "43424591-afc4-433f-ab70-9a32d2161670",
+  "application_id": "9fe2c566-6895-4dca-b181-4a3747380f41",
+  "signature": "AMBIGUOUS_FIELD|-|verify_mismatch|careers.mitre.org",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "9fe2c566-6895-4dca-b181-4a3747380f41",
+    "company": "MITRE",
+    "role": "Software Engineer Intern",
+    "state": "AMBIGUOUS_FIELD",
+    "attempt": 1,
+    "failure_signature": "AMBIGUOUS_FIELD|-|verify_mismatch|careers.mitre.org",
+    "end_host": "careers.mitre.org",
+    "recent_events": [
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "AMBIGUOUS_FIELD",
+        "reason": "pipeline: read-back verification failed",
+        "at": "2026-09-10T06:28:12.845Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (generic live fill: 0 filled (held for submit))",
+        "at": "2026-09-10T06:28:12.845Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-10T06:28:03.981Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-10T06:28:01.359Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-10T06:28:01.356Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-10T06:27:59.641Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 dd9093dde3f8)",
+        "at": "2026-09-10T06:27:59.637Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-10T06:27:59.615Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-10T04:04:53.596Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-10T04:04:53.591Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-10T04:04:53.591Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-10T04:04:53.590Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "mitre",
+        "detail": "token \"mitre\" ~ slug \"mitre\" (from URL host)",
+        "expected_company": "MITRE",
+        "url": "https://careers.mitre.org/us/en/job/MITRUSR117371EXTERNALENUS/software-engineer-intern?jr_id=6aa1d0e4ef23570cae246633"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (10 candidates, employer match)",
+          "evidence": "careers.mitre.org"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": false
+    },
+    "open_review_items": [
+      {
+        "kind": "AMBIGUOUS_FIELD",
+        "title": "Fill verification failed"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\":\"engage_agent_leg\",\"rationale\":\"Deterministic fill filled 0 fields and read-back verification failed on a login-gated employer form; nav is correct and materials are fresh, so a plain requeue would repeat identically. No prior agent leg has been granted — one bounded agent attempt is the cheapest thing that could change the outcome.\",\"confidence\":\"medium\"}",
+  "parsed_action": "engage_agent_leg",
+  "validation_note": null,
+  "precondition": {
+    "ok": false,
+    "reason": "no navigation wall in evidence — agent leg only helps nav-walled apps"
+  },
+  "mode": "act",
+  "executed": false,
+  "execution_detail": "precondition failed: no navigation wall in evidence — agent leg only helps nav-walled apps",
+  "rationale_unverified": "Deterministic fill filled 0 fields and read-back verification failed on a login-gated employer form; nav is correct and materials are fresh, so a plain requeue would repeat identically. No prior agent leg has been granted — one bounded agent attempt is the cheapest thing that could change the outcome."
+}
