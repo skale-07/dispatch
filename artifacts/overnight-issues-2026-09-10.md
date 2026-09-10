@@ -716,3 +716,57 @@ beside a live browser.
 - CIM Group, DRW — salary expectations (policy: never model-answered).
 - Lexington Medical (1 of 3) — a portfolio file for an engineering-work
   question.
+
+---
+
+## #224, sharpened — the plan snapshot is taken before the acknowledgement block exists
+
+Night28 left this as "the live completeness scan sees required fields that
+plan-time discovery does not", with the cause unknown. Tonight's evidence
+narrows it to something actionable.
+
+**The recurring shape.** Of the applications still parked at end of night,
+three are blocked on the identical thing — a bare **"Name" + "Date"**
+acknowledgement/signature block (Immuta, Crest Industries ×2; Palantir was
+the same shape on night28). The answer is completely deterministic: the
+operator's legal name and today's date. `matchCanonicalField` already has
+the canonicals for it (`signature_name` / `signature_date`, #226).
+
+**The cause is not the mapper — the controls are not in the snapshot.**
+Running `discoverFieldsFromHtml` offline against the run's own saved
+form snapshot for Crest (`form-snapshot-1789028919723.html`, **725 KB — the
+whole page**) yields 12 fields:
+
+```
+resume, Full name, Email, Phone, location, Current company,
+LinkedIn URL, Other website, eeo[gender], eeo[race], eeo[veteran],
+disabilitySelectElement
+```
+
+No "Name", no "Date" — while the same page's live completeness scan finds
+both, and the HTML does contain the word "acknowledgement". So the block
+renders AFTER the plan snapshot is taken (a late-mounting card, or a
+section revealed by completing the EEO block). Discovery and the mapper
+are both fine; the input they were given was stale.
+
+**What the fix is, and what it is not.** The tempting shortcut — answer
+them at submit time and click — puts values on a form that never passed
+the approved-plan gate, and is refused for the same reason it was refused
+on night28. The right fix is a SECOND pass through the normal path: when
+the completeness scan names required controls the plan never saw, re-read
+the settled HTML, re-discover, and build a second approved plan for just
+those fields, filling through the ordinary machinery. Everything needed
+already exists inside `atsLiveFill`; it is the sequencing that is new.
+
+That is a restructure of the fill's main loop, so it wants a session with a
+solo gate rather than the last hour beside a live browser. But it is now a
+diagnosed bug with a reproducible offline check, not a mystery: re-run the
+snippet above against any saved `form-snapshot-*.html` and compare its
+field list to the run's `unanswered` payload.
+
+**Worth noting for whoever picks it up:** two of tonight's other parked
+questions fall out of the same pass if it lands — GreatAmerica's
+"Middle Name*" is a profile fact, and Roblox's racial/ethnic question maps
+through the sensitive profile (#213/#231). The genuinely operator-only
+remainder is small: Replit's take-home URL/password, Interplay's
+personality-test screenshot, and salary (policy).
