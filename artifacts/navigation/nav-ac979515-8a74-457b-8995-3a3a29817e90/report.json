@@ -1,0 +1,51 @@
+{
+  "run_id": "nav-ac979515-8a74-457b-8995-3a3a29817e90",
+  "application_id": "717aba2c-2047-4b5a-a399-fd97c9235edf",
+  "jobright_job_id": "6aa168330ffb3d4fea6b48e9",
+  "method": "anchor_llm",
+  "resolved_url": "https://fa-etbx-saasfaprod1.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/nfcu/job/32261",
+  "resolved_ats": "generic",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no congruent apply href (9 external links)",
+      "evidence": "fa-etbx-saasfaprod1.fa.ocs.oraclecloud.com, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, www.newswire.com"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "unresolved by deterministic phases"
+    },
+    {
+      "phase": "A_anchor_llm",
+      "outcome": "candidate promoted by adjudication",
+      "evidence": "[REDACTED]"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "phase A: anchor reads as \"saasfaprod1\" (URL names \"saasfaprod1\" (tenant), which shares nothing with company \"Navy Federal Credit Union\") — not preferred, deferring to the Apply click",
+    "phase A: 8 external host(s) seen: fa-etbx-saasfaprod1.fa.ocs.oraclecloud.com, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, www.newswire.com, www.businesswire.com, www.globenewswire.com",
+    "no standard Apply control found (exact and broad name tiers both empty)",
+    "anchor adjudication: promoted fa-etbx-saasfaprod1.fa.ocs.oraclecloud.com",
+    "anchor adjudication rationale (UNVERIFIED): Oracle HCM careers site with 'nfcu' site slug = Navy Federal's own ATS job page; others are news releases.",
+    "congruence: URL names \"saasfaprod1\", not \"Navy Federal Credit Union\" (URL names \"saasfaprod1\" (tenant), which shares nothing with company \"Navy Federal Credit Union\") — recorded, not refused"
+  ],
+  "congruence": {
+    "verdict": "mismatch",
+    "slug": "saasfaprod1",
+    "detail": "URL names \"saasfaprod1\" (tenant), which shares nothing with company \"Navy Federal Credit Union\"",
+    "expected_company": "Navy Federal Credit Union",
+    "url": "https://fa-etbx-saasfaprod1.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/nfcu/job/32261?jr_id=6aa168330ffb3d4fea6b48e9"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-09-10T07:46:20.078Z"
+}
