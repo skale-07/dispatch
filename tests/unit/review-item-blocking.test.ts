@@ -53,4 +53,60 @@ describe("which review items actually block an application (#241)", () => {
     expect(isAdvisoryReviewItem(other)).toBe(false);
     expect(isTriageParkReview(other)).toBe(false);
   });
+
+});
+
+/**
+ * #241, second entry point: `requeueAmbiguousField` left the triage park
+ * standing, so 12 of 14 FIELD_VERIFICATION applications — every one
+ * requeued to prove a fix — were invisible to the picker while the loop
+ * idled on an empty queue.
+ */
+describe("a requeue clears the triage park that was waiting for it", () => {
+  it("requeueAmbiguousField dismisses the app's triage park", async () => {
+    const [{ openDatabase, migrate, closeDatabase }, { createApplication }, { upsertJobByFingerprint }, reviewItems, resolvers] =
+      await Promise.all([
+        import("../../src/storage/db/client.js"),
+        import("../../src/queue/stateMachine.js"),
+        import("../../src/jobs/repository.js"),
+        import("../../src/queue/reviewItems.js"),
+        import("../../src/queue/reviewResolvers.js"),
+      ]);
+    const os = await import("node:os");
+    const path = await import("node:path");
+    const fs = await import("node:fs");
+    const { randomUUID } = await import("node:crypto");
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), "jaa-requeue-"));
+    const db = openDatabase(path.join(dir, "app.sqlite"));
+    try {
+      migrate(db);
+      const job = upsertJobByFingerprint(db, {
+        jobrightJobId: `jr-${randomUUID().slice(0, 8)}`,
+        applicationUrl: "https://jobs.lever.co/acme/abc/apply",
+        company: "Acme",
+        role: "SWE Intern",
+      });
+      const appId = createApplication(db, { jobId: job.id }).id;
+      db.prepare("UPDATE applications SET state='AMBIGUOUS_FIELD' WHERE id=?").run(appId);
+      const { item: ambiguous } = reviewItems.upsertOpenReviewItem(db, {
+        applicationId: appId,
+        kind: "AMBIGUOUS_FIELD",
+        title: "Fill verification failed",
+      });
+      reviewItems.upsertOpenReviewItem(db, {
+        applicationId: appId,
+        kind: "MANUAL",
+        title: "Triage: operator decision needed (AMBIGUOUS_FIELD|-|verify_mismatch|jobs.lever.co)",
+      });
+      expect(reviewItems.listOpenReviewItems(db).filter((i) => i.application_id === appId)).toHaveLength(2);
+
+      resolvers.requeueAmbiguousField(db, { reviewItemId: ambiguous.id, note: "test" });
+
+      const stillOpen = reviewItems.listOpenReviewItems(db).filter((i) => i.application_id === appId);
+      expect(stillOpen).toHaveLength(0);
+    } finally {
+      closeDatabase(db);
+      fs.rmSync(dir, { recursive: true, force: true });
+    }
+  });
 });

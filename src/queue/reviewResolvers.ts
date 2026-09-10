@@ -3,6 +3,7 @@ import type { ApplicationState } from "./states.js";
 import { canTransition } from "./states.js";
 import { getApplication, transitionApplication } from "./stateMachine.js";
 import {
+  isTriageParkReview,
   listOpenReviewItems,
   resolveReviewItem,
   type ReviewItem,
@@ -261,7 +262,31 @@ export function requeueAmbiguousField(
     by: "console",
     ...(input.note ? { operator_note: input.note } : {}),
   });
+  clearTriageParks(db, item.application_id);
   return result(db, item, "requeue", skipped);
+}
+
+/**
+ * #241, second entry point (live night29): a requeue IS the decision the
+ * LLM triage's park was waiting for, but only `retry --app` cleared it.
+ * An AMBIGUOUS_FIELD requeue left the park standing, so 12 of 14
+ * FIELD_VERIFICATION applications — every one requeued to prove a fix —
+ * were invisible to the picker and the loop idled on an empty queue with
+ * a full backlog. Any path that deliberately puts an application back in
+ * play clears it; while it stands, it still stops the loop.
+ */
+function clearTriageParks(db: Db, applicationId: string | null): void {
+  if (!applicationId) return;
+  for (const open of listOpenReviewItems(db)) {
+    if (open.application_id !== applicationId) continue;
+    if (!isTriageParkReview(open)) continue;
+    resolveReviewItem(
+      db,
+      open.id,
+      { action: "dismissed", by: "requeue" },
+      "DISMISSED",
+    );
+  }
 }
 
 /**

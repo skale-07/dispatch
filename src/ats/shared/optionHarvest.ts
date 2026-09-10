@@ -45,7 +45,9 @@ import type { DiscoveredField } from "../adapter.js";
  * and the field parks exactly as it did before this module existed.
  */
 
-export type HarvestBasis = "native_select" | "opened_listbox";
+/** #244 adds `group_members`: a checkbox/radio group read from its own
+ *  member labels, with nothing opened. */
+export type HarvestBasis = "native_select" | "opened_listbox" | "group_members";
 
 /**
  * The two answer classes an application field can have (operator directive
@@ -140,7 +142,67 @@ const OPTION_SELECTOR =
  */
 function isHarvestCandidate(f: DiscoveredField): boolean {
   if ((f.options?.length ?? 0) > 0) return false; // already known from HTML
-  return f.type === "select" || f.type === "text";
+  // #244 (live Shield AI lever 2026-09-10): checkbox and radio GROUPS were
+  // excluded outright, so their answer space was never known. #235 had
+  // just started routing required groups to the predict tier, which then
+  // answered them as free text — "I have not yet completed a degree"
+  // against a list that never contained it — and the fill refused every
+  // time. A group's options are its own member labels: readable without
+  // opening anything, and the one thing that makes the answer choosable.
+  return (
+    f.type === "select" ||
+    f.type === "text" ||
+    f.type === "checkbox" ||
+    f.type === "radio"
+  );
+}
+
+/**
+ * #244: the member labels of the group this control belongs to. A shared
+ * `name` IS the HTML definition of a group; otherwise the nearest
+ * fieldset / role=group scopes it, and a control with neither is its own
+ * single-member group. Vendor-blind and read-only — no clicks, no opening.
+ */
+async function readGroupMemberLabels(loc: Locator): Promise<string[]> {
+  return loc.evaluate((el: {
+    name?: string;
+    id?: string;
+    closest: (s: string) => {
+      querySelectorAll: (s: string) => ArrayLike<{ id?: string; parentElement?: { textContent?: string | null } | null }>;
+    } | null;
+    ownerDocument: {
+      querySelectorAll: (s: string) => ArrayLike<{ id?: string; parentElement?: { textContent?: string | null } | null }>;
+      querySelector: (s: string) => { textContent?: string | null } | null;
+    };
+  }) => {
+    const clean = (t: string | null | undefined): string =>
+      (t ?? "").replace(/\s+/g, " ").trim().slice(0, 120);
+    const doc = el.ownerDocument;
+    const escape = (v: string): string => v.replace(/"/g, '\\"');
+    let members: ArrayLike<{ id?: string; parentElement?: { textContent?: string | null } | null }> = [];
+    if (el.name) {
+      members = doc.querySelectorAll(
+        'input[type="checkbox"][name="' + escape(el.name) + '"], input[type="radio"][name="' + escape(el.name) + '"]',
+      );
+    }
+    if (members.length <= 1) {
+      const scope = el.closest("fieldset") ?? el.closest('[role="group"]');
+      if (scope) {
+        members = scope.querySelectorAll('input[type="checkbox"], input[type="radio"]');
+      }
+    }
+    const out: string[] = [];
+    for (const m of Array.from(members)) {
+      let text = "";
+      if (m.id) {
+        const lab = doc.querySelector('label[for="' + escape(m.id) + '"]');
+        text = clean(lab?.textContent);
+      }
+      if (!text) text = clean(m.parentElement?.textContent);
+      if (text && !out.includes(text)) out.push(text);
+    }
+    return out;
+  });
 }
 
 function locatorForField(page: Page, field: DiscoveredField): Locator | null {
@@ -316,6 +378,26 @@ export async function harvestFieldOptions(
     examined += 1;
     try {
       if ((await loc.count()) === 0) continue;
+      if (field.type === "checkbox" || field.type === "radio") {
+        // #244: a group's answer space is its member labels. Two or more
+        // members is a real choice; one is a consent-style box, which the
+        // consent path already owns — leave it unclassified.
+        const members = await readGroupMemberLabels(loc);
+        if (members.length >= 2) {
+          opened += 1;
+          result.options.set(field.id, members);
+          result.answerSpace.set(field.id, "closed");
+          result.harvested.push({
+            field_id: field.id,
+            label: field.label,
+            options: members,
+            basis: "group_members",
+            answer_space: "closed",
+            other_option: findOtherOption(members),
+          });
+        }
+        continue;
+      }
       const kind = await detectSelectKind(loc);
       if (kind === "other") {
         // Probed and it is a plain input: an OPEN answer space. Saying so

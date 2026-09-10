@@ -243,3 +243,57 @@ describe("pickSpecifyField (UNIT_CONFIRMED)", () => {
     ).toBeNull();
   });
 });
+
+/**
+ * #244 (live Shield AI lever 2026-09-10). Checkbox and radio GROUPS were
+ * excluded from the harvest outright, so their answer space was never
+ * known. #235 had just started routing required groups to the predict
+ * tier, which then answered them as FREE TEXT — "I have not yet completed
+ * a degree" against a list that never contained it — and the fill refused
+ * once per member (6 and 9 identical refusals on one live form). A
+ * group's options are its own member labels, readable without opening
+ * anything.
+ */
+describe("checkbox / radio groups harvest their member labels (#244)", () => {
+  useIsolatedFillEnv("safe");
+
+  const LEVER_CARD_GROUP = `<!DOCTYPE html><html><body>
+    <div class="application-question">
+      <div class="application-label"><div class="text">Which degrees have you already completed, if any?</div></div>
+      <div class="application-field">
+        <label for="d0"><input type="checkbox" id="d0" name="cards[abc][field5]" value="0" />None</label>
+        <label for="d1"><input type="checkbox" id="d1" name="cards[abc][field5]" value="1" />Bachelor's degree</label>
+        <label for="d2"><input type="checkbox" id="d2" name="cards[abc][field5]" value="2" />Master's degree</label>
+      </div>
+    </div>
+    <fieldset>
+      <legend>Preferred office</legend>
+      <label for="o0"><input type="radio" id="o0" name="office" />San Diego</label>
+      <label for="o1"><input type="radio" id="o1" name="office" />Washington, DC</label>
+    </fieldset>
+    <label for="tos"><input type="checkbox" id="tos" name="tos" />I agree to the terms</label>
+  </body></html>`;
+
+  it("reads a shared-name checkbox group's options, so a prediction can be CHOSEN", async () => {
+    await withFixtureHtmlPage(LEVER_CARD_GROUP, async (page) => {
+      const fields: DiscoveredField[] = [
+        { id: "cards[abc][field5]", label: "Which degrees have you already completed, if any?", type: "checkbox", required: true, name: "cards[abc][field5]" },
+        { id: "office", label: "Preferred office", type: "radio", required: true, name: "office" },
+        { id: "tos", label: "I agree to the terms", type: "checkbox", required: true, name: "tos" },
+      ];
+      const harvest = await harvestFieldOptions(page, fields);
+      const degrees = harvest.options.get("cards[abc][field5]");
+      expect(degrees).toBeDefined();
+      expect(degrees).toContain("None");
+      expect(degrees).toContain("Bachelor's degree");
+      expect(harvest.answerSpace.get("cards[abc][field5]")).toBe("closed");
+
+      // A fieldset scopes a radio group just as well.
+      expect(harvest.options.get("office")).toContain("Washington, DC");
+
+      // A LONE consent checkbox is not a choice — the consent path owns it,
+      // so it stays unclassified rather than becoming a 1-option "list".
+      expect(harvest.options.has("tos")).toBe(false);
+    });
+  }, 45_000);
+});
