@@ -1,0 +1,120 @@
+{
+  "outcome": "FAILED_BEFORE_CLICK",
+  "application_id": "9fe2c566-6895-4dca-b181-4a3747380f41",
+  "submission_id": "31063377-df43-437b-af5a-39743b6c94ce",
+  "attempt": 1,
+  "receipt": null,
+  "review_item_id": null,
+  "reason": "Refusing to click submit: field verification or upload did not pass",
+  "artifact_path": null,
+  "operator_brief": {
+    "title": "Submit blocked — generic app 9fe2c566-6895-4dca-b181-4a3747380f41",
+    "summary": "7 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:application_consent:f_0",
+        "question": "I have read and accept the privacy policy and terms of use",
+        "field_id": "f_0",
+        "canonical_field": "application_consent:f_0",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"true\"; page shows \"(empty)\"",
+        "expected": true,
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"true\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: application_consent:f_0)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"application_consent:f_0\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:current_company",
+        "question": "Sign me up for company updates",
+        "field_id": "f_2",
+        "canonical_field": "current_company",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Summer Atlantic Capital\"; page shows \"(empty)\"",
+        "expected": "Summer Atlantic Capital",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"Summer Atlantic Capital\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → current_company",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"current_company\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:phone",
+        "question": "Phone",
+        "field_id": "phone-1",
+        "canonical_field": "phone",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"4805897636\"; page shows \"(empty)\"",
+        "expected": "4805897636",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"4805897636\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → phone",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"phone\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "fill_error:f_0: control not found on the page (label \"I have read and accept the privacy po",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "f_0: control not found on the page (label \"I have read and accept the privacy policy and terms of use\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:f_2: control not found on the page (label \"Sign me up for company updates\") — fa",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "f_2: control not found on the page (label \"Sign me up for company updates\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:phone-1: control not found on the page (label \"Phone\") — failing fast instead of",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "phone-1: control not found on the page (label \"Phone\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "upload:resume",
+        "question": "Upload: resume",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "upload_failed",
+        "problem": "no file input resolved: primary resume selector not attached within 3s; retrying resolve after 1500ms; primary resume selector not attached within 3s; no resume file input; 0 file inputs on page; filechooser fallback: no upload-like control found",
+        "expected": "resume-dd9093dd.pdf",
+        "observed": null,
+        "how_to_answer": [
+          "Resume is system-owned: materials:register + adapter.uploadResume on submit/fill — not a free-text profile field.",
+          "If this is ats:fill without --resume, pass --resume <pdf> or use application submit (uses registered material).",
+          "Evidence: no file input resolved: primary resume selector not attached within 3s; retrying resolve after 1500ms; primary resume selector not attached within 3s; no resume file input; 0 file inputs on page; filechooser fallback: no upload-like control found"
+        ]
+      }
+    ],
+    "ok_count": 1,
+    "fail_count": 7
+  }
+}
