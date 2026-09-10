@@ -1,0 +1,165 @@
+{
+  "decision_id": "e20c8cf7-4c45-4714-ac92-57572eceaa2b",
+  "application_id": "b098574a-da2f-4930-9f04-4bc58875a783",
+  "signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|careers.publicissapient.com",
+  "forbidden_actions": [
+    "requeue_same",
+    "engage_agent_leg"
+  ],
+  "bundle": {
+    "application_id": "b098574a-da2f-4930-9f04-4bc58875a783",
+    "company": "Publicis Sapient",
+    "role": "Software Engineer Intern (Class of 2028)",
+    "state": "NATIVE_AUTOFILL_RUNNING",
+    "attempt": 2,
+    "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|careers.publicissapient.com",
+    "end_host": "careers.publicissapient.com",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-10T05:41:22.945Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-10T05:41:22.161Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-10T05:41:22.157Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-10T05:41:22.153Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 ded139ebbd60)",
+        "at": "2026-09-10T05:41:22.149Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-10T05:41:22.135Z"
+      },
+      {
+        "from": "FAILED_RETRYABLE",
+        "to": "QUEUED",
+        "reason": "retry 2/3",
+        "at": "2026-09-10T05:40:36.747Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "triage: demoting gate-parked NATIVE_AUTOFILL_RUNNING for requeue (NATIVE_AUTOFILL_RUNNING|-|unknown|careers.publicissapient.com)",
+        "at": "2026-09-10T05:40:36.746Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-10T05:39:32.957Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-10T05:39:31.414Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-10T05:39:31.411Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-10T05:39:29.332Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 ded139ebbd60)",
+        "at": "2026-09-10T05:39:29.329Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-10T05:39:29.306Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-10T05:12:55.495Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "publicissapient",
+        "detail": "token \"publicis\" ~ slug \"publicissapient\" (from URL host)",
+        "expected_company": "Publicis Sapient",
+        "url": "https://careers.publicissapient.com/job-details/2026-172577-software-engineer-intern--class-of-2028--chicago?mode=apply&iis=jobright&jr_id=6aa1f33a3272060a8e3f2dda"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (12 candidates, employer match)",
+          "evidence": "careers.publicissapient.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [],
+    "prior_decisions": [
+      {
+        "action": "engage_agent_leg",
+        "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|careers.publicissapient.com",
+        "outcome_status": "PENDING",
+        "created_at": "2026-09-10T09:28:53.606Z"
+      },
+      {
+        "action": "requeue_same",
+        "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|careers.publicissapient.com",
+        "outcome_status": "REFUTED",
+        "created_at": "2026-09-10T05:40:36.746Z"
+      }
+    ],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": true
+  },
+  "raw_model_text": "{\"action\":\"park_for_operator\",\"rationale\":\"Stalls at portal sign-in (needs_login) on a verified-correct employer URL with fresh materials. Requeue_same was refuted and agent leg already granted/pending; no wall evidence supports permanent abandonment and no duplicate evidence exists. Needs human credential/decision.\",\"confidence\":\"high\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: cddeed28-3a8e-483d-9b60-6104fb583ef4",
+  "rationale_unverified": "Stalls at portal sign-in (needs_login) on a verified-correct employer URL with fresh materials. Requeue_same was refuted and agent leg already granted/pending; no wall evidence supports permanent abandonment and no duplicate evidence exists. Needs human credential/decision."
+}
