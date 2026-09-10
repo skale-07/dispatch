@@ -1,0 +1,1624 @@
+{
+  "mode": "executed",
+  "ats": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/amperesand/jobs/4381214009",
+  "plan": {
+    "answers": {
+      "legal_name.first": "Shubham",
+      "legal_name.last": "Kale",
+      "screener:custom:has_preferred_name": "No",
+      "email": "s***@gmail.com",
+      "address.country": "United States",
+      "phone": "***-***-7636",
+      "degree": "Bachelor of Science",
+      "major": "Applied Mathematics and Statistics",
+      "start_month": "August",
+      "start_year": "2025",
+      "graduation_month": "May",
+      "graduation_year": "2029",
+      "screener:custom:predicted:question_7332302009[]": "Summer 2027",
+      "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+      "work_authorization": "[REDACTED_SPONSORSHIP]",
+      "requires_sponsorship": "[REDACTED_SPONSORSHIP]",
+      "screener:willing_to_relocate": "Yes",
+      "screener:custom:predicted:question_7332310009": "San Francisco, CA",
+      "gender_identity": "Man",
+      "sexual_orientation": "Heterosexual",
+      "transgender": "No",
+      "disability_status": "No",
+      "veteran_status": "I am not a veteran",
+      "gender": "Male",
+      "hispanic_latino": "No"
+    },
+    "entries": [
+      {
+        "field_id": "first_name",
+        "label": "First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "fill",
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "last_name",
+        "label": "Last Name",
+        "type": "text",
+        "canonical_field": "legal_name.last",
+        "action": "fill",
+        "value": "Kale",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "preferred_name",
+        "label": "Preferred First Name",
+        "type": "text",
+        "canonical_field": "screener:custom:has_preferred_name",
+        "action": "fill",
+        "value": "No",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "email",
+        "label": "Email",
+        "type": "text",
+        "canonical_field": "email",
+        "action": "fill",
+        "value": "s***@gmail.com",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "country",
+        "label": "Country",
+        "type": "text",
+        "canonical_field": "address.country",
+        "action": "fill",
+        "value": "United States +1",
+        "reason": "Mapped from public profile; placed onto \"United States +1\""
+      },
+      {
+        "field_id": "phone",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "fill",
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "resume",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "skip_file",
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "cover_letter",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "skip_file",
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "school--0",
+        "label": "School",
+        "type": "text",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "degree--0",
+        "label": "Degree",
+        "type": "text",
+        "canonical_field": "degree",
+        "action": "fill",
+        "value": "Bachelor's Degree",
+        "reason": "Mapped from public profile; placed onto \"Bachelor's Degree\""
+      },
+      {
+        "field_id": "discipline--0",
+        "label": "Discipline",
+        "type": "text",
+        "canonical_field": "major",
+        "action": "fill",
+        "value": "Mathematics",
+        "reason": "Mapped from public profile; placed onto \"Mathematics\""
+      },
+      {
+        "field_id": "start-month--0",
+        "label": "Start date month",
+        "type": "text",
+        "canonical_field": "start_month",
+        "action": "fill",
+        "value": "August",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "start-year--0",
+        "label": "Start date year",
+        "type": "text",
+        "canonical_field": "start_year",
+        "action": "fill",
+        "value": "2025",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "end-month--0",
+        "label": "End date month",
+        "type": "text",
+        "canonical_field": "graduation_month",
+        "action": "fill",
+        "value": "May",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "end-year--0",
+        "label": "End date year",
+        "type": "text",
+        "canonical_field": "graduation_year",
+        "action": "fill",
+        "value": "2029",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_7332302009[]",
+        "label": "Internship Session",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_7332302009[]",
+        "action": "fill",
+        "value": "Summer 2027",
+        "reason": "Predicted from operator context (llm_predict): Saved preference is a summer internship term; Summer 2026 isn't offered, so the nearest summer session that fits an undergrad graduating 2029 is Summer 2027."
+      },
+      {
+        "field_id": "question_7332304009",
+        "label": "What's one achievement you're particularly proud of, and why? Please provide links to what you have built",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_7332304009",
+        "action": "fill",
+        "value": "The one I keep coming back to is ClarityAtlas, the iOS health product I co-founded Open Health Intelligence to build and serve as technical lead for. I built it end to end in Swift and SwiftUI with Supabase on the backend, and the hardest technical piece was estimating sleep without a wearable. I used HealthKit and Core Motion signals such as step count, gait speed, phone-interaction patterns, and movement to infer sleep passively, then built a \"Sleep Twins\" service that matched users on standardized behavioral features with a weighted distance metric so people could compare their patterns against someone similar rather than against a generic average. We shipped it into a live pilot at Johns Hopkins with 30+ users, got selected for the Pava Spark Accelerator and NSF I-Corps, and received a non-binding indication of roughly $75,000 for about 7 to 8% equity, which we chose not to pursue right away because we wanted the right long-term partners. I'm proud of it because shipping the code was maybe half the work. Recruiting users, pitching President Daniels, and re-explaining why the thing should exist mattered just as much. I don't have public links to share here, but I'm happy to walk through the codebase or demo the app directly.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_7332305009",
+        "label": "What are your short-term professional goals, and how do you plan to achieve them?",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_7332305009",
+        "action": "fill",
+        "value": "Short term, I want to own a substantial, load-bearing piece of a real production system rather than isolated tickets, and specifically one where the software has to survive contact with physical constraints. My closest experience is the machine-learning core of the anomaly-detection and alert-prioritization system I work on at Summer Atlantic Capital, where I built the event-ingestion pipeline, a versioned FastAPI detection service, the repository and CI scaffold, and temporal sequence models over event streams with a learning-to-rank layer on top. What that taught me is that model accuracy is not the goal on its own. An anomaly system that fires too often just creates a second problem, so I spent as much time on prioritization, explanation quality, and documenting failure modes as on the modeling. Amperesand is building hardware and software for grid infrastructure where demand is being driven by AI factories and electrification, and the part I'd want to work on is the software side of that: ingestion, detection, and decision support where a bad alert or a silent failure has real consequences. My plan for getting there is unglamorous. Pick the system with the most real users, build it, instrument it, and change my approach when the data says I was wrong.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_7332306009",
+        "label": "LinkedIn Profile",
+        "type": "text",
+        "canonical_field": "linkedin_url",
+        "action": "fill",
+        "value": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_7332307009",
+        "label": "Are you legally authorized to work in the United States?",
+        "type": "text",
+        "canonical_field": "work_authorization",
+        "action": "fill",
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_7332308009",
+        "label": "Will you now or in the future require sponsorship?",
+        "type": "text",
+        "canonical_field": "requires_sponsorship",
+        "action": "fill",
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_7332309009",
+        "label": "This role requires working on-site five days per week. Are you able to meet this requirement?",
+        "type": "text",
+        "canonical_field": "screener:willing_to_relocate",
+        "action": "fill",
+        "value": "Yes",
+        "reason": "Screener bank answer (synonym_option)"
+      },
+      {
+        "field_id": "question_7332310009",
+        "label": "This role will be based in one of the following locations. Please select the location where you can work",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_7332310009",
+        "action": "fill",
+        "value": "San Francisco, CA",
+        "reason": "Predicted from operator context (llm_predict): Candidate is willing to relocate and San Francisco is the stronger fit for early-stage technical work."
+      },
+      {
+        "field_id": "4007464009",
+        "label": "How would you describe your gender identity?",
+        "type": "text",
+        "canonical_field": "gender_identity",
+        "action": "fill",
+        "value": "Man",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "4007465009",
+        "label": "How would you describe your racial/ethnic background?",
+        "type": "text",
+        "canonical_field": "race_ethnicity",
+        "action": "skip_empty",
+        "value": null,
+        "reason": "Profile value empty for race_ethnicity"
+      },
+      {
+        "field_id": "4007466009",
+        "label": "How would you describe your sexual orientation?",
+        "type": "text",
+        "canonical_field": "sexual_orientation",
+        "action": "fill",
+        "value": "Heterosexual",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "4007467009",
+        "label": "Do you identify as transgender?",
+        "type": "text",
+        "canonical_field": "transgender",
+        "action": "fill",
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "4007468009",
+        "label": "Do you have a disability or chronic condition (physical, visual, auditory, cognitive, mental, emotional, or other) that substantially limits one or more of your major life activities, including mobility, communication (seeing, hearing, speaking), and learning?",
+        "type": "text",
+        "canonical_field": "disability_status",
+        "action": "fill",
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "4007469009",
+        "label": "Are you a veteran or active member of the United States Armed Forces?",
+        "type": "text",
+        "canonical_field": "veteran_status",
+        "action": "fill",
+        "value": "I am not a veteran",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "gender",
+        "label": "Gender",
+        "type": "text",
+        "canonical_field": "gender",
+        "action": "fill",
+        "value": "Male",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "hispanic_ethnicity",
+        "label": "Are you Hispanic/Latino?",
+        "type": "text",
+        "canonical_field": "hispanic_latino",
+        "action": "fill",
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "veteran_status",
+        "label": "Veteran Status",
+        "type": "text",
+        "canonical_field": "veteran_status",
+        "action": "fill",
+        "value": "I am not a veteran",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "disability_status",
+        "label": "Disability Status",
+        "type": "text",
+        "canonical_field": "disability_status",
+        "action": "fill",
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      }
+    ],
+    "fillable_count": 29,
+    "skipped_count": 4,
+    "review_required_count": 0
+  },
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "schema diff: 13/15 declared question(s) matched onto 33 DOM field(s); 2 declared-only (2 required); 20 DOM-only",
+    "board API declared 15 question(s); matched complete option lists onto 5 field(s)",
+    "option harvest: scraped real options for 16/24 control(s) before planning",
+    "frozen after fill→verify→upload — no further field mutation; submit never called"
+  ],
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "final_url": "https://job-boards.greenhouse.io/amperesand/jobs/4381214009",
+  "identity_verification": {
+    "requestedUrl": "https://job-boards.greenhouse.io/amperesand/jobs/4381214009",
+    "finalUrl": "https://job-boards.greenhouse.io/amperesand/jobs/4381214009",
+    "requestedJobId": "4381214009",
+    "observedJobId": "4381214009",
+    "company": "amperesand",
+    "role": "Job Application for Intern, Software at Amperesand",
+    "formDetected": true,
+    "fieldCount": 33,
+    "warnings": [],
+    "passed": true,
+    "failureCode": null,
+    "failureReason": null
+  },
+  "captcha_detection": {
+    "detected": false,
+    "confidence": "LOW",
+    "signals": [],
+    "dormantMarkers": [
+      "recaptcha_api_script_loaded",
+      "generic_captcha_word_only"
+    ]
+  },
+  "login_wall_detection": {
+    "detected": false,
+    "confidence": "LOW",
+    "signals": []
+  },
+  "failure_code": null,
+  "mutation_attempted": true,
+  "schema_diff": {
+    "board": "amperesand",
+    "job_id": "4381214009",
+    "declared_count": 15,
+    "dom_count": 33,
+    "matched": 13,
+    "api_only": [
+      {
+        "label": "Resume/CV",
+        "required": true
+      },
+      {
+        "label": "Cover Letter",
+        "required": true
+      }
+    ],
+    "dom_only": [
+      "Country",
+      "Attach",
+      "Attach",
+      "School",
+      "Degree",
+      "Discipline",
+      "Start date month",
+      "Start date year",
+      "End date month",
+      "End date year",
+      "How would you describe your gender identity?",
+      "How would you describe your racial/ethnic background?",
+      "How would you describe your sexual orientation?",
+      "Do you identify as transgender?",
+      "Do you have a disability or chronic condition (physical, visual, auditory, cognitive, mental, emotional, or other) that substantially limits one or more of your major life activities, including mobility, communication (seeing, hearing, speaking), and learning?",
+      "Are you a veteran or active member of the United States Armed Forces?",
+      "Gender",
+      "Are you Hispanic/Latino?",
+      "Veteran Status",
+      "Disability Status"
+    ],
+    "option_mismatches": []
+  },
+  "harvested_options": [
+    {
+      "field_id": "country",
+      "label": "Country",
+      "answer_space": "closed",
+      "option_count": 244,
+      "options": [
+        "United States +1",
+        "Afghanistan +93",
+        "Åland Islands +358",
+        "Albania +355",
+        "Algeria +213",
+        "American Samoa +1",
+        "Andorra +376",
+        "Angola +244",
+        "Anguilla +1",
+        "Antigua & Barbuda +1",
+        "Argentina +54",
+        "Armenia +374",
+        "Aruba +297",
+        "Ascension Island +247",
+        "Australia +61",
+        "Austria +43",
+        "Azerbaijan +994",
+        "Bahamas +1",
+        "Bahrain +973",
+        "Bangladesh +880",
+        "Barbados +1",
+        "Belarus +375",
+        "Belgium +32",
+        "Belize +501",
+        "Benin +229"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "school--0",
+      "label": "School",
+      "answer_space": "closed",
+      "option_count": 100,
+      "options": [
+        "Aalborg University",
+        "Aalto University",
+        "Aarhus University",
+        "Abertay University",
+        "Aberystwyth University",
+        "Abilene Christian University",
+        "Abo Akademi University",
+        "Abraham Baldwin Agricultural College",
+        "Abu Dhabi University",
+        "Academy of Art University",
+        "Acadia University",
+        "Acharya Nagarjuna University",
+        "Acupuncture and Integrative Medicine College - Berkeley",
+        "Adams State University",
+        "Adelphi University",
+        "Adrian College",
+        "Adventist University of Health Sciences",
+        "Agnes Scott College",
+        "AIB College of Business",
+        "Ain Shams University",
+        "Airlangga University",
+        "Ajou University",
+        "Alabama A&M University",
+        "Alabama State University",
+        "Alaska Pacific University"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "degree--0",
+      "label": "Degree",
+      "answer_space": "closed",
+      "option_count": 10,
+      "options": [
+        "Associate's Degree",
+        "Bachelor's Degree",
+        "Doctor of Medicine (M.D.)",
+        "Doctor of Philosophy (Ph.D.)",
+        "Engineer's Degree",
+        "High School",
+        "Juris Doctor (J.D.)",
+        "Master of Business Administration (M.B.A.)",
+        "Master's Degree",
+        "Other"
+      ],
+      "other_option": "Other"
+    },
+    {
+      "field_id": "discipline--0",
+      "label": "Discipline",
+      "answer_space": "closed",
+      "option_count": 72,
+      "options": [
+        "Accounting",
+        "African Studies",
+        "Agriculture",
+        "Anthropology",
+        "Applied Health Services",
+        "Architecture",
+        "Art",
+        "Asian Studies",
+        "Biology",
+        "Business",
+        "Business Administration",
+        "Chemistry",
+        "Classical Languages",
+        "Communications & Film",
+        "Computer Science",
+        "Dentistry",
+        "Developing Nations",
+        "Discipline Unknown",
+        "Earth Sciences",
+        "Economics",
+        "Education",
+        "Electronics",
+        "Engineering",
+        "English Studies",
+        "Environmental Studies"
+      ],
+      "other_option": "Other"
+    },
+    {
+      "field_id": "start-month--0",
+      "label": "Start date month",
+      "answer_space": "closed",
+      "option_count": 12,
+      "options": [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "end-month--0",
+      "label": "End date month",
+      "answer_space": "closed",
+      "option_count": 12,
+      "options": [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "4007464009",
+      "label": "How would you describe your gender identity?",
+      "answer_space": "closed",
+      "option_count": 5,
+      "options": [
+        "Man",
+        "Non-binary",
+        "Woman",
+        "I prefer to self-describe",
+        "I don't wish to answer"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "4007465009",
+      "label": "How would you describe your racial/ethnic background?",
+      "answer_space": "closed",
+      "option_count": 11,
+      "options": [
+        "Black or of African descent",
+        "East Asian",
+        "Hispanic, Latinx or of Spanish Origin",
+        "Indigenous, American Indian or Alaska Native",
+        "Middle Eastern or North African",
+        "Native Hawaiian or Pacific Islander",
+        "South Asian",
+        "Southeast Asian",
+        "White or European",
+        "I prefer to self-describe",
+        "I don't wish to answer"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "4007466009",
+      "label": "How would you describe your sexual orientation?",
+      "answer_space": "closed",
+      "option_count": 8,
+      "options": [
+        "Asexual",
+        "Bisexual and/or pansexual",
+        "Gay",
+        "Heterosexual",
+        "Lesbian",
+        "Queer",
+        "I prefer to self-describe",
+        "I don't wish to answer"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "4007467009",
+      "label": "Do you identify as transgender?",
+      "answer_space": "closed",
+      "option_count": 4,
+      "options": [
+        "Yes",
+        "No",
+        "I prefer to self-describe",
+        "I don't wish to answer"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "4007468009",
+      "label": "Do you have a disability or chronic condition (physical, visual, auditory, cognitive, mental, emotional, or other) that substantially limits one or more of your major life activities, including mobility, communication (seeing, hearing, speaking), and learning?",
+      "answer_space": "closed",
+      "option_count": 4,
+      "options": [
+        "Yes",
+        "No",
+        "I prefer to self-describe",
+        "I don't wish to answer"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "4007469009",
+      "label": "Are you a veteran or active member of the United States Armed Forces?",
+      "answer_space": "closed",
+      "option_count": 4,
+      "options": [
+        "Yes, I am a veteran or active member",
+        "No, I am not a veteran or active member",
+        "I prefer to self-describe",
+        "I don't wish to answer"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "gender",
+      "label": "Gender",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "Male",
+        "Female",
+        "Decline To Self Identify"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "hispanic_ethnicity",
+      "label": "Are you Hispanic/Latino?",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "Yes",
+        "No",
+        "Decline To Self Identify"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "veteran_status",
+      "label": "Veteran Status",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "I am not a protected veteran",
+        "I identify as one or more of the classifications of a protected veteran",
+        "I don't wish to answer"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "disability_status",
+      "label": "Disability Status",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "Yes, I have a disability, or have had one in the past",
+        "No, I do not have a disability and have not had one in the past",
+        "I do not want to answer"
+      ],
+      "other_option": null
+    }
+  ],
+  "approved_plan": {
+    "entries": [
+      {
+        "field_id": "first_name",
+        "label": "First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "FILL",
+        "approved": true,
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "last_name",
+        "label": "Last Name",
+        "type": "text",
+        "canonical_field": "legal_name.last",
+        "action": "FILL",
+        "approved": true,
+        "value": "Kale",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "preferred_name",
+        "label": "Preferred First Name",
+        "type": "text",
+        "canonical_field": "screener:custom:has_preferred_name",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "email",
+        "label": "Email",
+        "type": "text",
+        "canonical_field": "email",
+        "action": "FILL",
+        "approved": true,
+        "value": "s***@gmail.com",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "country",
+        "label": "Country",
+        "type": "text",
+        "canonical_field": "address.country",
+        "action": "FILL",
+        "approved": true,
+        "value": "United States +1",
+        "reason": "Mapped from public profile; placed onto \"United States +1\""
+      },
+      {
+        "field_id": "phone",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "FILL",
+        "approved": true,
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "resume",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "cover_letter",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "school--0",
+        "label": "School",
+        "type": "text",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "degree--0",
+        "label": "Degree",
+        "type": "text",
+        "canonical_field": "degree",
+        "action": "FILL",
+        "approved": true,
+        "value": "Bachelor's Degree",
+        "reason": "Mapped from public profile; placed onto \"Bachelor's Degree\""
+      },
+      {
+        "field_id": "discipline--0",
+        "label": "Discipline",
+        "type": "text",
+        "canonical_field": "major",
+        "action": "FILL",
+        "approved": true,
+        "value": "Mathematics",
+        "reason": "Mapped from public profile; placed onto \"Mathematics\""
+      },
+      {
+        "field_id": "start-month--0",
+        "label": "Start date month",
+        "type": "text",
+        "canonical_field": "start_month",
+        "action": "FILL",
+        "approved": true,
+        "value": "August",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "start-year--0",
+        "label": "Start date year",
+        "type": "text",
+        "canonical_field": "start_year",
+        "action": "FILL",
+        "approved": true,
+        "value": "2025",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "end-month--0",
+        "label": "End date month",
+        "type": "text",
+        "canonical_field": "graduation_month",
+        "action": "FILL",
+        "approved": true,
+        "value": "May",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "end-year--0",
+        "label": "End date year",
+        "type": "text",
+        "canonical_field": "graduation_year",
+        "action": "FILL",
+        "approved": true,
+        "value": "2029",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_7332302009[]",
+        "label": "Internship Session",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_7332302009[]",
+        "action": "FILL",
+        "approved": true,
+        "value": "Summer 2027",
+        "reason": "Predicted from operator context (llm_predict): Saved preference is a summer internship term; Summer 2026 isn't offered, so the nearest summer session that fits an undergrad graduating 2029 is Summer 2027."
+      },
+      {
+        "field_id": "question_7332304009",
+        "label": "What's one achievement you're particularly proud of, and why? Please provide links to what you have built",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_7332304009",
+        "action": "FILL",
+        "approved": true,
+        "value": "The one I keep coming back to is ClarityAtlas, the iOS health product I co-founded Open Health Intelligence to build and serve as technical lead for. I built it end to end in Swift and SwiftUI with Supabase on the backend, and the hardest technical piece was estimating sleep without a wearable. I used HealthKit and Core Motion signals such as step count, gait speed, phone-interaction patterns, and movement to infer sleep passively, then built a \"Sleep Twins\" service that matched users on standardized behavioral features with a weighted distance metric so people could compare their patterns against someone similar rather than against a generic average. We shipped it into a live pilot at Johns Hopkins with 30+ users, got selected for the Pava Spark Accelerator and NSF I-Corps, and received a non-binding indication of roughly $75,000 for about 7 to 8% equity, which we chose not to pursue right away because we wanted the right long-term partners. I'm proud of it because shipping the code was maybe half the work. Recruiting users, pitching President Daniels, and re-explaining why the thing should exist mattered just as much. I don't have public links to share here, but I'm happy to walk through the codebase or demo the app directly.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_7332305009",
+        "label": "What are your short-term professional goals, and how do you plan to achieve them?",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_7332305009",
+        "action": "FILL",
+        "approved": true,
+        "value": "Short term, I want to own a substantial, load-bearing piece of a real production system rather than isolated tickets, and specifically one where the software has to survive contact with physical constraints. My closest experience is the machine-learning core of the anomaly-detection and alert-prioritization system I work on at Summer Atlantic Capital, where I built the event-ingestion pipeline, a versioned FastAPI detection service, the repository and CI scaffold, and temporal sequence models over event streams with a learning-to-rank layer on top. What that taught me is that model accuracy is not the goal on its own. An anomaly system that fires too often just creates a second problem, so I spent as much time on prioritization, explanation quality, and documenting failure modes as on the modeling. Amperesand is building hardware and software for grid infrastructure where demand is being driven by AI factories and electrification, and the part I'd want to work on is the software side of that: ingestion, detection, and decision support where a bad alert or a silent failure has real consequences. My plan for getting there is unglamorous. Pick the system with the most real users, build it, instrument it, and change my approach when the data says I was wrong.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_7332306009",
+        "label": "LinkedIn Profile",
+        "type": "text",
+        "canonical_field": "linkedin_url",
+        "action": "FILL",
+        "approved": true,
+        "value": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_7332307009",
+        "label": "Are you legally authorized to work in the United States?",
+        "type": "text",
+        "canonical_field": "work_authorization",
+        "action": "FILL",
+        "approved": true,
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_7332308009",
+        "label": "Will you now or in the future require sponsorship?",
+        "type": "text",
+        "canonical_field": "requires_sponsorship",
+        "action": "FILL",
+        "approved": true,
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_7332309009",
+        "label": "This role requires working on-site five days per week. Are you able to meet this requirement?",
+        "type": "text",
+        "canonical_field": "screener:willing_to_relocate",
+        "action": "FILL",
+        "approved": true,
+        "value": "Yes",
+        "reason": "Screener bank answer (synonym_option)"
+      },
+      {
+        "field_id": "question_7332310009",
+        "label": "This role will be based in one of the following locations. Please select the location where you can work",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_7332310009",
+        "action": "FILL",
+        "approved": true,
+        "value": "San Francisco, CA",
+        "reason": "Predicted from operator context (llm_predict): Candidate is willing to relocate and San Francisco is the stronger fit for early-stage technical work."
+      },
+      {
+        "field_id": "4007464009",
+        "label": "How would you describe your gender identity?",
+        "type": "text",
+        "canonical_field": "gender_identity",
+        "action": "FILL",
+        "approved": true,
+        "value": "Man",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "4007465009",
+        "label": "How would you describe your racial/ethnic background?",
+        "type": "text",
+        "canonical_field": "race_ethnicity",
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "Profile value empty for race_ethnicity"
+      },
+      {
+        "field_id": "4007466009",
+        "label": "How would you describe your sexual orientation?",
+        "type": "text",
+        "canonical_field": "sexual_orientation",
+        "action": "FILL",
+        "approved": true,
+        "value": "Heterosexual",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "4007467009",
+        "label": "Do you identify as transgender?",
+        "type": "text",
+        "canonical_field": "transgender",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "4007468009",
+        "label": "Do you have a disability or chronic condition (physical, visual, auditory, cognitive, mental, emotional, or other) that substantially limits one or more of your major life activities, including mobility, communication (seeing, hearing, speaking), and learning?",
+        "type": "text",
+        "canonical_field": "disability_status",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "4007469009",
+        "label": "Are you a veteran or active member of the United States Armed Forces?",
+        "type": "text",
+        "canonical_field": "veteran_status",
+        "action": "FILL",
+        "approved": true,
+        "value": "I am not a veteran",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "gender",
+        "label": "Gender",
+        "type": "text",
+        "canonical_field": "gender",
+        "action": "FILL",
+        "approved": true,
+        "value": "Male",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "hispanic_ethnicity",
+        "label": "Are you Hispanic/Latino?",
+        "type": "text",
+        "canonical_field": "hispanic_latino",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "veteran_status",
+        "label": "Veteran Status",
+        "type": "text",
+        "canonical_field": "veteran_status",
+        "action": "FILL",
+        "approved": true,
+        "value": "I am not a veteran",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "disability_status",
+        "label": "Disability Status",
+        "type": "text",
+        "canonical_field": "disability_status",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      }
+    ],
+    "answers": {
+      "legal_name.first": "Shubham",
+      "legal_name.last": "Kale",
+      "screener:custom:has_preferred_name": "No",
+      "email": "s***@gmail.com",
+      "address.country": "United States +1",
+      "phone": "***-***-7636",
+      "degree": "Bachelor's Degree",
+      "major": "Mathematics",
+      "start_month": "August",
+      "start_year": "2025",
+      "graduation_month": "May",
+      "graduation_year": "2029",
+      "screener:custom:predicted:question_7332302009[]": "Summer 2027",
+      "essay:generated:question_7332304009": "The one I keep coming back to is ClarityAtlas, the iOS health product I co-founded Open Health Intelligence to build and serve as technical lead for. I built it end to end in Swift and SwiftUI with Supabase on the backend, and the hardest technical piece was estimating sleep without a wearable. I used HealthKit and Core Motion signals such as step count, gait speed, phone-interaction patterns, and movement to infer sleep passively, then built a \"Sleep Twins\" service that matched users on standardized behavioral features with a weighted distance metric so people could compare their patterns against someone similar rather than against a generic average. We shipped it into a live pilot at Johns Hopkins with 30+ users, got selected for the Pava Spark Accelerator and NSF I-Corps, and received a non-binding indication of roughly $75,000 for about 7 to 8% equity, which we chose not to pursue right away because we wanted the right long-term partners. I'm proud of it because shipping the code was maybe half the work. Recruiting users, pitching President Daniels, and re-explaining why the thing should exist mattered just as much. I don't have public links to share here, but I'm happy to walk through the codebase or demo the app directly.",
+      "essay:generated:question_7332305009": "Short term, I want to own a substantial, load-bearing piece of a real production system rather than isolated tickets, and specifically one where the software has to survive contact with physical constraints. My closest experience is the machine-learning core of the anomaly-detection and alert-prioritization system I work on at Summer Atlantic Capital, where I built the event-ingestion pipeline, a versioned FastAPI detection service, the repository and CI scaffold, and temporal sequence models over event streams with a learning-to-rank layer on top. What that taught me is that model accuracy is not the goal on its own. An anomaly system that fires too often just creates a second problem, so I spent as much time on prioritization, explanation quality, and documenting failure modes as on the modeling. Amperesand is building hardware and software for grid infrastructure where demand is being driven by AI factories and electrification, and the part I'd want to work on is the software side of that: ingestion, detection, and decision support where a bad alert or a silent failure has real consequences. My plan for getting there is unglamorous. Pick the system with the most real users, build it, instrument it, and change my approach when the data says I was wrong.",
+      "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+      "work_authorization": "[REDACTED_SPONSORSHIP]",
+      "requires_sponsorship": "[REDACTED_SPONSORSHIP]",
+      "screener:willing_to_relocate": "Yes",
+      "screener:custom:predicted:question_7332310009": "San Francisco, CA",
+      "gender_identity": "Man",
+      "sexual_orientation": "Heterosexual",
+      "transgender": "No",
+      "disability_status": "No",
+      "veteran_status": "I am not a veteran",
+      "gender": "Male",
+      "hispanic_latino": "No"
+    },
+    "fillable_count": 29,
+    "skipped_count": 4,
+    "review_required_count": 0
+  },
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "legal_name.last",
+      "screener:custom:has_preferred_name",
+      "email",
+      "address.country",
+      "phone",
+      "degree",
+      "major",
+      "start_month",
+      "start_year",
+      "graduation_month",
+      "graduation_year",
+      "screener:custom:predicted:question_7332302009[]",
+      "essay:generated:question_7332304009",
+      "essay:generated:question_7332305009",
+      "linkedin_url",
+      "work_authorization",
+      "requires_sponsorship",
+      "screener:willing_to_relocate",
+      "screener:custom:predicted:question_7332310009",
+      "gender_identity",
+      "sexual_orientation",
+      "transgender",
+      "disability_status",
+      "veteran_status",
+      "gender",
+      "hispanic_latino",
+      "veteran_status",
+      "disability_status"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "first_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "last_name",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "preferred_name",
+        "canonical_field": "screener:custom:has_preferred_name",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "country",
+        "canonical_field": "address.country",
+        "control_kind": "combobox",
+        "selected_option": "+1",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"United States +1\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "phone",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "degree--0",
+        "canonical_field": "degree",
+        "control_kind": "combobox",
+        "selected_option": "Bachelor's Degree",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Bachelor's Degree\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "discipline--0",
+        "canonical_field": "major",
+        "control_kind": "combobox",
+        "selected_option": "Mathematics",
+        "match_via": "synonym",
+        "notes": [
+          "opened via control click",
+          "picked \"Mathematics\" (synonym) from open list"
+        ]
+      },
+      {
+        "field_id": "start-month--0",
+        "canonical_field": "start_month",
+        "control_kind": "combobox",
+        "selected_option": "August",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"August\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "start-year--0",
+        "canonical_field": "start_year",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "end-month--0",
+        "canonical_field": "graduation_month",
+        "control_kind": "combobox",
+        "selected_option": "May",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"May\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "end-year--0",
+        "canonical_field": "graduation_year",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_7332302009[]",
+        "canonical_field": "screener:custom:predicted:question_7332302009[]",
+        "control_kind": "combobox",
+        "selected_option": "Summer 2027",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Summer 2027\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_7332304009",
+        "canonical_field": "essay:generated:question_7332304009",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_7332305009",
+        "canonical_field": "essay:generated:question_7332305009",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_7332306009",
+        "canonical_field": "linkedin_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_7332307009",
+        "canonical_field": "work_authorization",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_7332308009",
+        "canonical_field": "requires_sponsorship",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_7332309009",
+        "canonical_field": "screener:willing_to_relocate",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_7332310009",
+        "canonical_field": "screener:custom:predicted:question_7332310009",
+        "control_kind": "combobox",
+        "selected_option": "San Francisco, CA",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"San Francisco, CA\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "4007464009",
+        "canonical_field": "gender_identity",
+        "control_kind": "combobox",
+        "selected_option": "Man",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Man\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "4007466009",
+        "canonical_field": "sexual_orientation",
+        "control_kind": "combobox",
+        "selected_option": "Heterosexual",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Heterosexual\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "4007467009",
+        "canonical_field": "transgender",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "4007468009",
+        "canonical_field": "disability_status",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "4007469009",
+        "canonical_field": "veteran_status",
+        "control_kind": "combobox",
+        "selected_option": "No, I am not a veteran or active member",
+        "match_via": "synonym",
+        "notes": [
+          "opened via control click",
+          "picked \"No, I am not a veteran or active member\" (synonym) from open list"
+        ]
+      },
+      {
+        "field_id": "gender",
+        "canonical_field": "gender",
+        "control_kind": "combobox",
+        "selected_option": "Male",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Male\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "hispanic_ethnicity",
+        "canonical_field": "hispanic_latino",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "veteran_status",
+        "canonical_field": "veteran_status",
+        "control_kind": "combobox",
+        "selected_option": "I am not a protected veteran",
+        "match_via": "synonym",
+        "notes": [
+          "opened via control click",
+          "picked \"I am not a protected veteran\" (synonym) from open list"
+        ]
+      },
+      {
+        "field_id": "disability_status",
+        "canonical_field": "disability_status",
+        "control_kind": "combobox",
+        "selected_option": "No, I do not have a disability and have not had one in the past",
+        "match_via": "synonym",
+        "notes": [
+          "opened via control click",
+          "picked \"No, I do not have a disability and have not had one in the past\" (synonym) from open list"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.last",
+        "expected": "Kale",
+        "observed": "Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:has_preferred_name",
+        "expected": "No",
+        "observed": "No",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "address.country",
+        "expected": "United States +1",
+        "observed": {
+          "value": "+1",
+          "label": "+1"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "degree",
+        "expected": "Bachelor's Degree",
+        "observed": {
+          "value": "Bachelor's Degree",
+          "label": "Bachelor's Degree"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "major",
+        "expected": "Mathematics",
+        "observed": {
+          "value": "Mathematics",
+          "label": "Mathematics"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "start_month",
+        "expected": "August",
+        "observed": {
+          "value": "August",
+          "label": "August"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "start_year",
+        "expected": "2025",
+        "observed": "2025",
+        "match": true
+      },
+      {
+        "canonical_field": "graduation_month",
+        "expected": "May",
+        "observed": {
+          "value": "May",
+          "label": "May"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "graduation_year",
+        "expected": "2029",
+        "observed": "2029",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_7332302009[]",
+        "expected": "Summer 2027",
+        "observed": {
+          "value": "Summer 2027",
+          "label": "Summer 2027"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:question_7332304009",
+        "expected": "The one I keep coming back to is ClarityAtlas, the iOS health product I co-founded Open Health Intelligence to build and serve as technical lead for. I built it end to end in Swift and SwiftUI with Supabase on the backend, and the hardest technical piece was estimating sleep without a wearable. I used HealthKit and Core Motion signals such as step count, gait speed, phone-interaction patterns, and movement to infer sleep passively, then built a \"Sleep Twins\" service that matched users on standardized behavioral features with a weighted distance metric so people could compare their patterns against someone similar rather than against a generic average. We shipped it into a live pilot at Johns Hopkins with 30+ users, got selected for the Pava Spark Accelerator and NSF I-Corps, and received a non-binding indication of roughly $75,000 for about 7 to 8% equity, which we chose not to pursue right away because we wanted the right long-term partners. I'm proud of it because shipping the code was maybe half the work. Recruiting users, pitching President Daniels, and re-explaining why the thing should exist mattered just as much. I don't have public links to share here, but I'm happy to walk through the codebase or demo the app directly.",
+        "observed": "The one I keep coming back to is ClarityAtlas, the iOS health product I co-founded Open Health Intelligence to build and serve as technical lead for. I built it end to end in Swift and SwiftUI with Supabase on the backend, and the hardest technical piece was estimating sleep without a wearable. I used HealthKit and Core Motion signals such as step count, gait speed, phone-interaction patterns, and movement to infer sleep passively, then built a \"Sleep Twins\" service that matched users on standardized behavioral features with a weighted distance metric so people could compare their patterns against someone similar rather than against a generic average. We shipped it into a live pilot at Johns Hopkins with 30+ users, got selected for the Pava Spark Accelerator and NSF I-Corps, and received a non-binding indication of roughly $75,000 for about 7 to 8% equity, which we chose not to pursue right away because we wanted the right long-term partners. I'm proud of it because shipping the code was maybe half the work. Recruiting users, pitching President Daniels, and re-explaining why the thing should exist mattered just as much. I don't have public links to share here, but I'm happy to walk through the codebase or demo the app directly.",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:question_7332305009",
+        "expected": "Short term, I want to own a substantial, load-bearing piece of a real production system rather than isolated tickets, and specifically one where the software has to survive contact with physical constraints. My closest experience is the machine-learning core of the anomaly-detection and alert-prioritization system I work on at Summer Atlantic Capital, where I built the event-ingestion pipeline, a versioned FastAPI detection service, the repository and CI scaffold, and temporal sequence models over event streams with a learning-to-rank layer on top. What that taught me is that model accuracy is not the goal on its own. An anomaly system that fires too often just creates a second problem, so I spent as much time on prioritization, explanation quality, and documenting failure modes as on the modeling. Amperesand is building hardware and software for grid infrastructure where demand is being driven by AI factories and electrification, and the part I'd want to work on is the software side of that: ingestion, detection, and decision support where a bad alert or a silent failure has real consequences. My plan for getting there is unglamorous. Pick the system with the most real users, build it, instrument it, and change my approach when the data says I was wrong.",
+        "observed": "Short term, I want to own a substantial, load-bearing piece of a real production system rather than isolated tickets, and specifically one where the software has to survive contact with physical constraints. My closest experience is the machine-learning core of the anomaly-detection and alert-prioritization system I work on at Summer Atlantic Capital, where I built the event-ingestion pipeline, a versioned FastAPI detection service, the repository and CI scaffold, and temporal sequence models over event streams with a learning-to-rank layer on top. What that taught me is that model accuracy is not the goal on its own. An anomaly system that fires too often just creates a second problem, so I spent as much time on prioritization, explanation quality, and documenting failure modes as on the modeling. Amperesand is building hardware and software for grid infrastructure where demand is being driven by AI factories and electrification, and the part I'd want to work on is the software side of that: ingestion, detection, and decision support where a bad alert or a silent failure has real consequences. My plan for getting there is unglamorous. Pick the system with the most real users, build it, instrument it, and change my approach when the data says I was wrong.",
+        "match": true
+      },
+      {
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "match": true
+      },
+      {
+        "canonical_field": "work_authorization",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "requires_sponsorship",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:willing_to_relocate",
+        "expected": "Yes",
+        "observed": {
+          "value": "Yes",
+          "label": "Yes"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_7332310009",
+        "expected": "San Francisco, CA",
+        "observed": {
+          "value": "San Francisco, CA",
+          "label": "San Francisco, CA"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "gender_identity",
+        "expected": "Man",
+        "observed": {
+          "value": "Man",
+          "label": "Man"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "sexual_orientation",
+        "expected": "Heterosexual",
+        "observed": {
+          "value": "Heterosexual",
+          "label": "Heterosexual"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "transgender",
+        "expected": "No",
+        "observed": {
+          "value": "No",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "disability_status",
+        "expected": "No",
+        "observed": {
+          "value": "No",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "veteran_status",
+        "expected": "I am not a veteran",
+        "observed": {
+          "value": "No, I am not a veteran or active member",
+          "label": "No, I am not a veteran or active member"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "gender",
+        "expected": "Male",
+        "observed": {
+          "value": "Male",
+          "label": "Male"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "hispanic_latino",
+        "expected": "No",
+        "observed": {
+          "value": "No",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "veteran_status",
+        "expected": "I am not a veteran",
+        "observed": {
+          "value": "I am not a protected veteran",
+          "label": "I am not a protected veteran"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "disability_status",
+        "expected": "No",
+        "observed": {
+          "value": "No, I do not have a disability and have not had one in the past",
+          "label": "No, I do not have a disability and have not had one in the past"
+        },
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 113810,
+      "verified": true,
+      "evidence": "input files: []; stillAttached=false; chip=true"
+    }
+  ],
+  "written_at": "2026-09-10T04:14:56.081Z"
+}
