@@ -1,0 +1,51 @@
+{
+  "run_id": "nav-823e5bca-abf7-4fad-943d-76583c2997c7",
+  "application_id": "a018e08d-3210-4974-950c-49a6a25a824b",
+  "jobright_job_id": "6aa1f0ed3272060a8e3f2ce7",
+  "method": "anchor_llm",
+  "resolved_url": "https://iawmqy.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/298782",
+  "resolved_ats": "generic",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no congruent apply href (11 external links)",
+      "evidence": "iawmqy.fa.ocs.oraclecloud.com, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, www.delltechnologies.com"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "unresolved by deterministic phases"
+    },
+    {
+      "phase": "A_anchor_llm",
+      "outcome": "candidate promoted by adjudication",
+      "evidence": "iawmqy.fa.ocs.oraclecloud.com"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "phase A: anchor reads as \"iawmqy\" (URL names \"iawmqy\" (tenant), which shares nothing with company \"Dell Technologies\") — not preferred, deferring to the Apply click",
+    "phase A: 9 external host(s) seen: iawmqy.fa.ocs.oraclecloud.com, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, www.delltechnologies.com, www.thestreet.com, www.bloomberg.com, www.livemint.com",
+    "no standard Apply control found (exact and broad name tiers both empty)",
+    "anchor adjudication: promoted iawmqy.fa.ocs.oraclecloud.com",
+    "anchor adjudication rationale (UNVERIFIED): Only candidate that is a specific job-application page (Oracle Cloud Recruiting ATS, which Dell uses); others are homepage or news articles.",
+    "congruence: URL names \"iawmqy\", not \"Dell Technologies\" (URL names \"iawmqy\" (tenant), which shares nothing with company \"Dell Technologies\") — recorded, not refused"
+  ],
+  "congruence": {
+    "verdict": "mismatch",
+    "slug": "iawmqy",
+    "detail": "URL names \"iawmqy\" (tenant), which shares nothing with company \"Dell Technologies\"",
+    "expected_company": "Dell Technologies",
+    "url": "https://iawmqy.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/298782?jr_id=6aa1f0ed3272060a8e3f2ce7"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-09-10T14:53:06.117Z"
+}
