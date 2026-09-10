@@ -1,0 +1,82 @@
+{
+  "outcome": "FAILED_BEFORE_CLICK",
+  "application_id": "16148ac5-d90d-4bf9-a4a4-1afc69251ca7",
+  "submission_id": "f6f4ba6f-43d1-46fe-94f7-7e16550c1393",
+  "attempt": 1,
+  "receipt": null,
+  "review_item_id": null,
+  "reason": "Refusing to click submit: field verification or upload did not pass",
+  "artifact_path": null,
+  "operator_brief": {
+    "title": "Submit blocked — lever app 16148ac5-d90d-4bf9-a4a4-1afc69251ca7",
+    "summary": "4 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:screener:custom:degrees_completed_6",
+        "question": "Which degrees have you already completed, if any? Select all that apply.",
+        "field_id": "cards[9ee1fad3-863a-4094-a9b7-6b69d03a5c22][field5]",
+        "canonical_field": "screener:custom:degrees_completed_6",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"I have not yet completed a degree\"; page shows \"(empty)\"",
+        "expected": "I have not yet completed a degree",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "how_to_answer": [
+          "System expected \"I have not yet completed a degree\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:degrees_completed_6)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:degrees_completed_6\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:custom:student_groups_9",
+        "question": "Are you a member of any of the following student groups?",
+        "field_id": "cards[f6f2afd3-61c4-4b7e-896d-5a909a7813c3][field0]",
+        "canonical_field": "screener:custom:student_groups_9",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Other student groups\"; page shows \"(empty)\"",
+        "expected": "Other student groups",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "how_to_answer": [
+          "System expected \"Other student groups\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:student_groups_9)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:student_groups_9\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "fill_error:cards[9ee1fad3-863a-4094-a9b7-6b69d03a5c22][field5]: checkbox group has no optio",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "cards[9ee1fad3-863a-4094-a9b7-6b69d03a5c22][field5]: checkbox group has no option matching \"I have not yet completed a degree\" (options: I have not yet completed a degree, Associate degree, Bachelor’s degree, Master’s degree, PhD or other doctoral degree, Other)",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:cards[f6f2afd3-61c4-4b7e-896d-5a909a7813c3][field0]: checkbox group has no optio",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "cards[f6f2afd3-61c4-4b7e-896d-5a909a7813c3][field0]: checkbox group has no option matching \"Other student groups\" (options: Autonomous Vehicles, Aero Club, Engineering Affinity Group, Hackathons, Hyperloop, Motorsport Competitions, Robotics Club, Rocket Club)",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      }
+    ],
+    "ok_count": 29,
+    "fail_count": 4
+  }
+}
