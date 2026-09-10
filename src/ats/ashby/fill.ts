@@ -140,6 +140,18 @@ function isVerifiableFill(entry: ExecutableFillEntry): boolean {
   );
 }
 
+/**
+ * #246: canonicals that hold a free-text FACT about the candidate. None of
+ * them can ever be the label of an option in a group, so a live control
+ * that turns out to be a radio/checkbox group is never their target.
+ */
+function isFreeTextIdentityFact(canonical: string | null | undefined): boolean {
+  if (!canonical) return false;
+  return /^(phone|email|linkedin_url|github_url|personal_website|portfolio_url|twitter_url|address\.(line1|line2|city|state|postal_code)|legal_name\.(first|last|middle)|preferred_name|current_company|current_job_title|school|major|gpa|signature_name|signature_date)$/.test(
+    canonical,
+  );
+}
+
 export async function ashbyFillFromPlan(
   page: Page,
   entries: ExecutableFillEntry[],
@@ -155,6 +167,12 @@ export async function ashbyFillFromPlan(
   const groupEntries = entries.filter((e) => isRadioEntry(e, fieldMeta));
   const rest = entries.filter((e) => !isRadioEntry(e, fieldMeta));
   const nativeEntries: { entry: ExecutableFillEntry; probe: NativeGroupProbe }[] = [];
+  /** #246: free-text facts whose live control turned out to be a group. */
+  const wrongControlSkips: Array<{
+    field_id: string;
+    canonical_field: string | null;
+    note: string;
+  }> = [];
   const comboboxEntries: ExecutableFillEntry[] = [];
   const delegateEntries: ExecutableFillEntry[] = [];
   for (const e of rest) {
@@ -164,6 +182,30 @@ export async function ashbyFillFromPlan(
       // fail on them (there is no listbox to open).
       const probe = await locateNativeGroup(page, e.field_id);
       if (probe) {
+        // #246 (live Barnes & Thornburg ashby 2026-09-10, twice): the plan
+        // carried canonical `phone` on a control that turns out at fill
+        // time to be the phone-CONSENT radio group, so the run tried to
+        // pick the option "4805897636" from
+        // [Yes - I consent…, No - I do not consent] and blocked the
+        // submit with a hard error. `matchCanonicalField` already refuses
+        // to put `phone` on an option control, but it decides from the
+        // DISCOVERED type, which said "text"; only the live probe knows.
+        //
+        // A free-text identity fact is never an option label. Skip with a
+        // truthful note rather than writing something wrong or failing
+        // hard — the required-completeness scan still blocks if the page
+        // actually needs that control, and the group's own entry (the
+        // predicted consent answer) remains free to own it.
+        if (isFreeTextIdentityFact(e.canonical_field)) {
+          wrongControlSkips.push({
+            field_id: e.field_id,
+            canonical_field: e.canonical_field,
+            note:
+              `planned ${e.canonical_field} is free text but the live control is a ` +
+              `${probe.kind} group — not written (#246)`,
+          });
+          continue;
+        }
         nativeEntries.push({ entry: e, probe });
         continue;
       }
@@ -180,6 +222,15 @@ export async function ashbyFillFromPlan(
   const skipped = [...base.skipped];
   const errors = [...base.errors];
   const field_meta: FieldFillMeta[] = [...(base.field_meta ?? [])];
+  for (const skip of wrongControlSkips) {
+    skipped.push(skip.canonical_field ?? skip.field_id);
+    field_meta.push({
+      field_id: skip.field_id,
+      canonical_field: skip.canonical_field,
+      control_kind: "unknown",
+      notes: [skip.note],
+    });
+  }
 
   for (const { entry, probe } of nativeEntries) {
     try {

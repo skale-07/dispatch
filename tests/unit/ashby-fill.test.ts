@@ -414,3 +414,57 @@ describe("native group options are labelled per MEMBER, never by the shared name
     });
   }, 45_000);
 });
+
+/**
+ * #246 (live Barnes & Thornburg ashby 2026-09-10, twice). The plan carried
+ * canonical `phone` on a control that turns out at FILL time to be the
+ * phone-CONSENT radio group, so the run tried to pick the option
+ * "4805897636" from [Yes - I consent…, No - I do not consent] and blocked
+ * the submit with a hard error. `matchCanonicalField` already refuses to
+ * put `phone` on an option control, but it decides from the DISCOVERED
+ * type ("text" here) — only the live probe knows what the control really
+ * is.
+ */
+describe("a free-text fact is never written into an option group (#246)", () => {
+  it("skips the phone entry when the live control is a consent radio group", async () => {
+    const html = `<!DOCTYPE html><html><body>
+      <div data-field-path="d242bb2e" role="group">
+        <label for="c1">Yes - I consent to receiving text messages</label>
+        <input type="radio" id="c1" name="communicationConsent" value="yes" />
+        <label for="c2">No - I do not consent</label>
+        <input type="radio" id="c2" name="communicationConsent" value="no" />
+      </div>
+    </body></html>`;
+    const { ashbyFillFromPlan } = await import("../../src/ats/ashby/fill.js");
+    applyFixtureFillEnv();
+    try {
+      await withFixtureHtmlPage(html, async (page) => {
+        const result = await ashbyFillFromPlan(
+          page,
+          [
+            {
+              field_id: "d242bb2e",
+              label: "Phone Number",
+              type: "text",
+              canonical_field: "phone",
+              action: "FILL",
+              approved: true,
+              value: "4805897636",
+              reason: "Mapped from public profile",
+            } as never,
+          ],
+          new Map(),
+        );
+        // No hard error, nothing typed, and the skip says why.
+        expect(result.errors).toEqual([]);
+        expect(result.skipped).toContain("phone");
+        expect(await page.locator("#c1").isChecked()).toBe(false);
+        expect(await page.locator("#c2").isChecked()).toBe(false);
+        const meta = (result.field_meta ?? []).find((m) => m.field_id === "d242bb2e");
+        expect(meta?.notes?.join(" ")).toMatch(/free text but the live control is a/);
+      });
+    } finally {
+      applySafeFillEnv();
+    }
+  }, 45_000);
+});
