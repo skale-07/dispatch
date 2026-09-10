@@ -22,6 +22,88 @@ export async function cdpReachable(cdpUrl: string): Promise<boolean> {
 }
 
 /**
+ * #233 (operator directive 2026-09-10: run the Gmail pipeline "in a NEW
+ * chrome CDP instance/window that way it doesn't interfere with the
+ * application pipeline").
+ *
+ * Which debug Chrome the Gmail work attaches to. When OUTREACH_CDP_URL is
+ * set AND that endpoint answers, Gmail gets its own browser and the applier
+ * keeps the one it is typing into — a Compose window can no longer take
+ * focus from a live fill, and a dialog in one cannot stall the other.
+ *
+ * Fail-open by design: unset, or set but unreachable, returns the applier's
+ * endpoint, which is exactly the previous behaviour. A second browser is an
+ * optimisation, never a precondition for drafting.
+ */
+export async function resolveGmailCdpUrl(): Promise<{
+  url: string;
+  reachable: boolean;
+  dedicated: boolean;
+  note: string | null;
+}> {
+  const cfg = getConfig();
+  const preferred = cfg.outreachCdpUrl.trim();
+  let note: string | null = null;
+  if (preferred && preferred !== cfg.agentCdpUrl && (await cdpReachable(preferred))) {
+    // Reachable is NOT usable. A second Chrome started from a fresh
+    // profile answers CDP immediately but may be SIGNED OUT of Google —
+    // Google binds its session to the profile, so cookies copied from the
+    // applier browser land on the account chooser (live, night29). Picking
+    // it then would silently break every draft. Prove the mailbox opens,
+    // once per process, before preferring it.
+    const signedIn = await gmailSignedIn(preferred);
+    if (signedIn) return { url: preferred, reachable: true, dedicated: true, note: null };
+    note =
+      `dedicated gmail Chrome at ${preferred} is reachable but not signed into Gmail — ` +
+      `using the applier browser (sign in once in that window to enable it)`;
+  }
+  return {
+    url: cfg.agentCdpUrl,
+    reachable: await cdpReachable(cfg.agentCdpUrl),
+    dedicated: false,
+    note,
+  };
+}
+
+/**
+ * One bounded check per process per endpoint: does mail.google.com open as
+ * a MAILBOX in that browser, or bounce to a Google sign-in? Memoized
+ * because it costs a page load, and fail-closed for the dedicated path —
+ * anything unexpected means "don't prefer it".
+ */
+const gmailSignedInCache = new Map<string, Promise<boolean>>();
+function gmailSignedIn(cdpUrl: string): Promise<boolean> {
+  const cached = gmailSignedInCache.get(cdpUrl);
+  if (cached) return cached;
+  const probe = (async (): Promise<boolean> => {
+    const session = new PlaywrightServiceSession({
+      service: "jobright",
+      mode: "CDP_ATTACH",
+      cdpUrl,
+      headless: true,
+      skipAuthValidation: true,
+    });
+    try {
+      await session.open();
+      const page = await session.newPage({ purpose: "gmail_session_probe" });
+      try {
+        await page.goto(GMAIL_URL, { waitUntil: "domcontentloaded", timeout: 45_000 });
+        await page.waitForTimeout(3_000);
+        return /^https:\/\/mail\.google\.com\//.test(page.url());
+      } finally {
+        await page.close().catch(() => undefined);
+      }
+    } catch {
+      return false;
+    } finally {
+      await session.close().catch(() => undefined);
+    }
+  })();
+  gmailSignedInCache.set(cdpUrl, probe);
+  return probe;
+}
+
+/**
  * Gmail verification via the BROWSER, not the API: the operator's Gmail
  * REST access is unavailable (Google restricts the readonly scope to
  * verified OAuth apps), so this provider reads mail.google.com through the
@@ -236,12 +318,15 @@ async function pollGmailWeb(
 ): Promise<MailboxVerificationHit | null> {
   const cfg = getConfig();
   if (!cfg.gmailVerificationEnabled) return null;
-  const useCdp = !forceStorageState && (await cdpReachable(cfg.agentCdpUrl));
+  const target = forceStorageState
+    ? { url: cfg.agentCdpUrl, reachable: false, dedicated: false }
+    : await resolveGmailCdpUrl();
+  const useCdp = target.reachable;
   // CDP attach ignores headless (operator Chrome is already visible).
   // STORAGE_STATE launches honor headless for smoke-test visibility.
   const session = new PlaywrightServiceSession({
     service: "jobright",
-    ...(useCdp ? { mode: "CDP_ATTACH" as const } : {}),
+    ...(useCdp ? { mode: "CDP_ATTACH" as const, cdpUrl: target.url } : {}),
     headless: useCdp ? true : headless,
   });
   try {

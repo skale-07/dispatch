@@ -4,7 +4,7 @@ import type { Db } from "../storage/db/client.js";
 import { getConfig } from "../config/index.js";
 import { logger } from "../logging/logger.js";
 import { PlaywrightServiceSession } from "../auth/serviceSession.js";
-import { cdpReachable } from "../verification/gmailWebProvider.js";
+import { resolveGmailCdpUrl } from "../verification/gmailWebProvider.js";
 import { getContact } from "../contacts/repository.js";
 import { LINKEDIN_PROFILE_URL } from "../contacts/emailGenerate.js";
 
@@ -289,13 +289,21 @@ export async function createGmailDraft(input: {
     };
   }
 
-  const useCdp = await cdpReachable(cfg.agentCdpUrl);
+  // #233: prefer the Gmail tail's own debug Chrome when the operator
+  // started one (OUTREACH_CDP_URL); falls back to the applier's browser,
+  // which is the pre-#233 behaviour.
+  const target = await resolveGmailCdpUrl();
+  const useCdp = target.reachable;
   const session = new PlaywrightServiceSession({
     service: "jobright",
-    ...(useCdp ? { mode: "CDP_ATTACH" as const } : {}),
+    ...(useCdp ? { mode: "CDP_ATTACH" as const, cdpUrl: target.url } : {}),
     headless: useCdp ? true : (input.headless ?? true),
   });
   const notes: string[] = [];
+  if (target.dedicated) {
+    notes.push(`gmail tail on its own debug Chrome (${target.url})`);
+  }
+  if (target.note) notes.push(target.note);
   let composed = false;
   let verified = false;
   await session.open();

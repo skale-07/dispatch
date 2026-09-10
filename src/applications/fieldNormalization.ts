@@ -336,6 +336,42 @@ function matchCanonicalFieldInner(
   if (/hispanic/i.test(nameHint) || /hispanic/i.test(field.id ?? "")) {
     return "hispanic_latino";
   }
+
+  // #231 (live Smartly.io greenhouse 2026-09-10): "What gender do you
+  // identify as?*" and "Are you a person with a disability?*" are the
+  // form's OWN self-ID wording, both REQUIRED, and neither matched — the
+  // alias map held bare "Gender" and "Do you have a disability", and the
+  // gender rule above keys on a Greenhouse `eeo[gender]` control name this
+  // board does not use. Two required questions, submit withheld.
+  //
+  // Recognise the self-ID topic itself rather than one board's phrasing.
+  // Safe to widen because a demographic canonical is the most restrictive
+  // destination in the system: the value can come ONLY from the operator's
+  // own encrypted sensitive profile, nothing is inferred or defaulted, and
+  // no value on file still means the field is skipped. A false positive
+  // costs a skipped field, never a wrong or invented answer.
+  //
+  // Ordering is load-bearing (live Crest Industries lever, same night):
+  // Lever's EEO block hands the RACE control a label that begins
+  // "Gender Select ... Male Female Decline to self-identify". Read as a
+  // label that is a gender question; its control NAME says `eeo[race]`.
+  // The name is the fact, so every `eeo[...]` rule above decides first and
+  // these topic rules only see what the names left unclaimed.
+  // "Gender identity" is its own canonical and its own stored value — the
+  // module's opening contract ("bare Gender does not steal gender identity
+  // fields") has to survive a topic rule, so the longer phrase decides
+  // first.
+  if (/\bgender identity\b/.test(normalized)) return "gender_identity";
+  if (/\bgender\b/.test(normalized) && !/\bgender\s+pay\b/.test(normalized)) {
+    return "gender";
+  }
+  if (/\bdisabilit(?:y|ies)\b|\bdisabled\b/.test(normalized)) {
+    return "disability_status";
+  }
+  if (/\bveterans?\b|\barmed forces\b|\bmilitary service\b/.test(normalized)) {
+    return "veteran_status";
+  }
+
   if (
     nameHint === "org" ||
     /^(current )?company$/.test(normalized) ||

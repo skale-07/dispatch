@@ -487,3 +487,118 @@ describe("redaction word-guard (UNIT_CONFIRMED)", () => {
     expect(out["phone"]).toBe("[REDACTED]");
   });
 });
+
+/**
+ * #232 (live CIM Group lever 2026-09-10). Lever's custom "card" questions
+ * put the question text in a sibling <div class="application-label"> and
+ * wrap nothing, so the scan named the blocker "(unlabeled)" — a review
+ * item and a stop_reason that identify no question at all. The container
+ * climb reads the real text, and Lever's asterisk span comes with it.
+ */
+describe("required-completeness label recovery from the field container", () => {
+  it("names a Lever card question whose label is a sibling div, not a <label>", async () => {
+    const html = `
+      <div class="section application-form" data-qa="additional-cards">
+        <h4 data-qa="card-name">Salary Expectations</h4>
+        <ul>
+          <li class="application-question custom-question">
+            <div>
+              <div class="application-label full-width text">
+                <div class="text">What are your salary expectations?<span class="required">*</span></div>
+              </div>
+              <div class="application-field full-width required-field">
+                <input required="required" class="card-field-input" type="text"
+                       placeholder="Type your response" name="cards[abc][field0]" />
+              </div>
+            </div>
+          </li>
+          <li class="application-question custom-question">
+            <div>
+              <div class="application-label full-width text">
+                <div class="text">What is your earliest start date?<span class="required">*</span></div>
+              </div>
+              <div class="application-field full-width required-field">
+                <input required="required" class="card-field-input" type="text"
+                       placeholder="Type your response" name="cards[abc][field1]" />
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>`;
+    await withFixtureHtmlPage(html, async (page) => {
+      const scan = await scanRequiredCompleteness(page);
+      expect(scan.scanned).toBe(true);
+      const labels = scan.unanswered.map((u) => u.label);
+      // Both questions are named, and neither collapses into the other:
+      // label-keyed dedupe used to fold every "(unlabeled)" into one row.
+      expect(labels.some((l) => l.includes("salary expectations"))).toBe(true);
+      expect(labels.some((l) => l.includes("earliest start date"))).toBe(true);
+      expect(labels).not.toContain("(unlabeled)");
+    });
+  }, 45_000);
+
+  it("does not borrow a neighbouring question's label when the container is ambiguous", async () => {
+    // Two labelled controls under ONE container: the climb must stop
+    // rather than hand both fields the same (wrong) question text.
+    const html = `
+      <form>
+        <div class="row">
+          <div class="lbl">First question</div>
+          <div class="lbl">Second question</div>
+          <input type="text" required name="a" />
+        </div>
+      </form>`;
+    await withFixtureHtmlPage(html, async (page) => {
+      const scan = await scanRequiredCompleteness(page);
+      const labels = scan.unanswered.map((u) => u.label);
+      expect(labels).not.toContain("First question");
+      expect(labels).not.toContain("Second question");
+    });
+  }, 45_000);
+});
+
+/**
+ * #234 (live Lexington Medical greenhouse 2026-09-10). The board declared
+ * "Do you have a portfolio of your engineering work…" REQUIRED, but the
+ * DOM renders that question as Attach / Dropbox / Google Drive buttons
+ * around a hidden input, so the scan labelled the control "Attach". A
+ * declared-required question can only be promoted when the DOM label
+ * matches it, so nothing blocked, the click went through, the page's own
+ * validation bounced it, and the submit was spent on an UNCERTAIN result.
+ */
+describe("upload widget chrome is never mistaken for the question", () => {
+  const html = `
+    <form>
+      <div class="field">
+        <label class="question" for="q1">Do you have a portfolio of your engineering work (e.g., CAD drawings, design projects, lab reports, or other technical work)? If so, please attach it here or provide a link.</label>
+        <div class="upload">
+          <label class="btn">Attach<input id="q1" type="file" style="display:none" /></label>
+          <button type="button">Dropbox</button>
+          <button type="button">Google Drive</button>
+        </div>
+      </div>
+    </form>`;
+
+  it("reads the real question text off a Greenhouse-style attach widget", async () => {
+    await withFixtureHtmlPage(html, async (page) => {
+      const scan = await scanRequiredCompleteness(page, {
+        declaredRequired: [
+          "Do you have a portfolio of your engineering work (e.g., CAD drawings, design projects, lab reports, or other technical work)? If so, please attach it here or provide a link.",
+        ],
+      });
+      expect(scan.scanned).toBe(true);
+      const labels = scan.unanswered.map((u) => u.label);
+      expect(labels.some((l) => l.startsWith("Do you have a portfolio"))).toBe(true);
+      expect(labels).not.toContain("Attach");
+    });
+  }, 45_000);
+
+  it("without a declared list the same control stays optional (no new blocking)", async () => {
+    await withFixtureHtmlPage(html, async (page) => {
+      const scan = await scanRequiredCompleteness(page);
+      // Not DOM-required, so it must not block on its own — the board
+      // schema is what promotes it.
+      expect(scan.unanswered).toHaveLength(0);
+    });
+  }, 45_000);
+});

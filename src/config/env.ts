@@ -173,6 +173,18 @@ const envSchema = z.object({
   /** CDP endpoint of the operator-started debug Chrome (see chrome:debug:jobright). */
   AGENT_CDP_URL: z.string().default("http://127.0.0.1:9222"),
   /**
+   * #233 (operator directive 2026-09-10): the Gmail tail may run in its OWN
+   * debug Chrome so it never competes with the applier for the same browser
+   * — a Compose window stealing focus, or a page dialog, used to reach the
+   * tab a live fill was typing into. Empty (the default) keeps the previous
+   * behaviour exactly: the Gmail tail attaches to AGENT_CDP_URL.
+   *
+   * A plain endpoint setting, not a capability flag — GMAIL_DRAFTS_ENABLED
+   * still decides whether any draft is written at all.
+   * Start the second browser with `npm run chrome:debug:gmail`.
+   */
+  OUTREACH_CDP_URL: z.string().default(""),
+  /**
    * S-spike: which sidecar drives agent navigation turns. Plain setting,
    * not a capability flag — AGENT_FALLBACK_ENABLED still gates whether any
    * agent runs at all. "stagehand" requires `npm install` inside
@@ -318,6 +330,8 @@ export type AppConfig = {
   atsDiscoveryEnabled: boolean;
   automationEnabled: boolean;
   agentCdpUrl: string;
+  /** #233: CDP endpoint for the Gmail tail; empty ⇒ same browser as agentCdpUrl. */
+  outreachCdpUrl: string;
   agentEngine: "browser_use" | "stagehand";
   cdpAutolaunchEnabled: boolean;
   verificationMailbox?: "gmail" | "outlook" | undefined;
@@ -446,6 +460,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
     atsDiscoveryEnabled: parsed.ATS_DISCOVERY_ENABLED,
     automationEnabled: parsed.AUTOMATION_ENABLED,
     agentCdpUrl: parsed.AGENT_CDP_URL,
+    outreachCdpUrl: parsed.OUTREACH_CDP_URL.trim(),
     agentEngine: parsed.AGENT_ENGINE,
     cdpAutolaunchEnabled: parsed.CDP_AUTOLAUNCH_ENABLED,
     verificationMailbox: parsed.VERIFICATION_MAILBOX,

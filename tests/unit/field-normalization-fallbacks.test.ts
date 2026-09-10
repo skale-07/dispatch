@@ -420,3 +420,79 @@ describe("#164 a history fact never answers the ATS's own custom question", () =
     ).toBe("linkedin_url");
   });
 });
+
+// #231 (live Smartly.io greenhouse 2026-09-10): two REQUIRED self-ID
+// questions in the board's own wording matched nothing, so the submit was
+// withheld on "What gender do you identify as?*; Are you a person with a
+// disability?*". Demographic canonicals fill ONLY from the operator's
+// encrypted sensitive profile, so recognising the topic cannot invent an
+// answer — an unmatched one is simply skipped.
+describe("demographic self-ID questions map by topic, not by one board's phrasing", () => {
+  const q = (label: string) => ({
+    id: "f1",
+    label,
+    type: "select" as const,
+    required: true,
+    name: "",
+  });
+
+  it("maps gender / disability / veteran self-ID wording with no alias phrases", () => {
+    for (const label of ["What gender do you identify as?*", "Gender", "Gender (select one)"]) {
+      expect(matchCanonicalField(q(label), {})).toBe("gender");
+    }
+    // The longer phrase keeps its own canonical and its own stored value.
+    for (const label of [
+      "Gender identity (voluntary self-identification)",
+      "Please select your gender identity",
+    ]) {
+      expect(matchCanonicalField(q(label), {})).toBe("gender_identity");
+    }
+    for (const label of [
+      "Are you a person with a disability?*",
+      "Disability Status",
+      "Do you have a disability?",
+      "Voluntary Self-Identification of Disability",
+    ]) {
+      expect(matchCanonicalField(q(label), {})).toBe("disability_status");
+    }
+    for (const label of [
+      "Are you a protected veteran?*",
+      "Veteran Status",
+      "Have you served in the United States Armed Forces?",
+    ]) {
+      expect(matchCanonicalField(q(label), {})).toBe("veteran_status");
+    }
+  });
+
+  // Live Crest Industries lever, same night: Lever's EEO block hands the
+  // RACE control a label beginning "Gender Select ... Male Female Decline
+  // to self-identify". Read as a label it is a gender question — the
+  // control NAME is the fact, and every eeo[...] rule must decide first.
+  it("a control NAMED eeo[race] stays race even when its label reads as gender", () => {
+    expect(
+      matchCanonicalField(
+        {
+          id: "eeo[race]",
+          label: "Gender Select ... Male Female Decline to self-identify",
+          type: "select",
+          required: true,
+          name: "eeo[race]",
+        },
+        {},
+      ),
+    ).toBe("race_ethnicity");
+    expect(
+      matchCanonicalField(
+        { id: "eeo[veteran]", label: "Gender", type: "select", required: true, name: "eeo[veteran]" },
+        {},
+      ),
+    ).toBe("veteran_status");
+  });
+
+  it("keeps pronouns and race on their own canonicals", () => {
+    expect(matchCanonicalField(q("What are your preferred pronouns?"), {})).toBe("pronouns");
+    expect(matchCanonicalField(q("How would you describe your racial/ethnic background?"), {})).toBe(
+      "race_ethnicity",
+    );
+  });
+});

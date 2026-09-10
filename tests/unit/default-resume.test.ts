@@ -35,6 +35,15 @@ describe("default resume auto-attach (UNIT_CONFIRMED)", () => {
   beforeEach(() => {
     resetConfigCache();
     tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "jaa-defres-"));
+    // #228 gave the resume choice a role-matched family, read from the
+    // OPERATOR'S private/candidate/application-education-policy.json. These
+    // unit tests pin the DEFAULT_RESUME_PATH contract, so they must not see
+    // that file: on a machine that has one, `resumeForApplication` returns a
+    // real resume and both "no_default" and "already" become "attached"
+    // (which is exactly how this file was left failing). An empty
+    // PRIVATE_DIR makes the assertions machine-independent again.
+    process.env.PRIVATE_DIR = path.join(tmpDir, "private");
+    fs.mkdirSync(process.env.PRIVATE_DIR, { recursive: true });
     process.env.DATABASE_PATH = path.join(tmpDir, "app.sqlite");
     db = openDatabase(process.env.DATABASE_PATH);
     migrate(db);
@@ -51,6 +60,7 @@ describe("default resume auto-attach (UNIT_CONFIRMED)", () => {
     closeDatabase(db);
     delete process.env.DATABASE_PATH;
     delete process.env.DEFAULT_RESUME_PATH;
+    delete process.env.PRIVATE_DIR;
     fs.rmSync(tmpDir, { recursive: true, force: true });
     resetConfigCache();
   });

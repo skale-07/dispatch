@@ -6,6 +6,7 @@ import {
   detectControlKind,
   fillComboboxControl,
   findOtherOptionLabel,
+  firstRealOptionLabel,
   labelsCompatible,
   pickOptionLabel,
   readComboboxValue,
@@ -69,7 +70,75 @@ describe("findOtherOptionLabel (UNIT_CONFIRMED)", () => {
   });
 });
 
+// #225 (operator directive 2026-09-09): how-did-you-hear must never block
+// a submit — after LinkedIn and the job-board classes miss, take the first
+// REAL option, never the "Select one" prompt row.
+describe("firstRealOptionLabel (UNIT_CONFIRMED)", () => {
+  it("skips placeholder prompt rows", () => {
+    expect(firstRealOptionLabel(["Select one", "Careers Page", "Referral"])).toBe("Careers Page");
+    expect(firstRealOptionLabel(["", "  ", "--", "Please select...", "Job Fair"])).toBe("Job Fair");
+    expect(firstRealOptionLabel(["Choose an option", "Company Website"])).toBe("Company Website");
+    expect(firstRealOptionLabel(["N/A", "None", "University Event"])).toBe("University Event");
+  });
+
+  it("prefers a real option over the catch-all, and reports nothing when there is none", () => {
+    // "Other" is the #223 rung; this last resort must not duplicate it.
+    expect(firstRealOptionLabel(["Other", "Employee Referral"])).toBe("Employee Referral");
+    expect(firstRealOptionLabel(["Select one", "Other"])).toBeNull();
+    expect(firstRealOptionLabel([])).toBeNull();
+  });
+});
+
 describe("pickOptionLabel (UNIT_CONFIRMED)", () => {
+  // #237 (live Saronic ashby 2026-09-10, two apps). Ashby's education
+  // "School" control is a typeahead over a school DIRECTORY whose rows
+  // concatenate name + country + domain. Every row for a namesake school
+  // contains the query, so the substring filter refused as ambiguous and
+  // the required school field stayed empty. Among rows that START with
+  // the query the shortest is the one the query names; the longer ones
+  // add name words the operator never typed.
+  it("resolves a directory typeahead namesake to the shortest prefix row", () => {
+    const options = [
+      "Johns Hopkins UniversityUnited Statesjhu.edu",
+      "Johns Hopkins University School of Advanced International StudiesUnited Statessais-jhu.edu",
+      "Johns Hopkins University SAIS Bologna CenterItalysais-jhu.edu",
+    ];
+    expect(pickOptionLabel(options, "Johns Hopkins University")).toMatchObject({
+      ok: true,
+      label: "Johns Hopkins UniversityUnited Statesjhu.edu",
+    });
+  });
+
+  it("still refuses when the rows continue the NAME rather than gluing metadata", () => {
+    // Both continue with a space, so neither is "the school the query
+    // names with metadata appended" — an honest refusal.
+    const options = ["Springfield College AAA", "Springfield College BBB"];
+    expect(pickOptionLabel(options, "Springfield College")).toMatchObject({ ok: false });
+    // Two different places sharing a name: the comma keeps both out.
+    expect(
+      pickOptionLabel(
+        ["Baltimore, Maryland, United States", "Baltimore, County Cork, Ireland"],
+        "Baltimore",
+      ).ok,
+    ).toBe(false);
+  });
+
+  it("does not let the shortest-prefix rule swallow a longer intended name", () => {
+    // The query names the LONGER school; it is still an exact prefix of
+    // exactly one row, so nothing is stolen by the shorter namesake.
+    const options = [
+      "Johns Hopkins UniversityUnited Statesjhu.edu",
+      "Johns Hopkins University School of Advanced International StudiesUnited Statessais-jhu.edu",
+    ];
+    expect(
+      pickOptionLabel(options, "Johns Hopkins University School of Advanced International Studies"),
+    ).toMatchObject({
+      ok: true,
+      label:
+        "Johns Hopkins University School of Advanced International StudiesUnited Statessais-jhu.edu",
+    });
+  });
+
   const options = [
     "Canada",
     "United Kingdom",

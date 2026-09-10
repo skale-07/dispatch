@@ -87,6 +87,15 @@ const SCAN_EXPRESSION = `(() => {
 
   const clean = (t) => (t || "").replace(/\\s+/g, " ").trim().slice(0, 120);
 
+  // #234: words that belong to an upload WIDGET, never to the question it
+  // is attached to. Anchored whole-string so a real question that merely
+  // mentions attaching ("…please attach it here or provide a link") is
+  // untouched.
+  const uploadChrome = (t) =>
+    /^(attach|attach file|attach a file|upload|upload file|choose file|choose a file|browse|browse files|select file|dropbox|google drive|drop files here|drag and drop|or|add file)$/i.test(
+      (t || "").trim(),
+    );
+
   const labelFor = (el) => {
     let byId = null;
     if (el.id) {
@@ -104,7 +113,50 @@ const SCAN_EXPRESSION = `(() => {
       (wrapped && wrapped.textContent) ||
       (legend && legend.textContent) ||
       "";
-    return clean(text) || "(unlabeled)";
+    const direct = clean(text);
+    // #234 (live Lexington Medical greenhouse 2026-09-10): a Greenhouse
+    // file question renders as "Attach / Dropbox / Google Drive" buttons
+    // around a hidden input, so the label lookup returned the BUTTON's
+    // word. The board's own schema declared that question required
+    // ("Do you have a portfolio of your engineering work…"), but a
+    // declared-required label can only be promoted when the DOM label
+    // matches it — "Attach" never did. The click went through, the page's
+    // own validation bounced it, and a real submit was spent on an
+    // UNCERTAIN outcome. Upload chrome is never a question: keep climbing.
+    if (direct && !uploadChrome(direct)) return direct;
+    // #232 (live CIM Group lever 2026-09-10): Lever's custom "card"
+    // questions put the question text in a SIBLING
+    // <div class="application-label"><div class="text">…</div></div> and
+    // wrap nothing, so every one of them scanned as "(unlabeled)". The
+    // submit was then withheld on "1 required question(s) unanswered —
+    // (unlabeled)", which names nothing the operator or a requeue can act
+    // on, and label-keyed dedupe collapses every such control into one.
+    //
+    // Climb the field's own container looking for a labelling element.
+    // Same unambiguity guard the widget path already uses: exactly one
+    // candidate means it belongs to this field; two or more means we have
+    // climbed out of the container, so stop rather than borrow a
+    // neighbour's question (and its required asterisk).
+    let node = el;
+    for (let i = 0; i < 4 && node.parentElement; i++) {
+      node = node.parentElement;
+      const labs = node.querySelectorAll(
+        'label, legend, [class*="label" i], [data-qa*="label" i]',
+      );
+      const texts = [];
+      for (const lab of Array.from(labs)) {
+        // Skip a wrapper whose text is just a nested candidate's text.
+        if (lab.querySelector('label, legend, [class*="label" i]')) continue;
+        const t = clean(lab.textContent);
+        // #234: the sibling "Dropbox" / "Google Drive" buttons are chrome,
+        // not competing questions — they must not make the container look
+        // ambiguous, or the real question is never reached.
+        if (t && !uploadChrome(t)) texts.push(t);
+      }
+      if (texts.length === 1) return texts[0];
+      if (texts.length > 1) break;
+    }
+    return direct || "(unlabeled)";
   };
 
   const isRequired = (el) =>

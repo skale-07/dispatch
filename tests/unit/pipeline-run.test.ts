@@ -328,16 +328,31 @@ describe("pipeline driver (FIXTURE_CONFIRMED)", () => {
     // Pin the default to a guaranteed-missing path so the auto-attach is a
     // no-op and the sticky-review behavior is what's under test.
     process.env.DEFAULT_RESUME_PATH = path.join(artifactsDir, "no-such-default.pdf");
+    // #228 gave the resume choice a role-matched family read from the
+    // OPERATOR'S private/candidate/application-education-policy.json, and
+    // it outranks DEFAULT_RESUME_PATH. On a machine that has one, the
+    // auto-attach is NOT a no-op, a real resume lands, and the run sails
+    // past materials — which is how this test was left failing. An empty
+    // PRIVATE_DIR (this test only; siblings need the real public profile)
+    // restores "nothing to attach", which is the case under test.
+    const priorPrivateDir = process.env.PRIVATE_DIR;
+    process.env.PRIVATE_DIR = path.join(artifactsDir, "private-empty");
+    fs.mkdirSync(process.env.PRIVATE_DIR, { recursive: true });
     resetConfigCache();
-    const appId = seed();
-    const report = await runPipeline({ db, applicationId: appId });
-    const appRep = report.applications[0]!;
-    expect(appRep.stopped).toBe("review");
-    expect(getApplication(db, appId)?.state).toBe("MATERIALS_GENERATING");
-    const items = listOpenReviewItems(db);
-    expect(items.some((i) => /Resume material/i.test(i.title))).toBe(true);
-    delete process.env.DEFAULT_RESUME_PATH;
-    resetConfigCache();
+    try {
+      const appId = seed();
+      const report = await runPipeline({ db, applicationId: appId });
+      const appRep = report.applications[0]!;
+      expect(appRep.stopped).toBe("review");
+      expect(getApplication(db, appId)?.state).toBe("MATERIALS_GENERATING");
+      const items = listOpenReviewItems(db);
+      expect(items.some((i) => /Resume material/i.test(i.title))).toBe(true);
+    } finally {
+      if (priorPrivateDir === undefined) delete process.env.PRIVATE_DIR;
+      else process.env.PRIVATE_DIR = priorPrivateDir;
+      delete process.env.DEFAULT_RESUME_PATH;
+      resetConfigCache();
+    }
   });
 
   it("a configured default resume auto-attaches and unblocks materials", async () => {

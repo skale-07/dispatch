@@ -584,8 +584,20 @@ export async function runAtsLiveFill(input: {
         input.execute &&
         classifyPage({ html: gate.html, url: gate.finalUrl }).page_class === "unknown"
       ) {
+        // #238 (night29): the original settle paid a FULL re-gate on each
+        // of its three passes. A gate is the expensive read in this loop,
+        // and a landing that is genuinely not a form — the common case —
+        // paid all three for nothing (the fixture case blew a 45s test
+        // budget). "unknown" means classifyPage counted zero fields, so
+        // the only thing worth waiting for is CONTROLS appearing: poll
+        // that cheaply, and spend a re-gate only once something mounted.
         for (let settle = 0; settle < 3; settle += 1) {
           await page.waitForTimeout(1_500);
+          const controls = await page
+            .locator("input, textarea, select")
+            .count()
+            .catch(() => 0);
+          if (controls === 0) continue;
           const reread = await binding.gate(page, input.url, detected.normalizedUrl);
           const cls = classifyPage({ html: reread.html, url: reread.finalUrl }).page_class;
           if (cls !== "unknown") {

@@ -110,6 +110,37 @@ describe("greenhouse checkbox groups — the on-site acknowledgement is a bank-a
     // A bare option label is still not a question.
     expect(isCaptureWorthyQuestion({ label: "Neuralink Show & Tell", type: "checkbox" })).toBe(false);
   });
+
+  // #235 (live DV Trading greenhouse 2026-09-10, twice): a REQUIRED
+  // checkbox GROUP whose label is a noun phrase — no "?", no imperative —
+  // was rejected by the phrasing rule and skipped "No answer-alias
+  // mapping", so the submit gate refused on a question the page's own
+  // option list could answer. An option checkbox has no options of its
+  // own; the group does, and that is the exact tell.
+  it("a checkbox GROUP with its own option list is a question whatever its phrasing", async () => {
+    const { isCaptureWorthyQuestion } = await import("../../src/applications/screenerPredictionLlm.js");
+    expect(
+      isCaptureWorthyQuestion({
+        label: "Undergrad Discipline(s)",
+        type: "checkbox",
+        options: ["Applied Mathematics", "Statistics", "Economics", "Physics"],
+      }),
+    ).toBe(true);
+    // Without a list it is indistinguishable from one option of a group,
+    // so the phrasing rule still decides — unchanged behaviour.
+    expect(isCaptureWorthyQuestion({ label: "Undergrad Discipline(s)", type: "checkbox" })).toBe(false);
+    expect(
+      isCaptureWorthyQuestion({ label: "Applied Mathematics", type: "checkbox", options: [] }),
+    ).toBe(false);
+    // Demographic groups stay excluded even with a full option list.
+    expect(
+      isCaptureWorthyQuestion({
+        label: "Please identify your race",
+        type: "checkbox",
+        options: ["Asian", "White", "Decline to self-identify"],
+      }),
+    ).toBe(false);
+  });
 });
 
 describe("greenhouse checkbox groups — fill + verify (FIXTURE_CONFIRMED)", () => {
@@ -153,6 +184,34 @@ describe("greenhouse checkbox groups — fill + verify (FIXTURE_CONFIRMED)", () 
       const verify = await greenhouseVerifyFromPlan(page, [e], meta);
       expect(verify.fields[0]?.match).toBe(true);
       expect(verify.fields[0]?.observed).not.toBe(true);
+    });
+  }, 45_000);
+
+  // #236 (live Rocket Lab greenhouse 2026-09-10, three apps parked
+  // AMBIGUOUS_FIELD with `Expected "No"; page shows "true"`). The FILL
+  // decides option-vs-state with `isCheckboxBooleanValue(value) &&
+  // !multiMember`; the READ-BACK tested only the first half, so it
+  // reported this box's raw checked state. Whether that read `true` or
+  // `false` depended on which group member the field locator happened to
+  // resolve to — here, the member that the fill correctly checks.
+  it("read-back of a Yes|No group reports the LABEL even when the locator resolves to the checked member", async () => {
+    await withFixtureHtmlPage(HTML, async (page) => {
+      const e = entry({
+        field_id: AUTH,
+        label: "Are you currently authorized to work in the United States?",
+        type: "checkbox",
+        value: "No",
+        canonical_field: "work_authorization",
+      });
+      // The NO member — the one the fill checks.
+      const meta = metaFor(AUTH, "question_16876429003[]_104418777003");
+      const fill = await greenhouseFillFromPlan(page, [e], meta);
+      expect(fill.errors).toEqual([]);
+      const verify = await greenhouseVerifyFromPlan(page, [e], meta);
+      // The observed value is the checked member's LABEL, never `true`.
+      expect(verify.fields[0]?.observed).toMatchObject({ label: "No" });
+      expect(verify.fields[0]?.observed).not.toBe(true);
+      expect(verify.fields[0]?.match).toBe(true);
     });
   }, 45_000);
 

@@ -286,29 +286,42 @@ async function collectCheckboxGroupOptions(
 ): Promise<Array<{ id: string; label: string; checked: boolean }>> {
   return loc.evaluate(
     (el: {
+      name?: string;
       closest: (sel: string) => {
         querySelectorAll: (sel: string) => ArrayLike<unknown>;
       } | null;
       ownerDocument: {
         querySelector: (s: string) => { textContent?: string | null } | null;
+        querySelectorAll: (s: string) => ArrayLike<unknown>;
       };
     }) => {
       const doc = el.ownerDocument;
+      type Box = {
+        id?: string;
+        parentElement?: { textContent?: string | null } | null;
+        checked?: boolean;
+      };
       const scope =
         el.closest("fieldset") ?? el.closest('[role="group"]') ?? null;
-      const boxes = scope
-        ? (Array.from(
-            scope.querySelectorAll('input[type="checkbox"]'),
-          ) as Array<{
-            id?: string;
-            parentElement?: { textContent?: string | null } | null;
-            checked?: boolean;
-          }>)
-        : [el as unknown as {
-            id?: string;
-            parentElement?: { textContent?: string | null } | null;
-            checked?: boolean;
-          }];
+      let boxes: Box[];
+      if (scope) {
+        boxes = Array.from(scope.querySelectorAll('input[type="checkbox"]')) as Box[];
+      } else if (el.name) {
+        // #230 (live Palantir/Lever, day28): Lever renders a multi-select
+        // question as sibling checkboxes that share one `name`
+        // (cards[<uuid>][field0]) and sit in no fieldset or role=group —
+        // so the scoped lookup above saw a group of ONE and refused
+        // ("no option matching \"Washington, DC\" (options: New York, NY)").
+        // A shared name IS the HTML definition of a checkbox group, so it
+        // is the right fallback for any ATS, not a Lever special case.
+        const escaped = el.name.replace(/["\\]/g, "\\$&");
+        boxes = Array.from(
+          doc.querySelectorAll(`input[type="checkbox"][name="${escaped}"]`),
+        ) as Box[];
+        if (boxes.length === 0) boxes = [el as unknown as Box];
+      } else {
+        boxes = [el as unknown as Box];
+      }
       return boxes.map((b) => {
         let label = "";
         if (b.id) {
@@ -929,12 +942,27 @@ export function comboboxAlternates(
   if (canonical !== "how_heard") return [];
   const key = String(value ?? "").trim().toLowerCase();
   const table: Record<string, string[]> = {
+    // #225 (live Leidos 2026-09-09: 13 real options harvested, none of
+    // them LinkedIn or any class below). Operator: "first try searching
+    // LinkedIn. if it doesn't show, then just click on job board." All of
+    // these are truthful for a posting found through a job board — the
+    // list is ordered most to least specific.
     linkedin: [
+      "LinkedIn.com",
       "Social Media",
       "Social Network",
-      "Job Board",
-      "Online Job Board",
       "Professional Network",
+      "Job Board",
+      "Job Boards",
+      "Online Job Board",
+      "Internet Job Board",
+      "Job Search Website",
+      "Online Job Posting",
+      "Online Search",
+      "Internet Search",
+      "Search Engine",
+      "Internet",
+      "Online",
     ],
     indeed: ["Job Board", "Online Job Board"],
     jobright: ["Job Board", "Online Job Board"],
@@ -1214,6 +1242,12 @@ export async function greenhouseFillFromPlan(
                 required: false,
               }),
               otherSpecifyValue: String(entry.value),
+              // #225 (operator directive 2026-09-09): how-did-you-hear is
+              // an irrelevant question that must never block a submit.
+              // When neither the stored answer, the class alternates, nor
+              // the form's "Other" is on the list, take the first real
+              // option. Scoped to THIS canonical field only.
+              lastResortFirstOption: entry.canonical_field === "how_heard",
             },
           );
           field_meta.push({
@@ -1347,6 +1381,12 @@ export async function greenhouseFillFromPlan(
                 required: false,
               }),
               otherSpecifyValue: String(entry.value),
+              // #225 (operator directive 2026-09-09): how-did-you-hear is
+              // an irrelevant question that must never block a submit.
+              // When neither the stored answer, the class alternates, nor
+              // the form's "Other" is on the list, take the first real
+              // option. Scoped to THIS canonical field only.
+              lastResortFirstOption: entry.canonical_field === "how_heard",
             },
           );
           field_meta.push({
@@ -1686,13 +1726,22 @@ export async function greenhouseReadFieldValue(
   }
   const type = await loc.getAttribute("type");
   if (type === "checkbox") {
-    if (isCheckboxBooleanValue(entry.value)) {
+    // #236 (live Rocket Lab greenhouse 2026-09-10, three apps): the FILL
+    // decides between "this box's state" and "an option label" with
+    // `isCheckboxBooleanValue(value) && !multiMember` — a MULTI-member
+    // group takes the option path even for Yes/No, so "No" on a [Yes|No]
+    // group checks the NO member. The read-back tested only the first
+    // half, so it reported `loc.isChecked()` → `true` for a correctly
+    // checked "No", verify compared "No" against `true`, and three
+    // correctly filled applications parked AMBIGUOUS_FIELD. The two
+    // decisions must be the same decision.
+    const options = await collectCheckboxGroupOptions(loc);
+    if (isCheckboxBooleanValue(entry.value) && options.length <= 1) {
       return loc.isChecked();
     }
     // Option-labeled expectation: report the checked group member's label
     // (radio-style {value,label}) so verify compares text to text, never
     // text to `true` (issue #21).
-    const options = await collectCheckboxGroupOptions(loc);
     const checked = options.filter((o) => o.checked);
     if (checked.length === 0) return { value: "", label: "" };
     const expectedText = String(entry.value);

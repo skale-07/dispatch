@@ -240,6 +240,13 @@ function decodeBasicHtmlEntities(s: string): string {
 export function isCaptureWorthyQuestion(q: {
   label: string;
   type: string;
+  /**
+   * #235: the control's own option list, when discovery or the board's
+   * schema supplied one. Present ⇒ this is the GROUP, not one of its
+   * members, which is the distinction the checkbox rule below needs.
+   */
+  options?: string[] | null | undefined;
+  required?: boolean | undefined;
 }): boolean {
   const label = decodeBasicHtmlEntities(q.label).replace(/\s+/g, " ").trim();
   if (label.length < 8) return false;
@@ -261,6 +268,23 @@ export function isCaptureWorthyQuestion(q: {
   }
   if (q.type === "checkbox") {
     if (isApplicationConsentField({ type: "checkbox", label })) return false;
+    // #235 (live DV Trading greenhouse 2026-09-10, twice): "Undergrad
+    // Discipline(s)" is a REQUIRED checkbox GROUP whose board schema
+    // declares 60+ disciplines — "Applied Mathematics", "Statistics" and
+    // "Economics" among them, which are the operator's actual majors. It
+    // carries no "?" and no imperative, so the phrasing rule below
+    // rejected it, the plan skipped it "No answer-alias mapping", and the
+    // submit gate then refused on the one question the page itself could
+    // have answered.
+    //
+    // The phrasing rule exists to keep individual option checkboxes
+    // ("Electrical Engineering") out of the queue. An option checkbox has
+    // no option list of its own; the GROUP does. So the presence of the
+    // list is the structural tell the heuristic was reaching for, and it
+    // is exact where phrasing is a guess. The answer still has to survive
+    // validatePrediction's verbatim option-membership check, and
+    // demographic groups were already excluded above.
+    if ((q.options?.length ?? 0) >= 2) return true;
     // "I understand that this position requires me to work on-site." (live
     // neuralink 2026-08-30, required one-member group) is an acknowledgement
     // question the bank answers — it carries no "?" and none of the older

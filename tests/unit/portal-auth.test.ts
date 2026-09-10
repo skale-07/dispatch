@@ -1239,10 +1239,15 @@ describe("workday sign-in DIALOG over the create-account form — live huntingto
     }
   }, 30_000);
 
-  it("create-account: a standing password that fails the page's stated policy is never submitted; the note names the gap", async () => {
+  it("create-account: a standing password that fails the page's stated policy is REPAIRED per host, and the note names the gap (#217)", async () => {
     // Live 2026-08-30: Workday's Create Account silently ignores a
     // non-compliant password. The fixture's create handler would flag
     // "wrong form" if anything were submitted.
+    // #217 (live redhat.wd5) superseded "never submit": the run now
+    // DERIVES a password that satisfies the tenant's stated rules and
+    // stores it in the per-host vault, so account creation can proceed
+    // without the operator editing PORTAL_LOGIN_PASSWORD. What must never
+    // happen is submitting the non-compliant password as typed.
     // Live sequence: no account at this tenant → sign-in rejected → the
     // dialog's "Create Account" link swaps to the create form (rules listed).
     const CREATE_ONLY = HUNTINGTON_HTML.replace(
@@ -1262,7 +1267,17 @@ describe("workday sign-in DIALOG over the create-account form — live huntingto
         expect(r.notes.join(" | ")).toMatch(/fails this portal's password policy \(missing: numeric character, lowercase character\)/);
         expect(r.notes.join(" ")).not.toMatch(/wrong form/);
         expect(r.status).toBe("wall_remains");
-        expect(await page.locator("#c-pw").inputValue()).toBe("");
+        // The non-compliant standing password is never what lands in the
+        // box; what lands is a derived value that satisfies every stated
+        // rule (it keeps the standing password as its prefix).
+        const typed = await page.locator("#c-pw").inputValue();
+        expect(typed).not.toBe("ALL-CAPS-NO-DIGITS!");
+        expect(typed.startsWith("ALL-CAPS-NO-DIGITS!")).toBe(true);
+        expect(typed).toMatch(/[0-9]/);
+        expect(typed).toMatch(/[a-z]/);
+        expect(typed).toMatch(/[A-Z]/);
+        expect(typed.length).toBeGreaterThanOrEqual(8);
+        expect(r.notes.join(" ")).toMatch(/derived a compliant per-host password/);
       });
     } finally {
       applySafeFillEnv();

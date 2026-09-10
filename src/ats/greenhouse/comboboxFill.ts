@@ -705,6 +705,42 @@ export function pickOptionLabel(options: string[], expected: string): OptionPick
   }
   const seasonal = pickSeasonalYearOption(options, exp);
   if (seasonal) return seasonal;
+  // #237 (live Saronic ashby 2026-09-10, two apps): Ashby's education
+  // "School" control is a typeahead over a school DIRECTORY, and each row
+  // concatenates the school name with its country and domain. Typing
+  // "Johns Hopkins University" returns three rows:
+  //
+  //   Johns Hopkins UniversityUnited Statesjhu.edu
+  //   Johns Hopkins University School of Advanced International Studies…
+  //   Johns Hopkins University SAIS Bologna Center…
+  //
+  // All three CONTAIN the query, so the substring filter called it
+  // ambiguous and refused — and the school (a required education field)
+  // stayed empty on every such form. Directory-backed typeaheads behave
+  // this way everywhere; the two rejected rows are different, LONGER
+  // school names that merely begin with the same words.
+  //
+  // The tell is not "shortest" — that is too blunt, and it would pick
+  // "Baltimore, County Cork, Ireland" over "Baltimore, Maryland, United
+  // States", or resolve the fragment "United" to a country. The tell is
+  // WHAT FOLLOWS the query. A row that continues with a space or a comma
+  // is still saying the name ("Johns Hopkins University| School of…",
+  // "Baltimore|, County Cork"); a row that continues with a glued
+  // alphanumeric character has ended the name and started concatenated
+  // metadata ("Johns Hopkins University|United Statesjhu.edu"). So: the
+  // query must be a whole-name prefix of exactly ONE row, with the rest
+  // glued on. Anything else stays an honest refusal.
+  if (sub.length > 1 && strippedExp.length >= 8) {
+    const glued = sub.filter((o) => {
+      const key = optionKey(o);
+      if (!key.startsWith(strippedExp) || key.length === strippedExp.length) return false;
+      return /[a-z0-9]/.test(key.charAt(strippedExp.length));
+    });
+    const only = glued.length === 1 ? glued[0] : undefined;
+    if (only !== undefined) {
+      return { ok: true, label: only, via: "unique_substring" };
+    }
+  }
   if (sub.length > 1) {
     // Name the TOTAL candidate count — live 2026-08-28 the 5-entry display
     // hid the namesake row that actually caused the refusal, twice.

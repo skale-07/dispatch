@@ -35,8 +35,17 @@ import {
   type DiscoveryTitleFilter,
 } from "./atsBoards.js";
 
-/** A registry cannot sweep more boards than this in one run. */
-const MAX_BOARDS_PER_RUN = 50;
+/**
+ * A registry cannot sweep more boards than this in one run.
+ *
+ * Raised from 50 on night29 (#230): the registry is now refreshed from the
+ * public internship listing feeds, which name ~70 more real board tokens
+ * than could be guessed by hand, and a truncated sweep silently starved
+ * every board past the cut. One board is a single throttled GET (500ms per
+ * host), so 150 costs about a minute of HTTP — the real spend limiter is
+ * `max_new_applications`, which caps what a sweep may ENQUEUE.
+ */
+const MAX_BOARDS_PER_RUN = 150;
 /** Default cap on NEW applications one sweep may create. */
 const DEFAULT_MAX_NEW_APPLICATIONS = 25;
 

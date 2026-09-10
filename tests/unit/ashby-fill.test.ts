@@ -1,6 +1,7 @@
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
-import { beforeEach, describe, expect, it } from "vitest";
+import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
 import type { Page } from "playwright";
 import { AshbyAdapterV1, ashbyFullNameMatcher } from "../../src/ats/ashby/v1.js";
 import {
@@ -75,6 +76,26 @@ async function preparedAdapter() {
 
 describe("Ashby fill/upload/verify (M5)", () => {
   useIsolatedFillEnv("safe");
+
+  // #231 (night29): the fixture's "Gender identity (voluntary
+  // self-identification)" now maps to a demographic canonical, and the
+  // demographic path reads the OPERATOR'S encrypted sensitive profile off
+  // disk. A unit test must never depend on (or read) that file — the
+  // result would differ between a machine that has one and a machine that
+  // does not. Point PRIVATE_DIR at an empty temp dir so "no value on file
+  // => skipped" is what these assertions actually pin.
+  let priorPrivateDir: string | undefined;
+  let tmpPrivateDir = "";
+  beforeAll(() => {
+    priorPrivateDir = process.env["PRIVATE_DIR"];
+    tmpPrivateDir = fs.mkdtempSync(path.join(os.tmpdir(), "ashby-fill-private-"));
+    process.env["PRIVATE_DIR"] = tmpPrivateDir;
+  });
+  afterAll(() => {
+    if (priorPrivateDir === undefined) delete process.env["PRIVATE_DIR"];
+    else process.env["PRIVATE_DIR"] = priorPrivateDir;
+    fs.rmSync(tmpPrivateDir, { recursive: true, force: true });
+  });
 
   beforeEach(() => {
     applySafeFillEnv();
