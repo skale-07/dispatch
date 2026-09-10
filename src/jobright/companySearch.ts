@@ -52,12 +52,76 @@ export function jobRightCompanySearchUrl(company: string): string {
  * stops a card whose DESCRIPTION happens to name the employer (every
  * "…competitor to Rocket Lab…" posting) from being accepted.
  */
-export function cardMatchesCompany(cardText: string, company: string): boolean {
-  const text = cardText.replace(/\s+/g, " ").toLowerCase();
-  for (const candidate of companyNameVariants(company)) {
-    if (candidate.length >= 2 && text.includes(`${candidate}/`)) return true;
+/**
+ * Generic corporate words a catalogue appends to the same employer.
+ * JobRight indexes "Saronic Technologies" where the board says "Saronic".
+ * Stripped only from the END of the card's company slot, never from the
+ * middle, so "Rocket Lab" keeps its "Lab".
+ */
+const GENERIC_TAIL = new Set([
+  "technologies", "technology", "tech", "labs", "lab", "systems", "solutions",
+  "group", "holdings", "partners", "industries", "international", "global",
+  "company", "corporation", "corp", "inc", "llc", "ltd", "limited", "plc",
+  "usa", "us", "co",
+]);
+
+/**
+ * The company slot of a result card: the run of text immediately before
+ * the industry separator. Cards render as
+ *   "<age><badges><role><Company> / <industry> · <stage><location>…"
+ * and the separator carries spaces on some cards ("Saronic Technologies /
+ * Artificial Intelligence") and none on others ("Rocket Lab/Aerospace"),
+ * which is why this reads the slot instead of testing for `name + "/"`.
+ */
+export function cardCompanySlot(cardText: string): string {
+  const text = cardText.replace(/\s+/g, " ");
+  const slash = text.indexOf("/");
+  return slash < 0 ? "" : text.slice(0, slash).trim();
+}
+
+/** The slot with trailing generic corporate words removed. */
+function strippedSlot(slot: string): string {
+  const tokens = slot.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim().split(" ").filter(Boolean);
+  let end = tokens.length;
+  while (end > 1 && GENERIC_TAIL.has(tokens[end - 1]!)) end -= 1;
+  return tokens.slice(0, end).join(" ");
+}
+
+export type CardMatch = "exact" | "generic_tail" | "none";
+
+/**
+ * How well a card's company slot matches the company we applied to.
+ *
+ * "exact"        the slot IS the name (modulo legal/country qualifiers)
+ * "generic_tail" the slot is the name plus a generic corporate word —
+ *                "Saronic Technologies" for "Saronic"
+ * "none"         a different employer
+ *
+ * The caller prefers an exact card and only falls back to a generic-tail
+ * one, because the fallback is genuinely ambiguous: it cannot tell
+ * "Saronic Technologies" (the same company) from "Verkada Partners" (a
+ * different one). Preferring exact means the ambiguity only decides when
+ * there is nothing better on the page.
+ */
+export function classifyCardCompany(cardText: string, company: string): CardMatch {
+  const slot = cardCompanySlot(cardText);
+  if (!slot) return "none";
+  const flatSlot = slot.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+  const bareSlot = strippedSlot(slot);
+  const variants = companyNameVariants(company).filter((v) => v.length >= 2);
+  // The role runs straight into the company on some cards
+  // ("…InternRocket Lab"), so the slot ENDS WITH the name.
+  for (const candidate of variants) {
+    if (flatSlot.endsWith(candidate)) return "exact";
   }
-  return false;
+  for (const candidate of variants) {
+    if (bareSlot.endsWith(candidate)) return "generic_tail";
+  }
+  return "none";
+}
+
+export function cardMatchesCompany(cardText: string, company: string): boolean {
+  return classifyCardCompany(cardText, company) !== "none";
 }
 
 /**
@@ -161,16 +225,20 @@ export async function searchJobRightForCompany(
     }
     return out;
   });
-  for (const card of cards) {
-    if (!cardMatchesCompany(card.text, company)) continue;
-    const id = parseJobRightJobId(card.href);
-    if (!id) continue;
-    return {
-      jobright_job_id: id,
-      url: card.href,
-      role: roleFromCardText(card.text, company),
-      card_text: card.text,
-    };
+  // Exact cards first: a page that lists the employer itself must never be
+  // decided by an ambiguous generic-tail match elsewhere on the same page.
+  for (const strictness of ["exact", "generic_tail"] as const) {
+    for (const card of cards) {
+      if (classifyCardCompany(card.text, company) !== strictness) continue;
+      const id = parseJobRightJobId(card.href);
+      if (!id) continue;
+      return {
+        jobright_job_id: id,
+        url: card.href,
+        role: roleFromCardText(card.text, company),
+        card_text: card.text,
+      };
+    }
   }
   return null;
 }
