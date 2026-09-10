@@ -19,6 +19,7 @@ import {
 import { getApplication } from "../queue/stateMachine.js";
 import { listContacts, type ContactRow } from "../contacts/repository.js";
 import { rankOutreachContacts } from "../contacts/rank.js";
+import { recipientMatchesCompany } from "./recipientCompanyMatch.js";
 
 /** One outreach email per person per window, across every application (#214). */
 export const OUTREACH_DEDUPE_WINDOW_DAYS = 30;
@@ -449,7 +450,36 @@ export async function runOutreachPipeline(input: {
       if (duplicateContacts.length > 0) {
         result.notes.push(`${duplicateContacts.length} duplicate recipient(s) skipped (#214)`);
       }
-      const contactsCapped = contacts.slice(0, MAX_EMAIL_GENERATIONS_PER_APP);
+      // #248: JobRight's insider panel also lists "From Your School" and
+      // "From Your Previous Company" — people the CANDIDATE knows, who
+      // often work somewhere else. Drafting a "I applied to <company>"
+      // email to them writes to a stranger about a job they have nothing
+      // to do with. Three such drafts were already in the operator's
+      // mailbox when this was found (Zipline -> two @zoox.com addresses,
+      // Coinbase -> @usage.ai, American Equity -> @pdhi.com).
+      //
+      // A corporate address names the employer; a personal one says
+      // nothing and is always allowed through. Only a corporate domain
+      // sharing nothing with the company is dropped, and it is reported
+      // by name so the miss is visible rather than silent.
+      const companyName = (
+        input.db
+          .prepare(
+            `SELECT j.company FROM jobs j JOIN applications a ON a.job_id = j.id WHERE a.id = ?`,
+          )
+          .get(applicationId) as { company: string | null } | undefined
+      )?.company ?? null;
+      const wrongCompany: string[] = [];
+      const onCompany = contacts.filter((c) => {
+        const verdict = recipientMatchesCompany(c.email, companyName);
+        if (verdict.verdict !== "mismatch") return true;
+        wrongCompany.push(`${c.email ?? c.id}: ${verdict.reason}`);
+        return false;
+      });
+      for (const note of wrongCompany) {
+        result.notes.push(`recipient skipped — ${note} (#248)`);
+      }
+      const contactsCapped = onCompany.slice(0, MAX_EMAIL_GENERATIONS_PER_APP);
 
       for (const contact of contactsCapped) {
         const existing = input.db
