@@ -1,0 +1,148 @@
+{
+  "decision_id": "2f7c0751-b196-4c5a-97ee-39c462e7a303",
+  "application_id": "36e3ce7f-ea29-4e18-8d33-6f6d0e1cbeaa",
+  "signature": "FAILED_RETRYABLE|-|verify_mismatch|jobs.ashbyhq.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "36e3ce7f-ea29-4e18-8d33-6f6d0e1cbeaa",
+    "company": "Interplay",
+    "role": "AI Labs Intern",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 1,
+    "failure_signature": "FAILED_RETRYABLE|-|verify_mismatch|jobs.ashbyhq.com",
+    "end_host": "jobs.ashbyhq.com",
+    "recent_events": [
+      {
+        "from": "SUBMITTING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "pre-submit verification failed",
+        "at": "2026-09-10T04:22:56.875Z"
+      },
+      {
+        "from": "READY_TO_SUBMIT",
+        "to": "SUBMITTING",
+        "reason": "human-approved submission started",
+        "at": "2026-09-10T04:22:44.645Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "READY_TO_SUBMIT",
+        "reason": "pipeline: fill rehearsal verified",
+        "at": "2026-09-10T04:22:38.107Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (ashby live fill: 9 filled (held for submit))",
+        "at": "2026-09-10T04:22:38.107Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route ready_for_fill_later (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-10T04:22:17.289Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-10T04:22:14.757Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: ashby URL validated",
+        "at": "2026-09-10T04:22:14.752Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-10T04:22:14.748Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 db6f3f869124)",
+        "at": "2026-09-10T04:22:14.745Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-10T04:22:14.722Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "ats board discovery: ready for materials/pipeline",
+        "at": "2026-09-10T04:06:45.023Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "ats board discovery: operator-listed board, title filter passed",
+        "at": "2026-09-10T04:06:45.023Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "ats board discovery: dedupe pass",
+        "at": "2026-09-10T04:06:45.023Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-10T04:06:45.022Z"
+      }
+    ],
+    "nav": null,
+    "submit": {
+      "outcome": "FAILED_BEFORE_CLICK",
+      "reason": "Refusing to click submit: field verification or upload did not pass",
+      "brief_items": [
+        {
+          "id": "verify:screener:custom:predicted:4bd3eb23-dfed-41cc-9adc-c2d362fd8cd2",
+          "question": "Then, please select the personality combination that matches your results by answering the questions below. Please upload a screenshot of your results.",
+          "field_id": "4bd3eb23-dfed-41cc-9adc-c2d362fd8cd2",
+          "canonical_field": "screener:custom:predicted:4bd3eb23-dfed-41cc-9adc-c2d362fd8cd2",
+          "kind": "verify_mismatch",
+          "problem": "Expected \"T\"; page shows \"(empty)\"",
+          "expected": "T",
+          "observed": null,
+          "how_to_answer": [
+            "System expected \"T\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+            "Profile source: private/candidate/public-profile.json (key: screener:custom:predicted:4bd3eb23-dfed-41cc-9adc-c2d362fd8cd2)",
+            "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:predicted:4bd3eb23-dfed-41cc-9adc-c2d362fd8cd2\" should match the on-form question text."
+          ]
+        }
+      ]
+    },
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": true
+    },
+    "open_review_items": [
+      {
+        "kind": "MANUAL",
+        "title": "Answer needed: \"Then, please select the personality combination that matches your results by ans\""
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"park_for_operator\", \"rationale\": \"Pre-submit verification failed on a custom screener asking for a personality-test result plus screenshot upload; the field stays empty after fill and a MANUAL review item is already open. No transient or materials/navigation issue — a human must supply the answer/upload before any rerun can succeed.\", \"confidence\": \"high\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: dd2d5c90-377f-4d6c-80de-d26fd95a86d8",
+  "rationale_unverified": "Pre-submit verification failed on a custom screener asking for a personality-test result plus screenshot upload; the field stays empty after fill and a MANUAL review item is already open. No transient or materials/navigation issue — a human must supply the answer/upload before any rerun can succeed."
+}

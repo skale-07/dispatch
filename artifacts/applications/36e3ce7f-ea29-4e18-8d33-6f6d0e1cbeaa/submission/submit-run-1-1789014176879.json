@@ -1,0 +1,33 @@
+{
+  "outcome": "FAILED_BEFORE_CLICK",
+  "application_id": "36e3ce7f-ea29-4e18-8d33-6f6d0e1cbeaa",
+  "submission_id": "6a24cf71-ee40-4112-bb66-6dd5e14f085e",
+  "attempt": 1,
+  "receipt": null,
+  "review_item_id": null,
+  "reason": "Refusing to click submit: field verification or upload did not pass",
+  "artifact_path": null,
+  "operator_brief": {
+    "title": "Submit blocked — ashby app 36e3ce7f-ea29-4e18-8d33-6f6d0e1cbeaa",
+    "summary": "1 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:screener:custom:predicted:4bd3eb23-dfed-41cc-9adc-c2d362fd8cd2",
+        "question": "Then, please select the personality combination that matches your results by answering the questions below. Please upload a screenshot of your results.",
+        "field_id": "4bd3eb23-dfed-41cc-9adc-c2d362fd8cd2",
+        "canonical_field": "screener:custom:predicted:4bd3eb23-dfed-41cc-9adc-c2d362fd8cd2",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"T\"; page shows \"(empty)\"",
+        "expected": "T",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"T\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:predicted:4bd3eb23-dfed-41cc-9adc-c2d362fd8cd2)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:predicted:4bd3eb23-dfed-41cc-9adc-c2d362fd8cd2\" should match the on-form question text."
+        ]
+      }
+    ],
+    "ok_count": 10,
+    "fail_count": 1
+  }
+}
