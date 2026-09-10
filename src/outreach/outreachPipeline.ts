@@ -255,7 +255,24 @@ export async function enrichJobFromJobRightPage(input: {
         throw new Error("AUTH_REQUIRED: JobRight session expired");
       }
       const snapshot = await readJobDetailSnapshot(page);
-      persistJobIdentityFromSnapshot(input.db, input.applicationId, snapshot);
+      // #247/#249: when the target was resolved through a COMPANY TWIN
+      // (#242), this page is a DIFFERENT posting at the same employer —
+      // borrowed only so the insider panel can be read. Writing its
+      // company/role onto our application relabels the job we actually
+      // applied to. Live: eight Rocket Lab board applications all ended up
+      // titled "Senior Software Engineer I/II - Digital Engineering", the
+      // twin's title, which also made them look like duplicates in every
+      // report and would poison the near-duplicate guard.
+      if (resolved.target.companyTwinOf) {
+        logger.info("outreach enrich: identity not persisted from a company twin", {
+          service: "outreach",
+          action: "enrich_twin_skip",
+          application_id: input.applicationId,
+          metadata: { twin_of_job: resolved.target.companyTwinOf },
+        });
+      } else {
+        persistJobIdentityFromSnapshot(input.db, input.applicationId, snapshot);
+      }
     } finally {
       await page.close().catch(() => undefined);
     }

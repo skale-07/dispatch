@@ -19,12 +19,14 @@ import fs from "node:fs";
 import type { Db } from "../storage/db/client.js";
 import { getConfig } from "../config/index.js";
 import { upsertJobByFingerprint } from "../jobs/repository.js";
+import { normalizeApplicationUrl } from "../jobs/fingerprint.js";
 import { getOrCreateApplicationForJob } from "../jobs/applicationDedupe.js";
 import { transitionApplication } from "../queue/stateMachine.js";
 import { detectAtsFromUrl } from "../ats/shared/urlValidationDispatch.js";
 import { findApplicationsWithEmployerUrl } from "../navigation/congruence.js";
 import { classifyLocation } from "../jobs/locationEligibility.js";
 import { judgePostingAge, MAX_POSTING_AGE_HOURS } from "../jobs/postingAge.js";
+import { isNearDuplicateRole } from "../jobs/nearDuplicateRole.js";
 import {
   fetchBoardJobs,
   filterBoardJobs,
@@ -144,7 +146,7 @@ export type DiscoveredApplication = {
   company: string;
   role: string;
   apply_url: string;
-  outcome: "enqueued" | "reused" | "blocked" | "capped" | "rejected_url" | "stale";
+  outcome: "enqueued" | "reused" | "blocked" | "capped" | "rejected_url" | "stale" | "near_duplicate";
   application_id: string | null;
   state: string | null;
   detail: string | null;
@@ -168,6 +170,8 @@ export type AtsDiscoveryReport = {
   blocked: number;
   capped: number;
   stale: number;
+  /** #249: a term variant of a role already applied to at this company. */
+  near_duplicate: number;
   max_new_applications: number;
   applications: DiscoveredApplication[];
   notes: string[];
@@ -218,6 +222,7 @@ export async function runAtsBoardDiscovery(input: {
     blocked: 0,
     capped: 0,
     stale: 0,
+    near_duplicate: 0,
     max_new_applications: maxNew,
     applications: [],
     notes: [],
@@ -305,6 +310,32 @@ export async function runAtsBoardDiscovery(input: {
         });
         continue;
       }
+      // #249 (operator 2026-09-10: "ensure your not sending duplicate
+      // applications"): the same job posted for two terms is one job to
+      // whoever reads it. Eight Rocket Lab applications covered five real
+      // roles because Systems Engineering / Fluid Systems / Flight
+      // Software were each posted for Spring AND Summer 2027.
+      // Never against ITSELF: a re-sweep must still reuse the existing
+      // application for this exact posting (idempotence is the contract),
+      // so a posting we already have is excluded before comparing roles.
+      const priorRoles = alreadyHaveThisPosting(input.db, job.apply_url)
+        ? []
+        : existingRolesForCompany(input.db, entry.company);
+      const near = isNearDuplicateRole(job.title, priorRoles);
+      if (near.duplicate) {
+        report.near_duplicate += 1;
+        report.applications.push({
+          board: formatBoardRef(entry.ref),
+          company: entry.company,
+          role: job.title,
+          apply_url: job.apply_url,
+          outcome: "near_duplicate",
+          application_id: null,
+          state: null,
+          detail: `same role as "${near.matched}" at ${entry.company} once the term is stripped ("${near.key}") — not applying twice (#249)`,
+        });
+        continue;
+      }
       if (report.enqueued >= maxNew) {
         report.capped += 1;
         report.applications.push({
@@ -383,6 +414,34 @@ function readGreenhouseEmbedJid(applyUrl: string): string | null {
 /** A holder in any submitted / post-submit / unresolved-submission state. */
 const POST_SUBMIT_HOLDER_STATE =
   /^(SUBMITTED|COMPLETED|UNCERTAIN_SUBMISSION|SUBMISSION_VERIFICATION_FAILED|CONTACTS_|LINKEDIN_|EMAIL_|OUTLOOK_|GMAIL_)/;
+
+
+
+/** #249: is there already a job row for this exact posting URL? */
+function alreadyHaveThisPosting(db: Db, applyUrl: string): boolean {
+  const normalized = normalizeApplicationUrl(applyUrl);
+  const row = db
+    .prepare(`SELECT 1 AS hit FROM jobs WHERE normalized_application_url = ? LIMIT 1`)
+    .get(normalized) as { hit: number } | undefined;
+  return Boolean(row);
+}
+
+/**
+ * #249: roles we already have an application for at this company — any
+ * state except the ones that mean "never actually pursued". A role we
+ * abandoned as stale should not block a fresh posting of the same job.
+ */
+function existingRolesForCompany(db: Db, company: string): string[] {
+  const rows = db
+    .prepare(
+      `SELECT j.role
+         FROM applications a JOIN jobs j ON j.id = a.job_id
+        WHERE lower(trim(j.company)) = lower(trim(?))
+          AND a.state NOT IN ('FILTERED_OUT', 'UNSUPPORTED_ATS')`,
+    )
+    .all(company) as Array<{ role: string | null }>;
+  return rows.map((r) => r.role ?? "").filter((r) => r.length > 0);
+}
 
 function enqueueBoardJob(
   db: Db,
