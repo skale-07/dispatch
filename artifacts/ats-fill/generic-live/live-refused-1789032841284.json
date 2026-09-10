@@ -1,0 +1,34 @@
+{
+  "ats": "generic",
+  "url": "https://jobs.smartrecruiters.com/WesternDigital/744000143171017-summer-2027-intern-software-engineering?oga=true",
+  "requested_url": "https://jobs.smartrecruiters.com/WesternDigital/744000143171017-summer-2027-intern-software-engineering?oga=true",
+  "mode": "refused",
+  "gate": {
+    "ok": false,
+    "failure_code": "AUTH_REQUIRED",
+    "reason": "portal auth did not clear the wall (wall_remains)",
+    "final_url": "https://secure.indeed.com/auth?oauth_client_id=27a34e574e9b7ad0b96c2767a3ee6bc31828fc4e605f074e4153f1b9fe4dfa85&from=oauth&continue=https%3A%2F%2Fsecure.indeed.com%2Foauth%2Fv2%2Fauthorize%3Fclient_id%3D27a34e574e9b7ad0b96c2767a3ee6bc31828fc4e605f074e4153f1b9fe4dfa85%26response_type%3Dcode%26scope%3Djob_seeker.resume.read%26redirect_uri%3Dhttps%253A%252F%252Fjobs.smartrecruiters.com%252Foneclick-ui%252Fapi%252Fcallback%252Findeed%253FclientHost%253Dhttps%253A%252F%252Fjobs.smartrecruiters.com%2526dcr_id%253DDCRA1%26login_attempted%3D1",
+    "page_class": "auth"
+  },
+  "plan_summary": null,
+  "plan_fields": null,
+  "form_snapshot_path": null,
+  "fill": null,
+  "verify": null,
+  "uploads": null,
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: posting (Apply CTA present and none of the 1 field(s) ask who you are — page furniture, not an application)",
+    "landed on a posting (Apply CTA present and none of the 1 field(s) ask who you are — page furniture, not an application); clicking Apply via [class*=\"apply-button\" i]",
+    "Apply landed on: auth (login wall: final_url_auth_path,auth_provider_marker)",
+    "Apply opened a new tab — the flow continues there",
+    "login wall on secure.indeed.com: sign_in_form; fields[email=true password=true confirm=false]; submit=[Continue with Apple | Continue]; federated=[Continue with Apple]",
+    "portal auth: Apply / Apply Manually not found on attempt 1",
+    "standing portal login used for secure.indeed.com",
+    "portal auth: username-first wall — no password step after Continue (federated_only); the identifier is likely unknown to this portal (#195)",
+    "parked: account wall not cleared"
+  ],
+  "written_at": "2026-09-10T09:34:01.284Z"
+}

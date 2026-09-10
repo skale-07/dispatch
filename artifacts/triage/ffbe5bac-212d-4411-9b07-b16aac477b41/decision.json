@@ -1,0 +1,95 @@
+{
+  "decision_id": "ffbe5bac-212d-4411-9b07-b16aac477b41",
+  "application_id": "063a19cd-d602-46dc-bbe5-e850e29de923",
+  "signature": "NATIVE_AUTOFILL_RUNNING|-|login_wall|jobs.smartrecruiters.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "063a19cd-d602-46dc-bbe5-e850e29de923",
+    "company": "WD",
+    "role": "Summer 2027 Intern - Software Engineering",
+    "state": "NATIVE_AUTOFILL_RUNNING",
+    "attempt": 1,
+    "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|login_wall|jobs.smartrecruiters.com",
+    "end_host": "jobs.smartrecruiters.com",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-10T09:33:33.878Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-10T09:33:31.972Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-10T09:33:31.964Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-10T09:33:31.958Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 dd9093dde3f8)",
+        "at": "2026-09-10T09:33:31.955Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-10T09:33:31.932Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-10T09:33:26.003Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-10T09:33:25.997Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-10T09:33:25.997Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-10T09:33:25.996Z"
+      }
+    ],
+    "nav": null,
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\":\"requeue_same\",\"rationale\":\"First attempt; run stalled in NATIVE_AUTOFILL_RUNNING at a SmartRecruiters login wall with no prior failed host attempts, no nav/fill-gate evidence, and fresh verified materials. A single rerun is the cheapest action that could carry the portal sign-in through.\",\"confidence\":\"medium\"}",
+  "parsed_action": "requeue_same",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "requeued at attempt 2",
+  "rationale_unverified": "First attempt; run stalled in NATIVE_AUTOFILL_RUNNING at a SmartRecruiters login wall with no prior failed host attempts, no nav/fill-gate evidence, and fresh verified materials. A single rerun is the cheapest action that could carry the portal sign-in through."
+}
