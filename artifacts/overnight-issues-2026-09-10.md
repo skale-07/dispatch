@@ -226,3 +226,165 @@ groups were already excluded upstream.
 Tests: greenhouse-checkbox-groups 12/12, incl. the group-with-options
 case, the no-options case (unchanged phrasing rule) and a demographic
 group with a full option list still excluded. UNIT_CONFIRMED.
+
+## Issue #236 — a correctly-filled Yes/No group verified as `true`
+
+**Symptom.** Three Rocket Lab (greenhouse) applications parked
+AMBIGUOUS_FIELD on `Expected "No"; page shows "true"` for "Are you a
+participant of the following scholarship, fellowship…".
+
+**Cause.** The FILL decides option-vs-state with
+`isCheckboxBooleanValue(value) && !multiMember` — a MULTI-member group
+takes the option path even for Yes/No, so "No" checks the NO member. The
+READ-BACK tested only the first half and reported `loc.isChecked()`.
+Whether that read `true` or `false` depended on which group member the
+field locator happened to resolve to; on these forms it resolved to the
+member the fill had just correctly checked. An existing test passed only
+because its locator happened to land on the OTHER member.
+
+**Fix.** The read-back makes the same decision the fill makes.
+
+Tests: greenhouse-checkbox-groups 13/13, with a new case that pins the
+locator to the CHECKED member — the arrangement that was failing live.
+FIXTURE_CONFIRMED.
+
+## Issue #237 — a directory typeahead refused its own namesake
+
+**Symptom.** Saronic (ashby), twice: the required education "School" field
+stayed empty. `combobox option not committed: ambiguous match for "Johns
+Hopkins University" (3 candidates)`.
+
+**Cause.** Ashby's school control is a typeahead over a school DIRECTORY,
+and every row concatenates the name with its country and domain:
+
+```
+Johns Hopkins UniversityUnited Statesjhu.edu
+Johns Hopkins University School of Advanced International StudiesUnited Statessais-jhu.edu
+Johns Hopkins University SAIS Bologna CenterItalysais-jhu.edu
+```
+
+All three contain the query, so the substring filter called it ambiguous
+and refused — for every namesake school, on every directory-backed
+typeahead.
+
+**Fix, and the first attempt that was wrong.** "Shortest match wins" is
+the obvious rule and it is wrong: it picks "Baltimore, County Cork,
+Ireland" over "Baltimore, Maryland, United States", and resolves the
+fragment "United" to a country. Two existing tests caught it immediately.
+
+The real tell is WHAT FOLLOWS the query. A row that continues with a space
+or a comma is still saying the name ("Johns Hopkins University| School
+of…", "Baltimore|, County Cork"); a row that continues with a glued
+alphanumeric character has ended the name and started concatenated
+metadata. So the query must be a whole-name prefix of exactly ONE row,
+with the rest glued on — anything else stays an honest refusal.
+
+Tests: combobox-fill 46/46, including the namesake case, a same-length tie
+that still refuses, the two places sharing a name, and a query that names
+the LONGER school. UNIT_CONFIRMED.
+
+## Issue #238 — the #229 settle paid three full gates to learn nothing
+
+The unknown-landing settle re-gated three times, 1.5s apart. A gate is the
+expensive read in that loop, and a landing that is genuinely not a form —
+the common case — paid all three for nothing (it blew a 45s test budget on
+a fixture). "unknown" means classifyPage counted zero fields, so the only
+thing worth waiting for is CONTROLS appearing: poll that cheaply, and
+spend a re-gate only once something mounted. Behaviour on a late-mounting
+SPA is unchanged.
+
+## Issue #239 — one datum, two ids, one hard failure
+
+**Symptom.** Three Saronic (ashby) applications died on
+`_systemfield_education_history-school: control not found on the page
+(label "School")`.
+
+**Cause.** Ashby's education block exposes ONE datum through two ids: the
+widget `_systemfield_education_history` ("College/University") and a child
+input `…-school` ("School"). Both map to canonical `school`. The widget
+fills; by the time the fill reaches the child, the block has re-rendered
+into its committed state and the child id is gone.
+
+**Fix.** A child id scoped under an earlier control's id, carrying the SAME
+canonical, is the same question asked twice by one composite widget —
+answered once, through the parent. It needs BOTH signals, so two genuinely
+different fields can never collapse into one.
+
+Tests: composite-control-duplicate 3/3 (including same-canonical-but-
+unrelated-ids and id-scoped-but-different-datum). UNIT_CONFIRMED.
+
+## Issue #240 — the page's own rules decide whether an application is complete
+
+**The biggest single lever of the night.** Applications were being
+abandoned over a plan-vs-page difference about a control the page itself
+was content to leave EMPTY:
+
+- Saronic — the phantom child control above
+- Barnes & Thornburg — a phone entry whose locator resolved to a radio
+  group, so nothing was typed anywhere
+- ICD Portal — an essay textarea that read back empty
+
+In each the form satisfied its own validation. Only our plan disagreed
+with the page, and the disagreement was always "we wanted to write
+something here and did not". Blocking there costs a finished application
+and buys nothing: `scanRequiredCompleteness` already checks every required
+question against three independent sources (DOM required, asterisk, board
+schema), and it is the authority the page itself uses.
+
+So the completeness scan decides. A control it does not require, showing
+nothing, is a note on the report — not a stop.
+
+**It fails closed on every axis that matters**, and the tests pin the
+refusals as hard as the waivers:
+
+- a mismatch where the page holds a DIFFERENT non-empty value still
+  blocks — that is exactly what verification exists to catch;
+- an upload miss is never waivable;
+- a fill error is waivable only when its own message proves nothing was
+  written (control not found, option not committed, value refused before
+  typing). Anything else could have left a stray value on a control
+  outside the plan, which verify cannot see;
+- a page painting its own validation error blocks;
+- a completeness scan that did not run blocks.
+
+Nothing fills, approves or invents a value. The approved-plan gate,
+SUBMIT_ENABLED and the operator confirmation are untouched — what changes
+is only which side of "complete" a page-empty control lands on. Every
+waived field is named in the run report, so a submit that went through
+with gaps stays auditable.
+
+Applied at BOTH gates through one shared helper
+(`src/applications/pageCompleteWaiver.ts`). The submit gate was the obvious
+place and the wrong one on its own: most of tonight's losses never reached
+submit, because a fill-stage verify miss parks the application
+AMBIGUOUS_FIELD three steps before the click.
+
+Tests: page-complete-waiver 10/10, ats-live-fill 20/20. UNIT_CONFIRMED
+plus the live evidence that motivated it.
+
+## Issue #241 — a requeued application could not be picked again
+
+Two separate holes, both live tonight, both costing the exact apps that
+were requeued to prove a fix.
+
+**The picker and the pipeline disagreed about what a review item means.**
+`runPipeline` has treated "Answer needed: …" and completeness-gate
+leftovers as ADVISORY since night19 (#29) — they want an answer, they are
+not a full stop — but `pickNextApplication` blocked on ANY open item. So
+an application the pipeline would happily continue could never be handed
+to it. Live: 5 of 20 QUEUED rows unreachable while the loop re-picked the
+same two failing Workday/generic apps cycle after cycle. Both layers now
+use one definition.
+
+**The LLM triage's park outlived `retry --app`.** Triage opens "Triage:
+operator decision needed …" when it parks an app; nothing cleared it, so
+an application explicitly returned to QUEUED stayed unreachable forever.
+A requeue IS the decision the park was waiting for, so the requeue clears
+it — while it stands, it still stops the loop.
+
+Backfill: the five stuck parks were dismissed through the resolver so
+tonight's fixes could actually be re-tested.
+
+Tests: review-item-blocking 3/3, pinning that real walls (AMBIGUOUS_FIELD,
+CAPTCHA_REQUIRED, AUTH_REQUIRED, UNSUPPORTED_ATS) and unrecognised MANUAL
+items still block. UNIT_CONFIRMED.

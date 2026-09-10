@@ -1,0 +1,52 @@
+{
+  "run_id": "nav-cb4f1aa7-47e8-4a19-9b5e-ba602aa2c5b2",
+  "application_id": "bc60a5f3-1b6f-4087-8a5f-c917c0e9e54b",
+  "jobright_job_id": "6a53e7a115566647c9bf88e5",
+  "method": null,
+  "resolved_url": null,
+  "resolved_ats": null,
+  "wall": "submit_risk",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no external anchors"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "unresolved by deterministic phases"
+    },
+    {
+      "phase": "B_board_hop",
+      "outcome": "no employer board route (3 request(s))"
+    },
+    {
+      "phase": "C_agent",
+      "outcome": "wall: submit_risk (turn 1)"
+    }
+  ],
+  "agent": {
+    "turns_used": 1,
+    "steps_used": 3,
+    "domains_visited": []
+  },
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "no standard Apply control found (exact and broad name tiers both empty)",
+    "board hop: no public greenhouse/lever/ashby board found for \"Acme\" (acme; 3 requests)",
+    "agent[1] reason: agent stopped: submit_risk"
+  ],
+  "congruence": null,
+  "duplicates": null,
+  "login_wall": null,
+  "evidence": [
+    "navigation\\nav-cb4f1aa7-47e8-4a19-9b5e-ba602aa2c5b2\\giveup-submit_risk.html",
+    "navigation\\nav-cb4f1aa7-47e8-4a19-9b5e-ba602aa2c5b2\\giveup-submit_risk.png"
+  ],
+  "written_at": "2026-09-10T05:48:03.202Z"
+}
