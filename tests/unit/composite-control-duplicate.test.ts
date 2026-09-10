@@ -99,4 +99,25 @@ describe("composite control duplicates are answered once (UNIT_CONFIRMED)", () =
       plan.entries.find((e) => e.field_id === unmappedChild.id)!.reason,
     ).not.toMatch(/one composite control/);
   });
+
+  // #243 (live Shield AI lever 2026-09-10): Lever renders a multi-select
+  // question as N checkbox inputs sharing ONE control name, and discovery
+  // emits one field per member — 6 entries for "Which degrees have you
+  // already completed", 9 for the student-groups question. The fill then
+  // attempted the identical write once per member and logged 15 identical
+  // refusals.
+  it("collapses repeated entries for one control id, keeping the first", () => {
+    const member = (label: string) =>
+      mapped({ id: "cards[abc][field5]", label, type: "checkbox" });
+    const plan = buildFillPlan(
+      [member("Which degrees have you already completed?"), member("Which degrees have you already completed?"), member("Which degrees have you already completed?")],
+      profile,
+    );
+    const forControl = plan.entries.filter((e) => e.field_id === "cards[abc][field5]");
+    expect(forControl).toHaveLength(3);
+    expect(forControl.slice(1).every((e) => e.action === "skip_empty")).toBe(true);
+    expect(forControl[1]!.reason).toMatch(/duplicate of the same control/);
+    // The first entry is untouched — it still answers the question.
+    expect(forControl[0]!.reason).not.toMatch(/duplicate of the same control/);
+  });
 });

@@ -151,6 +151,32 @@ export function buildFillPlan(
   const entries: FillPlanEntry[] = [];
 
   for (const field of mapped) {
+    // #243 (live Shield AI lever 2026-09-10): Lever renders a multi-select
+    // question as N checkbox inputs that all share ONE control name, and
+    // discovery emits one field per MEMBER. "Which degrees have you
+    // already completed" produced 6 identical plan entries and "Are you a
+    // member of any of the following student groups" 9 — same id, same
+    // label, same planned answer — so the fill attempted the identical
+    // write 6 and 9 times, logged 15 identical refusals, and compounded
+    // the canonical on every pass
+    // (`screener:custom:predicted:cards[…]:cards[…]`).
+    //
+    // Two fields with the SAME id are the same control by definition. The
+    // first entry owns it; the group fill already picks the right member
+    // out of the group.
+    const sameControl = entries.find((e) => e.field_id === field.id);
+    if (sameControl) {
+      entries.push({
+        field_id: field.id,
+        label: field.label,
+        type: field.type,
+        canonical_field: field.canonical_field,
+        action: "skip_empty",
+        value: null,
+        reason: `duplicate of the same control (${field.id}) — answered once`,
+      });
+      continue;
+    }
     // #239 (live Saronic ashby 2026-09-10, three apps): Ashby's education
     // block exposes ONE datum through two ids — the widget
     // `_systemfield_education_history` (labelled "College/University") and
