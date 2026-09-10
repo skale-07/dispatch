@@ -1,0 +1,120 @@
+{
+  "decision_id": "339151e2-f8ee-4047-b670-dd14864c8f38",
+  "application_id": "23ec24d8-bfda-4fb2-9d54-dba8d37da71f",
+  "signature": "AMBIGUOUS_FIELD|-|verify_mismatch|jobs.ashbyhq.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "23ec24d8-bfda-4fb2-9d54-dba8d37da71f",
+    "company": "Applied Intuition",
+    "role": "Electrical Engineer - New Grad (December 2026)",
+    "state": "AMBIGUOUS_FIELD",
+    "attempt": 1,
+    "failure_signature": "AMBIGUOUS_FIELD|-|verify_mismatch|jobs.ashbyhq.com",
+    "end_host": "jobs.ashbyhq.com",
+    "recent_events": [
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "AMBIGUOUS_FIELD",
+        "reason": "pipeline: read-back verification failed",
+        "at": "2026-09-10T04:38:16.240Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (ashby live fill: 18 filled (held for submit))",
+        "at": "2026-09-10T04:38:16.239Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route ready_for_fill_later (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-10T04:36:44.986Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-10T04:36:42.459Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: ashby URL validated",
+        "at": "2026-09-10T04:36:42.455Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-10T04:36:42.451Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 dd9093dde3f8)",
+        "at": "2026-09-10T04:36:42.446Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-10T04:36:42.422Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "ats board discovery: ready for materials/pipeline",
+        "at": "2026-09-10T04:35:44.906Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "ats board discovery: operator-listed board, title filter passed",
+        "at": "2026-09-10T04:35:44.906Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "ats board discovery: dedupe pass",
+        "at": "2026-09-10T04:35:44.906Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-10T04:35:44.905Z"
+      }
+    ],
+    "nav": null,
+    "submit": null,
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": false
+    },
+    "open_review_items": [
+      {
+        "kind": "MANUAL",
+        "title": "Answer needed: \"Education History\""
+      },
+      {
+        "kind": "AMBIGUOUS_FIELD",
+        "title": "Fill verification failed"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\":\"park_for_operator\",\"rationale\":\"Fill executed but read-back verification failed, and an open MANUAL review item ('Education History') already requires a human answer. Nothing transient or stale here — materials verified, URL validated, form page reached. A requeue would repeat the same mismatch; a human should resolve the ambiguous field/education answer.\",\"confidence\":\"high\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: 27187b49-b53a-4d5c-ace3-acdaee9604bd",
+  "rationale_unverified": "Fill executed but read-back verification failed, and an open MANUAL review item ('Education History') already requires a human answer. Nothing transient or stale here — materials verified, URL validated, form page reached. A requeue would repeat the same mismatch; a human should resolve the ambiguous field/education answer."
+}

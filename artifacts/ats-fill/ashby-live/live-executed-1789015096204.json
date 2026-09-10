@@ -1,0 +1,564 @@
+{
+  "ats": "ashby",
+  "url": "https://jobs.ashbyhq.com/applied/e698dd47-7515-4c1c-a71d-dd7e33adfc78/application",
+  "requested_url": "https://jobs.ashbyhq.com/applied/e698dd47-7515-4c1c-a71d-dd7e33adfc78/application",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://jobs.ashbyhq.com/applied/e698dd47-7515-4c1c-a71d-dd7e33adfc78/application",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 19,
+    "skipped_count": 7,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "f_0",
+      "label": "Application",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "_systemfield_name",
+      "label": "Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Single full-name field: composed legal_name.first + legal_name.last (both safe factual canonicals)"
+    },
+    {
+      "field_id": "_systemfield_email",
+      "label": "Email",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "d0712f6f-3c22-4acb-a9e0-7023b6842215",
+      "label": "Phone Number",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "_systemfield_resume",
+      "label": "Resume",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "76ef8156-9526-4cbc-9064-b5da568ffd47",
+      "label": "LinkedIn Profile",
+      "type": "text",
+      "canonical_field": "linkedin_url",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "5fa81c31-7fcf-4a6e-85cb-2bf2929e7845",
+      "label": "GitHub",
+      "type": "text",
+      "canonical_field": "github_url",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "_systemfield_education_history",
+      "label": "Education History",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "_systemfield_education_history-degree",
+      "label": "Degree",
+      "type": "text",
+      "canonical_field": "degree",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "_systemfield_education_history-major",
+      "label": "Field of Study",
+      "type": "text",
+      "canonical_field": "major",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "_systemfield_education_history#10",
+      "label": "Education History",
+      "type": "select",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "_systemfield_education_history#11",
+      "label": "Education History",
+      "type": "select",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "_systemfield_education_history#12",
+      "label": "Education History",
+      "type": "select",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "_systemfield_education_history#13",
+      "label": "Education History",
+      "type": "select",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "_systemfield_education_history-isCurrent",
+      "label": "Still Student?",
+      "type": "checkbox",
+      "canonical_field": "screener:custom:predicted:_systemfield_education_history-isCurrent",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): Candidate is a current undergraduate at Johns Hopkins with a 2029 graduation date."
+    },
+    {
+      "field_id": "a497c12f-06dd-4d8a-9ec4-b1fc3fe75855",
+      "label": "Current Company",
+      "type": "text",
+      "canonical_field": "current_company",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "73a24472-5793-4096-a80e-0c33237cf4ee",
+      "label": "If you chose \"search engine\", \"conference\", \"current customer\", \"current employee\", or \"other\", please specify here.",
+      "type": "text",
+      "canonical_field": "screener:how_heard",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "7f47df13-6fac-4df1-b1b5-801c2b080879",
+      "label": "Why Applied Intuition?",
+      "type": "textarea",
+      "canonical_field": "essay:generated:7f47df13-6fac-4df1-b1b5-801c2b080879",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "_systemfield_eeoc_gender",
+      "label": "Gender",
+      "type": "select",
+      "canonical_field": "gender",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "_systemfield_eeoc_race",
+      "label": "Race",
+      "type": "select",
+      "canonical_field": "race_ethnicity",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "_systemfield_eeoc_veteran_status",
+      "label": "Veteran Status",
+      "type": "select",
+      "canonical_field": "veteran_status",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "_systemfield_education_history-school",
+      "label": "School",
+      "type": "text",
+      "canonical_field": "school",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "35e158a2-d8e1-40a6-ae81-fed89175d3ba",
+      "label": "How did you hear about us?",
+      "type": "text",
+      "canonical_field": "how_heard",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "8e40cd04-3906-40ae-af7e-62918e3e62c1",
+      "label": "Are you open to being in-office 5 days a week in Sunnyvale?",
+      "type": "select",
+      "canonical_field": "screener:willing_to_relocate",
+      "action": "FILL",
+      "reason": "Screener bank answer (synonym_option)"
+    },
+    {
+      "field_id": "c7b0bf67-2920-4502-a21c-8a6dd3f1c8de",
+      "label": "Will you need sponsorship to work in the U.S. now or anytime in the future?",
+      "type": "select",
+      "canonical_field": "requires_sponsorship",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "9dbbadbc-66cc-4683-8d29-9e1b822e234c",
+      "label": "Do you currently have an active immigration case (ex H-1B extension, green card)?",
+      "type": "select",
+      "canonical_field": "screener:custom:predicted:9dbbadbc-66cc-4683-8d29-9e1b822e234c",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): Candidate is work authorized and does not require sponsorship."
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\ashby-live\\form-snapshot-1789015025927.html",
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "email",
+      "phone",
+      "linkedin_url",
+      "github_url",
+      "degree",
+      "major",
+      "screener:custom:predicted:_systemfield_education_history-isCurrent",
+      "current_company",
+      "screener:how_heard",
+      "essay:generated:7f47df13-6fac-4df1-b1b5-801c2b080879",
+      "gender",
+      "race_ethnicity",
+      "veteran_status",
+      "screener:willing_to_relocate",
+      "requires_sponsorship",
+      "screener:custom:predicted:9dbbadbc-66cc-4683-8d29-9e1b822e234c",
+      "how_heard"
+    ],
+    "skipped": [],
+    "errors": [
+      "_systemfield_education_history-school: control not found on the page (label \"School\") — failing fast instead of waiting 30s"
+    ],
+    "field_meta": [
+      {
+        "field_id": "_systemfield_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "_systemfield_email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "d0712f6f-3c22-4acb-a9e0-7023b6842215",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "76ef8156-9526-4cbc-9064-b5da568ffd47",
+        "canonical_field": "linkedin_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "5fa81c31-7fcf-4a6e-85cb-2bf2929e7845",
+        "canonical_field": "github_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "_systemfield_education_history-degree",
+        "canonical_field": "degree",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "_systemfield_education_history-major",
+        "canonical_field": "major",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "_systemfield_education_history-isCurrent",
+        "canonical_field": "screener:custom:predicted:_systemfield_education_history-isCurrent",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "a497c12f-06dd-4d8a-9ec4-b1fc3fe75855",
+        "canonical_field": "current_company",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "73a24472-5793-4096-a80e-0c33237cf4ee",
+        "canonical_field": "screener:how_heard",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "7f47df13-6fac-4df1-b1b5-801c2b080879",
+        "canonical_field": "essay:generated:7f47df13-6fac-4df1-b1b5-801c2b080879",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "_systemfield_eeoc_gender",
+        "canonical_field": "gender",
+        "control_kind": "native_radio_group",
+        "selected_option": "Male",
+        "match_via": "exact",
+        "notes": [
+          "picked \"Male\" (exact)"
+        ]
+      },
+      {
+        "field_id": "_systemfield_eeoc_race",
+        "canonical_field": "race_ethnicity",
+        "control_kind": "native_radio_group",
+        "selected_option": "Asian (Not Hispanic or Latino)",
+        "match_via": "unique_substring",
+        "notes": [
+          "picked \"Asian (Not Hispanic or Latino)\" (unique_substring)"
+        ]
+      },
+      {
+        "field_id": "_systemfield_eeoc_veteran_status",
+        "canonical_field": "veteran_status",
+        "control_kind": "native_radio_group",
+        "selected_option": "I am not a protected veteran",
+        "match_via": "synonym",
+        "notes": [
+          "picked \"I am not a protected veteran\" (synonym)"
+        ]
+      },
+      {
+        "field_id": "8e40cd04-3906-40ae-af7e-62918e3e62c1",
+        "canonical_field": "screener:willing_to_relocate",
+        "control_kind": "native_yesno_group",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "picked \"Yes\" (exact)"
+        ]
+      },
+      {
+        "field_id": "c7b0bf67-2920-4502-a21c-8a6dd3f1c8de",
+        "canonical_field": "requires_sponsorship",
+        "control_kind": "native_yesno_group",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "picked \"No\" (exact)"
+        ]
+      },
+      {
+        "field_id": "9dbbadbc-66cc-4683-8d29-9e1b822e234c",
+        "canonical_field": "screener:custom:predicted:9dbbadbc-66cc-4683-8d29-9e1b822e234c",
+        "control_kind": "native_yesno_group",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "picked \"No\" (exact)"
+        ]
+      },
+      {
+        "field_id": "35e158a2-d8e1-40a6-ae81-fed89175d3ba",
+        "canonical_field": "how_heard",
+        "control_kind": "combobox",
+        "selected_option": "LinkedIn",
+        "match_via": "exact",
+        "notes": [
+          "listbox opened after typing",
+          "picked \"LinkedIn\" (exact)"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": false,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham Kale",
+        "observed": "Shubham Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "match": true
+      },
+      {
+        "canonical_field": "github_url",
+        "expected": "https://github.com/skale-07",
+        "observed": "https://github.com/skale-07",
+        "match": true
+      },
+      {
+        "canonical_field": "degree",
+        "expected": "Bachelor of Science",
+        "observed": "Bachelor of Science",
+        "match": true
+      },
+      {
+        "canonical_field": "major",
+        "expected": "Applied Mathematics and Statistics",
+        "observed": "Applied Mathematics and Statistics",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:_systemfield_education_history-isCurrent",
+        "expected": "Yes",
+        "observed": true,
+        "match": true
+      },
+      {
+        "canonical_field": "current_company",
+        "expected": "Summer Atlantic Capital",
+        "observed": "Summer Atlantic Capital",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:how_heard",
+        "expected": "LinkedIn",
+        "observed": "LinkedIn",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:7f47df13-6fac-4df1-b1b5-801c2b080879",
+        "expected": "What draws me to Applied Intuition is that the company sells tools and infrastructure, not demos. Most of my work has ended up in the same place. I built a Playwright-based job-application agent where every mutating capability sits behind fail-closed flags like SUBMIT_ENABLED, and where capabilities move up an explicit validation ladder from unit fixtures to live mutation, because a system should not claim to work just because it passed against a local fixture. That instinct feels close to what autonomy tooling has to do: decide what a system is actually allowed to act on, and prove it against the level of reality it claims to handle. I also work on the machine-learning core of an anomaly-detection and alert-prioritization system, including temporal sequence modeling over event streams and a learning-to-rank layer, because an anomaly system that fires too often creates a second problem instead of solving the first. Applied Intuition serves customers whose failure modes are physical, which makes evaluation and prioritization real engineering constraints rather than nice-to-haves. I want to own substantial pieces of a system in that kind of environment, working on infrastructure that other engineers depend on to know whether something is safe to ship.",
+        "observed": "What draws me to Applied Intuition is that the company sells tools and infrastructure, not demos. Most of my work has ended up in the same place. I built a Playwright-based job-application agent where every mutating capability sits behind fail-closed flags like SUBMIT_ENABLED, and where capabilities move up an explicit validation ladder from unit fixtures to live mutation, because a system should not claim to work just because it passed against a local fixture. That instinct feels close to what autonomy tooling has to do: decide what a system is actually allowed to act on, and prove it against the level of reality it claims to handle. I also work on the machine-learning core of an anomaly-detection and alert-prioritization system, including temporal sequence modeling over event streams and a learning-to-rank layer, because an anomaly system that fires too often creates a second problem instead of solving the first. Applied Intuition serves customers whose failure modes are physical, which makes evaluation and prioritization real engineering constraints rather than nice-to-haves. I want to own substantial pieces of a system in that kind of environment, working on infrastructure that other engineers depend on to know whether something is safe to ship.",
+        "match": true
+      },
+      {
+        "canonical_field": "school",
+        "expected": "Johns Hopkins University",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "gender",
+        "expected": "Male",
+        "observed": "Male",
+        "match": true
+      },
+      {
+        "canonical_field": "race_ethnicity",
+        "expected": "Asian",
+        "observed": "Asian (Not Hispanic or Latino)",
+        "match": true
+      },
+      {
+        "canonical_field": "veteran_status",
+        "expected": "I am not a veteran",
+        "observed": "I am not a protected veteran",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:willing_to_relocate",
+        "expected": "Yes",
+        "observed": "Yes",
+        "match": true
+      },
+      {
+        "canonical_field": "requires_sponsorship",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:9dbbadbc-66cc-4683-8d29-9e1b822e234c",
+        "expected": "No",
+        "observed": "No",
+        "match": true
+      },
+      {
+        "canonical_field": "how_heard",
+        "expected": "LinkedIn",
+        "observed": "LinkedIn",
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": [
+      "verify school: control not found on the page (label \"School\") — failing fast instead of waiting 30s"
+    ]
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 113810,
+      "verified": true,
+      "evidence": "input files: [{\"name\":\"resume-dd9093dd.pdf\",\"size\":113810}]; stillAttached=true; chip=true; resolved via primary"
+    }
+  ],
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: form (25 fillable field(s))",
+    "timing: base page (26 planned) — plan 19s, fill 39s, verify 31s",
+    "page error scan: no visible validation errors on the page",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "operator_brief": {
+    "title": "Live fill — ashby https://jobs.ashbyhq.com/applied/e698dd47-7515-4c1c-a71d-dd7e33adfc78/application",
+    "summary": "2 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:school",
+        "question": "School",
+        "field_id": "_systemfield_education_history-school",
+        "canonical_field": "school",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Johns Hopkins University\"; page shows \"(empty)\"",
+        "expected": "Johns Hopkins University",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"Johns Hopkins University\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: school)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"school\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "fill_error:_systemfield_education_history-school: control not found on the page (label \"Sch",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "_systemfield_education_history-school: control not found on the page (label \"School\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      }
+    ],
+    "ok_count": 18,
+    "fail_count": 2
+  },
+  "written_at": "2026-09-10T04:38:16.216Z"
+}
