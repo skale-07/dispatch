@@ -1,0 +1,250 @@
+{
+  "decision_id": "0b012c7d-3728-4d86-ab5a-0d71be5c29b3",
+  "application_id": "92ef488f-1461-426b-b308-03bfad6e0da3",
+  "signature": "AMBIGUOUS_FIELD|-|verify_mismatch|jobs.ashbyhq.com",
+  "forbidden_actions": [
+    "requeue_same",
+    "requeue_materials",
+    "requeue_reopen_navigation",
+    "engage_agent_leg"
+  ],
+  "bundle": {
+    "application_id": "92ef488f-1461-426b-b308-03bfad6e0da3",
+    "company": "Barnes & Thornburg",
+    "role": "2027 BT RISE Internship - Information Technology AI Intern",
+    "state": "AMBIGUOUS_FIELD",
+    "attempt": 3,
+    "failure_signature": "AMBIGUOUS_FIELD|-|verify_mismatch|jobs.ashbyhq.com",
+    "end_host": "jobs.ashbyhq.com",
+    "recent_events": [
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "AMBIGUOUS_FIELD",
+        "reason": "pipeline: read-back verification failed",
+        "at": "2026-09-10T09:03:03.030Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (ashby live fill: 14 filled (held for submit))",
+        "at": "2026-09-10T09:03:03.029Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route ready_for_fill_later (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-10T09:02:48.107Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-10T09:02:46.541Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: ashby URL validated",
+        "at": "2026-09-10T09:02:46.535Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-10T09:02:46.532Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 db6f3f869124)",
+        "at": "2026-09-10T09:02:46.528Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-10T09:02:46.516Z"
+      },
+      {
+        "from": "FAILED_RETRYABLE",
+        "to": "QUEUED",
+        "reason": "retry 3/3",
+        "at": "2026-09-10T09:00:10.477Z"
+      },
+      {
+        "from": "SUBMITTING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "pre-submit verification failed",
+        "at": "2026-09-10T08:43:37.982Z"
+      },
+      {
+        "from": "READY_TO_SUBMIT",
+        "to": "SUBMITTING",
+        "reason": "human-approved submission started",
+        "at": "2026-09-10T08:43:26.098Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "READY_TO_SUBMIT",
+        "reason": "pipeline: essays complete — final verification occurs pre-click in submit",
+        "at": "2026-09-10T08:43:12.746Z"
+      },
+      {
+        "from": "AMBIGUOUS_FIELD",
+        "to": "FIELD_VERIFICATION",
+        "reason": "operator resolved ambiguous field (console)",
+        "at": "2026-09-10T08:10:41.630Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "AMBIGUOUS_FIELD",
+        "reason": "pipeline: read-back verification failed",
+        "at": "2026-09-10T07:43:24.476Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (ashby live fill: 12 filled (held for submit))",
+        "at": "2026-09-10T07:43:24.475Z"
+      }
+    ],
+    "nav": null,
+    "submit": {
+      "outcome": "FAILED_BEFORE_CLICK",
+      "reason": "Refusing to click submit: field verification or upload did not pass",
+      "brief_items": [
+        {
+          "id": "verify:screener:custom:conditional_dates_na",
+          "question": "If so, please provide dates",
+          "field_id": "fe82a98a-209d-4742-a1db-832d995e6f92",
+          "canonical_field": "screener:custom:conditional_dates_na",
+          "kind": "verify_mismatch",
+          "problem": "Expected \"N/A\"; page shows \"(empty)\"",
+          "expected": "N/A",
+          "observed": "",
+          "how_to_answer": [
+            "System expected \"N/A\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+            "Profile source: private/candidate/public-profile.json (key: screener:custom:conditional_dates_na)",
+            "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:conditional_dates_na\" should match the on-form question text."
+          ]
+        },
+        {
+          "id": "verify:phone",
+          "question": "Phone Number",
+          "field_id": "d242bb2e-5fde-45a7-8c44-d7d55cceae2c",
+          "canonical_field": "phone",
+          "kind": "verify_mismatch",
+          "problem": "Expected \"4805897636\"; page shows \"Yes - I consent to receiving text messages\"",
+          "expected": "4805897636",
+          "observed": "Yes - I consent to receiving text messages",
+          "how_to_answer": [
+            "DOM shows \"Yes - I consent to receiving text messages\" but plan expected \"4805897636\". Correct the value on the form or fix profile/aliases so the plan matches the real answer.",
+            "Profile source: private/candidate/public-profile.json → phone",
+            "Alias check: private/candidate/answer-aliases.json phrases for \"phone\" should match the on-form question text."
+          ]
+        },
+        {
+          "id": "verify:screener:custom:predicted:communicationConsent",
+          "question": "Phone Number",
+          "field_id": "communicationConsent",
+          "canonical_field": "screener:custom:predicted:communicationConsent",
+          "kind": "verify_mismatch",
+          "problem": "Expected \"Yes - I consent to receiving text messages\"; page shows \"(empty)\"",
+          "expected": "Yes - I consent to receiving text messages",
+          "observed": null,
+          "how_to_answer": [
+            "System expected \"Yes - I consent to receiving text messages\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+            "Profile source: private/candidate/public-profile.json (key: screener:custom:predicted:communicationConsent)",
+            "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:predicted:communicationConsent\" should match the on-form question text."
+          ]
+        },
+        {
+          "id": "fill_error:fe82a98a-209d-4742-a1db-832d995e6f92: date input requires an approved month and ",
+          "question": "(fill error — see problem)",
+          "field_id": null,
+          "canonical_field": null,
+          "kind": "fill_error",
+          "problem": "fe82a98a-209d-4742-a1db-832d995e6f92: date input requires an approved month and year",
+          "expected": null,
+          "observed": null,
+          "how_to_answer": [
+            "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+            "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+          ]
+        },
+        {
+          "id": "fill_error:d242bb2e-5fde-45a7-8c44-d7d55cceae2c: native radio group option not committed: n",
+          "question": "(fill error — see problem)",
+          "field_id": null,
+          "canonical_field": null,
+          "kind": "fill_error",
+          "problem": "d242bb2e-5fde-45a7-8c44-d7d55cceae2c: native radio group option not committed: no option matches \"4805897636\" (options: Yes - I consent to receiving text messages | No - I do not consent to receiving text messages)",
+          "expected": null,
+          "observed": null,
+          "how_to_answer": [
+            "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+            "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+          ]
+        },
+        {
+          "id": "fill_error:communicationConsent: button group not found by data-field-id or accessible name",
+          "question": "(fill error — see problem)",
+          "field_id": null,
+          "canonical_field": null,
+          "kind": "fill_error",
+          "problem": "communicationConsent: button group not found by data-field-id or accessible name",
+          "expected": null,
+          "observed": null,
+          "how_to_answer": [
+            "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+            "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+          ]
+        }
+      ]
+    },
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": false
+    },
+    "open_review_items": [
+      {
+        "kind": "AMBIGUOUS_FIELD",
+        "title": "Fill verification failed"
+      }
+    ],
+    "prior_decisions": [
+      {
+        "action": "park_for_operator",
+        "failure_signature": "AMBIGUOUS_FIELD|-|verify_mismatch|jobs.ashbyhq.com",
+        "outcome_status": "CONFIRMED",
+        "created_at": "2026-09-10T07:43:29.795Z"
+      },
+      {
+        "action": "park_for_operator",
+        "failure_signature": "FAILED_RETRYABLE|-|verify_mismatch|jobs.ashbyhq.com",
+        "outcome_status": "REFUTED",
+        "created_at": "2026-09-10T07:10:09.115Z"
+      },
+      {
+        "action": "park_for_operator",
+        "failure_signature": "AMBIGUOUS_FIELD|-|verify_mismatch|jobs.ashbyhq.com",
+        "outcome_status": "CONFIRMED",
+        "created_at": "2026-09-10T05:30:24.816Z"
+      }
+    ],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"park_for_operator\", \"rationale\": \"Field-mapping problem needs human fix: phone answer maps to a consent radio group, communicationConsent control not found, and a date field requires month/year instead of \\\"N/A\\\". Requeues are forbidden and would not change mapping. Prior park decisions on this exact signature were CONFIRMED; a review item exists but operator must correct profile/aliases. No duplicate or wall evidence.\", \"confidence\": \"high\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: 372fc66b-0e13-4dfc-8590-e1419f961424",
+  "rationale_unverified": "Field-mapping problem needs human fix: phone answer maps to a consent radio group, communicationConsent control not found, and a date field requires month/year instead of \"N/A\". Requeues are forbidden and would not change mapping. Prior park decisions on this exact signature were CONFIRMED; a review item exists but operator must correct profile/aliases. No duplicate or wall evidence."
+}
