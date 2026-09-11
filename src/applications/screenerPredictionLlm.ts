@@ -54,6 +54,7 @@ import { loadPublicProfile } from "../candidate/publicProfileIO.js";
 import { tryLoadAboutMe } from "./essayDraft.js";
 import { isApplicationConsentField } from "./consentFields.js";
 import { isDemographicsField } from "./essayDetector.js";
+import { SENSITIVE_QUESTION } from "./essayAutofill.js";
 import { findOtherOption } from "../ats/shared/optionHarvest.js";
 import { llmTraceEvent, postSandboxTrace } from "../sandbox/trace.js";
 import {
@@ -256,6 +257,12 @@ export function isCaptureWorthyQuestion(q: {
   // promotion re-poisoned the bank a run after the entry was deleted.
   if (isPageWidgetLabel(label)) return false;
   if (/^[0-9a-f]{8}-[0-9a-f-]{27,}$/i.test(label)) return false;
+  // #259 (live Exegy night30): once a visa-expiry DATE question was
+  // unmapped (#255), this tier answered it "N/A - I am a U.S. citizen…".
+  // Authorization / compensation / criminal / demographic questions are
+  // never model-answered (operator, standing) — the essay layer already
+  // enforced it; the predict tier did not.
+  if (SENSITIVE_QUESTION.test(label)) return false;
   if (
     isDemographicsField({
       id: "_",

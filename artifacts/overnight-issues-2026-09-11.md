@@ -300,3 +300,19 @@ before disconnecting. A tab the session did not open is never touched.
 Unit test with a fake attached browser: own pages + popup closed, the
 operator's pre-existing tab untouched, browser only disconnected.
 Stale tabs closed by hand; free memory back to ~2.4 GB.
+
+## Issue #259 — the predict tier answered an authorization question
+
+Exegy's re-run after #255/#255b: the now-unmapped visa-expiry question
+reached the screener predict tier, which answered "N/A - I am a U.S.
+citizen, so my work authorization does not expire." (the date input
+refused it). The operator's standing rule — demographic / authorization /
+compensation / criminal questions are never model-answered — was enforced
+by the essay layer's `SENSITIVE_QUESTION` and not by the predict tier.
+It now is (shared constant). One existing test used "Which country are you
+authorized to work in?" as its sample predict question; its subject was
+the payload shape, so it now asks a neutral question. Tests 117/117 across
+predict/essay/screener suites.
+
+Exegy itself stays parked correctly: its page requires "What are your
+annual base salary expectations?" (policy) and a notice period.

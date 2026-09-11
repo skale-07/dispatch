@@ -794,7 +794,7 @@ describe("screener prediction + promote (UNIT_CONFIRMED)", () => {
       [
         {
           id: "c",
-          label: "Which country are you authorized to work in?",
+          label: "Which country would you most like to work in?",
           options: countries,
         },
       ],
@@ -805,7 +805,7 @@ describe("screener prediction + promote (UNIT_CONFIRMED)", () => {
             text: JSON.stringify({
               predictions: [
                 {
-                  label: "Which country are you authorized to work in?",
+                  label: "Which country would you most like to work in?",
                   answer: "Country 80",
                   key: "work_country",
                   basis: "last option",
@@ -938,5 +938,26 @@ describe("work authorization + sponsorship screeners (UNIT_CONFIRMED)", () => {
       { work_authorization: "US Citizen" } as never,
     );
     expect(resolution).toMatchObject({ status: "fill", value: "Yes" });
+  });
+});
+
+// #259 (live Exegy night30): the predict tier answered an unmapped
+// visa-expiry question "N/A - I am a U.S. citizen…". Authorization,
+// compensation, criminal-history and demographic questions are never
+// model-answered — the same fence the essay layer enforces.
+describe("predict tier never takes a sensitive question (#259)", () => {
+  it("authorization / salary / criminal questions are not capture-worthy; ordinary screeners still are", async () => {
+    const { isCaptureWorthyQuestion } = await import("../../src/applications/screenerPredictionLlm.js");
+    for (const label of [
+      "If you are currently authorized to work on a visa or other work permit, when does that work authorization expire?",
+      "What are your annual base salary expectations?",
+      "Have you ever been convicted of a felony?",
+      "Will you require visa sponsorship in the future?",
+    ]) {
+      expect(isCaptureWorthyQuestion({ label, type: "text" })).toBe(false);
+    }
+    expect(
+      isCaptureWorthyQuestion({ label: "What is your notice period to begin working with us?", type: "text" }),
+    ).toBe(true);
   });
 });

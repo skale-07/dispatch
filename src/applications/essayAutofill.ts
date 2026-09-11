@@ -20,7 +20,11 @@ import {
  * positive costs one parked field, a false negative writes an invented
  * demographic or authorization claim to an employer.
  */
-const SENSITIVE_QUESTION =
+/**
+ * Questions no model may answer (demographic / authorization / criminal /
+ * compensation). Shared with the screener predict tier (#259).
+ */
+export const SENSITIVE_QUESTION =
   /\b(rac(e|ial)|ethnic(ity)?|hispanic|latino|gender|sex|pronouns?|veteran|disabilit(y|ies)|disabled|sexual orientation|transgender|citizen(ship)?|visa|sponsorship|work authoriz(ation|ed)|authorized to work|felony|convict(ed|ion)|criminal|salary|compensation|pay expectation|desired pay|date of birth|\bage\b)\b/i;
 
 /**
