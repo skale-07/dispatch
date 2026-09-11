@@ -1,0 +1,155 @@
+{
+  "decision_id": "36763e83-0c8c-420d-b1d9-e72a3307de69",
+  "application_id": "690d5ecf-5486-47f3-9dcf-e9684c10d3f8",
+  "signature": "AMBIGUOUS_FIELD|-|verify_mismatch|recruiting.ultipro.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "690d5ecf-5486-47f3-9dcf-e9684c10d3f8",
+    "company": "Fintech",
+    "role": "Data Engineering Intern",
+    "state": "AMBIGUOUS_FIELD",
+    "attempt": 1,
+    "failure_signature": "AMBIGUOUS_FIELD|-|verify_mismatch|recruiting.ultipro.com",
+    "end_host": "recruiting.ultipro.com",
+    "recent_events": [
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "AMBIGUOUS_FIELD",
+        "reason": "pipeline: read-back verification failed",
+        "at": "2026-09-11T06:21:03.045Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (generic live fill: 14 filled (held for submit))",
+        "at": "2026-09-11T06:21:03.042Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-11T06:19:37.506Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-11T06:19:30.441Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-11T06:19:30.435Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-11T06:19:19.420Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 db6f3f869124)",
+        "at": "2026-09-11T06:19:19.415Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-11T06:19:19.375Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-11T05:08:49.185Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-11T05:08:49.165Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-11T05:08:49.164Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-11T05:08:49.163Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_llm",
+      "notes": [
+        "phase A: 8 external host(s) seen: recruiting.ultipro.com, www.linkedin.com, x.com, www.crunchbase.com, www.fintech.com, www.businesswire.com, www.generalatlantic.com, fintech.com",
+        "no standard Apply control found (exact and broad name tiers both empty)",
+        "anchor adjudication: promoted recruiting.ultipro.com",
+        "anchor adjudication rationale (UNVERIFIED): UltiPro ATS job board detail link (tenant fin1008fict = Financial Information Technologies/Fintech) is the employer's own application page.",
+        "employer congruence unverifiable (URL carries no employer name specific enough to verify against \"Fintech\") — recorded"
+      ],
+      "congruence": {
+        "verdict": "unknown",
+        "slug": "fin1008fict",
+        "detail": "URL carries no employer name specific enough to verify against \"Fintech\"",
+        "expected_company": "Fintech",
+        "url": "https://recruiting.ultipro.com/fin1008fict/JobBoard/c0ae7303-ee90-41c6-b44a-abf63303ceb4/OpportunityDetail?opportunityId=7a0d6b4c-b1ca-4fdb-919c-7e274a94ef5f&jr_id=6a87146b25fc4e7ae3dab29d"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "no congruent apply href (11 external links)",
+          "evidence": "recruiting.ultipro.com, www.linkedin.com, x.com, www.crunchbase.com, www.fintech.com, www.businesswire.com"
+        },
+        {
+          "phase": "B_apply_click",
+          "outcome": "unresolved by deterministic phases"
+        },
+        {
+          "phase": "A_anchor_llm",
+          "outcome": "candidate promoted by adjudication",
+          "evidence": "recruiting.ultipro.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": false
+    },
+    "open_review_items": [
+      {
+        "kind": "AMBIGUOUS_FIELD",
+        "title": "Fill verification failed"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\":\"park_for_operator\",\"rationale\":\"Read-back verification failed after 14 fields filled on an UltiPro portal requiring sign-in, and employer congruence is unverified. A review item is already open; a blind rerun would likely repeat the same mismatch. A human should confirm the tenant is the right employer and resolve the field ambiguity.\",\"confidence\":\"medium\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: 9be9d186-ea56-42cc-a7f2-bf206ae14bad",
+  "rationale_unverified": "Read-back verification failed after 14 fields filled on an UltiPro portal requiring sign-in, and employer congruence is unverified. A review item is already open; a blind rerun would likely repeat the same mismatch. A human should confirm the tenant is the right employer and resolve the field ambiguity."
+}
