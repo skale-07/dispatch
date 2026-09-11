@@ -1,0 +1,59 @@
+{
+  "started_at": "2026-09-11T08:01:16.746Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\swe.pdf)",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "4a5b8470-bdda-4ae0-82a0-09c604220f9c",
+    "armed_until": "2026-09-11T10:01:16.882Z",
+    "seconds_remaining": 7200,
+    "max_submits": 1,
+    "submits_used": 0,
+    "max_apps": 1,
+    "apps_started": 0,
+    "discover_max": 1,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": {
+    "arm_run_id": "4a5b8470-bdda-4ae0-82a0-09c604220f9c",
+    "apps_started": 0,
+    "submits_used": 0,
+    "stopped_reason": "queue_drained",
+    "discover_runs": 0,
+    "emails_generated": 0,
+    "drafts_saved": 0,
+    "essay_drafts_generated": 0,
+    "screener_predictions_generated": 0,
+    "notes": [
+      "triage sweep: 0 confirmed, 0 refuted, 0 expired of 131 pending",
+      "preflight: CDP attach failed and the restart did not recover: CDP restart: debug-profile Chrome did not terminate (pids 44264,2972,43556,46604,46496 still alive after kill) — relaunch would be absorbed by the wedged instan",
+      "artifact autopush: .git/index.lock held by a live git (245s old) — skipping this push"
+    ],
+    "per_app": [],
+    "nav_audit": {
+      "checked": 392,
+      "repaired": 0,
+      "parked": 0
+    },
+    "artifact_autopush": {
+      "pushed": false,
+      "commit": null,
+      "files_staged": 0
+    }
+  },
+  "outcome": "completed",
+  "notes": []
+}
