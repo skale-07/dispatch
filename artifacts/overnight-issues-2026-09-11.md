@@ -341,3 +341,47 @@ no deterministic mapping, and after #259 the model no longer answers it. The
 profile carries no citizenship field; my notes say you confirmed US
 citizenship on 08-31, but an authorization answer is yours to record
 (sensitive profile or `screeners.json`), not something to write for you.
+
+## Issue #224 (closed) — required controls an ANSWER reveals
+
+Top item since night28 (Palantir ×N, Crest ×2, Immuta): the submit gate
+refused on a bare "Name" + "Date" acknowledgement block the plan never saw.
+Tonight Palantir hit it again (cycle 40) — after #254 fixed its three
+checkbox cards, those two were the only questions left.
+
+**Diagnosis, settled with a read-only probe** (public-URL session, no
+debug Chrome): on Palantir's EMPTY form 94 controls are discovered at
++1.5s and +6s and the completeness scan lists 16 required questions —
+neither "Name" nor "Date" exists at any point. So it is not a slow mount;
+an answer REVEALS the block (conditional section). No plan-time snapshot
+can contain it.
+
+**Fix — one bounded second pass in `atsLiveFill`** (after the other-specify
+and revealed-select sweeps): a control is revealed when the settled page
+has it and the plan-time HTML did not (new by id AND by label) and it is
+required (attribute OR the completeness scan's own list — Lever marks
+cards with ✱). Only then is the page re-planned through
+`planApplicationFill` (same aliases, same approval rules — values only from
+the approved plan, sensitive/salary unapproved), the fill restricted to the
+revealed entries, and read back. A revealed control that fails verify is a
+fill error; the submit gate's completeness scan still arbitrates, so the
+pass can only turn a refusal into a submit, never the reverse.
+
+Fixture: filling "First Name" reveals a required Name/Date block with Lever
+`cards[…]` names — the pass plans it, fills both, verifies, and the
+sandbox submit goes through (ats-live-fill 21/21). FIXTURE_CONFIRMED;
+Palantir requeued for the live proof.
+
+### #226b — bare "Date" was being answered with the graduation year
+
+Writing the fixture exposed a real mapping bug: with the operator's actual
+alias file, bare "Date" → `graduation_year` (reverse containment: "date" is
+inside "Expected graduation date") and bare "Name" → `legal_name.first`.
+#226's signature rules sat AFTER the alias loop and its test used empty
+aliases, so production never reached them — the first revealed "Date"
+would have been typed "2029". The signature rules now run first; a bare
+"Name" that is an ATS custom question (Lever `cards[…]`, Greenhouse
+`question_…`) is a signature line → full legal name, while the form's
+primary name field (Lever `name="name"`, composed by the adapter) keeps
+`legal_name.first`. Tests with realistic aliases (48/48 incl. Lever
+adapter).
