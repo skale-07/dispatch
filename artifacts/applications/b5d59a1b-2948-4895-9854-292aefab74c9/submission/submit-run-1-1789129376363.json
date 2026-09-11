@@ -1,0 +1,36 @@
+{
+  "outcome": "FAILED_BEFORE_CLICK",
+  "application_id": "b5d59a1b-2948-4895-9854-292aefab74c9",
+  "submission_id": "48ee7e13-5204-4053-a0cd-da5c75c0db0d",
+  "attempt": 1,
+  "receipt": null,
+  "review_item_id": null,
+  "reason": "Refusing to click submit: field verification or upload did not pass",
+  "artifact_path": null,
+  "operator_brief": {
+    "title": "Submit blocked — greenhouse app b5d59a1b-2948-4895-9854-292aefab74c9",
+    "summary": "1 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:work_authorization",
+        "question": "Please provide details on your current work authorization status in the United States:",
+        "field_id": "question_32116826003",
+        "canonical_field": "work_authorization",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Yes\"; page shows \"(empty)\"",
+        "expected": "Yes",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "how_to_answer": [
+          "System expected \"Yes\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → work_authorization",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"work_authorization\" should match the on-form question text."
+        ]
+      }
+    ],
+    "ok_count": 17,
+    "fail_count": 1
+  }
+}

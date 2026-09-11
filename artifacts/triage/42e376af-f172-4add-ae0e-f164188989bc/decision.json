@@ -1,0 +1,172 @@
+{
+  "decision_id": "42e376af-f172-4add-ae0e-f164188989bc",
+  "application_id": "b5d59a1b-2948-4895-9854-292aefab74c9",
+  "signature": "FAILED_RETRYABLE|-|verify_mismatch|boards.greenhouse.io",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "b5d59a1b-2948-4895-9854-292aefab74c9",
+    "company": "Zipline",
+    "role": "Applications Engineer Intern (Spring 2027)",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 1,
+    "failure_signature": "FAILED_RETRYABLE|-|verify_mismatch|boards.greenhouse.io",
+    "end_host": "boards.greenhouse.io",
+    "recent_events": [
+      {
+        "from": "SUBMITTING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "pre-submit verification failed",
+        "at": "2026-09-11T12:22:56.356Z"
+      },
+      {
+        "from": "READY_TO_SUBMIT",
+        "to": "SUBMITTING",
+        "reason": "human-approved submission started",
+        "at": "2026-09-11T12:22:42.049Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "READY_TO_SUBMIT",
+        "reason": "pipeline: fill rehearsal verified",
+        "at": "2026-09-11T12:22:21.741Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (live fill: 16 filled (held for submit))",
+        "at": "2026-09-11T12:22:21.740Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route ready_for_fill_later (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-11T12:21:39.552Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-11T12:21:37.420Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: greenhouse URL validated",
+        "at": "2026-09-11T12:21:37.411Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-11T12:21:32.129Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 dd9093dde3f8)",
+        "at": "2026-09-11T12:21:32.117Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-11T12:21:32.010Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-11T12:21:22.265Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-11T12:21:22.248Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-11T12:21:22.247Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-11T12:21:22.246Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [
+        "phase A: token-only greenhouse embed anchor resolved to board \"flyzipline\" (job 7908677003) via one read-only GET"
+      ],
+      "congruence": {
+        "verdict": "match",
+        "slug": "flyzipline",
+        "detail": "token \"zipline\" ~ slug \"flyzipline\"",
+        "expected_company": "Zipline",
+        "url": "https://boards.greenhouse.io/embed/job_app?for=flyzipline&token=7908677003"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (11 candidates, employer match)",
+          "evidence": "boards.greenhouse.io"
+        }
+      ]
+    },
+    "submit": {
+      "outcome": "FAILED_BEFORE_CLICK",
+      "reason": "Refusing to click submit: field verification or upload did not pass",
+      "brief_items": [
+        {
+          "id": "verify:work_authorization",
+          "question": "Please provide details on your current work authorization status in the United States:",
+          "field_id": "question_32116826003",
+          "canonical_field": "work_authorization",
+          "kind": "verify_mismatch",
+          "problem": "Expected \"Yes\"; page shows \"(empty)\"",
+          "expected": "Yes",
+          "observed": {
+            "value": "",
+            "label": ""
+          },
+          "how_to_answer": [
+            "System expected \"Yes\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+            "Profile source: private/candidate/public-profile.json → work_authorization",
+            "Alias check: private/candidate/answer-aliases.json phrases for \"work_authorization\" should match the on-form question text."
+          ]
+        }
+      ]
+    },
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": null,
+      "verify_passed": true
+    },
+    "open_review_items": [],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"park_for_operator\", \"rationale\": \"Pre-submit verification blocked on a single work_authorization dropdown that stays empty after fill — a mapping/control-type issue, not transient. Materials and navigation are fine (resume verified, slug congruent, no wall). A human must correct the field map/alias or answer manually.\", \"confidence\": \"high\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: 5a281586-117f-4dd2-9264-e7cf189c496e",
+  "rationale_unverified": "Pre-submit verification blocked on a single work_authorization dropdown that stays empty after fill — a mapping/control-type issue, not transient. Materials and navigation are fine (resume verified, slug congruent, no wall). A human must correct the field map/alias or answer manually."
+}
