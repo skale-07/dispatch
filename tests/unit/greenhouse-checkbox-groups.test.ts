@@ -149,6 +149,36 @@ describe("greenhouse checkbox groups — fill + verify (FIXTURE_CONFIRMED)", () 
   const metaFor = (fieldId: string, inputId: string): Map<string, FieldMeta> =>
     new Map([[fieldId, { type: "checkbox", inputId, name: fieldId }]]);
 
+  // #266 (live Nominal/Gem, night30): nameless radios made the "group" every
+  // radio on the page.
+  it("nameless radios: fill and read-back stay inside their own question (#266)", async () => {
+    const gem = `<!DOCTYPE html><html><body><form>
+      <fieldset><legend>Have you worked here before?</legend>
+        <label><input type="radio" id="q1y" /> Yes</label>
+        <label><input type="radio" id="q1n" checked /> None of the above</label>
+      </fieldset>
+      <fieldset><legend>Security clearance</legend>
+        <label><input type="radio" id="q2y" /> Yes</label>
+        <label><input type="radio" id="q2e" /> Yes, I'm eligible for a U.S security clearance</label>
+      </fieldset></form></body></html>`;
+    await withFixtureHtmlPage(gem, async (page) => {
+      // (a) read-back must not report another question's checked radio
+      const eligible = entry({ field_id: "q2e", label: "Yes, I'm eligible for a U.S security clearance", type: "radio", value: "Yes, I'm eligible for a U.S security clearance", canonical_field: "screener:custom:eligible_for_security_clearance" });
+      const metaE = new Map<string, FieldMeta>([["q2e", { type: "radio", inputId: "q2e" }]]);
+      const fillE = await greenhouseFillFromPlan(page, [eligible], metaE);
+      expect(fillE.errors).toEqual([]);
+      expect(await page.locator("#q2e").isChecked()).toBe(true);
+      const verifyE = await greenhouseVerifyFromPlan(page, [eligible], metaE);
+      expect(verifyE.fields[0]?.match).toBe(true);
+      // (b) a repeated label ("Yes") clicks THIS question's member
+      const yes = entry({ field_id: "q2y", label: "Security clearance", type: "radio", value: "Yes", canonical_field: "screener:custom:clearance_yes" });
+      const metaY = new Map<string, FieldMeta>([["q2y", { type: "radio", inputId: "q2y" }]]);
+      await greenhouseFillFromPlan(page, [yes], metaY);
+      expect(await page.locator("#q2y").isChecked()).toBe(true);
+      expect(await page.locator("#q1y").isChecked()).toBe(false);
+    });
+  }, 45_000);
+
   // #262 (live Palantir/Lever, night30): Lever's location rows are DIVs
   // (div.dropdown-results > div.dropdown-location). The fill never saw them,
   // fell back to ArrowDown+Enter, and the hidden selectedLocation stayed

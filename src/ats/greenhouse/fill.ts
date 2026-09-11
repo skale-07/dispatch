@@ -281,6 +281,23 @@ function isCheckboxBooleanValue(value: unknown): boolean {
  * an unrelated same-text checkbox to the fill. No group ⇒ just the
  * control itself (its own label may still match the planned text).
  */
+/**
+ * #266 (live Nominal/Gem night30): Gem renders radios with name="" — the
+ * "group" fell back to EVERY radio on the page. The fill found its option
+ * by a unique label (lucky), and the read-back reported the first checked
+ * radio anywhere — another question's "None of the above" — so a correct
+ * answer parked AMBIGUOUS_FIELD; a repeated label ("Yes") could have
+ * clicked the wrong question. A nameless radio's group is its nearest
+ * fieldset / role=radiogroup, else the radio alone.
+ */
+async function namelessRadioGroup(loc: Locator): Promise<Locator> {
+  const scoped = loc.locator(
+    'xpath=ancestor::*[self::fieldset or @role="radiogroup"][1]//input[@type="radio"]',
+  );
+  if ((await scoped.count().catch(() => 0)) > 0) return scoped;
+  return loc;
+}
+
 async function collectCheckboxGroupOptions(
   loc: Locator,
 ): Promise<Array<{ id: string; label: string; checked: boolean; name: string; value: string }>> {
@@ -1375,7 +1392,7 @@ export async function greenhouseFillFromPlan(
         const name = meta?.name;
         const group = name
           ? page.locator(`[name="${name.replace(/"/g, '\\"')}"]`)
-          : page.locator('input[type="radio"]');
+          : await namelessRadioGroup(loc);
         const picked = await checkRadioGroupMember(page, group, entry.value);
         field_meta.push({
           field_id: entry.field_id,
@@ -1781,7 +1798,7 @@ export async function greenhouseReadFieldValue(
       ? page.locator(
           `input[type="radio"][name="${name.replace(/"/g, '\\"')}"]`,
         )
-      : page.locator('input[type="radio"]');
+      : await namelessRadioGroup(loc);
     const n = await group.count();
     for (let i = 0; i < n; i++) {
       const opt = group.nth(i);
