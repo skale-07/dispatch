@@ -60,22 +60,37 @@
 </style></head>
 <body><div class="wrap">
 <h1>Dispatch run timeline</h1>
-<p class="sub">Generated 2026-09-11T10:59:34.303Z · 40 navigation run(s) · read-only view of artifacts/</p>
-<div class="stats"><span class="stat"><b>15</b> unknown</span><span class="stat"><b>13</b> resolved</span><span class="stat"><b>4</b> budget</span><span class="stat"><b>3</b> auth</span><span class="stat"><b>2</b> closed</span><span class="stat"><b>2</b> submit_risk</span><span class="stat"><b>1</b> duplicate_url</span></div>
+<p class="sub">Generated 2026-09-11T11:10:20.410Z · 40 navigation run(s) · read-only view of artifacts/</p>
+<div class="stats"><span class="stat"><b>14</b> resolved</span><span class="stat"><b>14</b> unknown</span><span class="stat"><b>4</b> budget</span><span class="stat"><b>3</b> auth</span><span class="stat"><b>2</b> closed</span><span class="stat"><b>2</b> submit_risk</span><span class="stat"><b>1</b> duplicate_url</span></div>
 <section class="cycle">
   <h2>Latest cycle</h2>
   <dl>
-    <div><dt>Started</dt><dd>2026-09-11T10:59:26.582Z</dd></div>
-    <div><dt>Outcome</dt><dd>skipped_already_armed</dd></div>
-    <div><dt>Agent leg</dt><dd>UNAVAILABLE — AGENT_FALLBACK_ENABLED is off; nav phase C will be skipped for every app</dd></div>
+    <div><dt>Started</dt><dd>2026-09-11T11:08:21.954Z</dd></div>
+    <div><dt>Outcome</dt><dd>completed</dd></div>
+    <div><dt>Agent leg</dt><dd>available</dd></div>
     <div><dt>Default resume</dt><dd>ready (C:\dev\jobright-application-agent\private\candidate\resumes\swe.pdf)</dd></div>
-    <div><dt>Apps started</dt><dd>—</dd></div>
-    <div><dt>Submits used</dt><dd>—</dd></div>
-    <div><dt>Stopped</dt><dd>—</dd></div>
+    <div><dt>Apps started</dt><dd>1</dd></div>
+    <div><dt>Submits used</dt><dd>0</dd></div>
+    <div><dt>Stopped</dt><dd>apps_cap</dd></div>
   </dl>
-  
+  <h3>Session notes</h3><ul class="notes"><li>nav audit: 1 wrong-employer URL(s) cleared for re-navigation, 0 parked for review</li><li>triage sweep: 0 confirmed, 2 refuted, 0 expired of 142 pending</li><li>triage 3ce7a026: requeue_reopen_navigation (executed) — URL cleared, → APPLICATION_OPENING</li><li>artifact autopush: 265 file(s) pushed to master as e6fb13c1</li></ul>
 </section>
 <h2>Applications</h2>
+<details class="app ok">
+  <summary>
+    <span class="id">3ce7a026</span>
+    <span class="co">Amazon</span>
+    <span class="badge">resolved</span>
+    <span class="chip">anchor_href</span>
+    <span class="chip">generic</span>
+    
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — resolved (10 candidates, employer match)<span class="ev">www.amazon.jobs</span></li></ol>
+    <h4>Notes</h4><ul class="notes"><li>none</li></ul>
+    
+  </div>
+</details>
 <details class="app muted">
   <summary>
     <span class="id">affe966a</span>
@@ -658,21 +673,6 @@
   <div class="body">
     <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>B_board_hop</b> — no employer board route (3 request(s))</li><li><b>C_agent</b> — wall: submit_risk (turn 1)</li></ol>
     <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>board hop: no public greenhouse/lever/ashby board found for &quot;Acme&quot; (acme; 3 requests)</li><li>agent[1] reason: agent stopped: submit_risk</li></ul>
-    
-  </div>
-</details>
-<details class="app bad">
-  <summary>
-    <span class="id"></span>
-    <span class="co">—</span>
-    <span class="badge">wall: undefined</span>
-    
-    
-    
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li>none recorded</li></ol>
-    <h4>Notes</h4><ul class="notes"><li>model calls: 0 of 1 steps</li></ul>
     
   </div>
 </details>
