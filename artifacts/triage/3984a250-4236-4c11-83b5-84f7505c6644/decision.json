@@ -1,0 +1,156 @@
+{
+  "decision_id": "3984a250-4236-4c11-83b5-84f7505c6644",
+  "application_id": "a5253859-b75f-4447-bd5d-4a64f1c1edb1",
+  "signature": "NATIVE_AUTOFILL_RUNNING|-|login_wall|brevanhoward.wd3.myworkdayjobs.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "a5253859-b75f-4447-bd5d-4a64f1c1edb1",
+    "company": "Brevan Howard",
+    "role": "2027 Summer Internship Program – Venture Capital, New York",
+    "state": "NATIVE_AUTOFILL_RUNNING",
+    "attempt": 2,
+    "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|login_wall|brevanhoward.wd3.myworkdayjobs.com",
+    "end_host": "brevanhoward.wd3.myworkdayjobs.com",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route inspect_only (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-11T12:04:58.300Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-11T12:04:56.919Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: workday URL validated",
+        "at": "2026-09-11T12:04:56.913Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-11T12:04:56.904Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 dd9093dde3f8)",
+        "at": "2026-09-11T12:04:56.894Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-11T12:04:56.877Z"
+      },
+      {
+        "from": "FAILED_RETRYABLE",
+        "to": "QUEUED",
+        "reason": "retry 2/3",
+        "at": "2026-09-11T12:03:44.147Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "triage: demoting gate-parked NATIVE_AUTOFILL_RUNNING for requeue (NATIVE_AUTOFILL_RUNNING|-|unknown|brevanhoward.wd3.myworkdayjobs.com)",
+        "at": "2026-09-11T12:03:44.146Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route inspect_only (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-11T12:01:45.085Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-11T12:01:43.527Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: workday URL validated",
+        "at": "2026-09-11T12:01:43.512Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-11T12:01:38.309Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 dd9093dde3f8)",
+        "at": "2026-09-11T12:01:38.301Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-11T12:01:38.219Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-11T09:06:45.605Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "brevanhoward",
+        "detail": "token \"brevan\" ~ slug \"brevanhoward\"",
+        "expected_company": "Brevan Howard",
+        "url": "https://brevanhoward.wd3.myworkdayjobs.com/bh_externalcareers/job/New-York/XMLNAME-2027-Summer-Internship-Program---Venture-Capital--New-York_JR101594?jr_id=6aa1b1ae0ffb3d4fea6b68ce"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (8 candidates, employer match)",
+          "evidence": "brevanhoward.wd3.myworkdayjobs.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [],
+    "prior_decisions": [
+      {
+        "action": "requeue_same",
+        "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|brevanhoward.wd3.myworkdayjobs.com",
+        "outcome_status": "PENDING",
+        "created_at": "2026-09-11T12:03:44.144Z"
+      }
+    ],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"park_for_operator\", \"rationale\": \"Attempt 2 stalls at NATIVE_AUTOFILL_RUNNING, now with a login_wall signature on the Workday host; navigation resolved correctly (congruence match) and resume is verified, so requeue/materials/navigation actions wouldn't change anything. Only one blocked attempt, so a permanent-wall abandon is premature — needs human credential/decision.\", \"confidence\": \"medium\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: 055f2eca-773c-4121-a79c-d778ac3223a1",
+  "rationale_unverified": "Attempt 2 stalls at NATIVE_AUTOFILL_RUNNING, now with a login_wall signature on the Workday host; navigation resolved correctly (congruence match) and resume is verified, so requeue/materials/navigation actions wouldn't change anything. Only one blocked attempt, so a permanent-wall abandon is premature — needs human credential/decision."
+}
