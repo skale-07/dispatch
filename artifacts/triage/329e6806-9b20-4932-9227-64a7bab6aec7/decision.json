@@ -1,0 +1,122 @@
+{
+  "decision_id": "329e6806-9b20-4932-9227-64a7bab6aec7",
+  "application_id": "fbda5eab-65ba-45ed-90cc-3c62ef45316c",
+  "signature": "FAILED_RETRYABLE|duplicate_url|duplicate_url|-",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "fbda5eab-65ba-45ed-90cc-3c62ef45316c",
+    "company": "Hudl",
+    "role": "Software Engineering Intern",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 1,
+    "failure_signature": "FAILED_RETRYABLE|duplicate_url|duplicate_url|-",
+    "end_host": null,
+    "recent_events": [
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "navigation: employer URL already held by another application",
+        "at": "2026-09-11T10:38:11.281Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-11T10:38:07.254Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 dd9093dde3f8)",
+        "at": "2026-09-11T10:38:07.247Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-11T10:38:07.200Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-11T10:31:02.462Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-11T10:31:02.449Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-11T10:31:02.448Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-11T10:31:02.446Z"
+      }
+    ],
+    "nav": {
+      "wall": "duplicate_url",
+      "method": null,
+      "notes": [
+        "phase A: token-only greenhouse embed anchor resolved to board \"hudl\" (job 8114314) via one read-only GET",
+        "employer URL already held by 1 other application(s): 15ed7c99 (Hudl — Software Engineering Intern, AMBIGUOUS_FIELD)"
+      ],
+      "congruence": {
+        "verdict": "match",
+        "slug": "hudl",
+        "detail": "token \"hudl\" ~ slug \"hudl\"",
+        "expected_company": "Hudl",
+        "url": "https://boards.greenhouse.io/embed/job_app?for=hudl&token=8114314"
+      },
+      "duplicates": [
+        {
+          "application_id": "15ed7c99-a929-46a7-bd13-de36f263b8cd",
+          "state": "AMBIGUOUS_FIELD",
+          "company": "Hudl",
+          "role": "Software Engineering Intern"
+        }
+      ],
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (11 candidates, employer match)",
+          "evidence": "boards.greenhouse.io"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [
+      {
+        "kind": "MANUAL",
+        "title": "Duplicate posting — another application already targets this URL"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\":\"abandon_duplicate\",\"rationale\":\"Same URL (Hudl SWE Intern, greenhouse token 8114314) is already owned by application 15ed7c99, and congruence confirms the employer match. No retry path changes this; abandon this duplicate.\",\"confidence\":\"high\"}",
+  "parsed_action": "abandon_duplicate",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "abandoned to FAILED_FINAL",
+  "rationale_unverified": "Same URL (Hudl SWE Intern, greenhouse token 8114314) is already owned by application 15ed7c99, and congruence confirms the employer match. No retry path changes this; abandon this duplicate."
+}

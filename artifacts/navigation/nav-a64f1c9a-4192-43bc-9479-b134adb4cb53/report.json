@@ -1,0 +1,49 @@
+{
+  "run_id": "nav-a64f1c9a-4192-43bc-9479-b134adb4cb53",
+  "application_id": "fbda5eab-65ba-45ed-90cc-3c62ef45316c",
+  "jobright_job_id": "6aa39a8b626f9945308b1d52",
+  "method": null,
+  "resolved_url": null,
+  "resolved_ats": null,
+  "wall": "duplicate_url",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "resolved (11 candidates, employer match)",
+      "evidence": "boards.greenhouse.io"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "phase A: token-only greenhouse embed anchor resolved to board \"hudl\" (job 8114314) via one read-only GET",
+    "employer URL already held by 1 other application(s): 15ed7c99 (Hudl — Software Engineering Intern, AMBIGUOUS_FIELD)"
+  ],
+  "congruence": {
+    "verdict": "match",
+    "slug": "hudl",
+    "detail": "token \"hudl\" ~ slug \"hudl\"",
+    "expected_company": "Hudl",
+    "url": "https://boards.greenhouse.io/embed/job_app?for=hudl&token=8114314"
+  },
+  "duplicates": [
+    {
+      "application_id": "15ed7c99-a929-46a7-bd13-de36f263b8cd",
+      "state": "AMBIGUOUS_FIELD",
+      "company": "Hudl",
+      "role": "Software Engineering Intern"
+    }
+  ],
+  "login_wall": null,
+  "evidence": [
+    "navigation\\nav-a64f1c9a-4192-43bc-9479-b134adb4cb53\\giveup-duplicate_url.html",
+    "navigation\\nav-a64f1c9a-4192-43bc-9479-b134adb4cb53\\giveup-duplicate_url.png"
+  ],
+  "written_at": "2026-09-11T10:38:11.245Z"
+}
