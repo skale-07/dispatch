@@ -44,6 +44,23 @@ describe("matchCanonicalField name/id fallbacks", () => {
     }
   });
 
+  // #255 (live Exegy/Ashby night30): the visa-expiry DATE question was
+  // claimed by the alias "authorized to work" and fed the yes/no status.
+  it("a question about WHEN an authorization expires is never the status or sponsorship field (#255)", () => {
+    const aliases = { work_authorization: ["Authorized to work", "Work authorization"] };
+    const f = (label: string, type: "text" | "date" = "text") => ({ id: "f1", label, type, required: false, name: "" });
+    expect(
+      matchCanonicalField(
+        f("If you are currently authorized to work on a visa or other work permit, when does that work authorization expire?"),
+        aliases,
+      ),
+    ).toBeNull();
+    expect(matchCanonicalField(f("Work authorization expiration date"), aliases)).toBeNull();
+    expect(matchCanonicalField(f("Work authorization", "date"), aliases)).toBeNull();
+    // The plain status question through the same alias is unchanged.
+    expect(matchCanonicalField(f("Work authorization"), aliases)).toBe("work_authorization");
+  });
+
   // #226 (live Palantir 2026-09-09; operator: "it couldn't complete a
   // question that asked to plug in today's date").
   it("a bare signature-block Date/Signature maps; dated questions with their own meaning do not", async () => {

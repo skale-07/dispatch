@@ -106,6 +106,21 @@ describe("screener registry + matcher (UNIT_CONFIRMED)", () => {
     );
   });
 
+  // #255b (live Exegy night30): the visa-expiry DATE question took the
+  // yes/no work_authorization bank answer after #255 unmapped it upstream.
+  it("a question about WHEN an authorization expires claims neither authorization key (#255b)", () => {
+    for (const label of [
+      "If you are currently authorized to work on a visa or other work permit, when does that work authorization expire?",
+      "Work authorization expiration date",
+      "Visa sponsorship end date",
+    ]) {
+      const key = matchScreenerKey(label)?.key;
+      expect(key).not.toBe("work_authorization");
+      expect(key).not.toBe("requires_sponsorship");
+    }
+    expect(matchScreenerKey("Do you have work authorization in the US?")?.key).toBe("work_authorization");
+  });
+
   it("on-site ability is willing_to_relocate, not remote_or_onsite", () => {
     expect(
       matchScreenerKey("Are you able to work on-site in Strongsville, OH?")?.key,

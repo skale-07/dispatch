@@ -142,6 +142,7 @@ export const SCREENER_REGISTRY: ScreenerDef[] = [
       /visa sponsorship/,
       /now or in the future .{0,40}sponsorship/,
     ],
+    excludePatterns: [/\b(expir\w*|end date|valid (until|through)|when does)\b/],
     synonyms: { Yes: YES, No: NO },
   },
   {
@@ -157,6 +158,9 @@ export const SCREENER_REGISTRY: ScreenerDef[] = [
       /legally (eligible|permitted) to work/,
       /work authorization/,
     ],
+    // #255b (live Exegy night30): "…when does that work authorization
+    // expire?" is a DATE question about a visa, not the yes/no status.
+    excludePatterns: [/\b(expir\w*|end date|valid (until|through)|when does)\b/],
     synonyms: { Yes: YES, No: NO },
   },
   {

@@ -60,6 +60,21 @@ export function matchCanonicalField(
   ) {
     return null;
   }
+  // #255 (live Exegy/Ashby night30): "If you are currently authorized to
+  // work on a visa or other work permit, when does that work authorization
+  // expire?" — a DATE question — was claimed through the alias "authorized
+  // to work" and fed the yes/no status ("Yes" into a date input; the fill
+  // refused, the verify parked the app). A question about WHEN an
+  // authorization ends is neither the status nor the sponsorship question.
+  // Unmapped it stays unanswered — authorization is never model-answered —
+  // and the page's own completeness scan decides whether it may be empty.
+  if (
+    (matched === "work_authorization" || matched === "requires_sponsorship") &&
+    (field.type === "date" ||
+      /\b(expir\w*|end\s+date|valid\s+(until|through)|when\s+does)\b/.test(normalized))
+  ) {
+    return null;
+  }
   // #150 (live UKG run 17, resume-review page): the resume parse renders
   // FIVE work-experience rows (NewWorkExperience_JobTitle0..4). Bare
   // "Company" / "Organization" / "Month" in rows 1-4 claimed the profile's
