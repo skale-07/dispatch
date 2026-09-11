@@ -25,7 +25,10 @@ import {
   type OtherSpecifyOutcome,
 } from "../shared/otherSpecify.js";
 import { inventoryFileInputs } from "../shared/uploadResolve.js";
-import { fetchGreenhouseQuestions } from "./questionsApi.js";
+import { fetchGreenhouseQuestions, requiredQuestionLabels } from "./questionsApi.js";
+import { readPageValidationErrors } from "../../applications/pageErrors.js";
+import { pageCompleteWaiver } from "../../applications/pageCompleteWaiver.js";
+import { scanRequiredCompleteness } from "../shared/requiredCompleteness.js";
 import {
   diffDeclaredVsDom,
   summarizeSchemaDiff,
@@ -1037,6 +1040,38 @@ export async function runGreenhouseLiveFill(input: {
       );
       const uploadsOk =
         !base.uploads?.length || base.uploads.every((u) => u.verified);
+      // #256 (live Hudl night30): #240's fill-stage waiver lives in
+      // atsLiveFill — every adapter EXCEPT this dedicated greenhouse runner.
+      // Hudl's optional race question (profile "Asian"; options East /
+      // South / Southeast Asian — never inferred) was correctly left empty,
+      // and that alone parked a finished application AMBIGUOUS_FIELD. Same
+      // contract, same fail-closed conditions: the completeness scan runs
+      // and names nothing, no page error, every mismatch reads EMPTY, every
+      // fill error proves nothing was written, uploads verified.
+      if (!base.verify.passed || base.fill.errors.length > 0) {
+        const pageErrors = await readPageValidationErrors(page).catch(() => []);
+        const completeness = await scanRequiredCompleteness(page, {
+          declaredRequired: requiredQuestionLabels(declared),
+        }).catch(() => ({ scanned: false, unanswered: [], notes: [] }));
+        const waiver = pageCompleteWaiver({
+          verifyPassed: base.verify.passed,
+          verifyFields: base.verify.fields,
+          fillErrors: base.fill.errors.map((e) => String(e)),
+          uploadOk: uploadsOk,
+          completeness,
+          pageValidationErrors: pageErrors,
+        });
+        if (waiver.waive) {
+          base.verify = { ...base.verify, passed: true };
+          base.fill = { ...base.fill, errors: [] };
+          base.notes.push(
+            `page-complete waiver (#240/#256): the page requires nothing further and shows no error; ` +
+              `${waiver.waived.length} planned value(s) left empty — ${waiver.waived.slice(0, 6).join("; ")}`,
+          );
+        } else if (waiver.blocked_by) {
+          base.notes.push(`page-complete waiver not applied: ${waiver.blocked_by}`);
+        }
+      }
       base.validation_level =
         base.verify.passed && uploadsOk
           ? "LIVE_MUTATION_CONFIRMED"

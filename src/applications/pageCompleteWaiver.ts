@@ -92,7 +92,12 @@ export function pageCompleteWaiver(input: {
   if (input.completeness.unanswered.length > 0) {
     return {
       ...none,
-      blocked_by: `page requires ${input.completeness.unanswered.length} unanswered question(s)`,
+      blocked_by:
+        `page requires ${input.completeness.unanswered.length} unanswered question(s): ` +
+        input.completeness.unanswered
+          .slice(0, 4)
+          .map((u) => `"${u.label.slice(0, 60)}"`)
+          .join("; "),
     };
   }
   const pageErrors = input.pageValidationErrors ?? [];
