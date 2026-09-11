@@ -60,22 +60,37 @@
 </style></head>
 <body><div class="wrap">
 <h1>Dispatch run timeline</h1>
-<p class="sub">Generated 2026-09-11T08:02:24.822Z · 40 navigation run(s) · read-only view of artifacts/</p>
+<p class="sub">Generated 2026-09-11T08:05:17.194Z · 40 navigation run(s) · read-only view of artifacts/</p>
 <div class="stats"><span class="stat"><b>15</b> unknown</span><span class="stat"><b>12</b> resolved</span><span class="stat"><b>4</b> auth</span><span class="stat"><b>4</b> budget</span><span class="stat"><b>2</b> closed</span><span class="stat"><b>2</b> submit_risk</span><span class="stat"><b>1</b> duplicate_url</span></div>
 <section class="cycle">
   <h2>Latest cycle</h2>
   <dl>
-    <div><dt>Started</dt><dd>2026-09-11T08:01:16.746Z</dd></div>
+    <div><dt>Started</dt><dd>2026-09-11T08:03:57.532Z</dd></div>
     <div><dt>Outcome</dt><dd>completed</dd></div>
-    <div><dt>Agent leg</dt><dd>available</dd></div>
+    <div><dt>Agent leg</dt><dd>available (debug Chrome autolaunched)</dd></div>
     <div><dt>Default resume</dt><dd>ready (C:\dev\jobright-application-agent\private\candidate\resumes\swe.pdf)</dd></div>
-    <div><dt>Apps started</dt><dd>0</dd></div>
+    <div><dt>Apps started</dt><dd>1</dd></div>
     <div><dt>Submits used</dt><dd>0</dd></div>
     <div><dt>Stopped</dt><dd>queue_drained</dd></div>
   </dl>
-  <h3>Session notes</h3><ul class="notes"><li>triage sweep: 0 confirmed, 0 refuted, 0 expired of 131 pending</li><li>preflight: CDP attach failed and the restart did not recover: CDP restart: debug-profile Chrome did not terminate (pids 44264,2972,43556,46604,46496 still alive after kill) — relaunch would be absorbed by the wedged instan</li><li>artifact autopush: .git/index.lock held by a live git (245s old) — skipping this push</li></ul>
+  <h3>Session notes</h3><ul class="notes"><li>nav audit: 1 wrong-employer URL(s) cleared for re-navigation, 0 parked for review</li><li>triage sweep: 0 confirmed, 0 refuted, 0 expired of 131 pending</li><li>triage df691157: requeue_same (executed) — requeued at attempt 2</li><li>artifact autopush: removed a stale .git/index.lock (7 min old, nothing writing it)</li><li>artifact autopush: 32 file(s) pushed to master as 24d75f31</li></ul>
 </section>
 <h2>Applications</h2>
+<details class="app ok">
+  <summary>
+    <span class="id">df691157</span>
+    <span class="co">IBM</span>
+    <span class="badge">resolved</span>
+    <span class="chip">anchor_href</span>
+    <span class="chip">generic</span>
+    
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — resolved (9 candidates, employer match)<span class="ev">ibmglobal.avature.net</span></li></ol>
+    <h4>Notes</h4><ul class="notes"><li>none</li></ul>
+    
+  </div>
+</details>
 <details class="app muted">
   <summary>
     <span class="id">9ac00546</span>
@@ -658,21 +673,6 @@
   <div class="body">
     <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no congruent apply href (13 external links)<span class="ev">egup.fa.us2.oraclecloud.com, www.linkedin.com, x.com, www.crunchbase.com, www.glassdoor.com, www.vertiv.com</span></li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>A_anchor_llm</b> — candidate promoted by adjudication<span class="ev">egup.fa.us2.oraclecloud.com</span></li></ol>
     <h4>Notes</h4><ul class="notes"><li>phase A: 9 external host(s) seen: egup.fa.us2.oraclecloud.com, www.linkedin.com, x.com, www.crunchbase.com, www.glassdoor.com, www.vertiv.com, www.fool.com, www.morningstar.com, www.prnewswire.com</li><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>anchor adjudication: promoted egup.fa.us2.oraclecloud.com</li><li>anchor adjudication rationale (UNVERIFIED): Oracle HCM candidate experience ATS link with specific job ID is the employer's own application page; other links are homepage or news.</li><li>employer congruence unverifiable (URL carries no employer name specific enough to verify against &quot;Vertiv&quot;) — recorded</li></ul>
-    
-  </div>
-</details>
-<details class="app ok">
-  <summary>
-    <span class="id">7de77c9f</span>
-    <span class="co">IBM</span>
-    <span class="badge">resolved</span>
-    <span class="chip">anchor_href</span>
-    <span class="chip">generic</span>
-    
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — resolved (9 candidates, employer match)<span class="ev">careers.ibm.com</span></li></ol>
-    <h4>Notes</h4><ul class="notes"><li>none</li></ul>
     
   </div>
 </details>
