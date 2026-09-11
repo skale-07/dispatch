@@ -441,3 +441,57 @@ so a definitive on-page refusal parked SUBMISSION_VERIFICATION_FAILED
 (operator-only). A narrow whole-sentence alternative now maps it to
 REJECTED_AFTER_CLICK with the reason named; prose like "If you see an error,
 please refresh" still does not match.
+
+## Issue #263 — a poisoned screener-bank entry answered "Full Name" with "N/A" (one SUBMITTED)
+
+**Found via** Northrop (Workday, cycle 58): First Name read back "N/A".
+Discovery had synthesized phantom text fields from the "Legal Name" SECTION
+HEADING; the bank entry `legal_name_if_different` (answer "N/A") matched it
+(its label "Legal Name (if different than above)" normalizes to "legal
+name" once parentheticals are stripped), and the phantom's label locator
+typed "N/A" into the real First Name. Verify caught it; nothing sent.
+
+**The entry itself was poisoned.** Promoted by the predict tier, it had
+accreted labels that ask for the candidate's OWN name — "Full Name", "Full
+legal name:", "Please state your full legal name:" — all answered "N/A".
+Audit of every live fill that used it (real employers only):
+
+| when | employer | question | outcome |
+|---|---|---|---|
+| 09-01 | **Bear Robotics (Breezy)** | "Full Name" (`cName`) | **SUBMITTED, verified** — the application went in with Full Name "N/A" |
+| 09-03 | Northrop ×1, DriveTime, Alcon (Workday) | "Legal Name" heading | not submitted |
+| 09-10 | Shield AI (Lever) | "Please state your full legal name:" | not submitted |
+| 09-10 | Tractian | "Full Name" | not submitted |
+| 09-11 | Northrop | "Legal Name" heading | not submitted (verify caught it) |
+
+**Bank cleanup** (`private/candidate/screeners.json`, backup
+`screeners.json.bak-20260911-night30`):
+- removed `legal_name_if_different` entirely;
+- `opt_are_you_currently_eligible_to_work_in_ireland` ("Yes, I am currently
+  eligible to work in the country…") carried Ireland / Canada / Romania /
+  Singapore / UK labels — false for a US citizen; only the US label kept;
+- `sms_consent` carried the label "Phone Number" (a phone field would have
+  received a consent sentence) — label removed;
+- `has_preferred_name` ("No") carried "Preferred First Name" / "What is your
+  preferred first name?" — labels removed.
+Other authorization entries (US status "U.S. Citizen", visa "No"/"N/A", IRCA
+"Yes") are true for the operator and were kept — listed for review.
+
+Not yet in code: a guard that an identity question (the candidate's own
+name/email/phone) can never take a bank or predicted answer, and that a
+promoted entry cannot accrete labels whose answer shape differs. Tonight's
+fix is the data.
+
+## Issue #262c — Lever's resume parser erased the picked location
+
+Cycle 59 proved #262 live — "clicked suggestion index 0: baltimore, md,
+usa" — and #224/#261 — "revealed pass: filled 2, verify passed" (Name +
+Date) — yet the form refused the location again. Isolation probes: the
+selection survives our fill, other fills, the completeness scan and page
+reads; but after a resume upload Lever set `selectedLocation` to
+{"name":""} by itself. `atsLiveFill` uploads AFTER fill + verify, so the
+parse's overwrite was never re-checked. After a verified upload the fill
+now re-verifies, re-fills the text entries the parse changed and a
+location whose hidden selection was cleared (once, text entries only),
+restores the plan and verifies again. Fixture: a "parser" that clears the
+selection on file change → re-committed.
