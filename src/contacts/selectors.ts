@@ -46,6 +46,11 @@ export const insiderSelectorsV1 = {
     { category: "school" as ContactSourceCategory, heading: /from your school/i },
     { category: "beyond" as ContactSourceCategory, heading: /beyond your network/i },
   ],
+  /**
+   * #253: the section that holds the panels. It renders asynchronously —
+   * live night30 the same page tagged 0 people at +3s and 8 at +6s.
+   */
+  sectionHeading: /insider connection/i,
   /** The collapsed panel's expander. Both spellings appear in screenshots. */
   expandButton: /^(view|find more connections)$/i,
   /** Lookup outcome popups. */
@@ -66,7 +71,10 @@ export const insiderSelectorsV1 = {
    * dismiss control, found inside the overlay that carries the marker.
    */
   onboardingOverlays: [
-    { marker: /boost your resume here/i, dismiss: /^exit$/i },
+    // The Orion tour is multi-step ("Boost Your Resume Here!", then "Stand
+    // Out Among Applicants", …) — every step carries TRY IT NOW + EXIT, so
+    // the step's own call-to-action is the marker, not its copy.
+    { marker: /^try it now$/i, dismiss: /^exit$/i },
     { marker: /make turbo even better/i, dismiss: /^(close|x|×)$/i },
   ],
   /**

@@ -149,6 +149,38 @@ describe("greenhouse checkbox groups — fill + verify (FIXTURE_CONFIRMED)", () 
   const metaFor = (fieldId: string, inputId: string): Map<string, FieldMeta> =>
     new Map([[fieldId, { type: "checkbox", inputId, name: fieldId }]]);
 
+  // #254 (live Palantir/Lever, night30): card checkboxes carry only the
+  // shared name and a per-box value — no id. The label matched and the
+  // id-only targeting refused it as "no option matching".
+  it("an id-less shared-name group (Lever cards) checks the matching member by name+value (#254)", async () => {
+    const NAME = "cards[a69a985a][field0]";
+    const lever = `<!DOCTYPE html><html><body><form>
+      <div class="application-question custom-question">
+        <div class="application-label"><div class="text">Language Skill(s) (Check all that apply)</div></div>
+        <ul data-qa="checkboxes">
+          <li><label><input type="checkbox" name="${NAME}" value="English (ENG)"><span>English (ENG)</span></label></li>
+          <li><label><input type="checkbox" name="${NAME}" value="Spanish (SPA)"><span>Spanish (SPA)</span></label></li>
+          <li><label><input type="checkbox" name="${NAME}" value="French (FRA)"><span>French (FRA)</span></label></li>
+        </ul>
+      </div></form></body></html>`;
+    await withFixtureHtmlPage(lever, async (page) => {
+      const e = entry({
+        field_id: NAME,
+        label: "Language Skill(s) (Check all that apply)",
+        type: "checkbox",
+        value: "English (ENG)",
+        canonical_field: "screener:custom:language_skills",
+      });
+      const meta = new Map<string, FieldMeta>([[NAME, { type: "checkbox", name: NAME }]]);
+      const fill = await greenhouseFillFromPlan(page, [e], meta);
+      expect(fill.errors).toEqual([]);
+      expect(await page.locator(`input[name="${NAME}"][value="English (ENG)"]`).isChecked()).toBe(true);
+      expect(await page.locator(`input[name="${NAME}"][value="Spanish (SPA)"]`).isChecked()).toBe(false);
+      const verify = await greenhouseVerifyFromPlan(page, [e], meta);
+      expect(verify.fields[0]?.match).toBe(true);
+    });
+  }, 45_000);
+
   it("'Yes' on the one-member on-site acknowledgement checks its only box", async () => {
     await withFixtureHtmlPage(HTML, async (page) => {
       const e = entry({

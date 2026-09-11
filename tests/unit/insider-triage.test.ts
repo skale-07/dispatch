@@ -77,6 +77,47 @@ describe("insider email triage (FIXTURE_CONFIRMED)", () => {
     60_000,
   );
 
+  // #253 (live night30, 9223 Chrome): a profile that never used JobRight's
+  // UI gets a multi-step "Orion" product tour whose mask swallows every
+  // View / email-icon click, plus a survey card with an icon-only close.
+  it("dismisses a multi-step first-run tour and an icon-close survey, never accepting either (#253)", async () => {
+    const overlay = `
+      <div id="tour-mask" style="position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:9000">
+        <div class="tour-pop" style="position:absolute;top:40px;left:40px;background:#fff;padding:12px">
+          <div>Orion</div><div id="tour-title">Boost Your Resume Here!</div>
+          <button id="tour-exit">EXIT</button>
+          <button id="tour-try">TRY IT NOW</button>
+        </div>
+      </div>
+      <div id="survey" style="position:fixed;left:0;bottom:0;background:#fff;z-index:9001">
+        <span>Make Turbo Even Better for Your Job Search!</span>
+        <span class="survey-close-icon" role="button"></span>
+        <button id="survey-take">Take the Survey</button>
+      </div>
+      <script>
+        window.__tourAccepted = false; window.__surveyTaken = false;
+        let step = 1;
+        document.getElementById("tour-exit").addEventListener("click", () => {
+          if (step === 1) { step = 2; document.getElementById("tour-title").textContent = "Stand Out Among Applicants"; return; }
+          document.getElementById("tour-mask").remove();
+        });
+        document.getElementById("tour-try").addEventListener("click", () => { window.__tourAccepted = true; });
+        document.querySelector(".survey-close-icon").addEventListener("click", () => document.getElementById("survey").remove());
+        document.getElementById("survey-take").addEventListener("click", () => { window.__surveyTaken = true; });
+      </script>`;
+    const blocked = FIXTURE.replace("</body>", `${overlay}</body>`);
+    await withFixtureHtmlPage(blocked, async (page) => {
+      const report = await triageInsiderEmails(page, { popupTimeoutMs: 3_000 });
+      expect(report.notes.join(" ")).toMatch(/dismissed first-run overlay/);
+      expect(report.emails.sort()).toEqual(["ayang@jumptrading.com", "rtang@jumptrading.com"]);
+      const state = await page.evaluate<{ tour: unknown; survey: unknown; mask: boolean; card: boolean }>(`({
+        tour: window.__tourAccepted, survey: window.__surveyTaken,
+        mask: !!document.getElementById("tour-mask"), card: !!document.getElementById("survey"),
+      })`);
+      expect(state).toEqual({ tour: false, survey: false, mask: false, card: false });
+    });
+  }, 60_000);
+
   it("a job with no insider panels skips cleanly", async () => {
     await withFixtureHtmlPage(
       "<html><body><h1>Some Job</h1><p>No insider connection area.</p></body></html>",

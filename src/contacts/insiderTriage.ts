@@ -323,10 +323,18 @@ const DISMISS_ONBOARDING_FN = `(overlays) => {
     if (!carrier) continue;
     for (let node = carrier, hops = 0; node && node !== document.body && hops < 8; node = node.parentElement, hops += 1) {
       const controls = Array.from(node.querySelectorAll('button, [role="button"], [aria-label], svg'));
+      const closeHinted = /close/i.test(o.dismiss);
       const hit = controls.find((b) => {
         const text = (b.textContent || "").trim();
         const label = (b.getAttribute("aria-label") || "").trim();
-        return visible(b) && (dismiss.test(text) || (label && dismiss.test(label)));
+        // An icon-only X carries its meaning in its class (the found-popup's
+        // X is the same shape) — accepted only for a close-type dismiss.
+        const cls = (b.getAttribute("class") || "").toLowerCase();
+        return visible(b) && (
+          dismiss.test(text) ||
+          (label && dismiss.test(label)) ||
+          (closeHinted && text === "" && /close/.test(cls))
+        );
       });
       if (hit) {
         hit.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
@@ -343,11 +351,18 @@ async function dismissOnboardingOverlays(page: Page): Promise<string[]> {
     marker: o.marker.source,
     dismiss: o.dismiss.source,
   }));
-  const done = (await page
-    .evaluate(`(${DISMISS_ONBOARDING_FN})(${JSON.stringify(overlays)})`)
-    .catch(() => [])) as string[];
-  if (done.length > 0) await page.waitForTimeout(500);
-  return done;
+  // A dismissed tour step can reveal the next one: bounded passes, stop
+  // at the first pass that dismisses nothing.
+  const all: string[] = [];
+  for (let pass = 0; pass < 4; pass += 1) {
+    const done = (await page
+      .evaluate(`(${DISMISS_ONBOARDING_FN})(${JSON.stringify(overlays)})`)
+      .catch(() => [])) as string[];
+    if (done.length === 0) break;
+    all.push(...done);
+    await page.waitForTimeout(700);
+  }
+  return all;
 }
 
 /**
@@ -356,6 +371,8 @@ async function dismissOnboardingOverlays(page: Page): Promise<string[]> {
  * Connect Now, and every remaining lookup died as modal_timeout.
  */
 async function dismissAllLayers(page: Page): Promise<void> {
+  // #253: a tour step can surface mid-walk and mask the next click.
+  await dismissOnboardingOverlays(page);
   for (let i = 0; i < 6; i += 1) {
     if (!(await layerVisible(page))) return;
     await closeTopLayer(page);
@@ -411,6 +428,8 @@ export async function triageInsiderEmails(
     /** Operator-owned addresses that must never count as a contact. */
     excludeEmails?: string[];
     popupTimeoutMs?: number;
+    /** Bounded wait for the async Insider Connection section (#253). */
+    sectionTimeoutMs?: number;
   },
 ): Promise<InsiderTriageReport> {
   const maxPeople = opts?.maxPeople ?? 12;
@@ -436,6 +455,15 @@ export async function triageInsiderEmails(
   // expander — a global "View" click could hit the excluded
   // previous-company panel, so every click stays scoped to a tagged
   // container. An already-expanded panel simply has no expander.
+  // The section mounts asynchronously; tagging before it exists reads
+  // "no people" on a page that has eight (#253). Bounded: a job with no
+  // insider section costs at most the timeout.
+  const sectionUp = await visibleText(page, insiderSelectorsV1.sectionHeading)
+    .first()
+    .waitFor({ state: "visible", timeout: opts?.sectionTimeoutMs ?? 10_000 })
+    .then(() => true)
+    .catch(() => false);
+  if (sectionUp) await page.waitForTimeout(1_000);
   const dismissed = await dismissOnboardingOverlays(page);
   if (dismissed.length > 0) {
     report.notes.push(`dismissed first-run overlay(s): ${dismissed.join(", ")} (#253)`);
