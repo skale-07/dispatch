@@ -11,6 +11,7 @@ import {
 import { supabase } from "../lib/supabaseClient";
 import { stashInviteCode } from "./data";
 import { GoogleMark } from "./GoogleMark";
+import { getReferralSettings } from "./referral";
 import { usePageTitle } from "./usePageTitle";
 
 /**
@@ -66,12 +67,37 @@ function useGoogleEnabled(): boolean {
 
 type AuthSettings = { external?: Record<string, boolean> };
 
+/**
+ * The free allowance from referral_settings() (open signup,
+ * 20260911000100). null until loaded or when the read fails — the copy
+ * then says "free" without a number rather than inventing one.
+ */
+function useFreeSignupQuota(): number | null {
+  const [free, setFree] = useState<number | null>(null);
+  useEffect(() => {
+    if (!SUPABASE_CONFIGURED) return;
+    let alive = true;
+    void getReferralSettings()
+      .then((s) => {
+        if (alive) setFree(s.free_signup_quota);
+      })
+      .catch(() => {
+        // Unavailable is a legal state; the number is decoration here.
+      });
+    return () => {
+      alive = false;
+    };
+  }, []);
+  return free;
+}
+
 export function SignupPage(): JSX.Element {
   const { code: codeParam } = useParams();
   const [search] = useSearchParams();
   const location = useLocation();
   const { session, signOut } = useAuth();
   const googleEnabled = useGoogleEnabled();
+  const freeQuota = useFreeSignupQuota();
 
   const [email, setEmail] = useState("");
   // Minted invite links are /redeem?code=JRA-XXXX-XXXX (contract);
@@ -219,8 +245,10 @@ export function SignupPage(): JSX.Element {
             Your invite code is filled in below.{" "}
             {googleEnabled ? "Continue with Google, or add" : "Add"} your
             email and we send a one-time sign-in link — no password, ever.
-            The invite sets how many applications your account starts with;
-            the number is on the invite itself.
+            Every account starts with{" "}
+            {freeQuota !== null ? `${freeQuota} free applications` : "free applications"}
+            ; the invite adds its own on top (the number is on the invite
+            itself).
           </>
         ) : (
           <>
@@ -228,9 +256,10 @@ export function SignupPage(): JSX.Element {
             {googleEnabled
               ? "Continue with Google, or enter your email"
               : "Enter your email"}{" "}
-            and we send a one-time sign-in link. Have an invite code? It
-            sets how many applications your account starts with — the
-            number is on the invite itself.
+            and we send a one-time sign-in link. Every account starts with{" "}
+            {freeQuota !== null ? `${freeQuota} free applications` : "free applications"}
+            . Have an invite code from a friend? It adds that code&apos;s
+            applications on top.
           </>
         )}
       </p>
@@ -280,7 +309,7 @@ export function SignupPage(): JSX.Element {
         </label>
         <label className="field">
           invite code{" "}
-          <span className="faint">(optional if you already have an account)</span>
+          <span className="faint">(optional — adds to the free allowance)</span>
           <input
             type="text"
             autoComplete="off"

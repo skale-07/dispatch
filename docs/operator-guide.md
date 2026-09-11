@@ -2096,6 +2096,8 @@ succeeded, else `UNVERIFIED` with the failing step named. Exit 1 unless
 fully confirmed. Never touches the local SQLite database. Evidence log:
 `docs/roadmap/invite-round-trip-2026-09-02.md`.
 
+Open signup (`20260911000100`): the same run also proves the free path — the second user calls `ensure_member()` (steps `open_signup_ensure_member_as_b`, `ensure_member_idempotent`, `free_quota_without_invite`: a quota row with `free_completed_applications` and `has_invite=false`, no invite involved) and, after redeeming the first user's referral code, `redeem_after_free_signup_adds_quota` shows the invite ADDING to the free allowance. Every member's effective quota is free + invite + bonus; the decrement steps count down from that total.
+
 ## 25. Cloud sync — `cloud:sync` (status + receipts up, profiles down)
 
 One bounded pass per invocation, all behind the same fail-closed gate:
@@ -2153,7 +2155,7 @@ npm run cloud:schema -- apply      # run supabase/migrations/ then verify
 
 - **verify** needs only `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY`.
   It lists every table / view / RPC / storage bucket the migrations
-  create (8 tables, 3 views, 4 RPCs, 2 buckets as of `20260902000600`;
+  create (8 tables, 3 views, 5 RPCs, 3 buckets as of `20260911000100`;
   the list is `EXPECTED_*` in `src/cloud/schema.ts`) as `present` /
   `absent` / `error` and exits 1 unless all are present. RPCs are
   probed with harmless arguments (`RPC_PROBE_ARGS`): an unauthenticated

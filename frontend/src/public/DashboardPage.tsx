@@ -45,7 +45,7 @@ const LOW_QUOTA = 3;
 
 export function DashboardPage(): JSX.Element {
   usePageTitle("Your applications");
-  const { user, signOut } = useAuth();
+  const { user, signOut, membership } = useAuth();
   const location = useLocation();
   const savedBanner =
     (location.state as { profileSaved?: boolean } | null)?.profileSaved === true;
@@ -108,9 +108,10 @@ export function DashboardPage(): JSX.Element {
   const lowQuota = quota !== null && !exhausted && quota.remaining <= LOW_QUOTA;
   const onboardingDone =
     profile !== "unknown" && profile !== null && profile.onboarding_completed_at !== null;
-  // Membership = an app_users row, which is exactly when the quota view
-  // has a row. Unknown until the read succeeds (mint stays enabled and
-  // the server decides).
+  // Membership = an app_users row (open signup: ensure_member() on the
+  // first session, or an invite redeemed earlier), which is exactly when
+  // the quota view has a row. Unknown until the read succeeds (mint stays
+  // enabled and the server decides).
   const member: boolean | null = quota !== null ? true : quotaLoaded ? false : null;
   const bonus = quota?.bonus_completed_applications ?? 0;
 
@@ -143,16 +144,26 @@ export function DashboardPage(): JSX.Element {
         </div>
       ) : null}
 
+      {membership.status === "failed" ? (
+        <div className="banner warn" role="alert">
+          Your account row could not be created ({membership.reason}). Reload
+          to try again; nothing else on this page is affected.
+        </div>
+      ) : null}
+
       {exhausted ? (
         <div className="banner warn quota-banner" role="status">
           <Icon name="alert" size={14} />
           <span>
-            <strong>Your invite&apos;s quota is used up</strong> —{" "}
+            <strong>Your quota is used up</strong> —{" "}
             {quota.completed_applications} of {quota.max_completed_applications}{" "}
             completed applications. Dispatch has stopped applying for you;
-            everything already submitted stays here with its receipt. A new
-            invite code extends the quota — redeem one on the{" "}
-            <Link to="/signup">sign-in page</Link>.
+            everything already submitted stays here with its receipt.{" "}
+            {quota.has_invite
+              ? "Quota grows when a friend you invited activates (see below)."
+              : "An invite code adds its own quota — redeem one on the "}
+            {quota.has_invite ? null : <Link to="/signup">sign-in page</Link>}
+            {quota.has_invite ? null : "."}
           </span>
         </div>
       ) : null}
@@ -181,7 +192,9 @@ export function DashboardPage(): JSX.Element {
                 ? "loading"
                 : error
                   ? "could not load"
-                  : "unknown until an invite is applied"}
+                  : membership.status === "failed"
+                    ? `account setup failed: ${membership.reason}`
+                    : "unknown until your account is set up"}
             {quota && bonus > 0 ? (
               <span className="quota-bonus">
                 <Icon name="sparkle" size={11} /> +{bonus} from{" "}

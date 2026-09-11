@@ -124,14 +124,18 @@ export async function listMyReferralBonuses(): Promise<ReferralBonusRow[]> {
 
 /**
  * What lands in a group chat. Two variants because there are two
- * truths: with a personal code the friend can sign up right now; without
- * one the honest offer is the waitlist. Both quote only what the product
- * actually does (receipts, real employer sites) — no user counts, no
- * "join 10,000 students".
+ * truths: with a personal code the friend gets the code's quota on top
+ * of the free allowance; without one the honest offer is the free
+ * signup itself (open since 2026-09-11). Both quote only what the
+ * product actually does (receipts, real employer sites) — no user
+ * counts, no "join 10,000 students". `freeSignupQuota` comes from
+ * referral_settings(); when the caller has not loaded it the copy says
+ * "free" without a number rather than inventing one.
  */
 export function shareText(opts: {
   invite: ReferralInvite | null;
   origin?: string;
+  freeSignupQuota?: number;
 }): { title: string; text: string; url: string } {
   const origin = opts.origin ?? window.location.origin;
   if (opts.invite) {
@@ -144,11 +148,15 @@ export function shareText(opts: {
       url: opts.invite.url,
     };
   }
+  const free =
+    typeof opts.freeSignupQuota === "number"
+      ? `${opts.freeSignupQuota} free applications to start`
+      : "free applications to start";
   return {
     title: "Dispatch — job applications, done with receipts",
     text:
       "I've had an agent doing my job applications — it fills the forms on real employer sites " +
-      "and keeps a screenshot receipt for every one. It's invite-only right now; the waitlist is here:",
-    url: `${origin}/#waitlist`,
+      `and keeps a screenshot receipt for every one. Anyone can sign up (${free}):`,
+    url: `${origin}/signup`,
   };
 }

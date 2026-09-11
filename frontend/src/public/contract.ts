@@ -14,6 +14,12 @@
 export const CONTRACT = {
   /** One row per user, keyed by auth.uid(); RLS: own row, no delete. */
   profilesTable: "user_profiles",
+  /**
+   * Open signup (20260911000100): idempotent membership for the signed-in
+   * user, called once per session. No invite needed; an invite redeemed
+   * later still ADDS its quota.
+   */
+  ensureMemberRpc: "ensure_member",
   /** Atomic, idempotent-per-user invite redemption. Arg name matters. */
   redeemInviteRpc: "redeem_invite",
   redeemInviteArg: "invite_code",
@@ -151,16 +157,30 @@ export type ProfileRow = {
 export type QuotaStatus = {
   user_id: string;
   /**
-   * EFFECTIVE quota = the invite's own quota + referral bonus (counts
-   * COMPLETED, not submitted). `remaining` is computed from this number.
+   * EFFECTIVE quota = free signup allowance + the invite's own quota (0
+   * without one) + referral bonus (counts COMPLETED, not submitted).
+   * `remaining` is computed from this number.
    */
   max_completed_applications: number;
   completed_applications: number;
   remaining: number;
-  /** The invite's own quota (20260902000400 appended these two). */
+  /** The invite's own quota, 0 for a free signup (20260902000400 appended these two). */
   base_max_completed_applications: number;
   /** Earned via friends who activated; folded into max_completed_applications. */
   bonus_completed_applications: number;
+  /** Every account's free allowance (20260911000100 appended these two). */
+  free_completed_applications: number;
+  /** Whether an invite code has been redeemed on this account. */
+  has_invite: boolean;
+};
+
+/** ensure_member() result (20260911000100). */
+export type MemberStatus = {
+  user_id: string;
+  /** True on the call that created the app_users row. */
+  created: boolean;
+  invite_id: string | null;
+  free_signup_quota: number;
 };
 
 /* ── referral loop read models ─────────────────────────────────────── */
@@ -177,6 +197,8 @@ export type ReferralSettings = {
   inviter_bonus_per_activation: number;
   /** Lifetime cap on bonus quota per inviter. */
   inviter_bonus_cap: number;
+  /** Completed applications every new account starts with (open signup, 2026-09-11). */
+  free_signup_quota: number;
 };
 
 /** A row of my_referral_invites (own issued codes). */

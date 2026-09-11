@@ -46,19 +46,22 @@ export const EXPECTED_RPCS = [
   "referral_settings",
   "mint_referral_invite",
   "grant_referral_bonus_if_activated",
+  "ensure_member",
 ] as const;
 /**
  * Read-only probe arguments per RPC. Called with the service role
  * (auth.uid() is null) so the mutating ones refuse before touching a row:
  * redeem_invite/mint_referral_invite raise 'not authenticated' (400 ⇒
  * present); grant_referral_bonus_if_activated for a uuid with no rows
- * answers {granted:false}; referral_settings is immutable.
+ * answers {granted:false}; referral_settings is immutable; ensure_member
+ * (open signup, 20260911000100) raises 'not authenticated' with no args.
  */
 export const RPC_PROBE_ARGS: Record<(typeof EXPECTED_RPCS)[number], Record<string, string>> = {
   redeem_invite: { invite_code: "JRA-PROBE-ONLY" },
   referral_settings: {},
   mint_referral_invite: {},
   grant_referral_bonus_if_activated: { p_invitee: "00000000-0000-4000-8000-000000000000" },
+  ensure_member: {},
 };
 export const EXPECTED_BUCKETS = ["resumes", "receipts", "transcripts"] as const;
 

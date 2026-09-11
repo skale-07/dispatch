@@ -23,7 +23,7 @@ import {
  *   - a "mint a code" action that is disabled WITH THE REASON when you are
  *     not a member yet or the cap is reached (server strings, verbatim)
  *   - friends who activated, from the bonus ledger
- *   - copy / share for the first unredeemed code, or the waitlist link
+ *   - copy / share for the first unredeemed code, or the free-signup link
  *     when there is none
  *
  * It never fabricates a code, never counts what it cannot read, and a

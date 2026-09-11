@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { DispatchMark } from "../components/DispatchMark";
 import { Icon } from "../components/Icon";
@@ -7,7 +7,7 @@ import {
   SUPABASE_CONFIGURED,
   SUPABASE_UNCONFIGURED_REASON,
 } from "../lib/appConfig";
-import { joinWaitlist, type WaitlistOutcome } from "./data";
+import { getReferralSettings } from "./referral";
 import { usePageTitle } from "./usePageTitle";
 
 /**
@@ -17,15 +17,15 @@ import { usePageTitle } from "./usePageTitle";
  * call to action is an account, not a local setup, and the trust card
  * tells the hosted product's truths instead of the console's.
  *
- * Two doors, because two kinds of visitor arrive: someone holding an
- * invite (sign up now) and someone who just saw a receipt in a group
- * chat (join the waitlist — the schema's anon-insert mailbox). Before
- * the waitlist form, the second visitor had no path at all (QA
- * 2026-09-02, D-19).
+ * One door since open signup (2026-09-11): anyone signs up and starts
+ * with the free allowance; an invite code, if they have one, adds its
+ * own quota on top. The free number is read from referral_settings()
+ * (free_signup_quota) — never a literal in this file. The waitlist
+ * mailbox (2026-09-02, D-19) is retired from the page; the table stays.
  *
  * Fail-closed: a build without Supabase config renders everything, but
- * both forms are disabled with the real reason — never a dead button,
- * never a fake form.
+ * the sign-up button is disabled with the real reason — never a dead
+ * button, never a fake form.
  */
 export function LandingPage(): JSX.Element {
   usePageTitle(null);
@@ -51,7 +51,7 @@ export function LandingPage(): JSX.Element {
             onClick={() => navigate("/signup")}
             disabled={!SUPABASE_CONFIGURED}
           >
-            <Icon name="play" size={14} /> Sign up with an invite
+            <Icon name="play" size={14} /> Start free
           </button>
           <Link to="/signup" className="btn-link">
             already have an account — sign in{" "}
@@ -62,8 +62,8 @@ export function LandingPage(): JSX.Element {
           <p className="faint flush-bottom">{SUPABASE_UNCONFIGURED_REASON}</p>
         ) : (
           <p className="faint flush-bottom">
-            No invite yet? <a href="#waitlist">Join the waitlist</a> — it&apos;s
-            one email field, further down.
+            No invite needed. Have a code from a friend? Add it at sign-up
+            — it adds to the free allowance.
           </p>
         )}
       </div>
@@ -126,96 +126,71 @@ export function LandingPage(): JSX.Element {
         </p>
         <p className="flush-bottom">
           <Link to="/signup" className="btn-link">
-            redeem your invite <Icon name="arrow-right" size={13} />
+            start free <Icon name="arrow-right" size={13} />
           </Link>
         </p>
       </div>
 
-      <WaitlistCard />
+      <StartFreeCard />
     </>
   );
 }
 
 /**
- * The second door. Invites are minted by hand right now, so this is a
- * mailbox and says so — no fake position counter, no "you're #1,204"
- * until a ladder exists server-side (college-launch.md §4 asks for one;
- * the ask is in the storefront report).
+ * The offer, stated from server constants: free_signup_quota from
+ * referral_settings() (open signup, migration 20260911000100). Until the
+ * number has loaded the copy says "free" without one — a placeholder
+ * count would be an invented number, which this site never shows.
  */
-function WaitlistCard(): JSX.Element {
-  const [email, setEmail] = useState("");
-  const [busy, setBusy] = useState(false);
-  const [done, setDone] = useState<WaitlistOutcome | null>(null);
+function StartFreeCard(): JSX.Element {
+  const [free, setFree] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const submit = async (e: FormEvent): Promise<void> => {
-    e.preventDefault();
-    if (!email.trim()) return;
-    setBusy(true);
-    setError(null);
-    try {
-      setDone(await joinWaitlist(email));
-    } catch (err) {
-      setError(err instanceof Error ? err.message : String(err));
-    } finally {
-      setBusy(false);
-    }
-  };
+  useEffect(() => {
+    if (!SUPABASE_CONFIGURED) return;
+    let alive = true;
+    void getReferralSettings()
+      .then((s) => {
+        if (alive) setFree(s.free_signup_quota);
+      })
+      .catch((err: unknown) => {
+        if (alive) setError(err instanceof Error ? err.message : String(err));
+      });
+    return () => {
+      alive = false;
+    };
+  }, []);
 
   return (
-    <div className="card" id="waitlist">
-      <h2>No invite? Join the waitlist</h2>
-      {done ? (
-        <div className="banner ok flush-bottom" role="status">
-          <Icon name="check" size={14} />{" "}
-          {done === "joined"
-            ? "You're on the list. Invites go out in small batches this September — you'll get an email with a code and the number of applications it covers."
-            : "That address is already on the list — nothing to do. Invites go out in small batches this September."}
-        </div>
-      ) : (
-        <>
-          <p className="muted flush-top">
-            Invites are hand-minted in small batches while the queue is
-            small — your school email helps us prioritize campuses. We
-            store the address and nothing else, and never sell it.
-          </p>
-          {error ? (
-            <div className="banner danger" role="alert">
-              {error}
-            </div>
-          ) : null}
-          <form onSubmit={(e) => void submit(e)} className="signup-form">
-            <label className="field">
-              email
-              <input
-                type="email"
-                required
-                autoComplete="email"
-                inputMode="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@school.edu"
-                disabled={!SUPABASE_CONFIGURED}
-              />
-            </label>
-            <div className="toolbar stack-actions flush-bottom">
-              <button
-                className="primary"
-                type="submit"
-                disabled={busy || !SUPABASE_CONFIGURED}
-              >
-                <Icon name="mail" size={14} />{" "}
-                {busy ? "adding you…" : "put me on the list"}
-              </button>
-            </div>
-          </form>
-          {!SUPABASE_CONFIGURED ? (
-            <p className="faint flush-bottom stack-sm">
-              {SUPABASE_UNCONFIGURED_REASON}
-            </p>
-          ) : null}
-        </>
-      )}
+    <div className="card" id="start-free">
+      <h2>
+        {free !== null
+          ? `Start with ${free} free applications`
+          : "Start with free applications"}
+      </h2>
+      <p className="muted flush-top">
+        Sign up with your email or Google, write your profile once, and
+        Dispatch applies from it — real employer sites, screenshot receipt
+        for every submission. An invite code from a friend adds that
+        code&apos;s applications on top; friends you invite earn you more
+        when they activate.
+      </p>
+      {error ? (
+        <p className="faint">
+          Could not load the current offer ({error}) — the sign-up page
+          shows it once you are in.
+        </p>
+      ) : null}
+      <div className="toolbar stack-actions flush-bottom">
+        <Link to="/signup" className="btn primary">
+          <Icon name="play" size={14} /> start free
+        </Link>
+      </div>
+      {!SUPABASE_CONFIGURED ? (
+        <p className="faint flush-bottom stack-sm">
+          {SUPABASE_UNCONFIGURED_REASON}
+        </p>
+      ) : null}
     </div>
   );
 }

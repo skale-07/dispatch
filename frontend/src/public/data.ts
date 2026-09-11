@@ -4,6 +4,7 @@ import {
   type ApplicationRowPublic,
   type EducationEntry,
   type JobPreferences,
+  type MemberStatus,
   type ProfileDraft,
   type ProfileRow,
   type QuotaStatus,
@@ -41,6 +42,24 @@ function client() {
 async function currentUserId(): Promise<string | null> {
   const { data } = await client().auth.getSession();
   return data.session?.user.id ?? null;
+}
+
+/* ── membership (open signup) ───────────────────────────────────────── */
+
+/**
+ * Create the signed-in user's app_users row if it does not exist yet
+ * (open signup, migration 20260911000100). Idempotent; the server
+ * decides `created`. Called once per session by AuthProvider — a failure
+ * is surfaced there verbatim, never retried in a loop.
+ */
+export async function ensureMember(): Promise<MemberStatus> {
+  const { data, error } = await client().rpc(CONTRACT.ensureMemberRpc);
+  if (error) throw new Error(error.message);
+  const row = (Array.isArray(data) ? data[0] : data) as MemberStatus | null;
+  if (!row || typeof row.user_id !== "string") {
+    throw new Error("ensure_member returned an unexpected shape");
+  }
+  return row;
 }
 
 /* ── invite redemption across the magic-link hop ─────────────────────

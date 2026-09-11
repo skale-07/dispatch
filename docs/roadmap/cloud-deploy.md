@@ -126,7 +126,17 @@ project with the **anon key** (safe to ship in the bundle; RLS is the
 guard). No custom API server exists in v0.
 
 ```ts
-// 1. Waitlist (no auth required; insert-only policy)
+// 0. OPEN SIGNUP (20260911000100, operator decision 2026-09-11). After
+//    sign-in the SPA calls ensure_member() once per session: idempotent
+//    app_users row with invite_id null. Every member starts with
+//    referral_settings().free_signup_quota (5) completed applications;
+//    an invite redeemed later ADDS its quota (one invite per account,
+//    unchanged). The waitlist table remains but the page no longer
+//    offers it.
+const { data: me } = await supabase.rpc("ensure_member");
+// me: { user_id, created: boolean, invite_id: string | null, free_signup_quota: number }
+
+// 1. Waitlist (no auth required; insert-only policy) — retired from the UI
 await supabase.from("waitlist").insert({ email });
 
 // 2. Sign-up / sign-in (Supabase Auth, email OTP or magic link)
@@ -146,14 +156,16 @@ const { data: me } = await supabase.from("app_users").select("*").single();
 const { data: quota } = await supabase
   .from("user_quota_status")           // view: used vs max
   .select("*").single();
-// quota columns (20260902000400 appends the last two; the first four are
-// unchanged in name/type/order):
+// quota columns (20260902000400 appended 5-6, 20260911000100 appended
+// 7-8; names/types/order of earlier columns never change):
 //   user_id: string
-//   max_completed_applications: number   // EFFECTIVE quota = base + bonus
+//   max_completed_applications: number   // EFFECTIVE quota = free + invite + bonus
 //   completed_applications: number
 //   remaining: number                     // greatest(max - completed, 0)
-//   base_max_completed_applications: number   // the invite's own quota
+//   base_max_completed_applications: number   // the invite's own quota (0 without one)
 //   bonus_completed_applications: number      // earned via referrals
+//   free_completed_applications: number       // referral_settings().free_signup_quota
+//   has_invite: boolean                       // an invite has been redeemed on this account
 
 // 5. Onboarding wizard — one user_profiles row, upsert as steps complete.
 //    Columns (see supabase/migrations/20260902000100_user_profiles.sql):
@@ -248,9 +260,10 @@ Invite link shape minted by the CLI: `<base-url>/redeem?code=<CODE>`,
 code format `JRA-` + 2×4 crockford-base32 groups (e.g.
 `JRA-7K2M-9QXF`), unambiguous and phone-dictatable.
 
-**Quota semantics:** an invite's `max_completed_applications`
-(default 5, minted range 5–10) counts **applications that reach state
-`COMPLETED`** for the redeeming user, as reflected in
+**Quota semantics:** every member holds `free_signup_quota` (5, open
+signup 2026-09-11); an invite's `max_completed_applications` (default 5,
+minted range 5–10) is added on top for the redeeming user. Quota counts
+**applications that reach state `COMPLETED`**, as reflected in
 `application_status_mirror`. The `user_quota_status` view computes
 used/remaining; enforcement in v0 is operational (the operator stops
 running that user's queue at quota), becomes automatic in v1.
@@ -442,6 +455,7 @@ parentheses.
 | 11 | Two-sided quota bonus: `referral_bonuses`, `app_users.bonus_completed_applications`, `user_quota_status` = base + bonus, AFTER trigger on COMPLETED mirror rows (`20260902000400`) | LIVE_MUTATION_CONFIRMED 2026-09-02: `referral_bonus_granted_to_inviter` (A max 2 → 12), `referral_bonus_idempotent` (stays 12), `referral_bonus_row_visible_to_inviter` (`[{bonus:10}]`) |
 | 12 | `engine_status` heartbeat table + `cloud:sync` writes it every tick (`20260902000500`, `toEngineStatusRow`) | table + RLS LIVE_MUTATION_CONFIRMED (`engine_status_own_row_only`: A 1 row, B 0); the worker's write is still BLOCKED on `SUPABASE_SYNC_USER_ID` (refuses by name) |
 | 13 | `invites.redeemed_by` ON DELETE CASCADE (`20260902000600`) — resolves the FK cycle that made members undeletable | LIVE_MUTATION_CONFIRMED 2026-09-02: `delete_user` ×2 succeeded with redeemed invites still pointing at them; `invites`/`app_users` `*/0` afterwards |
+| 14 | Open signup (`20260911000100`): `ensure_member()`, `referral_settings().free_signup_quota`, `user_quota_status` left-joins invites (free + invite + bonus; `free_completed_applications`, `has_invite` appended); SPA calls `ensure_member` once per session; landing/signup copy from server constants | UNIT_CONFIRMED (`cloud-open-signup.test.ts`, round-trip fake with steps `open_signup_ensure_member_as_b`, `ensure_member_idempotent`, `free_quota_without_invite`, `redeem_after_free_signup_adds_quota`); LIVE pending `cloud:schema -- apply` + `invites:roundtrip` |
 
 ## Status — 2026-09-02 (launcher agent, deterministic read-backs only)
 

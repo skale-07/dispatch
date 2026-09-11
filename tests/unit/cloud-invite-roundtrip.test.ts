@@ -21,13 +21,14 @@ type Invite = {
   issued_by: string | null;
 };
 
-/** Mirrors referral_settings() in 20260902000300_referral_invites.sql. */
+/** Mirrors referral_settings() in 20260902000300 + 20260911000100 (open signup). */
 const SETTINGS = {
   max_active_referral_codes: 3,
   referral_code_quota: 5,
   activation_completed_applications: 5,
   inviter_bonus_per_activation: 10,
   inviter_bonus_cap: 100,
+  free_signup_quota: 5,
 };
 
 /**
@@ -40,7 +41,8 @@ const SETTINGS = {
 function fakeProject(opts: { schema: boolean } = { schema: true }) {
   const invites: Invite[] = [];
   const users = new Map<string, string>(); // id -> email
-  const appUsers = new Map<string, { code: string; bonus: number }>();
+  // code is null for an open-signup member (ensure_member) until they redeem.
+  const appUsers = new Map<string, { code: string | null; bonus: number }>();
   const mirror: Array<{ user_id: string; state: string; engine_application_id: string }> = [];
   const bonuses: Array<{ invitee: string; inviter: string; bonus: number }> = [];
   const engineStatus = new Map<string, Record<string, unknown>>();
@@ -63,7 +65,7 @@ function fakeProject(opts: { schema: boolean } = { schema: true }) {
     const completed = mirror.filter((m) => m.user_id === invitee && m.state === "COMPLETED").length;
     if (completed < SETTINGS.activation_completed_applications) return;
     const au = appUsers.get(invitee);
-    const inv = au ? invites.find((i) => i.code === au.code) : undefined;
+    const inv = au?.code ? invites.find((i) => i.code === au.code) : undefined;
     const inviter = inv?.issued_by ?? null;
     if (!inviter || inviter === invitee) return;
     const current = bonuses.filter((b) => b.inviter === inviter).reduce((s, b) => s + b.bonus, 0);
@@ -117,6 +119,17 @@ function fakeProject(opts: { schema: boolean } = { schema: true }) {
 
     // --- rpcs ---
     if (u.pathname === "/rest/v1/rpc/referral_settings") return reply(200, SETTINGS);
+    if (u.pathname === "/rest/v1/rpc/ensure_member") {
+      if (!asUser) return reply(400, { message: "not authenticated" });
+      const created = !appUsers.has(asUser);
+      if (created) appUsers.set(asUser, { code: null, bonus: 0 });
+      return reply(200, {
+        user_id: asUser,
+        created,
+        invite_id: appUsers.get(asUser)!.code ? "x" : null,
+        free_signup_quota: SETTINGS.free_signup_quota,
+      });
+    }
     if (u.pathname === "/rest/v1/rpc/mint_referral_invite") {
       if (!asUser) return reply(400, { message: "not authenticated" });
       if (!appUsers.has(asUser)) return reply(400, { message: "not a member yet" });
@@ -150,10 +163,11 @@ function fakeProject(opts: { schema: boolean } = { schema: true }) {
       }
       if (!inv.redeemed_by) {
         if (inv.issued_by === asUser) return reply(400, { message: "cannot redeem your own invite" });
-        if (appUsers.has(asUser)) return reply(400, { message: "already a member" });
+        // 'already a member' keys on invite_id, not on the row (open signup).
+        if (appUsers.get(asUser)?.code) return reply(400, { message: "already a member" });
         inv.redeemed_by = asUser;
         inv.redeemed_at = "2026-09-02T00:00:00Z";
-        appUsers.set(asUser, { code: inv.code, bonus: 0 });
+        appUsers.set(asUser, { code: inv.code, bonus: appUsers.get(asUser)?.bonus ?? 0 });
       }
       return reply(200, { invite_id: "x", max_completed_applications: inv.max_completed_applications });
     }
@@ -211,20 +225,25 @@ function fakeProject(opts: { schema: boolean } = { schema: true }) {
       return reply(201, "");
     }
 
-    // --- quota view (security_invoker: only the caller's own app_users row) ---
+    // --- quota view (security_invoker: only the caller's own app_users row;
+    //     20260911000100: left join invites, free + invite + bonus) ---
     if (u.pathname === "/rest/v1/user_quota_status") {
       const rows = [...appUsers.entries()]
         .filter(([uid]) => isService || uid === asUser)
         .map(([uid, au]) => {
-          const inv = invites.find((i) => i.code === au.code)!;
+          const inv = au.code ? invites.find((i) => i.code === au.code) : undefined;
+          const base = inv?.max_completed_applications ?? 0;
           const completed = mirror.filter((m) => m.user_id === uid && m.state === "COMPLETED").length;
-          const max = inv.max_completed_applications + au.bonus;
+          const max = SETTINGS.free_signup_quota + base + au.bonus;
           return {
+            user_id: uid,
             max_completed_applications: max,
             completed_applications: completed,
             remaining: Math.max(max - completed, 0),
-            base_max_completed_applications: inv.max_completed_applications,
+            base_max_completed_applications: base,
             bonus_completed_applications: au.bonus,
+            free_completed_applications: SETTINGS.free_signup_quota,
+            has_invite: inv !== undefined,
           };
         });
       return reply(200, rows);
@@ -274,7 +293,7 @@ describe("invite round trip (UNIT_CONFIRMED against an in-memory project)", () =
     ).rejects.toThrow(/public\.invites does not exist.*cloud:schema/);
   });
 
-  it("proves redeem -> decrement -> exhausted -> refused -> referral -> bonus -> cap -> heartbeat, then cleans up", async () => {
+  it("proves redeem -> decrement -> exhausted -> refused -> open signup -> referral -> bonus -> cap -> heartbeat, then cleans up", async () => {
     const p = fakeProject();
     const [invite] = mintInvites({ count: 1, quota: 2, baseUrl: "https://x.example" });
     const r = await runInviteRoundTrip({ target, invite: invite!, fetch: p.fetch, now: () => 1 });
@@ -287,11 +306,14 @@ describe("invite round trip (UNIT_CONFIRMED against an in-memory project)", () =
       "redeem_as_a",
       "invite_marked_redeemed",
       "quota_after_redeem",
-      "quota_after_completed_1",
-      "quota_after_completed_2",
+      // invite quota 2 + free 5 = 7 decrements
+      ...Array.from({ length: 7 }, (_, i) => `quota_after_completed_${i + 1}`),
       "quota_exhausted_clamps_at_zero",
       "redeem_again_as_a_idempotent",
       "redeem_as_b_refused",
+      "open_signup_ensure_member_as_b",
+      "ensure_member_idempotent",
+      "free_quota_without_invite",
       "rls_hides_other_users_rows",
       "referral_settings",
       "referral_mint_as_a",
@@ -299,6 +321,7 @@ describe("invite round trip (UNIT_CONFIRMED against an in-memory project)", () =
       "referral_view_hidden_from_b",
       "referral_self_redeem_refused",
       "referral_redeem_as_b",
+      "redeem_after_free_signup_adds_quota",
       "referral_view_shows_redeemed",
       "referral_bonus_granted_to_inviter",
       "referral_bonus_idempotent",
@@ -306,9 +329,15 @@ describe("invite round trip (UNIT_CONFIRMED against an in-memory project)", () =
       "referral_cap_enforced",
       "engine_status_own_row_only",
     ]);
-    expect(r.steps.find((s) => s.step === "quota_after_completed_2")?.detail).toContain('"remaining":0');
+    expect(r.steps.find((s) => s.step === "quota_after_redeem")?.detail).toContain("(invite 2 + free 5)");
+    expect(r.steps.find((s) => s.step === "quota_after_completed_7")?.detail).toContain('"remaining":0');
     expect(r.steps.find((s) => s.step === "redeem_as_b_refused")?.detail).toContain("invite already redeemed");
-    expect(r.steps.find((s) => s.step === "referral_bonus_granted_to_inviter")?.detail).toBe("A max 2 -> 12 (expected +10)");
+    expect(r.steps.find((s) => s.step === "free_quota_without_invite")?.detail).toContain('"hasInvite":false');
+    expect(r.steps.find((s) => s.step === "redeem_after_free_signup_adds_quota")?.detail).toBe(
+      "B max 5 -> 10 (expected free 5 + invite 5)",
+    );
+    // A's max = invite 2 + free 5 = 7 before the bonus.
+    expect(r.steps.find((s) => s.step === "referral_bonus_granted_to_inviter")?.detail).toBe("A max 7 -> 17 (expected +10)");
     expect(r.steps.find((s) => s.step === "referral_cap_enforced")?.detail).toContain("referral cap reached");
     // Cleanup in FK order: unredeemed issued codes, then both users
     // (cascade takes the redeemed invites), then the loaded code (no-op).

@@ -20,6 +20,10 @@ import type { FetchLike } from "./schema.js";
  *   would), counts COMPLETED mirror rows against the quota, proves a
  *   second account is refused, and deletes everything it created.
  *
+ * Open signup (20260911000100) is covered too: B joins with ensure_member
+ * (no invite, free quota only) before redeeming A's referral, which then
+ * ADDS to the free allowance.
+ *
  * Every step is recorded with a deterministic read-back; the result's
  * `validation_level` is LIVE_MUTATION_CONFIRMED only when every read-back
  * matched. No step touches the local SQLite database.
@@ -234,12 +238,18 @@ async function createUserWithSession(
   return { userId, accessToken };
 }
 
-async function readQuota(
-  client: ProjectClient,
-  bearer: string,
-): Promise<{ max: number; completed: number; remaining: number } | null> {
+type QuotaRead = {
+  max: number;
+  completed: number;
+  remaining: number;
+  /** Appended by 20260911000100 (open signup); null on an older schema. */
+  free: number | null;
+  hasInvite: boolean | null;
+};
+
+async function readQuota(client: ProjectClient, bearer: string): Promise<QuotaRead | null> {
   const res = await client.call(
-    "/rest/v1/user_quota_status?select=max_completed_applications,completed_applications,remaining",
+    "/rest/v1/user_quota_status?select=*",
     { bearer },
     "read user_quota_status",
   );
@@ -249,6 +259,11 @@ async function readQuota(
     max: Number(row["max_completed_applications"]),
     completed: Number(row["completed_applications"]),
     remaining: Number(row["remaining"]),
+    free:
+      typeof row["free_completed_applications"] === "number"
+        ? row["free_completed_applications"]
+        : null,
+    hasInvite: typeof row["has_invite"] === "boolean" ? row["has_invite"] : null,
   };
 }
 
@@ -309,14 +324,25 @@ export async function runInviteRoundTrip(input: {
     record("invite_marked_redeemed", invOk, `redeemed_by matches A: ${invOk}`);
     if (!invOk) throw new Error("invite row not marked redeemed by A");
 
+    // Open signup (20260911000100): every member also holds the free
+    // allowance, so A's effective quota is invite + free. `total` is the
+    // number every later decrement step counts down from.
     const q0 = await readQuota(client, a.accessToken);
-    const q0Ok = q0 !== null && q0.max === quota && q0.completed === 0 && q0.remaining === quota;
-    record("quota_after_redeem", q0Ok, `user_quota_status=${JSON.stringify(q0)}`);
-    if (!q0Ok) throw new Error("quota view did not show the full quota after redeem");
+    const free = q0?.free ?? 0;
+    const total = quota + free;
+    const q0Ok =
+      q0 !== null && q0.max === total && q0.completed === 0 && q0.remaining === total &&
+      q0.hasInvite !== false;
+    record(
+      "quota_after_redeem",
+      q0Ok,
+      `user_quota_status=${JSON.stringify(q0)} (invite ${quota} + free ${free})`,
+    );
+    if (!q0Ok) throw new Error("quota view did not show invite + free quota after redeem");
 
     // 5. Decrement: one COMPLETED mirror row at a time (service role, as
     //    the sync worker would write them), reading the view as A each time.
-    for (let n = 1; n <= quota; n += 1) {
+    for (let n = 1; n <= total; n += 1) {
       await client.call(
         "/rest/v1/application_status_mirror",
         {
@@ -333,9 +359,9 @@ export async function runInviteRoundTrip(input: {
         `mirror COMPLETED #${n}`,
       );
       const q = await readQuota(client, a.accessToken);
-      const ok = q !== null && q.completed === n && q.remaining === quota - n;
+      const ok = q !== null && q.completed === n && q.remaining === total - n;
       record(`quota_after_completed_${n}`, ok, `user_quota_status=${JSON.stringify(q)}`);
-      if (!ok) throw new Error(`quota did not decrement to ${quota - n}`);
+      if (!ok) throw new Error(`quota did not decrement to ${total - n}`);
     }
 
     // 6. Exhausted: one more COMPLETED must not go negative.
@@ -355,7 +381,7 @@ export async function runInviteRoundTrip(input: {
       "mirror COMPLETED overflow",
     );
     const qx = await readQuota(client, a.accessToken);
-    const exhaustedOk = qx !== null && qx.completed === quota + 1 && qx.remaining === 0;
+    const exhaustedOk = qx !== null && qx.completed === total + 1 && qx.remaining === 0;
     record("quota_exhausted_clamps_at_zero", exhaustedOk, `user_quota_status=${JSON.stringify(qx)}`);
     if (!exhaustedOk) throw new Error("exhausted quota did not clamp at 0");
 
@@ -387,15 +413,47 @@ export async function runInviteRoundTrip(input: {
     record("redeem_as_b_refused", refused, refusedDetail);
     if (!refused) throw new Error("second account was not refused");
 
-    // 9. RLS: B cannot see A's invite or A's quota.
+    // 8b. Open signup (20260911000100): B becomes a member with NO invite.
+    //     ensure_member is idempotent; the quota view shows the free
+    //     allowance alone, has_invite=false.
+    const em1 = await client.call(
+      "/rest/v1/rpc/ensure_member",
+      { method: "POST", bearer: b.accessToken, body: {} },
+      "ensure_member as B",
+    );
+    const em1Json = em1.json as Json;
+    const freeB = Number(em1Json["free_signup_quota"]);
+    const em1Ok = em1Json["created"] === true && em1Json["user_id"] === b.userId &&
+      em1Json["invite_id"] === null && Number.isFinite(freeB);
+    record("open_signup_ensure_member_as_b", em1Ok, `created=${em1Json["created"]} invite_id=${em1Json["invite_id"]} free_signup_quota=${em1Json["free_signup_quota"]}`);
+    if (!em1Ok) throw new Error("ensure_member did not create B's membership");
+    const em2 = await client.call(
+      "/rest/v1/rpc/ensure_member",
+      { method: "POST", bearer: b.accessToken, body: {} },
+      "ensure_member again as B",
+    );
+    record("ensure_member_idempotent", (em2.json as Json)["created"] === false, `second call created=${(em2.json as Json)["created"]}`);
+    const qb0 = await readQuota(client, b.accessToken);
+    const qb0Ok = qb0 !== null && qb0.max === freeB && qb0.remaining === freeB && qb0.hasInvite === false;
+    record("free_quota_without_invite", qb0Ok, `user_quota_status=${JSON.stringify(qb0)}`);
+    if (!qb0Ok) throw new Error("free-signup member did not get the free quota row");
+
+    // 9. RLS: B cannot see A's invite, and B's quota row is B's own (the
+    //    view is security_invoker), never A's numbers.
     const bInv = await client.call(
       `/rest/v1/invites?select=code&code=eq.${code}`,
       { bearer: b.accessToken },
       "invites as B",
     );
-    const bQuota = await readQuota(client, b.accessToken);
-    const rlsOk = Array.isArray(bInv.json) && bInv.json.length === 0 && bQuota === null;
-    record("rls_hides_other_users_rows", rlsOk, `B sees invites=${Array.isArray(bInv.json) ? bInv.json.length : "?"} quota_rows=${bQuota === null ? 0 : 1}`);
+    const bQuotaRows = await client.call(
+      "/rest/v1/user_quota_status?select=user_id",
+      { bearer: b.accessToken },
+      "user_quota_status rows as B",
+    );
+    const bRows = Array.isArray(bQuotaRows.json) ? (bQuotaRows.json as Json[]) : [];
+    const rlsOk = Array.isArray(bInv.json) && bInv.json.length === 0 &&
+      bRows.length === 1 && bRows[0]?.["user_id"] === b.userId;
+    record("rls_hides_other_users_rows", rlsOk, `B sees invites=${Array.isArray(bInv.json) ? bInv.json.length : "?"} quota_rows=${bRows.length} (own only)`);
     if (!rlsOk) throw new Error("RLS leaked another user's rows");
 
     // ── Referral loop (migrations 20260902000300/400/500) ────────────
@@ -451,6 +509,11 @@ export async function runInviteRoundTrip(input: {
     const bRedeemOk = Number((bRedeem.json as Json)["max_completed_applications"]) === refQuota;
     record("referral_redeem_as_b", bRedeemOk, `max_completed_applications=${(bRedeem.json as Json)["max_completed_applications"]}`);
     if (!bRedeemOk) throw new Error("B could not redeem A's referral code");
+    // A free-signup member's ONE later invite adds to the free allowance.
+    const qb1 = await readQuota(client, b.accessToken);
+    const qb1Ok = qb1 !== null && qb1.max === freeB + refQuota && qb1.hasInvite === true;
+    record("redeem_after_free_signup_adds_quota", qb1Ok, `B max ${qb0?.max} -> ${qb1?.max} (expected free ${freeB} + invite ${refQuota})`);
+    if (!qb1Ok) throw new Error("redeeming after a free signup did not add the invite quota");
 
     const viewA2 = await client.call("/rest/v1/my_referral_invites?select=redeemed_at", { bearer: a.accessToken }, "my_referral_invites as A (after)");
     const viewA2Rows = Array.isArray(viewA2.json) ? (viewA2.json as Json[]) : [];
