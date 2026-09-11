@@ -1,0 +1,119 @@
+{
+  "decision_id": "a9376168-f0c4-40d9-8634-39638dc433e6",
+  "application_id": "7de77c9f-2ce3-4229-aa1e-489ae064ca2e",
+  "signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|careers.ibm.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "7de77c9f-2ce3-4229-aa1e-489ae064ca2e",
+    "company": "IBM",
+    "role": "Federal Data Scientist Intern 2027",
+    "state": "NATIVE_AUTOFILL_RUNNING",
+    "attempt": 1,
+    "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|careers.ibm.com",
+    "end_host": "careers.ibm.com",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route ready_for_fill_later (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-11T06:22:32.938Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-11T06:22:30.765Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-11T06:22:30.755Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-11T06:22:26.387Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 db6f3f869124)",
+        "at": "2026-09-11T06:22:26.382Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-11T06:22:26.195Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-11T05:08:49.156Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-11T05:08:49.136Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-11T05:08:49.135Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-11T05:08:49.133Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "ibm",
+        "detail": "token \"ibm\" ~ slug \"ibm\" (from URL host)",
+        "expected_company": "IBM",
+        "url": "https://careers.ibm.com/en_US/careers/JobDetail?jobId=127795&jr_id=6aa38000626f9945308b10d8"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (9 candidates, employer match)",
+          "evidence": "careers.ibm.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"requeue_same\", \"rationale\": \"Run stalled in NATIVE_AUTOFILL_RUNNING on attempt 1 with no wall, valid navigation (anchor_href, company congruence match) and verified fresh resume. No error signature beyond an incomplete fill stage, so a plain rerun is the cheapest action that could complete it.\", \"confidence\": \"medium\"}",
+  "parsed_action": "requeue_same",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "requeued at attempt 2",
+  "rationale_unverified": "Run stalled in NATIVE_AUTOFILL_RUNNING on attempt 1 with no wall, valid navigation (anchor_href, company congruence match) and verified fresh resume. No error signature beyond an incomplete fill stage, so a plain rerun is the cheapest action that could complete it."
+}
