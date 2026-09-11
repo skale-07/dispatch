@@ -407,3 +407,37 @@ demographics, and map by name to `signature_name` (full legal name) /
 stays demographic. This is the operator's own #226 ask ("plug in today's
 date", from Palantir 2026-09-09). Tests: normalization 24/24; 24 EEO /
 demographics / sensitive-profile files 349/349 sequential.
+
+### #224/#261 live, second run — the submit gate passed; the form then refused the location
+
+Cycle 53: the revealed pass triggered again and failed "Lever fill requires
+the public profile for full-name composition" — the pipeline calls live fill
+without a profile and the planner loads its own; the pass now uses the same
+fallback (`loadPublicProfile()`).
+
+Cycle 56 (Palantir Infrastructure): **the submit gate passed and the
+button was clicked** — the first Palantir application ever to get there.
+The form then refused it on-page: "Error: Please select a location from the
+dropdown menu and try again." Nothing was submitted (URL stayed /apply;
+receipt screenshot). Resolved not-submitted through
+`resolveUncertainSubmission` with that evidence, requeued.
+
+## Issue #262 — Lever's location typeahead was never actually selected
+
+The shared location handler typed "Baltimore…", saw "no clickable suggestion
+list", pressed ArrowDown+Enter and read back its own text ("location
+committed (blur-stable)") — but Lever's hidden `selectedLocation` stayed
+empty. Read-only probe (public-URL session): Lever's rows are DIVs,
+`div.dropdown-results > div.dropdown-location`, rendered within 1s; the
+selector list only knew `li` / role=option shapes. Clicking a row sets
+`selectedLocation = {"name":"Baltimore, MD, USA","id":…}`. Selector added;
+fixture mimicking Lever's async DIV rows asserts the hidden value is set.
+This likely affected every Lever application with a required location.
+
+### #262b — Lever's refusal banner parked UNCERTAIN instead of FAILED_RETRYABLE
+
+`detectVisibleValidationError` did not know "Error: Please … and try again",
+so a definitive on-page refusal parked SUBMISSION_VERIFICATION_FAILED
+(operator-only). A narrow whole-sentence alternative now maps it to
+REJECTED_AFTER_CLICK with the reason named; prose like "If you see an error,
+please refresh" still does not match.
