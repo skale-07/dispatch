@@ -1,0 +1,135 @@
+{
+  "decision_id": "3928b5a2-b39b-4854-91a8-539ad4bf6eee",
+  "application_id": "94dd0cd5-8723-4f2b-b9d0-12c0405a5826",
+  "signature": "NATIVE_AUTOFILL_RUNNING|-|login_wall|recruitingbypaycor.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "94dd0cd5-8723-4f2b-b9d0-12c0405a5826",
+    "company": "FEG Investment Advisors",
+    "role": "Intern, Software Engineer (Fall 2026)",
+    "state": "NATIVE_AUTOFILL_RUNNING",
+    "attempt": 1,
+    "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|login_wall|recruitingbypaycor.com",
+    "end_host": "recruitingbypaycor.com",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route ready_for_fill_later (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-11T11:11:05.228Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-11T11:11:03.538Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-11T11:11:03.534Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-11T11:10:56.481Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 dd9093dde3f8)",
+        "at": "2026-09-11T11:10:56.477Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-11T11:10:56.443Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-11T11:08:12.541Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-11T11:08:12.517Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-11T11:08:12.515Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-11T11:08:12.511Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_llm",
+      "notes": [
+        "phase A: anchor reads as \"recruitingbypaycor\" (URL names \"recruitingbypaycor\" (host), which shares nothing with company \"FEG Investment Advisors\") — not preferred, deferring to the Apply click",
+        "phase A: 4 external host(s) seen: recruitingbypaycor.com, www.linkedin.com, www.crunchbase.com, www.businesswire.com",
+        "no standard Apply control found (exact and broad name tiers both empty)",
+        "anchor adjudication: promoted recruitingbypaycor.com",
+        "anchor adjudication rationale (UNVERIFIED): Paycor is the employer's ATS hosting the job application; the other link is a news press release.",
+        "congruence: URL names \"recruitingbypaycor\", not \"FEG Investment Advisors\" (URL names \"recruitingbypaycor\" (host), which shares nothing with company \"FEG Investment Advisors\") — recorded, not refused"
+      ],
+      "congruence": {
+        "verdict": "mismatch",
+        "slug": "recruitingbypaycor",
+        "detail": "URL names \"recruitingbypaycor\" (host), which shares nothing with company \"FEG Investment Advisors\"",
+        "expected_company": "FEG Investment Advisors",
+        "url": "https://recruitingbypaycor.com/career/JobIntroduction.action?clientId=8a7883c666139348016635c302d84cc9&id=8a7887a8a03fc2be01a0445115de28e5&source=&lang=en&jr_id=6a90876e7c32860d14cf9ed6"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "no congruent apply href (9 external links)",
+          "evidence": "recruitingbypaycor.com, www.linkedin.com, www.crunchbase.com, www.businesswire.com"
+        },
+        {
+          "phase": "B_apply_click",
+          "outcome": "unresolved by deterministic phases"
+        },
+        {
+          "phase": "A_anchor_llm",
+          "outcome": "candidate promoted by adjudication",
+          "evidence": "recruitingbypaycor.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"engage_agent_leg\", \"rationale\": \"First attempt; deterministic phases found no Apply control and navigation resolved only via unverified LLM adjudication, then native fill hit a login wall. No prior agent leg granted and no repeat host failures, so a single bounded agent attempt is the cheapest step that could get past the wall before abandoning or escalating.\", \"confidence\": \"medium\"}",
+  "parsed_action": "engage_agent_leg",
+  "validation_note": null,
+  "precondition": {
+    "ok": false,
+    "reason": "no navigation wall in evidence — agent leg only helps nav-walled apps"
+  },
+  "mode": "act",
+  "executed": false,
+  "execution_detail": "precondition failed: no navigation wall in evidence — agent leg only helps nav-walled apps",
+  "rationale_unverified": "First attempt; deterministic phases found no Apply control and navigation resolved only via unverified LLM adjudication, then native fill hit a login wall. No prior agent leg granted and no repeat host failures, so a single bounded agent attempt is the cheapest step that could get past the wall before abandoning or escalating."
+}
