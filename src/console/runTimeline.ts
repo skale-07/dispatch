@@ -52,17 +52,36 @@ function readJson<T>(file: string): T | null {
   }
 }
 
+/**
+ * #269 (night30): the comparators used to statSync BOTH sides on every
+ * comparison — O(n log n) stats. With 4,009 cycle reports the render took
+ * 9.3s on every auto-cycle and pushed the auto-cycle test past its 30s
+ * limit (the "load flake" of every gate tonight). Stat each file once.
+ */
+function byNewest(files: string[]): string[] {
+  return files
+    .map((f) => {
+      try {
+        const st = fs.statSync(f);
+        return st.isFile() ? { f, t: st.mtimeMs } : null;
+      } catch {
+        return null;
+      }
+    })
+    .filter((x): x is { f: string; t: number } => x !== null)
+    .sort((a, b) => b.t - a.t)
+    .map((x) => x.f);
+}
+
 function newestFile(dir: string, match: (f: string) => boolean): string | null {
   if (!fs.existsSync(dir)) return null;
-  const files = fs
-    .readdirSync(dir)
-    .filter(match)
-    .map((f) => path.join(dir, f))
-    .filter((f) => fs.statSync(f).isFile());
-  if (files.length === 0) return null;
-  return files.sort(
-    (a, b) => fs.statSync(b).mtimeMs - fs.statSync(a).mtimeMs,
-  )[0]!;
+  const files = byNewest(
+    fs
+      .readdirSync(dir)
+      .filter(match)
+      .map((f) => path.join(dir, f)),
+  );
+  return files[0] ?? null;
 }
 
 /** Gather the newest cycle + the N most recent navigation reports. */
@@ -97,12 +116,9 @@ export function collectTimeline(
   const navDir = path.join(root, "navigation");
   const apps: TimelineApp[] = [];
   if (fs.existsSync(navDir)) {
-    const runs = fs
-      .readdirSync(navDir)
-      .map((d) => path.join(navDir, d, "report.json"))
-      .filter((f) => fs.existsSync(f))
-      .sort((a, b) => fs.statSync(b).mtimeMs - fs.statSync(a).mtimeMs)
-      .slice(0, limit);
+    const runs = byNewest(
+      fs.readdirSync(navDir).map((d) => path.join(navDir, d, "report.json")),
+    ).slice(0, limit);
     for (const file of runs) {
       const r = readJson<Record<string, unknown>>(file);
       if (!r) continue;
