@@ -83,6 +83,13 @@ export function expectedAnswerShape(question: string): "short" | "essay" {
   }
   if (/\b(rank|order|list|choose|select|specify|indicate)\b/.test(q)) return "short";
   if (/\b(briefly|one sentence|a few words|short answer)\b/.test(q)) return "short";
+  // #264 (live Palantir night30): "Insert other preferred location(s) and/or
+  // further context on preference" and "Provide any further context on
+  // preference." are notes, not essays — a 33-word answer was rejected as
+  // "too short" against the essay floor and the REQUIRED field stayed empty.
+  if (/\b(insert|further context|additional context|other preferred|any (other|additional)|if applicable)\b/.test(q)) {
+    return "short";
+  }
   if (/\bin \d+ words or (less|fewer)\b/.test(q)) return "short";
   if (/\b(how many|what date|which date|earliest start|notice period|available to start)\b/.test(q)) {
     return "short";

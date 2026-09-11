@@ -278,3 +278,20 @@ describe("essay draft batch — the autonomous entry point (UNIT_CONFIRMED)", ()
     expect(r.notes.join(" ")).toMatch(/1\/1 drafted/);
   });
 });
+
+// #264 (live Palantir night30): context/preference notes are short answers.
+describe("expectedAnswerShape — notes are short (#264)", () => {
+  it("classifies context and preference notes as short, prose prompts as essays", async () => {
+    const { expectedAnswerShape } = await import("../../src/applications/essayDraft.js");
+    expect(
+      expectedAnswerShape(
+        "Insert other preferred location(s) and/or further context on preference. Note: we are not offering fully remote work at this time.",
+      ),
+    ).toBe("short");
+    expect(expectedAnswerShape("Provide any further context on preference.")).toBe("short");
+    expect(expectedAnswerShape("Why do you want to work at Palantir?")).toBe("essay");
+    expect(
+      expectedAnswerShape("What is the hardest technical challenge you've faced as part of work experience? (Approx. 200 words)"),
+    ).toBe("essay");
+  });
+});

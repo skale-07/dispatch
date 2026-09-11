@@ -551,3 +551,17 @@ describe("demographic self-ID questions map by topic, not by one board's phrasin
     );
   });
 });
+
+// #265 (live Palantir night30): a high-school / year question borrowed the
+// university from the "School" alias and landed on the form's "Other".
+describe("school never answers a high-school or year question (#265)", () => {
+  it("keeps plain school labels, drops high-school and year labels", () => {
+    const aliases = { school: ["School", "University"] };
+    const f = (label: string, type: "text" | "select" = "select") => ({ id: "f1", label, type, required: true, name: "" });
+    expect(matchCanonicalField(f("School"), aliases)).toBe("school");
+    expect(matchCanonicalField(f("University"), aliases)).toBe("school");
+    expect(matchCanonicalField(f("Year of High School Graduation"), aliases)).toBeNull();
+    expect(matchCanonicalField(f("High School Name", "text"), aliases)).toBeNull();
+    expect(matchCanonicalField(f("School graduation date"), aliases)).toBeNull();
+  });
+});

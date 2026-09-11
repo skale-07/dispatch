@@ -495,3 +495,29 @@ now re-verifies, re-fills the text entries the parse changed and a
 location whose hidden selection was cleared (once, text entries only),
 restores the plan and verifies again. Fixture: a "parser" that clears the
 selection on file change → re-committed.
+
+### Palantir, third live run (cycle 64): location fixed; a context note and a mis-mapped year remain
+
+#262c fired live — "resume parse changed 1 planned field(s) after upload
+(address.city; location dropdown selection cleared) — re-committing once" —
+and the location refusal is gone. The submit gate then withheld on one
+required question: "Insert other preferred location(s) and/or further
+context on preference" — its generated answer (33 words) was rejected
+against the 40-word ESSAY floor.
+
+## Issue #264 — context/preference notes are short answers
+
+`expectedAnswerShape` had no cue for notes like "Insert other preferred
+location(s) and/or further context…" / "Provide any further context on
+preference." — they now classify short (insert / further|additional
+context / other preferred / any other|additional / if applicable). Prose
+prompts ("Why…", "hardest technical challenge… 200 words") stay essays.
+
+## Issue #265 — "Year of High School Graduation" got the university
+
+The alias "School" claimed it by containment; the plan put "Johns Hopkins
+University" into a year list and landed on the form's "Other" (verify
+matched — the plan said so). A high-school question, or one asking for a
+year / date / grade / graduation, never takes the profile's school now —
+unmapped, it is asked of the operator. (High-school facts are not in the
+profile; "High School Name" is an operator item.)

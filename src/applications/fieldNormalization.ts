@@ -50,6 +50,14 @@ export function matchCanonicalField(
   // free-value fact (number/text) can never answer an option control;
   // unmapped, the screener path answers it from the page's own options.
   if ((matched === "phone" || matched === "gpa") && optionControl) return null;
+  // #265 (live Palantir night30): "Year of High School Graduation" matched
+  // the alias "School" by containment and the plan put "Johns Hopkins
+  // University" into a year list (→ the form's "Other"). The profile's school
+  // is the UNIVERSITY; a high-school question, or one asking for a year /
+  // date / grade, is never that fact. Unmapped, it is asked of the operator.
+  if (matched === "school" && /\bhigh school\b|\b(year|date|gpa|grade|graduation)\b/.test(normalized)) {
+    return null;
+  }
   // #148 (live UKG run 16): "Secondary Phone" took the primary number —
   // a secondary/alternate/additional twin of a contact fact is a DIFFERENT
   // datum; the profile holds one of each. Leave the twin unmapped (empty).
