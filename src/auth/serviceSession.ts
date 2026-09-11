@@ -40,6 +40,12 @@ export class PlaywrightServiceSession implements ServiceSession {
   private context: BrowserContext | null = null;
   private detachDialogGuard: (() => void) | null = null;
   private opened = false;
+  /**
+   * #258: pages THIS session opened in an attached Chrome (and popups they
+   * spawned). close() closes exactly these — never a tab the operator or
+   * another session owns.
+   */
+  private readonly ownedPages = new Set<Page>();
 
   constructor(options: ServiceSessionOptions) {
     const cfg = getServiceAuthConfig(options.service);
@@ -155,6 +161,7 @@ export class PlaywrightServiceSession implements ServiceSession {
   async newPage(options?: { purpose?: string }): Promise<Page> {
     this.assertOpen();
     const page = await this.context!.newPage();
+    if (this.mode === "CDP_ATTACH") this.trackOwned(page);
     if (options?.purpose) {
       logger.debug("page created", {
         service: this.service,
@@ -195,6 +202,24 @@ export class PlaywrightServiceSession implements ServiceSession {
     }
     this.detachDialogGuard = null;
     if (this.mode === "CDP_ATTACH") {
+      // #258 (night30, OOM): disconnecting alone left every page this
+      // session opened — 13 stale application tabs in the applier Chrome
+      // and 9 in the outreach Chrome after four hours, until the box ran
+      // out of memory and the loop was killed. Close OUR pages (bounded:
+      // a wedged tab must not hold the cycle — #208), then disconnect.
+      const owned = [...this.ownedPages];
+      this.ownedPages.clear();
+      if (owned.length > 0) {
+        let timer: NodeJS.Timeout | undefined;
+        await Promise.race([
+          Promise.allSettled(owned.map((p) => p.close())),
+          new Promise<void>((resolve) => {
+            timer = setTimeout(resolve, 5_000);
+          }),
+        ]).finally(() => {
+          if (timer) clearTimeout(timer);
+        });
+      }
       // Disconnect only. The context belongs to the operator's Chrome —
       // closing it would close their real tabs. browser.close() on a
       // connected browser disconnects without terminating the process.
@@ -203,6 +228,13 @@ export class PlaywrightServiceSession implements ServiceSession {
     }
     if (ctx) await ctx.close().catch(() => undefined);
     if (browser) await browser.close().catch(() => undefined);
+  }
+
+  /** A page we opened, and — recursively — any popup it opens (Apply → new tab). */
+  private trackOwned(page: Page): void {
+    this.ownedPages.add(page);
+    page.on("popup", (popup) => this.trackOwned(popup));
+    page.once("close", () => this.ownedPages.delete(page));
   }
 
   private assertOpen(): void {

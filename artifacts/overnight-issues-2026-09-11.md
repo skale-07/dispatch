@@ -233,3 +233,70 @@ role-fit reason (policy-abandoned ⇒ never re-created).
 - JobRight re-discovery of a job previously FILTERED_OUT creates a fresh
   row every pass (Amazon apprentice / Northern Trust ×20 on 09-10) — by
   design (policy may change), costs a detail read per pass.
+
+## Issue #255b — the screener bank claimed the same expiry question
+
+After #255 unmapped it upstream, Exegy's visa-expiry date question was
+claimed by the screener registry's `work_authorization` pattern
+(/work authorization/) and got the bank's "Yes". Both authorization keys
+now carry `excludePatterns` for expir*/end date/valid until/when does —
+excludes bind every path to a key (#113b), including stored LLM label
+maps. Tests: screener-bank + screener-prediction 50/50.
+
+## Issue #256 — Greenhouse never had the fill-stage page-complete waiver
+
+#240 put the "page's own rules decide" waiver into `atsLiveFill` — every
+adapter except the dedicated Greenhouse runner. A Greenhouse form whose
+only gap is an optional question we correctly leave empty (Hudl's race:
+profile "Asian" vs East / South / Southeast Asian — demographics are never
+inferred) parked AMBIGUOUS_FIELD three steps before the submit gate's own
+waiver could look. Same block, same fail-closed contract, now in
+`greenhouse/liveFill.ts`.
+
+Live (Hudl ×2 re-runs): #252 held — gender kept, the healer declined race
+with "value refused … not healed" — and the waiver ran and REFUSED
+correctly: the page still requires 2 questions. The waiver's refusal now
+names them (it said only "2 unanswered question(s)"); Exegy's re-run
+showed exactly why that matters: "What is your notice period…" and
+"What are your annual base salary expectations…" — salary is policy.
+
+## Issue #257 — one Compose timeout aborted six drafts
+
+Tanium: 6 emails generated, 0 drafted — `locator.click: Timeout 5000ms`
+on Gmail's Compose, whose call log reads "click action done … waiting for
+scheduled navigations to finish". The click landed; Playwright then waited
+on Compose's hash navigation (`noWaitAfter` is a no-op in 1.61). The
+click's own timeout no longer decides — the compose window appearing
+(the existing To-field wait) does, so a click that truly missed still
+fails there. Live after restart: Tanium 6/6 drafted.
+
+### #257b — every walk opened a LinkedIn tab
+
+The expander regex accepts "Find More Connections" (an old UI's
+expander). On an expanded panel today that control is
+`<a href="linkedin.com/search/…" target="_blank">` (live DOM probe), so each
+triage opened a LinkedIn people-search tab in the outreach Chrome. An
+expander is now never a link to another host or a new tab.
+
+## Issue #258 — the box ran out of memory: sessions never closed their tabs
+
+**Symptom.** At ~08:00 UTC the harness killed the loop's wrapper task for
+low memory (1 GB free of 16; Chrome 3.3 GB / 56 processes). The loop's own
+bash survived and kept cycling, but the cause was structural: the applier
+Chrome held a tab for nearly every application attempted tonight (Palantir
+×2, Oracle HCM ×2, IBM ×2, Tesla ×2, UltiPro, Dell, Zipline, USAA …), the
+outreach Chrome 7 more.
+
+**Cause.** `PlaywrightServiceSession.close()` in CDP_ATTACH mode only
+disconnects — correctly, so it never closes the operator's tabs — but that
+also abandoned every page the session ITSELF opened. `withNavHandoffPage`
+(inspection + fill in the applier Chrome) never closed its page, and Apply
+popups multiplied it. (Some outreach-Chrome tabs were my own crashed
+probes.)
+
+**Fix.** The session tracks the pages it opened via `newPage()` and every
+popup they spawn, and `close()` closes exactly those (bounded 5s — #208)
+before disconnecting. A tab the session did not open is never touched.
+Unit test with a fake attached browser: own pages + popup closed, the
+operator's pre-existing tab untouched, browser only disconnected.
+Stale tabs closed by hand; free memory back to ~2.4 GB.
