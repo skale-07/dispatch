@@ -1,0 +1,180 @@
+{
+  "decision_id": "3ab4aabd-6d37-4e43-8b0b-6b242e981c50",
+  "application_id": "c2b4cf40-415a-4ece-b4fd-316b6478c771",
+  "signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|ngc.eightfold.ai",
+  "forbidden_actions": [
+    "requeue_same",
+    "engage_agent_leg"
+  ],
+  "bundle": {
+    "application_id": "c2b4cf40-415a-4ece-b4fd-316b6478c771",
+    "company": "Northrop Grumman",
+    "role": "2027 Data Analytics Intern - Clearfield UT",
+    "state": "NATIVE_AUTOFILL_RUNNING",
+    "attempt": 2,
+    "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|ngc.eightfold.ai",
+    "end_host": "ngc.eightfold.ai",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-11T11:25:41.119Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-11T11:25:28.638Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-11T11:25:28.382Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-11T11:25:28.293Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 db6f3f869124)",
+        "at": "2026-09-11T11:25:28.205Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-11T11:25:28.039Z"
+      },
+      {
+        "from": "FAILED_RETRYABLE",
+        "to": "QUEUED",
+        "reason": "retry 2/3",
+        "at": "2026-09-11T11:23:52.239Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "triage: demoting gate-parked NATIVE_AUTOFILL_RUNNING for requeue (NATIVE_AUTOFILL_RUNNING|-|unknown|ngc.eightfold.ai)",
+        "at": "2026-09-11T11:23:52.218Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-11T11:23:17.995Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-11T11:23:14.922Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-11T11:23:14.915Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-11T11:23:05.975Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 db6f3f869124)",
+        "at": "2026-09-11T11:23:05.967Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-11T11:23:05.924Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-11T09:06:45.661Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_llm",
+      "notes": [
+        "phase A: 9 external host(s) seen: ngc.eightfold.ai, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, www.northropgrumman.com, www.bizjournals.com, www.fool.com, www.prnewswire.com",
+        "no standard Apply control found (exact and broad name tiers both empty)",
+        "anchor adjudication: promoted ngc.eightfold.ai",
+        "anchor adjudication rationale (UNVERIFIED): ngc.eightfold.ai is Northrop Grumman's (NGC) own ATS career site with a specific job ID.",
+        "employer congruence unverifiable (URL carries no employer name specific enough to verify against \"Northrop Grumman\") — recorded"
+      ],
+      "congruence": {
+        "verdict": "unknown",
+        "slug": "ngc",
+        "detail": "URL carries no employer name specific enough to verify against \"Northrop Grumman\"",
+        "expected_company": "Northrop Grumman",
+        "url": "https://ngc.eightfold.ai/careers?pid=1340074227786&jr_id=6aa1bda02f936e4a53dadbaf"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "no congruent apply href (11 external links)",
+          "evidence": "ngc.eightfold.ai, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, www.northropgrumman.com"
+        },
+        {
+          "phase": "B_apply_click",
+          "outcome": "unresolved by deterministic phases"
+        },
+        {
+          "phase": "A_anchor_llm",
+          "outcome": "candidate promoted by adjudication",
+          "evidence": "ngc.eightfold.ai"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [],
+    "prior_decisions": [
+      {
+        "action": "engage_agent_leg",
+        "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|ngc.eightfold.ai",
+        "outcome_status": "PENDING",
+        "created_at": "2026-09-11T12:40:43.968Z"
+      },
+      {
+        "action": "requeue_same",
+        "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|ngc.eightfold.ai",
+        "outcome_status": "REFUTED",
+        "created_at": "2026-09-11T11:23:52.190Z"
+      }
+    ],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": true
+  },
+  "raw_model_text": "{\"action\": \"park_for_operator\", \"rationale\": \"Stalls at portal sign-in on ngc.eightfold.ai; requeue_same already refuted and agent leg already granted (pending/forbidden). Materials verified, URL plausibly correct employer ATS, no duplicate or confirmed permanent wall. Needs human to supply/decide portal login.\", \"confidence\": \"high\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: 1dac3db4-af14-4d4c-81d6-c0eef024aa6f",
+  "rationale_unverified": "Stalls at portal sign-in on ngc.eightfold.ai; requeue_same already refuted and agent leg already granted (pending/forbidden). Materials verified, URL plausibly correct employer ATS, no duplicate or confirmed permanent wall. Needs human to supply/decide portal login."
+}
