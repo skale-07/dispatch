@@ -565,3 +565,81 @@ Fixture: a validation banner replaced by "Thank you for applying" 1.5s later
 → receipt, not rejection. Every other "Thank you for applying" email tonight
 matches a verified submit; Nominal (Gem) stays UNCERTAIN — form still shown
 after the click, no email yet — for the operator to settle.
+
+---
+
+# Night30 handoff — 2026-09-11
+
+## Numbers (04:25 → ~12:30 UTC, 82 cycles)
+
+- **9 verified submissions**: Swarm Aero ×3 (Software Engineer, Embedded
+  Software, Composite Engineering M&P), Viam, Tanium, Rocket Lab (Test
+  Engineering – Avionics), Inferact, Zipline (Data Analytics, Spring 2027),
+  GrayMatter Robotics (recorded "rejected" by us, confirmed by the
+  employer's email — #267).
+- **14 Gmail drafts to 14 distinct people** (Tanium 6, Swarm Aero 3,
+  Viam 3, Zipline 1, GrayMatter 1), 12 read-back verified — all created in
+  the dedicated outreach Chrome (9223), none in the applier's browser.
+  Nothing sent.
+- **17 commits** (#250–#267), every one gated (typecheck, check:forbidden,
+  check:secrets; suite failures each confirmed as load timeouts in
+  isolation).
+
+## Your directives
+
+- **Reset the queue, apply all night** — 48 rows reset through the state
+  machine at 04:25; the hand-applied Merck row kept.
+- **Gmail pipeline after each application, in a separate Chrome** — done
+  and proven: #250 moved the insider lookup into 9223 (Compose was already
+  there), #253 dismissed the first-run JobRight overlays that made every
+  lookup fail in that fresh profile, #257 fixed a Compose timeout that
+  aborted whole jobs, #258 stopped both Chromes leaking tabs until the box
+  ran out of memory. LIVE_MUTATION_CONFIRMED (drafts read back in Gmail).
+- **Iterate on bugs** — 18 issues below the fold; the big ones are listed
+  next.
+
+## Read this first — things that affect applications already sent
+
+1. **Bear Robotics (submitted 2026-09-01) went in with Full Name "N/A".**
+   A predict-promoted screener-bank entry answered "N/A" to "Full Name"
+   (#263). You may want to email them or reapply. The entry, and three
+   other poisoned ones (an Ireland/Canada/UK "eligible to work" = Yes; a
+   consent sentence on "Phone Number"; "No" as a preferred first name),
+   are cleaned — backup at `private/candidate/screeners.json.bak-20260911-night30`.
+2. **Swarm Aero "Composite Engineering (M&P) Intern" was submitted** — a
+   materials-engineering role outside your field. `role_terms` admitted
+   it via bare "engineering"; hardware disciplines are now excluded.
+3. **DV Trading "Client Platforms Engineer Intern" was submitted twice on
+   night29** — two postings of one Greenhouse job. #251 now dedupes by the
+   ATS's internal job id.
+
+## Still needs you
+
+- **High School Name** (and HS graduation year) — the ONLY thing between
+  both Palantir applications and a submit. Everything else on that form is
+  now answered (#224, #254, #261, #262, #264).
+- **Work-authorization STATUS checkbox groups** (Zipline ×2: "Please provide
+  details on your current work authorization status…") — the model no
+  longer answers authorization (#259); record the answer yourself
+  (sensitive profile or screeners.json). The bank holds predicted entries
+  that say "U.S. Citizen" — true per your 08-31 confirmation, but please
+  review them (list in #263).
+- **Nominal (Gem)** — clicked submit, no confirmation page and no email yet
+  (UNCERTAIN). Check your inbox; if nothing arrives, resolve it as
+  not-submitted in the console.
+- **Salary** questions (Hudl "comfortable with $30–31/hr?", Exegy, CIM,
+  DRW) and **Hudl's race** options (East/South/Southeast Asian) — policy /
+  sensitive-profile items.
+
+## Top items for the next session
+
+- Workday's disability self-ID page (Red Hat cycle 72): the #224 revealed
+  pass and #261 signature mapping run on base pages, not on Workday wizard
+  pages.
+- An identity guard in code: a bank/predicted answer must never answer a
+  question asking for the candidate's own name/email/phone (tonight's fix
+  for #263 was data only).
+- Gate-parked rows (NATIVE_AUTOFILL_RUNNING) are re-picked every cycle
+  until triage parks them — ~15 wasted cycles tonight.
+- Workday "How did you hear about us" (Labcorp) — the Other→LinkedIn
+  fallback did not commit.
