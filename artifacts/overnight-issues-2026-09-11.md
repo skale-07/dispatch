@@ -543,3 +543,25 @@ read-back returned the FIRST CHECKED radio anywhere — another question's
 would have clicked a different question. A nameless radio's group is now its
 nearest fieldset / role=radiogroup, else the radio alone. Fixture covers
 both shapes; 15 radio-related files 244/244 sequential. Nominal requeued.
+
+## Issue #267 — an application the employer CONFIRMED was recorded as rejected
+
+Cross-checking the inbox (dedicated Gmail Chrome, read-only) against the DB:
+"Thanks for applying to GrayMatter Robotics, we're so excited you did!"
+arrived at 05:55 UTC — the same minute cycle 14 recorded that application
+REJECTED_AFTER_CLICK ("Please select all field…") and left it
+FAILED_RETRYABLE. It WAS submitted; a retry would have been a duplicate.
+
+Record corrected (`private/tmp-night30-confirmed-by-email.ts`): submission
+VERIFIED with the email as evidence (so dedupe blocks any re-application),
+row closed FAILED_FINAL with a policy reason (never retried or re-created).
+The outreach worker then picked it up as a verified submit: 1 draft.
+
+Cause: the Ashby/Lever post-click loops broke on the FIRST poll that showed
+a validation line; the success page arrived after we stopped looking. A
+validation read now opens a 5s grace window in which a confirmation still
+wins (explicit refusal banners — spam flags — still fail immediately).
+Fixture: a validation banner replaced by "Thank you for applying" 1.5s later
+→ receipt, not rejection. Every other "Thank you for applying" email tonight
+matches a verified submit; Nominal (Gem) stays UNCERTAIN — form still shown
+after the click, no email yet — for the operator to settle.
