@@ -62,7 +62,9 @@ describe("cloud schema tooling (UNIT_CONFIRMED)", () => {
     const versions = files.map((f) => f.version);
     expect([...versions].sort()).toEqual(versions);
     const sql = files.map((f) => fs.readFileSync(f.path, "utf8")).join("\n");
-    for (const t of EXPECTED_TABLES) expect(sql).toMatch(new RegExp(`create table public\\.${t}\\b`));
+    for (const t of EXPECTED_TABLES) {
+      expect(sql).toMatch(new RegExp(`create table (?:if not exists )?public\\.${t}\\b`));
+    }
     for (const v of EXPECTED_VIEWS) expect(sql).toMatch(new RegExp(`create view public\\.${v}\\b`));
     for (const fn of EXPECTED_RPCS) expect(sql).toMatch(new RegExp(`function public\\.${fn}\\(`));
     for (const b of EXPECTED_BUCKETS) expect(sql).toContain(`('${b}', '${b}', false)`);

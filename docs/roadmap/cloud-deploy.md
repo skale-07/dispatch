@@ -167,21 +167,54 @@ const { data: quota } = await supabase
 //   free_completed_applications: number       // referral_settings().free_signup_quota
 //   has_invite: boolean                       // an invite has been redeemed on this account
 
-// 5. Onboarding wizard — one user_profiles row, upsert as steps complete.
-//    Columns (see supabase/migrations/20260902000100_user_profiles.sql):
-//    full_name, phone, location_city/region/country, linkedin_url,
-//    github_url, portfolio_url, work_authorization ('us_citizen' |
-//    'permanent_resident' | 'visa_holder' | 'needs_sponsorship' |
-//    'other'), needs_sponsorship, education (jsonb array of
-//    {school, degree, field, start_year, end_year, gpa?}),
-//    job_preferences (jsonb {titles[], locations[], remote:
-//    'remote'|'hybrid'|'onsite'|'any', employment_types[],
-//    min_salary_usd?}), resume_object_path/filename/uploaded_at,
-//    onboarding_completed_at (set by the FINAL step — the engine ignores
-//    profiles until it is non-null).
+// 5. Onboarding wizard — one user_profiles row, upsert as steps complete
+//    (saveProfileStep in frontend/src/public/data.ts never touches
+//    onboarding_completed_at). Columns:
+//      20260902000100: full_name, phone, location_city/region/country,
+//        linkedin_url, github_url, portfolio_url, work_authorization
+//        ('us_citizen'|'permanent_resident'|'visa_holder'|
+//        'needs_sponsorship'|'other'), needs_sponsorship, education
+//        (jsonb array — index 0 is the PRIMARY school: {school, degree,
+//        field, start_year, end_year, gpa?, start_month?, end_month?,
+//        additional_fields?}), job_preferences (jsonb {titles[],
+//        locations[], remote, employment_types[], min_salary_usd?,
+//        max_posting_age_days?, industries?, target_employer_types?,
+//        early_graduation?}), resume_*/transcript_* (legacy pointers,
+//        kept one release as a read fallback).
+//      20260903000100: about_me (≤8000), current_company, open_to_relocation.
+//      20260911000200: legal_first/middle/last_name, preferred_name,
+//        contact_email, address_line1/2, postal_code, how_heard,
+//        how_heard_fallbacks text[], restrictive_covenants ('yes'|'no'|null),
+//        skills text[], employment_history jsonb[] ({company, title,
+//        location?, start_month?, start_year?, end_month?, end_year?,
+//        current?, summary?}), onboarding_progress ({step, updated_at}).
+//    Still NO EEO column — see 20260911000500.
 await supabase.from("user_profiles").upsert({
-  user_id: session.user.id, full_name, phone, /* ...step fields */
+  user_id: session.user.id, legal_first_name, phone, /* ...step fields */
 });
+
+// 5b. Completion is SERVER-side (20260911000300): returns what is
+//     missing; stamps onboarding_completed_at only when nothing is —
+//     that stamp is the engine's "act on this profile" gate.
+const { data: done } = await supabase.rpc("complete_my_onboarding");
+// done: { complete: boolean, missing: string[] }  e.g. ["resume","about_me"]
+
+// 5c. Per-store tables (own rows under RLS; names in contract.ts):
+//   user_documents        resume variants ('general','ds_ai',…) + transcript;
+//                         object_path MUST start with the uid; one default per kind
+//   user_screener_answers { key, kind:'registry'|'custom', answer, labels[] } —
+//                         registry keys = screener_registry_keys() (22, drift-tested
+//                         against the engine's SCREENER_REGISTRY); blank ⇒ delete row
+//   user_personas         { headline, education, projects[], skills[], interests[] } —
+//                         the only source of outreach project claims
+//   my_integrations       read model over user_integrations WITHOUT secret columns:
+//                         provider jobright|gmail, status, account_email, premium,
+//                         scopes, connected_at, expires_at, last_checked_at, last_error
+//   set_my_integration(p_provider, p_patch) — only {premium} and {disconnect}
+//   Secrets (JobRight session, Gmail refresh token) are pgcrypto ciphertext under a
+//   Vault-held KEK (20260911000450), reachable only through engine_* RPCs
+//   (service role): engine_store_integration_secret / engine_read_integration_secret /
+//   engine_set_integration_status.
 
 // 6. Resume upload — private `resumes` bucket, path MUST start with the
 //    user's own uid (storage RLS enforces it), then record it:
@@ -455,6 +488,7 @@ parentheses.
 | 11 | Two-sided quota bonus: `referral_bonuses`, `app_users.bonus_completed_applications`, `user_quota_status` = base + bonus, AFTER trigger on COMPLETED mirror rows (`20260902000400`) | LIVE_MUTATION_CONFIRMED 2026-09-02: `referral_bonus_granted_to_inviter` (A max 2 → 12), `referral_bonus_idempotent` (stays 12), `referral_bonus_row_visible_to_inviter` (`[{bonus:10}]`) |
 | 12 | `engine_status` heartbeat table + `cloud:sync` writes it every tick (`20260902000500`, `toEngineStatusRow`) | table + RLS LIVE_MUTATION_CONFIRMED (`engine_status_own_row_only`: A 1 row, B 0); the worker's write is still BLOCKED on `SUPABASE_SYNC_USER_ID` (refuses by name) |
 | 13 | `invites.redeemed_by` ON DELETE CASCADE (`20260902000600`) — resolves the FK cycle that made members undeletable | LIVE_MUTATION_CONFIRMED 2026-09-02: `delete_user` ×2 succeeded with redeemed invites still pointing at them; `invites`/`app_users` `*/0` afterwards |
+| 15 | Onboarding data model (`20260911000200`–`000700`): profile expansion (legal names, address, how-heard + fallbacks, covenants, skills, employment_history, onboarding_progress), `user_documents` (variants + transcript, backfilled), `user_screener_answers` (22 registry keys drift-tested vs the engine), in-DB Vault KEK + `_dispatch_encrypt/_decrypt`, `user_personas`, `user_integrations` + `my_integrations` + `set_my_integration` + `engine_*` secret RPCs, `complete_my_onboarding()`; pull carries the per-store rows (never secrets) | UNIT_CONFIRMED (`cloud-onboarding-schema.test.ts`, `cloud-sync-mapping`, `cloud-schema`); LIVE pending `cloud:schema -- apply/verify` |
 | 14 | Open signup (`20260911000100`): `ensure_member()`, `referral_settings().free_signup_quota`, `user_quota_status` left-joins invites (free + invite + bonus; `free_completed_applications`, `has_invite` appended); SPA calls `ensure_member` once per session; landing/signup copy from server constants | UNIT_CONFIRMED (`cloud-open-signup.test.ts`, round-trip fake with steps `open_signup_ensure_member_as_b`, `ensure_member_idempotent`, `free_quota_without_invite`, `redeem_after_free_signup_adds_quota`); LIVE pending `cloud:schema -- apply` + `invites:roundtrip` |
 
 ## Status — 2026-09-02 (launcher agent, deterministic read-backs only)

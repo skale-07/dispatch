@@ -2,12 +2,24 @@ import { supabase } from "../lib/supabaseClient";
 import {
   CONTRACT,
   type ApplicationRowPublic,
+  type DocumentKind,
+  type DocumentRow,
+  type EducationDraft,
   type EducationEntry,
+  type EmploymentDraft,
+  type EmploymentEntry,
+  type IntegrationProvider,
+  type IntegrationRow,
   type JobPreferences,
   type MemberStatus,
+  type OnboardingCompletion,
+  type PersonaRow,
   type ProfileDraft,
   type ProfileRow,
   type QuotaStatus,
+  type ScreenerAnswerRow,
+  EMPTY_EDUCATION_ENTRY,
+  EMPTY_EMPLOYMENT_ENTRY,
   EMPTY_PROFILE,
   PG_UNIQUE_VIOLATION,
 } from "./contract";
@@ -136,12 +148,61 @@ function yearOrNull(text: string): number | null {
   return /^\d{4}$/.test(text.trim()) ? Number(text.trim()) : null;
 }
 
+function educationToDraft(e: EducationEntry): EducationDraft {
+  return {
+    ...EMPTY_EDUCATION_ENTRY,
+    school: e.school ?? "",
+    degree: e.degree ?? "",
+    field: e.field ?? "",
+    grad_year: e.end_year != null ? String(e.end_year) : "",
+    grad_month: e.end_month ?? "",
+    start_year: e.start_year != null ? String(e.start_year) : "",
+    start_month: e.start_month ?? "",
+    gpa: e.gpa != null ? String(e.gpa) : "",
+    additional_fields: e.additional_fields ?? "",
+  };
+}
+
+function employmentToDraft(e: EmploymentEntry): EmploymentDraft {
+  return {
+    ...EMPTY_EMPLOYMENT_ENTRY,
+    company: e.company ?? "",
+    title: e.title ?? "",
+    location: e.location ?? "",
+    start_month: e.start_month ?? "",
+    start_year: e.start_year != null ? String(e.start_year) : "",
+    end_month: e.end_month ?? "",
+    end_year: e.end_year != null ? String(e.end_year) : "",
+    current: e.current === true,
+    summary: e.summary ?? "",
+  };
+}
+
 export function rowToDraft(row: ProfileRow): ProfileDraft {
   const edu: EducationEntry | undefined = row.education[0];
   const prefs = row.job_preferences as Partial<JobPreferences>;
   return {
     ...EMPTY_PROFILE,
     full_name: row.full_name ?? "",
+    legal_first_name: row.legal_first_name ?? "",
+    legal_middle_name: row.legal_middle_name ?? "",
+    legal_last_name: row.legal_last_name ?? "",
+    preferred_name: row.preferred_name ?? "",
+    contact_email: row.contact_email ?? "",
+    address_line1: row.address_line1 ?? "",
+    address_line2: row.address_line2 ?? "",
+    postal_code: row.postal_code ?? "",
+    how_heard: row.how_heard ?? "",
+    how_heard_fallbacks: (row.how_heard_fallbacks ?? []).join(", "),
+    restrictive_covenants: row.restrictive_covenants ?? "",
+    skills: (row.skills ?? []).join(", "),
+    more_education: (Array.isArray(row.education) ? row.education.slice(1) : []).map(
+      educationToDraft,
+    ),
+    employment_history: (Array.isArray(row.employment_history)
+      ? row.employment_history
+      : []
+    ).map(employmentToDraft),
     phone: row.phone ?? "",
     location_city: row.location_city ?? "",
     location_region: row.location_region ?? "",
@@ -182,35 +243,74 @@ export function rowToDraft(row: ProfileRow): ProfileDraft {
   };
 }
 
+function educationEntryFromDraft(d: EducationDraft): EducationEntry | null {
+  if (!d.school.trim()) return null;
+  const gpa = Number(d.gpa.trim());
+  return {
+    school: d.school.trim(),
+    degree: d.degree.trim(),
+    field: d.field.trim(),
+    start_year: yearOrNull(d.start_year),
+    end_year: yearOrNull(d.grad_year),
+    // Optional keys are omitted rather than written empty: the engine's
+    // take() treats "" as absent anyway, and an absent key reads as "not
+    // asked" instead of "answered blank".
+    ...(Number.isFinite(gpa) && gpa > 0 ? { gpa } : {}),
+    ...(d.start_month.trim() ? { start_month: d.start_month.trim() } : {}),
+    ...(d.grad_month.trim() ? { end_month: d.grad_month.trim() } : {}),
+    ...(d.additional_fields.trim()
+      ? { additional_fields: d.additional_fields.trim() }
+      : {}),
+  };
+}
+
+function employmentEntryFromDraft(d: EmploymentDraft): EmploymentEntry | null {
+  if (!d.company.trim() && !d.title.trim()) return null;
+  return {
+    company: d.company.trim(),
+    title: d.title.trim(),
+    ...(d.location.trim() ? { location: d.location.trim() } : {}),
+    ...(d.start_month.trim() ? { start_month: d.start_month.trim() } : {}),
+    start_year: yearOrNull(d.start_year),
+    ...(d.end_month.trim() ? { end_month: d.end_month.trim() } : {}),
+    end_year: yearOrNull(d.end_year),
+    ...(d.current ? { current: true } : {}),
+    ...(d.summary.trim() ? { summary: d.summary.trim() } : {}),
+  };
+}
+
 function draftToRow(
   userId: string,
   draft: ProfileDraft,
 ): Omit<ProfileRow, "created_at" | "updated_at" | "onboarding_completed_at"> {
-  const gpa = Number(draft.gpa.trim());
-  const education: EducationEntry[] = draft.school.trim()
-    ? [
-        {
-          school: draft.school.trim(),
-          degree: draft.degree.trim(),
-          field: draft.field.trim(),
-          start_year: yearOrNull(draft.start_year),
-          end_year: yearOrNull(draft.grad_year),
-          // Optional keys are omitted rather than written empty: the
-          // engine's take() treats "" as absent anyway, and an absent
-          // key reads as "not asked" instead of "answered blank".
-          ...(Number.isFinite(gpa) && gpa > 0 ? { gpa } : {}),
-          ...(draft.start_month.trim()
-            ? { start_month: draft.start_month.trim() }
-            : {}),
-          ...(draft.grad_month.trim()
-            ? { end_month: draft.grad_month.trim() }
-            : {}),
-          ...(draft.additional_fields.trim()
-            ? { additional_fields: draft.additional_fields.trim() }
-            : {}),
-        },
-      ]
-    : [];
+  // education[0] is the PRIMARY entry (the flat draft keys); additional
+  // schools follow in the order the user listed them.
+  const primary = educationEntryFromDraft({
+    school: draft.school,
+    degree: draft.degree,
+    field: draft.field,
+    grad_year: draft.grad_year,
+    grad_month: draft.grad_month,
+    start_year: draft.start_year,
+    start_month: draft.start_month,
+    gpa: draft.gpa,
+    additional_fields: draft.additional_fields,
+  });
+  const education: EducationEntry[] = [
+    ...(primary ? [primary] : []),
+    ...draft.more_education
+      .map(educationEntryFromDraft)
+      .filter((e): e is EducationEntry => e !== null),
+  ];
+  const employment_history: EmploymentEntry[] = draft.employment_history
+    .map(employmentEntryFromDraft)
+    .filter((e): e is EmploymentEntry => e !== null);
+  const legalFirst = draft.legal_first_name.trim();
+  const legalLast = draft.legal_last_name.trim();
+  // The greeting name follows the legal name once that is filled in;
+  // until then it is whatever the user typed as full_name.
+  const fullName =
+    legalFirst && legalLast ? `${legalFirst} ${legalLast}` : draft.full_name.trim();
   const salary = Number(draft.min_salary_usd.replace(/[^0-9]/g, ""));
   const job_preferences: JobPreferences = {
     titles: splitList(draft.titles),
@@ -221,7 +321,23 @@ function draftToRow(
   };
   return {
     user_id: userId,
-    full_name: draft.full_name.trim() || null,
+    full_name: fullName || null,
+    legal_first_name: legalFirst || null,
+    legal_middle_name: draft.legal_middle_name.trim() || null,
+    legal_last_name: legalLast || null,
+    preferred_name: draft.preferred_name.trim() || null,
+    contact_email: draft.contact_email.trim().toLowerCase() || null,
+    address_line1: draft.address_line1.trim() || null,
+    address_line2: draft.address_line2.trim() || null,
+    postal_code: draft.postal_code.trim() || null,
+    how_heard: draft.how_heard.trim() || null,
+    how_heard_fallbacks: splitList(draft.how_heard_fallbacks),
+    // "" stays null: an unanswered non-compete question is not a "no".
+    restrictive_covenants:
+      draft.restrictive_covenants === "" ? null : draft.restrictive_covenants,
+    skills: splitList(draft.skills),
+    employment_history,
+    onboarding_progress: null, // owned by saveOnboardingProgress
     phone: draft.phone.trim() || null,
     location_city: draft.location_city.trim() || null,
     location_region: draft.location_region.trim() || null,
@@ -277,6 +393,7 @@ export async function saveMyProfile(draft: ProfileDraft): Promise<void> {
   const {
     resume_uploaded_at: _keepResume,
     transcript_uploaded_at: _keepTranscript,
+    onboarding_progress: _keepProgress,
     ...row
   } = draftToRow(uid, draft);
   const { error } = await client()
@@ -285,6 +402,277 @@ export async function saveMyProfile(draft: ProfileDraft): Promise<void> {
       { ...row, onboarding_completed_at: new Date().toISOString() },
       { onConflict: "user_id" },
     );
+  if (error) throw new Error(error.message);
+}
+
+/**
+ * Save part of the profile row without touching onboarding_completed_at
+ * (per-step autosave). Column names are the contract's; unknown columns
+ * fail visibly with PostgREST's message rather than being dropped.
+ */
+export async function saveProfileStep(
+  patch: Partial<Omit<ProfileRow, "user_id" | "created_at" | "updated_at">>,
+): Promise<void> {
+  const uid = await currentUserId();
+  if (!uid) throw new Error("not signed in — nothing was saved");
+  const { onboarding_completed_at: _never, ...rest } = patch;
+  const { error } = await client()
+    .from(CONTRACT.profilesTable)
+    .upsert({ user_id: uid, ...rest }, { onConflict: "user_id" });
+  if (error) throw new Error(error.message);
+}
+
+/** Resume-later pointer for the wizard shell. */
+export async function saveOnboardingProgress(step: string): Promise<void> {
+  await saveProfileStep({
+    onboarding_progress: { step, updated_at: new Date().toISOString() },
+  });
+}
+
+/**
+ * Server-side completeness (20260911000300). Returns what is missing;
+ * stamps onboarding_completed_at only when nothing is. The new wizard's
+ * Review step calls this; saveMyProfile above still stamps directly for
+ * the current 6-step wizard until that step lands.
+ */
+export async function completeMyOnboarding(): Promise<OnboardingCompletion> {
+  const { data, error } = await client().rpc(CONTRACT.completeOnboardingRpc);
+  if (error) throw new Error(error.message);
+  const row = (Array.isArray(data) ? data[0] : data) as OnboardingCompletion | null;
+  if (!row || typeof row.complete !== "boolean" || !Array.isArray(row.missing)) {
+    throw new Error("complete_my_onboarding returned an unexpected shape");
+  }
+  return row;
+}
+
+/* ── documents (resume variants + transcript as rows) ───────────────── */
+
+const MAX_DOCUMENT_BYTES: Record<DocumentKind, number> = {
+  resume: 5 * 1024 * 1024,
+  cover_letter: 5 * 1024 * 1024,
+  // An unofficial transcript is often a scanned multi-page PDF.
+  transcript: 10 * 1024 * 1024,
+};
+
+export async function listMyDocuments(): Promise<DocumentRow[]> {
+  const { data, error } = await client()
+    .from(CONTRACT.documentsTable)
+    .select("*")
+    .order("kind", { ascending: true })
+    .order("is_default", { ascending: false })
+    .order("uploaded_at", { ascending: false });
+  if (error) throw new Error(error.message);
+  return (data as DocumentRow[] | null) ?? [];
+}
+
+/**
+ * Upload one PDF into the kind's bucket under the user's own uid prefix
+ * (storage RLS) and record the row. Same (user, kind, variant) replaces
+ * the previous file. The first document of a kind becomes the default;
+ * pass makeDefault to move the default explicitly.
+ */
+export async function uploadDocument(input: {
+  kind: DocumentKind;
+  variant?: string;
+  file: File;
+  roleFamilies?: string[];
+  makeDefault?: boolean;
+}): Promise<DocumentRow> {
+  const variant = (input.variant ?? "general").trim().toLowerCase();
+  if (!/^[a-z0-9_]{1,32}$/.test(variant)) {
+    throw new Error("variant must be 1-32 lowercase letters, digits or underscores");
+  }
+  if (input.file.type !== "application/pdf") {
+    throw new Error(`${input.kind.replace("_", " ")} must be a PDF`);
+  }
+  if (input.file.size > MAX_DOCUMENT_BYTES[input.kind]) {
+    const mb = MAX_DOCUMENT_BYTES[input.kind] / (1024 * 1024);
+    throw new Error(`${input.kind.replace("_", " ")} PDF is over ${mb} MB — export a smaller copy`);
+  }
+  const uid = await currentUserId();
+  if (!uid) throw new Error("not signed in — nothing was uploaded");
+  const bucket = input.kind === "transcript" ? CONTRACT.transcriptsBucket : CONTRACT.resumesBucket;
+  const path = `${uid}/${input.kind}/${variant}/${input.file.name}`;
+  const { error } = await client()
+    .storage.from(bucket)
+    .upload(path, input.file, { upsert: true, contentType: "application/pdf" });
+  if (error) throw new Error(error.message);
+
+  const existing = await listMyDocuments();
+  const hasDefault = existing.some((d) => d.kind === input.kind && d.is_default);
+  const makeDefault = input.makeDefault === true || !hasDefault;
+  if (makeDefault && hasDefault) {
+    const { error: clearErr } = await client()
+      .from(CONTRACT.documentsTable)
+      .update({ is_default: false })
+      .eq("user_id", uid)
+      .eq("kind", input.kind)
+      .eq("is_default", true);
+    if (clearErr) throw new Error(clearErr.message);
+  }
+  const { data, error: rowErr } = await client()
+    .from(CONTRACT.documentsTable)
+    .upsert(
+      {
+        user_id: uid,
+        kind: input.kind,
+        variant,
+        bucket,
+        object_path: path,
+        filename: input.file.name,
+        role_families: input.roleFamilies ?? [],
+        is_default: makeDefault,
+        uploaded_at: new Date().toISOString(),
+      },
+      { onConflict: "user_id,kind,variant" },
+    )
+    .select("*")
+    .single();
+  if (rowErr) {
+    throw new Error(`uploaded, but recording it failed: ${rowErr.message}`);
+  }
+  return data as DocumentRow;
+}
+
+export async function setDefaultDocument(id: string): Promise<void> {
+  const uid = await currentUserId();
+  if (!uid) throw new Error("not signed in — nothing was saved");
+  const docs = await listMyDocuments();
+  const target = docs.find((d) => d.id === id);
+  if (!target) throw new Error("document not found");
+  const { error: clearErr } = await client()
+    .from(CONTRACT.documentsTable)
+    .update({ is_default: false })
+    .eq("user_id", uid)
+    .eq("kind", target.kind)
+    .eq("is_default", true);
+  if (clearErr) throw new Error(clearErr.message);
+  const { error } = await client()
+    .from(CONTRACT.documentsTable)
+    .update({ is_default: true })
+    .eq("id", id);
+  if (error) throw new Error(error.message);
+}
+
+/** Delete the row and the object; a missing object is not an error. */
+export async function removeDocument(id: string): Promise<void> {
+  const docs = await listMyDocuments();
+  const target = docs.find((d) => d.id === id);
+  if (!target) throw new Error("document not found");
+  const { error } = await client().from(CONTRACT.documentsTable).delete().eq("id", id);
+  if (error) throw new Error(error.message);
+  await client().storage.from(target.bucket).remove([target.object_path]);
+}
+
+/* ── screener answers ───────────────────────────────────────────────── */
+
+export async function getMyScreenerAnswers(): Promise<ScreenerAnswerRow[]> {
+  const { data, error } = await client()
+    .from(CONTRACT.screenerAnswersTable)
+    .select("*")
+    .order("key", { ascending: true });
+  if (error) throw new Error(error.message);
+  return (data as ScreenerAnswerRow[] | null) ?? [];
+}
+
+/**
+ * Upsert answers; blank answers DELETE the row (blank = "ask me per
+ * application", which is a legal, honest state — not an empty string on
+ * a form). Registry/custom validity is enforced by the table's CHECKs.
+ */
+export async function saveScreenerAnswers(
+  rows: Array<{
+    key: string;
+    kind: "registry" | "custom";
+    answer: string;
+    labels?: string[];
+    source?: ScreenerAnswerRow["source"];
+  }>,
+): Promise<void> {
+  const uid = await currentUserId();
+  if (!uid) throw new Error("not signed in — nothing was saved");
+  const keep = rows.filter((r) => r.answer.trim() !== "");
+  const drop = rows.filter((r) => r.answer.trim() === "").map((r) => r.key);
+  if (drop.length > 0) {
+    const { error } = await client()
+      .from(CONTRACT.screenerAnswersTable)
+      .delete()
+      .eq("user_id", uid)
+      .in("key", drop);
+    if (error) throw new Error(error.message);
+  }
+  if (keep.length > 0) {
+    const { error } = await client()
+      .from(CONTRACT.screenerAnswersTable)
+      .upsert(
+        keep.map((r) => ({
+          user_id: uid,
+          key: r.key,
+          kind: r.kind,
+          answer: r.answer.trim(),
+          labels: r.labels ?? [],
+          source: r.source ?? "wizard",
+        })),
+        { onConflict: "user_id,key" },
+      );
+    if (error) throw new Error(error.message);
+  }
+}
+
+/* ── persona ────────────────────────────────────────────────────────── */
+
+export async function getMyPersona(): Promise<PersonaRow | null> {
+  const { data, error } = await client()
+    .from(CONTRACT.personasTable)
+    .select("*")
+    .eq("persona_id", "default")
+    .maybeSingle();
+  if (error) throw new Error(error.message);
+  return (data as PersonaRow | null) ?? null;
+}
+
+export async function saveMyPersona(
+  persona: Omit<PersonaRow, "user_id" | "persona_id" | "updated_at">,
+): Promise<void> {
+  const uid = await currentUserId();
+  if (!uid) throw new Error("not signed in — nothing was saved");
+  const { error } = await client()
+    .from(CONTRACT.personasTable)
+    .upsert(
+      { user_id: uid, persona_id: "default", ...persona },
+      { onConflict: "user_id,persona_id" },
+    );
+  if (error) throw new Error(error.message);
+}
+
+export async function deleteMyPersona(): Promise<void> {
+  const uid = await currentUserId();
+  if (!uid) throw new Error("not signed in — nothing was deleted");
+  const { error } = await client()
+    .from(CONTRACT.personasTable)
+    .delete()
+    .eq("user_id", uid)
+    .eq("persona_id", "default");
+  if (error) throw new Error(error.message);
+}
+
+/* ── integrations (read model + the two user-side writes) ───────────── */
+
+export async function getMyIntegrations(): Promise<IntegrationRow[]> {
+  const { data, error } = await client().from(CONTRACT.integrationsView).select("*");
+  if (error) throw new Error(error.message);
+  return (data as IntegrationRow[] | null) ?? [];
+}
+
+/** Only { premium } and { disconnect } are accepted server-side. */
+export async function setMyIntegration(
+  provider: IntegrationProvider,
+  patch: { premium?: boolean; disconnect?: boolean },
+): Promise<void> {
+  const { error } = await client().rpc(CONTRACT.setIntegrationRpc, {
+    p_provider: provider,
+    p_patch: patch,
+  });
   if (error) throw new Error(error.message);
 }
 
@@ -331,7 +719,40 @@ export async function uploadResume(
       `uploaded, but recording it on your profile failed: ${recordError.message}`,
     );
   }
+  await recordLegacyDocument(uid, "resume", CONTRACT.resumesBucket, path, file.name);
   return { path, filename: file.name };
+}
+
+/**
+ * The legacy single-file uploads above keep writing the profile columns
+ * for one release AND record the same object as the 'general' document
+ * row (20260911000300), so the engine's per-variant reader sees it.
+ */
+async function recordLegacyDocument(
+  uid: string,
+  kind: DocumentKind,
+  bucket: string,
+  objectPath: string,
+  filename: string,
+): Promise<void> {
+  const { error } = await client()
+    .from(CONTRACT.documentsTable)
+    .upsert(
+      {
+        user_id: uid,
+        kind,
+        variant: "general",
+        bucket,
+        object_path: objectPath,
+        filename,
+        is_default: true,
+        uploaded_at: new Date().toISOString(),
+      },
+      { onConflict: "user_id,kind,variant" },
+    );
+  if (error) {
+    throw new Error(`uploaded, but recording the document row failed: ${error.message}`);
+  }
 }
 
 /* ── transcript upload ──────────────────────────────────────────────── */
@@ -384,6 +805,7 @@ export async function uploadTranscript(
       `uploaded, but recording it on your profile failed: ${recordError.message}`,
     );
   }
+  await recordLegacyDocument(uid, "transcript", CONTRACT.transcriptsBucket, path, file.name);
   return { path, filename: file.name };
 }
 

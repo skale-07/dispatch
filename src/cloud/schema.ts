@@ -35,11 +35,17 @@ export const EXPECTED_TABLES = [
   "application_receipts",
   "referral_bonuses",
   "engine_status",
+  // onboarding data model (20260911000300-000700)
+  "user_documents",
+  "user_screener_answers",
+  "user_personas",
+  "user_integrations",
 ] as const;
 export const EXPECTED_VIEWS = [
   "user_quota_status",
   "my_applications",
   "my_referral_invites",
+  "my_integrations",
 ] as const;
 export const EXPECTED_RPCS = [
   "redeem_invite",
@@ -47,6 +53,13 @@ export const EXPECTED_RPCS = [
   "mint_referral_invite",
   "grant_referral_bonus_if_activated",
   "ensure_member",
+  "complete_my_onboarding",
+  "screener_registry_keys",
+  "dispatch_key_version",
+  "set_my_integration",
+  "engine_store_integration_secret",
+  "engine_read_integration_secret",
+  "engine_set_integration_status",
 ] as const;
 /**
  * Read-only probe arguments per RPC. Called with the service role
@@ -55,13 +68,25 @@ export const EXPECTED_RPCS = [
  * present); grant_referral_bonus_if_activated for a uuid with no rows
  * answers {granted:false}; referral_settings is immutable; ensure_member
  * (open signup, 20260911000100) raises 'not authenticated' with no args.
+ * Onboarding RPCs (20260911000300-000700): complete_my_onboarding and
+ * set_my_integration check auth first; the engine_* functions refuse an
+ * empty secret / an unknown user BEFORE any write; the read returns null
+ * for a uuid with no row.
  */
-export const RPC_PROBE_ARGS: Record<(typeof EXPECTED_RPCS)[number], Record<string, string>> = {
+const NIL_UUID = "00000000-0000-4000-8000-000000000000";
+export const RPC_PROBE_ARGS: Record<(typeof EXPECTED_RPCS)[number], Record<string, unknown>> = {
   redeem_invite: { invite_code: "JRA-PROBE-ONLY" },
   referral_settings: {},
   mint_referral_invite: {},
-  grant_referral_bonus_if_activated: { p_invitee: "00000000-0000-4000-8000-000000000000" },
+  grant_referral_bonus_if_activated: { p_invitee: NIL_UUID },
   ensure_member: {},
+  complete_my_onboarding: {},
+  screener_registry_keys: {},
+  dispatch_key_version: {},
+  set_my_integration: { p_provider: "jobright", p_patch: {} },
+  engine_store_integration_secret: { p_user: NIL_UUID, p_provider: "jobright", p_secret: "", p_meta: {} },
+  engine_read_integration_secret: { p_user: NIL_UUID, p_provider: "jobright" },
+  engine_set_integration_status: { p_user: NIL_UUID, p_provider: "jobright", p_status: "disconnected", p_meta: {} },
 };
 export const EXPECTED_BUCKETS = ["resumes", "receipts", "transcripts"] as const;
 

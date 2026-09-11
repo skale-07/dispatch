@@ -20,6 +20,24 @@ export const CONTRACT = {
    * later still ADDS its quota.
    */
   ensureMemberRpc: "ensure_member",
+  /**
+   * Server-side completeness (20260911000300): returns { complete,
+   * missing[] } and stamps onboarding_completed_at only when nothing is
+   * missing. Never raises for incompleteness.
+   */
+  completeOnboardingRpc: "complete_my_onboarding",
+  /** Resume variants + transcript as rows (20260911000300); own rows. */
+  documentsTable: "user_documents",
+  /** Per-user screener answer bank (20260911000400); own rows. */
+  screenerAnswersTable: "user_screener_answers",
+  /** The 22 registry keys, from the database (drift-tested vs the engine). */
+  screenerRegistryKeysRpc: "screener_registry_keys",
+  /** Outreach persona (20260911000600); own rows. */
+  personasTable: "user_personas",
+  /** Integrations read model (20260911000700) — never a secret column. */
+  integrationsView: "my_integrations",
+  /** User-side integration writes: only { premium } and { disconnect }. */
+  setIntegrationRpc: "set_my_integration",
   /** Atomic, idempotent-per-user invite redemption. Arg name matters. */
   redeemInviteRpc: "redeem_invite",
   redeemInviteArg: "invite_code",
@@ -116,9 +134,42 @@ export type JobPreferences = {
   min_salary_usd?: number;
 };
 
+/** employment_history entry (20260911000200). */
+export type EmploymentEntry = {
+  company: string;
+  title: string;
+  location?: string;
+  start_month?: string;
+  start_year?: number | null;
+  end_month?: string;
+  end_year?: number | null;
+  current?: boolean;
+  summary?: string;
+};
+
 export type ProfileRow = {
   user_id: string;
+  /** Display/greeting name; the wizard writes legal first + last here. */
   full_name: string | null;
+  /** 20260911000200 — engine legal_name.{first,middle,last}. */
+  legal_first_name: string | null;
+  legal_middle_name: string | null;
+  legal_last_name: string | null;
+  preferred_name: string | null;
+  /** null = the auth email. */
+  contact_email: string | null;
+  address_line1: string | null;
+  address_line2: string | null;
+  postal_code: string | null;
+  /** "How did you hear about us" answer + user-approved fallbacks. */
+  how_heard: string | null;
+  how_heard_fallbacks: string[];
+  /** Non-compete yes/no; null = unanswered (never invented). */
+  restrictive_covenants: "yes" | "no" | null;
+  skills: string[];
+  employment_history: EmploymentEntry[];
+  /** Wizard resume pointer; UI-only. */
+  onboarding_progress: { step: string; updated_at: string } | null;
   phone: string | null;
   location_city: string | null;
   location_region: string | null;
@@ -151,6 +202,81 @@ export type ProfileRow = {
   created_at?: string;
   updated_at?: string;
 };
+
+/* ── per-store rows (20260911000300–000700) ────────────────────────── */
+
+export type DocumentKind = "resume" | "transcript" | "cover_letter";
+
+export type DocumentRow = {
+  id: string;
+  user_id: string;
+  kind: DocumentKind;
+  /** 'general' | 'ds_ai' are what the engine understands today. */
+  variant: string;
+  bucket: "resumes" | "transcripts";
+  object_path: string;
+  filename: string;
+  role_families: string[];
+  is_default: boolean;
+  uploaded_at: string;
+};
+
+export type ScreenerAnswerRow = {
+  user_id: string;
+  key: string;
+  kind: "registry" | "custom";
+  /** Literal string the engine types or picks. */
+  answer: string;
+  labels: string[];
+  source: "wizard" | "suggestion" | "engine_promote";
+  created_at?: string;
+  updated_at?: string;
+};
+
+export type PersonaProject = {
+  name: string;
+  summary: string;
+  tools: string[];
+  relevance_tags: string[];
+};
+
+export type PersonaRow = {
+  user_id: string;
+  persona_id: string;
+  headline: string;
+  education: { school?: string; class_year?: number; majors?: string[] };
+  projects: PersonaProject[];
+  skills: string[];
+  interests: string[];
+  updated_at?: string;
+};
+
+export type IntegrationProvider = "jobright" | "gmail";
+export type IntegrationStatus =
+  | "disconnected"
+  | "pending_handoff"
+  | "connected"
+  | "expired"
+  | "revoked";
+
+/** A my_integrations row — never carries a secret. */
+export type IntegrationRow = {
+  user_id: string;
+  provider: IntegrationProvider;
+  status: IntegrationStatus;
+  account_email: string | null;
+  /** jobright: self-reported Premium (engine may confirm, never demote). */
+  premium: boolean | null;
+  scopes: string[];
+  connected_at: string | null;
+  expires_at: string | null;
+  last_checked_at: string | null;
+  last_error: string | null;
+  updated_at: string;
+};
+
+/** complete_my_onboarding() result. */
+export type OnboardingCompletion = { complete: boolean; missing: string[] };
 
 /* ── read models ───────────────────────────────────────────────────── */
 
@@ -256,8 +382,77 @@ export type ApplicationRowPublic = {
 
 /* ── the wizard's working draft (form state; mapped in data.ts) ────── */
 
+/** One additional school (education[1..]); the primary stays flat on the draft. */
+export type EducationDraft = {
+  school: string;
+  degree: string;
+  field: string;
+  grad_year: string;
+  grad_month: string;
+  start_year: string;
+  start_month: string;
+  gpa: string;
+  additional_fields: string;
+};
+
+export const EMPTY_EDUCATION_ENTRY: EducationDraft = {
+  school: "",
+  degree: "",
+  field: "",
+  grad_year: "",
+  grad_month: "",
+  start_year: "",
+  start_month: "",
+  gpa: "",
+  additional_fields: "",
+};
+
+export type EmploymentDraft = {
+  company: string;
+  title: string;
+  location: string;
+  start_month: string;
+  start_year: string;
+  end_month: string;
+  end_year: string;
+  current: boolean;
+  summary: string;
+};
+
+export const EMPTY_EMPLOYMENT_ENTRY: EmploymentDraft = {
+  company: "",
+  title: "",
+  location: "",
+  start_month: "",
+  start_year: "",
+  end_month: "",
+  end_year: "",
+  current: false,
+  summary: "",
+};
+
 export type ProfileDraft = {
   full_name: string;
+  /** 20260911000200 — engine legal_name.{first,middle,last}. */
+  legal_first_name: string;
+  legal_middle_name: string;
+  legal_last_name: string;
+  preferred_name: string;
+  /** "" = use the sign-in email. */
+  contact_email: string;
+  address_line1: string;
+  address_line2: string;
+  postal_code: string;
+  how_heard: string;
+  /** Comma-separated in the form; text[] in the row. */
+  how_heard_fallbacks: string;
+  /** "" = unanswered (row null) — never invented. */
+  restrictive_covenants: "yes" | "no" | "";
+  /** Comma-separated in the form; text[] in the row. */
+  skills: string;
+  /** Additional schools; education[0] stays on the flat keys below. */
+  more_education: EducationDraft[];
+  employment_history: EmploymentDraft[];
   phone: string;
   location_city: string;
   location_region: string;
@@ -296,6 +491,20 @@ export type ProfileDraft = {
 
 export const EMPTY_PROFILE: ProfileDraft = {
   full_name: "",
+  legal_first_name: "",
+  legal_middle_name: "",
+  legal_last_name: "",
+  preferred_name: "",
+  contact_email: "",
+  address_line1: "",
+  address_line2: "",
+  postal_code: "",
+  how_heard: "",
+  how_heard_fallbacks: "",
+  restrictive_covenants: "",
+  skills: "",
+  more_education: [],
+  employment_history: [],
   phone: "",
   location_city: "",
   location_region: "",
@@ -345,4 +554,74 @@ export const EMPLOYMENT_TYPE_OPTIONS = [
   "full_time",
   "part_time",
   "contract",
+] as const;
+
+/* ── screener questions the wizard asks (mirror of SCREENER_REGISTRY) ─ */
+
+export type ScreenerKind = "yes_no" | "option" | "short_text" | "url";
+
+export type ScreenerQuestion = {
+  /** Registry key — must equal src/candidate/screeners.ts (drift-tested). */
+  key: string;
+  prompt: string;
+  kind: ScreenerKind;
+  /** Where the wizard asks it. */
+  step: "eligibility" | "compensation";
+  hint?: string;
+  /** For option/short_text: common literal answers; the user may type another. */
+  suggestions?: string[];
+};
+
+/**
+ * The engine's fixed screener keys, with the question each one stands
+ * for. Answers are stored VERBATIM (user_screener_answers.answer) and
+ * placed onto forms by choosing from the page's own options. Facts that
+ * live on the profile row (work authorization, sponsorship, relocation,
+ * how-heard, non-compete) are asked there instead and mirrored by the
+ * engine — so those five keys are listed here only for completeness
+ * tests and are NOT rendered as separate questions.
+ */
+export const PROFILE_MIRRORED_SCREENER_KEYS = [
+  "work_authorization",
+  "requires_sponsorship",
+  "willing_to_relocate",
+  "how_heard",
+  "non_compete",
+] as const;
+
+export const SCREENER_QUESTIONS: ScreenerQuestion[] = [
+  { key: "consent_agreement", prompt: "Agree to application terms / privacy notices when a form requires it?", kind: "yes_no", step: "eligibility", hint: "Almost every form has one; \"Yes\" is what lets Dispatch submit." },
+  { key: "availability_full_time", prompt: "Are you available to work full-time?", kind: "yes_no", step: "eligibility" },
+  { key: "requires_sponsorship", prompt: "Will you now or in the future require sponsorship?", kind: "yes_no", step: "eligibility", hint: "Answered on the work-eligibility step (profile)." },
+  { key: "work_authorization", prompt: "Are you authorized to work in the United States?", kind: "yes_no", step: "eligibility", hint: "Answered on the work-eligibility step (profile)." },
+  { key: "education_level", prompt: "Highest level of education (completed or in progress)", kind: "option", step: "eligibility", suggestions: ["High school", "Associate's", "Bachelor's", "Master's", "Doctorate"] },
+  { key: "closest_location", prompt: "Which office / location is closest to you, when a form asks?", kind: "option", step: "eligibility", hint: "Type the city you'd pick; Dispatch matches it against the form's list." },
+  { key: "how_heard", prompt: "How did you hear about this role?", kind: "short_text", step: "compensation", hint: "Answered on the compensation & how-heard step (profile)." },
+  { key: "referral_name", prompt: "Name of an employee who referred you, if forms ask", kind: "short_text", step: "compensation", hint: "Leave blank unless you have a standing referrer." },
+  { key: "willing_to_relocate", prompt: "Willing to relocate?", kind: "yes_no", step: "eligibility", hint: "Answered on the work-eligibility step (profile)." },
+  { key: "remote_or_onsite", prompt: "Remote, hybrid, or on-site preference when a form asks", kind: "option", step: "eligibility", suggestions: ["Remote", "Hybrid", "On-site", "No preference"] },
+  { key: "start_availability", prompt: "Earliest start date / availability to begin", kind: "short_text", step: "eligibility", suggestions: ["Immediately", "Two weeks' notice", "May 2027", "Summer 2027"] },
+  { key: "internship_term", prompt: "Which internship term are you applying for?", kind: "option", step: "eligibility", suggestions: ["Summer 2027", "Fall 2026", "Spring 2027", "Winter 2027"] },
+  { key: "hours_per_week", prompt: "Hours per week you can commit", kind: "short_text", step: "eligibility", suggestions: ["40", "20", "10-15"] },
+  { key: "previously_applied_or_worked", prompt: "Have you previously applied to or worked for the company?", kind: "yes_no", step: "eligibility", hint: "Dispatch answers the same for every company; leave blank to have it asked per application." },
+  { key: "age_over_18", prompt: "Are you at least 18 years old?", kind: "yes_no", step: "eligibility" },
+  { key: "non_compete", prompt: "Are you bound by a non-compete or other restrictive covenant?", kind: "yes_no", step: "eligibility", hint: "Answered on the work-eligibility step (profile)." },
+  { key: "government_employment", prompt: "Are you a current or former government employee?", kind: "yes_no", step: "eligibility" },
+  { key: "security_clearance", prompt: "Do you hold an active security clearance?", kind: "yes_no", step: "eligibility" },
+  { key: "twitter_url", prompt: "Twitter / X profile URL", kind: "url", step: "compensation", hint: "Optional." },
+  { key: "portfolio_url", prompt: "Portfolio or other website URL (when a form has a separate field)", kind: "url", step: "compensation", hint: "Optional; your main website is on the identity step." },
+  { key: "salary_expectations", prompt: "Expected salary / compensation, in your own words", kind: "short_text", step: "compensation", hint: "Dispatch never goes below a posting's stated pay and never invents a precise figure.", suggestions: ["Open to the posted range", "$70,000-$85,000", "$35/hour"] },
+  { key: "notice_period", prompt: "Notice period with your current employer", kind: "short_text", step: "compensation", suggestions: ["None - available now", "Two weeks", "One month"] },
+];
+
+/** Common "how did you hear about us" answers that appear on real forms. */
+export const HOW_HEARD_SUGGESTIONS = [
+  "LinkedIn",
+  "Company website",
+  "Job board",
+  "Handshake",
+  "Indeed",
+  "Referral",
+  "University career fair",
+  "Other",
 ] as const;

@@ -6,7 +6,9 @@ import type { Db } from "../storage/db/client.js";
 import { codeVersion } from "../storage/codeVersion.js";
 import {
   chunkRows,
+  INTEGRATION_PUBLIC_COLUMNS,
   joinOnboardedUsers,
+  toCloudIntegrationRow,
   toEngineStatusRow,
   toReceiptUpload,
   toStatusMirrorRows,
@@ -14,6 +16,9 @@ import {
   type CloudProfileRow,
   type EngineApplicationRow,
   type EngineSubmissionRow,
+  type CloudDocumentRow,
+  type CloudPersonaRow,
+  type CloudScreenerAnswerRow,
   type OnboardedUser,
   type StatusMirrorRow,
 } from "./syncMapping.js";
@@ -299,6 +304,26 @@ export async function runProfilesPull(options: {
     throw new Error(`user_profiles select failed: ${profilesRes.error.message}`);
   }
 
+  // Per-store tables (20260911000300-000700). user_integrations is read
+  // by NAMED non-secret columns — never `*` — so ciphertext can never
+  // land in the snapshot; user_sensitive_profiles is never read here at
+  // all (the workspace runner fetches it through its own RPC straight
+  // into an encrypted file).
+  const [docsRes, answersRes, personasRes, integrationsRes] = await Promise.all([
+    client.from("user_documents").select("*").limit(5000),
+    client.from("user_screener_answers").select("*").limit(20000),
+    client.from("user_personas").select("*").limit(1000),
+    client.from("user_integrations").select(INTEGRATION_PUBLIC_COLUMNS.join(",")).limit(2000),
+  ]);
+  for (const [name, res] of [
+    ["user_documents", docsRes],
+    ["user_screener_answers", answersRes],
+    ["user_personas", personasRes],
+    ["user_integrations", integrationsRes],
+  ] as const) {
+    if (res.error) throw new Error(`${name} select failed: ${res.error.message}`);
+  }
+
   const userRows: CloudAppUserRow[] = (
     (usersRes.data ?? []) as Array<Record<string, unknown>>
   ).map((u) => ({
@@ -312,6 +337,16 @@ export async function runProfilesPull(options: {
   const users = joinOnboardedUsers(
     userRows,
     (profilesRes.data ?? []) as CloudProfileRow[],
+    {
+      documents: (docsRes.data ?? []) as CloudDocumentRow[],
+      screenerAnswers: (answersRes.data ?? []) as CloudScreenerAnswerRow[],
+      personas: (personasRes.data ?? []) as CloudPersonaRow[],
+      // A joined column list types as a string error in supabase-js; the
+      // rows are plain objects, whitelisted by toCloudIntegrationRow.
+      integrations: ((integrationsRes.data ?? []) as unknown as Array<Record<string, unknown>>).map(
+        toCloudIntegrationRow,
+      ),
+    },
   );
 
   const outDir = path.join(config.privateDir, "cloud", "users");

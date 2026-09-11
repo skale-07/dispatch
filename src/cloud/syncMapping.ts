@@ -220,6 +220,14 @@ export type CloudAppUserRow = {
   max_completed_applications?: number | null;
 };
 
+/**
+ * The user_profiles row as the cloud returns it. Columns added after the
+ * original wizard (20260903000100 about_me/transcript/current_company/
+ * open_to_relocation; 20260911000200 legal names, address, how-heard,
+ * covenants, skills, employment) are optional here so older snapshots
+ * and fixtures still type-check; the materializer treats absent and
+ * null alike (nothing invented).
+ */
 export type CloudProfileRow = {
   user_id: string;
   full_name: string | null;
@@ -237,6 +245,117 @@ export type CloudProfileRow = {
   resume_object_path: string | null;
   resume_filename: string | null;
   onboarding_completed_at: string | null;
+  // 20260903000100
+  about_me?: string | null;
+  transcript_object_path?: string | null;
+  transcript_filename?: string | null;
+  current_company?: string | null;
+  open_to_relocation?: boolean | null;
+  // 20260911000200
+  legal_first_name?: string | null;
+  legal_middle_name?: string | null;
+  legal_last_name?: string | null;
+  preferred_name?: string | null;
+  contact_email?: string | null;
+  address_line1?: string | null;
+  address_line2?: string | null;
+  postal_code?: string | null;
+  how_heard?: string | null;
+  how_heard_fallbacks?: string[] | null;
+  restrictive_covenants?: string | null;
+  skills?: string[] | null;
+  employment_history?: unknown;
+};
+
+/** user_documents (20260911000300). */
+export type CloudDocumentRow = {
+  id: string;
+  user_id: string;
+  kind: string;
+  variant: string;
+  bucket: string;
+  object_path: string;
+  filename: string;
+  role_families: string[];
+  is_default: boolean;
+  uploaded_at: string | null;
+};
+
+/** user_screener_answers (20260911000400). */
+export type CloudScreenerAnswerRow = {
+  user_id: string;
+  key: string;
+  kind: string;
+  answer: string;
+  labels: string[];
+  source: string;
+  updated_at: string | null;
+};
+
+/** user_personas (20260911000600). */
+export type CloudPersonaRow = {
+  user_id: string;
+  persona_id: string;
+  headline: string;
+  education: unknown;
+  projects: unknown;
+  skills: string[];
+  interests: string[];
+};
+
+/**
+ * user_integrations WITHOUT its secret columns (20260911000700). The
+ * pull selects these names explicitly; toCloudIntegrationRow() is a
+ * whitelist so a `select *` regression can never carry ciphertext into
+ * a snapshot on disk.
+ */
+export type CloudIntegrationRow = {
+  user_id: string;
+  provider: string;
+  status: string;
+  account_email: string | null;
+  premium: boolean | null;
+  scopes: string[];
+  connected_at: string | null;
+  expires_at: string | null;
+  last_checked_at: string | null;
+  last_error: string | null;
+};
+
+export const INTEGRATION_PUBLIC_COLUMNS = [
+  "user_id",
+  "provider",
+  "status",
+  "account_email",
+  "premium",
+  "scopes",
+  "connected_at",
+  "expires_at",
+  "last_checked_at",
+  "last_error",
+] as const;
+
+export function toCloudIntegrationRow(row: Record<string, unknown>): CloudIntegrationRow {
+  const str = (v: unknown): string | null => (typeof v === "string" ? v : null);
+  return {
+    user_id: String(row["user_id"] ?? ""),
+    provider: String(row["provider"] ?? ""),
+    status: String(row["status"] ?? ""),
+    account_email: str(row["account_email"]),
+    premium: typeof row["premium"] === "boolean" ? row["premium"] : null,
+    scopes: Array.isArray(row["scopes"]) ? row["scopes"].map(String) : [],
+    connected_at: str(row["connected_at"]),
+    expires_at: str(row["expires_at"]),
+    last_checked_at: str(row["last_checked_at"]),
+    last_error: str(row["last_error"]),
+  };
+}
+
+export type OnboardedUserExtras = {
+  documents?: CloudDocumentRow[];
+  screenerAnswers?: CloudScreenerAnswerRow[];
+  personas?: CloudPersonaRow[];
+  integrations?: CloudIntegrationRow[];
 };
 
 export type OnboardedUser = {
@@ -254,13 +373,34 @@ export type OnboardedUser = {
   resumeFilename: string | null;
   onboardingCompletedAt: string;
   maxCompletedApplications: number | null;
+  /** The whole row, for the materializer (20260911000200 columns included). */
+  profile: CloudProfileRow;
+  documents: CloudDocumentRow[];
+  screenerAnswers: CloudScreenerAnswerRow[];
+  persona: CloudPersonaRow | null;
+  integrations: CloudIntegrationRow[];
 };
+
+function groupByUser<T extends { user_id: string }>(rows: T[] | undefined): Map<string, T[]> {
+  const m = new Map<string, T[]>();
+  for (const r of rows ?? []) {
+    const list = m.get(r.user_id) ?? [];
+    list.push(r);
+    m.set(r.user_id, list);
+  }
+  return m;
+}
 
 export function joinOnboardedUsers(
   users: CloudAppUserRow[],
   profiles: CloudProfileRow[],
+  extras: OnboardedUserExtras = {},
 ): OnboardedUser[] {
   const byId = new Map(profiles.map((p) => [p.user_id, p]));
+  const docs = groupByUser(extras.documents);
+  const answers = groupByUser(extras.screenerAnswers);
+  const personas = groupByUser(extras.personas);
+  const integrations = groupByUser(extras.integrations);
   const out: OnboardedUser[] = [];
   for (const user of users) {
     const p = byId.get(user.id);
@@ -293,6 +433,14 @@ export function joinOnboardedUsers(
       resumeFilename: p.resume_filename,
       onboardingCompletedAt: p.onboarding_completed_at,
       maxCompletedApplications: user.max_completed_applications ?? null,
+      profile: p,
+      documents: docs.get(user.id) ?? [],
+      screenerAnswers: answers.get(user.id) ?? [],
+      persona:
+        (personas.get(user.id) ?? []).find((x) => x.persona_id === "default") ??
+        (personas.get(user.id) ?? [])[0] ??
+        null,
+      integrations: integrations.get(user.id) ?? [],
     });
   }
   return out;

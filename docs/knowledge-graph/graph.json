@@ -782,7 +782,13 @@
         "supabase/migrations/20260902000400_referral_bonus.sql": "two-sided quota bonus: referral_bonuses (one per invitee), app_users.bonus_completed_applications, user_quota_status = base + bonus, AFTER trigger on COMPLETED mirror rows",
         "supabase/migrations/20260902000500_engine_status.sql": "engine_status heartbeat table (one row per user, own-row select, service-role writes only)",
         "supabase/migrations/20260902000600_invites_redeemed_by_cascade.sql": "invites.redeemed_by ON DELETE CASCADE: a deleted account's invite is spent (breaks the app_users.invite_id / redeemed_by FK cycle that made accounts undeletable)",
-        "supabase/migrations/20260911000100_open_signup.sql": "open signup (2026-09-11): ensure_member() creates the caller's app_users row without an invite; referral_settings().free_signup_quota; user_quota_status left-joins invites = free + invite + bonus (+free_completed_applications, has_invite)"
+        "supabase/migrations/20260911000100_open_signup.sql": "open signup (2026-09-11): ensure_member() creates the caller's app_users row without an invite; referral_settings().free_signup_quota; user_quota_status left-joins invites = free + invite + bonus (+free_completed_applications, has_invite)",
+        "supabase/migrations/20260911000200_profile_expansion.sql": "onboarding parity 1/5: user_profiles gains legal names, address, how_heard(+fallbacks), restrictive_covenants, skills, employment_history, onboarding_progress — every public-profile.json fact has a column",
+        "supabase/migrations/20260911000300_user_documents.sql": "onboarding parity 2/5: resume variants + transcript as rows (uid-prefixed paths, one default per kind, backfilled from legacy columns) + complete_my_onboarding() server-side completeness (returns missing[], stamps onboarding_completed_at)",
+        "supabase/migrations/20260911000400_user_screener_answers.sql": "onboarding parity 3/5: per-user screener bank; screener_registry_keys() mirrors SCREENER_REGISTRY (drift-tested); CHECKs mirror parseScreenerBank",
+        "supabase/migrations/20260911000450_encryption_kek.sql": "in-DB Vault KEK + per-(user,purpose) HMAC DEK + _dispatch_encrypt/_decrypt (security definer, no API role may call them); the one key story for integration secrets and the self-ID profile",
+        "supabase/migrations/20260911000600_user_personas.sql": "onboarding parity 4/5: outreach persona rows (the only source of project claims; placeholder names refused like personas.ts)",
+        "supabase/migrations/20260911000700_user_integrations.sql": "onboarding parity 5/5: jobright/gmail integration rows; secrets ciphertext RPC-only (engine_store/read_integration_secret, engine_set_integration_status for service_role); my_integrations view + set_my_integration({premium|disconnect}) for users"
       },
       "key_exports": {
         "src/cloud/invites.ts": [
