@@ -1,0 +1,155 @@
+{
+  "decision_id": "0c809f0e-a9dc-4a64-ae9e-f1a6ff8224aa",
+  "application_id": "b3e3525f-5436-471c-a8cf-4c486bf5e84d",
+  "signature": "AMBIGUOUS_FIELD|-|verify_mismatch|egup.fa.us2.oraclecloud.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "b3e3525f-5436-471c-a8cf-4c486bf5e84d",
+    "company": "Vertiv",
+    "role": "Innovation Lab Intern I - Summer 2027",
+    "state": "AMBIGUOUS_FIELD",
+    "attempt": 1,
+    "failure_signature": "AMBIGUOUS_FIELD|-|verify_mismatch|egup.fa.us2.oraclecloud.com",
+    "end_host": "egup.fa.us2.oraclecloud.com",
+    "recent_events": [
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "AMBIGUOUS_FIELD",
+        "reason": "pipeline: read-back verification failed",
+        "at": "2026-09-11T06:15:54.949Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (generic live fill: 0 filled (held for submit))",
+        "at": "2026-09-11T06:15:54.948Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route ready_for_fill_later (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-11T06:15:36.231Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-11T06:15:32.877Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-11T06:15:32.828Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-11T06:15:24.961Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 dd9093dde3f8)",
+        "at": "2026-09-11T06:15:24.955Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-11T06:15:24.920Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-11T06:15:18.036Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-11T06:15:18.010Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-11T06:15:18.008Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-11T06:15:18.007Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_llm",
+      "notes": [
+        "phase A: 9 external host(s) seen: egup.fa.us2.oraclecloud.com, www.linkedin.com, x.com, www.crunchbase.com, www.glassdoor.com, www.vertiv.com, www.fool.com, www.morningstar.com, www.prnewswire.com",
+        "no standard Apply control found (exact and broad name tiers both empty)",
+        "anchor adjudication: promoted egup.fa.us2.oraclecloud.com",
+        "anchor adjudication rationale (UNVERIFIED): Oracle HCM candidate experience job req link is the employer ATS application page; other links are homepage or news.",
+        "employer congruence unverifiable (URL carries no employer name specific enough to verify against \"Vertiv\") — recorded"
+      ],
+      "congruence": {
+        "verdict": "unknown",
+        "slug": "egup",
+        "detail": "URL carries no employer name specific enough to verify against \"Vertiv\"",
+        "expected_company": "Vertiv",
+        "url": "https://egup.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/job/20280126?jr_id=6aa396784233a2201a2b2413"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "no congruent apply href (13 external links)",
+          "evidence": "egup.fa.us2.oraclecloud.com, www.linkedin.com, x.com, www.crunchbase.com, www.glassdoor.com, www.vertiv.com"
+        },
+        {
+          "phase": "B_apply_click",
+          "outcome": "unresolved by deterministic phases"
+        },
+        {
+          "phase": "A_anchor_llm",
+          "outcome": "candidate promoted by adjudication",
+          "evidence": "egup.fa.us2.oraclecloud.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": false
+    },
+    "open_review_items": [
+      {
+        "kind": "AMBIGUOUS_FIELD",
+        "title": "Fill verification failed"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"engage_agent_leg\", \"rationale\": \"Deterministic tiers found no Apply control and the native fill filled 0 fields, so read-back verification failed on an Oracle HCM page. Agent leg has never been granted (prior_agent_leg_decision false), no wall, no duplicate, materials verified. One bounded agent attempt is the cheapest action that could actually change the outcome.\", \"confidence\": \"medium\"}",
+  "parsed_action": "engage_agent_leg",
+  "validation_note": null,
+  "precondition": {
+    "ok": false,
+    "reason": "no navigation wall in evidence — agent leg only helps nav-walled apps"
+  },
+  "mode": "act",
+  "executed": false,
+  "execution_detail": "precondition failed: no navigation wall in evidence — agent leg only helps nav-walled apps",
+  "rationale_unverified": "Deterministic tiers found no Apply control and the native fill filled 0 fields, so read-back verification failed on an Oracle HCM page. Agent leg has never been granted (prior_agent_leg_decision false), no wall, no duplicate, materials verified. One bounded agent attempt is the cheapest action that could actually change the outcome."
+}
