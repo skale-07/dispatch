@@ -60,12 +60,12 @@
 </style></head>
 <body><div class="wrap">
 <h1>Dispatch run timeline</h1>
-<p class="sub">Generated 2026-09-11T06:13:06.451Z · 40 navigation run(s) · read-only view of artifacts/</p>
-<div class="stats"><span class="stat"><b>18</b> resolved</span><span class="stat"><b>8</b> unknown</span><span class="stat"><b>5</b> budget</span><span class="stat"><b>4</b> auth</span><span class="stat"><b>2</b> closed</span><span class="stat"><b>2</b> submit_risk</span><span class="stat"><b>1</b> duplicate_url</span></div>
+<p class="sub">Generated 2026-09-11T06:16:45.412Z · 40 navigation run(s) · read-only view of artifacts/</p>
+<div class="stats"><span class="stat"><b>19</b> resolved</span><span class="stat"><b>7</b> unknown</span><span class="stat"><b>5</b> budget</span><span class="stat"><b>4</b> auth</span><span class="stat"><b>2</b> closed</span><span class="stat"><b>2</b> submit_risk</span><span class="stat"><b>1</b> duplicate_url</span></div>
 <section class="cycle">
   <h2>Latest cycle</h2>
   <dl>
-    <div><dt>Started</dt><dd>2026-09-11T06:11:33.793Z</dd></div>
+    <div><dt>Started</dt><dd>2026-09-11T06:15:21.811Z</dd></div>
     <div><dt>Outcome</dt><dd>completed</dd></div>
     <div><dt>Agent leg</dt><dd>available</dd></div>
     <div><dt>Default resume</dt><dd>ready (C:\dev\jobright-application-agent\private\candidate\resumes\swe.pdf)</dd></div>
@@ -73,9 +73,24 @@
     <div><dt>Submits used</dt><dd>0</dd></div>
     <div><dt>Stopped</dt><dd>apps_cap</dd></div>
   </dl>
-  <h3>Session notes</h3><ul class="notes"><li>triage sweep: 0 confirmed, 0 refuted, 0 expired of 123 pending</li><li>triage 8db4f104: park_for_operator (executed) — review item created: 3c4fcb8c-bf7a-4d92-a75b-8cd79df5599c</li><li>artifact autopush: 6 file(s) pushed to master as 4c0aaba5</li></ul>
+  <h3>Session notes</h3><ul class="notes"><li>nav audit: 2 wrong-employer URL(s) cleared for re-navigation, 1 parked for review</li><li>triage sweep: 0 confirmed, 0 refuted, 0 expired of 124 pending</li><li>triage b3e3525f: engage_agent_leg — precondition failed: no navigation wall in evidence — agent leg only helps nav-walled apps</li><li>artifact autopush: 13 file(s) pushed to master as a2d7ec0d</li></ul>
 </section>
 <h2>Applications</h2>
+<details class="app ok">
+  <summary>
+    <span class="id">b3e3525f</span>
+    <span class="co">Vertiv</span>
+    <span class="badge">resolved</span>
+    <span class="chip">anchor_llm</span>
+    <span class="chip">generic</span>
+    
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no congruent apply href (13 external links)<span class="ev">egup.fa.us2.oraclecloud.com, www.linkedin.com, x.com, www.crunchbase.com, www.glassdoor.com, www.vertiv.com</span></li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>A_anchor_llm</b> — candidate promoted by adjudication<span class="ev">egup.fa.us2.oraclecloud.com</span></li></ol>
+    <h4>Notes</h4><ul class="notes"><li>phase A: 9 external host(s) seen: egup.fa.us2.oraclecloud.com, www.linkedin.com, x.com, www.crunchbase.com, www.glassdoor.com, www.vertiv.com, www.fool.com, www.morningstar.com, www.prnewswire.com</li><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>anchor adjudication: promoted egup.fa.us2.oraclecloud.com</li><li>anchor adjudication rationale (UNVERIFIED): Oracle HCM candidate experience job req link is the employer ATS application page; other links are homepage or news.</li><li>employer congruence unverifiable (URL carries no employer name specific enough to verify against &quot;Vertiv&quot;) — recorded</li></ul>
+    
+  </div>
+</details>
 <details class="app ok">
   <summary>
     <span class="id">8db4f104</span>
@@ -659,21 +674,6 @@
     <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>B_board_hop</b> — no employer board route (3 request(s))</li><li><b>C_agent</b> — resolved (turn 1, employer match)<span class="ev">jobs.lever.co</span></li></ol>
     <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>board hop: no public greenhouse/lever/ashby board found for &quot;Acme&quot; (acme; 3 requests)</li><li>agent[1]: reached form</li></ul>
     <h4>Hosts visited</h4><p class="hosts">jobright.ai → jobs.lever.co</p>
-  </div>
-</details>
-<details class="app bad">
-  <summary>
-    <span class="id"></span>
-    <span class="co">—</span>
-    <span class="badge">wall: undefined</span>
-    
-    
-    
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li>none recorded</li></ol>
-    <h4>Notes</h4><ul class="notes"><li>model calls: 0 of 1 steps</li></ul>
-    
   </div>
 </details>
 <footer>Every row is one navigation run. Green = employer URL resolved; amber = auth/CAPTCHA wall; red = unresolved; grey = posting closed. Expand a row for its phase trace and the notes that explain the stop.</footer>
