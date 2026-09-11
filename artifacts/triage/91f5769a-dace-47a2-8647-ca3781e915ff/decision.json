@@ -1,0 +1,121 @@
+{
+  "decision_id": "91f5769a-dace-47a2-8647-ca3781e915ff",
+  "application_id": "52e011ab-6c41-48b0-8568-07784ddc88d6",
+  "signature": "FAILED_RETRYABLE|duplicate_url|duplicate_url|-",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "52e011ab-6c41-48b0-8568-07784ddc88d6",
+    "company": "Zipline",
+    "role": "Data Analytics Intern (Spring 2027)",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 1,
+    "failure_signature": "FAILED_RETRYABLE|duplicate_url|duplicate_url|-",
+    "end_host": null,
+    "recent_events": [
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "navigation: employer URL already held by another application",
+        "at": "2026-09-11T06:39:31.939Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-11T06:39:27.773Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 db6f3f869124)",
+        "at": "2026-09-11T06:39:27.763Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-11T06:39:27.711Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-11T06:39:17.338Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-11T06:39:17.304Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-11T06:39:17.301Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-11T06:39:17.296Z"
+      }
+    ],
+    "nav": {
+      "wall": "duplicate_url",
+      "method": null,
+      "notes": [
+        "employer URL already held by 1 other application(s): a72fc204 (Zipline — Data Analytics Intern (Spring 2027), COMPLETED)"
+      ],
+      "congruence": {
+        "verdict": "match",
+        "slug": "flyzipline",
+        "detail": "token \"zipline\" ~ slug \"flyzipline\"",
+        "expected_company": "Zipline",
+        "url": "https://job-boards.greenhouse.io/embed/job_app?for=flyzipline&token=7990420003&jr_id=6aa38c6d4233a2201a2b200d"
+      },
+      "duplicates": [
+        {
+          "application_id": "a72fc204-dbf6-4e43-a555-ac959c114a75",
+          "state": "COMPLETED",
+          "company": "Zipline",
+          "role": "Data Analytics Intern (Spring 2027)"
+        }
+      ],
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (11 candidates, employer match)",
+          "evidence": "job-boards.greenhouse.io"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [
+      {
+        "kind": "MANUAL",
+        "title": "Duplicate posting — another application already targets this URL"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\":\"abandon_duplicate\",\"rationale\":\"Same URL and identical company/role already owned by application a72fc204 in COMPLETED state; congruence confirms match. No rerun would change this — abandon this duplicate.\",\"confidence\":\"high\"}",
+  "parsed_action": "abandon_duplicate",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "abandoned to FAILED_FINAL",
+  "rationale_unverified": "Same URL and identical company/role already owned by application a72fc204 in COMPLETED state; congruence confirms match. No rerun would change this — abandon this duplicate."
+}
