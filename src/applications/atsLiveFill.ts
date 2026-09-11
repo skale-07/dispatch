@@ -133,6 +133,107 @@ async function sweepRevealedSelects(
   }
 }
 
+/**
+ * #224 (night28–30: Palantir ×N, Crest ×2, Immuta) — required controls an
+ * ANSWER reveals. Palantir's "Name" + "Date" acknowledgement block is
+ * absent from the empty form at every point (live probe night30: 94
+ * controls discovered at +1.5s and +6s, neither present), so plan-time
+ * discovery can never see it, and the submit gate refused on it every run.
+ *
+ * One bounded second pass, through the ordinary machinery:
+ *   - a control is REVEALED when the settled page has it and the plan-time
+ *     HTML did not — new by id AND by label — and it is required;
+ *   - only then is the page re-planned (planApplicationFill: same alias
+ *     map, same approval rules — values still come only from the approved
+ *     plan; sensitive/salary stay unapproved);
+ *   - the fill is restricted to the revealed entries and read back.
+ *
+ * Nothing here can turn a finished application into a refusal: a revealed
+ * control that does not verify is recorded as a fill error, and the submit
+ * gate's own completeness scan — the final arbiter — refuses exactly as it
+ * did before this pass existed.
+ */
+async function fillRevealedRequiredControls(args: {
+  page: Page;
+  planUrl: string;
+  planHtml: string;
+  postingContext: string;
+  profile?: PublicProfile;
+  report: { fill: FillResult | null; notes: string[] };
+}): Promise<void> {
+  const norm = (s: string): string => s.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+  try {
+    const before = discoverFieldsFromHtml(args.planHtml);
+    const beforeIds = new Set(before.map((f) => f.id));
+    const beforeLabels = new Set(before.map((f) => norm(f.label)));
+    const html = await args.page.content();
+    // Requiredness from the completeness scan's three sources (DOM,
+    // asterisk glyph, board schema) — discovery reads only the attribute,
+    // and Lever marks required cards with a ✱.
+    const scan = await scanRequiredCompleteness(args.page, {}).catch(() => null);
+    const unansweredLabels = new Set((scan?.unanswered ?? []).map((u) => norm(u.label)));
+    const revealed = discoverFieldsFromHtml(html).filter(
+      (f) =>
+        !beforeIds.has(f.id) &&
+        !beforeLabels.has(norm(f.label)) &&
+        (f.required || unansweredLabels.has(norm(f.label))),
+    );
+    if (revealed.length === 0) return;
+    const revealedIds = new Set(revealed.map((f) => f.id));
+    const revealedLabels = new Set(revealed.map((f) => norm(f.label)));
+    args.report.notes.push(
+      `revealed required control(s) after the fill (#224): ${revealed
+        .slice(0, 6)
+        .map((f) => `"${f.label.slice(0, 40)}"`)
+        .join(", ")} — second plan pass`,
+    );
+    const second = await planApplicationFill({
+      url: args.planUrl,
+      html,
+      postingContext: args.postingContext,
+      ...(args.profile ? { profile: args.profile } : {}),
+    });
+    const isRevealed = (e: ApprovedFillPlan["entries"][number]): boolean =>
+      revealedIds.has(e.field_id) || revealedLabels.has(norm(e.label));
+    const fillable = second.approvedPlan.entries.filter(
+      (e) => isRevealed(e) && e.action === "FILL" && e.approved,
+    );
+    for (const e of second.approvedPlan.entries.filter((x) => isRevealed(x) && !(x.action === "FILL" && x.approved))) {
+      args.report.notes.push(`revealed "${e.label.slice(0, 40)}": not approved (${e.reason.slice(0, 80)})`);
+    }
+    if (fillable.length === 0) return;
+    const restricted: ApprovedFillPlan = {
+      ...second.approvedPlan,
+      entries: second.approvedPlan.entries.map((e) =>
+        fillable.includes(e) ? e : { ...e, approved: false as const },
+      ),
+    };
+    second.adapter.setApprovedFillPlan(restricted, ...(args.profile ? [args.profile] : []));
+    const fill = await second.adapter.fill(args.page, restricted.answers);
+    const verify = await second.adapter.verify(args.page, restricted.answers);
+    const failed = verify.fields.filter((f) => !f.match).map((f) => f.canonical_field);
+    args.report.notes.push(
+      `revealed pass: filled ${fill.filled.length}, verify ${verify.passed ? "passed" : `failed (${failed.join(", ")})`}`,
+    );
+    if (args.report.fill) {
+      args.report.fill = {
+        ...args.report.fill,
+        filled: [...args.report.fill.filled, ...fill.filled],
+        errors: [
+          ...args.report.fill.errors,
+          ...fill.errors,
+          ...(verify.passed ? [] : [`revealed controls did not verify: ${failed.join(", ")}`]),
+        ],
+      };
+    }
+  } catch (err) {
+    // Fail-open: the pass is an addition; the submit gate still arbitrates.
+    args.report.notes.push(
+      `revealed pass failed: ${err instanceof Error ? err.message.slice(0, 120) : String(err)}`,
+    );
+  }
+}
+
 async function attemptSandboxSubmit(args: {
   page: Page;
   binding: AtsBinding;
@@ -1372,6 +1473,14 @@ export async function runAtsLiveFill(input: {
       // option list only after the parent pick — one deterministic
       // profile-tier pass over selects still at their placeholder.
       await sweepRevealedSelects(page, report, input.profile);
+      await fillRevealedRequiredControls({
+        page,
+        planUrl,
+        planHtml,
+        postingContext: mergePostingContext(...postingTrail),
+        ...(input.profile ? { profile: input.profile } : {}),
+        report,
+      });
       const fillMs = Date.now() - fillStartedAt;
       const verifyStartedAt = Date.now();
       report.verify = await adapter.verify(page, approvedPlan.answers);

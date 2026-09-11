@@ -246,6 +246,57 @@ describe("runAtsLiveFill (W5)", () => {
     45_000,
   );
 
+  // #224 (Palantir ×N, Crest, Immuta): an ANSWER reveals a required
+  // acknowledgement block the plan-time HTML never contained; the submit
+  // gate refused on it every run.
+  it(
+    "a required block revealed by an answer is planned and filled in a second pass (#224, FIXTURE_CONFIRMED)",
+    async () => {
+      applyControlledFillEnv({
+        FORM_FILL_ENABLED: "true",
+        DRY_RUN: "false",
+        SUBMIT_ENABLED: "true",
+        SUBMIT_REQUIRES_LOCAL_CONFIRMATION: "true",
+      });
+      const report = await runAtsLiveFill({
+        binding: ATS_BINDINGS.generic,
+        url: "http://localhost:4599/gauntlet",
+        execute: true,
+        submit: true,
+        profile: PROFILE,
+        fixtureHtml: `<!doctype html><html><head><meta charset="utf-8"></head><body>
+          <form>
+            <label for="first_name">First Name</label>
+            <input id="first_name" name="first_name" required />
+            <div id="ack"></div>
+            <button type="submit">Submit application</button>
+          </form>
+          <script>
+            let shown = false;
+            document.getElementById('first_name').addEventListener('input', function () {
+              if (shown) return; shown = true;
+              document.getElementById('ack').innerHTML =
+                '<p>I certify the information above is true.</p>' +
+                '<label for="ack_name">Name ✱</label><input id="ack_name" name="cards[ack][field0]" required />' +
+                '<label for="ack_date">Date ✱</label><input id="ack_date" name="cards[ack][field1]" required />';
+            });
+            document.querySelector('form').addEventListener('submit', function (e) {
+              e.preventDefault();
+              document.body.innerHTML =
+                '<h1>Thank you for applying!</h1><p>Your application has been received.</p>';
+            });
+          </script>
+        </body></html>`,
+        confirmSubmission: async () => true,
+      });
+      const notes = report.notes.join(" ");
+      expect(notes).toMatch(/revealed required control\(s\) after the fill \(#224\)/);
+      expect(notes).toMatch(/revealed pass: filled 2, verify passed/);
+      expect(report.submit_attempted).toBe(true);
+    },
+    60_000,
+  );
+
   it(
     "sandbox submit clicks and confirms on a loopback form (FIXTURE_CONFIRMED)",
     async () => {
