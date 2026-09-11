@@ -38,6 +38,13 @@ export type BoardJob = {
   board: string;
   /** The ATS's own posting id, when the payload carries one. */
   external_id: string | null;
+  /**
+   * #251: the underlying JOB (requisition) a posting advertises, when the
+   * ATS exposes it separately from the posting. Greenhouse publishes one
+   * posting per location — and mirror boards publish more — all sharing
+   * one `internal_job_id`; applying to each is applying to one job N times.
+   */
+  internal_job_id?: string | null;
   title: string;
   location: string | null;
   department: string | null;
@@ -143,9 +150,14 @@ export function parseBoardPayload(ref: AtsBoardRef, payload: unknown): BoardJob[
       const url = text((j as { absolute_url?: unknown }).absolute_url);
       if (!title || !url) continue;
       const id = (j as { id?: unknown }).id;
+      const internalId = (j as { internal_job_id?: unknown }).internal_job_id;
       push({
         external_id:
           typeof id === "number" || typeof id === "string" ? String(id) : null,
+        internal_job_id:
+          typeof internalId === "number" || (typeof internalId === "string" && internalId.trim() !== "")
+            ? String(internalId).trim()
+            : null,
         title,
         location: text(
           (j as { location?: { name?: unknown } }).location?.name,

@@ -318,6 +318,34 @@ export async function runAtsBoardDiscovery(input: {
       // Never against ITSELF: a re-sweep must still reuse the existing
       // application for this exact posting (idempotence is the contract),
       // so a posting we already have is excluded before comparing roles.
+      // #251: one Greenhouse JOB, several postings (one per location, plus
+      // mirror boards — NISC's `testnisc` re-posts every `nisc` job per
+      // city). Night30's first sweep enqueued "Intern - Information
+      // Security" three times. The ATS says outright they are one job, so
+      // this is not the open per-location-req question #249 left alone:
+      // different reqs carry different internal ids and still enqueue.
+      if (job.internal_job_id) {
+        const sibling = findSamePostedJobHolder(
+          input.db,
+          entry.ref.ats,
+          job.internal_job_id,
+          job.apply_url,
+        );
+        if (sibling) {
+          report.near_duplicate += 1;
+          report.applications.push({
+            board: formatBoardRef(entry.ref),
+            company: entry.company,
+            role: job.title,
+            apply_url: job.apply_url,
+            outcome: "near_duplicate",
+            application_id: sibling.application_id,
+            state: sibling.state,
+            detail: `same ${entry.ref.ats} job (internal id ${job.internal_job_id}) as application ${sibling.application_id.slice(0, 8)} (${sibling.state}) via another posting — not applying twice (#251)`,
+          });
+          continue;
+        }
+      }
       const priorRoles = alreadyHaveThisPosting(input.db, job.apply_url)
         ? []
         : existingRolesForCompany(input.db, entry.company);
@@ -370,6 +398,7 @@ export async function runAtsBoardDiscovery(input: {
       report.applications.push(
         enqueueBoardJob(input.db, entry, job.title, job.apply_url, {
           external_id: job.external_id,
+          internal_job_id: job.internal_job_id ?? null,
           location: job.location,
           department: job.department,
           posted_at: job.posted_at,
@@ -427,6 +456,40 @@ function alreadyHaveThisPosting(db: Db, applyUrl: string): boolean {
 }
 
 /**
+ * #251: an application for the same ATS job reached through a DIFFERENT
+ * posting URL — any state except the ones that mean "never actually
+ * pursued" (same rule as #249). The posting itself is excluded so a
+ * re-sweep still reuses its own application (idempotence).
+ *
+ * Keyed on ATS + internal id alone, not company: the registry's company
+ * text differs between boards of one employer ("Rocket Lab USA" /
+ * "Rocket Lab"), and a Greenhouse internal job id is the vendor's own
+ * primary key for the job.
+ */
+function findSamePostedJobHolder(
+  db: Db,
+  ats: string,
+  internalJobId: string,
+  applyUrl: string,
+): { application_id: string; state: string } | null {
+  const row = db
+    .prepare(
+      `SELECT a.id AS application_id, a.state
+         FROM applications a JOIN jobs j ON j.id = a.job_id
+        WHERE json_extract(j.raw_json, '$.board_internal_job_id') = ?
+          AND j.source_ats = ?
+          AND j.normalized_application_url <> ?
+          AND a.state NOT IN ('FILTERED_OUT', 'UNSUPPORTED_ATS')
+        ORDER BY a.created_at DESC
+        LIMIT 1`,
+    )
+    .get(internalJobId, ats, normalizeApplicationUrl(applyUrl)) as
+    | { application_id: string; state: string }
+    | undefined;
+  return row ?? null;
+}
+
+/**
  * #249: roles we already have an application for at this company — any
  * state except the ones that mean "never actually pursued". A role we
  * abandoned as stale should not block a fresh posting of the same job.
@@ -450,6 +513,7 @@ function enqueueBoardJob(
   applyUrl: string,
   extra: {
     external_id: string | null;
+    internal_job_id?: string | null;
     location: string | null;
     department: string | null;
     posted_at: string | null;
@@ -536,6 +600,7 @@ function enqueueBoardJob(
       source: "ats_board_discovery",
       board_ref: formatBoardRef(entry.ref),
       board_external_id: extra.external_id,
+      board_internal_job_id: extra.internal_job_id ?? null,
       department: extra.department,
       posted_at: extra.posted_at,
       employer_application_url: employerUrl,

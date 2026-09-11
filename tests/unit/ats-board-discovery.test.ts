@@ -91,6 +91,7 @@ describe("parseBoardPayload (UNIT_CONFIRMED)", () => {
       jobs: [
         {
           id: 8041237,
+          internal_job_id: 3544833,
           title: "Solution Engineer Intern",
           absolute_url: "https://job-boards.greenhouse.io/appian/jobs/8041237",
           location: { name: "McLean, VA" },
@@ -101,6 +102,8 @@ describe("parseBoardPayload (UNIT_CONFIRMED)", () => {
       ],
     });
     expect(jobs).toHaveLength(1);
+    // #251: the requisition the posting advertises.
+    expect(jobs[0]?.internal_job_id).toBe("3544833");
     expect(jobs[0]).toMatchObject({
       ats: "greenhouse",
       board: "appian",
@@ -386,6 +389,68 @@ describe("runAtsBoardDiscovery (UNIT_CONFIRMED)", () => {
     // Finance/ops titles never reached the queue.
     expect(report.boards.map((b) => [b.company, b.filtered_out])).toEqual([["Appian", 2], ["Acme", 1]]);
     expect(report.notes.join(" ")).toMatch(/greenhouse:appian: 2 posting\(s\) outside role terms skipped/);
+  });
+
+  // #251 (night30, live): NISC posts each job once on `nisc` and once per
+  // city on the mirror board `testnisc`; all share one internal_job_id.
+  // The first sweep enqueued "Intern - Information Security" three times.
+  it("one internal job id enqueues once across per-location posts and mirror boards (#251)", async () => {
+    applyControlledFillEnv({ ATS_DISCOVERY_ENABLED: "true" });
+    const posts: Record<string, Array<{ id: string; internal: string | null; title: string; location: string }>> = {
+      nisc: [
+        { id: "8191724", internal: "3544833", title: "Intern - Information Security", location: "Lake St. Louis, MO or Mandan, ND" },
+        { id: "8188427", internal: "3543376", title: "Intern - Operations Analytics", location: "Any NISC Location" },
+      ],
+      testnisc: [
+        { id: "8191987", internal: "3544833", title: "Intern - Information Security", location: "Mandan, ND" },
+        { id: "8191986", internal: "3544833", title: "Intern - Information Security", location: "Lake St. Louis, MO" },
+        // A DIFFERENT req with an identical title still enqueues (#249's
+        // per-location-req contract is untouched).
+        { id: "9000001", internal: "7777777", title: "Intern - Operations Analytics", location: "Cedar Rapids, IA" },
+        // No internal id ⇒ nothing to key on ⇒ previous behaviour.
+        { id: "9000002", internal: null, title: "Intern - Data Engineer", location: "Mandan, ND" },
+      ],
+    };
+    const deps = {
+      fetchBoard: async (ref: AtsBoardRef): Promise<BoardFetchResult> => ({
+        ref,
+        ok: true,
+        jobs: (posts[ref.token] ?? []).map((p) => ({
+          ats: ref.ats,
+          board: ref.token,
+          external_id: p.id,
+          internal_job_id: p.internal,
+          title: p.title,
+          location: p.location,
+          department: null,
+          apply_url: `https://job-boards.greenhouse.io/${ref.token}/jobs/${p.id}`,
+          posted_at: null,
+        })),
+        error: null,
+      }),
+    };
+    const nisc = { ref: { ats: "greenhouse" as const, token: "nisc" }, company: "NISC", include: [], exclude: [] };
+    const mirror = { ref: { ats: "greenhouse" as const, token: "testnisc" }, company: "NISC", include: [], exclude: [] };
+    const first = await runAtsBoardDiscovery({ db, entries: [nisc, mirror], maxNewApplications: 20, deps });
+    const byUrl = (outcome: string) =>
+      first.applications.filter((a) => a.outcome === outcome).map((a) => a.apply_url.replace(/^.*greenhouse\.io\//, ""));
+    expect(byUrl("enqueued")).toEqual([
+      "nisc/jobs/8191724",
+      "nisc/jobs/8188427",
+      "testnisc/jobs/9000001",
+      "testnisc/jobs/9000002",
+    ]);
+    expect(byUrl("near_duplicate")).toEqual(["testnisc/jobs/8191987", "testnisc/jobs/8191986"]);
+    expect(first.applications.find((a) => a.outcome === "near_duplicate")?.detail).toMatch(
+      /same greenhouse job \(internal id 3544833\).*#251/,
+    );
+
+    // Idempotence: a re-sweep reuses each posting's OWN application and
+    // still refuses the siblings — it never flips which one is kept.
+    const again = await runAtsBoardDiscovery({ db, entries: [nisc, mirror], maxNewApplications: 20, deps });
+    expect(again.enqueued).toBe(0);
+    expect(again.applications.filter((a) => a.outcome === "reused")).toHaveLength(4);
+    expect(again.applications.filter((a) => a.outcome === "near_duplicate")).toHaveLength(2);
   });
 
   it("registry top-level role_terms / max_new_per_board are parsed; absent = no gate", () => {
