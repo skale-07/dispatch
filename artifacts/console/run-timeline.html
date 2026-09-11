@@ -60,12 +60,12 @@
 </style></head>
 <body><div class="wrap">
 <h1>Dispatch run timeline</h1>
-<p class="sub">Generated 2026-09-11T12:19:16.772Z · 40 navigation run(s) · read-only view of artifacts/</p>
+<p class="sub">Generated 2026-09-11T12:23:32.782Z · 40 navigation run(s) · read-only view of artifacts/</p>
 <div class="stats"><span class="stat"><b>16</b> unknown</span><span class="stat"><b>15</b> resolved</span><span class="stat"><b>4</b> closed</span><span class="stat"><b>2</b> auth</span><span class="stat"><b>2</b> budget</span><span class="stat"><b>1</b> submit_risk</span></div>
 <section class="cycle">
   <h2>Latest cycle</h2>
   <dl>
-    <div><dt>Started</dt><dd>2026-09-11T12:17:49.614Z</dd></div>
+    <div><dt>Started</dt><dd>2026-09-11T12:21:27.709Z</dd></div>
     <div><dt>Outcome</dt><dd>completed</dd></div>
     <div><dt>Agent leg</dt><dd>available</dd></div>
     <div><dt>Default resume</dt><dd>ready (C:\dev\jobright-application-agent\private\candidate\resumes\swe.pdf)</dd></div>
@@ -73,9 +73,24 @@
     <div><dt>Submits used</dt><dd>0</dd></div>
     <div><dt>Stopped</dt><dd>apps_cap</dd></div>
   </dl>
-  <h3>Session notes</h3><ul class="notes"><li>triage sweep: 0 confirmed, 1 refuted, 0 expired of 143 pending</li><li>triage 94dd0cd5: park_for_operator (executed) — review item created: 2ac0c3f3-2746-45d0-a0df-30928207e19c</li><li>artifact autopush: 5 file(s) pushed to master as 5a88097b</li></ul>
+  <h3>Session notes</h3><ul class="notes"><li>nav audit: 2 wrong-employer URL(s) cleared for re-navigation, 0 parked for review</li><li>triage sweep: 0 confirmed, 0 refuted, 0 expired of 143 pending</li><li>triage b5d59a1b: park_for_operator (executed) — review item created: 5a281586-117f-4dd2-9264-e7cf189c496e</li><li>artifact autopush: 13 file(s) pushed to master as 164738f8</li></ul>
 </section>
 <h2>Applications</h2>
+<details class="app ok">
+  <summary>
+    <span class="id">b5d59a1b</span>
+    <span class="co">Zipline</span>
+    <span class="badge">resolved</span>
+    <span class="chip">anchor_href</span>
+    <span class="chip">greenhouse</span>
+    
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — resolved (11 candidates, employer match)<span class="ev">boards.greenhouse.io</span></li></ol>
+    <h4>Notes</h4><ul class="notes"><li>phase A: token-only greenhouse embed anchor resolved to board &quot;flyzipline&quot; (job 7908677003) via one read-only GET</li></ul>
+    
+  </div>
+</details>
 <details class="app ok">
   <summary>
     <span class="id">94dd0cd5</span>
@@ -659,21 +674,6 @@
     <h4>Phases</h4><ol class="phases"><li>none recorded</li></ol>
     <h4>Notes</h4><ul class="notes"><li>model calls: 1 of 2 steps</li></ul>
     
-  </div>
-</details>
-<details class="app ok">
-  <summary>
-    <span class="id">b9e47a33</span>
-    <span class="co">Acme</span>
-    <span class="badge">resolved</span>
-    <span class="chip">agent</span>
-    <span class="chip">generic</span>
-    <span class="chip">agent 1t/3s</span>
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>B_board_hop</b> — no employer board route (3 request(s))</li><li><b>C_agent</b> — resolved (turn 1, employer match)<span class="ev">careers.acme.com</span></li></ol>
-    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>board hop: no public greenhouse/lever/ashby board found for &quot;Acme&quot; (acme; 3 requests)</li><li>agent[1]: cred_available:false</li><li>agent[1]: leaked:none</li></ul>
-    <h4>Hosts visited</h4><p class="hosts">careers.acme.com</p>
   </div>
 </details>
 <footer>Every row is one navigation run. Green = employer URL resolved; amber = auth/CAPTCHA wall; red = unresolved; grey = posting closed. Expand a row for its phase trace and the notes that explain the stop.</footer>
