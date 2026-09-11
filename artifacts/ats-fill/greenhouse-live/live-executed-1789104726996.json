@@ -1,0 +1,1030 @@
+{
+  "mode": "executed",
+  "ats": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/nisc/jobs/8191724",
+  "plan": {
+    "answers": {
+      "legal_name.first": "Shubham",
+      "legal_name.last": "Kale",
+      "email": "s***@gmail.com",
+      "address.country": "United States",
+      "phone": "***-***-7636",
+      "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+      "screener:custom:has_preferred_name": "No",
+      "screener:previously_applied_or_worked": "No",
+      "screener:custom:employed_nisc_member_site": "No",
+      "how_heard": "LinkedIn",
+      "screener:custom:nisc_relative": "N/A",
+      "screener:custom:predicted:question_69093093[]": "Atlanta, GA",
+      "screener:custom:remote_state_preference": "I want to work in an NISC office",
+      "screener:custom:travel_percentage": "1-10%",
+      "screener:custom:opt_what_is_your_most_recently_completed_form_of_education": "Bachelor's Degree",
+      "work_authorization": "[REDACTED_SPONSORSHIP]",
+      "screener:custom:sms_opt_in": "No",
+      "screener:custom:sms_cell_number": "N/A"
+    },
+    "entries": [
+      {
+        "field_id": "first_name",
+        "label": "First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "fill",
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "last_name",
+        "label": "Last Name",
+        "type": "text",
+        "canonical_field": "legal_name.last",
+        "action": "fill",
+        "value": "Kale",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "email",
+        "label": "Email",
+        "type": "text",
+        "canonical_field": "email",
+        "action": "fill",
+        "value": "s***@gmail.com",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "country",
+        "label": "Country",
+        "type": "text",
+        "canonical_field": "address.country",
+        "action": "fill",
+        "value": "United States +1",
+        "reason": "Mapped from public profile; placed onto \"United States +1\""
+      },
+      {
+        "field_id": "iti-0__search-input",
+        "label": "Search",
+        "type": "unknown",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "phone",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "fill",
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "resume",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "skip_file",
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "cover_letter",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "skip_file",
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "question_69093085",
+        "label": "Your LinkedIn Profile URL",
+        "type": "text",
+        "canonical_field": "linkedin_url",
+        "action": "fill",
+        "value": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_69093086",
+        "label": "What is your preferred first name?",
+        "type": "text",
+        "canonical_field": "screener:custom:has_preferred_name",
+        "action": "fill",
+        "value": "No",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "question_69093087",
+        "label": "Have you previously worked at NISC or any of its subsidiaries in the past?",
+        "type": "text",
+        "canonical_field": "screener:previously_applied_or_worked",
+        "action": "fill",
+        "value": "No",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_69093088",
+        "label": "Are you currently employed at an NISC Member site?",
+        "type": "text",
+        "canonical_field": "screener:custom:employed_nisc_member_site",
+        "action": "fill",
+        "value": "No",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_69093089",
+        "label": "How did you hear about this job?",
+        "type": "text",
+        "canonical_field": "how_heard",
+        "action": "fill",
+        "value": "LinkedIn",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_69093090",
+        "label": "If referred to apply, who referred you?",
+        "type": "text",
+        "canonical_field": "screener:referral_name",
+        "action": "skip_empty",
+        "value": null,
+        "reason": "referral_name empty in bank — optional, skipped"
+      },
+      {
+        "field_id": "question_69093091",
+        "label": "If you have a relative working at NISC, what is their name and relationship?",
+        "type": "text",
+        "canonical_field": "screener:custom:nisc_relative",
+        "action": "fill",
+        "value": "N/A",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "question_69093092",
+        "label": "Why are you interested in this opportunity?",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_69093092",
+        "action": "fill",
+        "value": "I build systems where the interesting question is not how much a machine can do, but where its authority should stop, which is most of what security work is about. The clearest example is a Playwright-based job-application agent I built in TypeScript and Node. Fully autonomous browser agents are dangerous in that workflow because one wrong action submits a real application or fills a legal field incorrectly, so I put every mutating capability behind fail-closed environment flags that never default to enabled, used SQLite as the single source of truth so application state could not diverge across processes, and architecturally prevented free-text and demographic fields from being auto-filled. I also built a validation ladder from unit-confirmed up to live-mutation-confirmed, because a capability passing against a local fixture is not evidence it is safe against production. NISC runs software that 1,200+ energy cooperatives and communication organizations depend on, which is exactly the kind of environment where failure modes matter more than demos. I would want to work on the unglamorous parts: how access is gated, how issues get triaged and prioritized, and how an alert becomes something an analyst can actually act on rather than one more thing to ignore.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_69093093[]",
+        "label": "What locations are you interested in working from? (Select all that apply)",
+        "type": "checkbox",
+        "canonical_field": "screener:custom:predicted:question_69093093[]",
+        "action": "fill",
+        "value": "Atlanta, GA",
+        "reason": "Predicted from operator context (llm_predict): Candidate prefers on-site work and is open to relocation, so the closest major listed city (Atlanta) is the best fit since \"No preference\" isn't an option."
+      },
+      {
+        "field_id": "question_69093094",
+        "label": "If you selected working remotely above, which state would you plan to work remotely from?",
+        "type": "text",
+        "canonical_field": "screener:custom:remote_state_preference",
+        "action": "fill",
+        "value": "I want to work in an NISC office",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_69093095",
+        "label": "What percentage of the time are you willing to travel?",
+        "type": "text",
+        "canonical_field": "screener:custom:travel_percentage",
+        "action": "fill",
+        "value": "1-10%",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_69093096",
+        "label": "Target Compensation",
+        "type": "text",
+        "canonical_field": "screener:salary_expectations",
+        "action": "review_required",
+        "value": null,
+        "reason": "salary_expectations is a human decision by policy"
+      },
+      {
+        "field_id": "question_69093097",
+        "label": "What is your most recently completed form of education?",
+        "type": "text",
+        "canonical_field": "screener:custom:opt_what_is_your_most_recently_completed_form_of_education",
+        "action": "fill",
+        "value": "Bachelor's Degree",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_69093098",
+        "label": "Are you legally authorized to work in the United States?",
+        "type": "text",
+        "canonical_field": "work_authorization",
+        "action": "fill",
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_69093099",
+        "label": "Do you currently require immigration sponsorship for work authorization?",
+        "type": "text",
+        "canonical_field": "work_authorization",
+        "action": "fill",
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_69093100",
+        "label": "Will you require immigration sponsorship within the next 3-7 years for work authorization? (for example: F1, H1B, H4)",
+        "type": "text",
+        "canonical_field": "work_authorization",
+        "action": "fill",
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_69093101",
+        "label": "If selected for hire, would you like to receive information regarding your first day via text message/SMS? You may receive up to three messages via text by opting in. Message and data rates may apply depending on your mobile plan. You can opt out at any time.",
+        "type": "text",
+        "canonical_field": "screener:custom:sms_opt_in",
+        "action": "fill",
+        "value": "No",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_69093102",
+        "label": "If you wish to receive information via text/SMS, please indicate the cell number below.",
+        "type": "text",
+        "canonical_field": "screener:custom:sms_cell_number",
+        "action": "fill",
+        "value": "N/A",
+        "reason": "Screener bank answer (free_text)"
+      }
+    ],
+    "fillable_count": 21,
+    "skipped_count": 4,
+    "review_required_count": 1
+  },
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "schema diff: 22/24 declared question(s) matched onto 26 DOM field(s); 2 declared-only (1 required); 4 DOM-only",
+    "board API declared 24 question(s); matched complete option lists onto 12 field(s)",
+    "option harvest: scraped real options for 1/10 control(s) before planning",
+    "frozen after fill→verify→upload — no further field mutation; submit never called"
+  ],
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "final_url": "https://job-boards.greenhouse.io/nisc/jobs/8191724",
+  "identity_verification": {
+    "requestedUrl": "https://job-boards.greenhouse.io/nisc/jobs/8191724",
+    "finalUrl": "https://job-boards.greenhouse.io/nisc/jobs/8191724",
+    "requestedJobId": "8191724",
+    "observedJobId": "8191724",
+    "company": "nisc",
+    "role": "Job Application for Intern - Information Security (Cybersecurity) at National Information Solutions Cooperative (NISC)",
+    "formDetected": true,
+    "fieldCount": 26,
+    "warnings": [
+      "login_wall_low: auth_provider_marker"
+    ],
+    "passed": true,
+    "failureCode": null,
+    "failureReason": null
+  },
+  "captcha_detection": {
+    "detected": false,
+    "confidence": "LOW",
+    "signals": [],
+    "dormantMarkers": [
+      "recaptcha_api_script_loaded",
+      "generic_captcha_word_only"
+    ]
+  },
+  "login_wall_detection": {
+    "detected": false,
+    "confidence": "LOW",
+    "signals": [
+      "auth_provider_marker"
+    ]
+  },
+  "failure_code": null,
+  "mutation_attempted": true,
+  "schema_diff": {
+    "board": "nisc",
+    "job_id": "8191724",
+    "declared_count": 24,
+    "dom_count": 26,
+    "matched": 22,
+    "api_only": [
+      {
+        "label": "Resume/CV",
+        "required": true
+      },
+      {
+        "label": "Cover Letter",
+        "required": false
+      }
+    ],
+    "dom_only": [
+      "Country",
+      "Search",
+      "Attach",
+      "Attach"
+    ],
+    "option_mismatches": []
+  },
+  "harvested_options": [
+    {
+      "field_id": "country",
+      "label": "Country",
+      "answer_space": "closed",
+      "option_count": 244,
+      "options": [
+        "United States +1",
+        "Afghanistan +93",
+        "Åland Islands +358",
+        "Albania +355",
+        "Algeria +213",
+        "American Samoa +1",
+        "Andorra +376",
+        "Angola +244",
+        "Anguilla +1",
+        "Antigua & Barbuda +1",
+        "Argentina +54",
+        "Armenia +374",
+        "Aruba +297",
+        "Ascension Island +247",
+        "Australia +61",
+        "Austria +43",
+        "Azerbaijan +994",
+        "Bahamas +1",
+        "Bahrain +973",
+        "Bangladesh +880",
+        "Barbados +1",
+        "Belarus +375",
+        "Belgium +32",
+        "Belize +501",
+        "Benin +229"
+      ],
+      "other_option": null
+    }
+  ],
+  "approved_plan": {
+    "entries": [
+      {
+        "field_id": "first_name",
+        "label": "First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "FILL",
+        "approved": true,
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "last_name",
+        "label": "Last Name",
+        "type": "text",
+        "canonical_field": "legal_name.last",
+        "action": "FILL",
+        "approved": true,
+        "value": "Kale",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "email",
+        "label": "Email",
+        "type": "text",
+        "canonical_field": "email",
+        "action": "FILL",
+        "approved": true,
+        "value": "s***@gmail.com",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "country",
+        "label": "Country",
+        "type": "text",
+        "canonical_field": "address.country",
+        "action": "FILL",
+        "approved": true,
+        "value": "United States +1",
+        "reason": "Mapped from public profile; placed onto \"United States +1\""
+      },
+      {
+        "field_id": "iti-0__search-input",
+        "label": "Search",
+        "type": "unknown",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "phone",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "FILL",
+        "approved": true,
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "resume",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "cover_letter",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "question_69093085",
+        "label": "Your LinkedIn Profile URL",
+        "type": "text",
+        "canonical_field": "linkedin_url",
+        "action": "FILL",
+        "approved": true,
+        "value": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_69093086",
+        "label": "What is your preferred first name?",
+        "type": "text",
+        "canonical_field": "screener:custom:has_preferred_name",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "question_69093087",
+        "label": "Have you previously worked at NISC or any of its subsidiaries in the past?",
+        "type": "text",
+        "canonical_field": "screener:previously_applied_or_worked",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_69093088",
+        "label": "Are you currently employed at an NISC Member site?",
+        "type": "text",
+        "canonical_field": "screener:custom:employed_nisc_member_site",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_69093089",
+        "label": "How did you hear about this job?",
+        "type": "text",
+        "canonical_field": "how_heard",
+        "action": "FILL",
+        "approved": true,
+        "value": "LinkedIn",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_69093090",
+        "label": "If referred to apply, who referred you?",
+        "type": "text",
+        "canonical_field": "screener:referral_name",
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "referral_name empty in bank — optional, skipped"
+      },
+      {
+        "field_id": "question_69093091",
+        "label": "If you have a relative working at NISC, what is their name and relationship?",
+        "type": "text",
+        "canonical_field": "screener:custom:nisc_relative",
+        "action": "FILL",
+        "approved": true,
+        "value": "N/A",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "question_69093092",
+        "label": "Why are you interested in this opportunity?",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_69093092",
+        "action": "FILL",
+        "approved": true,
+        "value": "I build systems where the interesting question is not how much a machine can do, but where its authority should stop, which is most of what security work is about. The clearest example is a Playwright-based job-application agent I built in TypeScript and Node. Fully autonomous browser agents are dangerous in that workflow because one wrong action submits a real application or fills a legal field incorrectly, so I put every mutating capability behind fail-closed environment flags that never default to enabled, used SQLite as the single source of truth so application state could not diverge across processes, and architecturally prevented free-text and demographic fields from being auto-filled. I also built a validation ladder from unit-confirmed up to live-mutation-confirmed, because a capability passing against a local fixture is not evidence it is safe against production. NISC runs software that 1,200+ energy cooperatives and communication organizations depend on, which is exactly the kind of environment where failure modes matter more than demos. I would want to work on the unglamorous parts: how access is gated, how issues get triaged and prioritized, and how an alert becomes something an analyst can actually act on rather than one more thing to ignore.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_69093093[]",
+        "label": "What locations are you interested in working from? (Select all that apply)",
+        "type": "checkbox",
+        "canonical_field": "screener:custom:predicted:question_69093093[]",
+        "action": "FILL",
+        "approved": true,
+        "value": "Atlanta, GA",
+        "reason": "Predicted from operator context (llm_predict): Candidate prefers on-site work and is open to relocation, so the closest major listed city (Atlanta) is the best fit since \"No preference\" isn't an option."
+      },
+      {
+        "field_id": "question_69093094",
+        "label": "If you selected working remotely above, which state would you plan to work remotely from?",
+        "type": "text",
+        "canonical_field": "screener:custom:remote_state_preference",
+        "action": "FILL",
+        "approved": true,
+        "value": "I want to work in an NISC office",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_69093095",
+        "label": "What percentage of the time are you willing to travel?",
+        "type": "text",
+        "canonical_field": "screener:custom:travel_percentage",
+        "action": "FILL",
+        "approved": true,
+        "value": "1-10%",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_69093096",
+        "label": "Target Compensation",
+        "type": "text",
+        "canonical_field": "screener:salary_expectations",
+        "action": "REVIEW_REQUIRED",
+        "approved": false,
+        "value": null,
+        "reason": "salary_expectations is a human decision by policy"
+      },
+      {
+        "field_id": "question_69093097",
+        "label": "What is your most recently completed form of education?",
+        "type": "text",
+        "canonical_field": "screener:custom:opt_what_is_your_most_recently_completed_form_of_education",
+        "action": "FILL",
+        "approved": true,
+        "value": "Bachelor's Degree",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_69093098",
+        "label": "Are you legally authorized to work in the United States?",
+        "type": "text",
+        "canonical_field": "work_authorization",
+        "action": "FILL",
+        "approved": true,
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_69093099",
+        "label": "Do you currently require immigration sponsorship for work authorization?",
+        "type": "text",
+        "canonical_field": "work_authorization",
+        "action": "FILL",
+        "approved": true,
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_69093100",
+        "label": "Will you require immigration sponsorship within the next 3-7 years for work authorization? (for example: F1, H1B, H4)",
+        "type": "text",
+        "canonical_field": "work_authorization",
+        "action": "FILL",
+        "approved": true,
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_69093101",
+        "label": "If selected for hire, would you like to receive information regarding your first day via text message/SMS? You may receive up to three messages via text by opting in. Message and data rates may apply depending on your mobile plan. You can opt out at any time.",
+        "type": "text",
+        "canonical_field": "screener:custom:sms_opt_in",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_69093102",
+        "label": "If you wish to receive information via text/SMS, please indicate the cell number below.",
+        "type": "text",
+        "canonical_field": "screener:custom:sms_cell_number",
+        "action": "FILL",
+        "approved": true,
+        "value": "N/A",
+        "reason": "Screener bank answer (free_text)"
+      }
+    ],
+    "answers": {
+      "legal_name.first": "Shubham",
+      "legal_name.last": "Kale",
+      "email": "s***@gmail.com",
+      "address.country": "United States +1",
+      "phone": "***-***-7636",
+      "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+      "screener:custom:has_preferred_name": "No",
+      "screener:previously_applied_or_worked": "No",
+      "screener:custom:employed_nisc_member_site": "No",
+      "how_heard": "LinkedIn",
+      "screener:custom:nisc_relative": "N/A",
+      "essay:generated:question_69093092": "I build systems where the interesting question is not how much a machine can do, but where its authority should stop, which is most of what security work is about. The clearest example is a Playwright-based job-application agent I built in TypeScript and Node. Fully autonomous browser agents are dangerous in that workflow because one wrong action submits a real application or fills a legal field incorrectly, so I put every mutating capability behind fail-closed environment flags that never default to enabled, used SQLite as the single source of truth so application state could not diverge across processes, and architecturally prevented free-text and demographic fields from being auto-filled. I also built a validation ladder from unit-confirmed up to live-mutation-confirmed, because a capability passing against a local fixture is not evidence it is safe against production. NISC runs software that 1,200+ energy cooperatives and communication organizations depend on, which is exactly the kind of environment where failure modes matter more than demos. I would want to work on the unglamorous parts: how access is gated, how issues get triaged and prioritized, and how an alert becomes something an analyst can actually act on rather than one more thing to ignore.",
+      "screener:custom:predicted:question_69093093[]": "Atlanta, GA",
+      "screener:custom:remote_state_preference": "I want to work in an NISC office",
+      "screener:custom:travel_percentage": "1-10%",
+      "screener:custom:opt_what_is_your_most_recently_completed_form_of_education": "Bachelor's Degree",
+      "work_authorization": "[REDACTED_SPONSORSHIP]",
+      "screener:custom:sms_opt_in": "No",
+      "screener:custom:sms_cell_number": "N/A"
+    },
+    "fillable_count": 21,
+    "skipped_count": 4,
+    "review_required_count": 1
+  },
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "legal_name.last",
+      "email",
+      "address.country",
+      "phone",
+      "linkedin_url",
+      "screener:custom:has_preferred_name",
+      "screener:previously_applied_or_worked",
+      "screener:custom:employed_nisc_member_site",
+      "how_heard",
+      "screener:custom:nisc_relative",
+      "essay:generated:question_69093092",
+      "screener:custom:predicted:question_69093093[]",
+      "screener:custom:remote_state_preference",
+      "screener:custom:travel_percentage",
+      "screener:custom:opt_what_is_your_most_recently_completed_form_of_education",
+      "work_authorization",
+      "work_authorization",
+      "work_authorization",
+      "screener:custom:sms_opt_in",
+      "screener:custom:sms_cell_number"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "first_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "last_name",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "country",
+        "canonical_field": "address.country",
+        "control_kind": "combobox",
+        "selected_option": "+1",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"United States +1\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "phone",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_69093085",
+        "canonical_field": "linkedin_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_69093086",
+        "canonical_field": "screener:custom:has_preferred_name",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_69093087",
+        "canonical_field": "screener:previously_applied_or_worked",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_69093088",
+        "canonical_field": "screener:custom:employed_nisc_member_site",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_69093089",
+        "canonical_field": "how_heard",
+        "control_kind": "combobox",
+        "selected_option": "LinkedIn",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"LinkedIn\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_69093091",
+        "canonical_field": "screener:custom:nisc_relative",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_69093092",
+        "canonical_field": "essay:generated:question_69093092",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_69093093[]",
+        "canonical_field": "screener:custom:predicted:question_69093093[]",
+        "control_kind": "checkbox_group",
+        "selected_option": "Atlanta, GA"
+      },
+      {
+        "field_id": "question_69093094",
+        "canonical_field": "screener:custom:remote_state_preference",
+        "control_kind": "combobox",
+        "selected_option": "I want to work in an NISC office",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"I want to work in an NISC office\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_69093095",
+        "canonical_field": "screener:custom:travel_percentage",
+        "control_kind": "combobox",
+        "selected_option": "1-10%",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"1-10%\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_69093097",
+        "canonical_field": "screener:custom:opt_what_is_your_most_recently_completed_form_of_education",
+        "control_kind": "combobox",
+        "selected_option": "Bachelor's Degree",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Bachelor's Degree\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_69093098",
+        "canonical_field": "work_authorization",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_69093099",
+        "canonical_field": "work_authorization",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_69093100",
+        "canonical_field": "work_authorization",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_69093101",
+        "canonical_field": "screener:custom:sms_opt_in",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_69093102",
+        "canonical_field": "screener:custom:sms_cell_number",
+        "control_kind": "text"
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.last",
+        "expected": "Kale",
+        "observed": "Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "address.country",
+        "expected": "United States +1",
+        "observed": {
+          "value": "+1",
+          "label": "+1"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:has_preferred_name",
+        "expected": "No",
+        "observed": "No",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:previously_applied_or_worked",
+        "expected": "No",
+        "observed": {
+          "value": "No",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:employed_nisc_member_site",
+        "expected": "No",
+        "observed": {
+          "value": "No",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "how_heard",
+        "expected": "LinkedIn",
+        "observed": {
+          "value": "LinkedIn",
+          "label": "LinkedIn"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:nisc_relative",
+        "expected": "N/A",
+        "observed": "N/A",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:question_69093092",
+        "expected": "I build systems where the interesting question is not how much a machine can do, but where its authority should stop, which is most of what security work is about. The clearest example is a Playwright-based job-application agent I built in TypeScript and Node. Fully autonomous browser agents are dangerous in that workflow because one wrong action submits a real application or fills a legal field incorrectly, so I put every mutating capability behind fail-closed environment flags that never default to enabled, used SQLite as the single source of truth so application state could not diverge across processes, and architecturally prevented free-text and demographic fields from being auto-filled. I also built a validation ladder from unit-confirmed up to live-mutation-confirmed, because a capability passing against a local fixture is not evidence it is safe against production. NISC runs software that 1,200+ energy cooperatives and communication organizations depend on, which is exactly the kind of environment where failure modes matter more than demos. I would want to work on the unglamorous parts: how access is gated, how issues get triaged and prioritized, and how an alert becomes something an analyst can actually act on rather than one more thing to ignore.",
+        "observed": "I build systems where the interesting question is not how much a machine can do, but where its authority should stop, which is most of what security work is about. The clearest example is a Playwright-based job-application agent I built in TypeScript and Node. Fully autonomous browser agents are dangerous in that workflow because one wrong action submits a real application or fills a legal field incorrectly, so I put every mutating capability behind fail-closed environment flags that never default to enabled, used SQLite as the single source of truth so application state could not diverge across processes, and architecturally prevented free-text and demographic fields from being auto-filled. I also built a validation ladder from unit-confirmed up to live-mutation-confirmed, because a capability passing against a local fixture is not evidence it is safe against production. NISC runs software that 1,200+ energy cooperatives and communication organizations depend on, which is exactly the kind of environment where failure modes matter more than demos. I would want to work on the unglamorous parts: how access is gated, how issues get triaged and prioritized, and how an alert becomes something an analyst can actually act on rather than one more thing to ignore.",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_69093093[]",
+        "expected": "Atlanta, GA",
+        "observed": {
+          "value": "Atlanta, GA",
+          "label": "Atlanta, GA"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:remote_state_preference",
+        "expected": "I want to work in an NISC office",
+        "observed": {
+          "value": "I want to work in an NISC office",
+          "label": "I want to work in an NISC office"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:travel_percentage",
+        "expected": "1-10%",
+        "observed": {
+          "value": "1-10%",
+          "label": "1-10%"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:opt_what_is_your_most_recently_completed_form_of_education",
+        "expected": "Bachelor's Degree",
+        "observed": {
+          "value": "Bachelor's Degree",
+          "label": "Bachelor's Degree"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "work_authorization",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "work_authorization",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "work_authorization",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:sms_opt_in",
+        "expected": "No",
+        "observed": {
+          "value": "No",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:sms_cell_number",
+        "expected": "N/A",
+        "observed": "N/A",
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 113810,
+      "verified": true,
+      "evidence": "input files: []; stillAttached=false; chip=true"
+    }
+  ],
+  "written_at": "2026-09-11T05:32:07.027Z"
+}
