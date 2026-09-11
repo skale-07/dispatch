@@ -61,7 +61,7 @@ import {
   reachGreenhouseApplicationForm,
   verifyPageBeforeMutation,
 } from "../ats/greenhouse/liveFill.js";
-import { healFailedFillEntries } from "../ats/greenhouse/fillHealer.js";
+import { healFailedFillEntries, locatedButRefusedFields } from "../ats/greenhouse/fillHealer.js";
 import { detectAtsFromUrl } from "../ats/shared/urlValidationDispatch.js";
 import { ATS_BINDINGS } from "./atsBindings.js";
 import { withPublicUrlPage } from "../browser/fixtureSession.js";
@@ -879,6 +879,8 @@ export async function runAtsSubmission(input: {
               const heal = await healFailedFillEntries({
                 page,
                 failedEntries: failed,
+                planFieldIds: approvedPlan.entries.map((e) => e.field_id),
+                locatedButRefused: locatedButRefusedFields(fill),
               });
               if (heal.healed.length > 0) {
                 verify = applyFillEvidenceWaiver(

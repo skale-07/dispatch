@@ -48,7 +48,11 @@ import { GreenhouseAdapterV1 } from "./v1.js";
 import { greenhouseSelectorsV1 } from "./selectors.js";
 import { detectBlockingCaptcha, type CaptchaDetection } from "./captchaDetection.js";
 import { detectLoginWall, type LoginWallDetection } from "./loginWallDetection.js";
-import { healFailedFillEntries, type HealReport } from "./fillHealer.js";
+import {
+  healFailedFillEntries,
+  locatedButRefusedFields,
+  type HealReport,
+} from "./fillHealer.js";
 import { verifyResumePdfFile } from "../../jobright/resumeDownload.js";
 import type { ApprovedFillPlanEntry } from "../../applications/approvedFillPlan.js";
 import { findApplicationFrameUrl } from "../shared/frameHop.js";
@@ -966,6 +970,8 @@ export async function runGreenhouseLiveFill(input: {
           const heal = await healFailedFillEntries({
             page,
             failedEntries: failedBefore,
+            planFieldIds: approvedPlan.entries.map((e) => e.field_id),
+            locatedButRefused: locatedButRefusedFields(base.fill),
           });
           base.heal = heal;
           // Always re-verify and derive the note from FINAL truth: fields

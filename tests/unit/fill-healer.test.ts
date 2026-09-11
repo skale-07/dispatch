@@ -6,6 +6,7 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import {
   findFieldCandidates,
   healFailedFillEntries,
+  locatedButRefusedFields,
   scoreLabelSimilarity,
 } from "../../src/ats/greenhouse/fillHealer.js";
 import { failedApprovedEntries } from "../../src/ats/greenhouse/liveFill.js";
@@ -115,6 +116,72 @@ describe("heuristic relocation (FIXTURE_CONFIRMED)", () => {
       await expect(
         healFailedFillEntries({ page, failedEntries: [approvedEntry()] }),
       ).rejects.toThrow(/FORM_FILL_ENABLED/);
+    });
+  }, 30_000);
+});
+
+/**
+ * #252 (live, Hudl night30): race had no unambiguous option (East / South /
+ * Southeast Asian) so the fill correctly refused it — then the healer typed
+ * "Asian" into the GENDER control (wiping a verified "Male") and into the
+ * referral-name box, on label overlap made of "please indicate your".
+ */
+describe("healer never borrows another question's control (#252)", () => {
+  useIsolatedFillEnv("fixture_fill");
+
+  it("boilerplate words alone score zero", () => {
+    expect(scoreLabelSimilarity("Please indicate your race", "Please indicate your gender")).toBe(0);
+    expect(
+      scoreLabelSimilarity(
+        "Please indicate your race",
+        "If you heard about this role from a current Hudl employee, please provide their name",
+      ),
+    ).toBe(0);
+    expect(scoreLabelSimilarity("Please indicate your race", "Race")).toBe(1);
+  });
+
+  const OWNED_FORM = `<!DOCTYPE html>
+  <html><body><form id="application_form">
+    <label for="1326">Please indicate your gender</label>
+    <input id="1326" type="text" value="Male" />
+    <label for="race_detail">Race (please specify)</label>
+    <input id="race_detail" type="text" value="" />
+  </form></body></html>`;
+
+  it("skips a candidate that is another plan entry's control, leaving its value intact", async () => {
+    await withFixtureHtmlPage(OWNED_FORM, async (page) => {
+      const race = approvedEntry({ field_id: "1327", label: "Race", canonical_field: "race_ethnicity", value: "Asian" });
+      const report = await healFailedFillEntries({
+        page,
+        failedEntries: [race],
+        planFieldIds: ["1326", "1327", "race_detail"],
+      });
+      expect(report.healed).toEqual([]);
+      expect(report.attempts[0]?.notes.join(" ")).toMatch(/#race_detail skipped — it is another plan entry's control/);
+      expect(await page.locator("#race_detail").inputValue()).toBe("");
+      expect(await page.locator('[id="1326"]').inputValue()).toBe("Male");
+    });
+  }, 30_000);
+
+  it("does not relocate a field whose control was found and whose value was refused", async () => {
+    await withFixtureHtmlPage(OWNED_FORM, async (page) => {
+      const race = approvedEntry({ field_id: "1327", label: "Race", canonical_field: "race_ethnicity", value: "Asian" });
+      const refused = locatedButRefusedFields({
+        field_meta: [
+          { field_id: "1326", control_kind: "combobox", selected_option: "Male", notes: ['picked "Male" (exact)'] },
+          {
+            field_id: "1327",
+            control_kind: "combobox",
+            selected_option: null,
+            notes: ['ambiguous match for "Asian" (3 candidates): East Asian | South Asian | Southeast Asian'],
+          },
+        ],
+      });
+      expect([...refused]).toEqual(["1327"]);
+      const report = await healFailedFillEntries({ page, failedEntries: [race], locatedButRefused: refused });
+      expect(report.still_failing).toEqual(["1327"]);
+      expect(report.attempts[0]?.notes.join(" ")).toMatch(/value refused.*#252/);
+      expect(await page.locator("#race_detail").inputValue()).toBe("");
     });
   }, 30_000);
 });

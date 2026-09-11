@@ -53,6 +53,20 @@ export type HealReport = {
   sidecar_used: boolean;
 };
 
+/**
+ * #252: question boilerplate carries no identity. "Please indicate your
+ * race" scored 0.75 against "Please indicate your gender" and 0.5 against
+ * "If you heard about this role …, please provide their name" on these
+ * words alone (live, Hudl night30) — the healer then typed the race answer
+ * into both. Only the words that name the question count.
+ */
+const LABEL_STOPWORDS = new Set([
+  "please", "indicate", "select", "enter", "provide", "choose", "specify",
+  "your", "you", "are", "is", "do", "does", "the", "an", "of", "to", "in",
+  "on", "for", "and", "or", "if", "what", "which", "how", "this", "that",
+  "with", "any", "have", "has", "will", "would", "be", "as", "at", "by",
+]);
+
 /** Pure scoring shared with tests: token overlap of normalized strings. */
 export function scoreLabelSimilarity(wanted: string, evidence: string): number {
   const tok = (s: string): Set<string> =>
@@ -60,7 +74,7 @@ export function scoreLabelSimilarity(wanted: string, evidence: string): number {
       s
         .toLowerCase()
         .split(/[^a-z0-9]+/)
-        .filter((t) => t.length > 1),
+        .filter((t) => t.length > 1 && !LABEL_STOPWORDS.has(t)),
     );
   const w = tok(wanted);
   if (w.size === 0) return 0;
@@ -200,6 +214,28 @@ async function retryEntryWithCandidate(
 }
 
 /**
+ * #252: fields the fill FOUND and operated, then refused on the value —
+ * the option list had no unambiguous match (comboboxFill's own reasons).
+ * A locator miss is what healing exists for; this is not one.
+ */
+export function locatedButRefusedFields(fill: {
+  field_meta?: ReadonlyArray<{
+    field_id: string;
+    control_kind?: string | null;
+    selected_option?: string | null;
+    notes?: readonly string[];
+  }>;
+}): Set<string> {
+  const out = new Set<string>();
+  for (const m of fill.field_meta ?? []) {
+    if (!m.control_kind || m.selected_option) continue;
+    const notes = (m.notes ?? []).join("; ");
+    if (/ambiguous match for "|no option matches "/.test(notes)) out.add(m.field_id);
+  }
+  return out;
+}
+
+/**
  * Heal the entries whose read-back verification failed. Caller passes only
  * approved FILL entries; anything else is refused by the per-retry guard.
  */
@@ -207,6 +243,19 @@ export async function healFailedFillEntries(input: {
   page: Page;
   failedEntries: ApprovedFillPlanEntry[];
   maxSidecarCalls?: number;
+  /**
+   * #252: every control the plan already names (all entries, whatever
+   * their action). A candidate that IS another entry's control is never
+   * tried — the healer typed a race answer into the gender control (wiping
+   * a verified "Male") and into a referral-name box.
+   */
+  planFieldIds?: readonly string[];
+  /**
+   * #252: field ids whose control WAS located and operated but whose value
+   * was refused (ambiguous / unmatched option). Relocation cannot fix a
+   * value refusal — it can only put the value somewhere else.
+   */
+  locatedButRefused?: ReadonlySet<string>;
 }): Promise<HealReport> {
   assertFormFillAllowed("greenhouse.fillHealer");
   resetConfigCache();
@@ -230,13 +279,34 @@ export async function healFailedFillEntries(input: {
       notes: [],
     };
 
+    if (input.locatedButRefused?.has(entry.field_id)) {
+      attempt.notes.push(
+        "control was located and the value refused (no unambiguous option) — relocation cannot fix that; not healed (#252)",
+      );
+      report.still_failing.push(entry.field_id);
+      report.attempts.push(attempt);
+      continue;
+    }
+    const othersControls = new Set(
+      (input.planFieldIds ?? []).filter((id) => id !== entry.field_id),
+    );
+    const ownedByAnother = (c: FieldCandidate): boolean =>
+      (c.inputId !== undefined && othersControls.has(c.inputId)) ||
+      (c.name !== undefined && othersControls.has(c.name));
+
     // Layer 1 — deterministic in-process relocation.
     try {
-      const candidates = await findFieldCandidates(
+      const found = await findFieldCandidates(
         input.page,
         entry.label,
         entry.type,
       );
+      const candidates = found.filter((c) => !ownedByAnother(c));
+      for (const c of found.filter(ownedByAnother)) {
+        attempt.notes.push(
+          `heuristic candidate ${c.selector} skipped — it is another plan entry's control (#252)`,
+        );
+      }
       for (const candidate of candidates) {
         if (await retryEntryWithCandidate(input.page, entry, candidate)) {
           attempt.layer = "heuristic";
@@ -276,6 +346,12 @@ export async function healFailedFillEntries(input: {
             html,
           });
           for (const found of located) {
+            if (ownedByAnother(found)) {
+              attempt.notes.push(
+                `sidecar candidate ${found.selector} skipped — it is another plan entry's control (#252)`,
+              );
+              continue;
+            }
             if (await retryEntryWithCandidate(input.page, entry, found)) {
               attempt.layer = "sidecar";
               attempt.candidate = found;

@@ -283,7 +283,7 @@ function isCheckboxBooleanValue(value: unknown): boolean {
  */
 async function collectCheckboxGroupOptions(
   loc: Locator,
-): Promise<Array<{ id: string; label: string; checked: boolean }>> {
+): Promise<Array<{ id: string; label: string; checked: boolean; name: string; value: string }>> {
   return loc.evaluate(
     (el: {
       name?: string;
@@ -298,6 +298,8 @@ async function collectCheckboxGroupOptions(
       const doc = el.ownerDocument;
       type Box = {
         id?: string;
+        name?: string;
+        value?: string;
         parentElement?: { textContent?: string | null } | null;
         checked?: boolean;
       };
@@ -333,6 +335,8 @@ async function collectCheckboxGroupOptions(
           id: b.id ?? "",
           label: label.replace(/\s+/g, " ").trim(),
           checked: Boolean(b.checked),
+          name: b.name ?? "",
+          value: b.value ?? "",
         };
       });
     },
@@ -1304,7 +1308,7 @@ export async function greenhouseFillFromPlan(
             const target = pick.ok
               ? options.find((o) => o.label === pick.label)
               : undefined;
-            if (!target || !target.id) {
+            if (!target) {
               throw new Error(
                 `checkbox group has no option matching "${entry.value}"` +
                   (options.length > 0
@@ -1315,10 +1319,24 @@ export async function greenhouseFillFromPlan(
                     : " (no labeled group found around the control)"),
               );
             }
-            const escapedId = target.id
-              .replace(/\\/g, "\\\\")
-              .replace(/"/g, '\\"');
-            await checkPaintedControl(page, page.locator(`[id="${escapedId}"]`).first());
+            // #254 (live Palantir/Lever, night30): Lever card checkboxes have
+            // NO id — only the shared group `name` and a per-box `value`. The
+            // label matched ("English (ENG)" among "English (ENG), Spanish
+            // (SPA) …") and the id-only targeting then refused it as "no
+            // option matching". name+value is the HTML identity of a group
+            // member, so it is the fallback for any ATS.
+            const esc = (s: string): string => s.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+            const targetSelector = target.id
+              ? `[id="${esc(target.id)}"]`
+              : target.name && target.value
+                ? `input[type="checkbox"][name="${esc(target.name)}"][value="${esc(target.value)}"]`
+                : null;
+            if (!targetSelector) {
+              throw new Error(
+                `checkbox option "${target.label}" matched but has neither an id nor a name+value to target`,
+              );
+            }
+            await checkPaintedControl(page, page.locator(targetSelector).first());
             field_meta.push({
               field_id: entry.field_id,
               canonical_field: entry.canonical_field,
