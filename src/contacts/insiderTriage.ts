@@ -304,6 +304,53 @@ async function layerVisible(page: Page): Promise<boolean> {
 }
 
 /**
+ * #253: dismiss first-run product overlays (registry `onboardingOverlays`)
+ * before touching the panels. Walks up from the marker text's smallest
+ * visible carrier to the first ancestor holding a control whose text or
+ * aria-label matches that overlay's dismiss pattern; clicks only that.
+ * Returns the markers it dismissed.
+ */
+const DISMISS_ONBOARDING_FN = `(overlays) => {
+  const visible = (el) => el.getClientRects().length > 0;
+  const done = [];
+  for (const o of overlays) {
+    const marker = new RegExp(o.marker, "i");
+    const dismiss = new RegExp(o.dismiss, "i");
+    const carriers = Array.from(document.querySelectorAll("*")).filter(
+      (el) => marker.test(el.textContent || "") && (el.textContent || "").trim().length < 300 && visible(el),
+    );
+    const carrier = carriers[carriers.length - 1] || null;
+    if (!carrier) continue;
+    for (let node = carrier, hops = 0; node && node !== document.body && hops < 8; node = node.parentElement, hops += 1) {
+      const controls = Array.from(node.querySelectorAll('button, [role="button"], [aria-label], svg'));
+      const hit = controls.find((b) => {
+        const text = (b.textContent || "").trim();
+        const label = (b.getAttribute("aria-label") || "").trim();
+        return visible(b) && (dismiss.test(text) || (label && dismiss.test(label)));
+      });
+      if (hit) {
+        hit.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
+        done.push(o.marker);
+        break;
+      }
+    }
+  }
+  return done;
+}`;
+
+async function dismissOnboardingOverlays(page: Page): Promise<string[]> {
+  const overlays = insiderSelectorsV1.onboardingOverlays.map((o) => ({
+    marker: o.marker.source,
+    dismiss: o.dismiss.source,
+  }));
+  const done = (await page
+    .evaluate(`(${DISMISS_ONBOARDING_FN})(${JSON.stringify(overlays)})`)
+    .catch(() => [])) as string[];
+  if (done.length > 0) await page.waitForTimeout(500);
+  return done;
+}
+
+/**
  * The live Jump run left "Contact Info Found!" up after Cancel. The next
  * person's waiter treated that leftover as success, clicked a dead
  * Connect Now, and every remaining lookup died as modal_timeout.
@@ -389,6 +436,10 @@ export async function triageInsiderEmails(
   // expander — a global "View" click could hit the excluded
   // previous-company panel, so every click stays scoped to a tagged
   // container. An already-expanded panel simply has no expander.
+  const dismissed = await dismissOnboardingOverlays(page);
+  if (dismissed.length > 0) {
+    report.notes.push(`dismissed first-run overlay(s): ${dismissed.join(", ")} (#253)`);
+  }
   let panels = await tagPanelsAndEmailButtons(page);
   for (const p of panels) {
     const expander = page

@@ -58,6 +58,18 @@ export const insiderSelectorsV1 = {
   emailModal: /connect via email/i,
   cancelButton: /^cancel$/i,
   /**
+   * #253 (live, night30): first-run overlays JobRight shows a browser
+   * profile that has never dismissed them. They sit over the panels and
+   * swallow the View / email-icon clicks, so every lookup ended
+   * popup_timeout in a fresh profile while the same job resolved in an
+   * old one. Each is DISMISSED (never accepted) through its own
+   * dismiss control, found inside the overlay that carries the marker.
+   */
+  onboardingOverlays: [
+    { marker: /boost your resume here/i, dismiss: /^exit$/i },
+    { marker: /make turbo even better/i, dismiss: /^(close|x|×)$/i },
+  ],
+  /**
    * FORBIDDEN control: the triage must never send. Kept in the registry so
    * the guard is data, not prose — the engine asserts it never matches a
    * click target.
