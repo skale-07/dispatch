@@ -1,0 +1,121 @@
+{
+  "decision_id": "6ca20cc7-9207-41ae-8b9c-156ff21d382b",
+  "application_id": "3f79cfb4-39d4-4ff1-94cf-c8e5255838af",
+  "signature": "FAILED_RETRYABLE|duplicate_url|duplicate_url|-",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "3f79cfb4-39d4-4ff1-94cf-c8e5255838af",
+    "company": "Hudl",
+    "role": "Software Engineering Intern",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 1,
+    "failure_signature": "FAILED_RETRYABLE|duplicate_url|duplicate_url|-",
+    "end_host": null,
+    "recent_events": [
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "navigation: employer URL already held by another application",
+        "at": "2026-09-11T06:04:27.350Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-11T06:04:22.255Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 dd9093dde3f8)",
+        "at": "2026-09-11T06:04:22.250Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-11T06:04:22.216Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-11T05:43:30.519Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-11T05:43:30.506Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-11T05:43:30.505Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-11T05:43:30.503Z"
+      }
+    ],
+    "nav": {
+      "wall": "duplicate_url",
+      "method": null,
+      "notes": [
+        "employer URL already held by 1 other application(s): 15ed7c99 (Hudl — Software Engineering Intern, AMBIGUOUS_FIELD)"
+      ],
+      "congruence": {
+        "verdict": "match",
+        "slug": "hudl",
+        "detail": "token \"hudl\" ~ slug \"hudl\"",
+        "expected_company": "Hudl",
+        "url": "https://job-boards.greenhouse.io/embed/job_app?for=hudl&token=8114314&jr_id=6aa3901e5c11cce360364d0e"
+      },
+      "duplicates": [
+        {
+          "application_id": "15ed7c99-a929-46a7-bd13-de36f263b8cd",
+          "state": "AMBIGUOUS_FIELD",
+          "company": "Hudl",
+          "role": "Software Engineering Intern"
+        }
+      ],
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (11 candidates, employer match)",
+          "evidence": "job-boards.greenhouse.io"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [
+      {
+        "kind": "MANUAL",
+        "title": "Duplicate posting — another application already targets this URL"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"abandon_duplicate\", \"rationale\": \"Evidence shows the same employer URL is already owned by application 15ed7c99 (same company/role, Hudl SWE Intern), which is active in AMBIGUOUS_FIELD. No path forward for this duplicate; abandon it and let the original proceed.\", \"confidence\": \"high\"}",
+  "parsed_action": "abandon_duplicate",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "abandoned to FAILED_FINAL",
+  "rationale_unverified": "Evidence shows the same employer URL is already owned by application 15ed7c99 (same company/role, Hudl SWE Intern), which is active in AMBIGUOUS_FIELD. No path forward for this duplicate; abandon it and let the original proceed."
+}
