@@ -47,6 +47,14 @@ const VALIDATION_ERROR_RE =
 const NAMED_FIELD_RE =
   /missing\s+entry\s+for\s+(?:a\s+)?required\s+field\s*:?\s*((?:<[^>]+>\s*)*)([^<]{1,100})/i;
 
+/**
+ * #267: after a visible validation message is read, keep polling this long
+ * for a confirmation before recording a rejection — a success page that
+ * arrives a beat late must win (live GrayMatter: recorded rejected, then
+ * confirmed by the employer's email).
+ */
+export const VALIDATION_GRACE_MS = 5_000;
+
 export function detectVisibleValidationError(html: string): string | null {
   const m = html.match(VALIDATION_ERROR_RE);
   if (!m) return null;

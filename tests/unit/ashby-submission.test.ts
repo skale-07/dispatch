@@ -133,7 +133,25 @@ describe("Ashby submission (M6)", () => {
           "missing entry for required field: Complete the Takehome",
         );
       });
-      expect(Date.now() - started).toBeLessThan(7000);
+      // Bounded: the #267 grace window (5s) then stop — never the full 8s.
+      expect(Date.now() - started).toBeLessThan(9000);
+      fs.rmSync(shot, { force: true });
+    }, 30_000);
+
+    // #267 (live GrayMatter night30): a validation line was read on the first
+    // poll and the run recorded REJECTED_AFTER_CLICK — the employer then
+    // emailed "Thanks for applying". A confirmation arriving inside the grace
+    // window must win.
+    it("a confirmation that arrives after a validation line still wins (#267)", async () => {
+      const shot = scratchScreenshotPath();
+      const html = fixtureHtml("ashby").replace(
+        "<body>",
+        `<body>${CORRECTIONS_BANNER}<script>setTimeout(function () { document.body.innerHTML = '<h1>Thank you for applying!</h1><p>We have received your application.</p>'; }, 1500);</script>`,
+      );
+      await withFixtureHtmlPage(html, async (page) => {
+        const receipt = await ashbyVerifySubmission(page, { screenshotPath: shot, timeoutMs: 8000 });
+        expect(receipt.submitted).toBe(true);
+      });
       fs.rmSync(shot, { force: true });
     }, 30_000);
 

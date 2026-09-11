@@ -14,6 +14,7 @@ import { resolveSubmitControl } from "../shared/submitControl.js";
 import {
   SubmissionUncertainError,
   detectVisibleValidationError,
+  VALIDATION_GRACE_MS,
 } from "../shared/submissionUncertain.js";
 
 export { SubmissionUncertainError } from "../shared/submissionUncertain.js";
@@ -132,6 +133,7 @@ export async function leverVerifySubmission(
   let classification: SubmissionPageClassification = "unknown";
   let html = "";
   let validationError: string | null = null;
+  let validationGraceUntil: number | null = null;
   while (Date.now() < deadline) {
     try {
       html = await page.content();
@@ -147,10 +149,16 @@ export async function leverVerifySubmission(
     }
     // Fast fail: still on the form with a visible validation message —
     // the submit was rejected and the reason is already on screen.
+    // #267: a validation read opens a short grace window in which a
+    // confirmation (the /thanks redirect) still wins — see ashby.
     if (classification === "still_on_form") {
-      validationError = detectVisibleValidationError(html);
-      if (validationError) break;
+      const seen = detectVisibleValidationError(html);
+      if (seen) {
+        validationError = seen;
+        validationGraceUntil ??= Date.now() + VALIDATION_GRACE_MS;
+      }
     }
+    if (validationGraceUntil !== null && Date.now() >= validationGraceUntil) break;
     await page.waitForTimeout(1000);
   }
 

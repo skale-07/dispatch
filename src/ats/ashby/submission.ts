@@ -15,6 +15,7 @@ import {
   SubmissionUncertainError,
   detectSubmissionRejection,
   detectVisibleValidationError,
+  VALIDATION_GRACE_MS,
 } from "../shared/submissionUncertain.js";
 
 export { SubmissionUncertainError } from "../shared/submissionUncertain.js";
@@ -131,6 +132,7 @@ export async function ashbyVerifySubmission(
   let classification: SubmissionPageClassification = "unknown";
   let html = "";
   let validationError: string | null = null;
+  let validationGraceUntil: number | null = null;
   while (Date.now() < deadline) {
     try {
       html = await page.content();
@@ -152,10 +154,20 @@ export async function ashbyVerifySubmission(
     }
     // Fast fail: still on the form with a visible validation message —
     // the submit was rejected and the reason is already on screen.
+    // #267 (live GrayMatter night30): a validation line read on the first
+    // poll recorded REJECTED_AFTER_CLICK for an application the employer
+    // CONFIRMED by email minutes later — the success page arrived after we
+    // stopped looking, and the row was left retryable (a duplicate waiting
+    // to happen). A validation read now opens a short grace window in which
+    // a confirmation still wins.
     if (classification === "still_on_form") {
-      validationError = detectVisibleValidationError(html);
-      if (validationError) break;
+      const seen = detectVisibleValidationError(html);
+      if (seen) {
+        validationError = seen;
+        validationGraceUntil ??= Date.now() + VALIDATION_GRACE_MS;
+      }
     }
+    if (validationGraceUntil !== null && Date.now() >= validationGraceUntil) break;
     await page.waitForTimeout(1000);
   }
 
