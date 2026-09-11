@@ -1,0 +1,134 @@
+{
+  "decision_id": "b7712779-e9d9-4f31-8d3f-855fe6e0d81a",
+  "application_id": "c2b4cf40-415a-4ece-b4fd-316b6478c771",
+  "signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|ngc.eightfold.ai",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "c2b4cf40-415a-4ece-b4fd-316b6478c771",
+    "company": "Northrop Grumman",
+    "role": "2027 Data Analytics Intern - Clearfield UT",
+    "state": "NATIVE_AUTOFILL_RUNNING",
+    "attempt": 1,
+    "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|ngc.eightfold.ai",
+    "end_host": "ngc.eightfold.ai",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-11T11:23:17.995Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-11T11:23:14.922Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-11T11:23:14.915Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-11T11:23:05.975Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 db6f3f869124)",
+        "at": "2026-09-11T11:23:05.967Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-11T11:23:05.924Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-11T09:06:45.661Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-11T09:06:45.644Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-11T09:06:45.642Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-11T09:06:45.641Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_llm",
+      "notes": [
+        "phase A: 9 external host(s) seen: ngc.eightfold.ai, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, www.northropgrumman.com, www.bizjournals.com, www.fool.com, www.prnewswire.com",
+        "no standard Apply control found (exact and broad name tiers both empty)",
+        "anchor adjudication: promoted ngc.eightfold.ai",
+        "anchor adjudication rationale (UNVERIFIED): ngc.eightfold.ai is Northrop Grumman's (NGC) own ATS career site with a specific job ID.",
+        "employer congruence unverifiable (URL carries no employer name specific enough to verify against \"Northrop Grumman\") — recorded"
+      ],
+      "congruence": {
+        "verdict": "unknown",
+        "slug": "ngc",
+        "detail": "URL carries no employer name specific enough to verify against \"Northrop Grumman\"",
+        "expected_company": "Northrop Grumman",
+        "url": "https://ngc.eightfold.ai/careers?pid=1340074227786&jr_id=6aa1bda02f936e4a53dadbaf"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "no congruent apply href (11 external links)",
+          "evidence": "ngc.eightfold.ai, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, www.northropgrumman.com"
+        },
+        {
+          "phase": "B_apply_click",
+          "outcome": "unresolved by deterministic phases"
+        },
+        {
+          "phase": "A_anchor_llm",
+          "outcome": "candidate promoted by adjudication",
+          "evidence": "ngc.eightfold.ai"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"requeue_same\", \"rationale\": \"Attempt 1 stalled mid-run in NATIVE_AUTOFILL_RUNNING with no wall, no fill gate failure, and no prior failed attempts on this host. Materials verified and navigation resolved to a plausible NGC Eightfold job URL. A plain rerun is the cheapest action that could complete the portal sign-in and autofill.\", \"confidence\": \"medium\"}",
+  "parsed_action": "requeue_same",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "requeued at attempt 2",
+  "rationale_unverified": "Attempt 1 stalled mid-run in NATIVE_AUTOFILL_RUNNING with no wall, no fill gate failure, and no prior failed attempts on this host. Materials verified and navigation resolved to a plausible NGC Eightfold job URL. A plain rerun is the cheapest action that could complete the portal sign-in and autofill."
+}

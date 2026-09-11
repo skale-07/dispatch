@@ -1,0 +1,50 @@
+{
+  "run_id": "nav-f75be812-43c3-4c02-b261-cb18a10eb608",
+  "application_id": "c2b4cf40-415a-4ece-b4fd-316b6478c771",
+  "jobright_job_id": "6aa1bda02f936e4a53dadbaf",
+  "method": "anchor_llm",
+  "resolved_url": "https://ngc.eightfold.ai/careers?pid=1340074227786",
+  "resolved_ats": "generic",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no congruent apply href (11 external links)",
+      "evidence": "ngc.eightfold.ai, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, www.northropgrumman.com"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "unresolved by deterministic phases"
+    },
+    {
+      "phase": "A_anchor_llm",
+      "outcome": "candidate promoted by adjudication",
+      "evidence": "ngc.eightfold.ai"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "phase A: 9 external host(s) seen: ngc.eightfold.ai, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, www.northropgrumman.com, www.bizjournals.com, www.fool.com, www.prnewswire.com",
+    "no standard Apply control found (exact and broad name tiers both empty)",
+    "anchor adjudication: promoted ngc.eightfold.ai",
+    "anchor adjudication rationale (UNVERIFIED): ngc.eightfold.ai is Northrop Grumman's (NGC) own ATS career site with a specific job ID.",
+    "employer congruence unverifiable (URL carries no employer name specific enough to verify against \"Northrop Grumman\") — recorded"
+  ],
+  "congruence": {
+    "verdict": "unknown",
+    "slug": "ngc",
+    "detail": "URL carries no employer name specific enough to verify against \"Northrop Grumman\"",
+    "expected_company": "Northrop Grumman",
+    "url": "https://ngc.eightfold.ai/careers?pid=1340074227786&jr_id=6aa1bda02f936e4a53dadbaf"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-09-11T11:23:14.862Z"
+}
