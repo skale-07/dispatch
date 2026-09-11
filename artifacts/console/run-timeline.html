@@ -60,22 +60,37 @@
 </style></head>
 <body><div class="wrap">
 <h1>Dispatch run timeline</h1>
-<p class="sub">Generated 2026-09-11T06:37:27.800Z · 40 navigation run(s) · read-only view of artifacts/</p>
-<div class="stats"><span class="stat"><b>20</b> resolved</span><span class="stat"><b>8</b> unknown</span><span class="stat"><b>5</b> budget</span><span class="stat"><b>3</b> auth</span><span class="stat"><b>2</b> closed</span><span class="stat"><b>1</b> duplicate_url</span><span class="stat"><b>1</b> submit_risk</span></div>
+<p class="sub">Generated 2026-09-11T06:40:08.382Z · 40 navigation run(s) · read-only view of artifacts/</p>
+<div class="stats"><span class="stat"><b>20</b> resolved</span><span class="stat"><b>8</b> unknown</span><span class="stat"><b>4</b> budget</span><span class="stat"><b>3</b> auth</span><span class="stat"><b>2</b> duplicate_url</span><span class="stat"><b>2</b> closed</span><span class="stat"><b>1</b> submit_risk</span></div>
 <section class="cycle">
   <h2>Latest cycle</h2>
   <dl>
-    <div><dt>Started</dt><dd>2026-09-11T06:36:52.620Z</dd></div>
+    <div><dt>Started</dt><dd>2026-09-11T06:39:22.329Z</dd></div>
     <div><dt>Outcome</dt><dd>completed</dd></div>
     <div><dt>Agent leg</dt><dd>available</dd></div>
     <div><dt>Default resume</dt><dd>ready (C:\dev\jobright-application-agent\private\candidate\resumes\swe.pdf)</dd></div>
-    <div><dt>Apps started</dt><dd>0</dd></div>
+    <div><dt>Apps started</dt><dd>1</dd></div>
     <div><dt>Submits used</dt><dd>0</dd></div>
     <div><dt>Stopped</dt><dd>queue_drained</dd></div>
   </dl>
-  <h3>Session notes</h3><ul class="notes"><li>triage sweep: 0 confirmed, 0 refuted, 0 expired of 131 pending</li><li>artifact autopush: 1 file(s) pushed to master as 5e68100c</li></ul>
+  <h3>Session notes</h3><ul class="notes"><li>nav audit: 1 wrong-employer URL(s) cleared for re-navigation, 0 parked for review</li><li>triage sweep: 0 confirmed, 0 refuted, 0 expired of 131 pending</li><li>triage 52e011ab: abandon_duplicate (executed) — abandoned to FAILED_FINAL</li><li>artifact autopush: 11 file(s) pushed to master as 2a447fb0</li></ul>
 </section>
 <h2>Applications</h2>
+<details class="app bad">
+  <summary>
+    <span class="id">52e011ab</span>
+    <span class="co">Zipline</span>
+    <span class="badge">wall: duplicate_url</span>
+    
+    
+    
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — resolved (11 candidates, employer match)<span class="ev">job-boards.greenhouse.io</span></li></ol>
+    <h4>Notes</h4><ul class="notes"><li>employer URL already held by 1 other application(s): a72fc204 (Zipline — Data Analytics Intern (Spring 2027), COMPLETED)</li></ul>
+    
+  </div>
+</details>
 <details class="app bad">
   <summary>
     <span class="id"></span>
@@ -659,21 +674,6 @@
     <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>B_board_hop</b> — no employer board route (3 request(s))</li><li><b>C_agent</b> — wall: budget (turn 1)</li></ol>
     <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>board hop: no public greenhouse/lever/ashby board found for &quot;Acme&quot; (acme; 3 requests)</li><li>agent[1]: reached form</li><li>agent[1]: final_url rejected: host evil.example.com is outside allowed domains</li><li>agent[1] reason: sidecar final_url rejected: host evil.example.com is outside allowed domains</li></ul>
     <h4>Hosts visited</h4><p class="hosts">jobright.ai → jobs.lever.co</p>
-  </div>
-</details>
-<details class="app bad">
-  <summary>
-    <span class="id">41f1b14c</span>
-    <span class="co">—</span>
-    <span class="badge">wall: budget</span>
-    
-    
-    
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>B_board_hop</b> — no employer board route (3 request(s))</li><li><b>C_agent</b> — error</li></ol>
-    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>board hop: no public greenhouse/lever/ashby board found for &quot;Acme&quot; (acme; 3 requests)</li><li>agent phase failed: Unexpected token 'o', &quot;not json at all&quot; is not valid JSON</li></ul>
-    
   </div>
 </details>
 <footer>Every row is one navigation run. Green = employer URL resolved; amber = auth/CAPTCHA wall; red = unresolved; grey = posting closed. Expand a row for its phase trace and the notes that explain the stop.</footer>
