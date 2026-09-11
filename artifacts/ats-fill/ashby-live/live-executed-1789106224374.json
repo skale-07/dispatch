@@ -1,0 +1,261 @@
+{
+  "ats": "ashby",
+  "url": "https://jobs.ashbyhq.com/inferact/2b6032f9-12a5-4083-b5e6-4bec5376cbaa/application",
+  "requested_url": "https://jobs.ashbyhq.com/inferact/2b6032f9-12a5-4083-b5e6-4bec5376cbaa/application",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://jobs.ashbyhq.com/inferact/2b6032f9-12a5-4083-b5e6-4bec5376cbaa/application",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 8,
+    "skipped_count": 3,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "f_0",
+      "label": "Application",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "_systemfield_name",
+      "label": "Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Single full-name field: composed legal_name.first + legal_name.last (both safe factual canonicals)"
+    },
+    {
+      "field_id": "_systemfield_email",
+      "label": "Email",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "37c2298d-040d-42b0-bb6d-38cfbc05ba36",
+      "label": "GitHub Handle",
+      "type": "text",
+      "canonical_field": "github_url",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "_systemfield_resume",
+      "label": "Resume",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "28ee8b86-4936-41d8-8f18-ab99af76ce43",
+      "label": "Please share a link to a personal project, open-source contribution, or technical blog post that you're most proud of or find most relevant to this role.",
+      "type": "textarea",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "essay skipped (never model-answered): If you require visa sponsorship, please share your current visa status (e.g., H- — demographic/authorization/compensation questions fill only from the sensitive profile"
+    },
+    {
+      "field_id": "5c5d568d-5728-4c22-8908-3d148fc8fa93",
+      "label": "If you require visa sponsorship, please share your current visa status (e.g., H-1B, OPT, F-1) and any timing considerations.",
+      "type": "textarea",
+      "canonical_field": "requires_sponsorship",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "_systemfield_location",
+      "label": "Location",
+      "type": "text",
+      "canonical_field": "address.city",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "feeb8744-8520-4335-93dd-349954d3be9d",
+      "label": "Are you currently enrolled at the University of Waterloo and eligible to participate in an official University of Waterloo co-op work term for this internship?",
+      "type": "select",
+      "canonical_field": "screener:custom:predicted:feeb8744-8520-4335-93dd-349954d3be9d",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): Candidate attends Johns Hopkins University, not the University of Waterloo, so cannot participate in a Waterloo co-op term."
+    },
+    {
+      "field_id": "42ccf4bc-7e33-4f32-9eff-146bcd66b860",
+      "label": "This is an on-site role based in San Francisco. If you're not already local, would you be open to relocating?",
+      "type": "select",
+      "canonical_field": "screener:willing_to_relocate",
+      "action": "FILL",
+      "reason": "Screener bank answer (synonym_option)"
+    },
+    {
+      "field_id": "c6a23c4b-d331-40c6-a34f-f2e23b48f473",
+      "label": "Will you now or in the future require sponsorship for employment visa status in the United States?",
+      "type": "select",
+      "canonical_field": "requires_sponsorship",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\ashby-live\\form-snapshot-1789106212611.html",
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "email",
+      "github_url",
+      "requires_sponsorship",
+      "screener:custom:predicted:feeb8744-8520-4335-93dd-349954d3be9d",
+      "screener:willing_to_relocate",
+      "requires_sponsorship",
+      "address.city"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "_systemfield_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "_systemfield_email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "37c2298d-040d-42b0-bb6d-38cfbc05ba36",
+        "canonical_field": "github_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "5c5d568d-5728-4c22-8908-3d148fc8fa93",
+        "canonical_field": "requires_sponsorship",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "feeb8744-8520-4335-93dd-349954d3be9d",
+        "canonical_field": "screener:custom:predicted:feeb8744-8520-4335-93dd-349954d3be9d",
+        "control_kind": "native_yesno_group",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "picked \"No\" (exact)"
+        ]
+      },
+      {
+        "field_id": "42ccf4bc-7e33-4f32-9eff-146bcd66b860",
+        "canonical_field": "screener:willing_to_relocate",
+        "control_kind": "native_yesno_group",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "picked \"Yes\" (exact)"
+        ]
+      },
+      {
+        "field_id": "c6a23c4b-d331-40c6-a34f-f2e23b48f473",
+        "canonical_field": "requires_sponsorship",
+        "control_kind": "native_yesno_group",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "picked \"No\" (exact)"
+        ]
+      },
+      {
+        "field_id": "_systemfield_location",
+        "canonical_field": "address.city",
+        "control_kind": "combobox",
+        "selected_option": "Baltimore, Maryland, United States",
+        "match_via": "synonym",
+        "notes": [
+          "listbox opened after typing",
+          "picked \"Baltimore, Maryland, United States\" (synonym)"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham Kale",
+        "observed": "Shubham Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "github_url",
+        "expected": "https://github.com/skale-07",
+        "observed": "https://github.com/skale-07",
+        "match": true
+      },
+      {
+        "canonical_field": "requires_sponsorship",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:feeb8744-8520-4335-93dd-349954d3be9d",
+        "expected": "No",
+        "observed": "No",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:willing_to_relocate",
+        "expected": "Yes",
+        "observed": "Yes",
+        "match": true
+      },
+      {
+        "canonical_field": "requires_sponsorship",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "address.city",
+        "expected": "Baltimore, Maryland, USA",
+        "observed": "Baltimore, Maryland, United States",
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 113810,
+      "verified": true,
+      "evidence": "input files: [{\"name\":\"resume-dd9093dd.pdf\",\"size\":113810}]; stillAttached=true; chip=true; resolved via primary"
+    }
+  ],
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: form (11 fillable field(s))",
+    "timing: base page (11 planned) — plan 21s, fill 9s, verify 1s",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "written_at": "2026-09-11T05:57:04.516Z"
+}
