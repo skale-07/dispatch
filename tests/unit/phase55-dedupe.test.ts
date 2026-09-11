@@ -86,6 +86,40 @@ describe("Phase 5.5 application dedupe", () => {
     closeDatabase(db);
   });
 
+  // #260 (live Zipline night30): JobRight queued a (Summer 2027) posting of
+  // a role whose (Spring 2027) posting was already submitted via a board.
+  it("JobRight discovery skips a term variant of a role we already applied to (#260)", async () => {
+    const probe = await runJobRightDiscovery({ feedHtmlPath: feedFixture, maxJobs: 1 });
+    const card = probe.applications[0]!;
+    expect(card.company && card.role).toBeTruthy();
+    // Fresh DB holding ONLY a term variant of that card's role at the same company.
+    const fresh = path.join(os.tmpdir(), `jaa-dedupe-${randomUUID()}.sqlite`);
+    process.env.DATABASE_PATH = fresh;
+    resetConfigCache();
+    try {
+      const db = openDatabase(fresh);
+      migrate(db);
+      const job = upsertJobByFingerprint(db, {
+        company: card.company!,
+        role: `${card.role} (Spring 2027)`,
+        applicationUrl: "https://job-boards.greenhouse.io/acme/jobs/1",
+      });
+      getOrCreateApplicationForJob(db, { jobId: job.id });
+      closeDatabase(db);
+      const again = await runJobRightDiscovery({ feedHtmlPath: feedFixture, maxJobs: 1 });
+      expect(again.applications.some((a) => a.jobright_job_id === card.jobright_job_id)).toBe(false);
+      expect((again.notes ?? []).join(" ")).toMatch(/not applying twice \(#249\/#260\)/);
+    } finally {
+      for (const p of [fresh, `${fresh}-wal`, `${fresh}-shm`]) {
+        try {
+          fs.unlinkSync(p);
+        } catch {
+          // ignore
+        }
+      }
+    }
+  });
+
   it("getOrCreateApplicationForJob returns EXISTING_ACTIVE", () => {
     const db = openDatabase(dbPath);
     migrate(db);

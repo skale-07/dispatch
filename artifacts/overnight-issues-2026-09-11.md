@@ -316,3 +316,28 @@ predict/essay/screener suites.
 
 Exegy itself stays parked correctly: its page requires "What are your
 annual base salary expectations?" (policy) and a notice period.
+
+## Issue #260 — JobRight discovery queued a term variant of a submitted role
+
+Cycle 44: Zipline "Data Analytics Intern (Summer 2027)" (JobRight feed)
+reached the form hours after the board's "(Spring 2027)" posting of the
+same role was SUBMITTED (a72fc204) — #249's term-variant guard ran only in
+board discovery. It blocked on a required authorization question before
+anything was sent; abandoned as a policy duplicate. JobRight discovery now
+applies the same guard (shared `existingRolesForCompany`) before the detail
+read, never against a posting it already holds. Audit of the 19 open rows:
+no other term variant queued. Test (phase55-dedupe): a JobRight card whose
+role is a term variant of an existing application is skipped with the
+#260 note.
+
+Still not covered: company-name variants between catalogues ("Rocket Lab"
+vs "Rocket Lab USA") — the guard compares exact company text, as #249 did.
+
+## For the operator — authorization STATUS questions
+
+"Please provide details on your current work authorization status in the
+United States" (checkbox group: citizen / permanent resident / visa …) has
+no deterministic mapping, and after #259 the model no longer answers it. The
+profile carries no citizenship field; my notes say you confirmed US
+citizenship on 08-31, but an authorization answer is yours to record
+(sensitive profile or `screeners.json`), not something to write for you.

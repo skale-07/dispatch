@@ -26,7 +26,7 @@ import { detectAtsFromUrl } from "../ats/shared/urlValidationDispatch.js";
 import { findApplicationsWithEmployerUrl } from "../navigation/congruence.js";
 import { classifyLocation } from "../jobs/locationEligibility.js";
 import { judgePostingAge, MAX_POSTING_AGE_HOURS } from "../jobs/postingAge.js";
-import { isNearDuplicateRole } from "../jobs/nearDuplicateRole.js";
+import { existingRolesForCompany, isNearDuplicateRole } from "../jobs/nearDuplicateRole.js";
 import {
   fetchBoardJobs,
   filterBoardJobs,
@@ -489,22 +489,6 @@ function findSamePostedJobHolder(
   return row ?? null;
 }
 
-/**
- * #249: roles we already have an application for at this company — any
- * state except the ones that mean "never actually pursued". A role we
- * abandoned as stale should not block a fresh posting of the same job.
- */
-function existingRolesForCompany(db: Db, company: string): string[] {
-  const rows = db
-    .prepare(
-      `SELECT j.role
-         FROM applications a JOIN jobs j ON j.id = a.job_id
-        WHERE lower(trim(j.company)) = lower(trim(?))
-          AND a.state NOT IN ('FILTERED_OUT', 'UNSUPPORTED_ATS')`,
-    )
-    .all(company) as Array<{ role: string | null }>;
-  return rows.map((r) => r.role ?? "").filter((r) => r.length > 0);
-}
 
 function enqueueBoardJob(
   db: Db,

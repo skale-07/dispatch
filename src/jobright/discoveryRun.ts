@@ -37,6 +37,7 @@ import {
   jobrightSelectorsV1,
 } from "./selectors/v1.js";
 import { detectAuthLossOnPage } from "../auth/authLossDetect.js";
+import { existingRolesForCompany, isNearDuplicateRole } from "../jobs/nearDuplicateRole.js";
 import { loadApplicationEducationPolicy, selectEducationPolicy } from "../candidate/applicationEducation.js";
 
 export type DiscoveryOptions = {
@@ -128,6 +129,30 @@ export async function runJobRightDiscovery(
         if (!/intern|co-?op/i.test(`${card.role} ${card.employment_type ?? ""}`)) {
           report.jobs_filtered_out += 1;
           continue;
+        }
+      }
+      // #260 (live Zipline night30): #249's term-variant guard ran only in
+      // board discovery. JobRight queued "Data Analytics Intern (Summer
+      // 2027)" hours after the board's "(Spring 2027)" of the same role was
+      // SUBMITTED — the same candidate applying twice to one job. Checked
+      // before the detail read (saves a page), and never against a posting
+      // we already hold, so a re-seen card still reuses its own row.
+      {
+        const held = db
+          .prepare(
+            `SELECT 1 AS hit FROM jobs j JOIN applications a ON a.job_id = j.id
+              WHERE j.jobright_job_id = ? LIMIT 1`,
+          )
+          .get(card.jobright_job_id) as { hit: number } | undefined;
+        if (!held && card.company) {
+          const near = isNearDuplicateRole(card.role, existingRolesForCompany(db, card.company));
+          if (near.duplicate) {
+            report.jobs_filtered_out += 1;
+            (report.notes ??= []).push(
+              `${card.company} "${card.role.slice(0, 60)}": same role as "${near.matched}" once the term is stripped — not applying twice (#249/#260)`,
+            );
+            continue;
+          }
         }
       }
       let description: string;
