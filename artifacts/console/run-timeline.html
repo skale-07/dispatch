@@ -60,22 +60,37 @@
 </style></head>
 <body><div class="wrap">
 <h1>Dispatch run timeline</h1>
-<p class="sub">Generated 2026-09-11T08:36:41.670Z · 40 navigation run(s) · read-only view of artifacts/</p>
+<p class="sub">Generated 2026-09-11T08:41:52.311Z · 40 navigation run(s) · read-only view of artifacts/</p>
 <div class="stats"><span class="stat"><b>15</b> unknown</span><span class="stat"><b>12</b> resolved</span><span class="stat"><b>4</b> auth</span><span class="stat"><b>4</b> budget</span><span class="stat"><b>3</b> closed</span><span class="stat"><b>2</b> submit_risk</span></div>
 <section class="cycle">
   <h2>Latest cycle</h2>
   <dl>
-    <div><dt>Started</dt><dd>2026-09-11T08:36:30.979Z</dd></div>
-    <div><dt>Outcome</dt><dd>skipped_already_armed</dd></div>
-    <div><dt>Agent leg</dt><dd>UNAVAILABLE — AGENT_FALLBACK_ENABLED is off; nav phase C will be skipped for every app</dd></div>
+    <div><dt>Started</dt><dd>2026-09-11T08:40:18.208Z</dd></div>
+    <div><dt>Outcome</dt><dd>completed</dd></div>
+    <div><dt>Agent leg</dt><dd>available</dd></div>
     <div><dt>Default resume</dt><dd>ready (C:\dev\jobright-application-agent\private\candidate\resumes\swe.pdf)</dd></div>
-    <div><dt>Apps started</dt><dd>—</dd></div>
-    <div><dt>Submits used</dt><dd>—</dd></div>
-    <div><dt>Stopped</dt><dd>—</dd></div>
+    <div><dt>Apps started</dt><dd>1</dd></div>
+    <div><dt>Submits used</dt><dd>0</dd></div>
+    <div><dt>Stopped</dt><dd>apps_cap</dd></div>
   </dl>
-  
+  <h3>Session notes</h3><ul class="notes"><li>nav audit: 1 wrong-employer URL(s) cleared for re-navigation, 0 parked for review</li><li>triage sweep: 0 confirmed, 0 refuted, 0 expired of 132 pending</li><li>triage dc89dcea: park_for_operator (executed) — review item created: 77285733-22f7-4d81-aaeb-541feefc7186</li><li>artifact autopush: 465 file(s) pushed to master as 9cffd1a8</li></ul>
 </section>
 <h2>Applications</h2>
+<details class="app ok">
+  <summary>
+    <span class="id">dc89dcea</span>
+    <span class="co">Zipline</span>
+    <span class="badge">resolved</span>
+    <span class="chip">anchor_href</span>
+    <span class="chip">greenhouse</span>
+    
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — resolved (11 candidates, employer match)<span class="ev">boards.greenhouse.io</span></li></ol>
+    <h4>Notes</h4><ul class="notes"><li>phase A: token-only greenhouse embed anchor resolved to board &quot;flyzipline&quot; (job 7990632003) via one read-only GET</li></ul>
+    
+  </div>
+</details>
 <details class="app muted">
   <summary>
     <span class="id">0ee9cb3b</span>
@@ -659,21 +674,6 @@
     <h4>Phases</h4><ol class="phases"><li>none recorded</li></ol>
     <h4>Notes</h4><ul class="notes"><li>model calls: 0 of 1 steps</li></ul>
     
-  </div>
-</details>
-<details class="app ok">
-  <summary>
-    <span class="id">0ea1ecd5</span>
-    <span class="co">Acme</span>
-    <span class="badge">resolved</span>
-    <span class="chip">agent</span>
-    <span class="chip">generic</span>
-    <span class="chip">agent 1t/3s</span>
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>B_board_hop</b> — no employer board route (3 request(s))</li><li><b>C_agent</b> — resolved (turn 1, employer match)<span class="ev">careers.acme.com</span></li></ol>
-    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>board hop: no public greenhouse/lever/ashby board found for &quot;Acme&quot; (acme; 3 requests)</li><li>agent[1]: cred_available:false</li><li>agent[1]: leaked:none</li></ul>
-    <h4>Hosts visited</h4><p class="hosts">careers.acme.com</p>
   </div>
 </details>
 <footer>Every row is one navigation run. Green = employer URL resolved; amber = auth/CAPTCHA wall; red = unresolved; grey = posting closed. Expand a row for its phase trace and the notes that explain the stop.</footer>
