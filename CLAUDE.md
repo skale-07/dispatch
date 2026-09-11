@@ -78,3 +78,37 @@ verified by a deterministic read-back. Demote claims on counter-evidence.
   It is VALIDATED by `tests/unit/knowledge-graph.test.ts` — adding a subsystem,
   renaming a listed export, or adding a flag fails the gate until the graph is updated.
 - Attempt caps on every retry loop; no unbounded polling or healing loops.
+
+# Frontend aesthetics
+
+Avoid generic AI aesthetics. Make creative, distinctive choices.
+
+## Typography
+- Never use Inter, Roboto, Open Sans, Lato, Arial, or system fonts.
+- Body: Bricolage Grotesque. Display: Fraunces. Mono: JetBrains Mono.
+- Use weight extremes: 200 vs 800, not 400 vs 600.
+- Size jumps of 3x+, not 1.5x.
+
+## Color & theme
+- Commit to a single dominant color with one sharp accent.
+- All colors live in CSS variables in `app/globals.css`.
+- Forbidden: purple-to-blue gradients on white backgrounds.
+
+## Backgrounds
+- Layered CSS gradients or geometric patterns over solid colors.
+- Hero sections must have atmospheric depth.
+
+## Motion
+- CSS-only for non-React. Motion (formerly Framer Motion) for React.
+- One well-orchestrated page-load reveal beats scattered micro-interactions.
+
+## Components
+- Always use shadcn/ui primitives where they exist (Button, Card, Dialog, Form).
+- Never hand-roll a component that exists in the shadcn registry.
+- Tailwind classes only. No inline styles. No CSS modules.
+
+Repo mapping: this app is Vite, not Next — the CSS-variable home is
+`frontend/src/styles/tokens.css` (mirrored in `design/tokens.json`,
+drift-tested by `tests/unit/design-tokens.test.ts`). Where `DESIGN.md`
+still says Inter / system fonts, this section wins; update `DESIGN.md`
+in the same PR that changes the fonts.
