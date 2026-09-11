@@ -1,0 +1,95 @@
+{
+  "decision_id": "dd88cf6c-e0aa-4827-96ff-4a4fbfabbc98",
+  "application_id": "e1b0b43d-8376-4a18-a15a-594ff73bfa66",
+  "signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|boards.greenhouse.io",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "e1b0b43d-8376-4a18-a15a-594ff73bfa66",
+    "company": "Waymo",
+    "role": "2027 Summer Intern, PhD, Machine Learning, Computer Vision",
+    "state": "NATIVE_AUTOFILL_RUNNING",
+    "attempt": 1,
+    "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|boards.greenhouse.io",
+    "end_host": "boards.greenhouse.io",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-11T05:43:42.188Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-11T05:43:36.342Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: greenhouse URL validated",
+        "at": "2026-09-11T05:43:36.336Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-11T05:43:36.324Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 db6f3f869124)",
+        "at": "2026-09-11T05:43:36.318Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-11T05:43:36.232Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "ats board discovery: ready for materials/pipeline",
+        "at": "2026-09-11T05:43:02.653Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "ats board discovery: operator-listed board, title filter passed",
+        "at": "2026-09-11T05:43:02.652Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "ats board discovery: dedupe pass",
+        "at": "2026-09-11T05:43:02.650Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-11T05:43:02.602Z"
+      }
+    ],
+    "nav": null,
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"requeue_same\", \"rationale\": \"Attempt 1 stalled mid-run in NATIVE_AUTOFILL_RUNNING with no nav/submit/fill-gate failure recorded and no prior decisions or failed host attempts. Looks like a transient interruption during the fill stage on a validated Greenhouse URL; cheapest plausible fix is rerunning the same pipeline once.\", \"confidence\": \"medium\"}",
+  "parsed_action": "requeue_same",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "requeued at attempt 2",
+  "rationale_unverified": "Attempt 1 stalled mid-run in NATIVE_AUTOFILL_RUNNING with no nav/submit/fill-gate failure recorded and no prior decisions or failed host attempts. Looks like a transient interruption during the fill stage on a validated Greenhouse URL; cheapest plausible fix is rerunning the same pipeline once."
+}
