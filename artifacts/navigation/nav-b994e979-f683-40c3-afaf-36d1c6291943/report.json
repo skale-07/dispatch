@@ -1,0 +1,50 @@
+{
+  "run_id": "nav-b994e979-f683-40c3-afaf-36d1c6291943",
+  "application_id": "01d85d86-ab1d-4e1a-9293-fe089841e55c",
+  "jobright_job_id": "6aa37f285c11cce3603643dc",
+  "method": "anchor_llm",
+  "resolved_url": "https://egup.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/job/20280129/",
+  "resolved_ats": "generic",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no congruent apply href (13 external links)",
+      "evidence": "egup.fa.us2.oraclecloud.com, www.linkedin.com, x.com, www.crunchbase.com, www.glassdoor.com, www.vertiv.com"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "unresolved by deterministic phases"
+    },
+    {
+      "phase": "A_anchor_llm",
+      "outcome": "candidate promoted by adjudication",
+      "evidence": "egup.fa.us2.oraclecloud.com"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "phase A: 9 external host(s) seen: egup.fa.us2.oraclecloud.com, www.linkedin.com, x.com, www.crunchbase.com, www.glassdoor.com, www.vertiv.com, www.fool.com, www.morningstar.com, www.prnewswire.com",
+    "no standard Apply control found (exact and broad name tiers both empty)",
+    "anchor adjudication: promoted egup.fa.us2.oraclecloud.com",
+    "anchor adjudication rationale (UNVERIFIED): Oracle HCM candidate experience ATS link with specific job ID is the employer's own application page; other links are homepage or news.",
+    "employer congruence unverifiable (URL carries no employer name specific enough to verify against \"Vertiv\") — recorded"
+  ],
+  "congruence": {
+    "verdict": "unknown",
+    "slug": "egup",
+    "detail": "URL carries no employer name specific enough to verify against \"Vertiv\"",
+    "expected_company": "Vertiv",
+    "url": "https://egup.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/job/20280129/?utm_medium=jobboard&jr_id=6aa37f285c11cce3603643dc"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-09-11T06:26:25.826Z"
+}
