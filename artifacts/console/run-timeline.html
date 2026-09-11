@@ -60,22 +60,37 @@
 </style></head>
 <body><div class="wrap">
 <h1>Dispatch run timeline</h1>
-<p class="sub">Generated 2026-09-11T09:04:42.557Z · 40 navigation run(s) · read-only view of artifacts/</p>
+<p class="sub">Generated 2026-09-11T09:10:04.779Z · 40 navigation run(s) · read-only view of artifacts/</p>
 <div class="stats"><span class="stat"><b>14</b> unknown</span><span class="stat"><b>13</b> resolved</span><span class="stat"><b>4</b> auth</span><span class="stat"><b>4</b> budget</span><span class="stat"><b>3</b> closed</span><span class="stat"><b>2</b> submit_risk</span></div>
 <section class="cycle">
   <h2>Latest cycle</h2>
   <dl>
-    <div><dt>Started</dt><dd>2026-09-11T09:03:58.137Z</dd></div>
+    <div><dt>Started</dt><dd>2026-09-11T09:06:50.237Z</dd></div>
     <div><dt>Outcome</dt><dd>completed</dd></div>
     <div><dt>Agent leg</dt><dd>available</dd></div>
     <div><dt>Default resume</dt><dd>ready (C:\dev\jobright-application-agent\private\candidate\resumes\swe.pdf)</dd></div>
-    <div><dt>Apps started</dt><dd>0</dd></div>
+    <div><dt>Apps started</dt><dd>1</dd></div>
     <div><dt>Submits used</dt><dd>0</dd></div>
-    <div><dt>Stopped</dt><dd>queue_drained</dd></div>
+    <div><dt>Stopped</dt><dd>apps_cap</dd></div>
   </dl>
-  <h3>Session notes</h3><ul class="notes"><li>triage sweep: 0 confirmed, 1 refuted, 0 expired of 135 pending</li><li>artifact autopush: 236 file(s) pushed to master as 03da5873</li></ul>
+  <h3>Session notes</h3><ul class="notes"><li>nav audit: 1 wrong-employer URL(s) cleared for re-navigation, 0 parked for review</li><li>triage sweep: 0 confirmed, 0 refuted, 0 expired of 134 pending</li><li>triage b8068182: requeue_same (executed) — requeued at attempt 2</li><li>artifact autopush: 27 file(s) pushed to master as 4919ada1</li></ul>
 </section>
 <h2>Applications</h2>
+<details class="app ok">
+  <summary>
+    <span class="id">b8068182</span>
+    <span class="co">NVIDIA</span>
+    <span class="badge">resolved</span>
+    <span class="chip">anchor_href</span>
+    <span class="chip">workday</span>
+    
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — resolved (11 candidates, employer match)<span class="ev">nvidia.wd5.myworkdayjobs.com</span></li></ol>
+    <h4>Notes</h4><ul class="notes"><li>none</li></ul>
+    
+  </div>
+</details>
 <details class="app muted">
   <summary>
     <span class="id">76913d84</span>
@@ -659,21 +674,6 @@
     <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>open</b> — posting is CLOSED on JobRight — navigation abandoned</li></ol>
     <h4>Notes</h4><ul class="notes"><li>jobright banner says this job has closed; no Apply path exists</li></ul>
     
-  </div>
-</details>
-<details class="app ok">
-  <summary>
-    <span class="id">654eee8a</span>
-    <span class="co">Acme</span>
-    <span class="badge">resolved</span>
-    <span class="chip">agent</span>
-    <span class="chip">generic</span>
-    <span class="chip">agent 1t/3s</span>
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>B_board_hop</b> — no employer board route (3 request(s))</li><li><b>C_agent</b> — resolved (turn 1, employer match)<span class="ev">careers.acme.com</span></li></ol>
-    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>board hop: no public greenhouse/lever/ashby board found for &quot;Acme&quot; (acme; 3 requests)</li><li>agent[1]: cred_available:false</li><li>agent[1]: leaked:none</li></ul>
-    <h4>Hosts visited</h4><p class="hosts">careers.acme.com</p>
   </div>
 </details>
 <footer>Every row is one navigation run. Green = employer URL resolved; amber = auth/CAPTCHA wall; red = unresolved; grey = posting closed. Expand a row for its phase trace and the notes that explain the stop.</footer>
