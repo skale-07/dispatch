@@ -1,0 +1,163 @@
+{
+  "decision_id": "9bd7582c-de0c-4339-a080-4b5c06523284",
+  "application_id": "441e536e-1177-473e-bb26-481b20b81b92",
+  "signature": "FAILED_RETRYABLE|-|unknown|jobs.lever.co",
+  "forbidden_actions": [
+    "engage_agent_leg"
+  ],
+  "bundle": {
+    "application_id": "441e536e-1177-473e-bb26-481b20b81b92",
+    "company": "Palantir Technologies",
+    "role": "Software Engineer, Internship - Infrastructure",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 4,
+    "failure_signature": "FAILED_RETRYABLE|-|unknown|jobs.lever.co",
+    "end_host": "jobs.lever.co",
+    "recent_events": [
+      {
+        "from": "SUBMITTING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "required questions unanswered — click withheld",
+        "at": "2026-09-11T10:43:16.090Z"
+      },
+      {
+        "from": "READY_TO_SUBMIT",
+        "to": "SUBMITTING",
+        "reason": "human-approved submission started",
+        "at": "2026-09-11T10:43:09.314Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "READY_TO_SUBMIT",
+        "reason": "pipeline: fill rehearsal verified",
+        "at": "2026-09-11T10:42:06.478Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (lever live fill: 31 filled (held for submit))",
+        "at": "2026-09-11T10:42:06.476Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route needs_review_unmapped (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-11T10:39:35.521Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-11T10:39:31.976Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: lever URL validated",
+        "at": "2026-09-11T10:39:31.969Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-11T10:39:31.958Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 dd9093dde3f8)",
+        "at": "2026-09-11T10:39:31.949Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-11T10:39:31.929Z"
+      },
+      {
+        "from": "FAILED_RETRYABLE",
+        "to": "QUEUED",
+        "reason": "operator retry 4 (cap 3 overridden for named app)",
+        "at": "2026-09-11T10:37:13.558Z"
+      },
+      {
+        "from": "SUBMITTING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "submission rejected by the form after click: Error: Please select a location from the dropdown menu and try again",
+        "at": "2026-09-11T10:28:10.176Z"
+      },
+      {
+        "from": "READY_TO_SUBMIT",
+        "to": "SUBMITTING",
+        "reason": "human-approved submission started",
+        "at": "2026-09-11T10:27:41.549Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "READY_TO_SUBMIT",
+        "reason": "pipeline: fill rehearsal verified",
+        "at": "2026-09-11T10:26:37.412Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (lever live fill: 32 filled (held for submit))",
+        "at": "2026-09-11T10:26:37.411Z"
+      }
+    ],
+    "nav": null,
+    "submit": {
+      "outcome": "FAILED_BEFORE_CLICK",
+      "reason": "Refusing to click submit: 1 required question(s) unanswered — Insert other preferred location(s) and/or further context on preference. Note: we are not offering fully remote work at  [textarea]",
+      "brief_items": []
+    },
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": true
+    },
+    "open_review_items": [
+      {
+        "kind": "MANUAL",
+        "title": "Answer needed: form refused the click — Error: Please select a location from the dropdown menu and try again"
+      },
+      {
+        "kind": "MANUAL",
+        "title": "1 required question(s) unanswered — answer via screeners.json/essay workflow, then requeue"
+      }
+    ],
+    "prior_decisions": [
+      {
+        "action": "engage_agent_leg",
+        "failure_signature": "FAILED_RETRYABLE|-|unknown|jobs.lever.co",
+        "outcome_status": "PENDING",
+        "created_at": "2026-09-11T10:28:16.538Z"
+      },
+      {
+        "action": "park_for_operator",
+        "failure_signature": "FAILED_RETRYABLE|-|verify_mismatch|jobs.lever.co",
+        "outcome_status": "CONFIRMED",
+        "created_at": "2026-09-11T10:02:51.801Z"
+      },
+      {
+        "action": "park_for_operator",
+        "failure_signature": "FAILED_RETRYABLE|-|unknown|jobs.lever.co",
+        "outcome_status": "CONFIRMED",
+        "created_at": "2026-09-11T09:19:06.166Z"
+      }
+    ],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": true
+  },
+  "raw_model_text": "{\"action\":\"park_for_operator\",\"rationale\":\"A required free-text location question is unanswered; the system withheld the click correctly. No requeue can succeed until a human supplies the answer via screeners/essay workflow. Open review items already flag this; agent leg is forbidden.\",\"confidence\":\"high\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: bbbefb27-0682-461e-8fe0-4aa49a024f4e",
+  "rationale_unverified": "A required free-text location question is unanswered; the system withheld the click correctly. No requeue can succeed until a human supplies the answer via screeners/essay workflow. Open review items already flag this; agent leg is forbidden."
+}
