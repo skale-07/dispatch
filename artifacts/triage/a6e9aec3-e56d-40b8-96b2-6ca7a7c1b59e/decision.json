@@ -1,0 +1,158 @@
+{
+  "decision_id": "a6e9aec3-e56d-40b8-96b2-6ca7a7c1b59e",
+  "application_id": "11552716-f074-45a8-9b0d-69066100f9a6",
+  "signature": "AMBIGUOUS_FIELD|-|verify_mismatch|careers.labcorp.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "11552716-f074-45a8-9b0d-69066100f9a6",
+    "company": "Labcorp",
+    "role": "Intern - Data Science - Oncology",
+    "state": "AMBIGUOUS_FIELD",
+    "attempt": 1,
+    "failure_signature": "AMBIGUOUS_FIELD|-|verify_mismatch|careers.labcorp.com",
+    "end_host": "careers.labcorp.com",
+    "recent_events": [
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "AMBIGUOUS_FIELD",
+        "reason": "pipeline: read-back verification failed",
+        "at": "2026-09-11T11:59:45.509Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (workday live fill: 14 filled (held for submit))",
+        "at": "2026-09-11T11:59:45.506Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route inspect_only (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-11T11:50:14.855Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-11T11:50:10.736Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: workday URL validated",
+        "at": "2026-09-11T11:50:10.720Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "APPLICATION_OPENING",
+        "reason": "ATS handoff: Apply landed on workday — re-detecting from https://labcorp.wd1.myworkdayjobs.com/External/job/Baltimore-MD/Intern---Data-Science---Oncology_2630590",
+        "at": "2026-09-11T11:50:10.710Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-11T11:50:00.912Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-11T11:49:59.184Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-11T11:49:59.178Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-11T11:49:55.801Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 db6f3f869124)",
+        "at": "2026-09-11T11:49:55.796Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-11T11:49:55.598Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-11T11:49:42.903Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-11T11:49:42.876Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-11T11:49:42.875Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "labcorp",
+        "detail": "token \"labcorp\" ~ slug \"labcorp\" (from URL host)",
+        "expected_company": "Labcorp",
+        "url": "https://careers.labcorp.com/global/en/job/2630590?rx_campaign=jobright&rx_ch=connector&rx_group=486230&rx_id=493afcd9-ad56-11f1-88c7-29672eb1f0f1&rx_job=2630590&rx_medium=post&rx_r=none&rx_source=jobright&rx_vp=slots&source=jobright&jr_id=6aa3e5f5f3aa936e2cdae888"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (10 candidates, employer match)",
+          "evidence": "careers.labcorp.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": false
+    },
+    "open_review_items": [
+      {
+        "kind": "AMBIGUOUS_FIELD",
+        "title": "Fill verification failed"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\":\"park_for_operator\",\"rationale\":\"Workday fill executed (14 fields, held for submit) but read-back verification failed on attempt 1 with no specific failure code; nav congruence matches, no wall, materials verified. Nothing transient or stale to fix, and a review item is already open — a human should inspect the mismatched fields before any resubmission.\",\"confidence\":\"medium\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: a600caf4-5e9b-4c7a-b27f-254a87f6554d",
+  "rationale_unverified": "Workday fill executed (14 fields, held for submit) but read-back verification failed on attempt 1 with no specific failure code; nav congruence matches, no wall, materials verified. Nothing transient or stale to fix, and a review item is already open — a human should inspect the mismatched fields before any resubmission."
+}
