@@ -1,0 +1,158 @@
+{
+  "decision_id": "298342f7-f0f1-47b6-aa4a-2f5265d1f10a",
+  "application_id": "582e8a9f-baa3-4997-9c7c-eb8548f24059",
+  "signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|caci.eightfold.ai",
+  "forbidden_actions": [
+    "requeue_same"
+  ],
+  "bundle": {
+    "application_id": "582e8a9f-baa3-4997-9c7c-eb8548f24059",
+    "company": "CACI International Inc",
+    "role": "Software Engineering Intern – Summer 2027",
+    "state": "NATIVE_AUTOFILL_RUNNING",
+    "attempt": 2,
+    "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|caci.eightfold.ai",
+    "end_host": "caci.eightfold.ai",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-11T10:13:30.320Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-11T10:13:28.393Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-11T10:13:28.384Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-11T10:13:28.375Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 dd9093dde3f8)",
+        "at": "2026-09-11T10:13:28.361Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-11T10:13:28.311Z"
+      },
+      {
+        "from": "FAILED_RETRYABLE",
+        "to": "QUEUED",
+        "reason": "retry 2/3",
+        "at": "2026-09-11T10:06:36.129Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "triage: demoting gate-parked NATIVE_AUTOFILL_RUNNING for requeue (NATIVE_AUTOFILL_RUNNING|-|unknown|caci.eightfold.ai)",
+        "at": "2026-09-11T10:06:36.116Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-11T10:05:59.815Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-11T10:05:57.034Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-11T10:05:57.027Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-11T10:05:51.978Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 dd9093dde3f8)",
+        "at": "2026-09-11T10:05:51.971Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-11T10:05:51.897Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-11T09:06:45.733Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "caci",
+        "detail": "token \"caci\" ~ slug \"caci\" (from URL tenant)",
+        "expected_company": "CACI International Inc",
+        "url": "https://caci.eightfold.ai/careers?pid=1443153436977&jr_id=6aa1770a500b01124c77cc6f"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (11 candidates, employer match)",
+          "evidence": "caci.eightfold.ai"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [],
+    "prior_decisions": [
+      {
+        "action": "requeue_same",
+        "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|caci.eightfold.ai",
+        "outcome_status": "REFUTED",
+        "created_at": "2026-09-11T10:06:36.115Z"
+      }
+    ],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\":\"engage_agent_leg\",\"rationale\":\"Navigation resolved correctly (URL congruent, no wall), materials verified; failure is a portal sign-in step the deterministic autofill can't complete. requeue_same already refuted. No agent leg has been tried yet — grant one bounded agent attempt to handle the login/apply flow.\",\"confidence\":\"medium\"}",
+  "parsed_action": "engage_agent_leg",
+  "validation_note": null,
+  "precondition": {
+    "ok": false,
+    "reason": "no navigation wall in evidence — agent leg only helps nav-walled apps"
+  },
+  "mode": "act",
+  "executed": false,
+  "execution_detail": "precondition failed: no navigation wall in evidence — agent leg only helps nav-walled apps",
+  "rationale_unverified": "Navigation resolved correctly (URL congruent, no wall), materials verified; failure is a portal sign-in step the deterministic autofill can't complete. requeue_same already refuted. No agent leg has been tried yet — grant one bounded agent attempt to handle the login/apply flow."
+}
