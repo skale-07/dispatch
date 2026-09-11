@@ -1,0 +1,36 @@
+{
+  "ats": "generic",
+  "url": "https://careers.ibm.com/en_US/careers/JobDetail?jobId=132416",
+  "requested_url": "https://careers.ibm.com/en_US/careers/JobDetail?jobId=132416",
+  "mode": "refused",
+  "gate": {
+    "ok": false,
+    "failure_code": "AUTH_REQUIRED",
+    "reason": "portal auth did not clear the wall (not_an_auth_wall)",
+    "final_url": "https://login.ibm.com/authsvc/mtfim/sps/authsvc?PolicyId=urn:ibm:security:authentication:asf:basicldapuser&Target=https%3A%2F%2Flogin.ibm.com%2Foidc%2Fendpoint%2Fdefault%2Fauthorize%3Fclient_id%3DZmNmMjY5NjMtZTBlZS00%26stateId%3Da1b3ffa0-60aa-48cf-b66a-ce379f834d90",
+    "page_class": "auth"
+  },
+  "plan_summary": null,
+  "plan_fields": null,
+  "form_snapshot_path": null,
+  "fill": null,
+  "verify": null,
+  "uploads": null,
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: posting (no fields, Apply CTA present)",
+    "landed on a posting (no fields, Apply CTA present); clicking Apply via role=link accessible name is Apply",
+    "Apply landed on: posting (no fields, Apply CTA present)",
+    "landed on a posting (no fields, Apply CTA present); clicking Apply via role=link accessible name is Apply",
+    "Apply click did not change the page: click attempt 1 failed: locator.click: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('link', { name: /^\\; no page change after click — one retry (sweep + scroll + re-click); click attempt 2 failed: locator.click: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('link', { name: /^\\",
+    "still on a posting after 2 Apply click(s) — giving up rather than filling the listing page",
+    "login wall on login.ibm.com: federated_only; fields[email=false password=false confirm=false]; submit=[Continue]; federated=[Continue with Google | Continue with GitHub]",
+    "portal auth: Apply / Apply Manually not found on attempt 1",
+    "standing portal login used for login.ibm.com",
+    "portal auth: no sign-in form on this page",
+    "parked: account wall not cleared"
+  ],
+  "written_at": "2026-09-11T10:35:11.215Z"
+}

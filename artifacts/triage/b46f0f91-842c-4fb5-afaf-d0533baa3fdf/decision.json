@@ -1,0 +1,119 @@
+{
+  "decision_id": "b46f0f91-842c-4fb5-afaf-d0533baa3fdf",
+  "application_id": "c18f6eff-ae4e-4352-87f4-919b8da6e580",
+  "signature": "NATIVE_AUTOFILL_RUNNING|-|login_wall|careers.ibm.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "c18f6eff-ae4e-4352-87f4-919b8da6e580",
+    "company": "IBM",
+    "role": "Microarchitecture / Software Intern 2027 - AI Accelerators Research",
+    "state": "NATIVE_AUTOFILL_RUNNING",
+    "attempt": 1,
+    "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|login_wall|careers.ibm.com",
+    "end_host": "careers.ibm.com",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-11T10:33:35.537Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-11T10:33:31.621Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-11T10:33:31.586Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-11T10:33:23.255Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 db6f3f869124)",
+        "at": "2026-09-11T10:33:23.170Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-11T10:33:22.347Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-11T10:31:02.492Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-11T10:31:02.481Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-11T10:31:02.480Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-11T10:31:02.479Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "ibm",
+        "detail": "token \"ibm\" ~ slug \"ibm\" (from URL host)",
+        "expected_company": "IBM",
+        "url": "https://careers.ibm.com/en_US/careers/JobDetail?jobId=132416&jr_id=6aa3a70dc5a856ac7e33ab60"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (9 candidates, employer match)",
+          "evidence": "careers.ibm.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\":\"requeue_same\",\"rationale\":\"First attempt hit a portal sign-in during native autofill; no prior failed host attempts, no prior decisions, nav resolved cleanly and materials verified. A single rerun is the cheapest plausible fix before escalating.\",\"confidence\":\"medium\"}",
+  "parsed_action": "requeue_same",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "requeued at attempt 2",
+  "rationale_unverified": "First attempt hit a portal sign-in during native autofill; no prior failed host attempts, no prior decisions, nav resolved cleanly and materials verified. A single rerun is the cheapest plausible fix before escalating."
+}
