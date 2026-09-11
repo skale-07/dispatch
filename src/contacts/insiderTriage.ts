@@ -6,6 +6,7 @@ import { getConfig } from "../config/index.js";
 import { logger } from "../logging/logger.js";
 import { PlaywrightServiceSession } from "../auth/serviceSession.js";
 import { detectAuthLossOnPage } from "../auth/authLossDetect.js";
+import { resolveGmailCdpUrl } from "../verification/gmailWebProvider.js";
 import { getStoredJobInspectionTargetByApplicationId } from "../jobright/storedJobTarget.js";
 import { upsertContact } from "./repository.js";
 import {
@@ -580,6 +581,49 @@ export function redactNameForArtifact(name: string | null): string | null {
 }
 
 /**
+ * #250 (operator directive 2026-09-11: run the Gmail pipeline "using a
+ * separate cdp instance/chrome window to not interfere with the main job
+ * app workflow"). #233 moved only Compose to the dedicated outreach Chrome;
+ * the insider panel reads still attached to the APPLIER's browser, opening
+ * tabs and spending clicks beside a live fill. The panel read now runs in
+ * the dedicated browser whenever that browser is usable for JobRight too —
+ * reachable, Gmail-signed-in (resolveGmailCdpUrl), and passing the
+ * session's own JobRight auth validation. Anything less falls back to the
+ * applier's browser, the previous behaviour, with the reason as a note.
+ */
+async function openInsiderSession(
+  headless: boolean,
+): Promise<{ session: PlaywrightServiceSession; note: string | null }> {
+  const target = await resolveGmailCdpUrl();
+  let note: string | null = target.note;
+  if (target.dedicated) {
+    const dedicated = new PlaywrightServiceSession({
+      service: "jobright",
+      mode: "CDP_ATTACH",
+      cdpUrl: target.url,
+      headless,
+      slowMoMs: 40,
+    });
+    try {
+      await dedicated.open();
+      return { session: dedicated, note: `insider triage ran in the dedicated outreach Chrome (${target.url})` };
+    } catch (err) {
+      note =
+        `dedicated outreach Chrome at ${target.url} unusable for JobRight — using the applier browser ` +
+        `[${err instanceof Error ? err.message.slice(0, 120) : String(err)}]`;
+    }
+  }
+  const session = new PlaywrightServiceSession({
+    service: "jobright",
+    mode: "CDP_ATTACH",
+    headless,
+    slowMoMs: 40,
+  });
+  await session.open();
+  return { session, note };
+}
+
+/**
  * Live orchestrator: navigate the operator's JobRight session to the
  * stored job page for an application, run the triage, persist each email
  * as a contact row (email + the display name from the person's public row
@@ -611,13 +655,7 @@ export async function runInsiderTriage(input: {
   // (#109, live 2026-08-31 — popup_timeout even at 20s) while the same
   // clicks over CDP resolved; JobRight's anti-bot layer throttles
   // launched browsers (night19 reCAPTCHA note).
-  const session = new PlaywrightServiceSession({
-    service: "jobright",
-    mode: "CDP_ATTACH",
-    headless: input.headless ?? true,
-    slowMoMs: 40,
-  });
-  await session.open();
+  const { session, note } = await openInsiderSession(input.headless ?? true);
   let report: InsiderTriageReport;
   try {
     const page = await session.newPage({ purpose: "insider_triage" });
@@ -639,6 +677,7 @@ export async function runInsiderTriage(input: {
   } finally {
     await session.close();
   }
+  if (note) report.notes.push(note);
 
   for (const contact of report.contacts) {
     upsertContact(input.db, {

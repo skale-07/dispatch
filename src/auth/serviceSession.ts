@@ -76,7 +76,14 @@ export class PlaywrightServiceSession implements ServiceSession {
         // automation worker already had a bounded restart-and-verify
         // path; DIRECT runs died here instead. One restart attempt,
         // then the actionable error.
+        //
+        // #250: the restart kills and relaunches the APPLIER's debug
+        // profile, whatever URL failed. An attach to a different browser
+        // (the dedicated outreach Chrome, #233) must never reach it — a
+        // wedged Gmail window would otherwise kill a live fill mid-form.
+        const restartable = cdpUrl === getConfig().agentCdpUrl;
         try {
+          if (!restartable) throw err;
           const { restartCdpChrome } = await import(
             "../automation/cdpChrome.js"
           );
@@ -93,7 +100,10 @@ export class PlaywrightServiceSession implements ServiceSession {
           const raw = err instanceof Error ? err.message : String(err);
           throw new Error(
             `Debug Chrome at ${cdpUrl} is unresponsive (port answers but the CDP session won't attach). ` +
-              `Close ALL Chrome windows, re-run chrome:debug:jobright, and retry. [${raw.slice(0, 120)}]`,
+              (restartable
+                ? `Close ALL Chrome windows, re-run chrome:debug:jobright, and retry. `
+                : `Restart that browser (chrome:debug:gmail for the outreach Chrome) and retry. `) +
+              `[${raw.slice(0, 120)}]`,
           );
         }
       }
