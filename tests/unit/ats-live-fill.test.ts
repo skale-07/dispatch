@@ -532,6 +532,60 @@ describe("runAtsLiveFill (W5)", () => {
     45_000,
   );
 
+  // #262c (live Palantir/Lever night30): the resume uploads after the fill,
+  // Lever parses it and resets the location dropdown selection; nothing
+  // re-checked it and the form refused the submit twice.
+  it(
+    "a resume parse that clears the location selection is re-committed once after the upload (#262c, FIXTURE_CONFIRMED)",
+    async () => {
+      applyFixtureFillEnv();
+      const report = await runAtsLiveFill({
+        binding: ATS_BINDINGS.generic,
+        url: "http://localhost:4599/portal",
+        execute: true,
+        profile: parsePublicProfile({
+          legal_name: { first: "Ada", last: "Lovelace" },
+          email: "ada@example.com",
+          phone: "555-0100",
+          address: { city: "Baltimore", state: "MD", country: "USA" },
+        }),
+        resumePath: path.join(FIXTURE_DIR, "greenhouse", "sample-resume.pdf"),
+        fixtureHtml: `<!doctype html><html><head><meta charset="utf-8"></head><body>
+          <form>
+            <label for="first_name">First Name</label>
+            <input id="first_name" name="first_name" />
+            <label for="location-input">Current location</label>
+            <input id="location-input" name="location" type="text" />
+            <input id="selected-location" name="selectedLocation" type="hidden" value="" />
+            <div id="dd"></div>
+            <label for="resume">Resume/CV</label>
+            <input id="resume" name="resume" type="file" />
+            <button type="submit">Submit application</button>
+          </form>
+          <script>
+            const input = document.getElementById('location-input');
+            const sel = document.getElementById('selected-location');
+            input.addEventListener('input', () => {
+              setTimeout(() => {
+                const dd = document.getElementById('dd');
+                dd.innerHTML = input.value.toLowerCase().startsWith('balt')
+                  ? '<div class="dropdown-results"><div class="dropdown-location">Baltimore, MD, USA</div></div>' : '';
+                dd.querySelectorAll('.dropdown-location').forEach((row) => row.addEventListener('click', () => {
+                  input.value = row.textContent; sel.value = JSON.stringify({ name: row.textContent, id: 'x1' }); dd.innerHTML = '';
+                }));
+              }, 200);
+            });
+            // The "parser": attaching a resume resets the selection.
+            document.getElementById('resume').addEventListener('change', () => { sel.value = '{"name":""}'; });
+          </script>
+        </body></html>`,
+      });
+      expect(report.mode).toBe("executed");
+      expect(report.notes.join(" ")).toMatch(/location dropdown selection cleared\) — re-committing once \(#262c\)/);
+    },
+    60_000,
+  );
+
   it(
     "a resume on disk is not an upload miss when the form has no file input (FIXTURE_CONFIRMED)",
     async () => {

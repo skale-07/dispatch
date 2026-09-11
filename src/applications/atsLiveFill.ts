@@ -36,7 +36,8 @@ import {
 import { scanRequiredCompleteness } from "../ats/shared/requiredCompleteness.js";
 import { SubmissionUncertainError } from "../ats/shared/submissionUncertain.js";
 import { isLoopbackUrl } from "../ats/generic/urlValidation.js";
-import { planApplicationFill } from "./applicationFiller.js";
+import { planApplicationFill, type FillCapableAdapter } from "./applicationFiller.js";
+import { loadPublicProfile } from "../candidate/publicProfileIO.js";
 import { postSandboxTrace } from "../sandbox/trace.js";
 import { detectAtsFromUrl } from "../ats/shared/urlValidationDispatch.js";
 import { ATS_BINDINGS, type AtsBinding } from "./atsBindings.js";
@@ -208,7 +209,11 @@ async function fillRevealedRequiredControls(args: {
         fillable.includes(e) ? e : { ...e, approved: false as const },
       ),
     };
-    second.adapter.setApprovedFillPlan(restricted, ...(args.profile ? [args.profile] : []));
+    // The pipeline calls live fill without a profile and planApplicationFill
+    // loads its own; Lever's setApprovedFillPlan REQUIRES one (full-name
+    // composition) — live Palantir cycle 53: "Lever fill requires the
+    // public profile". Same fallback the planner uses.
+    second.adapter.setApprovedFillPlan(restricted, args.profile ?? loadPublicProfile());
     const fill = await second.adapter.fill(args.page, restricted.answers);
     const verify = await second.adapter.verify(args.page, restricted.answers);
     const failed = verify.fields.filter((f) => !f.match).map((f) => f.canonical_field);
@@ -230,6 +235,71 @@ async function fillRevealedRequiredControls(args: {
     // Fail-open: the pass is an addition; the submit gate still arbitrates.
     args.report.notes.push(
       `revealed pass failed: ${err instanceof Error ? err.message.slice(0, 120) : String(err)}`,
+    );
+  }
+}
+
+/**
+ * #262c (live Palantir/Lever night30): the resume uploads AFTER the fields
+ * are filled and verified, and Lever PARSES it and rewrites the contact
+ * block — a live probe watched `selectedLocation` go to {"name":""} after
+ * the upload. The location we had picked from the dropdown was silently
+ * dropped, nothing re-checked it, and the form refused the submit ("Please
+ * select a location from the dropdown menu") twice. The greenhouse runner
+ * uploads BEFORE the fill for the same reason.
+ *
+ * One bounded pass after a verified upload: re-verify; re-fill the TEXT
+ * entries the parse changed (never toggling a checkbox/radio twice), and a
+ * location whose hidden dropdown selection is now empty even if its visible
+ * text survived; restore the full plan; verify again.
+ */
+async function recommitAfterResumeParse(args: {
+  page: Page;
+  adapter: FillCapableAdapter;
+  approvedPlan: ApprovedFillPlan;
+  profile: PublicProfile;
+  report: { verify: AtsLiveFillReport["verify"]; notes: string[] };
+}): Promise<void> {
+  try {
+    await args.page.waitForTimeout(1_500); // let the parse land
+    const verify = await args.adapter.verify(args.page, args.approvedPlan.answers);
+    const stale = new Set(verify.fields.filter((f) => !f.match).map((f) => f.canonical_field));
+    const selectionCleared = (await args.page
+      .evaluate(
+        `(() => { const h = document.querySelector('input[type="hidden"][name="selectedLocation"]'); if (!h) return false; const v = (h.value || "").trim(); return v === "" || /"name"\\s*:\\s*""/.test(v); })()`,
+      )
+      .catch(() => false)) as boolean;
+    if (selectionCleared) stale.add("address.city");
+    const redo = args.approvedPlan.entries.filter(
+      (e) =>
+        e.approved &&
+        e.action === "FILL" &&
+        (e.type === "text" || e.type === "textarea") &&
+        stale.has(e.canonical_field ?? e.field_id),
+    );
+    if (redo.length === 0) {
+      args.report.verify = verify;
+      return;
+    }
+    args.report.notes.push(
+      `resume parse changed ${redo.length} planned field(s) after upload (${redo
+        .map((e) => e.canonical_field ?? e.field_id)
+        .join(", ")}${selectionCleared ? "; location dropdown selection cleared" : ""}) — re-committing once (#262c)`,
+    );
+    const restricted: ApprovedFillPlan = {
+      ...args.approvedPlan,
+      entries: args.approvedPlan.entries.map((e) => (redo.includes(e) ? e : { ...e, approved: false as const })),
+    };
+    args.adapter.setApprovedFillPlan(restricted, args.profile);
+    try {
+      await args.adapter.fill(args.page, restricted.answers);
+    } finally {
+      args.adapter.setApprovedFillPlan(args.approvedPlan, args.profile);
+    }
+    args.report.verify = await args.adapter.verify(args.page, args.approvedPlan.answers);
+  } catch (err) {
+    args.report.notes.push(
+      `post-upload re-commit failed: ${err instanceof Error ? err.message.slice(0, 120) : String(err)}`,
     );
   }
 }
@@ -1578,6 +1648,15 @@ export async function runAtsLiveFill(input: {
           );
         } else {
           report.uploads = [await adapter.uploadResume(page, input.resumePath)];
+          if (report.uploads[0]?.verified) {
+            await recommitAfterResumeParse({
+              page,
+              adapter,
+              approvedPlan,
+              profile: input.profile ?? loadPublicProfile(),
+              report,
+            });
+          }
         }
       }
 

@@ -29,7 +29,13 @@ export class SubmissionUncertainError extends Error {
  * "error budgets" must not fast-fail a real confirmation wait.
  */
 const VALIDATION_ERROR_RE =
-  /((?:this\s+)?field\s+is\s+required|is\s+a\s+required\s+field|(?:please\s+)?(?:fill\s+(?:in|out)|complete|select|enter|answer)\s+(?:this|all|the)\s+(?:required\s+)?(?:field|fields|question|questions)|required\s+fields?\s+(?:are\s+)?(?:missing|incomplete)|please\s+correct\s+the\s+errors?|there\s+(?:was|were)\s+(?:a\s+)?(?:problem|errors?)\s+(?:with|submitting)\s+your\s+(?:application|form|submission)|couldn'?t\s+submit\s+your\s+application|failed\s+to\s+submit|your\s+form\s+needs\s+corrections|missing\s+entry\s+for\s+(?:a\s+)?required\s+field)/i;
+  /((?:this\s+)?field\s+is\s+required|is\s+a\s+required\s+field|(?:please\s+)?(?:fill\s+(?:in|out)|complete|select|enter|answer)\s+(?:this|all|the)\s+(?:required\s+)?(?:field|fields|question|questions)|required\s+fields?\s+(?:are\s+)?(?:missing|incomplete)|please\s+correct\s+the\s+errors?|there\s+(?:was|were)\s+(?:a\s+)?(?:problem|errors?)\s+(?:with|submitting)\s+your\s+(?:application|form|submission)|couldn'?t\s+submit\s+your\s+application|failed\s+to\s+submit|your\s+form\s+needs\s+corrections|missing\s+entry\s+for\s+(?:a\s+)?required\s+field|error:\s*please\s+[a-z][^.<]{3,100}?\s+and\s+try\s+again)/i;
+// #262b (live Palantir/Lever night30): Lever's post-click banner — "✱ Error:
+// Please select a location from the dropdown menu and try again." — matched
+// none of the phrasings above, so a definitive refusal parked UNCERTAIN
+// (operator-only) instead of FAILED_RETRYABLE with the reason named. The
+// added alternative is a whole sentence ("Error: Please … and try again"),
+// never a bare "error" substring.
 
 /**
  * Ashby's corrections banner names the field after a colon, usually inside

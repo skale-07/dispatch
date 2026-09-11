@@ -149,6 +149,43 @@ describe("greenhouse checkbox groups — fill + verify (FIXTURE_CONFIRMED)", () 
   const metaFor = (fieldId: string, inputId: string): Map<string, FieldMeta> =>
     new Map([[fieldId, { type: "checkbox", inputId, name: fieldId }]]);
 
+  // #262 (live Palantir/Lever, night30): Lever's location rows are DIVs
+  // (div.dropdown-results > div.dropdown-location). The fill never saw them,
+  // fell back to ArrowDown+Enter, and the hidden selectedLocation stayed
+  // empty — the form rejected the submit.
+  it("Lever location typeahead: clicks a div.dropdown-location row so selectedLocation is set (#262)", async () => {
+    const lever = `<!DOCTYPE html><html><body><form>
+      <li class="application-question"><label>Current location ✱
+        <input id="location-input" name="location" type="text" />
+        <input id="selected-location" name="selectedLocation" type="hidden" value="" />
+        <div class="dropdown-container" id="dd"></div>
+      </label></li></form>
+      <script>
+        const input = document.getElementById('location-input');
+        input.addEventListener('input', () => {
+          const q = input.value.toLowerCase();
+          setTimeout(() => {
+            const dd = document.getElementById('dd');
+            dd.innerHTML = q.startsWith('balt')
+              ? '<div class="dropdown-results"><div class="dropdown-location">Baltimore, MD, USA</div><div class="dropdown-location">Baltimore, Cork, IRL</div></div>'
+              : '<div class="dropdown-no-results">No location found</div>';
+            dd.querySelectorAll('.dropdown-location').forEach((row) => row.addEventListener('click', () => {
+              input.value = row.textContent;
+              document.getElementById('selected-location').value = JSON.stringify({ name: row.textContent, id: 'x1' });
+              dd.innerHTML = '';
+            }));
+          }, 300);
+        });
+      </script></body></html>`;
+    await withFixtureHtmlPage(lever, async (page) => {
+      const e = entry({ field_id: "location-input", label: "location", type: "text", value: "Baltimore", canonical_field: "address.city" });
+      const meta = new Map<string, FieldMeta>([["location-input", { type: "text", inputId: "location-input", name: "location" }]]);
+      const fill = await greenhouseFillFromPlan(page, [e], meta);
+      expect(fill.errors).toEqual([]);
+      expect(await page.locator("#selected-location").inputValue()).toContain("Baltimore, MD, USA");
+    });
+  }, 45_000);
+
   // #254 (live Palantir/Lever, night30): card checkboxes carry only the
   // shared name and a per-box value — no id. The label matched and the
   // id-only targeting refused it as "no option matching".

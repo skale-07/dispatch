@@ -44,6 +44,8 @@ describe("speed pass 2026-08-14", () => {
         "<div role='alert'>Please correct the errors below</div>",
         "<div>There was a problem submitting your application</div>",
         "<div>We couldn't submit your application</div>",
+        // #262b (live Palantir/Lever night30)
+        "<div class='application-error'>✱ Error: Please select a location from the dropdown menu and try again.</div>",
       ]) {
         expect(detectVisibleValidationError(html)).not.toBeNull();
       }
@@ -55,6 +57,7 @@ describe("speed pass 2026-08-14", () => {
         "<p>A bachelor's degree is required for this role.</p>",
         "<p>Fill out the form below to apply.</p>",
         "<p>Required skills: TypeScript</p>",
+        "<p>If you see an error, please refresh the page.</p>",
       ]) {
         expect(detectVisibleValidationError(html)).toBeNull();
       }

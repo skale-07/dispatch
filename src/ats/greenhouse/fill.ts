@@ -434,6 +434,12 @@ async function fillLocationStyleText(
     ".tt-suggestion:visible",
     ".autocomplete-suggestion:visible",
     ".location-typeahead-option:visible",
+    // #262 (live Palantir/Lever night30): Lever's rows are DIVs —
+    // div.dropdown-results > div.dropdown-location — so the li-based
+    // selectors never saw them, ArrowDown+Enter left the hidden
+    // selectedLocation empty, and the form rejected the submit ("Please
+    // select a location from the dropdown menu"). Clicking a row sets it.
+    ".dropdown-results .dropdown-location:visible",
     "[class*='suggestion']:visible",
     "[class*='dropdown'] li:visible",
     "[class*='Dropdown'] [class*='option']:visible",
