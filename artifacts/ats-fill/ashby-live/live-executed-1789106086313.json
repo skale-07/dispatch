@@ -1,0 +1,487 @@
+{
+  "ats": "ashby",
+  "url": "https://jobs.ashbyhq.com/graymatter-robotics/aa7c2419-7bb9-4080-9403-937c4db01bb6/application",
+  "requested_url": "https://jobs.ashbyhq.com/graymatter-robotics/aa7c2419-7bb9-4080-9403-937c4db01bb6/application",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://jobs.ashbyhq.com/graymatter-robotics/aa7c2419-7bb9-4080-9403-937c4db01bb6/application",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 11,
+    "skipped_count": 4,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "f_0",
+      "label": "Application",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "_systemfield_name",
+      "label": "Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Single full-name field: composed legal_name.first + legal_name.last (both safe factual canonicals)"
+    },
+    {
+      "field_id": "_systemfield_email",
+      "label": "Email",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "_systemfield_resume",
+      "label": "Resume",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "phone",
+      "label": "Phone",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "cover_letter",
+      "label": "Cover Letter",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "question_6991250005",
+      "label": "LinkedIn Profile",
+      "type": "text",
+      "canonical_field": "linkedin_url",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "question_6991251005",
+      "label": "Website",
+      "type": "text",
+      "canonical_field": "personal_website",
+      "action": "SKIP",
+      "reason": "Profile value empty for personal_website"
+    },
+    {
+      "field_id": "21e20111-df4c-415c-8711-eba2ef54dc1e",
+      "label": "Please select all fields you have direct knowledge of or experience with",
+      "type": "select",
+      "canonical_field": "screener:custom:predicted:21e20111-df4c-415c-8711-eba2ef54dc1e",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): Candidate has extensive Python work (ML pipelines, Flask, XGBoost) and programmed a microcontroller dust sensor in C/C++, but no robotics, ROS, CAD, or mechatronics experience."
+    },
+    {
+      "field_id": "35d50440-f72a-4ebb-a32c-2e2f4076fadc",
+      "label": "What is the maximum duration of an internship you'll be able to participate in?",
+      "type": "select",
+      "canonical_field": "screener:custom:predicted:35d50440-f72a-4ebb-a32c-2e2f4076fadc",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): As a full-time JHU undergraduate (class of 2029), a standard 12-week term fits within an academic break."
+    },
+    {
+      "field_id": "45705ca1-74b2-4be9-88c6-068298f2bde7",
+      "label": "When would you be available to start your full-time (40hrs/week) internship?",
+      "type": "select",
+      "canonical_field": "screener:custom:predicted:45705ca1-74b2-4be9-88c6-068298f2bde7",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): Candidate targets Summer 2026 internship terms per saved answers."
+    },
+    {
+      "field_id": "_systemfield_eeoc_gender",
+      "label": "Gender",
+      "type": "select",
+      "canonical_field": "gender",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "_systemfield_eeoc_race",
+      "label": "Race",
+      "type": "select",
+      "canonical_field": "race_ethnicity",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "_systemfield_eeoc_veteran_status",
+      "label": "Veteran Status",
+      "type": "select",
+      "canonical_field": "veteran_status",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "question_7077214005",
+      "label": "Will you now or in the future require visa sponsorhip to legally work in the United States?",
+      "type": "select",
+      "canonical_field": "requires_sponsorship",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\ashby-live\\form-snapshot-1789106080417.html",
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "email",
+      "phone",
+      "linkedin_url",
+      "screener:custom:predicted:21e20111-df4c-415c-8711-eba2ef54dc1e",
+      "screener:custom:predicted:35d50440-f72a-4ebb-a32c-2e2f4076fadc",
+      "screener:custom:predicted:45705ca1-74b2-4be9-88c6-068298f2bde7",
+      "gender",
+      "race_ethnicity",
+      "veteran_status",
+      "requires_sponsorship"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "_systemfield_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "_systemfield_email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "phone",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_6991250005",
+        "canonical_field": "linkedin_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "21e20111-df4c-415c-8711-eba2ef54dc1e",
+        "canonical_field": "screener:custom:predicted:21e20111-df4c-415c-8711-eba2ef54dc1e",
+        "control_kind": "native_checkbox_group",
+        "selected_option": "C++/Python Troubleshooting",
+        "match_via": "exact",
+        "notes": [
+          "picked \"C++/Python Troubleshooting\" (exact)"
+        ]
+      },
+      {
+        "field_id": "35d50440-f72a-4ebb-a32c-2e2f4076fadc",
+        "canonical_field": "screener:custom:predicted:35d50440-f72a-4ebb-a32c-2e2f4076fadc",
+        "control_kind": "native_radio_group",
+        "selected_option": "12 weeks",
+        "match_via": "exact",
+        "notes": [
+          "picked \"12 weeks\" (exact)"
+        ]
+      },
+      {
+        "field_id": "45705ca1-74b2-4be9-88c6-068298f2bde7",
+        "canonical_field": "screener:custom:predicted:45705ca1-74b2-4be9-88c6-068298f2bde7",
+        "control_kind": "native_checkbox_group",
+        "selected_option": "Summer/July",
+        "match_via": "exact",
+        "notes": [
+          "picked \"Summer/July\" (exact)"
+        ]
+      },
+      {
+        "field_id": "_systemfield_eeoc_gender",
+        "canonical_field": "gender",
+        "control_kind": "native_radio_group",
+        "selected_option": "Male",
+        "match_via": "exact",
+        "notes": [
+          "picked \"Male\" (exact)"
+        ]
+      },
+      {
+        "field_id": "_systemfield_eeoc_race",
+        "canonical_field": "race_ethnicity",
+        "control_kind": "native_radio_group",
+        "selected_option": "Asian (Not Hispanic or Latino)",
+        "match_via": "unique_substring",
+        "notes": [
+          "picked \"Asian (Not Hispanic or Latino)\" (unique_substring)"
+        ]
+      },
+      {
+        "field_id": "_systemfield_eeoc_veteran_status",
+        "canonical_field": "veteran_status",
+        "control_kind": "native_radio_group",
+        "selected_option": "I am not a protected veteran",
+        "match_via": "synonym",
+        "notes": [
+          "picked \"I am not a protected veteran\" (synonym)"
+        ]
+      },
+      {
+        "field_id": "question_7077214005",
+        "canonical_field": "requires_sponsorship",
+        "control_kind": "native_yesno_group",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "picked \"No\" (exact)"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham Kale",
+        "observed": "Shubham Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:21e20111-df4c-415c-8711-eba2ef54dc1e",
+        "expected": "C++/Python Troubleshooting",
+        "observed": "C++/Python Troubleshooting",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:35d50440-f72a-4ebb-a32c-2e2f4076fadc",
+        "expected": "12 weeks",
+        "observed": "12 weeks",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:45705ca1-74b2-4be9-88c6-068298f2bde7",
+        "expected": "Summer/July",
+        "observed": "Summer/July",
+        "match": true
+      },
+      {
+        "canonical_field": "gender",
+        "expected": "Male",
+        "observed": "Male",
+        "match": true
+      },
+      {
+        "canonical_field": "race_ethnicity",
+        "expected": "Asian",
+        "observed": "Asian (Not Hispanic or Latino)",
+        "match": true
+      },
+      {
+        "canonical_field": "veteran_status",
+        "expected": "I am not a veteran",
+        "observed": "I am not a protected veteran",
+        "match": true
+      },
+      {
+        "canonical_field": "requires_sponsorship",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 113810,
+      "verified": true,
+      "evidence": "input files: [{\"name\":\"resume-dd9093dd.pdf\",\"size\":113810}]; stillAttached=true; chip=true; resolved via primary"
+    }
+  ],
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: form (23 fillable field(s))",
+    "option harvest: scraped real options for 10/16 control(s) before planning",
+    "timing: base page (15 planned) — plan 20s, fill 5s, verify 1s",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [
+    {
+      "field_id": "3de4adf0-c124-466b-8a46-a510cb30b0e3_21e20111-df4c-415c-8711-eba2ef54dc1e-labeled-checkbox-0",
+      "label": "Real world, hands on experience with robotic arms, 6DOF robots, industrial robots etc.",
+      "answer_space": "closed",
+      "option_count": 6,
+      "options": [
+        "Real world, hands on experience with robotic arms, 6DOF robots, industrial robots etc.",
+        "C++/Python Troubleshooting",
+        "ROS/ROS2",
+        "Software/Hardware Integration",
+        "CAD, prototyping, manufacturing, assembly",
+        "Mechatronics"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "3de4adf0-c124-466b-8a46-a510cb30b0e3_21e20111-df4c-415c-8711-eba2ef54dc1e-labeled-checkbox-1",
+      "label": "C++/Python Troubleshooting",
+      "answer_space": "closed",
+      "option_count": 6,
+      "options": [
+        "Real world, hands on experience with robotic arms, 6DOF robots, industrial robots etc.",
+        "C++/Python Troubleshooting",
+        "ROS/ROS2",
+        "Software/Hardware Integration",
+        "CAD, prototyping, manufacturing, assembly",
+        "Mechatronics"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "3de4adf0-c124-466b-8a46-a510cb30b0e3_21e20111-df4c-415c-8711-eba2ef54dc1e-labeled-checkbox-2",
+      "label": "ROS/ROS2",
+      "answer_space": "closed",
+      "option_count": 6,
+      "options": [
+        "Real world, hands on experience with robotic arms, 6DOF robots, industrial robots etc.",
+        "C++/Python Troubleshooting",
+        "ROS/ROS2",
+        "Software/Hardware Integration",
+        "CAD, prototyping, manufacturing, assembly",
+        "Mechatronics"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "3de4adf0-c124-466b-8a46-a510cb30b0e3_21e20111-df4c-415c-8711-eba2ef54dc1e-labeled-checkbox-3",
+      "label": "Software/Hardware Integration",
+      "answer_space": "closed",
+      "option_count": 6,
+      "options": [
+        "Real world, hands on experience with robotic arms, 6DOF robots, industrial robots etc.",
+        "C++/Python Troubleshooting",
+        "ROS/ROS2",
+        "Software/Hardware Integration",
+        "CAD, prototyping, manufacturing, assembly",
+        "Mechatronics"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "3de4adf0-c124-466b-8a46-a510cb30b0e3_21e20111-df4c-415c-8711-eba2ef54dc1e-labeled-checkbox-4",
+      "label": "CAD, prototyping, manufacturing, assembly",
+      "answer_space": "closed",
+      "option_count": 6,
+      "options": [
+        "Real world, hands on experience with robotic arms, 6DOF robots, industrial robots etc.",
+        "C++/Python Troubleshooting",
+        "ROS/ROS2",
+        "Software/Hardware Integration",
+        "CAD, prototyping, manufacturing, assembly",
+        "Mechatronics"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "3de4adf0-c124-466b-8a46-a510cb30b0e3_21e20111-df4c-415c-8711-eba2ef54dc1e-labeled-checkbox-5",
+      "label": "Mechatronics",
+      "answer_space": "closed",
+      "option_count": 6,
+      "options": [
+        "Real world, hands on experience with robotic arms, 6DOF robots, industrial robots etc.",
+        "C++/Python Troubleshooting",
+        "ROS/ROS2",
+        "Software/Hardware Integration",
+        "CAD, prototyping, manufacturing, assembly",
+        "Mechatronics"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "3de4adf0-c124-466b-8a46-a510cb30b0e3_45705ca1-74b2-4be9-88c6-068298f2bde7-labeled-checkbox-0",
+      "label": "Winter/January",
+      "answer_space": "closed",
+      "option_count": 4,
+      "options": [
+        "Winter/January",
+        "Spring/April",
+        "Summer/July",
+        "Fall/September"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "3de4adf0-c124-466b-8a46-a510cb30b0e3_45705ca1-74b2-4be9-88c6-068298f2bde7-labeled-checkbox-1",
+      "label": "Spring/April",
+      "answer_space": "closed",
+      "option_count": 4,
+      "options": [
+        "Winter/January",
+        "Spring/April",
+        "Summer/July",
+        "Fall/September"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "3de4adf0-c124-466b-8a46-a510cb30b0e3_45705ca1-74b2-4be9-88c6-068298f2bde7-labeled-checkbox-2",
+      "label": "Summer/July",
+      "answer_space": "closed",
+      "option_count": 4,
+      "options": [
+        "Winter/January",
+        "Spring/April",
+        "Summer/July",
+        "Fall/September"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "3de4adf0-c124-466b-8a46-a510cb30b0e3_45705ca1-74b2-4be9-88c6-068298f2bde7-labeled-checkbox-3",
+      "label": "Fall/September",
+      "answer_space": "closed",
+      "option_count": 4,
+      "options": [
+        "Winter/January",
+        "Spring/April",
+        "Summer/July",
+        "Fall/September"
+      ],
+      "other_option": null
+    }
+  ],
+  "written_at": "2026-09-11T05:54:46.343Z"
+}
