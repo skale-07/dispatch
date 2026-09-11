@@ -1,0 +1,926 @@
+{
+  "mode": "executed",
+  "ats": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/hudl/jobs/8155102",
+  "plan": {
+    "answers": {
+      "legal_name.first": "Shubham",
+      "legal_name.last": "Kale",
+      "screener:custom:has_preferred_name": "No",
+      "email": "s***@gmail.com",
+      "address.country": "United States",
+      "phone": "***-***-7636",
+      "address.city": "Baltimore",
+      "screener:custom:unl_raikes_school_student": "No",
+      "pronouns": "He/Him",
+      "screener:custom:expected_graduation_date": "May 2029",
+      "screener:willing_to_relocate": "Yes",
+      "requires_sponsorship": "[REDACTED_SPONSORSHIP]",
+      "gender": "Male",
+      "race_ethnicity": "Asian"
+    },
+    "entries": [
+      {
+        "field_id": "first_name",
+        "label": "First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "fill",
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "last_name",
+        "label": "Last Name",
+        "type": "text",
+        "canonical_field": "legal_name.last",
+        "action": "fill",
+        "value": "Kale",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "preferred_name",
+        "label": "Preferred First Name",
+        "type": "text",
+        "canonical_field": "screener:custom:has_preferred_name",
+        "action": "fill",
+        "value": "No",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "email",
+        "label": "Email",
+        "type": "text",
+        "canonical_field": "email",
+        "action": "fill",
+        "value": "s***@gmail.com",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "country",
+        "label": "Country",
+        "type": "text",
+        "canonical_field": "address.country",
+        "action": "fill",
+        "value": "United States +1",
+        "reason": "Mapped from public profile; placed onto \"United States +1\""
+      },
+      {
+        "field_id": "phone",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "fill",
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "candidate-location",
+        "label": "Location (City)",
+        "type": "text",
+        "canonical_field": "address.city",
+        "action": "fill",
+        "value": "Baltimore",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "resume",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "skip_file",
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "cover_letter",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "skip_file",
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "question_69085896",
+        "label": "Are you currently a UNL Jeffrey S. Raikes School of Computer Science & Management student?",
+        "type": "text",
+        "canonical_field": "screener:custom:unl_raikes_school_student",
+        "action": "fill",
+        "value": "No",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_69085897",
+        "label": "What are your preferred pronouns?",
+        "type": "text",
+        "canonical_field": "pronouns",
+        "action": "fill",
+        "value": "He/Him",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "question_69085898",
+        "label": "Internships at Hudl are only open to currently-enrolled college students. What is your expected graduation date?",
+        "type": "text",
+        "canonical_field": "screener:custom:expected_graduation_date",
+        "action": "fill",
+        "value": "May 2029",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_69085899",
+        "label": "This position requires being on-site at our Headquarters in Lincoln, NE, starting May 17th to early-August. Are you able to be at our headquarters for the full duration of the program?",
+        "type": "text",
+        "canonical_field": "screener:willing_to_relocate",
+        "action": "fill",
+        "value": "Yes",
+        "reason": "Screener bank answer (synonym_option)"
+      },
+      {
+        "field_id": "question_69085900",
+        "label": "This internship pays $27-$29/hour. Are you comfortable with that range?",
+        "type": "text",
+        "canonical_field": "screener:salary_expectations",
+        "action": "review_required",
+        "value": null,
+        "reason": "salary_expectations is a human decision by policy"
+      },
+      {
+        "field_id": "question_69085901",
+        "label": "In lieu of a required cover letter, please describe why you are interested in interning at Hudl in 2-5 sentences.",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_69085901",
+        "action": "fill",
+        "value": "Most of what I've built has pushed me toward testing and evaluation as the harder half of the problem. At Intelehealth I designed an evaluation framework for AI-generated clinical outputs against a 4,169-case benchmark, using stratified sampling to surface systematic failure modes rather than reporting a single accuracy number, and that work convinced me that deciding whether an output should be trusted is usually harder than producing it. In my own Playwright-based application agent I built a validation ladder (unit, fixture, live read-only, live mutation) because I didn't want the system calling a capability \"working\" just because it passed against a local fixture, and I put every mutating action behind fail-closed flags. Hudl is interesting to me because it's software real teams depend on during real games, where a bug isn't abstract, and QA is where I'd get to think hardest about failure modes on a product that actually gets used.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_69085902",
+        "label": "Will you require Visa sponsorship now or in the future?",
+        "type": "text",
+        "canonical_field": "requires_sponsorship",
+        "action": "fill",
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_69085903",
+        "label": "If you heard about this role from a current Hudl employee, please indicate their name.",
+        "type": "text",
+        "canonical_field": "screener:referral_name",
+        "action": "skip_empty",
+        "value": null,
+        "reason": "referral_name empty in bank — optional, skipped"
+      },
+      {
+        "field_id": "1326",
+        "label": "Please indicate your gender",
+        "type": "text",
+        "canonical_field": "gender",
+        "action": "fill",
+        "value": "Male",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "1327",
+        "label": "Please indicate your race",
+        "type": "text",
+        "canonical_field": "race_ethnicity",
+        "action": "fill",
+        "value": "Asian",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      }
+    ],
+    "fillable_count": 15,
+    "skipped_count": 3,
+    "review_required_count": 1
+  },
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "schema diff: 13/15 declared question(s) matched onto 19 DOM field(s); 2 declared-only (1 required); 6 DOM-only",
+    "board API declared 15 question(s); matched complete option lists onto 5 field(s)",
+    "option harvest: \"Location (City)\" is a combobox but offered no readable options",
+    "option harvest: scraped real options for 3/11 control(s) before planning",
+    "heal pass: recovered 0/1; final verify passed: false",
+    "frozen after fill→verify→upload — no further field mutation; submit never called"
+  ],
+  "validation_level": "UNVERIFIED",
+  "final_url": "https://job-boards.greenhouse.io/hudl/jobs/8155102",
+  "identity_verification": {
+    "requestedUrl": "https://job-boards.greenhouse.io/hudl/jobs/8155102",
+    "finalUrl": "https://job-boards.greenhouse.io/hudl/jobs/8155102",
+    "requestedJobId": "8155102",
+    "observedJobId": "8155102",
+    "company": "hudl",
+    "role": "Job Application for Quality Assurance Engineering Intern at Hudl",
+    "formDetected": true,
+    "fieldCount": 19,
+    "warnings": [],
+    "passed": true,
+    "failureCode": null,
+    "failureReason": null
+  },
+  "captcha_detection": {
+    "detected": false,
+    "confidence": "LOW",
+    "signals": [],
+    "dormantMarkers": [
+      "recaptcha_api_script_loaded",
+      "generic_captcha_word_only"
+    ]
+  },
+  "login_wall_detection": {
+    "detected": false,
+    "confidence": "LOW",
+    "signals": []
+  },
+  "failure_code": null,
+  "mutation_attempted": true,
+  "schema_diff": {
+    "board": "hudl",
+    "job_id": "8155102",
+    "declared_count": 15,
+    "dom_count": 19,
+    "matched": 13,
+    "api_only": [
+      {
+        "label": "Resume/CV",
+        "required": true
+      },
+      {
+        "label": "Cover Letter",
+        "required": false
+      }
+    ],
+    "dom_only": [
+      "Country",
+      "Location (City)",
+      "Attach",
+      "Attach",
+      "Please indicate your gender",
+      "Please indicate your race"
+    ],
+    "option_mismatches": []
+  },
+  "harvested_options": [
+    {
+      "field_id": "country",
+      "label": "Country",
+      "answer_space": "closed",
+      "option_count": 244,
+      "options": [
+        "United States +1",
+        "Afghanistan +93",
+        "Åland Islands +358",
+        "Albania +355",
+        "Algeria +213",
+        "American Samoa +1",
+        "Andorra +376",
+        "Angola +244",
+        "Anguilla +1",
+        "Antigua & Barbuda +1",
+        "Argentina +54",
+        "Armenia +374",
+        "Aruba +297",
+        "Ascension Island +247",
+        "Australia +61",
+        "Austria +43",
+        "Azerbaijan +994",
+        "Bahamas +1",
+        "Bahrain +973",
+        "Bangladesh +880",
+        "Barbados +1",
+        "Belarus +375",
+        "Belgium +32",
+        "Belize +501",
+        "Benin +229"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "1326",
+      "label": "Please indicate your gender",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "Female",
+        "Male",
+        "I don't wish to answer"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "1327",
+      "label": "Please indicate your race",
+      "answer_space": "closed",
+      "option_count": 11,
+      "options": [
+        "Alaskan Native / American Indian / Indigenous American / Native American",
+        "Black / of African descent",
+        "East Asian (Inclusive of Chinese, Japanese, Korean, Mongolian, Tibetan, and Taiwanese)",
+        "Latinx",
+        "Middle Eastern",
+        "Pacific Islander",
+        "South Asian (Inclusive of Bangladeshi, Bhutanese, Indian, Nepali, Pakistani, and Sri Lankan)",
+        "Southeast Asian (Inclusive of Burmese, Cambodian, Filipino, Hmong, Indonesian, Laotian, Malaysian, Mien, Singaporean, Thai, and Vietnamese)",
+        "White",
+        "I don't wish to answer",
+        "I prefer to self-describe"
+      ],
+      "other_option": null
+    }
+  ],
+  "approved_plan": {
+    "entries": [
+      {
+        "field_id": "first_name",
+        "label": "First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "FILL",
+        "approved": true,
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "last_name",
+        "label": "Last Name",
+        "type": "text",
+        "canonical_field": "legal_name.last",
+        "action": "FILL",
+        "approved": true,
+        "value": "Kale",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "preferred_name",
+        "label": "Preferred First Name",
+        "type": "text",
+        "canonical_field": "screener:custom:has_preferred_name",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "email",
+        "label": "Email",
+        "type": "text",
+        "canonical_field": "email",
+        "action": "FILL",
+        "approved": true,
+        "value": "s***@gmail.com",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "country",
+        "label": "Country",
+        "type": "text",
+        "canonical_field": "address.country",
+        "action": "FILL",
+        "approved": true,
+        "value": "United States +1",
+        "reason": "Mapped from public profile; placed onto \"United States +1\""
+      },
+      {
+        "field_id": "phone",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "FILL",
+        "approved": true,
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "candidate-location",
+        "label": "Location (City)",
+        "type": "text",
+        "canonical_field": "address.city",
+        "action": "FILL",
+        "approved": true,
+        "value": "Baltimore",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "resume",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "cover_letter",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "question_69085896",
+        "label": "Are you currently a UNL Jeffrey S. Raikes School of Computer Science & Management student?",
+        "type": "text",
+        "canonical_field": "screener:custom:unl_raikes_school_student",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_69085897",
+        "label": "What are your preferred pronouns?",
+        "type": "text",
+        "canonical_field": "pronouns",
+        "action": "FILL",
+        "approved": true,
+        "value": "He/Him",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "question_69085898",
+        "label": "Internships at Hudl are only open to currently-enrolled college students. What is your expected graduation date?",
+        "type": "text",
+        "canonical_field": "screener:custom:expected_graduation_date",
+        "action": "FILL",
+        "approved": true,
+        "value": "May 2029",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_69085899",
+        "label": "This position requires being on-site at our Headquarters in Lincoln, NE, starting May 17th to early-August. Are you able to be at our headquarters for the full duration of the program?",
+        "type": "text",
+        "canonical_field": "screener:willing_to_relocate",
+        "action": "FILL",
+        "approved": true,
+        "value": "Yes",
+        "reason": "Screener bank answer (synonym_option)"
+      },
+      {
+        "field_id": "question_69085900",
+        "label": "This internship pays $27-$29/hour. Are you comfortable with that range?",
+        "type": "text",
+        "canonical_field": "screener:salary_expectations",
+        "action": "REVIEW_REQUIRED",
+        "approved": false,
+        "value": null,
+        "reason": "salary_expectations is a human decision by policy"
+      },
+      {
+        "field_id": "question_69085901",
+        "label": "In lieu of a required cover letter, please describe why you are interested in interning at Hudl in 2-5 sentences.",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_69085901",
+        "action": "FILL",
+        "approved": true,
+        "value": "Most of what I've built has pushed me toward testing and evaluation as the harder half of the problem. At Intelehealth I designed an evaluation framework for AI-generated clinical outputs against a 4,169-case benchmark, using stratified sampling to surface systematic failure modes rather than reporting a single accuracy number, and that work convinced me that deciding whether an output should be trusted is usually harder than producing it. In my own Playwright-based application agent I built a validation ladder (unit, fixture, live read-only, live mutation) because I didn't want the system calling a capability \"working\" just because it passed against a local fixture, and I put every mutating action behind fail-closed flags. Hudl is interesting to me because it's software real teams depend on during real games, where a bug isn't abstract, and QA is where I'd get to think hardest about failure modes on a product that actually gets used.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_69085902",
+        "label": "Will you require Visa sponsorship now or in the future?",
+        "type": "text",
+        "canonical_field": "requires_sponsorship",
+        "action": "FILL",
+        "approved": true,
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_69085903",
+        "label": "If you heard about this role from a current Hudl employee, please indicate their name.",
+        "type": "text",
+        "canonical_field": "screener:referral_name",
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "referral_name empty in bank — optional, skipped"
+      },
+      {
+        "field_id": "1326",
+        "label": "Please indicate your gender",
+        "type": "text",
+        "canonical_field": "gender",
+        "action": "FILL",
+        "approved": true,
+        "value": "Male",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "1327",
+        "label": "Please indicate your race",
+        "type": "text",
+        "canonical_field": "race_ethnicity",
+        "action": "FILL",
+        "approved": true,
+        "value": "Asian",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      }
+    ],
+    "answers": {
+      "legal_name.first": "Shubham",
+      "legal_name.last": "Kale",
+      "screener:custom:has_preferred_name": "No",
+      "email": "s***@gmail.com",
+      "address.country": "United States +1",
+      "phone": "***-***-7636",
+      "address.city": "Baltimore",
+      "screener:custom:unl_raikes_school_student": "No",
+      "pronouns": "He/Him",
+      "screener:custom:expected_graduation_date": "May 2029",
+      "screener:willing_to_relocate": "Yes",
+      "essay:generated:question_69085901": "Most of what I've built has pushed me toward testing and evaluation as the harder half of the problem. At Intelehealth I designed an evaluation framework for AI-generated clinical outputs against a 4,169-case benchmark, using stratified sampling to surface systematic failure modes rather than reporting a single accuracy number, and that work convinced me that deciding whether an output should be trusted is usually harder than producing it. In my own Playwright-based application agent I built a validation ladder (unit, fixture, live read-only, live mutation) because I didn't want the system calling a capability \"working\" just because it passed against a local fixture, and I put every mutating action behind fail-closed flags. Hudl is interesting to me because it's software real teams depend on during real games, where a bug isn't abstract, and QA is where I'd get to think hardest about failure modes on a product that actually gets used.",
+      "requires_sponsorship": "[REDACTED_SPONSORSHIP]",
+      "gender": "Male",
+      "race_ethnicity": "Asian"
+    },
+    "fillable_count": 15,
+    "skipped_count": 3,
+    "review_required_count": 1
+  },
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "legal_name.last",
+      "screener:custom:has_preferred_name",
+      "email",
+      "address.country",
+      "phone",
+      "address.city",
+      "screener:custom:unl_raikes_school_student",
+      "pronouns",
+      "screener:custom:expected_graduation_date",
+      "screener:willing_to_relocate",
+      "essay:generated:question_69085901",
+      "requires_sponsorship",
+      "gender"
+    ],
+    "skipped": [],
+    "errors": [
+      "1327: combobox option not committed: opened via control click; filter yielded no/unmatched options; re-collected unfiltered (residue cleared); scroll-harvested 11 option(s); drill scan skipped (not a Workday multiselect prompt, or a yes/no answer — flat rows are answers, not categories); ambiguous match for \"Asian\" (3 candidates): East Asian (Inclusive of Chinese, Japanese, Korean, Mongolian, Tibetan, and Taiwanese) | South Asian (Inclusive of Bangladeshi, Bhutanese, Indian, Nepali, Pakistani, and Sri Lankan) | Southeast Asian (Inclusive of Burmese, Cambodian, Filipino, Hmong, Indonesian, Laotian, Malaysian, Mien, Singaporean, Thai, and Vietnamese)"
+    ],
+    "field_meta": [
+      {
+        "field_id": "first_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "last_name",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "preferred_name",
+        "canonical_field": "screener:custom:has_preferred_name",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "country",
+        "canonical_field": "address.country",
+        "control_kind": "combobox",
+        "selected_option": "+1",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"United States +1\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "phone",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "candidate-location",
+        "canonical_field": "address.city",
+        "control_kind": "combobox",
+        "selected_option": "Baltimore, Maryland, United States",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "filter \"Baltimore\" then picked \"Baltimore, Maryland, United States\" (exact)"
+        ]
+      },
+      {
+        "field_id": "question_69085896",
+        "canonical_field": "screener:custom:unl_raikes_school_student",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_69085897",
+        "canonical_field": "pronouns",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_69085898",
+        "canonical_field": "screener:custom:expected_graduation_date",
+        "control_kind": "combobox",
+        "selected_option": "May 2029",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"May 2029\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_69085899",
+        "canonical_field": "screener:willing_to_relocate",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_69085901",
+        "canonical_field": "essay:generated:question_69085901",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_69085902",
+        "canonical_field": "requires_sponsorship",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "1326",
+        "canonical_field": "gender",
+        "control_kind": "combobox",
+        "selected_option": "Male",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Male\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "1327",
+        "canonical_field": "race_ethnicity",
+        "control_kind": "combobox",
+        "selected_option": null,
+        "match_via": null,
+        "notes": [
+          "opened via control click",
+          "filter yielded no/unmatched options; re-collected unfiltered (residue cleared)",
+          "scroll-harvested 11 option(s)",
+          "drill scan skipped (not a Workday multiselect prompt, or a yes/no answer — flat rows are answers, not categories)",
+          "ambiguous match for \"Asian\" (3 candidates): East Asian (Inclusive of Chinese, Japanese, Korean, Mongolian, Tibetan, and Taiwanese) | South Asian (Inclusive of Bangladeshi, Bhutanese, Indian, Nepali, Pakistani, and Sri Lankan) | Southeast Asian (Inclusive of Burmese, Cambodian, Filipino, Hmong, Indonesian, Laotian, Malaysian, Mien, Singaporean, Thai, and Vietnamese)"
+        ],
+        "options_sample": [
+          "Alaskan Native / American Indian / Indigenous American / Native American",
+          "Black / of African descent",
+          "East Asian (Inclusive of Chinese, Japanese, Korean, Mongolian, Tibetan, and Taiwanese)",
+          "Latinx",
+          "Middle Eastern",
+          "Pacific Islander",
+          "South Asian (Inclusive of Bangladeshi, Bhutanese, Indian, Nepali, Pakistani, and Sri Lankan)",
+          "Southeast Asian (Inclusive of Burmese, Cambodian, Filipino, Hmong, Indonesian, Laotian, Malaysian, Mien, Singaporean, Thai, and Vietnamese)",
+          "White",
+          "I don't wish to answer",
+          "I prefer to self-describe"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": false,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.last",
+        "expected": "Kale",
+        "observed": "Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:has_preferred_name",
+        "expected": "No",
+        "observed": "No",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "address.country",
+        "expected": "United States +1",
+        "observed": {
+          "value": "+1",
+          "label": "+1"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "address.city",
+        "expected": "Baltimore",
+        "observed": {
+          "value": "Baltimore, Maryland, United States",
+          "label": "Baltimore, Maryland, United States"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:unl_raikes_school_student",
+        "expected": "No",
+        "observed": {
+          "value": "No",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "pronouns",
+        "expected": "He/Him",
+        "observed": "He/Him",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:expected_graduation_date",
+        "expected": "May 2029",
+        "observed": {
+          "value": "May 2029",
+          "label": "May 2029"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:willing_to_relocate",
+        "expected": "Yes",
+        "observed": {
+          "value": "Yes",
+          "label": "Yes"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:question_69085901",
+        "expected": "Most of what I've built has pushed me toward testing and evaluation as the harder half of the problem. At Intelehealth I designed an evaluation framework for AI-generated clinical outputs against a 4,169-case benchmark, using stratified sampling to surface systematic failure modes rather than reporting a single accuracy number, and that work convinced me that deciding whether an output should be trusted is usually harder than producing it. In my own Playwright-based application agent I built a validation ladder (unit, fixture, live read-only, live mutation) because I didn't want the system calling a capability \"working\" just because it passed against a local fixture, and I put every mutating action behind fail-closed flags. Hudl is interesting to me because it's software real teams depend on during real games, where a bug isn't abstract, and QA is where I'd get to think hardest about failure modes on a product that actually gets used.",
+        "observed": "Most of what I've built has pushed me toward testing and evaluation as the harder half of the problem. At Intelehealth I designed an evaluation framework for AI-generated clinical outputs against a 4,169-case benchmark, using stratified sampling to surface systematic failure modes rather than reporting a single accuracy number, and that work convinced me that deciding whether an output should be trusted is usually harder than producing it. In my own Playwright-based application agent I built a validation ladder (unit, fixture, live read-only, live mutation) because I didn't want the system calling a capability \"working\" just because it passed against a local fixture, and I put every mutating action behind fail-closed flags. Hudl is interesting to me because it's software real teams depend on during real games, where a bug isn't abstract, and QA is where I'd get to think hardest about failure modes on a product that actually gets used.",
+        "match": true
+      },
+      {
+        "canonical_field": "requires_sponsorship",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "gender",
+        "expected": "Male",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "match": false
+      },
+      {
+        "canonical_field": "race_ethnicity",
+        "expected": "Asian",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "match": false
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "heal": {
+    "attempted": 1,
+    "healed": [
+      "1327"
+    ],
+    "still_failing": [],
+    "attempts": [
+      {
+        "field_id": "1327",
+        "layer": "heuristic",
+        "candidate": {
+          "selector": "#question_69085903",
+          "via": "label_text",
+          "score": 0.6,
+          "inputId": "question_69085903"
+        },
+        "healed": true,
+        "notes": [
+          "heuristic candidate [id=\"1327\"] (1) did not verify",
+          "heuristic candidate [id=\"1326\"] (0.85) did not verify"
+        ]
+      }
+    ],
+    "sidecar_used": false
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 113810,
+      "verified": true,
+      "evidence": "input files: []; stillAttached=false; chip=true"
+    }
+  ],
+  "operator_brief": {
+    "title": "Live fill — greenhouse https://job-boards.greenhouse.io/hudl/jobs/8155102",
+    "summary": "3 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:gender",
+        "question": "Please indicate your gender",
+        "field_id": "1326",
+        "canonical_field": "gender",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Male\"; page shows \"(empty)\"",
+        "expected": "Male",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "how_to_answer": [
+          "Type the intended value on the form (planned: Male). If a places/autocomplete list appears, select a matching suggestion; plain city text is enough when no list opens.",
+          "System expected \"Male\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: gender)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"gender\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:race_ethnicity",
+        "question": "Please indicate your race",
+        "field_id": "1327",
+        "canonical_field": "race_ethnicity",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Asian\"; page shows \"(empty)\"",
+        "expected": "Asian",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "how_to_answer": [
+          "Type the intended value on the form (planned: Asian). If a places/autocomplete list appears, select a matching suggestion; plain city text is enough when no list opens.",
+          "System expected \"Asian\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: race_ethnicity)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"race_ethnicity\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "fill_error:1327: combobox option not committed: opened via control click; filter yielded no",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "1327: combobox option not committed: opened via control click; filter yielded no/unmatched options; re-collected unfiltered (residue cleared); scroll-harvested 11 option(s); drill scan skipped (not a Workday multiselect prompt, or a yes/no answer — flat rows are answers, not categories); ambiguous match for \"Asian\" (3 candidates): East Asian (Inclusive of Chinese, Japanese, Korean, Mongolian, Tibetan, and Taiwanese) | South Asian (Inclusive of Bangladeshi, Bhutanese, Indian, Nepali, Pakistani, and Sri Lankan) | Southeast Asian (Inclusive of Burmese, Cambodian, Filipino, Hmong, Indonesian, Laotian, Malaysian, Mien, Singaporean, Thai, and Vietnamese)",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      }
+    ],
+    "ok_count": 13,
+    "fail_count": 3
+  },
+  "written_at": "2026-09-11T05:23:22.475Z"
+}
