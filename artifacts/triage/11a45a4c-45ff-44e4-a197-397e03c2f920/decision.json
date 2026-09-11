@@ -1,0 +1,151 @@
+{
+  "decision_id": "11a45a4c-45ff-44e4-a197-397e03c2f920",
+  "application_id": "441e536e-1177-473e-bb26-481b20b81b92",
+  "signature": "FAILED_RETRYABLE|-|unknown|jobs.lever.co",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "441e536e-1177-473e-bb26-481b20b81b92",
+    "company": "Palantir Technologies",
+    "role": "Software Engineer, Internship - Infrastructure",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 3,
+    "failure_signature": "FAILED_RETRYABLE|-|unknown|jobs.lever.co",
+    "end_host": "jobs.lever.co",
+    "recent_events": [
+      {
+        "from": "SUBMITTING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "submission rejected by the form after click: Error: Please select a location from the dropdown menu and try again",
+        "at": "2026-09-11T10:28:10.176Z"
+      },
+      {
+        "from": "READY_TO_SUBMIT",
+        "to": "SUBMITTING",
+        "reason": "human-approved submission started",
+        "at": "2026-09-11T10:27:41.549Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "READY_TO_SUBMIT",
+        "reason": "pipeline: fill rehearsal verified",
+        "at": "2026-09-11T10:26:37.412Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (lever live fill: 32 filled (held for submit))",
+        "at": "2026-09-11T10:26:37.411Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route needs_review_unmapped (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-11T10:24:28.081Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-11T10:24:25.747Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: lever URL validated",
+        "at": "2026-09-11T10:24:25.740Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-11T10:24:25.732Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 dd9093dde3f8)",
+        "at": "2026-09-11T10:24:25.726Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-11T10:24:25.523Z"
+      },
+      {
+        "from": "FAILED_RETRYABLE",
+        "to": "QUEUED",
+        "reason": "operator requeue after uncertain resolution",
+        "at": "2026-09-11T10:18:08.194Z"
+      },
+      {
+        "from": "SUBMISSION_VERIFICATION_FAILED",
+        "to": "FAILED_RETRYABLE",
+        "reason": "operator confirmed no submission occurred (night30 agent: receipt-attempt-3.png shows Lever's own banner 'Error: Please select a location from the dropdown menu and try again.'; URL stayed on /apply (#262))",
+        "at": "2026-09-11T10:18:08.191Z"
+      },
+      {
+        "from": "SUBMITTING",
+        "to": "SUBMISSION_VERIFICATION_FAILED",
+        "reason": "post-click verification inconclusive",
+        "at": "2026-09-11T10:12:15.803Z"
+      },
+      {
+        "from": "READY_TO_SUBMIT",
+        "to": "SUBMITTING",
+        "reason": "human-approved submission started",
+        "at": "2026-09-11T10:11:33.566Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "READY_TO_SUBMIT",
+        "reason": "pipeline: fill rehearsal verified",
+        "at": "2026-09-11T10:10:35.985Z"
+      }
+    ],
+    "nav": null,
+    "submit": {
+      "outcome": "REJECTED_AFTER_CLICK",
+      "reason": "Submission rejected by the form after click: Error: Please select a location from the dropdown menu and try again",
+      "brief_items": []
+    },
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": true
+    },
+    "open_review_items": [
+      {
+        "kind": "MANUAL",
+        "title": "Answer needed: form refused the click — Error: Please select a location from the dropdown menu and try again"
+      }
+    ],
+    "prior_decisions": [
+      {
+        "action": "park_for_operator",
+        "failure_signature": "FAILED_RETRYABLE|-|verify_mismatch|jobs.lever.co",
+        "outcome_status": "CONFIRMED",
+        "created_at": "2026-09-11T10:02:51.801Z"
+      },
+      {
+        "action": "park_for_operator",
+        "failure_signature": "FAILED_RETRYABLE|-|unknown|jobs.lever.co",
+        "outcome_status": "CONFIRMED",
+        "created_at": "2026-09-11T09:19:06.166Z"
+      }
+    ],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"engage_agent_leg\", \"rationale\": \"Lever's location typeahead requires selecting a dropdown suggestion; deterministic native fill verifies fields but cannot satisfy the geocoded picker, so the same rejection recurs. Agent leg is untried and is the cheapest action that could change the outcome; parking was already tried twice and confirmed without resolution.\", \"confidence\": \"medium\"}",
+  "parsed_action": "engage_agent_leg",
+  "validation_note": null,
+  "precondition": {
+    "ok": false,
+    "reason": "no navigation wall in evidence — agent leg only helps nav-walled apps"
+  },
+  "mode": "act",
+  "executed": false,
+  "execution_detail": "precondition failed: no navigation wall in evidence — agent leg only helps nav-walled apps",
+  "rationale_unverified": "Lever's location typeahead requires selecting a dropdown suggestion; deterministic native fill verifies fields but cannot satisfy the geocoded picker, so the same rejection recurs. Agent leg is untried and is the cheapest action that could change the outcome; parking was already tried twice and confirmed without resolution."
+}
