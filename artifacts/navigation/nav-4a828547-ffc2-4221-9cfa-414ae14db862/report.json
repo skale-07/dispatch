@@ -1,0 +1,48 @@
+{
+  "run_id": "nav-4a828547-ffc2-4221-9cfa-414ae14db862",
+  "application_id": "51fb6d93-9f38-489c-b65e-860bff231389",
+  "jobright_job_id": "6aa1d31adbc0e60e37e13dbe",
+  "method": "apply_click_popup",
+  "resolved_url": "https://enterpriseplatform.dell.com/hcmUI/CandidateExperience/en/sites/careers/job/298782",
+  "resolved_ats": "generic",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no congruent apply href (11 external links)",
+      "evidence": "www.ziprecruiter.com, www.linkedin.com, x.com, www.crunchbase.com, medcitynews.com, www.prnewswire.com"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "resolved via popup",
+      "evidence": "enterpriseplatform.dell.com"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "phase A: 6 external host(s) seen: www.ziprecruiter.com, www.linkedin.com, x.com, www.crunchbase.com, medcitynews.com, www.prnewswire.com",
+    "Apply control: autofill CTA (tier 0)",
+    "jobright interstitial: clicked \"Apply Without Customizing\"",
+    "popup settled off about:blank after the interstitial",
+    "popup captured on attempt 1",
+    "phase B: captured URL reads as \"enterpriseplatform\" (URL names \"enterpriseplatform\" (host), which shares nothing with company \"Innovative Health LLC\") — kept, provenance is the Apply click",
+    "congruence: URL names \"enterpriseplatform\", not \"Innovative Health LLC\" (URL names \"enterpriseplatform\" (host), which shares nothing with company \"Innovative Health LLC\") — recorded, not refused"
+  ],
+  "congruence": {
+    "verdict": "mismatch",
+    "slug": "enterpriseplatform",
+    "detail": "URL names \"enterpriseplatform\" (host), which shares nothing with company \"Innovative Health LLC\"",
+    "expected_company": "Innovative Health LLC",
+    "url": "https://enterpriseplatform.dell.com/hcmUI/CandidateExperience/en/sites/careers/job/298782?jr_id=6aa1ef570ffb3d4fea6b7c45"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-09-11T10:31:26.285Z"
+}
