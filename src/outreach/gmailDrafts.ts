@@ -182,7 +182,17 @@ export async function draftEmailOnGmailPage(
       return { composed: false, notes };
     }
   }
-  await compose.click({ timeout: 5_000 });
+  // #257 (live night30, dedicated Chrome): the click LANDS ("click action
+  // done"), then Playwright waits for the hash navigation Compose schedules
+  // (#inbox?compose=new) and times out — one such timeout aborted a whole
+  // job's six drafts. The compose window appearing is the real proof, and
+  // the To-field wait below arbitrates it either way: a click that truly
+  // missed still fails there.
+  await compose.click({ timeout: 5_000 }).catch((err: unknown) => {
+    notes.push(
+      `compose click reported ${err instanceof Error ? err.message.split("\n")[0]!.slice(0, 80) : String(err)} — deciding by the compose window`,
+    );
+  });
 
   const to = page.locator(s.to).first();
   await to.waitFor({ state: "visible", timeout: 10_000 });

@@ -470,14 +470,30 @@ export async function triageInsiderEmails(
   }
   let panels = await tagPanelsAndEmailButtons(page);
   for (const p of panels) {
-    const expander = page
+    const candidates = page
       .locator(`[${PANEL_ATTR}="${p.category}"]`)
       .locator('button, a, [role="button"]')
-      .filter({ hasText: insiderSelectorsV1.expandButton })
-      .first();
-    if ((await expander.count().catch(() => 0)) > 0) {
-      await expander.click({ timeout: 2_000 }).catch(() => undefined);
+      .filter({ hasText: insiderSelectorsV1.expandButton });
+    // #257b (live night30): on an EXPANDED panel the only match is "Find
+    // More Connections ↗" — an outbound LinkedIn people-search link. Every
+    // walk opened a LinkedIn tab in the outreach browser. An expander never
+    // leaves the page: skip anything that is (or sits in) a link to another
+    // host or a new tab.
+    const n = Math.min(await candidates.count().catch(() => 0), 4);
+    for (let k = 0; k < n; k += 1) {
+      const c = candidates.nth(k);
+      const outbound = await c
+        .evaluate(`(el) => {
+          const a = el.closest("a[href]");
+          if (!a) return false;
+          if ((a.getAttribute("target") || "") === "_blank") return true;
+          try { return new URL(a.href, location.href).host !== location.host; } catch { return true; }
+        }`)
+        .catch(() => true);
+      if (outbound) continue;
+      await c.click({ timeout: 2_000 }).catch(() => undefined);
       await page.waitForTimeout(500);
+      break;
     }
   }
   // Pass 2: re-tag now that rows are visible.
