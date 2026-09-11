@@ -385,3 +385,25 @@ would have been typed "2029". The signature rules now run first; a bare
 primary name field (Lever `name="name"`, composed by the adapter) keeps
 `legal_name.first`. Tests with realistic aliases (48/48 incl. Lever
 adapter).
+
+### #224 live, first run — and #261, why Palantir's block was never answerable
+
+Cycle 51 (Palantir Infrastructure, Lever) ran with the revealed pass. It
+WORKED as designed: "revealed required control(s) after the fill (#224):
+"Enter your full name", "MM/DD/YYYY" — second plan pass". The re-plan then
+refused both: "Demographics deferred to sensitive-profile policy path".
+
+The labels are placeholders; the block is Lever's disability self-ID form
+(CC-305), whose signature controls `eeo[disabilitySignature]` /
+`eeo[disabilitySignatureDate]` appear once the disability answer is given.
+`isDemographicsField` matches "eeo"/"disabilit" anywhere in the NAME, so the
+signature was deferred to the sensitive profile — which has no value for a
+signature — and every Palantir application was unsubmittable by
+construction.
+
+#261: signature controls (named …signature / …signatureDate) are not
+demographics, and map by name to `signature_name` (full legal name) /
+`signature_date` (today) ahead of the alias loop. The disability QUESTION
+stays demographic. This is the operator's own #226 ask ("plug in today's
+date", from Palantir 2026-09-09). Tests: normalization 24/24; 24 EEO /
+demographics / sensitive-profile files 349/349 sequential.

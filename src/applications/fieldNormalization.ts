@@ -205,6 +205,46 @@ function matchCanonicalFieldInner(
     return null;
   }
 
+  // #226 (live Palantir 2026-09-09; operator: "it couldn't complete a
+  // question that asked to plug in today's date"). Acknowledgement blocks
+  // end with a bare "Name" + "Date" pair whose answers are facts.
+  // #226b (night30): these rules sat AFTER the alias loop, whose reverse-
+  // containment branch lets a 4-letter label claim any longer alias — with
+  // the operator's real aliases bare "Date" → graduation_year (via
+  // "Expected graduation date": "2029" typed at a signature date) and bare
+  // "Name" → legal_name.first. The #226 test used empty aliases, so it never
+  // saw it. They now run first, still anchored to BARE labels ("Graduation
+  // Date", "Start Date", "Date of Birth" keep their own mappings; DOB is
+  // sensitive and never auto-filled).
+  // #261: signature controls named as such (Lever's disability self-ID form:
+  // eeo[disabilitySignature] / eeo[disabilitySignatureDate]) carry
+  // placeholder labels ("Enter your full name", "MM/DD/YYYY") — the NAME is
+  // the fact. Date first: "SignatureDate" also contains "Signature".
+  {
+    const idHint = `${field.name ?? ""} ${field.id ?? ""}`;
+    if (/signature[\s_-]*date/i.test(idHint)) return "signature_date";
+    if (/signature/i.test(idHint) && field.type !== "checkbox" && field.type !== "radio") {
+      return "signature_name";
+    }
+  }
+  if (/^(today'?s\s+)?date$/.test(normalized) || /^date\s+(signed|of\s+signature)$/.test(normalized)) {
+    return "signature_date";
+  }
+  if (/^(e-?)?signature$/.test(normalized) || /^signature\s+of\s+applicant$/.test(normalized)) {
+    return "signature_name";
+  }
+  // A bare "Name" that is one of the ATS's CUSTOM questions (Lever cards[…],
+  // Greenhouse question_…) is a signature line, answered with the full legal
+  // name. The form's own primary name field (Lever name="name", composed by
+  // the adapter from legal_name.first) is not a custom question and keeps
+  // its mapping below.
+  if (
+    /^(full\s+)?(legal\s+)?name$/.test(normalized) &&
+    (isAtsCustomQuestion(field) || /\bcards\[/i.test(`${field.name ?? ""} ${field.id ?? ""}`))
+  ) {
+    return "signature_name";
+  }
+
   let best: { canonical: string; score: number } | null = null;
 
   for (const [canonical, phrases] of Object.entries(aliases)) {
@@ -306,20 +346,6 @@ function matchCanonicalFieldInner(
     if (asksStatus && /\b(authoriz\w*|eligible\s+to\s+work|work\s+lawfully)\b/.test(normalized)) {
       return "work_authorization";
     }
-  }
-
-  // #226 (live Palantir 2026-09-09; operator: "it couldn't complete a
-  // question that asked to plug in today's date"). Acknowledgement blocks
-  // end with a bare "Name" + "Date" pair the alias map does not claim, and
-  // the submit gate then refuses on two fields whose answers are facts.
-  // Anchored to BARE labels only: "Graduation Date", "Start Date", "Date
-  // of Birth" all contain "date" and must keep their own mappings (date
-  // of birth is sensitive and never auto-filled).
-  if (/^(today'?s\s+)?date$/.test(normalized) || /^date\s+(signed|of\s+signature)$/.test(normalized)) {
-    return "signature_date";
-  }
-  if (/^(e-?)?signature$/.test(normalized) || /^signature\s+of\s+applicant$/.test(normalized)) {
-    return "signature_name";
   }
 
   // Name/id-based hints when phrase map missed (Lever EEO / org / location)

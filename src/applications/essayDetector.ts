@@ -116,6 +116,15 @@ export function essayFieldsOnly(fields: DiscoveredField[]): EssayClassification[
 }
 
 export function isDemographicsField(field: DiscoveredField): boolean {
+  // #261 (live Palantir/Lever night30): the disability self-ID form's
+  // SIGNATURE controls (eeo[disabilitySignature], …SignatureDate) appear
+  // once the disability answer is given and are required. They carry no
+  // demographic value — the applicant's name and the date they sign — so
+  // they are not deferred to the sensitive-profile path (which has no value
+  // for them and left the form unsubmittable).
+  if (/signature/i.test(`${field.name ?? ""} ${field.inputId ?? ""} ${field.id ?? ""}`)) {
+    return false;
+  }
   const n = normalizeFieldLabel(
     `${field.label} ${field.name ?? ""} ${field.inputId ?? ""}`,
   );

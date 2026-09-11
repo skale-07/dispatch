@@ -44,6 +44,44 @@ describe("matchCanonicalField name/id fallbacks", () => {
     }
   });
 
+  // #226b (night30): with REAL alias lists the reverse-containment branch
+  // let bare "Date" claim "Expected graduation date" (→ "2029" typed at a
+  // signature date) and bare "Name" claim "First name". The #226 test above
+  // used empty aliases and never saw it.
+  it("bare Date / signature Name win over alias reverse-containment (#226b)", () => {
+    const aliases = {
+      graduation_year: ["Expected graduation date", "End date year"],
+      "legal_name.first": ["First name"],
+    };
+    const f = (label: string, name = "") => ({ id: name || "f1", label, type: "text" as const, required: true, name });
+    expect(matchCanonicalField(f("Date"), aliases)).toBe("signature_date");
+    expect(matchCanonicalField(f("Expected graduation date"), aliases)).toBe("graduation_year");
+    // A bare "Name" that is an ATS custom question is a signature line…
+    expect(matchCanonicalField(f("Name", "cards[5f1c][field0]"), aliases)).toBe("signature_name");
+    expect(matchCanonicalField(f("Name", "question_68482530"), aliases)).toBe("signature_name");
+    // …the form's own primary name field keeps its mapping (Lever composes it).
+    expect(matchCanonicalField(f("Name", "name"), aliases)).toBe("legal_name.first");
+  });
+
+  // #261 (live Palantir/Lever night30): the disability self-ID form's
+  // signature controls appear once the disability answer is given, are
+  // required, and were deferred as "demographics" (their names carry eeo /
+  // disability) — the application could never submit.
+  it("self-ID signature controls map by name and are not demographics (#261)", async () => {
+    const { isDemographicsField } = await import("../../src/applications/essayDetector.js");
+    const aliases = { "legal_name.first": ["First name", "Full name"] };
+    const sig = { id: "s1", label: "Enter your full name", type: "text" as const, required: true, name: "eeo[disabilitySignature]" };
+    const sigDate = { id: "s2", label: "MM/DD/YYYY", type: "text" as const, required: true, name: "eeo[disabilitySignatureDate]" };
+    expect(matchCanonicalField(sig, aliases)).toBe("signature_name");
+    expect(matchCanonicalField(sigDate, aliases)).toBe("signature_date");
+    expect(isDemographicsField(sig)).toBe(false);
+    expect(isDemographicsField(sigDate)).toBe(false);
+    // The disability QUESTION itself stays demographic (sensitive profile only).
+    expect(
+      isDemographicsField({ id: "d", label: "Disability status", type: "select", required: false, name: "eeo[disability]" }),
+    ).toBe(true);
+  });
+
   // #255 (live Exegy/Ashby night30): the visa-expiry DATE question was
   // claimed by the alias "authorized to work" and fed the yes/no status.
   it("a question about WHEN an authorization expires is never the status or sponsorship field (#255)", () => {
