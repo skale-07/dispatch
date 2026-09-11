@@ -116,6 +116,15 @@ export type FillCapableAdapter = ApplicationAdapter & {
   ): Promise<UploadVerification>;
 };
 
+/**
+ * #268: registry keys whose `review_required` policy is overridden by the
+ * operator — the predict tier answers them (options verbatim / validated).
+ */
+export const LLM_DECIDED_REVIEW_KEYS: ReadonlySet<string> = new Set([
+  "salary_expectations",
+  "notice_period",
+]);
+
 /** Fresh instance per run — the registry's singletons must not carry plan state. */
 const FILLABLE_ADAPTERS: Record<string, () => FillCapableAdapter> = {
   greenhouse: () => new GreenhouseAdapterV1(),
@@ -398,6 +407,16 @@ export async function planApplicationFill(input: {
   }
 
   const otherFallbacks: OtherFallback[] = [];
+  // #268 (operator directive 2026-09-11, salary: "use the llm predictor to
+  // decide and eventually once you find a solid value then choose"): keys the
+  // registry holds as review_required by policy go to the predict tier
+  // instead of parking the application. Notice period rides along — for a
+  // student it is "available immediately", not a negotiation.
+  for (const [id, r] of screenerResolutions) {
+    if (r.status === "review" && LLM_DECIDED_REVIEW_KEYS.has(r.key)) {
+      screenerResolutions.delete(id);
+    }
+  }
   const unanswered = candidates.filter((f) => !screenerResolutions.has(f.id));
   if (unanswered.length > 0) {
     try {

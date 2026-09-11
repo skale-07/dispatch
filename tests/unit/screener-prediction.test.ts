@@ -945,19 +945,29 @@ describe("work authorization + sponsorship screeners (UNIT_CONFIRMED)", () => {
 // visa-expiry question "N/A - I am a U.S. citizen…". Authorization,
 // compensation, criminal-history and demographic questions are never
 // model-answered — the same fence the essay layer enforces.
-describe("predict tier never takes a sensitive question (#259)", () => {
-  it("authorization / salary / criminal questions are not capture-worthy; ordinary screeners still are", async () => {
+// #268 (operator directive 2026-09-11) narrowed #259: work authorization and
+// salary are model-answered from about-me's application facts, choosing from
+// the page's options. Demographic self-ID, criminal history and date of
+// birth stay fenced.
+describe("predict tier fence (#259, narrowed by #268)", () => {
+  it("criminal / date-of-birth questions are fenced; authorization and salary reach the predictor", async () => {
     const { isCaptureWorthyQuestion } = await import("../../src/applications/screenerPredictionLlm.js");
+    for (const label of ["Have you ever been convicted of a felony?", "What is your date of birth?"]) {
+      expect(isCaptureWorthyQuestion({ label, type: "text" })).toBe(false);
+    }
     for (const label of [
       "If you are currently authorized to work on a visa or other work permit, when does that work authorization expire?",
       "What are your annual base salary expectations?",
-      "Have you ever been convicted of a felony?",
-      "Will you require visa sponsorship in the future?",
+      "Please provide details on your current work authorization status in the United States:",
+      "What is your notice period to begin working with us?",
     ]) {
-      expect(isCaptureWorthyQuestion({ label, type: "text" })).toBe(false);
+      expect(isCaptureWorthyQuestion({ label, type: "text" })).toBe(true);
     }
-    expect(
-      isCaptureWorthyQuestion({ label: "What is your notice period to begin working with us?", type: "text" }),
-    ).toBe(true);
+  });
+
+  it("salary and notice-period registry keys are routed to the predictor, not parked (#268)", async () => {
+    const { LLM_DECIDED_REVIEW_KEYS } = await import("../../src/applications/applicationFiller.js");
+    expect(LLM_DECIDED_REVIEW_KEYS.has("salary_expectations")).toBe(true);
+    expect(LLM_DECIDED_REVIEW_KEYS.has("notice_period")).toBe(true);
   });
 });

@@ -174,6 +174,8 @@ Other rules:
 - Prefer a learned_answers pair when the question is the same or clearly the same intent.
 - READ THE QUESTION'S OWN INSTRUCTIONS (e.g. 'Select "Other" if not listed').
 - Do not contradict explicit biographical facts in the profile (school, work authorization, sponsorship, company).
+- Work authorization / citizenship: use the about-me "Application facts" exactly. The candidate is authorized to work in the United States only; for any OTHER country's authorization or eligibility the answer is the No / not-authorized option.
+- Compensation / salary: never state or choose less than the posting's own stated pay. "Is this rate acceptable?" → the yes option. Options that are ranges → the one containing the posting's stated pay, else the most typical range for this internship. Free-text expectations with no number in the posting → a short flexible answer such as "Flexible — aligned with the posted range for this role"; never invent a precise figure.
 - Never answer demographic/self-ID questions (gender, race, veteran, disability): always null.
 - Also propose a short snake_case key and a one-sentence basis.
 Output STRICT JSON: {"predictions":[{"label": string, "answer": string|null, "key": string, "basis": string}]}`;

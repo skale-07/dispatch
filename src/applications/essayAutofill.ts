@@ -21,11 +21,19 @@ import {
  * demographic or authorization claim to an employer.
  */
 /**
- * Questions no model may answer (demographic / authorization / criminal /
- * compensation). Shared with the screener predict tier (#259).
+ * Questions no model may answer: demographic / EEO self-ID (sensitive
+ * profile only), criminal history, date of birth / age. Shared with the
+ * screener predict tier (#259).
+ *
+ * #268 (operator directive 2026-09-11): work AUTHORIZATION ("Yes, I'm
+ * authorized to work and am a US citizen … the llm predictor should be given
+ * the question and my context and options to choose") and SALARY ("use the
+ * llm predictor to decide") are model-answered now — from about-me's
+ * operator-confirmed application facts, choosing from the page's own
+ * options (validated verbatim). They left this fence.
  */
 export const SENSITIVE_QUESTION =
-  /\b(rac(e|ial)|ethnic(ity)?|hispanic|latino|gender|sex|pronouns?|veteran|disabilit(y|ies)|disabled|sexual orientation|transgender|citizen(ship)?|visa|sponsorship|work authoriz(ation|ed)|authorized to work|felony|convict(ed|ion)|criminal|salary|compensation|pay expectation|desired pay|date of birth|\bage\b)\b/i;
+  /\b(rac(e|ial)|ethnic(ity)?|hispanic|latino|gender|sex|pronouns?|veteran|disabilit(y|ies)|disabled|sexual orientation|transgender|felony|convict(ed|ion)|criminal|date of birth|\bage\b)\b/i;
 
 /**
  * Essay autofill (operator directive 2026-08-13: "Essays should be

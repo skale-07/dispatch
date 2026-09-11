@@ -208,24 +208,31 @@ describe("essay generation receives posting context (UNIT_CONFIRMED)", () => {
   });
 
   // House rule: "Demographic / EEO / pronoun fields never take this path."
-  it("never sends a demographic, authorization or compensation question to the model (#221)", async () => {
-    let calls = 0;
+  // #268 (operator directive 2026-09-11): authorization and compensation
+  // are model-answered now (from about-me's application facts) — they reach
+  // the model; demographic and criminal-history questions still never do.
+  it("never sends a demographic or criminal-history question to the model; authorization and pay do reach it (#221, #268)", async () => {
+    const seen: string[] = [];
     const capture: EmailLlmClient = {
-      async generateJson() {
-        calls += 1;
+      async generateJson(input: { user: string }) {
+        seen.push(input.user);
         return { text: JSON.stringify({ answers: [] }), model: "stub" };
       },
     };
     const r = await generateEssayAnswers({
       items: [
         { fieldId: "eeo", question: "How would you describe your racial/ethnic background? (mark all that apply)" },
-        { fieldId: "vis", question: "Will you now or in the future require visa sponsorship?" },
+        { fieldId: "crim", question: "Have you ever been convicted of a felony? Please explain." },
+        { fieldId: "vis", question: "Will you now or in the future require visa sponsorship? Please explain." },
         { fieldId: "pay", question: "What is your desired pay for this role?" },
       ],
       client: capture,
     });
-    expect(calls).toBe(0);
-    expect(r.answers).toEqual([]);
-    expect(r.notes.filter((n) => /never model-answered/.test(n))).toHaveLength(3);
+    expect(r.notes.filter((n) => /never model-answered/.test(n))).toHaveLength(2);
+    const sent = seen.join("\n");
+    expect(sent).not.toMatch(/racial\/ethnic background/);
+    expect(sent).not.toMatch(/convicted of a felony/);
+    expect(sent).toMatch(/visa sponsorship/);
+    expect(sent).toMatch(/desired pay/);
   });
 });
