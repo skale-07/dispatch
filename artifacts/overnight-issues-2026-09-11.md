@@ -521,3 +521,25 @@ matched — the plan said so). A high-school question, or one asking for a
 year / date / grade / graduation, never takes the profile's school now —
 unmapped, it is asked of the operator. (High-school facts are not in the
 profile; "High School Name" is an operator item.)
+
+### Palantir, direct run after #262/#264/#265 (11:06)
+
+Everything the night found on this form is now cleared — checkbox cards
+(#254), the revealed self-ID signature (#224/#261), the location (#262/
+#262c), the context note (#264). The only remaining refusal is
+**"High School Name✱"**: operator data that is in neither the profile nor
+about-me (the model correctly abstained). Add it (and the high-school
+graduation year) and both Palantir applications should submit.
+
+## Issue #266 — nameless radios: the "group" was every radio on the page
+
+Nominal (Gem, cycle 52) parked with "Expected 'Yes, I'm eligible for a U.S
+security clearance'; page shows 'None of the above'". Read-only probe: Gem
+renders its radios with `name=""`, each discovered as its own field. With no
+name, both fill and read-back fell back to `input[type=radio]` page-wide:
+the fill found the right member only because its label was unique, and the
+read-back returned the FIRST CHECKED radio anywhere — another question's
+"None of the above" — so a correct answer parked. A repeated label ("Yes")
+would have clicked a different question. A nameless radio's group is now its
+nearest fieldset / role=radiogroup, else the radio alone. Fixture covers
+both shapes; 15 radio-related files 244/244 sequential. Nominal requeued.
