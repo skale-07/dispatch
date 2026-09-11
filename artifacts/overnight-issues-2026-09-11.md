@@ -173,3 +173,63 @@ tagging panels. Live: after the tour's EXIT the same page showed 3 school
 + 5 beyond people (was 0) and the lookup reached "Contact Info Found!".
 Remaining: the survey card's × has no text label, and the Connect Now
 click still missed once — both being probed.
+
+### #253b — the tour has more than one step, and the section mounts late
+
+A later load of the same Tanium page tagged 0 people again: the Orion tour
+is multi-step ("Boost Your Resume Here!" → "Stand Out Among Applicants" →
+…) and each step's mask swallows the panels' View clicks
+(`artifacts/console/night30-panel-timing.png`). The marker is now the
+step's own TRY IT NOW control, dismissed via EXIT in bounded passes, and
+re-checked before every person. The Insider Connection section also mounts
+asynchronously (0 people at +3s, 8 at +6s on one page), so triage waits
+for it (bounded 10s). Icon-only survey close accepted by class for a
+close-type dismiss. Live probe: tour dismissed, 8 people tagged, Connect
+Now clicked, email modal up. Fixture: a two-step blocking tour + survey
+card, never accepted (insider-triage 8/8). Commit 75fc6542.
+
+**Backfill + first live drafts.** The 8 tails that ran before the fix
+(0 drafts each) were cleared (`private/tmp-reset-gmail-tail-20260911.ts`,
+metadata only) and the worker restarted: Zipline 3 people → 2 emails → 1
+draft (one person capped by #214), 045dbbab 5 people → 3 emails → 3
+drafts — every draft `verified: true` by Gmail read-back in the dedicated
+Chrome. **LIVE_MUTATION_CONFIRMED** for the whole tail running outside the
+applier's browser (operator directive).
+
+## Issue #254 — Lever checkbox members have no id
+
+Palantir (lever) parked on three card questions — "checkbox group has no
+option matching "English (ENG)" (options: English (ENG), Spanish (SPA) …)".
+The label matched; the id-only targeting then refused, because Lever card
+checkboxes carry only the shared group `name` and a per-box `value`. The
+fallback targets `input[type=checkbox][name=…][value=…]` — the HTML
+identity of a group member, for any ATS. Fixture test with Lever's markup
+(14/14). Palantir requeued to prove it live.
+
+## Issue #255 — a visa-EXPIRY date question was answered "Yes"
+
+Exegy (ashby): "If you are currently authorized to work on a visa or other
+work permit, when does that work authorization expire?" was claimed by the
+alias "authorized to work" → `work_authorization` → "Yes" into a date
+input (fill refused, verify parked). A question about WHEN an
+authorization ends is neither the status nor the sponsorship question:
+unmapped now (date control, or expir*/end date/valid until/when does).
+Authorization is never model-answered, so it stays empty and the page's
+own completeness scan decides whether that is allowed. Tests 22/22.
+Exegy requeued.
+
+## Registry note — PhD roles
+
+Waymo "2027 Summer Intern, PhD, Machine Learning" reached the queue (and
+looped on JOB_ID_MISMATCH). The operator is an undergraduate (class of
+2029). `exclude_terms` += phd / ph.d / doctoral; the row abandoned with a
+role-fit reason (policy-abandoned ⇒ never re-created).
+
+## Observed, not fixed
+
+- Gate-stop parks (NATIVE_AUTOFILL_RUNNING, no transition) are re-picked by
+  every new cycle until the post-session triage parks them — Waymo and
+  IBM each cost 3 cycles. Bounded, but ~6 wasted cycles tonight.
+- JobRight re-discovery of a job previously FILTERED_OUT creates a fresh
+  row every pass (Amazon apprentice / Northern Trust ×20 on 09-10) — by
+  design (policy may change), costs a detail read per pass.
