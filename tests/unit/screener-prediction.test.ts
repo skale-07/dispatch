@@ -528,6 +528,27 @@ describe("screener prediction + promote (UNIT_CONFIRMED)", () => {
     );
   });
 
+  it("#276: an option control with no readable options takes no prediction", () => {
+    // Live Google careers 2026-09-12 (app 1ba9bebc): "Upload your résumé" is a
+    // RADIO group whose option texts discovery could not read. The free-text
+    // branch accepted "yes", the plan filled it, and verify read "(empty)" —
+    // free text is not writable into a radio — parking a complete application.
+    for (const control of ["radio", "checkbox", "select", "multiselect"]) {
+      const r = validatePrediction("yes", null, control);
+      expect(r.ok, control).toBe(false);
+      expect(r.reason).toMatch(/no options read from the page/);
+    }
+    // Options present ⇒ the verbatim rule decides, exactly as before.
+    expect(validatePrediction("Yes", ["Yes", "No"], "radio").ok).toBe(true);
+    expect(validatePrediction("maybe", ["Yes", "No"], "radio").ok).toBe(false);
+    // Free-text controls are untouched, and an unknown control keeps the
+    // pre-#276 behaviour.
+    expect(validatePrediction("May 2029", null, "text").ok).toBe(true);
+    expect(validatePrediction("May 2029", null, "textarea").ok).toBe(true);
+    expect(validatePrediction("May 2029", null).ok).toBe(true);
+    expect(validatePrediction("May 2029", null, null).ok).toBe(true);
+  });
+
   it("parseScreenerBank round-trips custom entries and rejects bad ones", () => {
     const bank = parseScreenerBank({
       version: 1,

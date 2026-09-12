@@ -324,9 +324,17 @@ export type ScreenerPredictionBatchReport = {
 /** Runaway guard, not a quality filter. A tech-stack paragraph is fine. */
 export const MAX_PREDICTED_ANSWER_CHARS = 4000;
 
+/** Controls whose only possible answer is one of their own option labels. */
+const OPTION_CONTROL_RE = /^(radio|checkbox|select|multiselect)$/i;
+
 export function validatePrediction(
   answer: unknown,
   options: string[] | null,
+  /**
+   * The live control kind, when the caller knows it. Absent = unknown, which
+   * keeps the pre-#276 behaviour.
+   */
+  control?: string | null,
 ): { ok: boolean; value: string; reason: string } {
   if (typeof answer !== "string" || answer.trim() === "") {
     return { ok: false, value: "", reason: "no answer" };
@@ -342,6 +350,24 @@ export function validatePrediction(
     const hit = snapToOption(value, options);
     if (hit) return hit;
     return { ok: false, value, reason: "answer matches no page option" };
+  }
+  // #276 (live Google careers 2026-09-12, app 1ba9bebc): the résumé-source
+  // question is a RADIO group whose option texts discovery could not read
+  // (its sibling's label came back as the bare id "c74"). With no options to
+  // compare against, the free-text branch below accepted the model's "yes",
+  // the plan filled it, and verify read "(empty)" — you cannot write free
+  // text into a radio — so an otherwise complete application parked.
+  //
+  // An option control's only possible answer is one of its own labels. No
+  // labels read ⇒ there is nothing to match verbatim and nothing writable,
+  // which is a capture gap, not a prediction. Free-text controls are
+  // unaffected.
+  if (control && OPTION_CONTROL_RE.test(control)) {
+    return {
+      ok: false,
+      value,
+      reason: `${control} control with no options read from the page — nothing to match verbatim`,
+    };
   }
   return { ok: true, value, reason: "free_text" };
 }
@@ -434,6 +460,8 @@ export async function predictAnswersForQuestions(
     id: string;
     label: string;
     options?: string[] | undefined;
+    /** #276: the live control kind, so an option control with no options is rejected. */
+    control?: string | undefined;
   }>,
   client?: EmailLlmClient,
   traceUrl?: string,
@@ -489,7 +517,7 @@ export async function predictAnswersForQuestions(
     for (const q of askable) {
       const p = byLabel.get(normalizeScreenerLabel(q.label));
       const options = q.options && q.options.length > 0 ? q.options : null;
-      const check = validatePrediction(p?.["answer"] ?? null, options);
+      const check = validatePrediction(p?.["answer"] ?? null, options, q.control);
       const basis =
         typeof p?.["basis"] === "string" ? p["basis"].slice(0, 200) : "predicted";
       if (!check.ok) {
@@ -733,7 +761,7 @@ export async function generateScreenerPredictions(input: {
   for (const row of askable) {
     const p = byLabel.get(row.label);
     const options = row.options_json ? (JSON.parse(row.options_json) as string[]) : null;
-    const check = validatePrediction(p?.["answer"] ?? null, options);
+    const check = validatePrediction(p?.["answer"] ?? null, options, row.control);
     if (!p || !check.ok) {
       markRejected.run(
         JSON.stringify({ rejected: check.reason }),

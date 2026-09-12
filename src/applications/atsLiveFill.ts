@@ -3,6 +3,7 @@ import { dismissPageObstructions } from "../browser/obstructions.js";
 import {
   authenticateAtsPortal,
   isRecognizedAtsAuthHost,
+  type WorkdayApplyRoute,
 } from "../verification/portalAuth.js";
 import { classifyWorkdayPage } from "../ats/workday/pageKind.js";
 import { workdaySelectorsV1 } from "../ats/workday/selectors.js";
@@ -663,6 +664,17 @@ export async function runAtsLiveFill(input: {
    * same confirmation seam as `submit --application`.
    */
   submit?: boolean;
+  /**
+   * #275 (operator directive 2026-09-12): which apply-method Workday's
+   * chooser takes. Absent or "manual" is today's behaviour. "autofill"
+   * clicks Workday's own "Autofill with Resume", uploads `resumePath`, and
+   * lets the tenant's parser pre-populate the wizard — after which the
+   * approved plan fills and verify corrects exactly as it does on the manual
+   * route, so nothing about what we ASSERT changes. Reachable only through
+   * `ats:fill --workday-route autofill`; degrades to manual on anything
+   * unexpected. Non-Workday adapters ignore it.
+   */
+  workdayRoute?: WorkdayApplyRoute;
   /** Honored only when SUBMIT_REQUIRES_LOCAL_CONFIRMATION=false. */
   assumeYes?: boolean;
   confirmSubmission?: ConfirmSubmission;
@@ -1055,9 +1067,20 @@ export async function runAtsLiveFill(input: {
           // the form snapshot scrubs every value= attribute — so the
           // password/code never reach the artifact. auth.secrets is the
           // scrub list for any future value-based redaction.
-          const auth = await authenticateAtsPortal(page);
+          // #275: the apply-method route. Only this call site reaches the
+          // chooser; the re-auth and mid-walk calls below are past it, so
+          // they stay on the default. Absent option = today's manual path.
+          const auth = await authenticateAtsPortal(page, {
+            ...(input.workdayRoute ? { workdayRoute: input.workdayRoute } : {}),
+            ...(input.resumePath ? { resumePath: input.resumePath } : {}),
+          });
           void auth.secrets;
           report.notes.push(...auth.notes);
+          if (binding.id === "workday") {
+            report.notes.push(
+              `workday apply route: ${input.workdayRoute ?? "manual"} (#275)`,
+            );
+          }
           const cleared =
             auth.status === "signed_in" ||
             auth.status === "account_created" ||

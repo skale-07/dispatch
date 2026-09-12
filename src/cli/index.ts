@@ -1578,6 +1578,23 @@ async function cmdAtsFill(
       }
       return;
     }
+    // #275: Workday apply-method route. Default manual = today's behaviour.
+    const routeFlag = flags["workday-route"];
+    if (
+      routeFlag !== undefined &&
+      routeFlag !== "manual" &&
+      routeFlag !== "autofill"
+    ) {
+      console.error(
+        "ats:fill --workday-route must be 'manual' or 'autofill'",
+      );
+      process.exit(1);
+    }
+    if (routeFlag === "autofill" && detected.ats !== "workday") {
+      console.error(
+        `note: --workday-route ignored — ${detected.ats} has no apply-method chooser`,
+      );
+    }
     const liveReport = await runAtsLiveFill({
       binding: ATS_BINDINGS[detected.ats],
       url,
@@ -1585,6 +1602,7 @@ async function cmdAtsFill(
       profile: profileForLive,
       ...(resumePath ? { resumePath } : {}),
       headless: flags["headed"] !== true,
+      ...(routeFlag === "autofill" ? { workdayRoute: "autofill" as const } : {}),
       ...(wantSubmit ? { submit: true } : {}),
       ...(flags["yes"] === true ? { assumeYes: true } : {}),
     });

@@ -325,6 +325,36 @@ sponsorship is never invented.
 `verify` on specific fields = custom widgets; `validation_level` stays
 `UNVERIFIED` and nothing downstream will submit it.
 
+#### Workday apply-method route (#275, experiment)
+
+On a Workday tenant, `ats:fill` normally clicks **Apply Manually** and fills
+an empty form. `--workday-route autofill` instead clicks Workday's own
+**Autofill with Resume**, uploads `--resume`, and lets the tenant's parser
+pre-populate the wizard — after which the approved plan fills and `verify`
+reads back exactly as on the manual route, so a parsed value that disagrees
+with the profile is corrected, never accepted. Work authorization /
+sponsorship / EEO are never taken from the parse, and submit gating is
+unchanged.
+
+```powershell
+npm run ats:fill -- --url $WORKDAY_URL --execute --headed --resume private\candidate\resumes\swe.pdf --workday-route autofill
+```
+
+`manual` is the default everywhere, including the `auto:cycle` loop — the
+route is reachable only through this flag, so nothing changes until you pass
+it. It degrades back to Apply Manually and says why (no resume on disk, no
+autofill control on that tenant, parse did not settle in 45s), so a tenant
+that does not offer the method is not a failure.
+
+**What to compare per job** (all of it lands in the run's
+`artifacts/ats-fill/workday-live/live-*.json`): the `workday apply route:`
+note, `timing:` (plan / fill / verify ms), how many fields the fill actually
+touched vs. how many the parse had already filled correctly, the `verify`
+mismatch list, and whether the submit gate passed. Run both routes on the
+same posting where the tenant allows re-application, or on two postings in
+the same tenant, and compare per tenant — Workday parse quality is a tenant
+configuration, not a Workday-wide constant.
+
 **Selector healing (automatic):** when read-back fails on a field, a
 deterministic heal pass rescans the page by label evidence and retries once
 — the report's `heal` block shows what recovered. With

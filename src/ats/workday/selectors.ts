@@ -21,6 +21,24 @@ export const workdaySelectorsV1 = {
   applyMethods: {
     autofillWithResume: "a[data-automation-id='autofillWithResume'], button[data-automation-id='autofillWithResume']",
     applyManually: "a[data-automation-id='applyManually'], button[data-automation-id='applyManually']",
+    /**
+     * #275 (operator directive 2026-09-12): the Autofill with Resume route.
+     * Workday reveals a file input plus a drop zone after the chooser click;
+     * the input is the only thing Playwright can set. `fileUpload` is the
+     * wrapper Workday paints, kept for the visibility probe — the
+     * `input[type=file]` inside it is frequently CSS-hidden, so callers set
+     * files on the INPUT and never require it to be visible.
+     */
+    autofillFileInput:
+      "input[type='file'][data-automation-id='file-upload-input-ref'], [data-automation-id='quickApplyResumeUpload'] input[type='file'], [data-automation-id='fileUpload'] input[type='file'], input[type='file']",
+    autofillDropZone:
+      "[data-automation-id='quickApplyResumeUpload'], [data-automation-id='fileUpload'], [data-automation-id='file-upload-drop-zone']",
+    /** Progress/complete markers Workday paints while it parses the file. */
+    autofillUploadedItem:
+      "[data-automation-id='file-upload-item'], [data-automation-id='fileUploadItem'], [data-automation-id='attachment-item']",
+    /** Continue/Next after the parse, before the account or wizard form. */
+    autofillContinue:
+      "[role='button'][data-automation-id='click_filter'][aria-label*='continue' i], button[data-automation-id='continueButton'], button[data-automation-id='bottom-navigation-next-button']",
   },
   auth: {
     /** Sign-in / create-account page detection. */

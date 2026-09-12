@@ -1,5 +1,6 @@
 import type { Page, Locator } from "playwright";
 import { DATE_INPUT_SELECTOR } from "../shared/dateInputs.js";
+import { educationBlockLocator } from "../shared/educationBlock.js";
 import fs from "node:fs";
 import path from "node:path";
 import type {
@@ -68,6 +69,13 @@ export function locatorForField(
     visibleOnly?: boolean;
   },
 ): Locator {
+  // #271/#272: composite blocks whose sub-controls the DOM gives no id, no
+  // name and no usable label[for] target — Ashby's education block (School
+  // autocomplete, month+year <select> pairs). Structural and exact, so it
+  // runs before the attribute tiers: an `inputId` on such an entry is a
+  // label `for` that points at a container, not at the control.
+  const composite = educationBlockLocator(page, entry.field_id);
+  if (composite) return composite;
   if (entry.inputId) {
     // Greenhouse free-text / EEO question ids are pure digits (e.g. 4010536008).
     // Those are invalid as bare CSS `#id` — always attribute-select.

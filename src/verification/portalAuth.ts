@@ -1,3 +1,5 @@
+import fs from "node:fs";
+import path from "node:path";
 import type { Locator, Page } from "playwright";
 import { assertNavigationAllowed } from "../navigation/navigationGuards.js";
 import { isTrustedWorkdayHost } from "../ats/workday/urlValidation.js";
@@ -40,7 +42,11 @@ import { recordTransitionOutcome } from "../storage/transitionOutcomes.js";
  *   Apply → "Start Your Application" modal → Apply Manually →
  *   Create Account form with "Already have an account? Sign In".
  * Portal auth must click that sequence BEFORE it looks for inputs.
- * Autofill-with-resume is never the unattended path.
+ * Autofill-with-resume is never the DEFAULT path: since #275 it is an
+ * opt-in experiment route (`workdayRoute: "autofill"`, reachable only via
+ * `ats:fill --workday-route autofill`) that always degrades back to Apply
+ * Manually, and it changes only WHO pre-fills the form — the approved plan
+ * still fills and verify still corrects.
  *
  * Hard rails:
  *   - Host gate: standing credentials (PORTAL_LOGIN_*) authorize any
@@ -70,11 +76,35 @@ export type PortalAuthOutcome = {
   secrets: string[];
 };
 
+/**
+ * Which apply-method Workday's chooser takes (#275, operator directive
+ * 2026-09-12: "experiment with Workday's OWN Autofill with Resume path").
+ *
+ * `manual` is every run's default and today's behaviour — "Apply Manually",
+ * an empty form, our plan fills it. `autofill` clicks "Autofill with Resume"
+ * and lets Workday's parser pre-populate the wizard; our plan-driven fill and
+ * verify then run UNCHANGED over the pre-filled form, so a parsed value that
+ * disagrees with the approved plan is corrected, never accepted, and work
+ * authorization / sponsorship / EEO are never taken from the parse (they
+ * resolve exactly as they do today — from the plan or the sensitive profile).
+ * Submit gating is untouched.
+ *
+ * The route is an EXPERIMENT knob: it never changes on its own, it degrades
+ * to `manual` on anything unexpected (no resume on disk, no autofill control,
+ * upload never settles), and the comparison it exists to serve is recorded in
+ * the live artifact's notes.
+ */
+export type WorkdayApplyRoute = "manual" | "autofill";
+
 export type PortalAuthSeams = {
   waiter?: NavVerificationWaiter | null;
   emailOverride?: string;
   /** Settle wait between actions (tests pass 0). */
   settleMs?: number;
+  /** #275: apply-method route. Absent = "manual" (today's behaviour). */
+  workdayRoute?: WorkdayApplyRoute;
+  /** Resume to hand Workday's parser on the `autofill` route. */
+  resumePath?: string;
 };
 
 /**
@@ -362,7 +392,13 @@ export async function authenticateAtsPortal(
 
   let fields = await locateAuthFields(page);
   if (!fields.email || !fields.password) {
-    await openWorkdayApplyChooser(page, notes, settle);
+    await openWorkdayApplyChooser(
+      page,
+      notes,
+      settle,
+      seams.workdayRoute ?? "manual",
+      seams.resumePath,
+    );
     fields = await locateAuthFields(page);
   }
 
@@ -1134,17 +1170,131 @@ async function clickSignInWithEmail(
 }
 
 /**
- * Workday posting → Start Your Application modal → Apply Manually.
- * Cap 3 clicks. Never Autofill with Resume. Never wizard submit.
+ * #275: the "Autofill with Resume" leg of the chooser. Click it, hand
+ * Workday the resume, and wait — bounded — for the parse to land on the
+ * account form or the wizard. Returns true only when the page actually
+ * moved on; every other outcome notes the real reason and returns false so
+ * the caller falls through to Apply Manually. Nothing here can submit, and
+ * nothing here decides a field value: Workday's parser fills the form, then
+ * our plan-driven fill and verify correct it.
+ */
+async function clickAutofillWithResume(
+  page: Page,
+  notes: string[],
+  settle: number,
+  resumePath: string,
+): Promise<boolean> {
+  const sel = workdaySelectorsV1.applyMethods;
+  if (!fs.existsSync(resumePath)) {
+    notes.push(
+      `portal auth: autofill route degraded to manual — no resume at ${path.basename(resumePath)}`,
+    );
+    return false;
+  }
+  const autofill =
+    (await firstVisible(page, sel.autofillWithResume)) ??
+    (await visibleNamed(page, /^autofill with resume$/i));
+  if (!autofill) {
+    notes.push(
+      "portal auth: autofill route degraded to manual — no Autofill with Resume control",
+    );
+    return false;
+  }
+  const startedAt = Date.now();
+  await autofill.click({ timeout: 8_000 }).catch(() => undefined);
+  notes.push("portal auth: clicked Autofill with Resume (#275)");
+  await settlePage(page, settle, 1_000);
+
+  // The file INPUT is frequently CSS-hidden behind Workday's drop zone, so
+  // it is located without a visibility requirement and never clicked.
+  const input = page.locator(sel.autofillFileInput).first();
+  if ((await input.count()) === 0) {
+    notes.push(
+      "portal auth: autofill route degraded to manual — no file input after the chooser click",
+    );
+    return false;
+  }
+  try {
+    await input.setInputFiles(resumePath, { timeout: 15_000 });
+  } catch (err) {
+    notes.push(
+      `portal auth: autofill route degraded to manual — resume upload failed (${err instanceof Error ? err.message : String(err)})`,
+    );
+    return false;
+  }
+  notes.push(`portal auth: handed Workday ${path.basename(resumePath)} to parse`);
+
+  // Workday parses server-side and then paints either the account form or,
+  // for a signed-in session, the wizard. Poll for whichever comes first.
+  const deadline = Date.now() + (settle === 0 ? 0 : AUTOFILL_PARSE_TIMEOUT_MS);
+  for (;;) {
+    if (await firstVisible(page, "input[type='password']")) {
+      notes.push(
+        `portal auth: autofill parse reached the account form in ${Date.now() - startedAt}ms (#275)`,
+      );
+      return true;
+    }
+    if (await firstVisible(page, "[data-automation-id='SignInWithEmailButton']")) {
+      if (await clickSignInWithEmail(page, notes, settle)) {
+        notes.push(
+          `portal auth: autofill parse reached the SSO chooser in ${Date.now() - startedAt}ms (#275)`,
+        );
+        return true;
+      }
+      return false;
+    }
+    // A signed-in session skips auth entirely and lands in the wizard; the
+    // uploaded-item marker plus a Continue control is that state.
+    if (
+      (await firstVisible(page, sel.autofillUploadedItem)) &&
+      (await firstVisible(page, sel.autofillContinue))
+    ) {
+      notes.push(
+        `portal auth: autofill parse reached the wizard in ${Date.now() - startedAt}ms (#275)`,
+      );
+      return true;
+    }
+    if (Date.now() >= deadline) {
+      notes.push(
+        `portal auth: autofill route degraded to manual — parse did not settle in ${AUTOFILL_PARSE_TIMEOUT_MS}ms`,
+      );
+      return false;
+    }
+    await page.waitForTimeout(500);
+  }
+}
+
+/** Workday's resume parse is server-side; observed seconds, not ms. */
+const AUTOFILL_PARSE_TIMEOUT_MS = 45_000;
+
+/**
+ * Workday posting → Start Your Application modal → Apply Manually, or
+ * (#275, route "autofill") → Autofill with Resume. Cap 3 clicks. Never
+ * wizard submit. The autofill leg is tried ONCE and always degrades to
+ * Apply Manually, so the manual path stays reachable on every tenant.
  */
 async function openWorkdayApplyChooser(
   page: Page,
   notes: string[],
   settle: number,
+  route: WorkdayApplyRoute = "manual",
+  resumePath?: string,
 ): Promise<void> {
   const sel = workdaySelectorsV1;
+  let autofillTried = false;
   for (let attempt = 1; attempt <= 3; attempt++) {
     if (await firstVisible(page, "input[type='password']")) return;
+
+    if (route === "autofill" && !autofillTried) {
+      autofillTried = true;
+      if (resumePath === undefined) {
+        notes.push(
+          "portal auth: autofill route degraded to manual — no resume path passed",
+        );
+      } else if (await clickAutofillWithResume(page, notes, settle, resumePath)) {
+        return;
+      }
+    }
 
     const manual =
       (await firstVisible(page, sel.applyMethods.applyManually)) ??

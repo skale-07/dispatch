@@ -172,6 +172,9 @@ export function discoverAshbyButtonGroups(html: string): DiscoveredField[] {
 const QUESTION_TITLE_RE =
   /<label\b[^>]*class=["'][^"']*question-title[^"']*["'][^>]*>([\s\S]*?)<\/label>/i;
 
+/** The one wrapper path the education rebuild owns. */
+const EDUCATION_PATH_RE = /_systemfield_education_history$/;
+
 export function discoverAshbyFieldsetGroups(html: string): {
   fields: DiscoveredField[];
   /** Option input names consumed by a group — exclude from the generic pass. */
@@ -243,6 +246,80 @@ export function discoverAshbyFieldsetGroups(html: string): {
     idx++;
   }
   return { fields, consumedNames };
+}
+
+/**
+ * Ashby's built-in education block (#272, live Commure 2026-09-12 app
+ * 80e6a0fc and #271's sibling app 04394211). The block is ONE
+ * `data-field-path="_systemfield_education_history"` wrapper whose sub-
+ * controls are addressed by their inner labels' `for` ids — but only
+ * Degree and Field of Study actually CARRY those ids. School is an id-less
+ * autocomplete, and Start/End Date are each a PAIR of id-less month+year
+ * `<select>`s inside a plain `<div id="…-startDate">`.
+ *
+ * So the generic pass saw four unnamed selects, fell back to the wrapper
+ * path (`…education_history#17` … `#20`), labelled them all with the GROUP
+ * label "Education History", and the plan sent them to the screener bank /
+ * LLM predict — which answered "May" / "2025" into controls the fill could
+ * not even locate ("control not found on the page"), while the wrapper's
+ * own path id landed a stray "2025" in the SCHOOL combobox. Two live apps
+ * parked on it in one evening.
+ *
+ * This pass rebuilds the four date controls as what they are: one field per
+ * `<select>`, id `<for-id>-month` / `<for-id>-year` (mapped by that
+ * structural suffix in fieldNormalization, never by the group label), with
+ * the page's real option list attached so a year the form does not offer is
+ * skipped rather than traded for a nearby one (#273).
+ */
+export function discoverAshbyEducationDates(html: string): {
+  fields: DiscoveredField[];
+  /** Wrapper paths the rebuild owns — drop their generic twins. */
+  claimedPaths: Set<string>;
+} {
+  const fields: DiscoveredField[] = [];
+  const claimedPaths = new Set<string>();
+  const labelRe =
+    /<label\b([^>]*\bfor=["']([^"']*-(?:startDate|endDate))["'][^>]*)>([\s\S]*?)<\/label>/gi;
+  let m: RegExpExecArray | null;
+  while ((m = labelRe.exec(html)) !== null) {
+    const attrs = m[1] ?? "";
+    const forId = m[2] ?? "";
+    const base = forId.replace(/-(?:startDate|endDate)$/, "");
+    if (!EDUCATION_PATH_RE.test(base)) continue;
+    const labelText =
+      stripTags(m[3] ?? "")
+        .replace(/\s*\*\s*$/, "")
+        .trim() || forId;
+    // The container div carrying the label's `for` id holds the two selects.
+    const openRe = new RegExp(
+      `<div\\b[^>]*\\bid=["']${forId.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}["'][^>]*>`,
+      "i",
+    );
+    const open = openRe.exec(html);
+    if (!open) continue;
+    const inner = balancedInner(html, "div", open.index + open[0].length, 40_000);
+    const selects = inner.match(/<select\b[\s\S]*?<\/select>/gi) ?? [];
+    if (selects.length < 2) continue;
+    claimedPaths.add(base);
+    const required = /_required_/.test(attrs);
+    for (const [i, unit] of (["month", "year"] as const).entries()) {
+      const block = selects[i] ?? "";
+      const options = [...block.matchAll(/<option\b([^>]*)>([\s\S]*?)<\/option>/gi)]
+        .filter((o) => !/\bhidden\b|\bdisabled\b/i.test(o[1] ?? ""))
+        .map((o) => stripTags(o[2] ?? ""))
+        .filter((t) => t.length > 0);
+      if (options.length === 0) continue;
+      const field: DiscoveredField = {
+        id: `${forId}-${unit}`,
+        label: `${labelText} ${unit === "month" ? "Month" : "Year"}`,
+        type: "select",
+        required,
+        options,
+      };
+      fields.push(field);
+    }
+  }
+  return { fields, claimedPaths };
 }
 
 /**
@@ -362,8 +439,28 @@ export function ashbyDiscoverFields(html: string): DiscoveredField[] {
   const groups = discoverAshbyFieldsetGroups(html);
   const autos = discoverAshbyAutocompletes(html);
   const yesno = discoverAshbyYesNo(html);
+  const education = discoverAshbyEducationDates(html);
   const autoIds = new Set(autos.fields.map((f) => f.id));
+  /**
+   * #271/#272: wrapper paths whose sub-controls a rebuild already owns. The
+   * generic pass addresses id-less inputs inside such a wrapper by the path
+   * itself (first one) and `path#N` (the rest) — ids that name the GROUP,
+   * carry the group's label, and resolve to the wrong control or to nothing.
+   * A path is claimed when the education rebuild took it, or when a rebuilt
+   * autocomplete field is scoped under it (`<path>-school`).
+   */
+  const claimedPaths = new Set<string>(education.claimedPaths);
+  for (const f of autos.fields) {
+    // Only a NAMED system-field path may be claimed this way. A rebuilt
+    // autocomplete's id is usually a bare uuid (Sierra #117) and chopping
+    // its last dash segment would invent a path that means nothing.
+    const m = /^(_systemfield_[a-z_]+)-[A-Za-z]+$/.exec(f.id);
+    if (m?.[1]) claimedPaths.add(m[1]);
+  }
   const generic = discoverFieldsFromHtml(html).filter((f) => {
+    // A claimed wrapper path, bare or index-suffixed, is never a question.
+    const path = f.id.replace(/#\d+$/, "");
+    if (claimedPaths.has(path) && !autoIds.has(f.id)) return false;
     // Drop the per-option inputs a fieldset group already represents —
     // they are answers, not questions, and 38 of them drowned the plan.
     if (f.name && groups.consumedNames.has(f.name)) return false;
@@ -399,6 +496,7 @@ export function ashbyDiscoverFields(html: string): DiscoveredField[] {
     ...groups.fields,
     ...autos.fields,
     ...yesno.fields,
+    ...education.fields,
     ...discoverAshbyButtonGroups(html),
   ];
 }

@@ -64,6 +64,74 @@ function isEmptyValue(v: unknown): boolean {
   return false;
 }
 
+/** The four education DATE facts — split month/year controls (#273). */
+const EDUCATION_DATE_CANONICAL =
+  /^(graduation_month|graduation_year|start_month|start_year)$/;
+
+const MONTH_NAMES = [
+  "january",
+  "february",
+  "march",
+  "april",
+  "may",
+  "june",
+  "july",
+  "august",
+  "september",
+  "october",
+  "november",
+  "december",
+];
+
+/** A placeholder option ("Year...", "Select…", "") is not an offer. */
+function realOptions(options: readonly string[]): string[] {
+  return options
+    .map((o) => o.trim())
+    .filter(
+      (o) =>
+        o.length > 0 &&
+        !/^(month|year|select|please select|choose)\b/i.test(o) &&
+        !/^[-—–]+$/.test(o),
+    );
+}
+
+/** True when every real option is a bare 4-digit year (#273). */
+function isYearOnlyOptionList(options: readonly string[] | undefined): boolean {
+  if (!Array.isArray(options)) return false;
+  const real = realOptions(options);
+  return real.length >= 2 && real.every((o) => /^(19|20)\d{2}$/.test(o));
+}
+
+/**
+ * A single date PART — one month name (full or 3-letter) or one 4-digit year
+ * — as a split month/year control holds it. Anything composed ("May 2029",
+ * "Spring 2029", "05/2029") is not one.
+ */
+function isBareDatePart(value: string): boolean {
+  const v = value.trim().toLowerCase();
+  if (/^(19|20)\d{2}$/.test(v)) return true;
+  return MONTH_NAMES.some((m) => m === v || (v.length === 3 && m.startsWith(v)));
+}
+
+/**
+ * Does the page actually offer this date value? Years compare exactly;
+ * months tolerate only the form's own spelling of the SAME month (full name
+ * vs three-letter abbreviation vs case) — never a different month, and never
+ * a different year.
+ */
+function offeredByPage(options: readonly string[], value: string): boolean {
+  const want = value.trim().toLowerCase();
+  if (!want) return false;
+  const real = realOptions(options).map((o) => o.toLowerCase());
+  if (real.includes(want)) return true;
+  const monthIndex = MONTH_NAMES.findIndex(
+    (m) => m === want || (want.length === 3 && m.startsWith(want)),
+  );
+  if (monthIndex < 0) return false;
+  const full = MONTH_NAMES[monthIndex] ?? "";
+  return real.some((o) => o === full || (o.length === 3 && full.startsWith(o)));
+}
+
 /**
  * Normalize an explicit sponsorship value. Never invents Yes/No for empty input.
  */
@@ -508,7 +576,12 @@ export function buildFillPlan(
       if (
         field.canonical_field === "graduation_year" &&
         (field.type === "select" || field.type === "radio" ||
-          /graduation.*(?:date|month)|when.*graduat|date.*complete.*degree/i.test(field.label))
+          /graduation.*(?:date|month)|when.*graduat|date.*complete.*degree/i.test(field.label)) &&
+        // #273: not when the control is a PURE year list. Ashby's education
+        // block splits the date into its own month <select> and year
+        // <select>; composing "May 2029" for the year half matches nothing
+        // there and the month half already carries the month.
+        !isYearOnlyOptionList(field.options)
       ) {
         const month = (profile.graduation_month ?? "").trim();
         const year = String(value);
@@ -516,6 +589,42 @@ export function buildFillPlan(
           value = `${month} ${year}`;
         }
       }
+    }
+
+    // #273 (live Commure ashby 2026-09-12): the education End Date year
+    // <select> stops at 2027 while the candidate graduates in 2029, so the
+    // profile's own fact is not on the page. A date FACT is never traded for
+    // a nearby option — that would misstate the graduation year on a real
+    // application — and it is never predicted either. Skip with the real
+    // reason and let the page's own required-completeness scan decide
+    // whether that blocks the submit (on Ashby these four are optional; only
+    // School is required).
+    //
+    // Scoped to a BARE month or a BARE year, which is exactly the split
+    // month/year control this is about. A COMPOSED value ("May 2029" for a
+    // seasonal combobox, "Spring 2029") is deliberately left to the
+    // combobox's synonym matching, which is what turns "May 2029" into the
+    // page's own "Spring 2029" — narrowing it here would have skipped every
+    // seasonal graduation-date question instead.
+    if (
+      EDUCATION_DATE_CANONICAL.test(field.canonical_field) &&
+      (field.type === "select" || field.type === "radio") &&
+      Array.isArray(field.options) &&
+      field.options.length > 0 &&
+      value != null &&
+      isBareDatePart(String(value)) &&
+      !offeredByPage(field.options, String(value))
+    ) {
+      entries.push({
+        field_id: field.id,
+        label: field.label,
+        type: field.type,
+        canonical_field: field.canonical_field,
+        action: "skip_empty",
+        value: null,
+        reason: `page does not offer "${String(value)}" for ${field.canonical_field} — not substituted`,
+      });
+      continue;
     }
 
     if (isEmptyValue(value)) {

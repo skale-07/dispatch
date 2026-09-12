@@ -186,6 +186,23 @@ function matchCanonicalFieldInner(
   normalized: string,
   nameHint: string,
 ): string | null {
+  // #272 (live Commure ashby 2026-09-12): an education block's Start/End
+  // Date is a PAIR of month+year <select>s that the DOM leaves id-less, so
+  // the only label in scope is the block's ("Education History") and the
+  // plan sent all four to the screener bank / LLM predict — which answered
+  // "May" / "2025" into controls the fill could not even find. The adapter
+  // now rebuilds them with a structural id naming the datum exactly; that
+  // suffix, not a label, is the honest mapping. Anchored on
+  // `education`+`history` in the id so a WORK-history date pair (its own
+  // history-group path) can never take an education canonical.
+  {
+    const idHint = field.id ?? "";
+    const dated = /-(startDate|endDate)-(month|year)$/.exec(idHint);
+    if (dated && /education[_-]?history/i.test(idHint)) {
+      const when = dated[1] === "startDate" ? "start" : "graduation";
+      return `${when}_${dated[2]}`;
+    }
+  }
 
   // "I have a preferred name" is Workday's reveal TOGGLE, not the
   // preferred-name text field (live tiaa 2026-08-30 #22g: the fill tried
