@@ -120,6 +120,32 @@ const ENGINE = (agoMs, last_error = null) => ({
   last_error,
 });
 const pgError = (status, message, code = "P0001") => () => ({ status, contentType: "application/json", body: JSON.stringify({ code, message, details: null, hint: null }) });
+/** M10 fixtures: persona, integration, handoff task, feed sample (20260911000600–000800 shapes). */
+const PERSONA = {
+  user_id: USER.id, persona_id: "default",
+  headline: "CS junior at Pitt building ML tooling; looking for a Summer 2027 SWE internship",
+  education: { school: "University of Pittsburgh", class_year: 2027, majors: ["Computer Science"] },
+  projects: [{ name: "Dispatch", summary: "An agent that fills real employer application forms and keeps a screenshot receipt for every one.", tools: ["TypeScript", "Playwright", "SQLite"], relevance_tags: ["automation", "backend"] }],
+  skills: ["Python", "SQL", "TypeScript"], interests: ["developer tools", "climate"],
+};
+const INTEGRATION = (status, premium = null, over = {}) => ({
+  user_id: USER.id, provider: "jobright", status, account_email: status === "connected" ? "maya@pitt.edu" : null, premium,
+  scopes: [], connected_at: status === "connected" ? day(1) : null, expires_at: null, last_checked_at: day(2), last_error: null, updated_at: day(2), ...over,
+});
+const HANDOFF = (status, over = {}) => ({
+  id: "task-1", user_id: USER.id, kind: "jobright_connect", status, reason: null, context: {},
+  live_view_url: status === "live" ? "about:blank" : null,
+  expires_at: status === "live" ? new Date(Date.now() + 14 * 60_000).toISOString() : null,
+  attempts: 1, result: null, created_at: day(2), updated_at: day(2), ...over,
+});
+const FEED_SAMPLE = {
+  user_id: USER.id, sampled_at: day(2), count: 3, note: null,
+  jobs: [
+    { title: "Software Engineer Intern (Summer 2027)", company: "Anduril", location: "Costa Mesa, CA" },
+    { title: "Data Engineering Intern", company: "Databricks", location: "Remote" },
+    { title: "Product Engineer Intern", company: "Stripe", location: "New York, NY" },
+  ],
+};
 const PROFILE = {
   user_id: USER.id,
   full_name: "Maya Okafor",
@@ -186,6 +212,19 @@ const member = (over = {}) => ({
   "rpc/referral_settings": ok(SETTINGS), my_referral_invites: ok(CODES_ONE), referral_bonuses: ok([]),
   "rpc/mint_referral_invite": ok(MINTED), engine_status: ok([]),
   "rpc/ensure_member": ok({ user_id: USER.id, created: false, invite_id: "inv-1", free_signup_quota: SETTINGS.free_signup_quota }),
+  // Onboarding stores (20260911000300/000400): one default resume, one
+  // screener answered; the server's completion check passes.
+  user_documents: ok([{ id: "doc-1", user_id: USER.id, kind: "resume", variant: "general", bucket: "resumes", object_path: `${USER.id}/resume/general/Maya-Okafor-Resume.pdf`, filename: "Maya-Okafor-Resume.pdf", role_families: [], is_default: true, uploaded_at: day(1) }]),
+  user_screener_answers: ok([{ user_id: USER.id, key: "age_over_18", kind: "registry", answer: "Yes", labels: [], source: "wizard" }]),
+  "rpc/complete_my_onboarding": ok({ complete: true, missing: [] }),
+  // M10 stores: self-ID opted in with one answer + one prefer-not, a
+  // persona, JobRight connected (Premium), a completed handoff, a sample.
+  "rpc/get_my_sensitive_profile": ok({ consent: true, fields: { veteran_status: { choice: "answer", value: "I am not a protected veteran" }, gender: { choice: "prefer_not", value: null } } }),
+  user_personas: ok([PERSONA]),
+  my_integrations: ok([INTEGRATION("connected", true)]),
+  my_handoff_tasks: ok([HANDOFF("completed")]),
+  my_engine_jobs: ok([]),
+  jobright_feed_samples: ok([FEED_SAMPLE]),
   ...over,
 });
 /** Signed in, invite just redeemed (or not), blank profile, no app_users row yet. */
@@ -194,6 +233,11 @@ const fresh = (over = {}) => ({
   "rpc/referral_settings": ok(SETTINGS), my_referral_invites: ok([]), referral_bonuses: ok([]),
   "rpc/mint_referral_invite": pgError(400, "not a member yet"), engine_status: ok([]),
   "rpc/ensure_member": ok({ user_id: USER.id, created: true, invite_id: null, free_signup_quota: SETTINGS.free_signup_quota }),
+  user_documents: ok([]), user_screener_answers: ok([]),
+  "rpc/complete_my_onboarding": ok({ complete: false, missing: ["legal_first_name", "legal_last_name", "phone", "location_city", "location_country", "education", "resume", "work_authorization", "needs_sponsorship", "about_me", "titles"] }),
+  "rpc/get_my_sensitive_profile": ok(null),
+  user_personas: ok([]), my_integrations: ok([]), my_handoff_tasks: ok([]), my_engine_jobs: ok([]), jobright_feed_samples: ok([]),
+  "rpc/handoff_task_request": ok({ id: "task-1", kind: "jobright_connect", status: "requested" }),
   ...over,
 });
 
@@ -210,6 +254,12 @@ const MODES = {
   inviteOwn: fresh({ "rpc/redeem_invite": pgError(400, "cannot redeem your own invite") }),
   inviteMember: member({ "rpc/redeem_invite": pgError(400, "already a member") }),
   returningUser: member(),
+  // complete_my_onboarding() naming what is still missing (rendered verbatim).
+  onboardingIncomplete: member({ "rpc/complete_my_onboarding": ok({ complete: false, missing: ["legal_first_name", "about_me"] }) }),
+  // JobRight connect handoff (20260911000800) mid-flight: asked, and live.
+  handoffRequested: fresh({ my_integrations: ok([INTEGRATION("pending_handoff")]), my_handoff_tasks: ok([HANDOFF("requested")]) }),
+  handoffLive: fresh({ my_integrations: ok([INTEGRATION("pending_handoff")]), my_handoff_tasks: ok([HANDOFF("live")]) }),
+  handoffFailed: fresh({ my_integrations: ok([INTEGRATION("disconnected")]), my_handoff_tasks: ok([HANDOFF("failed", { reason: "the captured session did not open the feed headlessly" })]) }),
   lowQuota: member({ user_quota_status: ok([QUOTA(13)]) }),
   exhausted: member({ user_quota_status: ok([QUOTA(15)]) }),
   // 20260902000400: quota tile with an earned bonus (base 15 + 20 from two activated friends).
@@ -274,21 +324,6 @@ async function main() {
     await ctx.close();
   }
 
-  // Wizard helpers. Steps are 0-based: About, Education, Work auth, Resume, Preferences, Review.
-  const toStep = (n, fillRequired = true) => async (page) => {
-    for (let i = 0; i < n; i += 1) {
-      if (fillRequired && i === 0) {
-        const name = page.getByLabel(/full name/i);
-        if ((await name.inputValue()) === "") await name.fill("Maya Okafor");
-      }
-      if (fillRequired && i === 1) {
-        const school = page.getByLabel(/^school/i);
-        if ((await school.inputValue()) === "") await school.fill("University of Pittsburgh");
-      }
-      await page.getByRole("button", { name: /^next/ }).click();
-    }
-  };
-
   for (const viewport of Object.keys(VIEWPORTS)) {
     // ── signed out ──
     await scene("01-landing", { viewport, url: "/" });
@@ -311,23 +346,40 @@ async function main() {
 
     // ── signed in, fresh (invite just redeemed, blank profile) ──
     await scene("10-signup-signed-in", { viewport, url: "/signup", session: true, mode: "freshUser" });
-    await scene("11-onboarding-1-about-invite-applied", { viewport, url: "/onboarding", session: true, mode: "freshUser", invite: "JRA-7K2M-9QXF" });
-    await scene("11-onboarding-1-validation", { viewport, url: "/onboarding", session: true, mode: "freshUser", act: async (page) => { await page.getByRole("button", { name: /^next/ }).click(); await page.locator(".banner.warn").waitFor(); } });
+    // ── onboarding: one route per step; bare /onboarding resumes at the bookmark ──
+    await scene("11-onboarding-1-identity-invite-applied", { viewport, url: "/onboarding", session: true, mode: "freshUser", invite: "JRA-7K2M-9QXF" });
+    await scene("11-onboarding-1-validation", { viewport, url: "/onboarding/identity", session: true, mode: "freshUser", act: async (page) => { await page.getByRole("button", { name: /^next/ }).click(); await page.locator('[data-slot="form-message"]').first().waitFor(); } });
+    await scene("11-onboarding-1-import", { viewport, url: "/onboarding/identity", session: true, mode: "freshUser", fullPage: false, act: async (page) => { await page.getByRole("button", { name: /import from your resume/i }).click(); await page.getByRole("dialog").waitFor(); } });
     await scene("11-onboarding-invite-failed", { viewport, url: "/onboarding", session: true, mode: "inviteFailed", invite: "JRA-7K2M-9QXF" });
     await scene("11-onboarding-invite-own", { viewport, url: "/onboarding", session: true, mode: "inviteOwn", invite: "JRA-9C3T-HX5D", fullPage: false });
     await scene("11-onboarding-invite-already-member", { viewport, url: "/onboarding", session: true, mode: "inviteMember", invite: "JRA-7K2M-9QXF", fullPage: false });
-    await scene("12-onboarding-2-education", { viewport, url: "/onboarding", session: true, mode: "freshUser", act: toStep(1) });
-    await scene("13-onboarding-3-workauth", { viewport, url: "/onboarding", session: true, mode: "freshUser", act: toStep(2) });
-    await scene("13-onboarding-3-workauth-chosen", {
-      viewport, url: "/onboarding", session: true, mode: "freshUser",
-      act: async (page) => { await toStep(2)(page); await page.getByLabel(/U\.S\. citizen/).check(); await page.getByLabel(/^No$/).check(); },
+    await scene("12-onboarding-2-contact", { viewport, url: "/onboarding/contact", session: true, mode: "freshUser" });
+    await scene("12-onboarding-3-education", { viewport, url: "/onboarding/education", session: true, mode: "returningUser" });
+    await scene("12-onboarding-4-experience", { viewport, url: "/onboarding/experience", session: true, mode: "freshUser", act: async (page) => { await page.getByRole("button", { name: /add a role/i }).click(); } });
+    await scene("14-onboarding-5-documents-empty", { viewport, url: "/onboarding/documents", session: true, mode: "freshUser" });
+    await scene("14-onboarding-5-documents-filled", { viewport, url: "/onboarding/documents", session: true, mode: "returningUser" });
+    await scene("13-onboarding-6-eligibility", { viewport, url: "/onboarding/eligibility", session: true, mode: "freshUser" });
+    await scene("13-onboarding-6-eligibility-chosen", {
+      viewport, url: "/onboarding/eligibility", session: true, mode: "freshUser",
+      act: async (page) => { await page.getByLabel(/U\.S\. citizen/).check(); await page.getByRole("radiogroup", { name: /require sponsorship/i }).getByLabel(/^No$/).check(); },
     });
-    await scene("14-onboarding-4-resume", { viewport, url: "/onboarding", session: true, mode: "freshUser", act: toStep(3) });
-    await scene("15-onboarding-5-preferences", { viewport, url: "/onboarding", session: true, mode: "freshUser", act: toStep(4) });
-    await scene("16-onboarding-6-review-blank", { viewport, url: "/onboarding", session: true, mode: "freshUser", act: toStep(5) });
-    await scene("16-onboarding-6-review-filled", { viewport, url: "/onboarding", session: true, mode: "returningUser", act: toStep(5, false) });
-    await scene("17-onboarding-load-error", { viewport, url: "/onboarding", session: true, mode: "serviceDown" });
-    await scene("17-onboarding-loading", { viewport, url: "/onboarding", session: true, mode: "serviceHang", fullPage: false });
+    await scene("13-onboarding-7-compensation", { viewport, url: "/onboarding/compensation", session: true, mode: "freshUser" });
+    await scene("15-onboarding-8-about", { viewport, url: "/onboarding/about", session: true, mode: "returningUser" });
+    await scene("15-onboarding-9-self-id-off", { viewport, url: "/onboarding/self-id", session: true, mode: "freshUser" });
+    await scene("15-onboarding-9-self-id-on", { viewport, url: "/onboarding/self-id", session: true, mode: "returningUser" });
+    await scene("15-onboarding-10-persona-blank", { viewport, url: "/onboarding/persona", session: true, mode: "freshUser" });
+    await scene("15-onboarding-10-persona-filled", { viewport, url: "/onboarding/persona", session: true, mode: "returningUser" });
+    await scene("15-onboarding-11-integrations-disconnected", { viewport, url: "/onboarding/integrations", session: true, mode: "freshUser" });
+    await scene("15-onboarding-11-integrations-requested", { viewport, url: "/onboarding/integrations", session: true, mode: "handoffRequested", fullPage: false });
+    await scene("15-onboarding-11-integrations-live", { viewport, url: "/onboarding/integrations", session: true, mode: "handoffLive" });
+    await scene("15-onboarding-11-integrations-failed", { viewport, url: "/onboarding/integrations", session: true, mode: "handoffFailed", fullPage: false });
+    await scene("15-onboarding-11-integrations-connected", { viewport, url: "/onboarding/integrations", session: true, mode: "returningUser" });
+    await scene("15-onboarding-12-preferences", { viewport, url: "/onboarding/preferences", session: true, mode: "returningUser" });
+    await scene("16-onboarding-13-review-blank", { viewport, url: "/onboarding/review", session: true, mode: "freshUser" });
+    await scene("16-onboarding-13-review-filled", { viewport, url: "/onboarding/review", session: true, mode: "returningUser" });
+    await scene("16-onboarding-13-review-missing", { viewport, url: "/onboarding/review", session: true, mode: "onboardingIncomplete", act: async (page) => { await page.getByRole("button", { name: /finish/i }).click(); await page.locator('[role="alert"]').waitFor(); } });
+    await scene("17-onboarding-load-error", { viewport, url: "/onboarding/identity", session: true, mode: "serviceDown" });
+    await scene("17-onboarding-loading", { viewport, url: "/onboarding/identity", session: true, mode: "serviceHang", fullPage: false });
 
     // ── dashboard ──
     await scene("20-dashboard-empty", { viewport, url: "/dashboard", session: true, mode: "freshUser" });

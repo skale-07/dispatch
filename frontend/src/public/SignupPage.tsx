@@ -19,6 +19,7 @@ import {
 } from "../lib/appConfig";
 import { supabase } from "../lib/supabaseClient";
 import { stashInviteCode } from "./data";
+import { GitHubMark } from "./GitHubMark";
 import { GoogleMark } from "./GoogleMark";
 import { getReferralSettings } from "./referral";
 import { usePageTitle } from "./usePageTitle";
@@ -31,19 +32,24 @@ import { usePageTitle } from "./usePageTitle";
  * the page: the magic link may land in a fresh tab, and Google bounces
  * through accounts.google.com. The first signed-in page redeems it.
  *
- * Two routes in, one account out. Supabase links a Google identity to an
- * existing email account when the Google address matches and is verified,
- * so a user who signed up by magic link and later clicks Google does not
- * get a second account. Google is offered first because it is one click
- * and skips the inbox round-trip.
+ * Three routes in, one account out. Supabase links a Google or GitHub
+ * identity to an existing email account when the provider's address
+ * matches and is verified, so a user who signed up by magic link and
+ * later clicks a provider does not get a second account. Providers are
+ * offered first because they are one click and skip the inbox round-trip
+ * — and only the providers the project actually has enabled are shown.
  *
  * Honesty rules: the sent-state names the address so a typo is visible;
  * errors from the auth service render verbatim; an unconfigured build
  * shows the reason instead of a form that could only pretend.
  */
 
+type OAuthProvider = "google" | "github";
+const PROVIDER_LABEL: Record<OAuthProvider, string> = { google: "Google", github: "GitHub" };
+const NO_PROVIDERS: Record<OAuthProvider, boolean> = { google: false, github: false };
+
 /**
- * Is Google actually turned on for this Supabase project?
+ * Which OAuth providers are actually turned on for this Supabase project?
  *
  * Whether a provider is enabled is a dashboard setting, not a build-time
  * one, so the frontend cannot know it from env. `/auth/v1/settings` is a
@@ -53,8 +59,8 @@ import { usePageTitle } from "./usePageTitle";
  * reason instead of a form. Fail closed: unknown or unreachable ⇒ hidden,
  * and the email route (always enabled) carries the page.
  */
-function useGoogleEnabled(): boolean {
-  const [enabled, setEnabled] = useState(false);
+function useOAuthProviders(): Record<OAuthProvider, boolean> {
+  const [enabled, setEnabled] = useState(NO_PROVIDERS);
   useEffect(() => {
     const url = SUPABASE_URL;
     const key = SUPABASE_ANON_KEY;
@@ -63,10 +69,15 @@ function useGoogleEnabled(): boolean {
     void fetch(`${url}/auth/v1/settings`, { headers: { apikey: key } })
       .then((r) => (r.ok ? (r.json() as Promise<AuthSettings>) : null))
       .then((s) => {
-        if (alive) setEnabled(s?.external?.google === true);
+        if (alive) {
+          setEnabled({
+            google: s?.external?.google === true,
+            github: s?.external?.github === true,
+          });
+        }
       })
       .catch(() => {
-        /* fail closed — the button stays hidden */
+        /* fail closed — the buttons stay hidden */
       });
     return () => {
       alive = false;
@@ -116,7 +127,11 @@ export function SignupPage(): JSX.Element {
   const [search] = useSearchParams();
   const location = useLocation();
   const { session, signOut } = useAuth();
-  const googleEnabled = useGoogleEnabled();
+  const providers = useOAuthProviders();
+  const enabledProviders = (Object.keys(PROVIDER_LABEL) as OAuthProvider[]).filter(
+    (p) => providers[p],
+  );
+  const providerNames = enabledProviders.map((p) => PROVIDER_LABEL[p]).join(" or ");
   const freeQuota = useFreeSignupQuota();
 
   const [email, setEmail] = useState("");
@@ -126,7 +141,8 @@ export function SignupPage(): JSX.Element {
     codeParam ?? search.get("code") ?? search.get("invite") ?? "",
   );
   const [sending, setSending] = useState(false);
-  const [google, setGoogle] = useState(false);
+  /** The provider whose redirect is in progress, if any. */
+  const [oauth, setOauth] = useState<OAuthProvider | null>(null);
   const [sentTo, setSentTo] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const arrivedWithInvite = invite.trim().length > 0 && !sentTo;
@@ -232,22 +248,22 @@ export function SignupPage(): JSX.Element {
   const destination = (): string =>
     (location.state as { from?: string } | null)?.from ?? "/onboarding";
 
-  const withGoogle = async (): Promise<void> => {
-    setGoogle(true);
+  const withProvider = async (provider: OAuthProvider): Promise<void> => {
+    setOauth(provider);
     setError(null);
     try {
-      // Stash before the redirect — this tab is about to leave for
-      // accounts.google.com, exactly like the magic-link hop.
+      // Stash before the redirect — this tab is about to leave for the
+      // provider's consent page, exactly like the magic-link hop.
       if (invite.trim()) stashInviteCode(invite);
       const { error: err } = await sb.auth.signInWithOAuth({
-        provider: "google",
+        provider,
         options: { redirectTo: `${window.location.origin}${destination()}` },
       });
       // Success navigates away; only a refused start returns here.
       if (err) throw new Error(err.message);
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
-      setGoogle(false);
+      setOauth(null);
     }
   };
 
@@ -296,13 +312,13 @@ export function SignupPage(): JSX.Element {
           {arrivedWithInvite ? (
             <>
               Your invite code is filled in below.{" "}
-              {googleEnabled ? "Continue with Google, or add" : "Add"} your email and we
+              {providerNames ? `Continue with ${providerNames}, or add` : "Add"} your email and we
               send a one-time sign-in link. Every account starts with {freeCopy}; the
               invite adds its own on top (the number is on the invite itself).
             </>
           ) : (
             <>
-              {googleEnabled ? "Continue with Google, or enter your email" : "Enter your email"}{" "}
+              {providerNames ? `Continue with ${providerNames}, or enter your email` : "Enter your email"}{" "}
               and we send a one-time sign-in link. Every account starts with {freeCopy}.
               Have an invite code from a friend? It adds that code&apos;s applications on
               top.
@@ -318,20 +334,23 @@ export function SignupPage(): JSX.Element {
         </Alert>
       ) : null}
 
-      {googleEnabled ? (
+      {enabledProviders.length > 0 ? (
         <div className="flex flex-col gap-3">
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => void withGoogle()}
-            disabled={google || sending}
-          >
-            <GoogleMark size={14} />
-            {google ? "opening Google…" : "continue with Google"}
-          </Button>
+          {enabledProviders.map((p) => (
+            <Button
+              key={p}
+              type="button"
+              variant="outline"
+              onClick={() => void withProvider(p)}
+              disabled={oauth !== null || sending}
+            >
+              {p === "google" ? <GoogleMark size={14} /> : <GitHubMark size={14} />}
+              {oauth === p ? `opening ${PROVIDER_LABEL[p]}…` : `continue with ${PROVIDER_LABEL[p]}`}
+            </Button>
+          ))}
           <FieldHint>
-            Google tells us your name and email address — nothing else, and no access to
-            your mail.
+            {providerNames} tells us your name and email address — nothing else: no access
+            to your mail, none to your code.
           </FieldHint>
           <div className="flex items-center gap-3" role="separator">
             <Separator className="flex-1" />
@@ -375,7 +394,7 @@ export function SignupPage(): JSX.Element {
         <div>
           <Button
             type="submit"
-            disabled={sending || google}
+            disabled={sending || oauth !== null}
             className="w-full bg-accent-brand text-primary-foreground hover:bg-accent-brand/90 sm:w-auto"
           >
             <Icon name="mail" size={14} />

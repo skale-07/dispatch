@@ -4,23 +4,20 @@ import {
   type ApplicationRowPublic,
   type DocumentKind,
   type DocumentRow,
-  type EducationDraft,
-  type EducationEntry,
-  type EmploymentDraft,
-  type EmploymentEntry,
+  type EngineControlsRow,
+  type EngineJobRow,
+  type FeedSampleRow,
+  type HandoffKind,
+  type HandoffTaskRow,
   type IntegrationProvider,
   type IntegrationRow,
-  type JobPreferences,
   type MemberStatus,
+  type OutreachDraftRow,
   type OnboardingCompletion,
   type PersonaRow,
-  type ProfileDraft,
   type ProfileRow,
   type QuotaStatus,
   type ScreenerAnswerRow,
-  EMPTY_EDUCATION_ENTRY,
-  EMPTY_EMPLOYMENT_ENTRY,
-  EMPTY_PROFILE,
   PG_UNIQUE_VIOLATION,
 } from "./contract";
 
@@ -136,234 +133,8 @@ export async function redeemPendingInvite(): Promise<InviteRedemption> {
 }
 
 /* ── profile row ⇄ wizard draft mapping ─────────────────────────────── */
-
-function splitList(commaSeparated: string): string[] {
-  return commaSeparated
-    .split(",")
-    .map((s) => s.trim())
-    .filter((s) => s.length > 0);
-}
-
-function yearOrNull(text: string): number | null {
-  return /^\d{4}$/.test(text.trim()) ? Number(text.trim()) : null;
-}
-
-function educationToDraft(e: EducationEntry): EducationDraft {
-  return {
-    ...EMPTY_EDUCATION_ENTRY,
-    school: e.school ?? "",
-    degree: e.degree ?? "",
-    field: e.field ?? "",
-    grad_year: e.end_year != null ? String(e.end_year) : "",
-    grad_month: e.end_month ?? "",
-    start_year: e.start_year != null ? String(e.start_year) : "",
-    start_month: e.start_month ?? "",
-    gpa: e.gpa != null ? String(e.gpa) : "",
-    additional_fields: e.additional_fields ?? "",
-  };
-}
-
-function employmentToDraft(e: EmploymentEntry): EmploymentDraft {
-  return {
-    ...EMPTY_EMPLOYMENT_ENTRY,
-    company: e.company ?? "",
-    title: e.title ?? "",
-    location: e.location ?? "",
-    start_month: e.start_month ?? "",
-    start_year: e.start_year != null ? String(e.start_year) : "",
-    end_month: e.end_month ?? "",
-    end_year: e.end_year != null ? String(e.end_year) : "",
-    current: e.current === true,
-    summary: e.summary ?? "",
-  };
-}
-
-export function rowToDraft(row: ProfileRow): ProfileDraft {
-  const edu: EducationEntry | undefined = row.education[0];
-  const prefs = row.job_preferences as Partial<JobPreferences>;
-  return {
-    ...EMPTY_PROFILE,
-    full_name: row.full_name ?? "",
-    legal_first_name: row.legal_first_name ?? "",
-    legal_middle_name: row.legal_middle_name ?? "",
-    legal_last_name: row.legal_last_name ?? "",
-    preferred_name: row.preferred_name ?? "",
-    contact_email: row.contact_email ?? "",
-    address_line1: row.address_line1 ?? "",
-    address_line2: row.address_line2 ?? "",
-    postal_code: row.postal_code ?? "",
-    how_heard: row.how_heard ?? "",
-    how_heard_fallbacks: (row.how_heard_fallbacks ?? []).join(", "),
-    restrictive_covenants: row.restrictive_covenants ?? "",
-    skills: (row.skills ?? []).join(", "),
-    more_education: (Array.isArray(row.education) ? row.education.slice(1) : []).map(
-      educationToDraft,
-    ),
-    employment_history: (Array.isArray(row.employment_history)
-      ? row.employment_history
-      : []
-    ).map(employmentToDraft),
-    phone: row.phone ?? "",
-    location_city: row.location_city ?? "",
-    location_region: row.location_region ?? "",
-    location_country: row.location_country ?? "",
-    linkedin_url: row.linkedin_url ?? "",
-    github_url: row.github_url ?? "",
-    portfolio_url: row.portfolio_url ?? "",
-    school: edu?.school ?? "",
-    degree: edu?.degree ?? "",
-    field: edu?.field ?? "",
-    grad_year: edu?.end_year != null ? String(edu.end_year) : "",
-    grad_month: edu?.end_month ?? "",
-    start_year: edu?.start_year != null ? String(edu.start_year) : "",
-    start_month: edu?.start_month ?? "",
-    gpa: edu?.gpa != null ? String(edu.gpa) : "",
-    additional_fields: edu?.additional_fields ?? "",
-    work_authorization: row.work_authorization ?? "",
-    needs_sponsorship:
-      row.needs_sponsorship === null ? "" : row.needs_sponsorship ? "yes" : "no",
-    about_me: row.about_me ?? "",
-    current_company: row.current_company ?? "",
-    open_to_relocation:
-      row.open_to_relocation === null
-        ? ""
-        : row.open_to_relocation
-          ? "yes"
-          : "no",
-    resume_object_path: row.resume_object_path,
-    resume_filename: row.resume_filename,
-    transcript_object_path: row.transcript_object_path,
-    transcript_filename: row.transcript_filename,
-    titles: (prefs.titles ?? []).join(", "),
-    locations: (prefs.locations ?? []).join(", "),
-    remote: prefs.remote ?? "",
-    employment_types: prefs.employment_types ?? [],
-    min_salary_usd:
-      typeof prefs.min_salary_usd === "number" ? String(prefs.min_salary_usd) : "",
-  };
-}
-
-function educationEntryFromDraft(d: EducationDraft): EducationEntry | null {
-  if (!d.school.trim()) return null;
-  const gpa = Number(d.gpa.trim());
-  return {
-    school: d.school.trim(),
-    degree: d.degree.trim(),
-    field: d.field.trim(),
-    start_year: yearOrNull(d.start_year),
-    end_year: yearOrNull(d.grad_year),
-    // Optional keys are omitted rather than written empty: the engine's
-    // take() treats "" as absent anyway, and an absent key reads as "not
-    // asked" instead of "answered blank".
-    ...(Number.isFinite(gpa) && gpa > 0 ? { gpa } : {}),
-    ...(d.start_month.trim() ? { start_month: d.start_month.trim() } : {}),
-    ...(d.grad_month.trim() ? { end_month: d.grad_month.trim() } : {}),
-    ...(d.additional_fields.trim()
-      ? { additional_fields: d.additional_fields.trim() }
-      : {}),
-  };
-}
-
-function employmentEntryFromDraft(d: EmploymentDraft): EmploymentEntry | null {
-  if (!d.company.trim() && !d.title.trim()) return null;
-  return {
-    company: d.company.trim(),
-    title: d.title.trim(),
-    ...(d.location.trim() ? { location: d.location.trim() } : {}),
-    ...(d.start_month.trim() ? { start_month: d.start_month.trim() } : {}),
-    start_year: yearOrNull(d.start_year),
-    ...(d.end_month.trim() ? { end_month: d.end_month.trim() } : {}),
-    end_year: yearOrNull(d.end_year),
-    ...(d.current ? { current: true } : {}),
-    ...(d.summary.trim() ? { summary: d.summary.trim() } : {}),
-  };
-}
-
-function draftToRow(
-  userId: string,
-  draft: ProfileDraft,
-): Omit<ProfileRow, "created_at" | "updated_at" | "onboarding_completed_at"> {
-  // education[0] is the PRIMARY entry (the flat draft keys); additional
-  // schools follow in the order the user listed them.
-  const primary = educationEntryFromDraft({
-    school: draft.school,
-    degree: draft.degree,
-    field: draft.field,
-    grad_year: draft.grad_year,
-    grad_month: draft.grad_month,
-    start_year: draft.start_year,
-    start_month: draft.start_month,
-    gpa: draft.gpa,
-    additional_fields: draft.additional_fields,
-  });
-  const education: EducationEntry[] = [
-    ...(primary ? [primary] : []),
-    ...draft.more_education
-      .map(educationEntryFromDraft)
-      .filter((e): e is EducationEntry => e !== null),
-  ];
-  const employment_history: EmploymentEntry[] = draft.employment_history
-    .map(employmentEntryFromDraft)
-    .filter((e): e is EmploymentEntry => e !== null);
-  const legalFirst = draft.legal_first_name.trim();
-  const legalLast = draft.legal_last_name.trim();
-  // The greeting name follows the legal name once that is filled in;
-  // until then it is whatever the user typed as full_name.
-  const fullName =
-    legalFirst && legalLast ? `${legalFirst} ${legalLast}` : draft.full_name.trim();
-  const salary = Number(draft.min_salary_usd.replace(/[^0-9]/g, ""));
-  const job_preferences: JobPreferences = {
-    titles: splitList(draft.titles),
-    locations: splitList(draft.locations),
-    ...(draft.remote !== "" ? { remote: draft.remote } : {}),
-    employment_types: draft.employment_types,
-    ...(salary > 0 ? { min_salary_usd: salary } : {}),
-  };
-  return {
-    user_id: userId,
-    full_name: fullName || null,
-    legal_first_name: legalFirst || null,
-    legal_middle_name: draft.legal_middle_name.trim() || null,
-    legal_last_name: legalLast || null,
-    preferred_name: draft.preferred_name.trim() || null,
-    contact_email: draft.contact_email.trim().toLowerCase() || null,
-    address_line1: draft.address_line1.trim() || null,
-    address_line2: draft.address_line2.trim() || null,
-    postal_code: draft.postal_code.trim() || null,
-    how_heard: draft.how_heard.trim() || null,
-    how_heard_fallbacks: splitList(draft.how_heard_fallbacks),
-    // "" stays null: an unanswered non-compete question is not a "no".
-    restrictive_covenants:
-      draft.restrictive_covenants === "" ? null : draft.restrictive_covenants,
-    skills: splitList(draft.skills),
-    employment_history,
-    onboarding_progress: null, // owned by saveOnboardingProgress
-    phone: draft.phone.trim() || null,
-    location_city: draft.location_city.trim() || null,
-    location_region: draft.location_region.trim() || null,
-    location_country: draft.location_country.trim() || null,
-    linkedin_url: draft.linkedin_url.trim() || null,
-    github_url: draft.github_url.trim() || null,
-    portfolio_url: draft.portfolio_url.trim() || null,
-    education,
-    work_authorization:
-      draft.work_authorization === "" ? null : draft.work_authorization,
-    needs_sponsorship:
-      draft.needs_sponsorship === "" ? null : draft.needs_sponsorship === "yes",
-    about_me: draft.about_me.trim() || null,
-    current_company: draft.current_company.trim() || null,
-    // "" stays null: an unanswered relocation question is not a "no".
-    open_to_relocation:
-      draft.open_to_relocation === "" ? null : draft.open_to_relocation === "yes",
-    resume_object_path: draft.resume_object_path,
-    resume_filename: draft.resume_filename,
-    resume_uploaded_at: null, // preserved server-side; set by uploadResume
-    transcript_object_path: draft.transcript_object_path,
-    transcript_filename: draft.transcript_filename,
-    transcript_uploaded_at: null, // set by uploadTranscript
-    job_preferences,
-  };
-}
+// The pure mapping lives in profileMapping.ts: the onboarding step
+// registry and the node tests import it without the Supabase client.
 
 /* ── profile ────────────────────────────────────────────────────────── */
 
@@ -380,35 +151,13 @@ export async function getMyProfile(): Promise<ProfileRow | null> {
 }
 
 /**
- * The wizard's final save. Writes the whole mapped row AND stamps
- * onboarding_completed_at — the engine ignores profiles until that is
- * non-null (contract), so completing the wizard is exactly what makes
- * the account actionable.
- */
-export async function saveMyProfile(draft: ProfileDraft): Promise<void> {
-  const uid = await currentUserId();
-  if (!uid) throw new Error("not signed in — nothing was saved");
-  // Both *_uploaded_at values are owned by their upload functions; the
-  // final save must not overwrite them with the null draftToRow carries.
-  const {
-    resume_uploaded_at: _keepResume,
-    transcript_uploaded_at: _keepTranscript,
-    onboarding_progress: _keepProgress,
-    ...row
-  } = draftToRow(uid, draft);
-  const { error } = await client()
-    .from(CONTRACT.profilesTable)
-    .upsert(
-      { ...row, onboarding_completed_at: new Date().toISOString() },
-      { onConflict: "user_id" },
-    );
-  if (error) throw new Error(error.message);
-}
-
-/**
  * Save part of the profile row without touching onboarding_completed_at
  * (per-step autosave). Column names are the contract's; unknown columns
  * fail visibly with PostgREST's message rather than being dropped.
+ *
+ * There is deliberately NO client-side "final save" any more: nothing in
+ * the browser writes onboarding_completed_at. Only complete_my_onboarding()
+ * (below) can, and the server decides (plan M9, 2026-09-12).
  */
 export async function saveProfileStep(
   patch: Partial<Omit<ProfileRow, "user_id" | "created_at" | "updated_at">>,
@@ -431,9 +180,8 @@ export async function saveOnboardingProgress(step: string): Promise<void> {
 
 /**
  * Server-side completeness (20260911000300). Returns what is missing;
- * stamps onboarding_completed_at only when nothing is. The new wizard's
- * Review step calls this; saveMyProfile above still stamps directly for
- * the current 6-step wizard until that step lands.
+ * stamps onboarding_completed_at only when nothing is. The wizard's
+ * Review step is its only caller.
  */
 export async function completeMyOnboarding(): Promise<OnboardingCompletion> {
   const { data, error } = await client().rpc(CONTRACT.completeOnboardingRpc);
@@ -676,137 +424,107 @@ export async function setMyIntegration(
   if (error) throw new Error(error.message);
 }
 
-/* ── resume upload ──────────────────────────────────────────────────── */
+/* ── handoff tasks (the human steps the engine cannot do headlessly) ── */
 
-const MAX_RESUME_BYTES = 5 * 1024 * 1024;
-
-/**
- * Upload to the private resumes bucket — path MUST start with the
- * user's own uid (storage RLS enforces it) — then record the pointer on
- * the profile row immediately (worked example order), so a successful
- * upload can never become an orphaned object if the user closes the tab
- * before the final save.
- */
-export async function uploadResume(
-  file: File,
-): Promise<{ path: string; filename: string }> {
-  if (file.type !== "application/pdf") {
-    throw new Error("resume must be a PDF");
-  }
-  if (file.size > MAX_RESUME_BYTES) {
-    throw new Error("resume PDF is over 5 MB — export a smaller copy");
-  }
-  const uid = await currentUserId();
-  if (!uid) throw new Error("not signed in — nothing was uploaded");
-  const path = `${uid}/${file.name}`;
-  const { error } = await client()
-    .storage.from(CONTRACT.resumesBucket)
-    .upload(path, file, { upsert: true, contentType: "application/pdf" });
+export async function listMyHandoffTasks(): Promise<HandoffTaskRow[]> {
+  const { data, error } = await client()
+    .from(CONTRACT.handoffTasksView)
+    .select("*")
+    .order("created_at", { ascending: false });
   if (error) throw new Error(error.message);
-  const { error: recordError } = await client()
-    .from(CONTRACT.profilesTable)
-    .upsert(
-      {
-        user_id: uid,
-        resume_object_path: path,
-        resume_filename: file.name,
-        resume_uploaded_at: new Date().toISOString(),
-      },
-      { onConflict: "user_id" },
-    );
-  if (recordError) {
-    throw new Error(
-      `uploaded, but recording it on your profile failed: ${recordError.message}`,
-    );
-  }
-  await recordLegacyDocument(uid, "resume", CONTRACT.resumesBucket, path, file.name);
-  return { path, filename: file.name };
+  return (data as HandoffTaskRow[] | null) ?? [];
+}
+
+/** "I'm ready — open the browser." Idempotent: an active task of the kind is returned. */
+export async function requestHandoff(
+  kind: HandoffKind,
+  context: Record<string, unknown> = {},
+): Promise<{ id: string; kind: HandoffKind; status: string }> {
+  const { data, error } = await client().rpc(CONTRACT.handoffRequestRpc, {
+    p_kind: kind,
+    p_context: context,
+  });
+  if (error) throw new Error(error.message);
+  const row = (Array.isArray(data) ? data[0] : data) as { id?: string; kind?: HandoffKind; status?: string } | null;
+  if (!row || typeof row.id !== "string") throw new Error("handoff_task_request returned an unexpected shape");
+  return { id: row.id, kind: row.kind ?? kind, status: row.status ?? "requested" };
+}
+
+/** "I finished in the browser." The engine verifies before believing it. */
+export async function handoffUserDone(id: string): Promise<void> {
+  const { error } = await client().rpc(CONTRACT.handoffUserDoneRpc, { p_task: id });
+  if (error) throw new Error(error.message);
+}
+
+export async function handoffCancel(id: string): Promise<void> {
+  const { error } = await client().rpc(CONTRACT.handoffCancelRpc, { p_task: id });
+  if (error) throw new Error(error.message);
+}
+
+/* ── engine jobs + the one requestable kind ─────────────────────────── */
+
+export async function listMyEngineJobs(): Promise<EngineJobRow[]> {
+  const { data, error } = await client()
+    .from(CONTRACT.engineJobsView)
+    .select("*")
+    .order("created_at", { ascending: false });
+  if (error) throw new Error(error.message);
+  return (data as EngineJobRow[] | null) ?? [];
+}
+
+/** Ask for a feed sample; the server dedupes an active one. */
+export async function requestFeedSample(): Promise<{ id: string; created: boolean }> {
+  const { data, error } = await client().rpc(CONTRACT.requestEngineJobRpc, {
+    p_kind: CONTRACT.requestableJobKind,
+  });
+  if (error) throw new Error(error.message);
+  const row = (Array.isArray(data) ? data[0] : data) as { id?: string; created?: boolean } | null;
+  if (!row || typeof row.id !== "string") throw new Error("request_engine_job returned an unexpected shape");
+  return { id: row.id, created: row.created === true };
+}
+
+export async function getMyFeedSample(): Promise<FeedSampleRow | null> {
+  const { data, error } = await client().from(CONTRACT.feedSamplesTable).select("*").maybeSingle();
+  if (error) throw new Error(error.message);
+  return (data as FeedSampleRow | null) ?? null;
+}
+
+export async function listMyOutreachDrafts(): Promise<OutreachDraftRow[]> {
+  const { data, error } = await client()
+    .from(CONTRACT.outreachDraftsTable)
+    .select("*")
+    .order("created_at", { ascending: false });
+  if (error) throw new Error(error.message);
+  return (data as OutreachDraftRow[] | null) ?? [];
+}
+
+export async function getMyEngineControls(): Promise<EngineControlsRow | null> {
+  const { data, error } = await client().from(CONTRACT.engineControlsTable).select("*").maybeSingle();
+  if (error) throw new Error(error.message);
+  return (data as EngineControlsRow | null) ?? null;
 }
 
 /**
- * The legacy single-file uploads above keep writing the profile columns
- * for one release AND record the same object as the 'general' document
- * row (20260911000300), so the engine's per-variant reader sees it.
+ * The stop button: the planner honors `paused` before enqueuing anything.
+ * Update-then-insert rather than upsert: the table grants authenticated
+ * `insert (user_id, paused)` and `update (paused)` only, and PostgREST's
+ * upsert SETs every payload column (user_id included), which those
+ * column grants refuse.
  */
-async function recordLegacyDocument(
-  uid: string,
-  kind: DocumentKind,
-  bucket: string,
-  objectPath: string,
-  filename: string,
-): Promise<void> {
-  const { error } = await client()
-    .from(CONTRACT.documentsTable)
-    .upsert(
-      {
-        user_id: uid,
-        kind,
-        variant: "general",
-        bucket,
-        object_path: objectPath,
-        filename,
-        is_default: true,
-        uploaded_at: new Date().toISOString(),
-      },
-      { onConflict: "user_id,kind,variant" },
-    );
-  if (error) {
-    throw new Error(`uploaded, but recording the document row failed: ${error.message}`);
-  }
-}
-
-/* ── transcript upload ──────────────────────────────────────────────── */
-
-const MAX_TRANSCRIPT_BYTES = 10 * 1024 * 1024;
-
-/**
- * Same shape as uploadResume, its own bucket.
- *
- * Worth having at all because the engine already knows what to do with
- * it: src/ats/shared/supplementalMaterials.ts attaches a transcript to
- * transcript-labeled file inputs and otherwise logs "no transcript on
- * file — transcript inputs left alone". Live, that silence cost real
- * submissions (Appian 2026-08-29 bounced off a required unofficial
- * transcript; Databricks 2026-09-01 carried two required sections).
- *
- * 10 MB rather than the resume's 5: an unofficial transcript is often a
- * scanned multi-page PDF, and rejecting a real one would send the user
- * to a PDF compressor instead of an application.
- */
-export async function uploadTranscript(
-  file: File,
-): Promise<{ path: string; filename: string }> {
-  if (file.type !== "application/pdf") {
-    throw new Error("transcript must be a PDF");
-  }
-  if (file.size > MAX_TRANSCRIPT_BYTES) {
-    throw new Error("transcript PDF is over 10 MB — export a smaller copy");
-  }
+export async function setEnginePaused(paused: boolean): Promise<void> {
   const uid = await currentUserId();
-  if (!uid) throw new Error("not signed in — nothing was uploaded");
-  const path = `${uid}/${file.name}`;
-  const { error } = await client()
-    .storage.from(CONTRACT.transcriptsBucket)
-    .upload(path, file, { upsert: true, contentType: "application/pdf" });
+  if (!uid) throw new Error("not signed in — nothing was saved");
+  const { data, error } = await client()
+    .from(CONTRACT.engineControlsTable)
+    .update({ paused })
+    .eq("user_id", uid)
+    .select("user_id");
   if (error) throw new Error(error.message);
-  const { error: recordError } = await client()
-    .from(CONTRACT.profilesTable)
-    .upsert(
-      {
-        user_id: uid,
-        transcript_object_path: path,
-        transcript_filename: file.name,
-        transcript_uploaded_at: new Date().toISOString(),
-      },
-      { onConflict: "user_id" },
-    );
-  if (recordError) {
-    throw new Error(
-      `uploaded, but recording it on your profile failed: ${recordError.message}`,
-    );
-  }
-  await recordLegacyDocument(uid, "transcript", CONTRACT.transcriptsBucket, path, file.name);
-  return { path, filename: file.name };
+  if ((data ?? []).length > 0) return;
+  const { error: insertError } = await client()
+    .from(CONTRACT.engineControlsTable)
+    .insert({ user_id: uid, paused });
+  if (insertError) throw new Error(insertError.message);
 }
 
 /* ── dashboard reads ────────────────────────────────────────────────── */

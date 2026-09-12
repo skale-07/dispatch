@@ -318,6 +318,92 @@ export type IntegrationRow = {
 /** complete_my_onboarding() result. */
 export type OnboardingCompletion = { complete: boolean; missing: string[] };
 
+/* ── engine queue read models (20260911000800) ─────────────────────── */
+
+export type HandoffKind =
+  | "jobright_connect"
+  | "jobright_reconnect"
+  | "ats_login"
+  | "captcha"
+  | "gmail_connect"
+  | "gmail_reconnect";
+
+export type HandoffStatus =
+  | "open"
+  | "requested"
+  | "provisioning"
+  | "live"
+  | "user_done"
+  | "verifying"
+  | "completed"
+  | "failed"
+  | "expired"
+  | "cancelled";
+
+/** A my_handoff_tasks row — never the provider session handle. */
+export type HandoffTaskRow = {
+  id: string;
+  user_id: string;
+  kind: HandoffKind;
+  status: HandoffStatus;
+  /** Why the engine opened it, in words the UI can show. */
+  reason: string | null;
+  /** Which application / host it blocks (never credentials). */
+  context: Record<string, unknown>;
+  live_view_url: string | null;
+  expires_at: string | null;
+  attempts: number;
+  result: Record<string, unknown> | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type EngineJobKind = "apply" | "outreach" | "feed_sample" | "reconnect_verify" | "gmail_exchange";
+export type EngineJobStatus = "queued" | "leased" | "succeeded" | "failed" | "dead";
+
+/** A my_engine_jobs row — never the lease bookkeeping, never the payload. */
+export type EngineJobRow = {
+  id: string;
+  user_id: string;
+  kind: EngineJobKind;
+  status: EngineJobStatus;
+  run_after: string;
+  attempts: number;
+  max_attempts: number;
+  result: Record<string, unknown> | null;
+  created_at: string;
+  updated_at: string;
+};
+
+/** jobright_feed_samples: proof the user's OWN filters return a feed. Titles only. */
+export type FeedSampleRow = {
+  user_id: string;
+  sampled_at: string;
+  jobs: Array<{ title?: string; company?: string; location?: string }>;
+  count: number;
+  note: string | null;
+};
+
+/** outreach_drafts: that a referral draft is waiting in the user's Gmail — never a body. */
+export type OutreachDraftRow = {
+  id: string;
+  user_id: string;
+  engine_application_id: string;
+  company: string | null;
+  contact_name: string | null;
+  subject: string | null;
+  gmail_draft_id: string | null;
+  created_at: string;
+};
+
+/** user_engine_controls: the stop button. */
+export type EngineControlsRow = {
+  user_id: string;
+  paused: boolean;
+  paused_at: string | null;
+  updated_at: string;
+};
+
 /* ── read models ───────────────────────────────────────────────────── */
 
 export type QuotaStatus = {

@@ -20,8 +20,8 @@ internal tooling.
 ┌────────────────────── CLOUD PLANE ──────────────────────┐
 │  operator domain (Vercel Hobby, free) — the PUBLIC APP  │
 │    marketing + waitlist + invite redemption             │
-│    onboarding wizard (profile, education, work auth,    │
-│      resume upload, job preferences)                    │
+│    onboarding wizard, 13 steps at /onboarding/:step      │
+│      (autosave per step; server-side completion)        │
 │    dashboard (applications · receipts · quota)          │
 │    SPA → Supabase directly (anon key + RLS); no API     │
 │                                                         │
@@ -76,8 +76,8 @@ non-commercial/hobby use — fine for an invite-only test cohort; revisit
 
 Goal: a real product on the operator's domain. A visitor joins the
 waitlist; an invited tester redeems a code (Supabase Auth magic link),
-completes the onboarding wizard (name/contact, education, work
-authorization, resume upload, job preferences), and lands on a dashboard
+completes the 13-step onboarding wizard (identity through review — every
+step autosaves; completion is checked server-side), and lands on a dashboard
 showing their applications, screenshot receipts, and remaining quota.
 **Engine capacity is still operator-provisioned** — the engine pulls
 onboarded profiles (`cloud:sync --pull`), the operator runs their queue,
@@ -190,6 +190,14 @@ const { data: quota } = await supabase
 //        location?, start_month?, start_year?, end_month?, end_year?,
 //        current?, summary?}), onboarding_progress ({step, updated_at}).
 //    Still NO EEO column — see 20260911000500.
+//    Routes: /onboarding/:step — 13 slugs registered in
+//    frontend/src/public/onboarding/steps.ts (which step asks which draft
+//    field / screener key; gated by tests/unit/onboarding-steps.test.ts and
+//    onboarding-field-coverage.test.ts). Bare /onboarding resumes at
+//    onboarding_progress.step. Each step's Next validates its strict zod
+//    schema and writes ONLY its own columns via stepPatch(); autosave uses
+//    the lenient (shape-only) schema. Steps 9–11 (self-ID, persona,
+//    integrations) are placeholders until plan M10.
 await supabase.from("user_profiles").upsert({
   user_id: session.user.id, legal_first_name, phone, /* ...step fields */
 });
@@ -497,6 +505,8 @@ parentheses.
 | 19 | Design tokens (plan M6): Bricolage Grotesque / Fraunces (opsz) / JetBrains Mono self-hosted via `@fontsource-variable/*@5.3.0` (Inter removed); `--weight-light/regular/heavy` 200/400/800 with every numeric `font-weight` in `base.css` + `site/dispatch.css` swept to tokens; display rungs `--text-4xl` 3rem / `--text-5xl` 4.5rem; `--duration-slow` 600ms + `--stagger` 70ms mirrored in `Animated.tsx`; bone/ink neutrals + ultramarine accent in both themes (`tokens.css`, `design/tokens.json`, `site/dispatch.css`, `src/dashboard/server.ts`, six brand SVGs + favicon remapped); `color-scheme` per theme; Tailwind bridge wipes `--font-*`/`--font-weight-*` and exposes the tokens; site pages link the three families; DESIGN.md §1.2/§2.2/§2.3 rewritten | UNIT_CONFIRMED (`design-tokens.test.ts` 21 tests incl. computed WCAG AA for both themes, banned-family regex, no purple→accent gradient) + `frontend:typecheck`/`frontend:build` green; screenshots in `artifacts/qa-frontend/2026-09-12/` |
 | 20 | shadcn foundation (plan M7): `base.css` moved into a `console` cascade layer below utilities (order `theme, base, console, components, utilities`; imported from `tailwind.css`, no longer from `main.tsx`); breakpoints wiped to `sm` 640 / `lg` 960; `--color-accent-brand`; `bg-atmosphere` / `bg-track-grid` utilities from tokens only; 21 registry primitives pulled (`button card dialog form input label select textarea radio-group checkbox progress badge tabs sheet sonner separator skeleton tooltip alert dropdown-menu table`) + `react-hook-form zod @hookform/resolvers lucide-react class-variance-authority`, stamped by `registry:pragma`, `cn` import repointed, `next-themes` dropped (sonner themed by tokens); restyles limited to phone inputs / heavy button / mono badge; `<Reveal>`/`<RevealItem>` in `Animated.tsx`; 8 public glyphs in `Icon.tsx`; composites `PublicShell Eyebrow Display+Heavy StatTile QuotaMeter PanelState LiveView LockedPanel FieldHint CopyButton Atmosphere`; the 15 inline `style={{…}}` in the public pages replaced by utilities (possible only after the layer flip); DESIGN.md §2.4 | UNIT_CONFIRMED (`public-surface.test.ts` hygiene: no inline styles / arbitrary values / hex / middle weights / dark:, iframes titled+sandboxed, one seam per library, layer order) + `frontend:typecheck`/`frontend:build`; screenshots re-walked |
 | 21 | Landing + open signup (plan M8): landing recomposed from composites — `Atmosphere` hero with the one `<Reveal>` (Eyebrow → Fraunces `Display` light with one `Heavy` phrase → lede → "Start free — N applications" with N from `referral_settings().free_signup_quota`, fail-closed when unconfigured), the ritual, the four-station loop (`LOOP_STATIONS`), receipts (`StatTile` 7 / 20–40 min — the real 2026-09-01 run only), what-it-never-does, the offer; story copy moved to data arrays in `components/story/StoryCards.tsx` so console splash and landing cannot drift; signup page rebuilt on Card/Input/Label/Button/Alert/Separator + `FieldHint` with identical logic and strings; `visual-qa.mjs` fixtures now answer `free_signup_quota`, `rpc/referral_settings` when signed out and `rpc/ensure_member` (the M6 follow-up), error wait retargeted to `[role=alert]`; `og.png` regenerated (self-hosted faces, open-signup footer) | UNIT_CONFIRMED (`public-surface` hygiene passes on the new pages, a11y literals intact) + FIXTURE_CONFIRMED (walk `artifacts/qa-frontend/2026-09-12-m8`) |
+| 22 | Onboarding wizard shell + steps (plan M9): `/onboarding/:step` (13 slugs; bare route resumes at `onboarding_progress.step`); `onboarding/steps.ts` registry (fields / columns / screener keys per step — every draft field asked by exactly one step, every registry screener asked once or mirrored from a profile field); `schema.ts` per-step zod lenient (autosave, shape) + strict (Next, what `complete_my_onboarding()` demands), no defaults; `useStepForm` (RHF onBlur, 900 ms autosave, serialized saves, leave guard: an invalid edit is shown and navigation refused, never dropped); `stepPatch()` writes only the step's own columns; screener answers verbatim to `user_screener_answers` (blank ⇒ row deleted); documents step on `user_documents` (variants, default, transcript); Review calls `complete_my_onboarding()` and renders `missing[]` verbatim — nothing client-side stamps completion (the old `saveMyProfile` + legacy uploaders deleted); `ImportPromptDialog` merges into the draft only; steps 9–11 are placeholders until M10; `profileMapping.ts` = the pure row⇄draft mapping extracted from `data.ts`; vendored Input/Textarea `forwardRef` for focus-on-error | UNIT_CONFIRMED (`onboarding-steps.test.ts`, coverage gate rewritten to require a step per engine fact + registry key) + FIXTURE_CONFIRMED (walk `artifacts/qa-frontend/2026-09-12-m9`, 104 scenes, 0 errors / 0 overflow after the step-rail `sr-only` overflow fix) |
+| 23 | Onboarding steps 9–11 (plan M10): **self-ID** (`SelfIdStep`) — opt-in checkbox off by default, per field a verbatim option / "Prefer not to answer" (an answer) / "ask me per application", `allowCustom` verbatim input, `multi` checkboxes, saved only on Next through `save_my_sensitive_profile` (server refuses without consent, shown verbatim), consent withdrawn ⇒ `clear_my_sensitive_profile`; **persona** (`PersonaStep`, pure `persona.ts`) — headline/education/projects/skills/interests written explicitly on Next to `user_personas`, blank ⇒ no row (deleted if one existed, "no drafts"), `REPLACE_*` names refused like the engine loader, prefill from the profile only when no row, JobRight Premium self-report via `set_my_integration`; **integrations** (`IntegrationsStep`, pure `handoff.ts`) — JobRight connect as the handoff lifecycle (`handoff_task_request` → provisioning → `LiveView` + checklist → `handoff_task_user_done` → verifying; the browser never marks connected), cancel, failed/expired reason verbatim + retry, feed sample via `request_engine_job('feed_sample')` + `jobright_feed_samples` (titles only), bounded poll 5 s × 180 then "refresh later" (no realtime publication exists yet — M11 adds one), Gmail = `LockedPanel` naming M19 (the compose scope is banned repo-wide until that milestone's guard change; no scope string appears in the frontend); contract row types + data-layer calls for handoff tasks / engine jobs / feed samples / outreach drafts / engine controls | UNIT_CONFIRMED (`onboarding-persona-handoff.test.ts`: prefill never invents, round-trip, placeholder refusal, strict paths, phase mapping, poll bounds) + FIXTURE_CONFIRMED (walk `artifacts/qa-frontend/2026-09-12-m10`, 120 scenes, 0/0). Engine side of the handoff (provisioning, capture, verify) is M16–17 — the connect flow is UNVERIFIED live until then |
 
 ## Status — 2026-09-02 (launcher agent, deterministic read-backs only)
 

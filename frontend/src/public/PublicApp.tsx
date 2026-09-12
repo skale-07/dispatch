@@ -5,7 +5,7 @@ import { Icon } from "../components/Icon";
 import { useTheme } from "../hooks/useTheme";
 import { LandingPage } from "./LandingPage";
 import { SignupPage } from "./SignupPage";
-import { ProfileWizardPage } from "./ProfileWizardPage";
+import { OnboardingPage } from "./onboarding/OnboardingPage";
 import { DashboardPage } from "./DashboardPage";
 import { usePageTitle } from "./usePageTitle";
 
@@ -22,7 +22,8 @@ import { usePageTitle } from "./usePageTitle";
  *   /signup      magic-link sign-up + invite redemption
  *   /redeem      minted invite links (?code=JRA-XXXX-XXXX, per contract)
  *   /invite/:c   invite link entry — alias for the same page
- *   /onboarding  profile wizard (protected)
+ *   /onboarding/:step  the 13-step wizard (protected); bare /onboarding
+ *                      resumes at the saved step
  *   /dashboard   applications + receipts + quota (protected)
  */
 export function PublicApp(): JSX.Element {
@@ -93,10 +94,10 @@ function PublicChrome(): JSX.Element {
           <Route path="/redeem" element={<SignupPage />} />
           <Route path="/invite/:code" element={<SignupPage />} />
           <Route
-            path="/onboarding"
+            path="/onboarding/:step?"
             element={
               <RequireAuth>
-                <ProfileWizardPage />
+                <OnboardingPage />
               </RequireAuth>
             }
           />
