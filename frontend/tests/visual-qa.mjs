@@ -98,7 +98,7 @@ const QUOTA = (completed, base = 15, bonus = 0) => ({
   bonus_completed_applications: bonus,
 });
 /** referral_settings() — the launcher's shipped constants (20260902000300). */
-const SETTINGS = { max_active_referral_codes: 3, referral_code_quota: 5, activation_completed_applications: 5, inviter_bonus_per_activation: 10, inviter_bonus_cap: 100 };
+const SETTINGS = { free_signup_quota: 5, max_active_referral_codes: 3, referral_code_quota: 5, activation_completed_applications: 5, inviter_bonus_per_activation: 10, inviter_bonus_cap: 100 };
 const CODE = (code, redeemed_at = null, created = day(1)) => ({ code, max_completed_applications: SETTINGS.referral_code_quota, redeemed_at, created_at: created });
 const CODES_ONE = [CODE("JRA-9C3T-HX5D")];
 const CODES_MIXED = [CODE("JRA-4N7P-2WQ8", "2026-08-30T15:00:00Z"), CODE("JRA-9C3T-HX5D")];
@@ -185,6 +185,7 @@ const member = (over = {}) => ({
   user_profiles: ok([PROFILE]), user_quota_status: ok([QUOTA(4)]), my_applications: ok(APPS),
   "rpc/referral_settings": ok(SETTINGS), my_referral_invites: ok(CODES_ONE), referral_bonuses: ok([]),
   "rpc/mint_referral_invite": ok(MINTED), engine_status: ok([]),
+  "rpc/ensure_member": ok({ user_id: USER.id, created: false, invite_id: "inv-1", free_signup_quota: SETTINGS.free_signup_quota }),
   ...over,
 });
 /** Signed in, invite just redeemed (or not), blank profile, no app_users row yet. */
@@ -192,13 +193,15 @@ const fresh = (over = {}) => ({
   user_profiles: ok([]), "rpc/redeem_invite": ok({ invite_id: "inv-1", max_completed_applications: 15 }), user_quota_status: ok([]), my_applications: ok([]),
   "rpc/referral_settings": ok(SETTINGS), my_referral_invites: ok([]), referral_bonuses: ok([]),
   "rpc/mint_referral_invite": pgError(400, "not a member yet"), engine_status: ok([]),
+  "rpc/ensure_member": ok({ user_id: USER.id, created: true, invite_id: null, free_signup_quota: SETTINGS.free_signup_quota }),
   ...over,
 });
 
 const MODES = {
-  signedOut: { default: "404" },
-  otpOk: { otp: ok({}) },
+  signedOut: { "rpc/referral_settings": ok(SETTINGS), default: "404" },
+  otpOk: { otp: ok({}), "rpc/referral_settings": ok(SETTINGS) },
   otpRateLimited: {
+    "rpc/referral_settings": ok(SETTINGS),
     otp: () => ({ status: 429, contentType: "application/json", body: JSON.stringify({ code: 429, error_code: "over_email_send_rate_limit", msg: "For security purposes, you can only request this after 58 seconds." }) }),
   },
   freshUser: fresh(),
@@ -298,7 +301,7 @@ async function main() {
     });
     await scene("05-signup-error", {
       viewport, url: "/signup", mode: "otpRateLimited",
-      act: async (page) => { await page.getByLabel(/email/i).fill("maya@pitt.edu"); await page.getByRole("button", { name: /sign-in link/i }).click(); await page.locator(".banner.danger").waitFor(); },
+      act: async (page) => { await page.getByLabel(/email/i).fill("maya@pitt.edu"); await page.getByRole("button", { name: /sign-in link/i }).click(); await page.locator('[role="alert"]').waitFor(); },
     });
     await scene("06-dashboard-signed-out-redirect", { viewport, url: "/dashboard" });
     await scene("07-not-found", { viewport, url: "/nowhere" });
