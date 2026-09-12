@@ -484,11 +484,36 @@ export function checkUrlCongruence(
   };
 }
 
+/**
+ * #280: companies whose ATS TENANT is registered under a different trade name.
+ *
+ * This is a SAFETY gate — it exists to stop us filling the wrong company's
+ * form — so it widens only by exact, individually documented pairs, never by a
+ * fuzzy rule, and the tenant slug must match EXACTLY (so "msd" hits while
+ * "msdholdings" does not).
+ *
+ * merck → msd: Merck & Co. trades as MSD outside the United States and its
+ * Workday tenant is `msd.wd5.myworkdayjobs.com`. Live 2026-09-12: app
+ * 07fa81a1 reached that tenant's wizard and filled 11 fields (the page-identity
+ * override rescued it), while app 77b667ce on the SAME host was refused —
+ * `fill refused: stored URL is for "msd", not Merck (page does not name the
+ * company either)` — because that posting's page never prints the company name.
+ * The tenant is right; only our name comparison was wrong.
+ */
+const TENANT_TRADE_NAMES: ReadonlyMap<string, ReadonlySet<string>> = new Map([
+  ["merck", new Set(["msd"])],
+]);
+
 /** Shared token/initials/joined comparison; returns the reason on a hit. */
 function slugMatchesCompany(
   slugCompact: string,
   id: CompanyIdentity,
 ): string | null {
+  for (const token of [...id.tokens, ...id.aliases]) {
+    if (TENANT_TRADE_NAMES.get(token)?.has(slugCompact)) {
+      return `trade name "${token}" is registered as tenant "${slugCompact}" (#280)`;
+    }
+  }
   for (const token of [...id.tokens, ...id.aliases]) {
     if (token.length >= 3 && (slugCompact.includes(token) || token.includes(slugCompact))) {
       return `token "${token}" ~ slug "${slugCompact}"`;

@@ -577,3 +577,34 @@ describe("#91 brand abbreviations open long slugs", () => {
     expect(wd.verdict).not.toBe("mismatch");
   });
 });
+
+describe("#280 curated tenant trade names", () => {
+  it('"Merck" matches its real Workday tenant "msd", and only exactly', () => {
+    // Live 2026-09-12: app 77b667ce was refused `stored URL is for "msd", not
+    // Merck (page does not name the company either)` on
+    // msd.wd5.myworkdayjobs.com — Merck & Co.'s actual Workday tenant, since it
+    // trades as MSD outside the US. App 07fa81a1 reached that same tenant's
+    // wizard and filled 11 fields once the page-identity override rescued it.
+    const hit = checkUrlCongruence(
+      "Merck",
+      "https://msd.wd5.myworkdayjobs.com/en-US/SearchJobs/job/Boston/Intern_R412885",
+    );
+    expect(hit.verdict).not.toBe("mismatch");
+    expect(hit.detail).toMatch(/trade name "merck" is registered as tenant "msd"/);
+
+    // The alias is EXACT — a tenant that merely starts with it is not Merck.
+    const near = checkUrlCongruence(
+      "Merck",
+      "https://msdholdings.wd5.myworkdayjobs.com/en-US/SearchJobs/job/Boston/Intern_R1",
+    );
+    expect(near.detail ?? "").not.toMatch(/trade name/);
+
+    // And the alias is one-directional data, not a licence to blur names: an
+    // unrelated company on the msd tenant is still a mismatch.
+    const other = checkUrlCongruence(
+      "Pfizer",
+      "https://msd.wd5.myworkdayjobs.com/en-US/SearchJobs/job/Boston/Intern_R412885",
+    );
+    expect(other.verdict).toBe("mismatch");
+  });
+});

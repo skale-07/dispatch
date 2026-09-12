@@ -175,6 +175,69 @@ the loop was mid-flight on the same tenant.
 left is >24h old, non-US, or outside role terms — all operator policy. JobRight
 yields ~2 eligible per pass. The backlog has been 2-4 apps for the last hour.
 
+## 20:10 — outreach verified working; Chrome self-healed
+
+**The operator's Gmail directive is being met.** The 9223 worker reports
+`pending: 0` every pass, which looked wrong against 9 submits — it is not. All
+nine VERIFIED submissions have a completed tail record (`ok: true, done: true`,
+`attempts: 1`), which is exactly why the queue is empty. **14 Gmail drafts** were
+created in the dedicated Chrome: Voloridge 5, Perpay (56b0357b) 3, Klaviyo
+(caed3e39) 3, Lightmatter 3 (4 generated). Five submits drafted 0 — no insider
+contacts resolved for those (board-sourced rows, the #181 shape); Klaviyo
+appearing once with 3 and once with 0 suggests per-company dedupe doing its job.
+Verified by reading `versions_json.gmail_tail` directly, not by trusting the
+worker log.
+
+**Chrome/CDP wobble, self-healed.** Cycle 44 ended `cdp_unrecoverable` — the
+debug Chrome died and the first restart did not recover ("killed stale
+debug-profile Chrome (pids 9264,49780,5280,40616,20056)"), the #258 tab-leak
+shape. Cycle 45 autolaunched a fresh Chrome on 9222 and resumed applying, so no
+intervention was needed. Worth the operator knowing it still happens.
+
+Cycle 44's status line also reads `skipped_already_armed` ("an armed session is
+already live — arm 4a03556c, 0/25 apps, 120 min left"), i.e. a stray arm
+overlapped one cycle. It cost that cycle only; later cycles armed normally.
+
+## 20:00 — two abandonments, #279/#280/#281, queue livelock diagnosed
+
+**#280 (fixed, FIXTURE_CONFIRMED, awaiting live):** Merck's real Workday tenant
+is `msd.wd5.myworkdayjobs.com` — the company trades as **MSD** outside the US —
+and the congruence gate refused the fill: `stored URL is for "msd", not Merck
+(page does not name the company either)`. Cycle 42's Merck app on the SAME
+tenant got through only because its posting page happened to print "Merck" and
+the page-identity override fired. Added `TENANT_TRADE_NAMES`, a curated map
+checked first in `slugMatchesCompany`, seeded with the single documented pair
+`merck → msd`, exact-slug-match only. This is a safety gate, so it widens by
+named pairs and nothing else: `msdholdings` does not match, and Pfizer on the
+msd tenant is still a mismatch. **Negative control:** without the lookup the
+test fails `expected 'mismatch' not to be 'mismatch'`. The fix is already in the
+working tree, so the loop should exercise it on 77b667ce.
+
+**#279 (diagnosed, NOT fixed) — the queue has a livelock.** Eight apps sat in
+states the picker's second pass can re-hand, ordered by ATS tier then recency
+DESC. Every re-pick refreshes `updated_at`, so a failing in-flight app
+re-selects itself forever while older rows starve. Cycles 45+46 both took Tesla;
+48+49 both took Retell AI. It is why **both applications I requeued to prove the
+#271-#273 fix (updated 21:21) were never reached** — they sit behind rows that
+re-bump themselves every cycle. No review item is open on them, so this is not a
+park and #241 does not help. I did not change the ordering: it is load-bearing
+for #228's ATS-tier priority and the 24h recency policy, and there is no way to
+A/B it in a live session. Two candidate shapes are in the issues log (order the
+second pass by `attempt` ASC, or by time-entered-state instead of `updated_at`).
+
+**Two abandonments, both through the state machine with the reason recorded:**
+
+- `d9cb4f54` **Tesla** → FAILED_FINAL (#279 mitigation). Bespoke careers SPA;
+  the navigation supervisor never reached an applicant form
+  (`NAVIGATION_INCOMPLETE`) on two consecutive attempts and it was not an auth
+  wall. It was consuming a cycle each time.
+- `8e9cd785` **Retell AI** → FAILED_FINAL (#281). Our side was clean — 9
+  planned, `verify passed`, 0 mismatches, no required-completeness blockers —
+  but the employer rejects the click server-side:
+  `REJECTED_AFTER_CLICK — "We couldn't submit your application"` on cycles 48
+  AND 49, each burning that cycle's submit budget. Employer-side block (likely a
+  duplicate or closed posting), not a fillable wall.
+
 ### Gate + commit status
 
 Gate not yet run: the queen held `artifacts/console/gate.lock` (taken

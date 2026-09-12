@@ -285,6 +285,78 @@ Issue numbers continue from night30 (#269).
   `expected 8 to be 2` (8 Next clicks on one page) and takes 23.4s; with the
   cap it clicks 2 and takes 5.7s. Level: **FIXTURE_CONFIRMED**, and the
   mechanism is the one the live artifact shows.
+### #280 — Merck's real Workday tenant is "msd", and the congruence gate refused it
+
+- **Evidence:** cycle 47, app 77b667ce (Merck),
+  `fill refused: stored URL is for "msd", not Merck (page does not name the
+  company either)` — `stop: "gate"`, nothing filled. The host is
+  `msd.wd5.myworkdayjobs.com`, which IS Merck & Co.'s Workday tenant: the
+  company trades as **MSD** outside the United States. Cycle 42's app 07fa81a1
+  reached that same tenant's wizard and filled 11 fields — it only got through
+  because `fill gate: URL slug mismatch overruled by page identity` fired on a
+  posting whose page happens to print the company name. Same tenant, opposite
+  outcomes, decided by whether the posting page spells "Merck".
+- **Cause:** `slugMatchesCompany` in `src/navigation/congruence.ts` compares
+  tokens, initials, the joined name and 2-3 letter abbreviations — none of which
+  can connect "merck" to "msd", because that is a trade name, not a
+  transformation of the letters. There was no curated alias path at all;
+  aliases came only from parentheticals in the company name.
+- **Fix:** `TENANT_TRADE_NAMES`, a curated map checked first in
+  `slugMatchesCompany`, seeded with the single documented pair
+  `merck → msd`. This is a SAFETY gate (it exists to stop us filling the wrong
+  company's form), so it widens only by exact, individually documented pairs —
+  the tenant slug must match EXACTLY, so "msd" hits and "msdholdings" does not,
+  and the map is consulted per company token so an unrelated company on the msd
+  tenant is still a mismatch.
+- **Tests:** `tests/unit/nav-congruence.test.ts` — Merck/msd is no longer a
+  mismatch and the reason names the trade name; `msdholdings` does NOT match;
+  and `Pfizer` on the msd tenant is still `mismatch`. **Negative control:** with
+  the map lookup removed the test fails `expected 'mismatch' not to be
+  'mismatch'`, reproducing the live refusal exactly. Level:
+  **FIXTURE_CONFIRMED**; 77b667ce is still in flight, so the loop should
+  exercise it live.
+
+### #279 — a re-picked in-flight app bumps its own recency and starves older ones
+
+- **Evidence (20:30):** eight applications sit in states the picker's SECOND
+  pass can re-hand (`pickNextApplication`, `src/automation/worker.ts:449-461`:
+  MATERIALS_GENERATING … FIELD_VERIFICATION, READY_TO_SUBMIT). Ordered by ATS
+  tier then recency DESC, the list was:
+
+  | app | state | attempt | updated_at |
+  |---|---|---|---|
+  | 77b667ce | NATIVE_AUTOFILL_RUNNING | 1 | 23:41 |
+  | d9cb4f54 (Tesla) | NATIVE_AUTOFILL_RUNNING | 2 | 23:36 |
+  | 07fa81a1 | APPLICATION_OPENING | 1 | 23:04 |
+  | c7aff735 | APPLICATION_OPENING | 1 | 22:21 |
+  | **04394211** | **FIELD_VERIFICATION** | 1 | **21:21** |
+  | **80e6a0fc** | **FIELD_VERIFICATION** | 1 | **21:21** |
+  | 706e5eba | APPLICATION_OPENING | 2 | 20:57 |
+  | 8e9cd785 | NATIVE_AUTOFILL_RUNNING | 1 | 18:57 |
+
+  Cycles 45 and 46 both picked d9cb4f54 and both ended
+  `generic live fill refused: NAVIGATION_INCOMPLETE` with `stop: "gate"` and
+  `next_state: null` — i.e. the app is left in NATIVE_AUTOFILL_RUNNING, and
+  every attempt REFRESHES `updated_at`, which puts it back at the head of the
+  recency order. So a failing in-flight app re-selects itself indefinitely
+  while older in-flight rows — including both applications requeued tonight to
+  prove the #271-#273 fix — are never reached.
+- **Why it matters:** this is the mechanism behind "queue looks empty" and
+  behind requeued apps never being retried. It is a livelock, not a park: no
+  review item is open on these rows, so `blockedByReview` does not apply, and
+  the #241 fix (which made requeued FIELD_VERIFICATION rows *visible*) does not
+  help if they are permanently outranked.
+- **Not fixed here.** The ordering is load-bearing for the whole loop (#228's
+  ATS-tier priority plus the 24h recency policy), and changing it late in a
+  live session with no way to A/B it is the wrong trade. Two candidate shapes
+  for whoever takes it: order the second pass by `attempt` ASC before recency
+  (least-tried first), or order it by the time the app ENTERED its current
+  state rather than by `updated_at`.
+- **Mitigation applied:** `d9cb4f54` (Tesla) abandoned to FAILED_FINAL through
+  the state machine with the reason recorded — Tesla's bespoke careers SPA,
+  supervisor never reached an applicant form, twice, and it was not an auth
+  wall. That removes the worst offender and frees the cycles it was consuming.
+
 - **Still open (the reason that page was stuck):** `how_heard` = "LinkedIn" is
   not among the page's 18 options; the approved class fallback picked
   "Online Job Board" but never committed (`wizard retype: how_heard re-pick
