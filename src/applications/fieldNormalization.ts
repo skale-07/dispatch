@@ -417,7 +417,20 @@ function matchCanonicalFieldInner(
   if (/\bdisabilit(?:y|ies)\b|\bdisabled\b/.test(normalized)) {
     return "disability_status";
   }
-  if (/\bveterans?\b|\barmed forces\b|\bmilitary service\b/.test(normalized)) {
+  // #270 (live Lyft greenhouse 2026-09-12): "Please enter your relevant
+  // employment and military service above using the + Add Another
+  // Employment link." is a REQUIRED acknowledgement whose only option is
+  // "Thank you" — an instruction about the work-history block, not a
+  // self-ID question. Read as veteran_status it was skipped (no sensitive
+  // value) and the submit was withheld. Bare "military service" only means
+  // self-ID when the label is not about entering employment history.
+  if (/\bveterans?\b|\barmed forces\b/.test(normalized)) {
+    return "veteran_status";
+  }
+  if (
+    /\bmilitary service\b/.test(normalized) &&
+    !/\bemployment\b|\bwork history\b/.test(normalized)
+  ) {
     return "veteran_status";
   }
 

@@ -517,6 +517,22 @@ describe("demographic self-ID questions map by topic, not by one board's phrasin
     ]) {
       expect(matchCanonicalField(q(label), {})).toBe("veteran_status");
     }
+    expect(matchCanonicalField(q("Military Service Status"), {})).toBe("veteran_status");
+  });
+
+  // #270 (live Lyft greenhouse 2026-09-12): a required acknowledgement about
+  // the work-history block ("Thank you" is its only option) mentions
+  // military service but is not a self-ID question — as veteran_status it
+  // was skipped and the submit withheld.
+  it("an employment-history instruction mentioning military service is not veteran_status", () => {
+    expect(
+      matchCanonicalField(
+        q(
+          "Please enter your relevant employment and military service above using the + Add Another Employment link.",
+        ),
+        {},
+      ),
+    ).not.toBe("veteran_status");
   });
 
   // Live Crest Industries lever, same night: Lever's EEO block hands the
