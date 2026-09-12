@@ -53,6 +53,13 @@ const NEXT_NAME_RE = /^(next|save and continue|continue)$/i;
  */
 export const WIZARD_PAGE_CAP = 8;
 
+/**
+ * #278: how many consecutive non-advancing Next clicks the walk tolerates
+ * before stopping. Two — the first can be a slow SPA swap the next pass rides
+ * out; a second identical page is the page saying it will not move.
+ */
+export const MAX_NO_PROGRESS_PAGES = 2;
+
 export async function walkWorkdayWizard(
   page: Page,
   fillCurrentPage: (input: {
@@ -74,6 +81,8 @@ export async function walkWorkdayWizard(
   const pages: WizardPageResult[] = [];
   let verifyFailed = false;
   let authRecoveryUsed = false;
+  /** #278: consecutive Next clicks that did not reach a different page. */
+  let noProgressPages = 0;
   const settleTimeoutMs = options.settleMs === 0 ? 0 : (options.settleMs ?? 10_000);
 
   for (let extra = 1; extra <= WIZARD_PAGE_CAP; extra++) {
@@ -155,6 +164,12 @@ export async function walkWorkdayWizard(
     }
 
     let html = transition.html;
+    /**
+     * #278: did Next actually reach a DIFFERENT page? Only meaningful on a
+     * live walk (settleTimeoutMs 0 skips the poll entirely, and fixtures must
+     * keep walking on the transition snapshot).
+     */
+    let advancedThisPage = settleTimeoutMs === 0;
     // #74: poll for the NEW page's DOM — done when the field set differs
     // from the page we just filled (bounded by settleTimeoutMs; tests at
     // settleMs 0 stay synchronous on the transition snapshot).
@@ -182,6 +197,7 @@ export async function walkWorkdayWizard(
           : print !== beforePrint;
         if (print && print === prevPrint && advanced) {
           html = fresh;
+          advancedThisPage = true;
           break;
         }
         if (Date.now() >= deadline) {
@@ -210,6 +226,33 @@ export async function walkWorkdayWizard(
       } catch {
         // instrumentation must never break the walk
       }
+    }
+    // #278 (live Merck msd.wd5 2026-09-12, app 07fa81a1): Workday answers a
+    // Next it will not honour by RE-RENDERING the same page with a field-level
+    // error — so `transition.landed` is true, Next is not disabled, and the
+    // existing error-banner guard missed the phrasing ("Error: The field How
+    // Did You Hear About Us? is required and must have a value."). The walk
+    // therefore re-planned and re-filled the IDENTICAL page eight times
+    // (pages 2-9, all 14 fillable / 11 filled, same heading, same URL),
+    // burning ~12 minutes of a 300s-deadline cycle before giving up.
+    //
+    // A cap on no-progress iterations is the phrasing-independent guard (house
+    // rule: attempt caps on every retry loop). Two tries, because the first
+    // non-advance can be a genuine slow SPA swap that the next pass rides out;
+    // a second identical page is the page telling us it will not move.
+    if (!advancedThisPage) {
+      noProgressPages += 1;
+      if (noProgressPages >= MAX_NO_PROGRESS_PAGES) {
+        notes.push(
+          `wizard: page ${extra + 1} did not advance ${noProgressPages}x in a row ` +
+            `(heading "${headingOf(html).slice(0, 40)}") — stopping the walk; ` +
+            `the page is refusing Next, so its unanswered fields park for review (#278)`,
+        );
+        verifyFailed = true;
+        break;
+      }
+    } else {
+      noProgressPages = 0;
     }
     if (
       /data-automation-id=["']errorBanner|please fix the errors|required information is missing/i.test(

@@ -203,3 +203,91 @@ Issue numbers continue from night30 (#269).
   behind the same account wall as the manual one. Amgen is a plausible Workday
   tenant and both Amgen rows are still QUEUED — if either resolves to a
   Workday host, that is the first comparison pair.
+- **CORRECTION (19:00):** the "zero Workday supply" claim above was wrong, and
+  the query was the reason. `jobs.source_ats` / `normalized_application_url`
+  hold the JobRight URL; the Workday host only appears AFTER navigation
+  resolves it, so a SQL filter over `jobs` cannot see it. Two Workday tenants
+  actually ran tonight: **leidos.wd5** (app a046af81, via
+  careers.leidos.com → handoff) and **msd.wd5** (Merck, app 07fa81a1, cycle
+  42). The Merck run is live proof that the #275 instrumentation works —
+  `artifacts/ats-fill/workday-live/live-executed-1789252746509.json` notes
+  `"workday apply route: manual (#275)"` alongside
+  `"portal auth: clicked Apply Manually (attempt 2)"`,
+  `"standing portal login used for msd.wd5.myworkdayjobs.com"` and
+  `"workday page kind after auth: wizard"`. So the route note and the manual
+  baseline are **LIVE_READ_ONLY_CONFIRMED**; the autofill ROUTE itself is
+  still FIXTURE_CONFIRMED only, and the comparison is still UNVERIFIED.
+  Manual-route baseline for msd.wd5, for whoever runs the comparison:
+  19 planned on the base page, `plan 2s, fill 60s, verify 3s`, 14 fillable /
+  11 filled per wizard page, 1 verify mismatch (`how_heard`), no submit.
+  I did not run the autofill leg tonight: `ats:fill --url` starts an
+  UNAUTHENTICATED context (it does not attach to the loop's CDP session), so
+  the experiment would have driven a second account/sign-in flow against a
+  live tenant and spent that host's 3-attempt/6h auth budget — on Leidos,
+  while the loop was mid-flight on an application on the same tenant. That is
+  a deliberate run to make, not one to squeeze in beside a live loop.
+
+### #277 — Workday phone-type combobox picks the WRONG popup (diagnosed, NOT fixed)
+
+- **Evidence:** app a046af81, cycle 26, `leidos.wd5.myworkdayjobs.com`.
+  Brief: `Phone Device Type` — `Expected "Mobile"; page shows "Main/Home"`,
+  and `phoneNumber--phoneType: combobox option not committed: … no option
+  matches "Mobile" (options: LinkedIn (External Share) | LinkedIn (External
+  Share) | United States of America (+1) | United States of America (+1))`.
+  Those options belong to the how-did-you-hear and country-code dropdowns, not
+  to phoneType.
+- **Hypothesis:** `listboxForControl` (`src/ats/greenhouse/comboboxFill.ts`)
+  falls back to `page.locator(withoutChips).filter({visible:true}).first()` —
+  the first visible listbox in DOCUMENT ORDER — when the control carries no
+  `aria-owns`/`aria-controls`, which Workday's button popups do not. Workday
+  renders each popup in a portal at the end of `<body>`, so DOM ancestry
+  cannot disambiguate them either.
+- **Status: reverted, UNVERIFIED.** I wrote a proximity fix (choose the
+  visible listbox whose bounding box is nearest the control) and a fixture
+  with two portal listboxes, the decoy first in document order. The fixture
+  **passed with and without the fix**, so it proved nothing — most likely it
+  does not reach `listboxForControl` at all (the plain `<button>` may not
+  classify as a combobox). Rather than ship an unproven fix behind a
+  non-discriminating test, both were reverted. The diagnosis above is solid;
+  the fix needs a fixture cut from a real Workday phone-section snapshot
+  (several are on disk under `artifacts/ats-fill/workday-live/`).
+
+### #278 — the Workday wizard re-filled one stuck page eight times
+
+- **Evidence:** app 07fa81a1 (Merck, `msd.wd5`), cycle 42,
+  `artifacts/ats-fill/workday-live/live-executed-1789252746509.json`. Wizard
+  pages 2,3,4,5,6,7,8,9 are the SAME page: identical heading ("2027 Future
+  Talent Program – Optical Imaging Data Science – Intern"), identical URL
+  (`…/apply/applyManually`), identical `fillable: 14, filled: 11,
+  verify_passed: false`, and eight repetitions of
+  `wizard: page N never settled on a NEW page … planning on the current DOM`,
+  `wizard page error: Error: The field How Did You Hear About Us? is required
+  and must have a value.` Screenshots `wizard-page-2…9-*.png` show the same
+  page. Wall-clock 21:46→22:39 — **~12 minutes of a 300s-deadline cycle spent
+  re-filling one page**, and the cycle ended AMBIGUOUS_FIELD anyway.
+- **Cause:** Workday answers a Next it will not honour by RE-RENDERING the
+  same page with a field-level error. So `transition.landed` is true (the DOM
+  did change), Next is never disabled, and the existing error-banner guard
+  (`errorBanner|please fix the errors|required information is missing`) does
+  not match Workday's actual phrasing. The walk already NOTICED
+  ("never settled on a NEW page") but only logged it and kept going, up to
+  `WIZARD_PAGE_CAP` = 8 — an unbounded-in-practice retry loop.
+- **Fix:** `MAX_NO_PROGRESS_PAGES = 2` in `src/applications/workdayWizard.ts`.
+  The advance decision the settle poll already makes is hoisted into
+  `advancedThisPage`; two consecutive non-advancing Next clicks stop the walk
+  with `verifyFailed` and a note naming the refusal, so the page's unanswered
+  fields park for review instead of being re-typed six more times. Structural
+  and phrasing-independent (house rule: attempt caps on every retry loop).
+  `settleMs: 0` keeps `advancedThisPage` true, so fixture walks are unchanged.
+- **Tests:** `tests/unit/frame-hop-wizard.test.ts` — a fixture SPA that
+  re-renders the same fields plus one more error line per Next, exactly the
+  live shape. **Negative control run:** with the cap removed the test fails
+  `expected 8 to be 2` (8 Next clicks on one page) and takes 23.4s; with the
+  cap it clicks 2 and takes 5.7s. Level: **FIXTURE_CONFIRMED**, and the
+  mechanism is the one the live artifact shows.
+- **Still open (the reason that page was stuck):** `how_heard` = "LinkedIn" is
+  not among the page's 18 options; the approved class fallback picked
+  "Online Job Board" but never committed (`wizard retype: how_heard re-pick
+  not committed`), and verify observed `{"value":"","label":""}`. The cap
+  turns 12 wasted minutes into a fast park, but the commit failure itself is
+  unfixed.

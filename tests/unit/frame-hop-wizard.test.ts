@@ -366,4 +366,64 @@ describe("wizard walk diagnostics (FIXTURE_CONFIRMED)", () => {
       expect(walk.verifyFailed).toBe(false);
     });
   }, 45_000);
+  it("#278: stops after 2 non-advancing Next clicks instead of re-filling the same page 8x", async () => {
+    // Live Merck msd.wd5.myworkdayjobs.com 2026-09-12 (app 07fa81a1):
+    // "How Did You Hear About Us?" never committed, so Workday answered every
+    // Next by RE-RENDERING the same page with a field-level error. The
+    // transition "landed" (the DOM changed), Next was never disabled, and the
+    // error-banner guard did not match Workday's phrasing — so the walk
+    // re-planned and re-filled the IDENTICAL page as wizard pages 2 through 9
+    // (each 14 fillable / 11 filled), burning ~12 minutes of a 300s cycle.
+    //
+    // This SPA reproduces that exactly: the field set and the heading never
+    // change; only an error line is appended, so the page still "lands".
+    const { walkWorkdayWizard, MAX_NO_PROGRESS_PAGES } = await import(
+      "../../src/applications/workdayWizard.js"
+    );
+    const STUCK_SPA = `<!DOCTYPE html><html><body>
+      <div id="stage">
+        <h2>My Information</h2>
+        <label>How Did You Hear About Us?<input data-automation-id="source" name="source" /></label>
+        <div id="errors"></div>
+        <button data-automation-id="bottom-navigation-next-button" type="button">Next</button>
+      </div>
+      <script>
+        var clicks = 0;
+        document.addEventListener("click", function (e) {
+          var t = e.target;
+          if (!(t instanceof HTMLElement)) return;
+          if (t.getAttribute("data-automation-id") !== "bottom-navigation-next-button") return;
+          // Workday's real behaviour: same page, same fields, one more error.
+          clicks += 1;
+          window.__nextClicks = clicks;
+          document.getElementById("errors").innerHTML =
+            "<p>Error: The field How Did You Hear About Us? is required and must have a value. (" +
+            clicks + ")</p>";
+        });
+      </script></body></html>`;
+
+    await withFixtureHtmlPage(STUCK_SPA, async (page) => {
+      let fills = 0;
+      const walk = await walkWorkdayWizard(
+        page,
+        async () => {
+          fills += 1;
+          return { fillable: 14, filled: 11, verifyPassed: false };
+        },
+        // A live-like settle so the advance poll actually runs and times out.
+        { settleMs: 900 },
+      );
+      // It gave up at the cap, nowhere near WIZARD_PAGE_CAP (8).
+      expect(await page.evaluate(() => (globalThis as unknown as { __nextClicks?: number }).__nextClicks)).toBe(
+        MAX_NO_PROGRESS_PAGES,
+      );
+      expect(walk.verifyFailed).toBe(true);
+      expect(walk.notes.join(" | ")).toMatch(
+        /did not advance 2x in a row .* stopping the walk/,
+      );
+      // One wasted re-fill of the stuck page, not eight.
+      expect(fills).toBe(1);
+      expect(walk.pages.length).toBe(1);
+    });
+  }, 60_000);
 });

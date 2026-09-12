@@ -102,10 +102,19 @@ including three degradation shapes).
 2. **Poisoned screener-bank entry**: `screener:custom:education_history_year`
    = "2025". No Ashby field can reach it now, but it would still claim a
    genuinely "Education History"-labelled question elsewhere. Not mutated.
-3. **Cycles burned on duplicate postings**: cycles 36-38 all ended
-   `navigation refused: duplicate employer URL`. The dedupe guard is correct
-   (same posting, per the per-posting policy) but the picker is handing the
-   loop rows it will always refuse.
+3. ~~**Cycles burned on duplicate postings**~~ — **withdrawn, I was wrong.**
+   Cycles 36-38 and 40 each ended `navigation refused: duplicate employer
+   URL`, and I started patching `duplicate_url` to record FAILED_FINAL
+   instead of FAILED_RETRYABLE. Checking the tests first showed there is
+   already an evidence-gated design for exactly this — duplicate_url parks,
+   LLM triage decides `abandon_duplicate`, and the state machine retires it —
+   and the logs show it WORKING: all 5 of today's duplicate_url cases logged
+   `"chosen":"abandon_duplicate","mode":"act","executed":true,"detail":
+   "abandoned to FAILED_FINAL"`. So a duplicate costs exactly one cycle (the
+   navigation that discovers two JobRight postings share an employer URL) and
+   is then permanently retired. The patch was reverted before it went
+   anywhere; it would have duplicated working behaviour while bypassing the
+   evidence gate.
 
 ### Open walls not yet fixed
 
@@ -117,6 +126,54 @@ including three degradation shapes).
   refused correctly. The upload control is presumably behind a step the walk
   does not open.
 - Cycle 33 (54a4667a) — `CAPTCHA_REQUIRED`, genuinely operator-blocked.
+
+## 19:45 — cycles 1-43, 8 submits, commit b8f541e6, #277/#278 added
+
+Submit #8 landed on cycle 43 (2325619e, COMPLETED). Commit **b8f541e6** carries
+#271-#273, #275 and #276 (18 files; typecheck, test, check:forbidden and
+check:secrets all passed solo with the loop paused).
+
+Since then, two more walls, both from the live Workday runs:
+
+- **#278 (fixed, FIXTURE_CONFIRMED)** — the wizard walk re-filled ONE stuck page
+  eight times. Merck `msd.wd5` (app 07fa81a1, cycle 42) recorded wizard pages
+  2-9 as the same page: same heading, same `/apply/applyManually` URL, same
+  `14 fillable / 11 filled`, eight copies of `never settled on a NEW page` and
+  of `Error: The field How Did You Hear About Us? is required…`. That is ~12
+  minutes of a 300s-deadline cycle, and it ended AMBIGUOUS_FIELD regardless.
+  Workday answers a Next it will not honour by re-rendering the same page with
+  a field error, so `transition.landed` is true, Next is never disabled, and
+  the error-banner guard does not match its phrasing. Added
+  `MAX_NO_PROGRESS_PAGES = 2`. **Negative control:** with the cap removed the
+  new test fails `expected 8 to be 2` in 23.4s; with it, 2 clicks in 5.7s.
+- **#277 (diagnosed, deliberately NOT shipped)** — Leidos `wd5` phone-type
+  combobox harvested another dropdown's options (`Expected "Mobile"; page shows
+  "Main/Home"`, options `LinkedIn (External Share) | United States of America
+  (+1)`). `listboxForControl` falls back to the first visible listbox in
+  DOCUMENT order, and Workday renders popups in portals. I wrote a proximity
+  fix plus a fixture — the fixture passed **with and without** the fix, so it
+  proved nothing and both were reverted. Shipping an unproven fix behind a
+  non-discriminating test would have been worse than leaving it open.
+
+**Correction to my earlier "zero Workday supply" claim:** it was wrong, and the
+query was why — `jobs` only holds the JobRight URL, so no SQL filter over it can
+see a Workday host that navigation resolves later. Leidos `wd5` and Merck
+`msd.wd5` both ran tonight. The Merck artifact is live proof the #275
+instrumentation works: `"workday apply route: manual (#275)"` next to
+`"standing portal login used for msd.wd5.myworkdayjobs.com"` and
+`"workday page kind after auth: wizard"`. So the route note and the manual
+baseline are LIVE_READ_ONLY_CONFIRMED (19 planned, `plan 2s, fill 60s,
+verify 3s`, 14 fillable / 11 filled per page, one `how_heard` mismatch); the
+autofill route itself stays FIXTURE_CONFIRMED and the comparison UNVERIFIED. I
+did not run the autofill leg beside the live loop: `ats:fill --url` starts an
+unauthenticated context, so it would have driven a second sign-in against a
+live tenant and spent that host's 3-attempt/6h auth budget — on Leidos, while
+the loop was mid-flight on the same tenant.
+
+**Supply, not bugs, is now the binding constraint.** A manual 60-board sweep
+(`discover:ats --limit 60`, up from the loop's 10) enqueued **zero**: everything
+left is >24h old, non-US, or outside role terms — all operator policy. JobRight
+yields ~2 eligible per pass. The backlog has been 2-4 apps for the last hour.
 
 ### Gate + commit status
 
