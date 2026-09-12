@@ -58,11 +58,11 @@ function formatUsd(raw: string): string {
  *   half-finished profile.
  * - Every failure (load, upload, save, invite redemption) renders the
  *   real error. Nothing pretends.
- * - NO demographic/EEO questions (gender, race, veteran status,
- *   disability, pronouns) — queen directive 2026-09-01, mirroring the
- *   engine's house rule that such fields only ever fill from an
- *   operator-encrypted sensitive profile. v0 does not collect this data
- *   in the cloud at all; do not add such steps here.
+ * - NO demographic/EEO questions on THIS draft. Self-identification is
+ *   an opt-in, encrypted, RPC-only store (selfId.ts, migration
+ *   20260911000500; decision 2026-09-11 reversing 2026-09-01) with a
+ *   per-field "prefer not to answer"; it never lives on ProfileDraft or
+ *   the profile row, and the coverage gate asserts that.
  */
 
 const STEPS = [

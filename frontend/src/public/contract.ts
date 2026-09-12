@@ -38,6 +38,14 @@ export const CONTRACT = {
   integrationsView: "my_integrations",
   /** User-side integration writes: only { premium } and { disconnect }. */
   setIntegrationRpc: "set_my_integration",
+  /**
+   * Opt-in encrypted self-identification (20260911000500). RPC-only:
+   * the table has no client policy and no view. See selfId.ts.
+   */
+  saveSensitiveRpc: "save_my_sensitive_profile",
+  getSensitiveRpc: "get_my_sensitive_profile",
+  clearSensitiveRpc: "clear_my_sensitive_profile",
+  sensitiveFieldsRpc: "sensitive_profile_fields",
   /** Atomic, idempotent-per-user invite redemption. Arg name matters. */
   redeemInviteRpc: "redeem_invite",
   redeemInviteArg: "invite_code",
@@ -625,3 +633,113 @@ export const HOW_HEARD_SUGGESTIONS = [
   "University career fair",
   "Other",
 ] as const;
+
+/* ── self-identification (opt-in, encrypted; NEVER on ProfileDraft) ──── */
+
+/**
+ * The nine engine fields (src/candidate/sensitiveProfile.ts minus
+ * self_identification_preferences) — drift-tested. Options are the
+ * verbatim vocabularies US forms use; the engine matches them against
+ * each page's own list and never invents one. `allowCustom` lets the
+ * user type another verbatim answer (pronouns, gender identity).
+ */
+export type SensitiveField =
+  | "gender_identity"
+  | "gender"
+  | "race_ethnicity"
+  | "sexual_orientation"
+  | "hispanic_latino"
+  | "transgender"
+  | "veteran_status"
+  | "disability_status"
+  | "pronouns";
+
+export type SensitiveChoice = "answer" | "prefer_not" | "skip";
+
+export type SensitiveFieldSpec = {
+  key: SensitiveField;
+  label: string;
+  options: string[];
+  multi?: boolean;
+  allowCustom?: boolean;
+  hint?: string;
+};
+
+/** Every entry offers "prefer not to answer" (an answer) besides "ask me per application" (blank). */
+export const PREFER_NOT_LABEL = "Prefer not to answer";
+
+export const SENSITIVE_FIELDS: SensitiveFieldSpec[] = [
+  { key: "gender", label: "Gender (as forms ask it)", options: ["Male", "Female", "Non-binary"] },
+  {
+    key: "gender_identity",
+    label: "Gender identity (multi-option identity boards)",
+    options: ["Man", "Woman", "Non-binary", "Genderqueer", "Agender", "Another gender identity"],
+    allowCustom: true,
+  },
+  {
+    key: "race_ethnicity",
+    label: "Race / ethnicity (choose all that apply)",
+    multi: true,
+    options: [
+      "American Indian or Alaska Native",
+      "Asian",
+      "Black or African American",
+      "Hispanic or Latino",
+      "Native Hawaiian or Other Pacific Islander",
+      "White",
+      "Two or More Races",
+    ],
+  },
+  { key: "hispanic_latino", label: "Are you Hispanic or Latino?", options: ["Yes", "No"] },
+  {
+    key: "sexual_orientation",
+    label: "Sexual orientation",
+    options: ["Heterosexual or straight", "Gay or lesbian", "Bisexual", "Queer", "Asexual", "Another orientation"],
+    allowCustom: true,
+  },
+  { key: "transgender", label: "Do you identify as transgender?", options: ["Yes", "No"] },
+  {
+    key: "veteran_status",
+    label: "Veteran status",
+    options: [
+      "I am not a protected veteran",
+      "I identify as one or more of the classifications of a protected veteran",
+      "I am a veteran, but not a protected veteran",
+    ],
+  },
+  {
+    key: "disability_status",
+    label: "Disability status",
+    options: [
+      "Yes, I have a disability, or have had one in the past",
+      "No, I do not have a disability and have not had one in the past",
+    ],
+  },
+  {
+    key: "pronouns",
+    label: "Pronouns",
+    options: ["He/him", "She/her", "They/them"],
+    allowCustom: true,
+    hint: "Some forms require this (DV Trading, 2026-08).",
+  },
+];
+
+/** Wizard draft. Default: consent off, every field "skip" (blank on forms). */
+export type SensitiveDraft = {
+  consent: boolean;
+  fields: Record<SensitiveField, { choice: SensitiveChoice; value: string | string[] }>;
+};
+
+export const EMPTY_SENSITIVE: SensitiveDraft = {
+  consent: false,
+  fields: Object.fromEntries(
+    SENSITIVE_FIELDS.map((f) => [f.key, { choice: "skip", value: f.multi ? [] : "" }]),
+  ) as SensitiveDraft["fields"],
+};
+
+/** The RPC plaintext contract (save_my_sensitive_profile / get_my_sensitive_profile). */
+export type SensitivePlain = {
+  consent: boolean;
+  fields: Partial<Record<SensitiveField, { choice: SensitiveChoice; value: string | string[] | null }>>;
+  self_identification_preferences?: Record<string, unknown>;
+};

@@ -154,6 +154,61 @@ describe("onboarding tables: RLS, grants, idempotency (UNIT_CONFIRMED)", () => {
   });
 });
 
+describe("self-identification is opt-in, encrypted, RPC-only (UNIT_CONFIRMED)", () => {
+  const FILE = "20260911000500_user_sensitive_profiles.sql";
+
+  it("the table has no client policy, no view, and is referenced only inside its RPCs", () => {
+    const s = sql(FILE);
+    expect(s).toContain("alter table public.user_sensitive_profiles enable row level security");
+    expect(s).toMatch(/revoke all on public\.user_sensitive_profiles from anon, authenticated/);
+    expect(s).not.toMatch(/create policy/);
+    expect(s).not.toMatch(/create (or replace )?view/);
+    // Every other migration leaves the table alone.
+    for (const f of fs.readdirSync(MIG)) {
+      if (f === FILE) continue;
+      expect(sql(f), `${f} must not touch user_sensitive_profiles`).not.toContain(
+        "user_sensitive_profiles",
+      );
+    }
+    // Inside this file the table name appears only in DDL and function bodies.
+    const outsideFns = s
+      .replace(/create or replace function[\s\S]*?\n\$\$;/g, "")
+      .replace(/create table if not exists public\.user_sensitive_profiles[\s\S]*?\);/, "")
+      .replace(/(alter table|revoke all on|drop trigger if exists [a-z_]+ on|create trigger [a-z_]+\s+before update on|for each row) [^\n]*user_sensitive_profiles[^\n]*/g, "");
+    expect(outsideFns).not.toContain("user_sensitive_profiles");
+  });
+
+  it("sensitive_profile_fields() equals the engine's sensitiveProfileSchema keys", () => {
+    const s = sql(FILE);
+    const arr = /sensitive_profile_fields\(\)[\s\S]*?array\[([\s\S]*?)\]::text\[\]/.exec(s)?.[1] ?? "";
+    const dbKeys = [...arr.matchAll(/'([a-z_]+)'/g)].map((m) => m[1]!);
+    const src = fs.readFileSync(path.join(ROOT, "src", "candidate", "sensitiveProfile.ts"), "utf8");
+    const block = /sensitiveProfileSchema = z\.object\(\{([\s\S]*?)\n\}\)/.exec(src)?.[1] ?? "";
+    const engine = [...block.matchAll(/^\s*([a-z_]+):\s*z\./gm)]
+      .map((m) => m[1]!)
+      .filter((k) => k !== "self_identification_preferences");
+    expect([...dbKeys].sort()).toEqual([...engine].sort());
+  });
+
+  it("save refuses without consent and validates every field before encrypting; engine read is service-role only", () => {
+    const s = sql(FILE);
+    // Anchor on the definition: the grant/revoke lines spell the signature
+    // without the parameter name, so a bare `(jsonb)` match starts there and
+    // runs into the NEXT function's body.
+    const save =
+      /create or replace function public\.save_my_sensitive_profile\([\s\S]*?\n\$\$;/.exec(s)?.[0] ?? "";
+    expect(save).not.toBe("");
+    expect(save).toContain("raise exception 'consent required'");
+    expect(save).toContain("raise exception 'unknown sensitive field: %'");
+    expect(save.indexOf("raise exception 'consent required'")).toBeLessThan(save.indexOf("_dispatch_encrypt"));
+    expect(save).toMatch(/'answer', 'prefer_not', 'skip'/);
+    // answered_keys carries NAMES only.
+    expect(save).toMatch(/v_answered := v_answered \|\| v_key/);
+    expect(s).toMatch(/grant execute on function public\.engine_read_sensitive_profile\(uuid\) to service_role/);
+    expect(s).toMatch(/revoke all on function public\.engine_read_sensitive_profile\(uuid\) from anon, authenticated/);
+  });
+});
+
 describe("integration secrets never reach a client (UNIT_CONFIRMED)", () => {
   const SECRET_COLUMNS = ["secret_ciphertext", "secret_key_version", "secret_updated_at"];
 

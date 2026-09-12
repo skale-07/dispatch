@@ -40,6 +40,8 @@ export const EXPECTED_TABLES = [
   "user_screener_answers",
   "user_personas",
   "user_integrations",
+  // opt-in encrypted self-identification (20260911000500); RPC-only
+  "user_sensitive_profiles",
 ] as const;
 export const EXPECTED_VIEWS = [
   "user_quota_status",
@@ -60,6 +62,11 @@ export const EXPECTED_RPCS = [
   "engine_store_integration_secret",
   "engine_read_integration_secret",
   "engine_set_integration_status",
+  "sensitive_profile_fields",
+  "save_my_sensitive_profile",
+  "get_my_sensitive_profile",
+  "clear_my_sensitive_profile",
+  "engine_read_sensitive_profile",
 ] as const;
 /**
  * Read-only probe arguments per RPC. Called with the service role
@@ -87,6 +94,12 @@ export const RPC_PROBE_ARGS: Record<(typeof EXPECTED_RPCS)[number], Record<strin
   engine_store_integration_secret: { p_user: NIL_UUID, p_provider: "jobright", p_secret: "", p_meta: {} },
   engine_read_integration_secret: { p_user: NIL_UUID, p_provider: "jobright" },
   engine_set_integration_status: { p_user: NIL_UUID, p_provider: "jobright", p_status: "disconnected", p_meta: {} },
+  // self-ID: the three user RPCs check auth first; the engine read answers null for a nil uuid.
+  sensitive_profile_fields: {},
+  save_my_sensitive_profile: { p_profile: {} },
+  get_my_sensitive_profile: {},
+  clear_my_sensitive_profile: {},
+  engine_read_sensitive_profile: { p_user: NIL_UUID },
 };
 export const EXPECTED_BUCKETS = ["resumes", "receipts", "transcripts"] as const;
 

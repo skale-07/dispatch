@@ -44,9 +44,10 @@ internal tooling.
 ```
 
 **Data-flow rule (non-negotiable):** the cloud plane holds
-**user-submitted** data (their own profile, resume, preferences) and
-**their own application evidence** (status rows, screenshot receipts) —
-that is correct and expected. What never crosses upward is the
+**user-submitted** data (their own profile, resume, preferences, and —
+since 2026-09-11 — their OPT-IN self-identification answers, encrypted
+and RPC-only) and **their own application evidence** (status rows,
+screenshot receipts) — that is correct and expected. What never crosses upward is the
 OPERATOR'S local `private/` contents, ATS/portal credentials, vault
 entries, and LLM keys. Every engine→cloud write goes through the
 whitelist mappers in `src/cloud/syncMapping.ts`; every cloud table and
@@ -488,6 +489,7 @@ parentheses.
 | 11 | Two-sided quota bonus: `referral_bonuses`, `app_users.bonus_completed_applications`, `user_quota_status` = base + bonus, AFTER trigger on COMPLETED mirror rows (`20260902000400`) | LIVE_MUTATION_CONFIRMED 2026-09-02: `referral_bonus_granted_to_inviter` (A max 2 → 12), `referral_bonus_idempotent` (stays 12), `referral_bonus_row_visible_to_inviter` (`[{bonus:10}]`) |
 | 12 | `engine_status` heartbeat table + `cloud:sync` writes it every tick (`20260902000500`, `toEngineStatusRow`) | table + RLS LIVE_MUTATION_CONFIRMED (`engine_status_own_row_only`: A 1 row, B 0); the worker's write is still BLOCKED on `SUPABASE_SYNC_USER_ID` (refuses by name) |
 | 13 | `invites.redeemed_by` ON DELETE CASCADE (`20260902000600`) — resolves the FK cycle that made members undeletable | LIVE_MUTATION_CONFIRMED 2026-09-02: `delete_user` ×2 succeeded with redeemed invites still pointing at them; `invites`/`app_users` `*/0` afterwards |
+| 16 | Opt-in encrypted self-identification (`20260911000500`, reverses 2026-09-01): `user_sensitive_profiles` (ciphertext + `answered_keys` names only; no client policy, no view), `sensitive_profile_fields()` drift-tested vs `sensitiveProfileSchema`, `save/get/clear_my_sensitive_profile()` (consent required; per-field answer / prefer_not / skip), `engine_read_sensitive_profile()` (service role, feeds the tenant's encrypted file only); CLAUDE.md line updated; `selfId.ts` + `SENSITIVE_FIELDS` in the contract; coverage gate flipped to "EEO only in the sensitive draft, opt-in" | UNIT_CONFIRMED (`cloud-onboarding-schema`, `onboarding-field-coverage`); LIVE pending apply/verify |
 | 15 | Onboarding data model (`20260911000200`–`000700`): profile expansion (legal names, address, how-heard + fallbacks, covenants, skills, employment_history, onboarding_progress), `user_documents` (variants + transcript, backfilled), `user_screener_answers` (22 registry keys drift-tested vs the engine), in-DB Vault KEK + `_dispatch_encrypt/_decrypt`, `user_personas`, `user_integrations` + `my_integrations` + `set_my_integration` + `engine_*` secret RPCs, `complete_my_onboarding()`; pull carries the per-store rows (never secrets) | UNIT_CONFIRMED (`cloud-onboarding-schema.test.ts`, `cloud-sync-mapping`, `cloud-schema`); LIVE pending `cloud:schema -- apply/verify` |
 | 14 | Open signup (`20260911000100`): `ensure_member()`, `referral_settings().free_signup_quota`, `user_quota_status` left-joins invites (free + invite + bonus; `free_completed_applications`, `has_invite` appended); SPA calls `ensure_member` once per session; landing/signup copy from server constants | UNIT_CONFIRMED (`cloud-open-signup.test.ts`, round-trip fake with steps `open_signup_ensure_member_as_b`, `ensure_member_idempotent`, `free_quota_without_invite`, `redeem_after_free_signup_adds_quota`); LIVE pending `cloud:schema -- apply` + `invites:roundtrip` |
 

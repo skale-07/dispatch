@@ -36,17 +36,18 @@ import {
  *    university name is precisely the failure that rule exists to stop,
  *    so the prompt does not ask and the parser drops the key if a model
  *    volunteers it anyway.
- * 2. NO EEO / DEMOGRAPHIC FIELDS. The wizard collects none (directive
- *    2026-09-01) and this must not become the side door that reintroduces
- *    them. The prompt says so out loud, and the parser only ever reads
- *    keys on its own allowlist.
+ * 2. NO EEO / DEMOGRAPHIC FIELDS. Self-identification is a separate,
+ *    opt-in, encrypted step the user answers by hand (selfId.ts,
+ *    decision 2026-09-11); a model must never populate it from a resume.
+ *    The prompt says so out loud, and the parser only ever reads keys on
+ *    its own allowlist.
  * 3. NOTHING IS INVENTED. The prompt tells the model to leave a field out
  *    rather than guess it, because a plausible-but-wrong graduation year
  *    reaches a real employer under the user's name.
  */
 
 /** The exact keys importDraft() will read. Anything else is ignored. */
-const IMPORTABLE = [
+export const IMPORTABLE = [
   "full_name",
   "phone",
   "location_city",
@@ -117,7 +118,7 @@ RULES — these matter more than completeness:
 
 1. Do not invent anything. If my resume does not say it, leave the key out entirely. A missing field is fine; a wrong one goes to a real employer under my name.
 2. Do NOT include work authorization, visa status, or sponsorship. I answer those myself.
-3. Do NOT include gender, race, ethnicity, veteran status, disability, or pronouns. Never ask me for them either.
+3. Do NOT include gender, race, ethnicity, veteran status, disability, or pronouns. I answer self-identification questions myself in a separate, encrypted step — never include them here, and never ask me for them.
 4. "about_me" is the important one. Write 150-250 words in MY first-person voice, as if I were telling an interviewer about myself. Ground every sentence in my resume: what I have actually built, the tools I actually used, what I am looking for next. Plain and specific — no adjectives I did not earn, no "passionate", no summary-speak. This text is what gets used to answer open-ended application questions, so it should sound like me on a good day, not like a cover letter.
 
 My resume:

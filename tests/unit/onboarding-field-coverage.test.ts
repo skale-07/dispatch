@@ -1,7 +1,14 @@
 import fs from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { EMPTY_PROFILE } from "../../frontend/src/public/contract.js";
+import {
+  EMPTY_PROFILE,
+  EMPTY_SENSITIVE,
+  PREFER_NOT_LABEL,
+  SCREENER_QUESTIONS,
+  SENSITIVE_FIELDS,
+} from "../../frontend/src/public/contract.js";
+import { IMPORTABLE } from "../../frontend/src/public/importPrompt.js";
 
 /**
  * The cloud plane must ask for what the engine actually reads.
@@ -88,21 +95,40 @@ describe("onboarding covers what the engine reads (UNIT_CONFIRMED)", () => {
     expect(EMPTY_PROFILE).toHaveProperty("about_me");
   });
 
-  it("still collects NO demographic or EEO field", () => {
-    // Directive 2026-09-01: those fill only from the operator's own
-    // encrypted sensitive profile, never from the cloud plane. This gate
-    // is here so a future "context field we might need" cannot quietly
-    // become one of these.
-    const keys = Object.keys(EMPTY_PROFILE).join(" ");
-    for (const forbidden of [
-      /gender/i,
-      /\brace\b/i,
-      /ethnicit/i,
-      /veteran/i,
-      /disabilit/i,
-      /pronoun/i,
-    ]) {
-      expect(keys).not.toMatch(forbidden);
+  // Self-identification (decision 2026-09-11, reversing 2026-09-01): the
+  // cloud DOES hold EEO answers — opt-in, encrypted, RPC-only — but never
+  // on the profile draft, the import allowlist, or the screener bank.
+  const EEO = [/gender/i, /\brace\b/i, /ethnicit/i, /veteran/i, /disabilit/i, /pronoun/i];
+
+  it("EEO never lives on the profile draft, the import allowlist, or the screener questions", () => {
+    const surfaces = [
+      Object.keys(EMPTY_PROFILE).join(" "),
+      IMPORTABLE.join(" "),
+      SCREENER_QUESTIONS.map((q) => q.key).join(" "),
+    ];
+    for (const s of surfaces) for (const forbidden of EEO) expect(s).not.toMatch(forbidden);
+  });
+
+  it("the self-ID step covers exactly the engine's sensitive fields", () => {
+    const src = fs.readFileSync(path.join(ROOT, "src", "candidate", "sensitiveProfile.ts"), "utf8");
+    const block = /sensitiveProfileSchema = z\.object\(\{([\s\S]*?)\n\}\)/.exec(src)?.[1] ?? "";
+    const engineKeys = [...block.matchAll(/^\s*([a-z_]+):\s*z\./gm)]
+      .map((m) => m[1]!)
+      .filter((k) => k !== "self_identification_preferences");
+    expect(engineKeys.length).toBeGreaterThanOrEqual(9);
+    expect(SENSITIVE_FIELDS.map((f) => f.key).sort()).toEqual([...engineKeys].sort());
+  });
+
+  it("self-ID is opt-in: consent off, every field skipped by default, prefer-not always offered", () => {
+    expect(EMPTY_SENSITIVE.consent).toBe(false);
+    for (const f of SENSITIVE_FIELDS) {
+      expect(EMPTY_SENSITIVE.fields[f.key].choice).toBe("skip");
+      expect(f.options.length).toBeGreaterThan(0);
+      // The option lists are the forms' vocabularies; "prefer not" is a
+      // separate CHOICE, rendered for every field, never a list entry
+      // the model could pick.
+      expect(f.options).not.toContain(PREFER_NOT_LABEL);
     }
+    expect(PREFER_NOT_LABEL).toMatch(/prefer not/i);
   });
 });

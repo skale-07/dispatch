@@ -26,8 +26,12 @@ Mirror of `.cursor/rules/house-rules.mdc` — keep both files identical when edi
   approved plan entry + `SUBMIT_ENABLED` + explicit operator confirmation).
 - Form values come only from the approved plan. Two paths may put generated/stored text
   into a field, both operator opt-in and both fail-closed:
-  - Demographic (EEO/self-ID) fields fill ONLY from the operator's own encrypted
-    sensitive profile. Nothing is ever inferred or defaulted; no value on file ⇒ skipped.
+  - Demographic (EEO/self-ID) fields fill ONLY from the candidate's OWN encrypted
+    sensitive profile: the operator's local `sensitive-profile.enc`, or — for a
+    hosted user — their opt-in `user_sensitive_profiles` row (RPC-only, per-field
+    "prefer not to answer", decision 2026-09-11 reversing 2026-09-01) re-encrypted
+    into that tenant's workspace. Never on the profile row, never aggregated.
+    Nothing is ever inferred or defaulted; no value on file ⇒ skipped.
   - Essays: generated from `private/candidate/about-me.md` and filled when
     `ESSAY_AUTOFILL_ENABLED` or `SCREENER_PREDICT_LLM_ENABLED` is on (operator
     directive 2026-08-15). Requires that file and an LLM key. Output must

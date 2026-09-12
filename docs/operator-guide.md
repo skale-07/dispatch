@@ -2155,7 +2155,7 @@ npm run cloud:schema -- apply      # run supabase/migrations/ then verify
 
 - **verify** needs only `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY`.
   It lists every table / view / RPC / storage bucket the migrations
-  create (12 tables, 4 views, 12 RPCs, 3 buckets as of `20260911000700`;
+  create (13 tables, 4 views, 17 RPCs, 3 buckets as of `20260911000700`;
   the list is `EXPECTED_*` in `src/cloud/schema.ts`) as `present` /
   `absent` / `error` and exits 1 unless all are present. RPCs are
   probed with harmless arguments (`RPC_PROBE_ARGS`): an unauthenticated
