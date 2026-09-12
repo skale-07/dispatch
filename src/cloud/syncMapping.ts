@@ -109,7 +109,18 @@ export type EngineStatusRow = {
   last_sync_upserted: number;
   last_sync_duration_ms: number;
   last_error: string | null;
+  state: EngineState;
+  paused_reason: string | null;
+  current_job_id: string | null;
 };
+
+/**
+ * What the worker is doing right now (20260911000800). `parked` means a
+ * handoff is blocking it — the dashboard turns that into a prompt rather
+ * than an error.
+ */
+export const ENGINE_STATES = ["idle", "running", "parked", "quota_exhausted"] as const;
+export type EngineState = (typeof ENGINE_STATES)[number];
 
 /** Exact upsert column set — asserted in tests so the boundary cannot drift. */
 export const ENGINE_STATUS_COLUMNS = [
@@ -120,6 +131,9 @@ export const ENGINE_STATUS_COLUMNS = [
   "last_sync_upserted",
   "last_sync_duration_ms",
   "last_error",
+  "state",
+  "paused_reason",
+  "current_job_id",
 ] as const;
 
 export function toEngineStatusRow(input: {
@@ -130,9 +144,14 @@ export function toEngineStatusRow(input: {
   upserted: number;
   durationMs: number;
   error: string | null | undefined;
+  state?: EngineState;
+  pausedReason?: string | null;
+  currentJobId?: string | null;
 }): EngineStatusRow {
   if (input.userId.trim() === "") throw new Error("engine status requires a cloud user id");
   const nonNegInt = (n: number): number => (Number.isFinite(n) && n > 0 ? Math.floor(n) : 0);
+  const state = input.state ?? "idle";
+  if (!ENGINE_STATES.includes(state)) throw new Error(`unknown engine state: ${state}`);
   return {
     user_id: input.userId,
     last_seen_at: input.now.toISOString(),
@@ -141,6 +160,10 @@ export function toEngineStatusRow(input: {
     last_sync_upserted: nonNegInt(input.upserted),
     last_sync_duration_ms: nonNegInt(input.durationMs),
     last_error: clampText(input.error),
+    state,
+    // Only a parked engine explains itself; the column is noise otherwise.
+    paused_reason: state === "parked" ? clampText(input.pausedReason) : null,
+    current_job_id: state === "running" ? (clampText(input.currentJobId) ?? null) : null,
   };
 }
 

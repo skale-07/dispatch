@@ -126,6 +126,10 @@ describe("engine heartbeat mapping (UNIT_CONFIRMED)", () => {
       last_sync_upserted: 335,
       last_sync_duration_ms: 1234,
       last_error: null,
+      // Live state (20260911000800); a tick that does not say defaults to idle.
+      state: "idle",
+      paused_reason: null,
+      current_job_id: null,
     });
   });
 

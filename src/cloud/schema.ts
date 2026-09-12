@@ -42,12 +42,20 @@ export const EXPECTED_TABLES = [
   "user_integrations",
   // opt-in encrypted self-identification (20260911000500); RPC-only
   "user_sensitive_profiles",
+  // engine queue (20260911000800)
+  "engine_jobs",
+  "handoff_tasks",
+  "jobright_feed_samples",
+  "outreach_drafts",
+  "user_engine_controls",
 ] as const;
 export const EXPECTED_VIEWS = [
   "user_quota_status",
   "my_applications",
   "my_referral_invites",
   "my_integrations",
+  "my_engine_jobs",
+  "my_handoff_tasks",
 ] as const;
 export const EXPECTED_RPCS = [
   "redeem_invite",
@@ -67,6 +75,14 @@ export const EXPECTED_RPCS = [
   "get_my_sensitive_profile",
   "clear_my_sensitive_profile",
   "engine_read_sensitive_profile",
+  // engine queue (20260911000800)
+  "lease_engine_jobs",
+  "complete_engine_job",
+  "reap_engine_job_leases",
+  "request_engine_job",
+  "handoff_task_request",
+  "handoff_task_user_done",
+  "handoff_task_cancel",
 ] as const;
 /**
  * Read-only probe arguments per RPC. Called with the service role
@@ -100,6 +116,17 @@ export const RPC_PROBE_ARGS: Record<(typeof EXPECTED_RPCS)[number], Record<strin
   get_my_sensitive_profile: {},
   clear_my_sensitive_profile: {},
   engine_read_sensitive_profile: { p_user: NIL_UUID },
+  // Engine queue (20260911000800): the two engine writers refuse first — an
+  // empty lease owner, and a completion for a job id that does not exist.
+  // The reaper is a genuine no-op when no lease has expired. The four user
+  // RPCs check auth.uid() before anything else, and the probe has none.
+  lease_engine_jobs: { p_owner: "", p_limit: 1, p_kinds: null, p_lease_s: 900 },
+  complete_engine_job: { p_job: NIL_UUID, p_status: "succeeded", p_result: {}, p_retry_after_s: 300 },
+  reap_engine_job_leases: {},
+  request_engine_job: { p_kind: "feed_sample" },
+  handoff_task_request: { p_kind: "jobright_connect", p_context: {} },
+  handoff_task_user_done: { p_task: NIL_UUID },
+  handoff_task_cancel: { p_task: NIL_UUID },
 };
 export const EXPECTED_BUCKETS = ["resumes", "receipts", "transcripts"] as const;
 

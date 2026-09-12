@@ -46,6 +46,25 @@ export const CONTRACT = {
   getSensitiveRpc: "get_my_sensitive_profile",
   clearSensitiveRpc: "clear_my_sensitive_profile",
   sensitiveFieldsRpc: "sensitive_profile_fields",
+  /**
+   * Engine queue (20260911000800). The dashboard reads the two views; the
+   * only work a user may ask for directly is a feed sample, because
+   * everything that spends quota is the planner's decision, not a button.
+   */
+  engineJobsView: "my_engine_jobs",
+  requestEngineJobRpc: "request_engine_job",
+  requestableJobKind: "feed_sample",
+  /** Human steps the engine cannot do headlessly (sign-in, captcha). */
+  handoffTasksView: "my_handoff_tasks",
+  handoffRequestRpc: "handoff_task_request",
+  handoffUserDoneRpc: "handoff_task_user_done",
+  handoffCancelRpc: "handoff_task_cancel",
+  /** Titles only — proof the user's own JobRight filters return a feed. */
+  feedSamplesTable: "jobright_feed_samples",
+  /** That a referral draft is waiting in the user's Gmail — never a body. */
+  outreachDraftsTable: "outreach_drafts",
+  /** The stop button; the planner honors `paused` before enqueuing. */
+  engineControlsTable: "user_engine_controls",
   /** Atomic, idempotent-per-user invite redemption. Arg name matters. */
   redeemInviteRpc: "redeem_invite",
   redeemInviteArg: "invite_code",

@@ -65,7 +65,11 @@ describe("cloud schema tooling (UNIT_CONFIRMED)", () => {
     for (const t of EXPECTED_TABLES) {
       expect(sql).toMatch(new RegExp(`create table (?:if not exists )?public\\.${t}\\b`));
     }
-    for (const v of EXPECTED_VIEWS) expect(sql).toMatch(new RegExp(`create view public\\.${v}\\b`));
+    // `or replace` is the idempotent form the later migrations use; a view
+    // introduced that way is still created by the migrations.
+    for (const v of EXPECTED_VIEWS) {
+      expect(sql, v).toMatch(new RegExp(`create (?:or replace )?view public\\.${v}\\b`));
+    }
     for (const fn of EXPECTED_RPCS) expect(sql).toMatch(new RegExp(`function public\\.${fn}\\(`));
     for (const b of EXPECTED_BUCKETS) expect(sql).toContain(`('${b}', '${b}', false)`);
   });
