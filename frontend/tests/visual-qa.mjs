@@ -302,16 +302,9 @@ async function main() {
     });
     await scene("06-dashboard-signed-out-redirect", { viewport, url: "/dashboard" });
     await scene("07-not-found", { viewport, url: "/nowhere" });
-    await scene("08-waitlist-joined", {
-      viewport, url: "/#waitlist", mode: "waitlistOk",
-      act: async (page) => { await page.locator("#waitlist input[type=email]").fill("maya@pitt.edu"); await page.getByRole("button", { name: /put me on the list/i }).click(); await page.locator("#waitlist .banner.ok").waitFor(); await page.locator("#waitlist").scrollIntoViewIfNeeded(); },
-      fullPage: false, keepScroll: true,
-    });
-    await scene("08-waitlist-already", {
-      viewport, url: "/#waitlist", mode: "waitlistDup",
-      act: async (page) => { await page.locator("#waitlist input[type=email]").fill("maya@pitt.edu"); await page.getByRole("button", { name: /put me on the list/i }).click(); await page.locator("#waitlist .banner.ok").waitFor(); await page.locator("#waitlist").scrollIntoViewIfNeeded(); },
-      fullPage: false, keepScroll: true,
-    });
+    // The "08-waitlist-*" scenes were retired with open signup
+    // (20260911000100): the landing no longer has a waitlist form, it has
+    // the free-quota CTA, which "01-landing" already captures.
 
     // ── signed in, fresh (invite just redeemed, blank profile) ──
     await scene("10-signup-signed-in", { viewport, url: "/signup", session: true, mode: "freshUser" });

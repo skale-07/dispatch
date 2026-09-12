@@ -122,6 +122,7 @@ describe("design/tokens.json ↔ tokens.css contract (UNIT_CONFIRMED)", () => {
   it("fonts, radii, layout, and shadows match", () => {
     expect(css.light["font-mono"]).toBe(leaf(json, "font", "mono").$value);
     expect(css.light["font-ui"]).toBe(leaf(json, "font", "ui").$value);
+    expect(css.light["font-display"]).toBe(leaf(json, "font", "display").$value);
     expect(css.light["radius"]).toBe(leaf(json, "radius", "default").$value);
     expect(css.light["radius-sm"]).toBe(leaf(json, "radius", "sm").$value);
     expect(css.light["radius-lg"]).toBe(leaf(json, "radius", "lg").$value);
@@ -342,5 +343,163 @@ describe("design/tokens.json ↔ tokens.css contract (UNIT_CONFIRMED)", () => {
         `dashboard color ${hex} is a palette color`,
       ).toBe(true);
     }
+  });
+});
+
+/**
+ * CLAUDE.md "Frontend aesthetics" (2026-09-11) as executable rules: the
+ * three faces and nothing generic, weight at its extremes, display sizes
+ * that jump, motion tokens for one reveal, and a palette whose legibility
+ * is computed rather than eyeballed. UNIT_CONFIRMED.
+ */
+describe("frontend aesthetics rules are enforced by the tokens (UNIT_CONFIRMED)", () => {
+  const css = readCssPalettes();
+  const json = readJsonTokens();
+  const read = (...p: string[]): string => fs.readFileSync(path.join(process.cwd(), ...p), "utf8");
+
+  /** Families CLAUDE.md bans, plus the system stacks that smuggle them in. */
+  const BANNED_FAMILY =
+    /\b(Inter|Roboto|Open Sans|Lato|Arial|Helvetica|system-ui|-apple-system|BlinkMacSystemFont|Segoe UI)\b/;
+
+  it("the three faces are the only families named, and the display face exists", () => {
+    for (const token of ["font-ui", "font-display", "font-mono"]) {
+      expect(css.light[token], `--${token}`).toBeDefined();
+      expect(css.light[token], `--${token} names no banned family`).not.toMatch(BANNED_FAMILY);
+    }
+    expect(css.light["font-ui"]).toContain("Bricolage Grotesque");
+    expect(css.light["font-display"]).toContain("Fraunces");
+    expect(css.light["font-mono"]).toContain("JetBrains Mono");
+  });
+
+  it("no surface names a banned family — bridge, site, dashboard, or the site's font links", () => {
+    const families = (text: string): string[] =>
+      [...text.matchAll(/(?:font-family|--font-[a-z]+):\s*([^;]+);/g)].map((m) => m[1]!);
+    for (const file of [
+      ["frontend", "src", "styles", "tailwind.css"],
+      ["frontend", "src", "styles", "base.css"],
+      ["site", "dispatch.css"],
+      ["src", "dashboard", "server.ts"],
+    ]) {
+      for (const fam of families(read(...file))) {
+        expect(fam, `${file.join("/")}: ${fam}`).not.toMatch(BANNED_FAMILY);
+      }
+    }
+    for (const page of ["index.html", "pricing.html"]) {
+      const html = read("site", page);
+      const link = html.match(/fonts\.googleapis\.com\/css2\?([^"]+)"/)?.[1] ?? "";
+      expect(link, `${page} links Google Fonts`).not.toBe("");
+      expect(link).toContain("Bricolage+Grotesque");
+      expect(link).toContain("Fraunces");
+      expect(link).toContain("JetBrains+Mono");
+      expect(link).not.toMatch(/family=Inter\b/);
+    }
+  });
+
+  it("the faces are self-hosted: main.tsx imports all three fontsource packages and not Inter", () => {
+    const main = read("frontend", "src", "main.tsx");
+    for (const pkg of ["bricolage-grotesque", "fraunces", "jetbrains-mono"]) {
+      expect(main, pkg).toMatch(new RegExp(`import "@fontsource-variable/${pkg}`));
+    }
+    expect(main).not.toContain("@fontsource-variable/inter");
+    const pkgJson = JSON.parse(read("frontend", "package.json")) as { dependencies: Record<string, string> };
+    for (const pkg of ["bricolage-grotesque", "fraunces", "jetbrains-mono"]) {
+      expect(pkgJson.dependencies[`@fontsource-variable/${pkg}`], pkg).toBeDefined();
+    }
+    expect(pkgJson.dependencies["@fontsource-variable/inter"]).toBeUndefined();
+  });
+
+  it("weight lives at its extremes — 200 / 400 / 800 — and no stylesheet writes a numeric weight", () => {
+    expect(css.light["weight-light"]).toBe("200");
+    expect(css.light["weight-regular"]).toBe("400");
+    expect(css.light["weight-heavy"]).toBe("800");
+    for (const name of ["light", "regular", "heavy"]) {
+      expect(css.light[`weight-${name}`]).toBe(leaf(json, "weight", name).$value);
+    }
+    for (const file of [
+      ["frontend", "src", "styles", "base.css"],
+      ["site", "dispatch.css"],
+    ]) {
+      const literals = [...read(...file).matchAll(/font-weight:\s*(\d+)/g)].map((m) => m[1]!);
+      expect(literals, `${file.join("/")} numeric font-weight literals`).toEqual([]);
+    }
+    // The Tailwind bridge exposes ONLY those three and wipes the stock nine.
+    const tw = read("frontend", "src", "styles", "tailwind.css");
+    expect(tw).toContain("--font-weight-*: initial");
+    expect(tw).toContain("--font-*: initial");
+    expect(tw).toMatch(/--font-sans: var\(--font-ui\)/);
+    expect(tw).toMatch(/--font-display: var\(--font-display\)/);
+    expect(tw).toMatch(/--font-mono: var\(--font-mono\)/);
+  });
+
+  it("display sizes jump: the hero rung is at least 3× body", () => {
+    const rem = (token: string): number => Number(css.light[token]!.replace("rem", ""));
+    expect(rem("text-5xl") / rem("text-base")).toBeGreaterThanOrEqual(3);
+    expect(rem("text-4xl") / rem("text-base")).toBeGreaterThanOrEqual(3);
+    expect(rem("text-5xl")).toBeGreaterThan(rem("text-4xl"));
+  });
+
+  it("the reveal's motion tokens exist and Animated.tsx mirrors them", () => {
+    expect(css.light["duration-slow"]).toBe(leaf(json, "motion", "duration-slow").$value);
+    expect(css.light["stagger"]).toBe(leaf(json, "motion", "stagger").$value);
+    const animated = read("frontend", "src", "components", "Animated.tsx");
+    const num = (name: string): number => Number(animated.match(new RegExp(`${name} = ([0-9.]+)`))?.[1]);
+    const cssMs = (token: string): number => Number(css.light[token]!.replace("ms", ""));
+    expect(Math.round(num("DURATION_SLOW") * 1000)).toBe(cssMs("duration-slow"));
+    expect(Math.round(num("STAGGER") * 1000)).toBe(cssMs("stagger"));
+  });
+
+  it("every text and signal color clears WCAG AA on both grounds, in both themes — computed", () => {
+    const luminance = (hex: string): number => {
+      const c = [1, 3, 5].map((i) => {
+        const v = parseInt(hex.slice(i, i + 2), 16) / 255;
+        return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
+      });
+      return 0.2126 * c[0]! + 0.7152 * c[1]! + 0.0722 * c[2]!;
+    };
+    const contrast = (a: string, b: string): number => {
+      const [x, y] = [luminance(a), luminance(b)];
+      return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05);
+    };
+    for (const theme of ["light", "dark"] as const) {
+      const p = css[theme];
+      for (const ground of ["bg", "bg-raised"]) {
+        for (const fg of ["text", "text-dim", "accent", "ok", "warn", "danger", "purple"]) {
+          expect(
+            contrast(p[fg]!, p[ground]!),
+            `${theme}: --${fg} on --${ground} ≥ 4.5`,
+          ).toBeGreaterThanOrEqual(4.5);
+        }
+        expect(contrast(p["text-faint"]!, p[ground]!), `${theme}: --text-faint on --${ground} ≥ 3`)
+          .toBeGreaterThanOrEqual(3);
+      }
+      // Primary button: raised surface as text on the accent fill.
+      expect(contrast(p["bg-raised"]!, p["accent"]!), `${theme}: button text ≥ 4.5`)
+        .toBeGreaterThanOrEqual(4.5);
+    }
+  });
+
+  it("one accent, and never a purple-to-blue gradient", () => {
+    for (const file of [
+      ["frontend", "src", "styles", "tokens.css"],
+      ["frontend", "src", "styles", "base.css"],
+      ["frontend", "src", "styles", "tailwind.css"],
+      ["site", "dispatch.css"],
+    ]) {
+      const text = read(...file);
+      for (const m of text.matchAll(/gradient\(([^)]*(?:\([^)]*\)[^)]*)*)\)/g)) {
+        const body = m[1]!;
+        expect(
+          body.includes("--purple") && body.includes("--accent"),
+          `${file.join("/")}: gradient mixes --purple and --accent`,
+        ).toBe(false);
+      }
+    }
+  });
+
+  it("each theme declares its color-scheme so native controls follow the palette", () => {
+    const tokens = read("frontend", "src", "styles", "tokens.css");
+    expect(tokens).toMatch(/:root\s*\{\s*color-scheme: light;/);
+    expect(tokens).toMatch(/:root:not\(\[data-theme="light"\]\)\s*\{\s*color-scheme: dark;/);
+    expect(tokens).toMatch(/:root\[data-theme="dark"\]\s*\{\s*color-scheme: dark;/);
   });
 });

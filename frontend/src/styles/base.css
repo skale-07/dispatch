@@ -76,7 +76,7 @@ th {
   gap: 0.5rem;
   font-family: var(--font-mono);
   font-size: var(--text-sm);
-  font-weight: 600;
+  font-weight: var(--weight-heavy);
   padding: 0.4rem 0.6rem 1rem;
   color: var(--text);
   letter-spacing: 0.02em;
@@ -103,7 +103,7 @@ th {
   padding: 0.42rem 0.6rem;
   border-radius: var(--radius-sm);
   color: var(--text-dim);
-  font-weight: 500;
+  font-weight: var(--weight-regular);
 }
 .sidebar nav a:hover {
   background: var(--bg-hover);
@@ -142,7 +142,7 @@ th {
 .page-head h1 {
   font-size: var(--text-lg);
   margin: 0;
-  font-weight: 600;
+  font-weight: var(--weight-heavy);
 }
 .page-head .sub {
   color: var(--text-dim);
@@ -168,7 +168,7 @@ th {
   letter-spacing: 0.06em;
   color: var(--text-dim);
   margin: 0 0 0.75rem;
-  font-weight: 600;
+  font-weight: var(--weight-heavy);
 }
 
 .stat-row {
@@ -192,7 +192,7 @@ th {
 }
 .stat .value {
   font-size: var(--text-xl);
-  font-weight: 650;
+  font-weight: var(--weight-heavy);
   font-family: var(--font-mono);
 }
 .stat .hint {
@@ -219,7 +219,7 @@ th {
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--text-dim);
-  font-weight: 600;
+  font-weight: var(--weight-heavy);
   padding: 0.6rem 0.9rem;
   border-bottom: 1px solid var(--border);
   white-space: nowrap;
@@ -278,7 +278,7 @@ a > svg,
   gap: 0.3rem;
   font-family: var(--font-mono);
   font-size: var(--text-2xs);
-  font-weight: 600;
+  font-weight: var(--weight-heavy);
   padding: 0.14rem 0.5rem;
   border-radius: 999px;
   white-space: nowrap;
@@ -315,7 +315,7 @@ a > svg,
 button,
 .btn {
   font: inherit;
-  font-weight: 550;
+  font-weight: var(--weight-heavy);
   font-size: var(--text-sm);
   color: var(--text);
   background: var(--bg-raised);
@@ -380,7 +380,7 @@ textarea:focus {
   gap: 0.25rem;
   font-size: var(--text-xs);
   color: var(--text-dim);
-  font-weight: 550;
+  font-weight: var(--weight-heavy);
 }
 /* A button that lives inside a sentence ("…or try a different address.")
    and must read as one: no box, no vertical padding, inherits the line. */
@@ -512,7 +512,7 @@ details.json-block > summary {
 }
 .kv dt {
   color: var(--text-dim);
-  font-weight: 550;
+  font-weight: var(--weight-heavy);
 }
 .kv dd {
   margin: 0;
@@ -573,7 +573,7 @@ details.json-block > summary {
   display: block;
   background: var(--danger);
   color: #fff;
-  font-weight: 650;
+  font-weight: var(--weight-heavy);
   font-size: var(--text-sm);
   letter-spacing: 0.02em;
   padding: 0.55rem 1rem;
@@ -603,7 +603,7 @@ details.json-block > summary {
 }
 .hero-title {
   font-size: var(--text-xl);
-  font-weight: 700;
+  font-weight: var(--weight-heavy);
   letter-spacing: -0.01em;
   margin: 0 0 0.35rem;
 }
@@ -675,7 +675,7 @@ details.json-block > summary {
 }
 .todo-action {
   grid-area: action;
-  font-weight: 650;
+  font-weight: var(--weight-heavy);
   font-size: var(--text-sm);
 }
 .todo-job {
@@ -701,7 +701,7 @@ details.json-block > summary {
 }
 .done-check {
   color: var(--ok);
-  font-weight: 700;
+  font-weight: var(--weight-heavy);
 }
 
 .setup-list li {
@@ -723,7 +723,7 @@ details.json-block > summary {
   background: var(--danger);
   color: #fff;
   font-size: var(--text-2xs);
-  font-weight: 700;
+  font-weight: var(--weight-heavy);
   text-align: center;
 }
 .nav-group-toggle {
@@ -852,7 +852,7 @@ button:active:not(:disabled),
 .empty-state h3 {
   margin: 0;
   font-size: var(--text-md);
-  font-weight: 600;
+  font-weight: var(--weight-heavy);
   color: var(--text);
 }
 .empty-state p {
@@ -1026,7 +1026,7 @@ a.evidence-frame:hover {
   min-width: 0;
 }
 .receipt-job {
-  font-weight: 600;
+  font-weight: var(--weight-heavy);
   font-size: var(--text-sm);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1252,7 +1252,7 @@ a.evidence-frame:hover {
   gap: 0.5rem;
   font-family: var(--font-mono);
   font-size: var(--text-sm);
-  font-weight: 600;
+  font-weight: var(--weight-heavy);
   color: var(--text);
   letter-spacing: 0.02em;
 }
@@ -1274,7 +1274,7 @@ a.evidence-frame:hover {
   border-radius: var(--radius-sm);
   color: var(--text-dim);
   font-size: var(--text-sm);
-  font-weight: 550;
+  font-weight: var(--weight-heavy);
 }
 .public-nav a:hover {
   background: var(--bg-hover);
@@ -1365,7 +1365,7 @@ a.evidence-frame:hover {
 }
 .app-list .app-company {
   grid-area: company;
-  font-weight: 650;
+  font-weight: var(--weight-heavy);
   font-size: var(--text-base);
 }
 .app-list .app-role {
@@ -1581,7 +1581,7 @@ a.evidence-frame:hover {
   gap: 0.35rem;
   font-size: var(--text-sm);
   color: var(--text);
-  font-weight: 400;
+  font-weight: var(--weight-regular);
   cursor: pointer;
 }
 .wizard-options-stack {

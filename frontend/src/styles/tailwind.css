@@ -34,11 +34,23 @@
 @theme {
   /* No invented colors: remove the entire stock palette... */
   --color-*: initial;
+  /* ...no generic type: Tailwind's stock font-sans is the system stack
+     CLAUDE.md forbids, and its nine weights are exactly the 500–700
+     middle the system does not have. */
+  --font-*: initial;
+  --font-weight-*: initial;
 }
 
 @theme inline {
   /* ...and expose ONLY the Dispatch tokens, under both their own names
      and the shadcn semantic names registry components expect. */
+  --font-sans: var(--font-ui);
+  --font-display: var(--font-display);
+  --font-mono: var(--font-mono);
+  --font-weight-light: var(--weight-light);
+  --font-weight-regular: var(--weight-regular);
+  --font-weight-heavy: var(--weight-heavy);
+
   --color-bg: var(--bg);
   --color-bg-raised: var(--bg-raised);
   --color-bg-inset: var(--bg-inset);

@@ -7,17 +7,35 @@
    the OS preference picks it automatically and the manual toggle sets
    data-theme on <html> either way.
 
-   Signal colors are bound to domain meanings (DESIGN.md §2.3):
-   accent=navigation/in-progress, ok=verified facts, warn=needs attention,
-   danger=needs-human/destructive/ARMED, purple=agent/LLM-touched.
-   New tokens go in BOTH palettes and in design/tokens.json — the pairing
-   is enforced by tests/unit/design-tokens.test.ts. */
+   Type (CLAUDE.md "Frontend aesthetics", 2026-09-11): three self-hosted
+   variable faces and nothing generic — Bricolage Grotesque for the UI,
+   Fraunces for display, JetBrains Mono for anything copyable. Weight is
+   used at its extremes (light 200 / heavy 800) with regular 400 for
+   running text; 500–700 are not in the system.
+
+   Color: one warm bone/ink neutral ramp and ONE brand accent
+   (ultramarine). Signal colors keep their domain meanings (DESIGN.md
+   §2.3): accent=navigation/in-progress, ok=verified facts, warn=needs
+   attention, danger=needs-human/destructive/ARMED, purple=agent/LLM-
+   touched. Every text and signal color clears WCAG AA (4.5:1) on --bg
+   and --bg-raised in both themes — computed, not eyeballed, by
+   tests/unit/design-tokens.test.ts. New tokens go in BOTH palettes and
+   in design/tokens.json — the pairing is enforced by that same test. */
 
 :root {
-  --font-mono: "SFMono-Regular", ui-monospace, "Cascadia Code", Menlo, Consolas,
-    monospace;
-  --font-ui: "Inter Variable", "Inter", ui-sans-serif, system-ui, "Segoe UI",
-    Roboto, sans-serif;
+  color-scheme: light;
+
+  --font-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace,
+    "Cascadia Code", Menlo, Consolas, monospace;
+  --font-ui: "Bricolage Grotesque Variable", "Bricolage Grotesque", ui-sans-serif,
+    sans-serif;
+  --font-display: "Fraunces Variable", "Fraunces", Georgia, serif;
+
+  /* Weight extremes. Contrast between 200 and 800 is the hierarchy;
+     a 400-vs-600 step reads as a mistake, not an emphasis. */
+  --weight-light: 200;
+  --weight-regular: 400;
+  --weight-heavy: 800;
 
   /* Type scale. The middle four are DESIGN.md's documented scale; 2xs, md
      and xl extend it at the ends. Nothing outside this scale may appear in
@@ -30,10 +48,13 @@
   --text-lg: 1.25rem;
   --text-xl: 1.5rem;
   /* Display steps. The console has no use for them; the marketing site
-     does, and inventing sizes there is exactly how one system becomes
-     two. Sparse marketing, dense product — same scale, different rungs. */
+     and the public app's hero do, and inventing sizes there is exactly
+     how one system becomes two. 5xl is ~4.7× body — a display size is a
+     jump, not a nudge. */
   --text-2xl: 1.65rem;
   --text-3xl: 2rem;
+  --text-4xl: 3rem;
+  --text-5xl: 4.5rem;
 
   /* Spacing scale. All component padding/margin rides this — varied by
      hierarchy, never uniform (identical padding everywhere is the marker
@@ -48,9 +69,12 @@
 
   /* Motion. Only ever on a state change or an arrival — never decorative.
      Every use must be wrapped by the prefers-reduced-motion guard in
-     base.css. */
+     base.css. slow + stagger exist for ONE orchestrated page-load reveal;
+     they are not for hover states. */
   --duration-fast: 120ms;
   --duration-base: 200ms;
+  --duration-slow: 600ms;
+  --stagger: 70ms;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 
   --radius-sm: 5px;
@@ -61,30 +85,30 @@
   --z-banner: 40;
   --z-modal: 50;
 
-  /* light palette (default) */
-  --bg: #f6f8fa;
-  --bg-raised: #ffffff;
-  --bg-inset: #eef1f4;
-  --bg-hover: #f0f3f6;
-  --border: #d0d7de;
-  --border-strong: #afb8c1;
-  --text: #1f2328;
-  --text-dim: #59636e;
-  --text-faint: #818b98;
+  /* light palette (default): bone paper, ink text, ultramarine accent */
+  --bg: #f5f2ea;
+  --bg-raised: #fffdf7;
+  --bg-inset: #ebe7dc;
+  --bg-hover: #efebe0;
+  --border: #d8d3c5;
+  --border-strong: #b8b2a2;
+  --text: #17161a;
+  --text-dim: #5a5751;
+  --text-faint: #85817a;
 
-  --accent: #0969da;
-  --accent-dim: rgba(9, 105, 218, 0.1);
-  --ok: #1a7f37;
-  --ok-dim: rgba(26, 127, 55, 0.12);
-  --warn: #9a6700;
-  --warn-dim: rgba(154, 103, 0, 0.12);
-  --danger: #cf222e;
-  --danger-dim: rgba(207, 34, 46, 0.1);
-  --purple: #8250df;
-  --purple-dim: rgba(130, 80, 223, 0.1);
+  --accent: #2f3ee8;
+  --accent-dim: rgba(47, 62, 232, 0.1);
+  --ok: #1a7038;
+  --ok-dim: rgba(26, 112, 56, 0.12);
+  --warn: #8a5a00;
+  --warn-dim: rgba(138, 90, 0, 0.12);
+  --danger: #c62828;
+  --danger-dim: rgba(198, 40, 40, 0.1);
+  --purple: #7247d0;
+  --purple-dim: rgba(114, 71, 208, 0.1);
 
-  --shadow-sm: 0 1px 2px rgba(31, 35, 40, 0.06);
-  --shadow: 0 8px 24px rgba(31, 35, 40, 0.12);
+  --shadow-sm: 0 1px 2px rgba(23, 22, 26, 0.06);
+  --shadow: 0 8px 24px rgba(23, 22, 26, 0.12);
   --sidebar-w: 13.5rem;
   /* Below this the sidebar becomes a top bar. Media queries cannot read a
      custom property, so base.css repeats the number literally — the token
@@ -102,50 +126,52 @@
    tests/unit/design-tokens.test.ts, so they cannot drift apart. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0d1117;
-    --bg-raised: #161b22;
-    --bg-inset: #010409;
-    --bg-hover: #1c2129;
-    --border: #30363d;
-    --border-strong: #484f58;
-    --text: #e6edf3;
-    --text-dim: #8b949e;
-    --text-faint: #6e7681;
-    --accent: #58a6ff;
-    --accent-dim: rgba(88, 166, 255, 0.15);
-    --ok: #3fb950;
-    --ok-dim: rgba(63, 185, 80, 0.15);
-    --warn: #d29922;
-    --warn-dim: rgba(210, 153, 34, 0.15);
-    --danger: #f85149;
-    --danger-dim: rgba(248, 81, 73, 0.15);
-    --purple: #bc8cff;
-    --purple-dim: rgba(188, 140, 255, 0.15);
-    --shadow-sm: 0 1px 2px rgba(1, 4, 9, 0.4);
-    --shadow: 0 8px 24px rgba(1, 4, 9, 0.55);
+    color-scheme: dark;
+    --bg: #0e0f14;
+    --bg-raised: #16171e;
+    --bg-inset: #08090c;
+    --bg-hover: #1c1d26;
+    --border: #2b2c36;
+    --border-strong: #454653;
+    --text: #ece9e1;
+    --text-dim: #a3a099;
+    --text-faint: #7c7972;
+    --accent: #6d7dff;
+    --accent-dim: rgba(109, 125, 255, 0.15);
+    --ok: #4cc46a;
+    --ok-dim: rgba(76, 196, 106, 0.15);
+    --warn: #e0a63a;
+    --warn-dim: rgba(224, 166, 58, 0.15);
+    --danger: #ff6b62;
+    --danger-dim: rgba(255, 107, 98, 0.15);
+    --purple: #b79bff;
+    --purple-dim: rgba(183, 155, 255, 0.15);
+    --shadow-sm: 0 1px 2px rgba(8, 9, 12, 0.4);
+    --shadow: 0 8px 24px rgba(8, 9, 12, 0.55);
   }
 }
 
 :root[data-theme="dark"] {
-  --bg: #0d1117;
-  --bg-raised: #161b22;
-  --bg-inset: #010409;
-  --bg-hover: #1c2129;
-  --border: #30363d;
-  --border-strong: #484f58;
-  --text: #e6edf3;
-  --text-dim: #8b949e;
-  --text-faint: #6e7681;
-  --accent: #58a6ff;
-  --accent-dim: rgba(88, 166, 255, 0.15);
-  --ok: #3fb950;
-  --ok-dim: rgba(63, 185, 80, 0.15);
-  --warn: #d29922;
-  --warn-dim: rgba(210, 153, 34, 0.15);
-  --danger: #f85149;
-  --danger-dim: rgba(248, 81, 73, 0.15);
-  --purple: #bc8cff;
-  --purple-dim: rgba(188, 140, 255, 0.15);
-  --shadow-sm: 0 1px 2px rgba(1, 4, 9, 0.4);
-  --shadow: 0 8px 24px rgba(1, 4, 9, 0.55);
+  color-scheme: dark;
+  --bg: #0e0f14;
+  --bg-raised: #16171e;
+  --bg-inset: #08090c;
+  --bg-hover: #1c1d26;
+  --border: #2b2c36;
+  --border-strong: #454653;
+  --text: #ece9e1;
+  --text-dim: #a3a099;
+  --text-faint: #7c7972;
+  --accent: #6d7dff;
+  --accent-dim: rgba(109, 125, 255, 0.15);
+  --ok: #4cc46a;
+  --ok-dim: rgba(76, 196, 106, 0.15);
+  --warn: #e0a63a;
+  --warn-dim: rgba(224, 166, 58, 0.15);
+  --danger: #ff6b62;
+  --danger-dim: rgba(255, 107, 98, 0.15);
+  --purple: #b79bff;
+  --purple-dim: rgba(183, 155, 255, 0.15);
+  --shadow-sm: 0 1px 2px rgba(8, 9, 12, 0.4);
+  --shadow: 0 8px 24px rgba(8, 9, 12, 0.55);
 }

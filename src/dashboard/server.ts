@@ -34,17 +34,21 @@ const INDEX_HTML = `<!DOCTYPE html>
 <title>Dispatch — dashboard (read-only)</title>
 <style>
   :root {
-    --bg: #f6f8fa; --bg-raised: #ffffff; --bg-inset: #eef1f4;
-    --border: #d0d7de; --text: #1f2328; --text-dim: #59636e;
-    --accent: #0969da; --ok: #1a7f37;
-    --font-mono: "SFMono-Regular", ui-monospace, "Cascadia Code", Menlo, Consolas, monospace;
-    --font-ui: "Inter Variable", "Inter", ui-sans-serif, system-ui, "Segoe UI", Roboto, sans-serif;
+    color-scheme: light;
+    --bg: #f5f2ea; --bg-raised: #fffdf7; --bg-inset: #ebe7dc;
+    --border: #d8d3c5; --text: #17161a; --text-dim: #5a5751;
+    --accent: #2f3ee8; --ok: #1a7038;
+    /* Same faces as tokens.css; this page loads none (loopback, no
+       network), so each falls through to its generic family. */
+    --font-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, "Cascadia Code", Menlo, Consolas, monospace;
+    --font-ui: "Bricolage Grotesque Variable", "Bricolage Grotesque", ui-sans-serif, sans-serif;
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #0d1117; --bg-raised: #161b22; --bg-inset: #010409;
-      --border: #30363d; --text: #e6edf3; --text-dim: #8b949e;
-      --accent: #58a6ff; --ok: #3fb950;
+      color-scheme: dark;
+      --bg: #0e0f14; --bg-raised: #16171e; --bg-inset: #08090c;
+      --border: #2b2c36; --text: #ece9e1; --text-dim: #a3a099;
+      --accent: #6d7dff; --ok: #4cc46a;
     }
   }
   body {

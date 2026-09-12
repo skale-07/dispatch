@@ -12,26 +12,26 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 const OUT = path.resolve(here, "..", "public", "og.png");
 
 const P = {
-  bg: "#0d1117",
-  raised: "#161b22",
-  text: "#e6edf3",
-  dim: "#8b949e",
-  accent: "#58a6ff",
-  border: "#30363d",
-  ok: "#3fb950",
+  bg: "#0e0f14",
+  raised: "#16171e",
+  text: "#ece9e1",
+  dim: "#a3a099",
+  accent: "#6d7dff",
+  border: "#2b2c36",
+  ok: "#4cc46a",
 };
 
 const html = `<!doctype html><html><head><meta charset="utf-8"><style>
   html,body{margin:0;width:1200px;height:630px;background:${P.bg};
-    font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:${P.text}}
+    font-family:"Bricolage Grotesque",ui-sans-serif,sans-serif;color:${P.text}}
   .wrap{position:relative;width:1200px;height:630px;padding:72px 80px;box-sizing:border-box}
-  .brand{display:flex;align-items:center;gap:16px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-    font-size:28px;font-weight:600;letter-spacing:.02em}
-  h1{font-size:64px;line-height:1.08;margin:56px 0 24px;font-weight:700;letter-spacing:-.01em;max-width:900px}
+  .brand{display:flex;align-items:center;gap:16px;font-family:"JetBrains Mono",ui-monospace,monospace;
+    font-size:28px;font-weight:800;letter-spacing:.02em}
+  h1{font-size:64px;line-height:1.08;margin:56px 0 24px;font-weight:800;letter-spacing:-.01em;max-width:900px}
   p{font-size:28px;line-height:1.35;color:${P.dim};margin:0;max-width:860px}
   .receipt{position:absolute;right:80px;bottom:72px;background:${P.raised};border:1px solid ${P.border};
-    border-radius:14px;padding:22px 26px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:20px;color:${P.dim}}
-  .receipt b{color:${P.ok};font-weight:600}
+    border-radius:14px;padding:22px 26px;font-family:"JetBrains Mono",ui-monospace,monospace;font-size:20px;color:${P.dim}}
+  .receipt b{color:${P.ok};font-weight:800}
   .foot{position:absolute;left:80px;bottom:72px;font-size:22px;color:${P.dim}}
 </style></head><body><div class="wrap">
   <div class="brand">

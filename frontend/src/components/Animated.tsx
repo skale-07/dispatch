@@ -25,6 +25,10 @@ import {
 export const DURATION_FAST = 0.12;
 /** Mirrors --duration-base (200ms). */
 export const DURATION_BASE = 0.2;
+/** --duration-slow: the one orchestrated page-load reveal, nothing else. */
+export const DURATION_SLOW = 0.6;
+/** --stagger: delay between siblings inside that reveal. */
+export const STAGGER = 0.07;
 /** Mirrors --ease-out: cubic-bezier(0.16, 1, 0.3, 1). */
 export const EASE_OUT: [number, number, number, number] = [0.16, 1, 0.3, 1];
 

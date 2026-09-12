@@ -38,6 +38,15 @@ complete and both are tested. This file said "dark-first" until that
 directive; the palettes themselves did not change, only which one is
 the ground state.
 
+**The look is deliberately not generic** (CLAUDE.md "Frontend
+aesthetics", 2026-09-11): bone paper and ink rather than grey-on-white,
+ONE brand accent (ultramarine) rather than a rainbow, a display serif
+(Fraunces) set light against a heavy grotesque (Bricolage) rather than
+a single medium-weight sans doing everything, and type that jumps
+(4.5rem hero over 0.95rem body) rather than steps. The operations-room
+metaphor survives in the mono and the signal colors; the paper warms
+it up so the product reads as considered, not as a dashboard template.
+
 Tagline: **"Every application accounted for."**
 
 ### 1.3 What the brand is not
@@ -181,11 +190,30 @@ both palettes and the light values must hold ≥ 4.5:1 contrast for text.
 
 | Token | Value (intent) | Use |
 |---|---|---|
-| `--font-ui` | Inter / system sans | prose, labels, buttons |
-| `--font-mono` | SFMono / Cascadia / Menlo | ids, hashes, states, evidence, log lines, the wordmark |
+| `--font-ui` | Bricolage Grotesque (variable) | prose, labels, buttons |
+| `--font-display` | Fraunces (variable, opsz + wght) | hero and section display only — never body copy or controls |
+| `--font-mono` | JetBrains Mono (variable) | ids, hashes, states, evidence, log lines, the wordmark |
+
+Inter, Roboto, Open Sans, Lato, Arial and the system stacks are
+**banned** (CLAUDE.md "Frontend aesthetics"); the token test refuses
+them anywhere a family is named. The fallbacks after each face are the
+generic keywords only.
+
+Weight lives at its extremes, three tokens and nothing between:
+
+| Token | Value | Use |
+|---|---|---|
+| `--weight-light` | 200 | display headlines, large numerals |
+| `--weight-regular` | 400 | running text, controls |
+| `--weight-heavy` | 800 | the one emphasized word, labels, buttons |
+
+Hierarchy is the contrast between light and heavy; a 400-vs-600 step
+reads as a mistake, not an emphasis. No stylesheet may write a numeric
+`font-weight` — `base.css` and `site/dispatch.css` ride the tokens and
+the test refuses a literal.
 
 Type scale, as shipped in `tokens.css` and mirrored in
-`design/tokens.json` — nine steps, one variable each:
+`design/tokens.json` — eleven steps, one variable each:
 
 | Token | rem | Use |
 |---|---|---|
@@ -198,16 +226,23 @@ Type scale, as shipped in `tokens.css` and mirrored in
 | `--text-xl` | 1.5 | hero titles, stat values |
 | `--text-2xl` | 1.65 | display — marketing headings |
 | `--text-3xl` | 2 | display — marketing prices and numbers |
+| `--text-4xl` | 3 | display — section display, phone-width hero |
+| `--text-5xl` | 4.5 | display — the hero; ~4.7× body, a jump not a nudge |
 
 Never introduce a size outside the scale; if a new size feels needed, the
-layout is too dense. The two display steps exist for the marketing site
-and the console has no use for them — same scale, different rungs.
+layout is too dense. The four display steps exist for the marketing site
+and the public app's landing; the console has no use for them — same
+scale, different rungs. A display size is a **jump** from body (3×+),
+never a 1.5× step — that is what makes a hero read as a hero.
 
-Inter is **self-hosted** in the console (`@fontsource-variable/inter`): a
-loopback-only local-first tool must not fetch a font from a CDN. The
-public marketing site links Google Fonts, where that objection does not
-apply. Before 2026-08-21 `--font-ui` named Inter but nothing loaded it,
-so the console had always rendered in system-ui.
+All three faces are **self-hosted** (`@fontsource-variable/
+bricolage-grotesque`, `…/fraunces` with its `opsz` axis, `…/jetbrains-mono`,
+imported once in `frontend/src/main.tsx`): a loopback-only local-first
+tool must not fetch a font from a CDN, and the public app ships the same
+bytes from its own bundle. The no-build marketing site links the same
+three families from Google Fonts, where that objection does not apply.
+The read-only dashboard (`src/dashboard/server.ts`) names the same
+faces and loads none — it falls through to the generic families.
 
 Spacing, motion, radius, shadow, and z-layers ride their own scales
 (`--space-1..7`, `--duration-fast|base` + `--ease-out`, `--radius-sm|
@@ -223,14 +258,28 @@ compare (uuids, sha256, states, flag names, file paths, counts like
 
 ### 2.3 Color
 
+One warm neutral ramp — bone paper in light (`#f5f2ea` ground, `#17161a`
+ink), near-black in dark (`#0e0f14` ground, `#ece9e1` text) — and **one**
+brand accent, ultramarine (`#2f3ee8` light / `#6d7dff` dark). No second
+brand hue; the other signal colors carry meanings, not decoration. A
+purple-to-blue gradient on a light ground is forbidden outright and the
+token test refuses any `gradient(…)` that mixes `--purple` with
+`--accent`. Backgrounds get depth from layered gradients or geometric
+patterns built from the accent and the surface tokens only.
+
+Every text and signal color clears WCAG AA (4.5:1) on `--bg` and
+`--bg-raised` in both themes; `--text-faint` clears 3:1. The ratios are
+**computed by `tests/unit/design-tokens.test.ts`**, so a palette edit
+that breaks legibility fails the gate rather than a review.
+
 Neutral surfaces (dark values shown; light equivalents in tokens.css):
 
 | Token | Role |
 |---|---|
-| `--bg` `#0d1117` | page ground |
-| `--bg-raised` `#161b22` | cards, modals |
-| `--bg-inset` `#010409` | sidebar, wells, code blocks |
-| `--bg-hover` `#1c2129` | hover rows |
+| `--bg` `#0e0f14` | page ground |
+| `--bg-raised` `#16171e` | cards, modals |
+| `--bg-inset` `#08090c` | sidebar, wells, code blocks |
+| `--bg-hover` `#1c1d26` | hover rows |
 | `--border` / `--border-strong` | hairlines / emphasized hairlines |
 | `--text` / `--text-dim` / `--text-faint` | primary / secondary / metadata |
 
