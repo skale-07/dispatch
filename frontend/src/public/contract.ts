@@ -65,6 +65,19 @@ export const CONTRACT = {
   outreachDraftsTable: "outreach_drafts",
   /** The stop button; the planner honors `paused` before enqueuing. */
   engineControlsTable: "user_engine_controls",
+  /**
+   * Field-surfacing intelligence (20260911000900). One RPC hands the
+   * ranker everything: community aggregates (tenant ids summed away),
+   * admin pins, the user's own events, seeded rules, targets, and the
+   * user's answered-ness per store. Demographic fields never appear —
+   * the database refuses them at the write.
+   */
+  fieldSuggestionInputsRpc: "field_suggestion_inputs",
+  fieldSignalsView: "field_signals",
+  fieldPinsTable: "admin_field_pins",
+  fieldEventsTable: "user_field_events",
+  fieldRulesTable: "field_rules",
+  signalTargetsTable: "signal_targets",
   /** Atomic, idempotent-per-user invite redemption. Arg name matters. */
   redeemInviteRpc: "redeem_invite",
   redeemInviteArg: "invite_code",

@@ -48,6 +48,12 @@ export const EXPECTED_TABLES = [
   "jobright_feed_samples",
   "outreach_drafts",
   "user_engine_controls",
+  // field-surfacing intelligence (20260911000900); tenant rows service-role only
+  "tenant_field_signals",
+  "admin_field_pins",
+  "user_field_events",
+  "field_rules",
+  "signal_targets",
 ] as const;
 export const EXPECTED_VIEWS = [
   "user_quota_status",
@@ -56,6 +62,7 @@ export const EXPECTED_VIEWS = [
   "my_integrations",
   "my_engine_jobs",
   "my_handoff_tasks",
+  "field_signals",
 ] as const;
 export const EXPECTED_RPCS = [
   "redeem_invite",
@@ -83,6 +90,13 @@ export const EXPECTED_RPCS = [
   "handoff_task_request",
   "handoff_task_user_done",
   "handoff_task_cancel",
+  // field-surfacing intelligence (20260911000900)
+  "canonical_field_keys",
+  "field_label_is_sensitive",
+  "field_signal_key_allowed",
+  "engine_upsert_field_signals",
+  "engine_upsert_field_events",
+  "field_suggestion_inputs",
 ] as const;
 /**
  * Read-only probe arguments per RPC. Called with the service role
@@ -127,6 +141,15 @@ export const RPC_PROBE_ARGS: Record<(typeof EXPECTED_RPCS)[number], Record<strin
   handoff_task_request: { p_kind: "jobright_connect", p_context: {} },
   handoff_task_user_done: { p_task: NIL_UUID },
   handoff_task_cancel: { p_task: NIL_UUID },
+  // Field signals (20260911000900): the three vocabularies are immutable and
+  // answer for any input; the two engine writers refuse an unknown user
+  // before touching a row; the user read checks auth.uid() first.
+  canonical_field_keys: {},
+  field_label_is_sensitive: { p_label: "" },
+  field_signal_key_allowed: { p_key: "" },
+  engine_upsert_field_signals: { p_tenant: NIL_UUID, p_rows: [] },
+  engine_upsert_field_events: { p_user: NIL_UUID, p_rows: [] },
+  field_suggestion_inputs: {},
 };
 export const EXPECTED_BUCKETS = ["resumes", "receipts", "transcripts"] as const;
 
