@@ -30,7 +30,17 @@ export type IconName =
   | "mail"
   | "file"
   | "sparkle"
-  | "search";
+  | "search"
+  // public-app vocabulary (M7): copy a code, open a live view, a locked
+  // panel, pause the engine, refresh, upload a document, a link, add.
+  | "copy"
+  | "external"
+  | "lock"
+  | "pause"
+  | "refresh"
+  | "upload"
+  | "link"
+  | "plus";
 
 /** [d, filled] — filled glyphs read as solid marks, stroked ones as line art. */
 const PATHS: Record<IconName, [string, boolean]> = {
@@ -51,6 +61,14 @@ const PATHS: Record<IconName, [string, boolean]> = {
   file: ["M4 2h5l3 3v9H4zM9 2v3h3", false],
   sparkle: ["M8 2l1.3 3.4L12.7 6.7 9.3 8 8 11.4 6.7 8 3.3 6.7 6.7 5.4z", true],
   search: ["M7.2 2.6a4.6 4.6 0 1 0 0 9.2 4.6 4.6 0 0 0 0-9.2ZM10.6 10.6 13.8 13.8", false],
+  copy: ["M5.5 5.5h7v7h-7zM3.5 10.5v-7h7", false],
+  external: ["M9 3h4v4M13 3 7.5 8.5M11 9.5V13H3V5h3.5", false],
+  lock: ["M4 7.5h8v6H4zM5.5 7.5V5.2a2.5 2.5 0 0 1 5 0v2.3", false],
+  pause: ["M5 3.5h2v9H5zM9 3.5h2v9H9z", true],
+  refresh: ["M13 8a5 5 0 1 1-1.5-3.6M13 2.8V6h-3.2", false],
+  upload: ["M8 11V3.5M4.5 7 8 3.5 11.5 7M3 12.5h10", false],
+  link: ["M6.5 9.5 9.5 6.5M7 4.5l1.5-1.5a2.5 2.5 0 0 1 3.5 3.5L10.5 8M5.5 8 4 9.5a2.5 2.5 0 0 0 3.5 3.5L9 11.5", false],
+  plus: ["M8 3v10M3 8h10", false],
 };
 
 export function Icon(props: {

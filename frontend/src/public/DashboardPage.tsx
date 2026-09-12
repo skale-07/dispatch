@@ -281,7 +281,7 @@ export function DashboardPage(): JSX.Element {
                 </li>
               ))}
             </ul>
-            <div className="table-wrap app-table" style={{ border: "none" }}>
+            <div className="table-wrap app-table border-0">
               <table>
                 <thead>
                   <tr>

@@ -138,7 +138,7 @@ function PublicChrome(): JSX.Element {
 function NotFoundPage({ signedIn }: { signedIn: boolean }): JSX.Element {
   usePageTitle("Page not found");
   return (
-    <div className="card" style={{ maxWidth: "30rem" }}>
+    <div className="card max-w-lg">
       <h1 className="hero-title">There&apos;s no page here</h1>
       <p className="muted flush-top">
         The link may be incomplete. Invite links look like{" "}

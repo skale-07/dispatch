@@ -17,9 +17,9 @@ import "@fontsource-variable/fraunces/opsz.css";
 import "@fontsource-variable/jetbrains-mono";
 import "./styles/tokens.css";
 // Tailwind rides in layers and is bridged to the tokens (see the file's
-// header); unlayered base.css always wins where they disagree.
+// header). base.css is imported FROM tailwind.css into its own `console`
+// layer, below utilities — so a utility can override a console rule.
 import "./styles/tailwind.css";
-import "./styles/base.css";
 
 // CONSOLE surface only: the boot token arrives once in the URL fragment;
 // stash it and strip it before anything renders. The public app must NOT

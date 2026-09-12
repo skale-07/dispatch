@@ -12,16 +12,22 @@
    without it, and bare headings/paragraphs across the console rely on
    browser defaults preflight would zero out. The minimal base layer
    below carries the two preflight rules component utilities genuinely
-   need (border reset; box-sizing is already global in base.css). All of
-   base.css is unlayered, so it always wins over anything layered here.
+   need (border reset; box-sizing is already global in base.css). base.css
+   is imported below into its own `console` layer, above `base` and below
+   `components`/`utilities`: a utility can override a console rule.
 
    The type scale needs no bridge: tokens.css declares --text-xs/sm/
    base/lg/xl on :root unlayered, which OVERRIDES the layered Tailwind
    theme defaults of the same names — text-sm etc. already resolve to
    the Dispatch scale. */
 
-@layer theme, base, components, utilities;
+@layer theme, base, console, components, utilities;
 @import "tailwindcss/theme.css" layer(theme);
+/* The console stylesheet rides in its own layer BELOW utilities: a
+   registry component or a public composite can now override a base.css
+   rule with a plain utility, which is the entire point of having both.
+   Before this base.css was unlayered and silently beat every utility. */
+@import "./base.css" layer(console);
 @import "tailwindcss/utilities.css" layer(utilities);
 
 /* Dispatch dark mode is data-theme (+ the OS preference flipping the
@@ -39,6 +45,10 @@
      middle the system does not have. */
   --font-*: initial;
   --font-weight-*: initial;
+  /* ...and no invented breakpoints: the two the tokens document. */
+  --breakpoint-*: initial;
+  --breakpoint-sm: 640px;
+  --breakpoint-lg: 960px;
 }
 
 @theme inline {
@@ -66,6 +76,10 @@
   --color-warn-dim: var(--warn-dim);
   --color-purple: var(--purple);
   --color-purple-dim: var(--purple-dim);
+  /* shadcn's `accent` means "hover surface"; the BRAND accent needs its
+     own name so a composite can say bg-accent-brand and mean ultramarine. */
+  --color-accent-brand: var(--accent);
+  --color-accent-brand-dim: var(--accent-dim);
 
   /* shadcn semantic vocabulary → Dispatch tokens */
   --color-background: var(--bg);
@@ -127,7 +141,7 @@
 @layer base {
   /* The one preflight rule utilities cannot work without: border-width
      utilities assume a solid zero-width default. Loses to every
-     unlayered base.css rule by design. */
+     base.css rule (the console layer sits above base) by design. */
   *,
   ::before,
   ::after {
@@ -168,4 +182,24 @@
   --chart-scale-04: color-mix(in oklab, var(--accent) 72%, var(--bg-raised));
   --chart-scale-05: var(--accent);
   --chart-scale-pattern-color: color-mix(in oklab, var(--accent) 8%, var(--bg-raised));
+}
+
+/* Atmospheric backgrounds (CLAUDE.md "Backgrounds"): layered gradients
+   and a geometric grid, built from the accent and the surface tokens
+   ONLY — no color is born here, so both themes come for free. Hero
+   sections use these; cards never do. */
+@utility bg-atmosphere {
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(60rem 30rem at 12% -10%, color-mix(in oklab, var(--accent) 18%, transparent), transparent 70%),
+    radial-gradient(40rem 24rem at 100% 0%, color-mix(in oklab, var(--accent) 10%, transparent), transparent 70%),
+    linear-gradient(180deg, color-mix(in oklab, var(--bg-raised) 60%, var(--bg)), var(--bg) 60%);
+}
+@utility bg-track-grid {
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(color-mix(in oklab, var(--border) 55%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklab, var(--border) 55%, transparent) 1px, transparent 1px);
+  background-size: 2rem 2rem;
+  background-position: center top;
 }

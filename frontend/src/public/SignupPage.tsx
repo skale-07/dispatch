@@ -141,12 +141,12 @@ export function SignupPage(): JSX.Element {
 
   if (session) {
     return (
-      <div className="card" style={{ maxWidth: "30rem" }}>
+      <div className="card max-w-lg">
         <h1 className="hero-title">You&apos;re signed in</h1>
         <p className="muted">
           Signed in as <strong>{session.user.email ?? "your account"}</strong>.
         </p>
-        <div className="toolbar stack-actions" style={{ margin: "0.6rem 0" }}>
+        <div className="toolbar stack-actions my-2">
           <Link to="/dashboard" className="btn">
             <Icon name="arrow-right" size={13} /> open your dashboard
           </Link>
@@ -163,7 +163,7 @@ export function SignupPage(): JSX.Element {
 
   if (sentTo) {
     return (
-      <div className="card" style={{ maxWidth: "30rem" }}>
+      <div className="card max-w-lg">
         <h1 className="hero-title">Check your email</h1>
         <div className="banner ok" role="status" aria-live="polite">
           <Icon name="mail" size={14} /> A sign-in link is on its way to{" "}
@@ -235,7 +235,7 @@ export function SignupPage(): JSX.Element {
   };
 
   return (
-    <div className="card" style={{ maxWidth: "30rem" }}>
+    <div className="card max-w-lg">
       <h1 className="hero-title">
         {arrivedWithInvite ? "You're invited" : "Sign up or sign in"}
       </h1>
@@ -270,7 +270,7 @@ export function SignupPage(): JSX.Element {
       ) : null}
       {googleEnabled ? (
         <>
-          <div className="toolbar stack-actions" style={{ margin: "0 0 0.35rem" }}>
+          <div className="toolbar stack-actions mt-0 mb-1">
             <button
               className="btn"
               type="button"
@@ -281,14 +281,13 @@ export function SignupPage(): JSX.Element {
               {google ? "opening Google…" : "continue with Google"}
             </button>
           </div>
-          <p className="faint" style={{ margin: "0 0 0.6rem" }}>
+          <p className="faint mt-0 mb-2">
             Google tells us your name and email address — nothing else, and
             no access to your mail.
           </p>
           <div
-            className="faint"
+            className="faint mt-0 mb-2"
             role="separator"
-            style={{ margin: "0 0 0.5rem" }}
           >
             or use your email
           </div>
@@ -320,14 +319,14 @@ export function SignupPage(): JSX.Element {
             placeholder="JRA-XXXX-XXXX"
           />
         </label>
-        <div className="toolbar stack-actions" style={{ margin: "0.35rem 0 0" }}>
+        <div className="toolbar stack-actions mt-1 mb-0">
           <button className="primary" type="submit" disabled={sending || google}>
             <Icon name="mail" size={14} />{" "}
             {sending ? "sending…" : "email me a sign-in link"}
           </button>
         </div>
       </form>
-      <p className="faint flush-bottom" style={{ marginTop: "0.75rem" }}>
+      <p className="faint flush-bottom mt-3">
         We use your email for sign-in and application receipts — nothing
         else. Dispatch never sends mail in your name.
       </p>

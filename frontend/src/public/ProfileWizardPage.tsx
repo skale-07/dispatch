@@ -241,7 +241,7 @@ export function ProfileWizardPage(): JSX.Element {
       </nav>
 
       <div className="card">
-        <p className="faint" style={{ margin: "0 0 0.75rem" }}>
+        <p className="faint mt-0 mb-3">
           step {step + 1} of {STEPS.length} · {STEPS[step]}
         </p>
         {stepError ? (
@@ -568,7 +568,7 @@ export function ProfileWizardPage(): JSX.Element {
               </dd>
             </dl>
             {loadError ? (
-              <p className="faint" style={{ marginBottom: 0 }}>
+              <p className="faint mb-0">
                 Your saved profile could not be loaded, so saving replaces
                 whatever was on file with the answers above.
               </p>
@@ -577,8 +577,7 @@ export function ProfileWizardPage(): JSX.Element {
         ) : null}
 
         <div
-          className="toolbar stack-actions"
-          style={{ marginTop: "1rem", marginBottom: 0 }}
+          className="toolbar stack-actions mt-4 mb-0"
         >
           {step > 0 ? (
             <button onClick={back}>

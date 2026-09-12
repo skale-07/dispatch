@@ -5,6 +5,7 @@ import {
   MotionConfig,
   domAnimation,
   m,
+  useReducedMotion,
 } from "motion/react";
 
 /**
@@ -57,5 +58,67 @@ export const arriveAndDepart = {
   exit: { opacity: 0, height: 0, overflow: "hidden", marginTop: 0 },
   transition: { duration: DURATION_FAST, ease: EASE_OUT },
 } as const;
+
+/**
+ * The ONE orchestrated page-load reveal (CLAUDE.md "Motion": one
+ * well-orchestrated reveal beats scattered micro-interactions). A
+ * `<Reveal>` staggers its `<RevealItem>` children on mount by --stagger,
+ * each rising over --duration-slow. Nothing else in the public app
+ * animates on load. Under prefers-reduced-motion the items simply
+ * appear: MotionConfig reducedMotion="user" (MotionRoot) already
+ * neutralises transforms, and `useReducedMotion` here drops the stagger
+ * so a reader who asked for no motion is not made to wait either.
+ */
+const revealParent = {
+  hidden: {},
+  shown: { transition: { staggerChildren: STAGGER, delayChildren: STAGGER } },
+} as const;
+const revealChild = {
+  hidden: { opacity: 0, y: 12 },
+  shown: { opacity: 1, y: 0, transition: { duration: DURATION_SLOW, ease: EASE_OUT } },
+} as const;
+const revealChildStill = {
+  hidden: { opacity: 1, y: 0 },
+  shown: { opacity: 1, y: 0 },
+} as const;
+
+export function Reveal({
+  children,
+  className,
+  as = "div",
+}: {
+  children: ReactNode;
+  className?: string;
+  /** The wrapper element — a section/header/ul reads as such to AT. */
+  as?: "div" | "section" | "header" | "ul" | "ol";
+}): JSX.Element {
+  const reduced = useReducedMotion();
+  const Tag = m[as];
+  // Spread rather than pass `undefined`: exactOptionalPropertyTypes.
+  const variants = reduced ? {} : { variants: revealParent };
+  return (
+    <Tag className={className} {...variants} initial="hidden" animate="shown">
+      {children}
+    </Tag>
+  );
+}
+
+export function RevealItem({
+  children,
+  className,
+  as = "div",
+}: {
+  children: ReactNode;
+  className?: string;
+  as?: "div" | "p" | "h1" | "h2" | "li" | "span";
+}): JSX.Element {
+  const reduced = useReducedMotion();
+  const Tag = m[as];
+  return (
+    <Tag className={className} variants={reduced ? revealChildStill : revealChild}>
+      {children}
+    </Tag>
+  );
+}
 
 export { AnimatePresence, m };

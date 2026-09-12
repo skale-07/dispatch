@@ -317,9 +317,31 @@ patterns) can be consumed without a second design system growing:
   literal may be born in that file —
   `tests/unit/design-tokens.test.ts` refuses hex/oklch/rgb there and
   checks every reference resolves.
-- Preflight is deliberately not imported; `base.css` stays unlayered and
-  wins every conflict. Tailwind utilities are for registry components
-  and new composite surfaces — existing components keep their classes.
+- Preflight is deliberately not imported. `base.css` is imported FROM
+  `tailwind.css` into its own `console` cascade layer — order `theme,
+  base, console, components, utilities` — so a utility can override a
+  console rule (until 2026-09-12 base.css was unlayered and silently beat
+  every utility, which made "add a Tailwind class" a no-op on any element
+  base.css already styled). Existing console components keep their
+  classes; the public surface is Tailwind-only.
+- The public surface (`frontend/src/public/**`, `frontend/src/components/
+  public/**`) is held to CLAUDE.md "Components" by
+  `tests/unit/public-surface.test.ts`: no `style={{`, no arbitrary values
+  (`w-[30rem]`), no hex, no middle weights (`font-medium`), no `dark:`;
+  every iframe titled and sandboxed; `lucide-react` only under
+  `components/ui/**`, `motion/react` only in `Animated.tsx`. Composites —
+  `PublicShell`, `Eyebrow`, `Display`+`Heavy`, `StatTile`, `QuotaMeter`,
+  `PanelState`, `LiveView`, `LockedPanel`, `FieldHint`, `CopyButton`,
+  `Atmosphere` — are the public app's vocabulary; a route composes them
+  and the registry primitives (`components/ui/*`, the 21 pulled 2026-09-12)
+  and hand-rolls nothing that exists there. Registry restyles are limited
+  to three: phone inputs (16px type, 44px targets below `sm`), the heavy
+  default button, the mono badge. The only breakpoints are `sm` 640 and
+  `lg` 960, mirroring the tokens.
+- `<Reveal>`/`<RevealItem>` in `Animated.tsx` is the ONE orchestrated
+  page-load reveal (`--duration-slow`, `--stagger`); it drops the stagger
+  under `prefers-reduced-motion`. `bg-atmosphere` / `bg-track-grid` are
+  the hero backgrounds, built from the accent and surface tokens only.
 - Registry code under `frontend/src/components/{charts,ui,kokonutui}` is
   VENDOR code: pulled by the shadcn CLI, stamped `@ts-nocheck` by
   `frontend/scripts/vendor-pragma.mjs` (run it after any `shadcn add`),

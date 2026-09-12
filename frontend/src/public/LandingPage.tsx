@@ -45,7 +45,7 @@ export function LandingPage(): JSX.Element {
           people inside the companies, and keeps a screenshot receipt for
           everything it does in your name.
         </p>
-        <div className="toolbar stack-actions" style={{ margin: "0.8rem 0" }}>
+        <div className="toolbar stack-actions my-3">
           <button
             className="primary hero-cta"
             onClick={() => navigate("/signup")}
