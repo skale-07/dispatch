@@ -330,6 +330,28 @@ month control failed first. Next step for whoever picks it up: re-resolve the
 education sub-locators after each committed sibling, and treat the school
 typeahead's open gesture as its own problem — with a negative control, per #277.
 
+### #285 — gigfinder.ai is an AGGREGATOR and should be filtered at discovery
+
+- **Evidence:** two separate applications tonight resolved to the SAME
+  aggregator URL and each burned two cycles before being retired —
+  `3a760979` (cycles 59, 60) and `af0f09d8` (cycles 74, 75), both
+  `generic live fill refused: NAVIGATION_INCOMPLETE`, both with
+  `employer_url = https://gigfinder.ai/members/job-detail?id=3174169&back=%2Fjobs`.
+  Note it is the identical `id=3174169` in both: one aggregator listing enqueued
+  twice under different application rows.
+- **Cause:** `gigfinder.ai/members/job-detail` is a job AGGREGATOR's member area,
+  not an employer application form, so the navigation supervisor can never reach
+  an applicant form there. `employerBoardHop.ts` already documents this exact
+  class ("store-aggregator-URL → NAVIGATION_INCOMPLETE → requeue"), but the host
+  is not filtered, so the rows keep being enqueued and re-selected (#279).
+- **Suggested fix:** add `gigfinder.ai` to the aggregator/non-employer host
+  filter used at discovery (the same place `#162`/`#157` posting-furniture rules
+  live), so these never become applications. Four cycles were spent on one
+  aggregator listing tonight in a loop whose supply was already the binding
+  constraint.
+- **Mitigation applied:** both rows abandoned to FAILED_FINAL through the state
+  machine with the reason recorded.
+
 ### #284 — SAP SuccessFactors handoffs burn cycles as UNTRUSTED_FINAL_HOST
 
 - **Evidence:** grepping tonight's log for the identity-gate refusal gives **40
