@@ -285,6 +285,88 @@ Issue numbers continue from night30 (#269).
   `expected 8 to be 2` (8 Next clicks on one page) and takes 23.4s; with the
   cap it clicks 2 and takes 5.7s. Level: **FIXTURE_CONFIRMED**, and the
   mechanism is the one the live artifact shows.
+### #271-#273 LIVE RESULT (cycle 68, app 80e6a0fc, Commure) — 12 items → 2
+
+The Commure app finally got a FRESH fill after the #279 mitigations freed the
+queue, so the education-block work ran live. It did what it was built to do, and
+it exposed the next layer honestly.
+
+**What the fix demonstrably fixed.** The operator brief went from **12 items
+needing attention to 2**, and the run's own error text shows the new model is
+live — this locator chain is `educationBlockLocator` verbatim:
+
+```
+_systemfield_education_history-endDate-month: locator.selectOption: Timeout 2000ms exceeded.
+  waiting for locator('[data-field-path="_systemfield_education_history"]')
+      .first().locator('[id="_systemfield_education_history-endDate"]')
+      .first().locator('select').first()
+```
+
+So the five bad plan entries are gone (the wrapper-path twin and
+`#17`-`#20`), the four date controls are addressed by their real structural ids,
+and nothing is being answered from the screener bank or the LLM any more. #271
+and #272's MODELLING is therefore **LIVE_READ_ONLY_CONFIRMED**: the controls are
+named and located correctly on the real page.
+
+**The two remaining items are INTERACTION, not modelling:**
+
+1. `-endDate-month`: `locator.selectOption: Timeout 2000ms exceeded` — the
+   element was not actionable in time. The likely cause is the one #239 already
+   recorded for this very block: once School commits, Ashby RE-RENDERS the
+   education entry into its committed state and the inner container ids change,
+   so a date container located before that re-render is stale by the time the
+   fill reaches it. That points at fill ORDER (dates before the school commit, or
+   re-resolve the container after each commit), not at the locator.
+2. `-school`: `combobox option not committed: listbox did not open after click or
+   typing` — the autocomplete IS being found now (previously
+   `control not found on the page`), but the listbox never opened. Ashby's school
+   typeahead fetches as you type; it may need a different open gesture or a
+   longer settle than the generic combobox ladder allows.
+
+**Honest level after the live run:** #271/#272 modelling LIVE_READ_ONLY_CONFIRMED;
+the block still does not SUBMIT, so nothing here is a submission claim. #273 (skip
+an unoffered year rather than substitute) was not reachable this run because the
+month control failed first. Next step for whoever picks it up: re-resolve the
+education sub-locators after each committed sibling, and treat the school
+typeahead's open gesture as its own problem — with a negative control, per #277.
+
+### #284 — SAP SuccessFactors handoffs burn cycles as UNTRUSTED_FINAL_HOST
+
+- **Evidence:** grepping tonight's log for the identity-gate refusal gives **40
+  occurrences across two hosts**:
+  - `career-hcm20.ns2cloud.com/careers?company=L3HHCM20` — 30
+  - `career55.sapsf.eu/careers?company=volvoinfor` — 10
+
+  Both are **SAP SuccessFactors** career tenants (`sapsf.eu` is SuccessFactors'
+  own domain; `ns2cloud.com` is SAP NS2, the US-defence-cleared SAP cloud).
+  Reached from `jobs.l3harris.com` (apps 2ed8bab3, 3eeb896e) and
+  `jobs.volvogroup.com` (app 706e5eba).
+- **Why the gate fires, correctly:** the generic binding's trust rule is
+  `isTrustedHost: (url) => isSameEmployerOrigin(normalizedUrl ?? employerUrl, url)`
+  (`src/applications/atsBindings.ts`). A careers site that hands off to its
+  SuccessFactors tenant lands on a DIFFERENT origin, so
+  `verifyPageBeforeMutationGeneric` refuses with `UNTRUSTED_FINAL_HOST` before any
+  mutation. That is the gate doing its job — we genuinely have no SuccessFactors
+  adapter (`grep -rl 'successfactors\|sapsf' src/` hits only
+  `navigation/candidateLinks.ts` and `navigation/congruence.ts`, i.e. link
+  scoring, no adapter).
+- **The actual defect is the CLASSIFICATION, not the refusal.** `detectAtsHandoff`
+  knows the handoff families it supports (careers site → Workday/Greenhouse/…),
+  and SuccessFactors is not among them, so instead of being retired as
+  `UNSUPPORTED_ATS` after one look these rows stay FAILED_RETRYABLE /
+  NATIVE_AUTOFILL_RUNNING and are re-selected cycle after cycle (the #279
+  livelock), which is how two employers produced 40 identical refusals.
+- **Suggested fix:** add the SuccessFactors host family
+  (`*.sapsf.com`, `*.sapsf.eu`, `*.successfactors.com`, `career*.ns2cloud.com`)
+  to the handoff detection as a KNOWN-UNSUPPORTED vendor, and have the pipeline
+  transition to `UNSUPPORTED_ATS` with the vendor named. That costs one cycle per
+  posting instead of unbounded re-selection, and it turns an opaque
+  "untrusted host" into "we do not support SuccessFactors yet" — which is also the
+  signal the operator needs to decide whether an adapter is worth building
+  (L3Harris and Volvo Group are both recurring in the feed).
+- **Mitigation applied:** all three apps abandoned to FAILED_FINAL through the
+  state machine with that reason recorded.
+
 ### #283 — Phenom/Angular chip + repeatable inputs verify "(empty)" (diagnosed, NOT fixed)
 
 The night's most repeated wall after the Ashby education block: **three

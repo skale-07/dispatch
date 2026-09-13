@@ -401,6 +401,52 @@ printed `FAILED` for a false failure and I had to do the serial re-verify by
 hand. Extending the existing retry-once-serially logic to fast would make the
 script's final line trustworthy in both projects.
 
+## 21:10 — the Ashby fix DID get its live run: 12 items → 2
+
+Freeing the queue (#279 mitigations) let the Commure app get a genuinely fresh
+fill in cycle 68, so #271-#273 ran live after all. The operator brief went from
+**12 items needing attention to 2**, and the run's own error text quotes my new
+locator verbatim:
+
+```
+_systemfield_education_history-endDate-month: locator.selectOption: Timeout 2000ms exceeded.
+  waiting for locator('[data-field-path="_systemfield_education_history"]')
+      .first().locator('[id="_systemfield_education_history-endDate"]')
+      .first().locator('select').first()
+```
+
+The five bad plan entries are gone, the four date selects are addressed by real
+structural ids, and no education control is answered by the screener bank or the
+LLM any more. So the MODELLING is now **LIVE_READ_ONLY_CONFIRMED**, not just
+FIXTURE_CONFIRMED.
+
+The two survivors are interaction problems, and the block still does not submit —
+so this is not a submission claim:
+
+1. `-endDate-month` timed out becoming actionable. Most likely the shape #239
+   already documented for this block: committing School makes Ashby re-render the
+   education entry and the inner container ids move, so a container resolved
+   earlier is stale. That is fill ORDER / re-resolution, not the locator.
+2. `-school` is now FOUND (it used to be `control not found on the page`) but its
+   listbox never opens — Ashby's school typeahead fetches as you type and may
+   need a different open gesture than the generic combobox ladder.
+
+Both are written up in the issues log with the next step and the reminder to
+require a negative control.
+
+## 21:12 — #284: SAP SuccessFactors handoffs, 40 refusals
+
+Grepping the identity-gate refusals found **40** across just two hosts:
+`career-hcm20.ns2cloud.com` (L3Harris, 30) and `career55.sapsf.eu` (Volvo, 10).
+Both are SAP SuccessFactors tenants, reached by handoff from `jobs.l3harris.com`
+and `jobs.volvogroup.com`. The gate is RIGHT to refuse — different origin from the
+stored employer URL, and we have no SuccessFactors adapter at all. The defect is
+the classification: `detectAtsHandoff` does not know the family, so instead of
+retiring as UNSUPPORTED_ATS after one look these rows stay retryable and get
+re-selected (the #279 livelock), which is how two employers produced 40 identical
+refusals. Recommended fix and host patterns are in the issues log. Three affected
+apps (2ed8bab3, 3eeb896e, 706e5eba) abandoned through the state machine.
+
 ### Gate + commit status
 
 Gate not yet run: the queen held `artifacts/console/gate.lock` (taken
