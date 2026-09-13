@@ -367,10 +367,35 @@ fix here would repeat the #277 mistake.
   `yesNoToken("LinkedIn")` is null — so `drillable` should be true. Yet the run
   logged `drill scan skipped (not a Workday multiselect prompt, …)`, which only
   prints when `!drillable && drillCandidates.length > 0`. So the evaluate
-  returned false, meaning the locator it ran on was NOT that input — most likely
-  `locatorForField` resolved `source--source` to the `<label for="source--source">`
-  or a wrapper instead of the input (the id is shared between label and input).
-  That is the first thing to check.
+  returned false, meaning the locator it ran on was NOT that input.
+- **My first suspect was WRONG — refuted, do not chase it.** I guessed
+  `locatorForField` was resolving `source--source` to the
+  `<label for="source--source">` rather than the input that shares the id, and
+  tested it deterministically by loading the real 143KB snapshot into a fixture
+  page and asking `locatorForField` what it returns:
+
+  ```
+  {"field_id":"source--source","count":1,
+   "resolved":{"tag":"INPUT","id":"source--source",
+               "widget":"selectinput","inMulti":true}}
+  ```
+
+  It resolves to the correct INPUT, with `data-uxi-widget-type="selectinput"`
+  AND inside `multiSelectContainer` — so `isWorkdayMultiselect` is true there and
+  `drillable` should be true. The locator is not the bug.
+- **Where to look instead:** the failing write is logged as a **wizard** fill
+  error (`wizard fill error: source--source: …`), and the wizard walk fills each
+  page through its own path. So the `drill scan skipped` note is most likely
+  raised on a locator the WIZARD resolved, not the one `locatorForField` returns
+  for the same field id — or `expectedText` at that point is not "LinkedIn" (the
+  class-fallback candidate "Online Job Board" flows through the same code) and
+  `yesNoToken` is non-null for it. Instrument which locator and which
+  `expectedText` reach that branch during a wizard fill before changing any pick
+  logic.
+- **Second live occurrence (cycle 57, app e246ea07):** same tenant, same field,
+  same `combobox option not committed … scroll-harvested 18 option(s)`. This app
+  only reached the form because #280 landed, which makes #282 the single
+  remaining blocker between us and Workday submissions.
 - **Why it matters beyond one field:** the 18 scroll-harvested options are
   probably Workday's CATEGORY rows ("Online Job Board" reads like one), and
   clicking a category expands it rather than selecting a leaf — which is exactly

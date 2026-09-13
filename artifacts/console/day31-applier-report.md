@@ -357,6 +357,50 @@ one-app-per-cycle loop fed once the board registry is exhausted. Raising it (the
 manual `--max-jobs 40` above produced 4 fresh eligible rows immediately) would
 cost a little more time per discovery pass and keep the queue non-empty.
 
+## 21:40 — #280 promoted to LIVE_READ_ONLY_CONFIRMED; my #282 suspect refuted
+
+**#280 works live.** Cycle 57 (app e246ea07) resolved `jobs.merck.com` →
+`msd.wd5.myworkdayjobs.com` and went *through* to the wizard fill and a field
+brief. Before this fix that exact handoff was refused with `fill refused: stored
+URL is for "msd", not Merck`. The refusal is gone from the run and nothing was
+mis-filled, so #280 moves from FIXTURE_CONFIRMED to
+**LIVE_READ_ONLY_CONFIRMED**.
+
+And it immediately proved my prediction: with the gate no longer in the way, that
+application is blocked by **#282** — `source--source: combobox option not
+committed … scroll-harvested 18 option(s)`, `How Did You Hear About Us?` expected
+"LinkedIn", page shows "(empty)". Second live occurrence, same tenant, same
+field. #282 is now the single thing between us and Workday submissions.
+
+**I then refuted my own #282 suspect, and corrected the write-up.** I had named
+`locatorForField` resolving `source--source` to the `<label>` rather than the
+input that shares the id. Testing it deterministically — loading the real 143KB
+Workday snapshot into a fixture page and asking `locatorForField` what it returns
+— gives `{"tag":"INPUT","id":"source--source","widget":"selectinput",
+"inMulti":true}`: the correct input, so `isWorkdayMultiselect` is true there and
+the locator is not the bug. The issues log now says so explicitly and points at
+the wizard's own fill path (the failure is logged as `wizard fill error`) and at
+which `expectedText` reaches that branch. Better a corrected handoff than a
+confident wrong lead.
+
+## 20:58 — adopted the new split gate; one gap to flag
+
+`npm run test:gate -- <paths>` (commit b13c5f78) is now my gate step. First run,
+on markdown-only paths: **heavy correctly did not run**, and fast finished in
+**83s** for 109 files / 1007 tests — a big improvement on the 20-35 minute
+whole-suite runs that cost the loop two pause windows earlier tonight.
+
+**Gap worth flagging to the queen:** the automatic "re-run the failures serially,
+only a second failure counts" rule is applied to the HEAVY project only, but the
+FAST project is not immune to the same load-timeout class. That first gate run
+reported `Test Files 1 failed | 108 passed` — `tests/unit/review-item-blocking.test.ts`,
+failing on a cold `await Promise.all([import(...)])` inside a 5s default while a
+live applier cycle was running. Re-run serially it passes **4/4**, and its
+subject was last touched in `d5e1ad7d`, nothing from tonight. So `test-gate`
+printed `FAILED` for a false failure and I had to do the serial re-verify by
+hand. Extending the existing retry-once-serially logic to fast would make the
+script's final line trustworthy in both projects.
+
 ### Gate + commit status
 
 Gate not yet run: the queen held `artifacts/console/gate.lock` (taken
