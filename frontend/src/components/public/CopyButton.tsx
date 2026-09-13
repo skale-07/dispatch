@@ -21,23 +21,30 @@ export function CopyButton({
   className?: string;
 }): JSX.Element {
   const [state, setState] = useState<"idle" | "copied" | "failed">("idle");
+  const [reason, setReason] = useState<string | null>(null);
 
   useEffect(() => {
     if (state === "idle") return;
-    const t = window.setTimeout(() => setState("idle"), 1500);
+    // A failure stays up long enough to read its reason.
+    const t = window.setTimeout(() => setState("idle"), state === "failed" ? 4000 : 1500);
     return () => window.clearTimeout(t);
   }, [state]);
 
   const copy = async (): Promise<void> => {
     try {
+      if (!navigator.clipboard) throw new Error("clipboard unavailable (needs https)");
       await navigator.clipboard.writeText(value);
       setState("copied");
-    } catch {
+    } catch (err) {
+      setReason(err instanceof Error ? err.message : String(err));
       setState("failed");
     }
   };
 
-  const text = state === "copied" ? "copied" : state === "failed" ? "copy failed" : label;
+  // The failure names its reason (QA 2026-09-02, D-23): "couldn't copy —
+  // clipboard unavailable (needs https)" tells the user what to do.
+  const text =
+    state === "copied" ? "copied" : state === "failed" ? `couldn't copy — ${reason ?? "unknown"}` : label;
   return (
     <Button
       type="button"

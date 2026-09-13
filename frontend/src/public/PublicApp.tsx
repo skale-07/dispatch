@@ -6,7 +6,8 @@ import { useTheme } from "../hooks/useTheme";
 import { LandingPage } from "./LandingPage";
 import { SignupPage } from "./SignupPage";
 import { OnboardingPage } from "./onboarding/OnboardingPage";
-import { DashboardPage } from "./DashboardPage";
+import { DashboardPage } from "./dashboard/DashboardPage";
+import { SettingsPage } from "./SettingsPage";
 import { usePageTitle } from "./usePageTitle";
 
 /**
@@ -24,7 +25,10 @@ import { usePageTitle } from "./usePageTitle";
  *   /invite/:c   invite link entry — alias for the same page
  *   /onboarding/:step  the 13-step wizard (protected); bare /onboarding
  *                      resumes at the saved step
- *   /dashboard   applications + receipts + quota (protected)
+ *   /dashboard   needs-you · quota · applications + receipts · suggestions
+ *                · referral drafter (protected)
+ *   /dashboard/applications/:id  one application as a sheet over the dashboard
+ *   /settings    pause the engine, disconnect JobRight, clear self-ID, sign out
  */
 export function PublicApp(): JSX.Element {
   return (
@@ -106,6 +110,22 @@ function PublicChrome(): JSX.Element {
             element={
               <RequireAuth>
                 <DashboardPage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/dashboard/applications/:id"
+            element={
+              <RequireAuth>
+                <DashboardPage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              <RequireAuth>
+                <SettingsPage />
               </RequireAuth>
             }
           />

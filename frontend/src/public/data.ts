@@ -20,6 +20,7 @@ import {
   type ScreenerAnswerRow,
   PG_UNIQUE_VIOLATION,
 } from "./contract";
+import { parseSuggestionInputs, type SuggestionInputs } from "./fieldSuggestions";
 
 /**
  * Every Supabase read/write in the public app, in one place, against the
@@ -524,7 +525,31 @@ export async function setEnginePaused(paused: boolean): Promise<void> {
   const { error: insertError } = await client()
     .from(CONTRACT.engineControlsTable)
     .insert({ user_id: uid, paused });
-  if (insertError) throw new Error(insertError.message);
+  if (!insertError) return;
+  // Two tabs racing to create the row: the loser retries the update once.
+  if (insertError.code === PG_UNIQUE_VIOLATION) {
+    const { error: retryError } = await client()
+      .from(CONTRACT.engineControlsTable)
+      .update({ paused })
+      .eq("user_id", uid);
+    if (retryError) throw new Error(retryError.message);
+    return;
+  }
+  throw new Error(insertError.message);
+}
+
+/* ── field-surfacing intelligence (20260911000900) ──────────────────── */
+
+/**
+ * Everything the suggestion ranker needs in one call: community
+ * aggregates (tenant ids summed away), pins, the user's own events,
+ * rules, targets and answered-ness. Parsed defensively — an odd payload
+ * ranks as "nothing to suggest", never a crash.
+ */
+export async function getFieldSuggestionInputs(): Promise<SuggestionInputs> {
+  const { data, error } = await client().rpc(CONTRACT.fieldSuggestionInputsRpc);
+  if (error) throw new Error(error.message);
+  return parseSuggestionInputs(data);
 }
 
 /* ── dashboard reads ────────────────────────────────────────────────── */

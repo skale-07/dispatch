@@ -138,6 +138,34 @@ const HANDOFF = (status, over = {}) => ({
   expires_at: status === "live" ? new Date(Date.now() + 14 * 60_000).toISOString() : null,
   attempts: 1, result: null, created_at: day(2), updated_at: day(2), ...over,
 });
+/** field_suggestion_inputs() (20260911000900): one own event, two community signals, two rules that fire. */
+const SUGGESTION_INPUTS = {
+  signals: [
+    { signal_key: "screener:internship_term", label: "Which term are you applying for?", tenants_seen: 9, forms_seen: 41, unanswered_count: 30, required_count: 20, ats: ["greenhouse", "ashby"] },
+    { signal_key: "screener:notice_period", label: "Notice period", tenants_seen: 4, forms_seen: 10, unanswered_count: 4, required_count: 1, ats: ["lever"] },
+  ],
+  pins: [],
+  events: [
+    { signal_key: "label:0123456789ab", label: "Which programming languages have you shipped in production?", ats: "greenhouse", kind: "unanswered_required", engine_application_id: "a5", occurred_at: day(2) },
+  ],
+  rules: [
+    { rule_key: "internship_term", predicate: { any: [{ "status.titles": { matches: "intern|co-?op" } }] }, target: { store: "screener", key: "internship_term", kind: "text" }, why: "Internship postings ask which term you are applying for", priority: 7 },
+    { rule_key: "self_id_never_visited", predicate: { "status.self_id_visited": { eq: false } }, target: { store: "self_id" }, why: "Most forms have an optional self-identification section — decide once whether to answer it", priority: 3 },
+    { rule_key: "premium_connect_gmail", predicate: { all: [{ "status.jobright_premium": { eq: true } }, { "status.gmail_status": { neq: "connected" } }] }, target: { store: "integrations", key: "gmail" }, why: "Referral drafts need Gmail connected — you have JobRight Premium, so drafting is available", priority: 8 },
+  ],
+  targets: {
+    "screener:internship_term": { store: "screener", key: "internship_term", kind: "text" },
+    "screener:notice_period": { store: "screener", key: "notice_period", kind: "text" },
+  },
+  status: {
+    titles: ["Software Engineer Intern", "Data Analyst"], industries: [], employer_types: ["internship"], has_current_employer: false,
+    answered_profile: ["full_name", "phone", "location_city", "education", "work_authorization"], answered_screener: ["age_over_18"],
+    resume_variants: ["general"], has_transcript: false, gmail_status: "disconnected", jobright_status: "connected", jobright_premium: true,
+    self_id_visited: false, event_kinds: ["unanswered_required"],
+  },
+};
+const GMAIL = (status) => ({ ...INTEGRATION(status), provider: "gmail", scopes: status === "connected" ? ["https://www.googleapis.com/auth/gmail.readonly"] : [] });
+const DRAFT = { id: "d1", user_id: USER.id, engine_application_id: "a1", company: "Anduril", contact_name: "Priya N.", subject: "Software Engineer Intern — quick intro from a Pitt CS junior", gmail_draft_id: "r-123", created_at: day(2) };
 const FEED_SAMPLE = {
   user_id: USER.id, sampled_at: day(2), count: 3, note: null,
   jobs: [
@@ -225,6 +253,9 @@ const member = (over = {}) => ({
   my_handoff_tasks: ok([HANDOFF("completed")]),
   my_engine_jobs: ok([]),
   jobright_feed_samples: ok([FEED_SAMPLE]),
+  // M11 dashboard stores: nothing paused, no drafts yet, the ranker's inputs.
+  user_engine_controls: ok([]), outreach_drafts: ok([]),
+  "rpc/field_suggestion_inputs": ok(SUGGESTION_INPUTS),
   ...over,
 });
 /** Signed in, invite just redeemed (or not), blank profile, no app_users row yet. */
@@ -238,6 +269,8 @@ const fresh = (over = {}) => ({
   "rpc/get_my_sensitive_profile": ok(null),
   user_personas: ok([]), my_integrations: ok([]), my_handoff_tasks: ok([]), my_engine_jobs: ok([]), jobright_feed_samples: ok([]),
   "rpc/handoff_task_request": ok({ id: "task-1", kind: "jobright_connect", status: "requested" }),
+  user_engine_controls: ok([]), outreach_drafts: ok([]),
+  "rpc/field_suggestion_inputs": ok({ ...SUGGESTION_INPUTS, events: [], status: { ...SUGGESTION_INPUTS.status, titles: [], employer_types: [], answered_profile: [], answered_screener: [], resume_variants: [], jobright_status: "disconnected", jobright_premium: false } }),
   ...over,
 });
 
@@ -260,6 +293,10 @@ const MODES = {
   handoffRequested: fresh({ my_integrations: ok([INTEGRATION("pending_handoff")]), my_handoff_tasks: ok([HANDOFF("requested")]) }),
   handoffLive: fresh({ my_integrations: ok([INTEGRATION("pending_handoff")]), my_handoff_tasks: ok([HANDOFF("live")]) }),
   handoffFailed: fresh({ my_integrations: ok([INTEGRATION("disconnected")]), my_handoff_tasks: ok([HANDOFF("failed", { reason: "the captured session did not open the feed headlessly" })]) }),
+  // M11 dashboard: a live handoff waiting on the user; the drafter unlocked with one draft; the engine paused by the user.
+  needsYou: member({ my_handoff_tasks: ok([HANDOFF("live", { kind: "jobright_reconnect", reason: "the JobRight session expired" })]) }),
+  drafterOn: member({ my_integrations: ok([INTEGRATION("connected", true), GMAIL("connected")]), outreach_drafts: ok([DRAFT]) }),
+  enginePaused: member({ user_engine_controls: ok([{ user_id: USER.id, paused: true, paused_at: day(2), updated_at: day(2) }]), engine_status: () => ok([ENGINE(45_000)])() }),
   lowQuota: member({ user_quota_status: ok([QUOTA(13)]) }),
   exhausted: member({ user_quota_status: ok([QUOTA(15)]) }),
   // 20260902000400: quota tile with an earned bonus (base 15 + 20 from two activated friends).
@@ -389,29 +426,39 @@ async function main() {
     await scene("22-dashboard-quota-exhausted", { viewport, url: "/dashboard", session: true, mode: "exhausted" });
     await scene("22-dashboard-quota-bonus", {
       viewport, url: "/dashboard", session: true, mode: "quotaBonus", fullPage: false,
-      act: async (page) => { await page.locator(".quota-bonus").waitFor(); },
+      act: async (page) => { await page.getByText(/who activated/).first().waitFor(); },
     });
 
     // ── invite-a-friend panel: 0 / 1 / mixed / capped codes, mint, not a member, view down ──
-    const atInvite = (ready) => async (page) => { await page.locator(ready).first().waitFor(); await page.locator("#invite").scrollIntoViewIfNeeded(); };
-    await scene("24-invite-panel-none", { viewport, url: "/dashboard", session: true, mode: "referralNone", fullPage: false, keepScroll: true, act: atInvite("#invite .empty-state") });
-    await scene("24-invite-panel-one", { viewport, url: "/dashboard", session: true, mode: "returningUser", fullPage: false, keepScroll: true, act: atInvite("#invite .code-list code") });
-    await scene("24-invite-panel-mixed", { viewport, url: "/dashboard", session: true, mode: "referralMixed", fullPage: false, keepScroll: true, act: atInvite("#invite .code-list code") });
+    // Invite panel states (cloud-deploy §9) — new markup: PanelState/Badge inside #invite.
+    const atInvite = (ready) => async (page) => { await page.locator("#invite").locator(ready).first().waitFor(); await page.locator("#invite").scrollIntoViewIfNeeded(); };
+    await scene("24-invite-panel-none", { viewport, url: "/dashboard", session: true, mode: "referralNone", fullPage: false, keepScroll: true, act: atInvite("text=No invite codes yet") });
+    await scene("24-invite-panel-one", { viewport, url: "/dashboard", session: true, mode: "returningUser", fullPage: false, keepScroll: true, act: atInvite("code") });
+    await scene("24-invite-panel-mixed", { viewport, url: "/dashboard", session: true, mode: "referralMixed", fullPage: false, keepScroll: true, act: atInvite("code") });
     await scene("24-invite-panel-capped", { viewport, url: "/dashboard", session: true, mode: "referralCapped", fullPage: false, keepScroll: true, act: atInvite("#mint-blocked-reason") });
     await scene("24-invite-panel-minted", {
       viewport, url: "/dashboard", session: true, mode: "referralNone", fullPage: false, keepScroll: true,
-      act: async (page) => { await page.locator("#invite .empty-state").waitFor(); await page.getByRole("button", { name: /mint a code/i }).click(); await page.locator("#invite .code-list code").waitFor(); await page.locator("#invite").scrollIntoViewIfNeeded(); },
+      act: async (page) => { await page.locator("#invite").getByText(/No invite codes yet/).waitFor(); await page.getByRole("button", { name: /mint a code/i }).click(); await page.locator("#invite code").first().waitFor(); await page.locator("#invite").scrollIntoViewIfNeeded(); },
     });
     await scene("24-invite-panel-not-member", { viewport, url: "/dashboard", session: true, mode: "freshUser", fullPage: false, keepScroll: true, act: atInvite("#mint-blocked-reason") });
-    await scene("24-invite-panel-view-down", { viewport, url: "/dashboard", session: true, mode: "referralViewDown", fullPage: false, keepScroll: true, act: atInvite("#invite .empty-state") });
-    await scene("24-invite-panel-bonus", { viewport, url: "/dashboard", session: true, mode: "quotaBonus", fullPage: false, keepScroll: true, act: atInvite("#invite .referral-bonus-line") });
+    await scene("24-invite-panel-view-down", { viewport, url: "/dashboard", session: true, mode: "referralViewDown", fullPage: false, keepScroll: true, act: atInvite("text=Couldn't load your invite codes") });
+    await scene("24-invite-panel-bonus", { viewport, url: "/dashboard", session: true, mode: "quotaBonus", fullPage: false, keepScroll: true, act: atInvite("text=/activated/") });
 
-    // ── engine heartbeat: not connected / running / running-push-failed / offline ──
-    const atEngine = async (page) => { await page.locator(".engine-line").waitFor(); await page.locator(".engine-line").scrollIntoViewIfNeeded(); };
-    await scene("25-engine-not-connected", { viewport, url: "/dashboard", session: true, mode: "returningUser", fullPage: false, keepScroll: true, act: atEngine });
-    await scene("25-engine-running", { viewport, url: "/dashboard", session: true, mode: "engineRunning", fullPage: false, keepScroll: true, act: atEngine });
-    await scene("25-engine-push-failed", { viewport, url: "/dashboard", session: true, mode: "enginePushFailed", fullPage: false, keepScroll: true, act: atEngine });
-    await scene("25-engine-offline", { viewport, url: "/dashboard", session: true, mode: "engineOffline", fullPage: false, keepScroll: true, act: atEngine });
+    // Engine heartbeat states (cloud-deploy §10) — the line sits in the dashboard header.
+    const atEngine = async (page) => { await page.locator("#engine-line").waitFor(); };
+    await scene("25-engine-not-connected", { viewport, url: "/dashboard", session: true, mode: "returningUser", fullPage: false, act: atEngine });
+    await scene("25-engine-running", { viewport, url: "/dashboard", session: true, mode: "engineRunning", fullPage: false, act: atEngine });
+    await scene("25-engine-push-failed", { viewport, url: "/dashboard", session: true, mode: "enginePushFailed", fullPage: false, act: atEngine });
+    await scene("25-engine-offline", { viewport, url: "/dashboard", session: true, mode: "engineOffline", fullPage: false, act: atEngine });
+    await scene("25-engine-paused", { viewport, url: "/dashboard", session: true, mode: "enginePaused", fullPage: false, act: atEngine });
+
+    // M11: needs-you, suggestions, the drafter (locked / unlocked), the application sheet, settings.
+    await scene("26-dashboard-needs-you-live", { viewport, url: "/dashboard", session: true, mode: "needsYou", fullPage: false, act: async (page) => { await page.getByText(/Sign in to JobRight again/).waitFor(); } });
+    await scene("27-dashboard-suggested", { viewport, url: "/dashboard", session: true, mode: "returningUser", fullPage: false, keepScroll: true, act: async (page) => { const h = page.locator("#suggested-heading"); await h.waitFor(); await page.getByText(/Asked on 41 forms/).waitFor(); await h.scrollIntoViewIfNeeded(); } });
+    await scene("28-dashboard-drafter-locked", { viewport, url: "/dashboard", session: true, mode: "returningUser", fullPage: false, keepScroll: true, act: async (page) => { const h = page.locator("#drafter-heading"); await h.waitFor(); await page.getByText(/Refused:/).first().waitFor(); await h.scrollIntoViewIfNeeded(); } });
+    await scene("28-dashboard-drafter-on", { viewport, url: "/dashboard", session: true, mode: "drafterOn", fullPage: false, keepScroll: true, act: async (page) => { const h = page.locator("#drafter-heading"); await h.waitFor(); await page.getByText(/quick intro from a Pitt CS junior/).waitFor(); await h.scrollIntoViewIfNeeded(); } });
+    await scene("29-application-sheet", { viewport, url: "/dashboard/applications/a5", session: true, mode: "returningUser", fullPage: false, act: async (page) => { await page.getByRole("dialog").waitFor(); } });
+    await scene("29-settings", { viewport, url: "/settings", session: true, mode: "returningUser" });
     await scene("23-dashboard-error", { viewport, url: "/dashboard", session: true, mode: "serviceDown" });
     await scene("23-dashboard-loading", { viewport, url: "/dashboard", session: true, mode: "serviceHang", fullPage: false });
 
