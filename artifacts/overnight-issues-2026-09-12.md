@@ -285,6 +285,102 @@ Issue numbers continue from night30 (#269).
   `expected 8 to be 2` (8 Next clicks on one page) and takes 23.4s; with the
   cap it clicks 2 and takes 5.7s. Level: **FIXTURE_CONFIRMED**, and the
   mechanism is the one the live artifact shows.
+### #283 — Phenom/Angular chip + repeatable inputs verify "(empty)" (diagnosed, NOT fixed)
+
+The night's most repeated wall after the Ashby education block: **three
+applications** ended AMBIGUOUS_FIELD with every planned value reading back
+"(empty)" — cycle 24 (5818f1ce, jobs.sanofi.com), cycle 34 (1ba9bebc, Google
+careers) and cycle 54 (ad53249d, jobs.sanofi.com again).
+
+- **Evidence:** cycle 54's brief — `Add Skill` expected "Python" → "(empty)";
+  `LinkedIn URL` expected the profile URL → "(empty)"; `Name` expected "Shubham"
+  → "(empty)"; `Employee ID (if applicable)` expected "N/A" → "(empty)". The run
+  reported **filled: 11, errors: 0** and `21 planned`, `fill 43s, verify 9s`. So
+  the fill believed it wrote every one of them and raised nothing.
+- **The real DOM**
+  (`artifacts/ats-fill/generic-live/form-snapshot-1789258089717.html`, 508KB)
+  shows a Phenom "apply experience" built on Angular Material, and the
+  attributes around each failing field explain the empty read-backs:
+  - `Add Skill` → `ha-experience-chip-TypeToAddSkills` inside
+    `mdc-evolution-chip-set__chips`, under a "Skills" section. This is a **chip
+    input**: typed text is not a value until it is committed as a chip (Enter),
+    and the input clears on blur. Verify reading "(empty)" is therefore CORRECT —
+    the answer genuinely was not stored.
+  - `LinkedIn URL` → `form-region SpecificIdentifier--LinkedIn` in a
+    "Social Media / Social Network URLs" card next to
+    `ha-experience-button-AddWebsite`, i.e. a **repeatable region** that may need
+    its "Add Website" control engaged before an entry persists.
+  - `Name` → `ha-selfidentify-input-Name`, a Material field in the self-identify
+    section.
+- **Why this is not "the fill is broken":** the deterministic writes land in the
+  DOM (no errors), but a chip-set/repeatable Material control only accepts a
+  value through its own commit gesture. This is the same class of problem as the
+  Ashby combobox work — the control kind was mis-detected as plain text.
+- **Suggested fix, with the trap called out:** detect a chip input by its
+  markers (`mdc-evolution-chip-set`, `mdc-chip`, a label matching
+  `^add\b`/`type to add`), and after typing press Enter and read the CHIP text
+  back rather than the input's value; treat an uncommitted chip as a skip with
+  the real reason instead of a silent success. Scope it to those markers — this
+  lives in the shared generic fill path, so a broad change there touches every
+  non-vendor site. I deliberately did NOT attempt it in the last two hours of a
+  live session for that reason, and because #277 already showed what happens when
+  a fixture for this kind of widget does not actually reproduce: require a
+  negative control before believing any fix here.
+
+### #282 — Workday "How Did You Hear About Us?" never commits (diagnosed, NOT fixed)
+
+This is the field that made #278's page unmovable, and with #280 unblocking the
+Merck tenant it is now the thing standing between us and Workday submits. It is
+written up rather than patched because the remaining session time did not allow
+a live iteration loop (each attempt costs a ~10 min cycle), and a speculative
+fix here would repeat the #277 mistake.
+
+- **Evidence (live msd.wd5, app 07fa81a1):**
+  `wizard fill error: source--source: combobox option not committed: opened via
+  control click; filter yielded no/unmatched options; re-collected unfiltered
+  (residue cleared); scroll-harvested 18 option(s); stored answer "LinkedIn" not
+  offered — class fallback picked "Online Job Board"`, then
+  `wizard retype: how_heard re-pick not committed`, and verify observed
+  `how_heard → {"value":"","label":""}`. Workday then refused Next with
+  `The field How Did You Hear About Us? is required and must have a value.`
+- **The real DOM** (`artifacts/ats-fill/workday-live/form-snapshot-1789252746497.html`,
+  offset ~110978) is a MULTISELECT, not a plain combobox:
+
+  ```html
+  <div data-automation-id="formField-source" data-fkit-id="source--source">
+    <label for="source--source">How Did You Hear About Us?*</label>
+    <div data-automation-id="multiSelectContainer" data-uxi-widget-type="multiselect" …>
+      <div data-automation-id="multiselectInputContainer">
+        <input id="source--source" placeholder="Search" aria-required="true"
+               data-uxi-widget-type="selectinput" …>
+        <div data-automation-id="promptSelectionLabel"></div>   <!-- chips land here: EMPTY -->
+        <div data-automation-id="promptAriaInstruction">0 items selected</div>
+  ```
+
+  Selected values become CHIPS inside `promptSelectionLabel`, and the page's own
+  aria text confirms nothing was selected ("0 items selected"). So the
+  read-back's empty value is truthful: the click really did not commit.
+- **The suspect:** `comboboxFill.ts` decides
+  `isWorkdayMultiselect = closest("[data-automation-id='multiSelectContainer']") || getAttribute("data-uxi-widget-type") === "selectinput"`,
+  then `drillable = isWorkdayMultiselect && yesNoToken(expectedText) === null`.
+  On this DOM BOTH halves of that OR are true for the input, and
+  `yesNoToken("LinkedIn")` is null — so `drillable` should be true. Yet the run
+  logged `drill scan skipped (not a Workday multiselect prompt, …)`, which only
+  prints when `!drillable && drillCandidates.length > 0`. So the evaluate
+  returned false, meaning the locator it ran on was NOT that input — most likely
+  `locatorForField` resolved `source--source` to the `<label for="source--source">`
+  or a wrapper instead of the input (the id is shared between label and input).
+  That is the first thing to check.
+- **Why it matters beyond one field:** the 18 scroll-harvested options are
+  probably Workday's CATEGORY rows ("Online Job Board" reads like one), and
+  clicking a category expands it rather than selecting a leaf — which is exactly
+  what the drill scan exists to handle. Skipping the drill therefore both
+  mis-picks and fails to commit.
+- **Suggested next step:** assert which element `locatorForField` returns for a
+  Workday multiselect field id, from the real snapshot above, before touching the
+  pick logic — and require a negative control (the test must fail without the
+  fix), per #277's lesson.
+
 ### #280 — Merck's real Workday tenant is "msd", and the congruence gate refused it
 
 - **Evidence:** cycle 47, app 77b667ce (Merck),

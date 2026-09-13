@@ -238,6 +238,125 @@ second pass by `attempt` ASC, or by time-entered-state instead of `updated_at`).
   AND 49, each burning that cycle's submit budget. Employer-side block (likely a
   duplicate or closed posting), not a fillable wall.
 
+## 20:25 — commit 8dc9315b; why the Ashby fix stays FIXTURE_CONFIRMED
+
+Third commit: **8dc9315b** (#280 Merck→msd tenant trade name).
+
+**The live validation of #271-#273 will not land tonight, and the reason is not
+the fix.** Both candidate applications are now out of reach:
+
+- `04394211` (Ibotta) finally got picked in cycle 50 — but from
+  FIELD_VERIFICATION, which re-uses the STALE pre-fix verification instead of
+  re-filling, so it refused at the submit gate without ever exercising the new
+  discovery. `npm run retry` then moved it to QUEUED at 23:52:39 for a genuine
+  fresh fill, and 17 seconds later the loop retired it:
+  `posting published 26.7h ago (> 24h; operator policy 2026-09-08)`. That is the
+  operator's own policy working correctly, not a bug.
+- `80e6a0fc` (Commure) is still FIELD_VERIFICATION, starved by #279, and its
+  posting is older still — so requeueing it to QUEUED would retire it the same
+  way.
+
+So #271-#273 stands at **FIXTURE_CONFIRMED**, backed by a deterministic
+read-back on the real 89KB live snapshot (`ashbyDiscoverFields` goes 22 fields →
+21: the five bad entries — the wrapper path plus `#17`-`#20` — are gone and four
+correctly-mapped date fields replace them, School stays required). What it still
+needs is one fresh Ashby posting under 24h old that carries the
+`_systemfield_education_history` block. Three Ashby forms ran after the fix
+tonight (Notion, CTGT, Retell AI) and all three verified clean, but none uses
+that block — they use per-question uuid fields.
+
+**Chrome/CDP is degraded.** Every cycle from 48 onward logs `CDP autolaunch:
+endpoint still unreachable after 10 polls — agent phase will be skipped`, so the
+loop has been applying with its agent phase disabled — the #258 tab-leak shape
+again. Cycles still complete and still submit, but the agent fallback that
+rescues hard navigations is not available, which plausibly contributed to the
+run of `FAILED_BEFORE_CLICK` outcomes in cycles 50-52.
+
+## 20:35 — CDP repaired by hand, outreach worker restarted
+
+The degradation above was worse than "agent phase skipped": **neither** debug
+endpoint was reachable (`curl http://127.0.0.1:9222/json/version` and `:9223`
+both returned nothing) while **25 Chrome processes** were alive — the #258
+tab-leak/OOM shape. The loop's own autolaunch had been retrying and failing for
+five consecutive cycles, so I repaired it rather than leave the rest of the night
+degraded:
+
+1. `day31.pause` set, waited 90s for the in-flight cycle to finish.
+2. Killed every Chrome process (25 → 8 stragglers).
+3. `npm run chrome:debug:jobright` (9222) and `npm run chrome:debug:gmail`
+   (9223). Both endpoints now answer and report 3 tabs each.
+4. Restarted the outreach worker on the exact `start_outreach()` command
+   (`outreach:worker --headed --loop --duration 153 --interval 90 --since 6`),
+   rewrote `artifacts/console/day31-outreach.pid`, since it had lost its browser.
+5. Released the pause.
+
+Worth noting for the operator: the outreach worker's LAST pass before the
+restart (pass 194) processed a new submission for `28743dcd` (Retell AI), so the
+Gmail tail kept working right up to the Chrome failure.
+
+## 20:50 — 10 verified submissions (corrected count)
+
+Counting from the `submissions` table rather than the loop's `submits_used`
+counter, because that counter increments on a submit ATTEMPT: it read 12, but two
+of those were the rejected clicks on 8e9cd785. **10 VERIFIED submissions since
+the loop started at 18:39 UTC:**
+
+| time (UTC) | company | role |
+|---|---|---|
+| 19:58 | GrayMatter Robotics | Robotics Engineer (New Grad), Government Programs |
+| 20:01 | AfterQuery | AI/ML Research Intern |
+| 20:04 | Lightmatter | Silicon Packaging Engineer — Intern & New Grad |
+| 20:31 | Klaviyo | Software Engineer Intern (Summer 2027) |
+| 20:35 | Klaviyo | Software Engineer Co-op (Spring 2027) |
+| 20:51 | Perpay Inc. | Data Science Internship, Summer 2027 |
+| 21:22 | Voloridge Investment Management | Quantitative Research Intern 2027 |
+| 21:28 | CTGT | Software Engineering Intern (Summer 2027) |
+| 23:07 | Perpay Inc. | Data Engineering Internship, Summer 2027 |
+| 00:04 | Retell AI | Forward Deployed Engineer, New Grad |
+
+Earlier entries in this report that said 8 or 9 submits were reading the
+attempt counter; this table is the one to trust.
+
+## Where the night's 40 app-outcomes went (prioritisation data)
+
+| n | outcome |
+|---|---|
+| 10 | **COMPLETED** (verified submission) |
+| 7 | AMBIGUOUS_FIELD — "verification failed" |
+| 6 | FAILED_BEFORE_CLICK — "field verification or upload did not pass" |
+| 5 | navigation refused: duplicate employer URL (correct; auto-abandoned by triage) |
+| 4 | FAILED_BEFORE_CLICK — "N required question(s) unanswered" |
+| 2 | generic live fill refused: NAVIGATION_INCOMPLETE |
+| 2 | REJECTED_AFTER_CLICK (employer refused the click) |
+| 1 each | UNTRUSTED_FINAL_HOST · blocking captcha · unsupported ATS · msd/Merck slug (#280) |
+
+**The dominant blocker is verification, not navigation: 13 of 40.** Tonight's
+#271-#273 work removed two of the seven "verification failed" cases (both the
+Ashby education block); the remaining five are each a different page
+(Sanofi/Phenom fills reading back "(empty)", Google careers, Leidos phone type,
+Merck how-did-you-hear). That is where the next session's leverage is, and the
+two best-evidenced ones already have DOM-level write-ups here: #277 (Leidos
+phone type) and #282 (Workday multiselect).
+
+Note the 5 duplicate-URL outcomes are NOT waste to fix — triage abandons each
+one automatically after the single cycle that discovers it (see the withdrawn
+item in the 17:55 entry).
+
+## 21:05 — queue refed
+
+The backlog had fallen to 3 rows with ~2.4h of loop left, so I paused between
+cycles and ran `discover --max-jobs 40` (the loop's own pass uses `--max-jobs
+10`, which was yielding ~2 eligible). Backlog 3 → 7: Veeam Software, Amazon,
+GigFinder.ai and Sanofi added; pause released immediately after. Board discovery
+remains exhausted for the day — a 60-board sweep earlier enqueued zero, every
+candidate being >24h old, non-US or outside role terms, all operator policy.
+
+**Suggestion for the operator:** the loop's per-cycle `discover --max-jobs 10`
+inspects 8-ish jobs and yields ~2 eligible, which does not keep a
+one-app-per-cycle loop fed once the board registry is exhausted. Raising it (the
+manual `--max-jobs 40` above produced 4 fresh eligible rows immediately) would
+cost a little more time per discovery pass and keep the queue non-empty.
+
 ### Gate + commit status
 
 Gate not yet run: the queen held `artifacts/console/gate.lock` (taken
