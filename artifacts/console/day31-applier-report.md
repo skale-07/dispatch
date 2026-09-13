@@ -447,6 +447,102 @@ re-selected (the #279 livelock), which is how two employers produced 40 identica
 refusals. Recommended fix and host patterns are in the issues log. Three affected
 apps (2ed8bab3, 3eeb896e, 706e5eba) abandoned through the state machine.
 
+## FINAL SUMMARY — day31 applier (adopted 16:45, loop end 22:39)
+
+### Applications
+
+**11 verified submissions** (counted from the `submissions` table, not the
+`submits_used` attempt counter, which read higher because it increments on
+rejected clicks too):
+
+| time (UTC) | company | role |
+|---|---|---|
+| 19:58 | GrayMatter Robotics | Robotics Engineer (New Grad), Government Programs |
+| 20:01 | AfterQuery | AI/ML Research Intern |
+| 20:04 | Lightmatter | Silicon Packaging Engineer — Intern & New Grad |
+| 20:31 | Klaviyo | Software Engineer Intern (Summer 2027) |
+| 20:35 | Klaviyo | Software Engineer Co-op (Spring 2027) |
+| 20:51 | Perpay Inc. | Data Science Internship, Summer 2027 |
+| 21:22 | Voloridge Investment Management | Quantitative Research Intern 2027 |
+| 21:28 | CTGT | Software Engineering Intern (Summer 2027) |
+| 23:07 | Perpay Inc. | Data Engineering Internship, Summer 2027 |
+| 00:04 | Retell AI | Forward Deployed Engineer, New Grad |
+| 00:19 | Veeam Software | Software Engineering Intern - Summer 2027 |
+
+71 cycles. **Outreach: 14 Gmail drafts** across 9 tail records (15 generated),
+all in the dedicated 9223 Chrome — verified by reading `versions_json.gmail_tail`
+per application, not by trusting the worker log.
+
+### Commits (6)
+
+| sha | what |
+|---|---|
+| `b8f541e6` | #271/#272/#273 Ashby education block; #275 Workday autofill route; #276 prediction guard |
+| `977d4f11` | #278 Workday wizard no-progress cap |
+| `8dc9315b` | #280 Merck→msd curated tenant trade name |
+| `877a5320` | #277/#279/#281/#282/#283 diagnoses with live DOM evidence |
+| `a3a43d69` | #282 self-refutation; #280 live promotion |
+| `f6f749b4` | #271-#273 live result (12 items → 2); #284 |
+
+### Levels, stated honestly
+
+- **#280 — LIVE_READ_ONLY_CONFIRMED.** Cycle 57 took `jobs.merck.com` →
+  `msd.wd5.myworkdayjobs.com` through to the wizard fill; that handoff was
+  refused before the fix.
+- **#271/#272 modelling — LIVE_READ_ONLY_CONFIRMED.** Cycle 68's fresh fill of
+  the Commure block went from 12 brief items to 2, with the run quoting the new
+  `educationBlockLocator` chain verbatim. The block still does not submit, so
+  this is explicitly NOT a submission claim.
+- **#273, #276, #278 — FIXTURE_CONFIRMED**, #278 with a negative control (8 Next
+  clicks → 2).
+- **#275 — FIXTURE_CONFIRMED** for the route, LIVE_READ_ONLY for the
+  instrumentation. The route COMPARISON the operator asked for is **UNVERIFIED**:
+  see "needs the operator" below.
+- **#277 — reverted deliberately.** Fix plus fixture written, then removed
+  because the fixture passed with and without it.
+- **#282 — my own first suspect refuted** by a deterministic probe and the
+  write-up corrected.
+
+### Abandoned through the state machine (8, each with the reason recorded)
+
+`d9cb4f54` Tesla and `3a760979` GigFinder.ai (NAVIGATION_INCOMPLETE ×2, no
+applicant form; both were re-selecting themselves every cycle — #279);
+`8e9cd785` Retell AI (#281, employer rejects the click while our form verifies
+clean, twice, burning the submit budget); `2ed8bab3`, `3eeb896e`, `9fd08205`,
+`b5b8cfcd` L3Harris and `706e5eba` Volvo (#284, SAP SuccessFactors — no adapter).
+
+### Needs the operator / queen
+
+1. **The #275 route comparison still has no measurement.** The instrument, the
+   flag and the manual baseline are ready; what is missing is a deliberate
+   `--workday-route autofill` run. I did not squeeze it in beside the live loop
+   because `ats:fill --url` starts an UNAUTHENTICATED context, so it would drive
+   a second sign-in against a live tenant and spend that host's 3-attempt/6h auth
+   budget — on Leidos, while the loop was mid-flight on the same tenant. Run it
+   deliberately against `msd.wd5` (where standing credentials already work) and
+   compare against the manual baseline recorded in the issues log.
+2. **#279, the queue livelock** — a re-picked in-flight app refreshes
+   `updated_at` and the picker's second pass orders by recency, so failures
+   re-select themselves while older rows starve. This is the single biggest
+   throughput bug found tonight, it is why my requeued apps went unreached for
+   hours, and I deliberately did not change the ordering blind in a live session.
+3. **#282 blocks every Workday submit** now that #280 opens the door.
+4. **#284**: classify SuccessFactors as a known-unsupported vendor so those rows
+   retire after one cycle instead of 40 refusals.
+5. **#283**: the Phenom/Angular chip-input family (3 apps tonight).
+6. **Supply is the binding constraint, not bugs.** The board registry was
+   exhausted by ~18:30 (a 60-board sweep enqueued zero: everything >24h old,
+   non-US or off-role-terms, all operator policy), and JobRight's
+   `discover --max-jobs 10` yields ~2 eligible. I refilled by hand three times
+   with `--max-jobs 40/45`; the last pass yielded zero. Raising the loop's
+   discovery budget is the cheapest throughput win available.
+7. **Chrome/CDP still dies mid-run** (#258 shape): both debug endpoints were dead
+   behind 25 Chrome processes and the loop's autolaunch could not recover it for
+   five cycles. I repaired it by hand; it is worth a watchdog.
+8. **New split gate**: excellent (83s fast vs 20-35 min whole suite), one gap —
+   its retry-once-serially rule covers `heavy` only, and a `fast` load timeout
+   made `test-gate` print FAILED for a false failure.
+
 ### Gate + commit status
 
 Gate not yet run: the queen held `artifacts/console/gate.lock` (taken
