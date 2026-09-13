@@ -43,6 +43,10 @@ export const CONTROLLED_FILL_ENV_KEYS = [
   // Nav LLM assist: ambient "true" would let a fixture nav run call a
   // live model at the adjudication points.
   "NAV_LLM_ASSIST_ENABLED",
+  // Tenancy (plan v0.5): ambient "true" would let a fixture run
+  // materialize a tenant workspace or accept a non-loopback CDP URL.
+  "TENANT_ENGINE_ENABLED",
+  "REMOTE_BROWSER_ENABLED",
 ] as const;
 
 export type ControlledFillEnvKey = (typeof CONTROLLED_FILL_ENV_KEYS)[number];

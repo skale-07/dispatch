@@ -68,8 +68,16 @@ export function selectEngineApplicationRows(db: Db): EngineApplicationRow[] {
     .all() as EngineApplicationRow[];
 }
 
-/** Loud, specific refusals — a half-configured sync must never half-run. */
-export function assertSyncConfigured(config: AppConfig): {
+/**
+ * Loud, specific refusals — a half-configured sync must never half-run.
+ * `userId` names the cloud account the rows belong to: the operator's own
+ * SUPABASE_SYNC_USER_ID by default, or an explicit tenant id (plan v0.5 —
+ * a tenant run syncs its OWN user's rows and never needs the operator's).
+ */
+export function assertSyncConfigured(
+  config: AppConfig,
+  opts: { userId?: string } = {},
+): {
   url: string;
   serviceRoleKey: string;
   userId: string;
@@ -79,10 +87,11 @@ export function assertSyncConfigured(config: AppConfig): {
       "SUPABASE_SYNC_ENABLED is false (fail-closed default). Set it in .env to mirror status to Supabase.",
     );
   }
+  const userId = opts.userId?.trim() || config.supabaseSyncUserId;
   const missing: string[] = [];
   if (!config.supabaseUrl) missing.push("SUPABASE_URL");
   if (!config.supabaseServiceRoleKey) missing.push("SUPABASE_SERVICE_ROLE_KEY");
-  if (!config.supabaseSyncUserId) missing.push("SUPABASE_SYNC_USER_ID");
+  if (!userId) missing.push("SUPABASE_SYNC_USER_ID");
   if (missing.length > 0) {
     throw new Error(
       `Supabase sync is enabled but unconfigured — missing ${missing.join(", ")}. ` +
@@ -92,7 +101,7 @@ export function assertSyncConfigured(config: AppConfig): {
   return {
     url: config.supabaseUrl!,
     serviceRoleKey: config.supabaseServiceRoleKey!,
-    userId: config.supabaseSyncUserId!,
+    userId: userId!,
   };
 }
 
@@ -124,10 +133,17 @@ type SupabaseClientLike = Awaited<ReturnType<typeof makeClient>>;
 export async function runSupabaseSync(options: {
   db: Db;
   now?: () => Date;
+  /** The cloud account the rows belong to; defaults to SUPABASE_SYNC_USER_ID. */
+  userId?: string;
+  /** Injected by tenant runs and tests; defaults to the process config. */
+  config?: AppConfig;
+  client?: SupabaseClientLike;
 }): Promise<SupabaseSyncResult> {
   const started = Date.now();
-  const config = getConfig();
-  const { url, serviceRoleKey, userId } = assertSyncConfigured(config);
+  const config = options.config ?? getConfig();
+  const { url, serviceRoleKey, userId } = assertSyncConfigured(config, {
+    ...(options.userId ? { userId: options.userId } : {}),
+  });
 
   const engineRows = selectEngineApplicationRows(options.db);
   const rows: StatusMirrorRow[] = toStatusMirrorRows(
@@ -136,7 +152,7 @@ export async function runSupabaseSync(options: {
     (options.now ?? (() => new Date()))(),
   );
 
-  const client = await makeClient(url, serviceRoleKey);
+  const client = options.client ?? (await makeClient(url, serviceRoleKey));
 
   let upserted = 0;
   let pushError: string | null = null;
@@ -207,10 +223,18 @@ export type ReceiptsPushResult = {
 export async function runReceiptsPush(options: {
   db: Db;
   client?: SupabaseClientLike;
+  /** The cloud account the receipts belong to; defaults to SUPABASE_SYNC_USER_ID. */
+  userId?: string;
+  config?: AppConfig;
+  /** Where relative screenshot paths resolve; defaults to the config's artifacts dir. */
+  artifactsDir?: string;
 }): Promise<ReceiptsPushResult> {
   const started = Date.now();
-  const config = getConfig();
-  const { url, serviceRoleKey, userId } = assertSyncConfigured(config);
+  const config = options.config ?? getConfig();
+  const { url, serviceRoleKey, userId } = assertSyncConfigured(config, {
+    ...(options.userId ? { userId: options.userId } : {}),
+  });
+  const artifactsDir = options.artifactsDir ?? config.artifactsDir;
   const client = options.client ?? (await makeClient(url, serviceRoleKey));
 
   const subs = selectSubmittedRows(options.db);
@@ -225,7 +249,7 @@ export async function runReceiptsPush(options: {
     candidates += 1;
     const localPath = path.isAbsolute(receipt.localScreenshotPath)
       ? receipt.localScreenshotPath
-      : path.join(config.artifactsDir, receipt.localScreenshotPath);
+      : path.join(artifactsDir, receipt.localScreenshotPath);
     if (!fs.existsSync(localPath)) {
       skippedMissing += 1;
       continue;
@@ -282,9 +306,12 @@ export type ProfilesPullResult = {
 export async function runProfilesPull(options: {
   client?: SupabaseClientLike;
   now?: () => Date;
+  config?: AppConfig;
 }): Promise<ProfilesPullResult & { users: OnboardedUser[] }> {
   const started = Date.now();
-  const config = getConfig();
+  const config = options.config ?? getConfig();
+  // The pull reads every onboarded user, so no per-user id is involved;
+  // the operator's SUPABASE_SYNC_USER_ID requirement stays as the gate.
   const { url, serviceRoleKey } = assertSyncConfigured(config);
   const client = options.client ?? (await makeClient(url, serviceRoleKey));
 

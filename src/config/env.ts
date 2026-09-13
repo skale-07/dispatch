@@ -275,6 +275,29 @@ const envSchema = z.object({
    * through the Management API. Never logged; engine machine only.
    */
   SUPABASE_ACCESS_TOKEN: z.string().optional(),
+  /**
+   * Multi-tenant engine (plan v0.5, docs/roadmap/cloud-deploy.md): the
+   * engine may materialize a HOSTED user's workspace under TENANTS_ROOT
+   * and run auto:cycle for them as a child process (flags = the ceiling ∩
+   * the tenant's own; several forced off; secrets stripped). Requires
+   * SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY; refuses to boot otherwise.
+   * SUPABASE_SYNC_USER_ID is not needed — tenants carry their own ids.
+   */
+  TENANT_ENGINE_ENABLED: boolFromEnv.default(false),
+  /** Where tenant workspaces live (private/tenants/<uuid>/). Plain path. */
+  TENANTS_ROOT: z.string().default("private/tenants"),
+  /** Bound on concurrent tenant child processes; this box carries one. */
+  TENANT_MAX_CONCURRENT: z.coerce.number().int().min(1).max(8).default(1),
+  /**
+   * The engine may attach over CDP to a NON-loopback browser — the remote
+   * session a hosted user drives during a JobRight sign-in handoff. Off:
+   * only 127.0.0.1 CDP URLs are accepted anywhere (src/auth/cdpPolicy.ts).
+   * Requires the provider credentials; refuses to boot otherwise.
+   */
+  REMOTE_BROWSER_ENABLED: boolFromEnv.default(false),
+  /** SECRET: never logged, never artifacted, never in any frontend. */
+  BROWSERBASE_API_KEY: z.string().optional(),
+  BROWSERBASE_PROJECT_ID: z.string().optional(),
 });
 
 export type AppConfig = {
@@ -359,6 +382,15 @@ export type AppConfig = {
   supabaseSyncUserId: string | undefined;
   /** Present only when the operator configured it; consumers must not log it. */
   supabaseAccessToken: string | undefined;
+  /** Multi-tenant engine: hosted users' workspaces + child runs. Fail closed. */
+  tenantEngineEnabled: boolean;
+  tenantsRoot: string;
+  tenantMaxConcurrent: number;
+  /** Non-loopback CDP attach (remote handoff browser). Fail closed. */
+  remoteBrowserEnabled: boolean;
+  /** Present only when the operator configured it; consumers must not log it. */
+  browserbaseApiKey: string | undefined;
+  browserbaseProjectId: string | undefined;
   /** Always false — no send capability exists. */
   emailSendEnabled: false;
 };
@@ -397,6 +429,29 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
     if (missing.length > 0) {
       throw new Error(
         `CONSOLE_HOSTED_MODE_ENABLED=true requires ${missing.join(", ")} (hosted console is fail-closed)`,
+      );
+    }
+  }
+
+  // Tenancy flags are additive and fail-closed like hosted mode: enabled
+  // with an input missing, the process must not boot at all.
+  if (parsed.TENANT_ENGINE_ENABLED) {
+    const missing: string[] = [];
+    if (!parsed.SUPABASE_URL) missing.push("SUPABASE_URL");
+    if (!parsed.SUPABASE_SERVICE_ROLE_KEY) missing.push("SUPABASE_SERVICE_ROLE_KEY");
+    if (missing.length > 0) {
+      throw new Error(
+        `TENANT_ENGINE_ENABLED=true requires ${missing.join(", ")} (tenant engine is fail-closed)`,
+      );
+    }
+  }
+  if (parsed.REMOTE_BROWSER_ENABLED) {
+    const missing: string[] = [];
+    if (!parsed.BROWSERBASE_API_KEY) missing.push("BROWSERBASE_API_KEY");
+    if (!parsed.BROWSERBASE_PROJECT_ID) missing.push("BROWSERBASE_PROJECT_ID");
+    if (missing.length > 0) {
+      throw new Error(
+        `REMOTE_BROWSER_ENABLED=true requires ${missing.join(", ")} (remote browser is fail-closed)`,
       );
     }
   }
@@ -484,6 +539,12 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
     supabaseServiceRoleKey: parsed.SUPABASE_SERVICE_ROLE_KEY,
     supabaseSyncUserId: parsed.SUPABASE_SYNC_USER_ID,
     supabaseAccessToken: parsed.SUPABASE_ACCESS_TOKEN,
+    tenantEngineEnabled: parsed.TENANT_ENGINE_ENABLED,
+    tenantsRoot: path.resolve(parsed.TENANTS_ROOT),
+    tenantMaxConcurrent: parsed.TENANT_MAX_CONCURRENT,
+    remoteBrowserEnabled: parsed.REMOTE_BROWSER_ENABLED,
+    browserbaseApiKey: parsed.BROWSERBASE_API_KEY,
+    browserbaseProjectId: parsed.BROWSERBASE_PROJECT_ID,
     emailSendEnabled: false,
   };
 }
