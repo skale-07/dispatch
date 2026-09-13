@@ -60,11 +60,22 @@ Mirror of `CLAUDE.md` (repo root) — keep both files identical when editing.
 ## Verify gate (run before every commit)
 
 ```
-npm run typecheck && npm run test && npm run check:forbidden && npm run check:secrets
+npm run typecheck && npm run test:gate -- <the paths you are committing> && npm run check:forbidden && npm run check:secrets
 ```
 
-All four must pass. Tests must not require live network or enabled flags
-(`tests/helpers/fillEnvIsolation.ts` guards fill-related env).
+All four must pass. The suite is two vitest projects (`scripts/testSplit.ts`,
+membership derived from what each test references, drift-tested): `fast` —
+pure tests — always runs; `heavy` — anything driving a real Chromium, the
+CDP port, a spawned process, or an engine loop end to end; ~10 min, must run
+SOLO (never alongside a live headed run: the overlap fakes 8–13 timeouts and
+the CDP probes touch the loop's Chrome) — runs only when a committed path can
+reach the engine: anything outside `frontend/`, `docs/`, `supabase/`,
+`design/`, `site/`, `deploy/`, `src/cloud/`, root markdown and fast tests, or
+a heavy test itself, `tests/helpers|fixtures`, or the tool config. Force it
+with `--heavy always` (nightly, release, any engine-core change you are unsure
+about); `npm run test` is still the whole suite. Tests must not require live
+network or enabled flags (`tests/helpers/fillEnvIsolation.ts` guards
+fill-related env).
 
 ## Validation ladder
 
