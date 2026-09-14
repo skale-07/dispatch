@@ -1,0 +1,50 @@
+{
+  "run_id": "[REDACTED]",
+  "outcome": "stopped",
+  "steps": [
+    {
+      "observation": "13b5782c7e0fb804",
+      "action": "click",
+      "reason": "Click Apply Online to start the application for this exact posting.",
+      "result": "clicked observed control; next observation checks progress",
+      "model": "claude-opus-5",
+      "target": "control-9"
+    },
+    {
+      "observation": "4ee21610695240dc",
+      "action": "authenticate",
+      "reason": "Login wall on Taleo; use approved credential service to sign in and reach the application.",
+      "result": "portal auth: not_an_auth_wall",
+      "model": "claude-opus-5"
+    },
+    {
+      "observation": "4ee21610695240dc",
+      "action": "click",
+      "reason": "Auth service declined; create a new account via New User to proceed to the application.",
+      "result": "clicked observed control; next observation checks progress",
+      "model": "claude-opus-5",
+      "target": "control-7"
+    },
+    {
+      "observation": "855ae07802204a86",
+      "action": "authenticate",
+      "reason": "Registration/account-creation wall on Taleo; hand off to the approved credential service to create/sign in rather than filling credentials manually.",
+      "result": "portal auth: wall_remains",
+      "model": "claude-opus-5"
+    },
+    {
+      "observation": "32081ea7348aac92",
+      "action": "stop",
+      "reason": "Taleo requires creating an account; credential service returned not_an_auth_wall/wall_remains and only registration fields (username/password/email) remain, which are not applicant identity fields and cannot be filled here. Blocked at account-creation wall.",
+      "result": "model stopped",
+      "model": "claude-opus-5"
+    }
+  ],
+  "notes": [
+    "model calls: 5 of 5 steps"
+  ],
+  "evidence": [
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-97f4f22a-6a31-436f-b196-329e5dc5b85f\\observation.json",
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-97f4f22a-6a31-436f-b196-329e5dc5b85f\\page.png"
+  ]
+}
