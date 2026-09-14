@@ -50,6 +50,28 @@ describe("outreach recipients must work at the company we applied to (#248)", ()
     }
   });
 
+  // Live 2026-09-13: the only insider email on the Boston Scientific posting
+  // (a bsci.com address) was dropped as working "somewhere else".
+  it("accepts the initials-plus-head contraction a multi-word employer uses for its domain", () => {
+    const v = recipientMatchesCompany("melanie.loppnow@bsci.com", "Boston Scientific");
+    expect(v.verdict).toBe("match");
+    expect(v.reason).toMatch(/abbreviates "Boston Scientific"/);
+    expect(recipientMatchesCompany("pat@bsci.com", "Boston Scientific Corporation").verdict).toBe("match");
+  });
+
+  it("the contraction rule does not let near-misses through", () => {
+    for (const [email, company] of [
+      ["pat@bsc.com", "Boston Scientific"], // 3 chars: too short to trust
+      ["pat@bs.com", "Boston Scientific"], // initials alone
+      ["pat@bsci.com", "Boston Dynamics"], // head is not the last word's
+      ["pat@bsci.com", "Scientific"], // single word: no initials to contract
+      ["pat@xsci.com", "Boston Scientific"], // wrong initial
+      ["pat@bscix.com", "Boston Scientific"], // not a prefix of the last word
+    ] as Array<[string, string]>) {
+      expect(recipientMatchesCompany(email, company).verdict, `${email} @ ${company}`).toBe("mismatch");
+    }
+  });
+
   it("never drops a personal mailbox — a real insider may use one", () => {
     for (const email of ["grace.hao@gmail.com", "someone@outlook.com", "x@icloud.com"]) {
       expect(recipientMatchesCompany(email, "Zipline").verdict).toBe("unknown");

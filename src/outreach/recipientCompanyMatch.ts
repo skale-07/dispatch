@@ -102,6 +102,23 @@ export function isFreeMail(email: string): boolean {
   return FREE_MAIL.has(email.slice(at + 1).trim().toLowerCase());
 }
 
+/**
+ * The contraction corporate domains use for multi-word names: the initials
+ * of the leading words plus the head of the last one — "bsci" for Boston
+ * Scientific (live 2026-09-13: the one insider email on that posting was
+ * dropped as working "somewhere else"). Exact whole-label match only, at
+ * least 4 characters and a 3+ character head, so a short label can never
+ * ride on a coincidental letter or two ("bs", "bsc" do not match).
+ */
+function isInitialsPlusHead(label: string, words: string[]): boolean {
+  if (words.length < 2 || label.length < 4) return false;
+  const initials = words.slice(0, -1).map((w) => w[0]).join("");
+  const last = words[words.length - 1]!;
+  if (!label.startsWith(initials)) return false;
+  const head = label.slice(initials.length);
+  return head.length >= 3 && last.startsWith(head);
+}
+
 /** A company name we never actually resolved. */
 function isPlaceholderCompany(company: string): boolean {
   const lowered = company.toLowerCase();
@@ -140,12 +157,12 @@ export function recipientMatchesCompany(
   // "Kensho Technologies" -> "kenshotechnologies". Weak tokens are noise on
   // their OWN but are part of the name when joined, which is what makes
   // dvtrading.co and american-equity.com resolve.
-  const flatAll = co
+  const words = co
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, " ")
     .split(" ")
-    .filter((t) => t && !LEGAL_SUFFIX.has(t))
-    .join("");
+    .filter((t) => t && !LEGAL_SUFFIX.has(t));
+  const flatAll = words.join("");
   if (flatAll.length >= 3) {
     if (bareLabel.includes(flatAll)) {
       return { verdict: "match", reason: `domain "${label}" contains the company name` };
@@ -155,6 +172,9 @@ export function recipientMatchesCompany(
     if (bareLabel.length >= 4 && flatAll.startsWith(bareLabel)) {
       return { verdict: "match", reason: `domain "${label}" is the head of the company name` };
     }
+  }
+  if (isInitialsPlusHead(bareLabel, words)) {
+    return { verdict: "match", reason: `domain "${label}" abbreviates "${co}" (initials + head of the last word)` };
   }
 
   const tokens = companyTokens(co);
