@@ -1,0 +1,72 @@
+{
+  "started_at": "2026-09-14T06:27:36.056Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\general.pdf)",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "06a19cc4-9abe-4731-99f4-396f048366b3",
+    "armed_until": "2026-09-14T08:27:36.094Z",
+    "seconds_remaining": 7200,
+    "max_submits": 1,
+    "submits_used": 0,
+    "max_apps": 1,
+    "apps_started": 0,
+    "discover_max": 1,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": {
+    "arm_run_id": "06a19cc4-9abe-4731-99f4-396f048366b3",
+    "apps_started": 1,
+    "submits_used": 0,
+    "stopped_reason": "apps_cap",
+    "discover_runs": 0,
+    "emails_generated": 0,
+    "drafts_saved": 0,
+    "essay_drafts_generated": 0,
+    "screener_predictions_generated": 0,
+    "notes": [
+      "triage sweep: 0 confirmed, 0 refuted, 0 expired of 167 pending",
+      "triage 33c0a0f2: park_for_operator (executed) — review item created: cdc614d8-98a4-44a1-821e-3213b295d3b1",
+      "artifact autopush: 243 file(s) pushed to master as d6501b9f"
+    ],
+    "per_app": [
+      {
+        "application_id": "33c0a0f2-0085-4ea2-ab69-729743f1b7f3",
+        "end_state": "NATIVE_AUTOFILL_RUNNING",
+        "stopped": "gate",
+        "stop_reason": "generic live fill refused: FORM_NOT_REACHED",
+        "submitted": false,
+        "outreach": null
+      }
+    ],
+    "nav_audit": {
+      "checked": 473,
+      "repaired": 0,
+      "parked": 0
+    },
+    "triage": {
+      "decided": 1,
+      "executed": 1
+    },
+    "artifact_autopush": {
+      "pushed": true,
+      "commit": "d6501b9f",
+      "files_staged": 243
+    }
+  },
+  "outcome": "completed",
+  "notes": []
+}
