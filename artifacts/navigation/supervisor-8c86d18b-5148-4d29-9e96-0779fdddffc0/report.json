@@ -1,0 +1,47 @@
+{
+  "run_id": "[REDACTED]",
+  "outcome": "stopped",
+  "steps": [
+    {
+      "observation": "4425ad6e8b4ece12",
+      "action": "click",
+      "reason": "one unambiguous Apply control",
+      "result": "action failed: elementHandle.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n",
+      "target": "control-0"
+    },
+    {
+      "observation": "6acc454e83fd9fd1",
+      "action": "click",
+      "reason": "one unambiguous Apply control",
+      "result": "action failed: elementHandle.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n",
+      "target": "control-0"
+    },
+    {
+      "observation": "6acc454e83fd9fd1",
+      "action": "form_ready",
+      "reason": "The Apply modal is open showing 'Create Account to Apply' with applicant identity fields (name/email fields and Primary Phone Number) plus Continue To Application — account creation/identity form reached; classification field_count lag aside, the visible modal is the applicant form.",
+      "result": "refused: applicant form not independently observed",
+      "model": "claude-opus-5"
+    },
+    {
+      "observation": "6acc454e83fd9fd1",
+      "action": "authenticate",
+      "reason": "Apply leads to a 'Create Account to Apply' / portal sign-in gate on the employer's Paycom ATS; form_ready was refused since these are account-creation gate fields, so hand off to the approved portal-auth service to get past the login wall into the real application.",
+      "result": "portal auth: not_an_auth_wall",
+      "model": "claude-opus-5"
+    },
+    {
+      "observation": "6acc454e83fd9fd1",
+      "action": "stop",
+      "reason": "no progress: this page state was observed 4 times",
+      "result": "model stopped"
+    }
+  ],
+  "notes": [
+    "model calls: 2 of 5 steps"
+  ],
+  "evidence": [
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-8c86d18b-5148-4d29-9e96-0779fdddffc0\\observation.json",
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-8c86d18b-5148-4d29-9e96-0779fdddffc0\\page.png"
+  ]
+}
