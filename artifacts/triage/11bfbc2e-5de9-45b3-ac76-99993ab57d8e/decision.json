@@ -1,0 +1,169 @@
+{
+  "decision_id": "11bfbc2e-5de9-45b3-ac76-99993ab57d8e",
+  "application_id": "fd529364-2479-408b-8a3c-4068aa5641bc",
+  "signature": "FAILED_RETRYABLE|-|unknown|pimco.wd1.myworkdayjobs.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "fd529364-2479-408b-8a3c-4068aa5641bc",
+    "company": "PIMCO",
+    "role": "2027 Summer Intern - Technology Analyst, Software Engineering",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 1,
+    "failure_signature": "FAILED_RETRYABLE|-|unknown|pimco.wd1.myworkdayjobs.com",
+    "end_host": "pimco.wd1.myworkdayjobs.com",
+    "recent_events": [
+      {
+        "from": "SUBMITTING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "required questions unanswered — click withheld",
+        "at": "2026-09-14T13:04:54.424Z"
+      },
+      {
+        "from": "READY_TO_SUBMIT",
+        "to": "SUBMITTING",
+        "reason": "human-approved submission started",
+        "at": "2026-09-14T13:04:50.455Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "READY_TO_SUBMIT",
+        "reason": "pipeline: fill rehearsal verified",
+        "at": "2026-09-14T13:04:41.978Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (workday live fill: 12 filled (held for submit))",
+        "at": "2026-09-14T13:04:41.976Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route inspect_only (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-14T13:02:47.730Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-14T13:02:47.030Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: workday URL validated",
+        "at": "2026-09-14T13:02:47.022Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-14T13:02:47.017Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 7141579276ac)",
+        "at": "2026-09-14T13:02:47.011Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-14T13:02:46.997Z"
+      },
+      {
+        "from": "FAILED_RETRYABLE",
+        "to": "QUEUED",
+        "reason": "operator requeue 2026-09-14: fresh fill under 4caed4a1 (Workday listbox targeting / stray popper / wizard heading fixes)",
+        "at": "2026-09-14T13:00:12.990Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "FAILED_RETRYABLE",
+        "reason": "operator requeue 2026-09-14: fresh fill under 4caed4a1 (Workday listbox targeting / stray popper / wizard heading fixes)",
+        "at": "2026-09-14T13:00:12.989Z"
+      },
+      {
+        "from": "AMBIGUOUS_FIELD",
+        "to": "FIELD_VERIFICATION",
+        "reason": "operator resolved ambiguous field (console)",
+        "at": "2026-09-14T13:00:12.982Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "AMBIGUOUS_FIELD",
+        "reason": "pipeline: read-back verification failed",
+        "at": "2026-09-14T10:10:24.563Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (workday live fill: 10 filled (held for submit))",
+        "at": "2026-09-14T10:10:24.562Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "pimco",
+        "detail": "token \"pimco\" ~ slug \"pimco\"",
+        "expected_company": "PIMCO",
+        "url": "https://pimco.wd1.myworkdayjobs.com/pimco-careers/job/Austin-TX-USA/XMLNAME-2027-Summer-Intern---Technology-Analyst--Software-Engineering_R106745?source=jobright&jr_id=6a84fe5dd34f700f87fbbc0c"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (11 candidates, employer match)",
+          "evidence": "pimco.wd1.myworkdayjobs.com"
+        }
+      ]
+    },
+    "submit": {
+      "outcome": "FAILED_BEFORE_CLICK",
+      "reason": "Refusing to click submit: 5 required question(s) unanswered — Job Title* [text]; Company* [text]; Role Description* [textarea]; Overall Result (GPA)* [text]; Degree* [combobox]",
+      "brief_items": []
+    },
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": true
+    },
+    "open_review_items": [
+      {
+        "kind": "MANUAL",
+        "title": "5 required question(s) unanswered — answer via screeners.json/essay workflow, then requeue"
+      }
+    ],
+    "prior_decisions": [
+      {
+        "action": "park_for_operator",
+        "failure_signature": "AMBIGUOUS_FIELD|-|verify_mismatch|pimco.wd1.myworkdayjobs.com",
+        "outcome_status": "PENDING",
+        "created_at": "2026-09-14T10:10:29.813Z"
+      }
+    ],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\":\"no_action\",\"rationale\":\"Submit was correctly withheld: 5 required employer questions (work history, GPA, degree) need human-supplied answers. A MANUAL review item is already open instructing the screeners.json/essay workflow, so no new parking or requeue would change the outcome until those answers exist.\",\"confidence\":\"high\"}",
+  "parsed_action": "no_action",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "recorded only",
+  "rationale_unverified": "Submit was correctly withheld: 5 required employer questions (work history, GPA, degree) need human-supplied answers. A MANUAL review item is already open instructing the screeners.json/essay workflow, so no new parking or requeue would change the outcome until those answers exist."
+}
