@@ -1,0 +1,47 @@
+{
+  "run_id": "[REDACTED]",
+  "outcome": "stopped",
+  "steps": [
+    {
+      "observation": "4425ad6e8b4ece12",
+      "action": "click",
+      "reason": "one unambiguous Apply control",
+      "result": "action failed: elementHandle.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m",
+      "target": "control-0"
+    },
+    {
+      "observation": "fae40dadf6444c0a",
+      "action": "click",
+      "reason": "one unambiguous Apply control",
+      "result": "action failed: elementHandle.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n",
+      "target": "control-0"
+    },
+    {
+      "observation": "fae40dadf6444c0a",
+      "action": "form_ready",
+      "reason": "The Apply flow already opened a 'Create Account to Apply' modal with applicant identity fields (name/email/phone) visible; this is the employer's application entry form.",
+      "result": "refused: applicant form not independently observed",
+      "model": "claude-opus-5"
+    },
+    {
+      "observation": "fae40dadf6444c0a",
+      "action": "authenticate",
+      "reason": "Apply opened a 'Create Account to Apply' gate (needs_login); rather than re-clicking Apply (which timed out twice) or filling identity fields myself, hand off to the approved portal-auth service to get past the account/sign-in gate on this exact posting.",
+      "result": "portal auth: not_an_auth_wall",
+      "model": "claude-opus-5"
+    },
+    {
+      "observation": "fae40dadf6444c0a",
+      "action": "stop",
+      "reason": "no progress: this page state was observed 4 times",
+      "result": "model stopped"
+    }
+  ],
+  "notes": [
+    "model calls: 2 of 5 steps"
+  ],
+  "evidence": [
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-66429d1f-7bea-4e93-8201-630454298302\\observation.json",
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-66429d1f-7bea-4e93-8201-630454298302\\page.png"
+  ]
+}

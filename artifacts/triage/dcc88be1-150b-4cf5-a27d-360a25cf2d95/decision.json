@@ -1,0 +1,180 @@
+{
+  "decision_id": "dcc88be1-150b-4cf5-a27d-360a25cf2d95",
+  "application_id": "7f4112ec-ea85-4e30-9d27-95ed4c2909b1",
+  "signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|www.paycomonline.net",
+  "forbidden_actions": [
+    "requeue_same",
+    "engage_agent_leg"
+  ],
+  "bundle": {
+    "application_id": "7f4112ec-ea85-4e30-9d27-95ed4c2909b1",
+    "company": "First Internet Bank",
+    "role": "Information Technology Intern",
+    "state": "NATIVE_AUTOFILL_RUNNING",
+    "attempt": 2,
+    "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|www.paycomonline.net",
+    "end_host": "www.paycomonline.net",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-14T09:08:17.877Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-14T09:08:16.829Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-14T09:08:16.822Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-14T09:08:16.811Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 7141579276ac)",
+        "at": "2026-09-14T09:08:16.803Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-14T09:08:16.785Z"
+      },
+      {
+        "from": "FAILED_RETRYABLE",
+        "to": "QUEUED",
+        "reason": "retry 2/3",
+        "at": "2026-09-14T09:07:12.052Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "triage: demoting gate-parked NATIVE_AUTOFILL_RUNNING for requeue (NATIVE_AUTOFILL_RUNNING|-|unknown|www.paycomonline.net)",
+        "at": "2026-09-14T09:07:12.051Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-14T09:06:18.597Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-14T09:06:17.203Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-14T09:06:17.198Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-14T09:06:08.377Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 7141579276ac)",
+        "at": "2026-09-14T09:06:08.369Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-14T09:06:08.321Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-14T09:01:16.516Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_llm",
+      "notes": [
+        "phase A: 8 external host(s) seen: www.paycomonline.net, www.linkedin.com, x.com, www.crunchbase.com, www.firstib.com, thefly.com, www.morningstar.com, www.pymnts.com",
+        "no standard Apply control found (exact and broad name tiers both empty)",
+        "anchor adjudication: promoted www.paycomonline.net",
+        "anchor adjudication rationale (UNVERIFIED): Paycom ATS job-specific link is the employer's own application page; others are homepage or news.",
+        "employer congruence unverifiable (no employer name decodable from URL (host and path are generic)) — recorded"
+      ],
+      "congruence": {
+        "verdict": "unknown",
+        "slug": null,
+        "detail": "no employer name decodable from URL (host and path are generic)",
+        "expected_company": "First Internet Bank",
+        "url": "https://www.paycomonline.net/v4/ats/web.php/portal/B267103A36D5740F2B0140167CEA25F1/jobs/159244?jr_id=6aa7b5ee930bff471a2a3ca9"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "no congruent apply href (12 external links)",
+          "evidence": "www.paycomonline.net, www.linkedin.com, x.com, www.crunchbase.com, www.firstib.com, thefly.com"
+        },
+        {
+          "phase": "B_apply_click",
+          "outcome": "unresolved by deterministic phases"
+        },
+        {
+          "phase": "A_anchor_llm",
+          "outcome": "candidate promoted by adjudication",
+          "evidence": "www.paycomonline.net"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [],
+    "prior_decisions": [
+      {
+        "action": "engage_agent_leg",
+        "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|www.paycomonline.net",
+        "outcome_status": "PENDING",
+        "created_at": "2026-09-14T09:20:03.116Z"
+      },
+      {
+        "action": "requeue_same",
+        "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|www.paycomonline.net",
+        "outcome_status": "REFUTED",
+        "created_at": "2026-09-14T09:07:12.049Z"
+      }
+    ],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": true
+  },
+  "raw_model_text": "{\"action\": \"park_for_operator\", \"rationale\": \"Same signature stalled twice at portal sign-in; requeue_same was refuted and an agent leg is already pending/forbidden. Materials verified (resume sha256 present), nav wall 'none' but employer congruence unverifiable on a generic Paycom ATS URL, so no evidence of duplicate or permanent wall. Human should confirm the portal/credentials.\", \"confidence\": \"medium\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: a7179635-69fc-48a7-a58d-b73a78cab169",
+  "rationale_unverified": "Same signature stalled twice at portal sign-in; requeue_same was refuted and an agent leg is already pending/forbidden. Materials verified (resume sha256 present), nav wall 'none' but employer congruence unverifiable on a generic Paycom ATS URL, so no evidence of duplicate or permanent wall. Human should confirm the portal/credentials."
+}
