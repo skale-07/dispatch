@@ -752,8 +752,10 @@ validated unless hosted mode is on) and `CONSOLE_PORT` (`8899`). The
 console process `.env` is the ceiling for every flag above — see §16.
 
 The banned send-style APIs have no flag — they are impossible, enforced by
-`npm run check:forbidden` (Outlook send identifiers AND Gmail
-send/modify/compose identifiers).
+`npm run check:forbidden` (Outlook send identifiers AND every Gmail send
+endpoint — messages and drafts, dotted and slashed — plus the send/modify
+scopes). Gmail is readonly + compose at most (drafts only, §28); your own
+`gmail:auth` grant stays readonly-only.
 
 ## 14a. Answering everything (the autonomy unblockers)
 
@@ -2339,3 +2341,79 @@ book, not user data).
   running child finishes or hits its own timeout). Prints the per-tick
   report as JSON. `outreach` / `feed_sample` jobs are not leased until
   their milestones land — they stay `queued`.
+
+## 28. Per-user Gmail — drafts only
+
+A hosted user connects their own Gmail so the engine can (a) read
+verification codes job portals send them and (b) write referral emails
+into their **Drafts** for them to review and send. Two scopes, pinned in
+`src/gmail/readonlyGuards.ts`: `gmail.readonly` and the compose scope
+(operator decision 2026-09-11 — it is the one scope that lets an app
+create a draft). Nothing in this repo can send: every Gmail send endpoint
+(messages and drafts, dotted and slashed) and the send/modify scopes are
+banned identifiers checked by `npm run check:forbidden`, the API
+transport (`src/gmail/draftsApi.ts`) admits exactly `POST users/me/drafts`
+and `GET users/me/drafts/{id}` and asserts that per request, and a
+draft is only reported as created after a read-back shows it carrying the
+`DRAFT` label.
+
+How a user connects (plan M19):
+
+1. The web app's integrations step runs a PKCE consent against Dispatch's
+   own Google **Web** OAuth client (`VITE_GMAIL_OAUTH_CLIENT_ID` in the
+   frontend build; unset ⇒ the card refuses by name). The browser holds
+   the public client id only.
+2. Google redirects to `/gmail/callback`; the page matches its stored
+   state and hands code + PKCE verifier to `submit_gmail_oauth_code`
+   (`20260914000100`), which stores them in `gmail_oauth_requests` (no
+   client can read that table), marks the integration `pending_handoff`
+   and enqueues a `gmail_exchange` job.
+3. The scheduler leases it; `tenant:run --kind gmail_exchange` exchanges
+   the code with `GMAIL_OAUTH_CLIENT_ID` / `GMAIL_OAUTH_CLIENT_SECRET` from
+   the engine `.env` (only the engine holds the secret), **refuses** any
+   grant that is wider than readonly + compose, lacks readonly, or has no
+   refresh token (the request is deleted and the integration row carries
+   the reason), stores the refresh token as cloud ciphertext
+   (`engine_store_integration_secret`; the client secret is never sent to
+   the cloud), seals a workspace copy as `secrets/gmail.oauth.enc` under
+   the tenant key, deletes the request, and marks Gmail `connected` with
+   the account email. A request older than 15 minutes is dead.
+4. After each tenant run the engine mirrors THAT a draft exists
+   (company, contact, subject, draft id — never a body) to
+   `outreach_drafts` for the dashboard.
+
+What is still operator-only: your own `npm run gmail:auth` grant stays
+readonly-only; the outreach worker's drafting still runs over the debug
+Chrome (`GMAIL_DRAFTS_ENABLED`, §10–11) — the drafts-only API transport
+exists (`createDraftViaApi`) but the outreach pipeline's switch to it for
+tenant children is a follow-up, and tenant children keep Gmail drafting
+forced off until then (`src/tenants/childEnv.ts`). In Google's Testing
+mode a refresh token expires after 7 days ⇒ the refresh answers
+`invalid_grant` ⇒ a `gmail_reconnect` handoff; start restricted-scope
+verification (CASA) early. Levels: engine + SPA UNIT_CONFIRMED; the live
+exchange and one API draft read back from a test mailbox are UNVERIFIED
+until the Web client exists and the migration is applied.
+
+### Field signals (plan M21) — what `cloud:sync` also pushes
+
+By default every `cloud:sync` pass (and every tenant run, with the
+tenant's id) pushes **field signals**: for each question the engine met on
+a form — a canonical field key or a 12-hex fingerprint of the label — the
+ATS, how many forms showed it and how often it went unanswered, plus
+per-application events (`unanswered_required`, `skip_unmapped`,
+`skip_empty_profile`, `transcript_required`, `essay_required`,
+`review_item`). Never an answer, a value, or a chosen option: the column
+sets are exact whitelists (`src/cloud/fieldSignals.ts`), demographic and
+sensitive labels are filtered by the engine's own rules and refused again
+by the database, and labels under 8 characters are dropped. `--no-signals`
+opts out. The dashboard's "Suggested for you" ranks these (k-anonymity
+floor 3 tenants) together with admin pins:
+
+```
+npm run cloud:field-pins -- list
+npm run cloud:field-pins -- add --key screener:security_clearance --store screener --reason "asked on most defense forms" --priority 7
+npm run cloud:field-pins -- disable --key screener:security_clearance
+```
+
+Pins are a cloud write (behind `SUPABASE_SYNC_ENABLED`); a pin says "surface
+this question, the answer lives in <store>" and never carries an answer.

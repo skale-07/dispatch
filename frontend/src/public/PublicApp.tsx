@@ -8,6 +8,7 @@ import { SignupPage } from "./SignupPage";
 import { OnboardingPage } from "./onboarding/OnboardingPage";
 import { DashboardPage } from "./dashboard/DashboardPage";
 import { SettingsPage } from "./SettingsPage";
+import { GmailCallbackPage } from "./GmailCallbackPage";
 import { usePageTitle } from "./usePageTitle";
 
 /**
@@ -29,6 +30,8 @@ import { usePageTitle } from "./usePageTitle";
  *                · referral drafter (protected)
  *   /dashboard/applications/:id  one application as a sheet over the dashboard
  *   /settings    pause the engine, disconnect JobRight, clear self-ID, sign out
+ *   /gmail/callback  Google's redirect after the drafts-only consent; hands
+ *                    the code to the engine (protected)
  */
 export function PublicApp(): JSX.Element {
   return (
@@ -126,6 +129,14 @@ function PublicChrome(): JSX.Element {
             element={
               <RequireAuth>
                 <SettingsPage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/gmail/callback"
+            element={
+              <RequireAuth>
+                <GmailCallbackPage />
               </RequireAuth>
             }
           />

@@ -54,6 +54,8 @@ export const EXPECTED_TABLES = [
   "user_field_events",
   "field_rules",
   "signal_targets",
+  // per-user Gmail, drafts only (20260914000100); RPC-insert only, engine-read only
+  "gmail_oauth_requests",
 ] as const;
 export const EXPECTED_VIEWS = [
   "user_quota_status",
@@ -97,6 +99,8 @@ export const EXPECTED_RPCS = [
   "engine_upsert_field_signals",
   "engine_upsert_field_events",
   "field_suggestion_inputs",
+  // per-user Gmail (20260914000100)
+  "submit_gmail_oauth_code",
 ] as const;
 /**
  * Read-only probe arguments per RPC. Called with the service role
@@ -150,6 +154,8 @@ export const RPC_PROBE_ARGS: Record<(typeof EXPECTED_RPCS)[number], Record<strin
   engine_upsert_field_signals: { p_tenant: NIL_UUID, p_rows: [] },
   engine_upsert_field_events: { p_user: NIL_UUID, p_rows: [] },
   field_suggestion_inputs: {},
+  // Per-user Gmail (20260914000100): checks auth.uid() before anything else.
+  submit_gmail_oauth_code: { p_code: "", p_code_verifier: "", p_redirect_uri: "" },
 };
 export const EXPECTED_BUCKETS = ["resumes", "receipts", "transcripts"] as const;
 

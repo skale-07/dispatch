@@ -39,6 +39,14 @@ export const CONTRACT = {
   /** User-side integration writes: only { premium } and { disconnect }. */
   setIntegrationRpc: "set_my_integration",
   /**
+   * Per-user Gmail, drafts only (20260914000100): the SPA runs a PKCE
+   * consent for readonly + compose and hands the code + verifier to the
+   * engine through this RPC; the engine exchanges it (it alone holds the
+   * client secret), refuses any wider grant, and marks the integration
+   * connected. No client ever reads the request back.
+   */
+  submitGmailOauthCodeRpc: "submit_gmail_oauth_code",
+  /**
    * Opt-in encrypted self-identification (20260911000500). RPC-only:
    * the table has no client policy and no view. See selfId.ts.
    */

@@ -52,7 +52,7 @@ flowchart TB
   end
   subgraph verify [Verify]
     verification[verification<br/>portal auth + codes]
-    mail[mail<br/>Gmail RO / Outlook drafts]
+    mail[mail<br/>Gmail + Outlook, drafts only]
   end
   outreach[outreach + contacts]
   queue[queue<br/>state machine + budgets]

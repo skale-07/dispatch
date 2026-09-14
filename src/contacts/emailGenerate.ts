@@ -7,6 +7,7 @@ import { getConfig, resetConfigCache } from "../config/index.js";
 import { logger } from "../logging/logger.js";
 import { getApplication, transitionApplication } from "../queue/stateMachine.js";
 import { upsertOpenReviewItem } from "../queue/reviewItems.js";
+import { candidateIdentity } from "../candidate/identity.js";
 import { loadPersona, type Persona } from "../candidate/personas.js";
 import { getContact, type ContactRow } from "./repository.js";
 import { hasLlmKey, LLM_KEY_HINT, type EmailLlmClient } from "./emailLlm.js";
@@ -248,11 +249,18 @@ export function validateGeneratedEmail(input: {
       'nameless contact must be greeted with exactly "Hi there," — a guessed name is an invented fact',
     );
   }
-  if (!output.body_text.includes("Shubham Kale")) {
+  // The signature is the LOADED candidate's (plan M19 de-operator-ize):
+  // the operator's own profile carries the same values as the former
+  // literals, a tenant child's carries the tenant's. Blank profile fields
+  // fall back to the literals rather than accepting an unsigned email.
+  const identity = candidateIdentity();
+  const signatureName = identity.fullName || "Shubham Kale";
+  const signatureLink = identity.linkedinUrl ?? LINKEDIN_PROFILE_URL.replace(/\/$/, "");
+  if (!output.body_text.includes(signatureName)) {
     violations.push("body missing signature");
   }
-  if (!output.body_text.includes(LINKEDIN_PROFILE_URL)) {
-    violations.push(`body missing the ${LINKEDIN_PROFILE_URL} signature link`);
+  if (!output.body_text.includes(signatureLink)) {
+    violations.push(`body missing the ${signatureLink} signature link`);
   }
   if (!output.body_text.includes("Applied Mathematics, Economics, & Public Health")) {
     violations.push("body missing the signature majors line");

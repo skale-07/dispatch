@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { useAuth } from "../../auth/AuthContext";
 import { Icon } from "../../components/Icon";
 import { Eyebrow } from "../../components/public/Eyebrow";
 import { FieldHint } from "../../components/public/FieldHint";
@@ -32,6 +33,14 @@ import {
   isActiveHandoff,
   pickHandoff,
 } from "./handoff";
+import {
+  GMAIL_PKCE_STORAGE_KEY,
+  buildGmailConsentUrl,
+  codeChallengeS256,
+  defaultRedirectUri,
+  randomVerifier,
+  type PendingPkce,
+} from "../gmailOauth";
 import { StepActions, type StepProps } from "./StepChrome";
 
 /**
@@ -44,9 +53,10 @@ import { StepActions, type StepProps } from "./StepChrome";
  * session — the browser never marks anything connected. A soft feed
  * sample (titles only) then proves their own filters produce work.
  *
- * Gmail (drafts-only, readonly + compose) arrives with plan M19 together
- * with the guard change that permits the compose scope; until then the
- * card refuses by name rather than pretending.
+ * Gmail (drafts-only, readonly + compose; plan M19) is a PKCE consent
+ * against Dispatch's own Web client: the browser holds the public client
+ * id only, the engine exchanges the code and marks the integration
+ * connected. Without a configured client id the card refuses by name.
  */
 
 type Snapshot = {
@@ -57,6 +67,7 @@ type Snapshot = {
 };
 
 export function IntegrationsStep(props: StepProps): JSX.Element {
+  const { user } = useAuth();
   const [snap, setSnap] = useState<Snapshot | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [actionError, setActionError] = useState<string | null>(null);
@@ -259,14 +270,12 @@ export function IntegrationsStep(props: StepProps): JSX.Element {
         </CardContent>
       </Card>
 
-      <Card className="py-2">
-        <CardContent className="px-5 sm:px-8">
-          <LockedPanel
-            title="Gmail — drafts only"
-            reason="Gmail connect ships with the drafts-only Gmail release (plan M19). Until then no referral drafts are written for this account, and nothing is ever sent in your name."
-          />
-        </CardContent>
-      </Card>
+      <GmailSection
+        gmail={snap ? integrationFor(snap.integrations, "gmail") : null}
+        exchangeJob={snap?.jobs.find((j) => j.kind === "gmail_exchange" && (j.status === "queued" || j.status === "leased")) ?? null}
+        email={user?.email ?? null}
+        onError={(m) => setActionError(m)}
+      />
 
       <StepActions
         goBack={props.goBack}
@@ -278,6 +287,95 @@ export function IntegrationsStep(props: StepProps): JSX.Element {
         }
       />
     </div>
+  );
+}
+
+const GMAIL_CLIENT_ID = (import.meta.env.VITE_GMAIL_OAUTH_CLIENT_ID as string | undefined)?.trim() ?? "";
+const GMAIL_REDIRECT = (import.meta.env.VITE_GMAIL_OAUTH_REDIRECT_URI as string | undefined) ?? "";
+
+/**
+ * Gmail, drafts only (plan M19). The consent is PKCE against Dispatch's
+ * own Web client id; the code goes to the engine, which alone holds the
+ * secret. Without a configured client id the card refuses by name.
+ */
+function GmailSection({
+  gmail,
+  exchangeJob,
+  email,
+  onError,
+}: {
+  gmail: IntegrationRow | null;
+  exchangeJob: EngineJobRow | null;
+  email: string | null;
+  onError: (message: string) => void;
+}): JSX.Element {
+  const [starting, setStarting] = useState(false);
+  const status = gmail?.status ?? "disconnected";
+  const connecting = status === "pending_handoff" || exchangeJob !== null;
+
+  const start = async (): Promise<void> => {
+    setStarting(true);
+    try {
+      const verifier = randomVerifier();
+      const state = randomVerifier();
+      const redirectUri = defaultRedirectUri(window.location.origin, GMAIL_REDIRECT);
+      const pending: PendingPkce = { verifier, state, redirectUri, startedAt: new Date().toISOString() };
+      window.sessionStorage.setItem(GMAIL_PKCE_STORAGE_KEY, JSON.stringify(pending));
+      const codeChallenge = await codeChallengeS256(verifier);
+      window.location.assign(buildGmailConsentUrl({ clientId: GMAIL_CLIENT_ID, redirectUri, state, codeChallenge, loginHint: email }));
+    } catch (err) {
+      setStarting(false);
+      onError(err instanceof Error ? err.message : String(err));
+    }
+  };
+
+  if (!GMAIL_CLIENT_ID) {
+    return (
+      <Card className="py-2">
+        <CardContent className="px-5 sm:px-8">
+          <LockedPanel
+            title="Gmail — drafts only"
+            reason="Gmail connect is not configured for this deployment (VITE_GMAIL_OAUTH_CLIENT_ID is unset). No referral drafts are written for this account, and nothing is ever sent in your name."
+          />
+        </CardContent>
+      </Card>
+    );
+  }
+
+  return (
+    <Card className="py-6">
+      <CardContent className="flex flex-col gap-4 px-5 sm:px-8">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <Eyebrow as="h2">Gmail — drafts only</Eyebrow>
+          <Badge variant={status === "connected" ? "default" : "outline"} className="font-mono">
+            {connecting && status !== "connected" ? "connecting…" : integrationStatusLabel(gmail)}
+          </Badge>
+        </div>
+        <p className="m-0 text-sm text-text-dim">
+          Two permissions, both in your own account: read (verification codes from job portals) and compose
+          (referral emails written into your <span className="font-mono">Drafts</span>, for you to review and send).
+          Dispatch can never send mail in your name — the engine refuses any wider grant.
+        </p>
+        {gmail?.last_error ? (
+          <Alert variant="destructive">
+            <AlertDescription>{gmail.last_error}</AlertDescription>
+          </Alert>
+        ) : null}
+        <div className="flex flex-wrap items-center gap-3">
+          <Button type="button" onClick={() => void start()} disabled={starting || (connecting && status !== "connected")}>
+            <Icon name="arrow-right" size={14} />
+            {status === "connected" ? "reconnect Gmail" : "connect Gmail"}
+          </Button>
+          <FieldHint>
+            {status === "connected" && gmail?.account_email
+              ? `connected as ${gmail.account_email}`
+              : connecting
+                ? "the engine is verifying your grant — this updates on its own"
+                : "you leave for Google and come straight back here"}
+          </FieldHint>
+        </div>
+      </CardContent>
+    </Card>
   );
 }
 

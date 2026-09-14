@@ -80,7 +80,13 @@ function fakeClient(quotaRow: Record<string, unknown> | null, taskRow: Record<st
           return { error: null };
         },
       }),
-      select: () => ({ eq: () => ({ maybeSingle: async () => ({ data: table === "handoff_tasks" ? taskRow : quotaRow, error: null }) }) }),
+      delete: () => ({
+        eq: async (_col: string, id: string) => {
+          calls.push({ table, rows: { deleted: id } });
+          return { error: null };
+        },
+      }),
+      select: () => ({ eq: () => ({ maybeSingle: async () => ({ data: table === "handoff_tasks" || table === "gmail_oauth_requests" ? taskRow : quotaRow, error: null }) }) }),
     }),
   };
   return { client, calls };
@@ -315,6 +321,33 @@ describe("tenant:run (UNIT_CONFIRMED)", () => {
     expect(r.outcome).toBe("refused");
     expect(r.reconnect?.reason).toMatch(/is live, not user_done/);
     expect(calls.find((c) => c.rpc === "complete_engine_job")!.args!["p_status"]).toBe("failed");
+  });
+
+  it("gmail_exchange: exchanges the pending code, seals the grant, marks the job succeeded; a refused grant kills the job", async () => {
+    const withCreds = loadConfig({
+      NODE_ENV: "test", DATABASE_PATH: "data/test.sqlite", TENANT_ENGINE_ENABLED: "true",
+      SUPABASE_URL: "https://x.supabase.co", SUPABASE_SERVICE_ROLE_KEY: "k", TENANTS_ROOT: root, PRIVATE_DIR: operatorPrivate,
+      GMAIL_OAUTH_CLIENT_ID: "web-id", GMAIL_OAUTH_CLIENT_SECRET: "web-secret",
+    });
+    const request = { user_id: UID, code: "4/abc", code_verifier: "ver", redirect_uri: "https://app/gmail/callback", created_at: new Date().toISOString() };
+    const { client, calls } = fakeClient(quotaOk, request);
+    const r = await runTenantJob({
+      userId: UID, kind: "gmail_exchange", jobId: JOB, client, config: withCreds,
+      seams: { user: user(), tenantKey: KEY, gmailExchange: async () => ({ refreshToken: "rt", scopes: ["https://www.googleapis.com/auth/gmail.readonly"], accountEmail: "maya@gmail.com", obtainedAt: "2026-09-14T07:00:00.000Z" }) },
+    });
+    expect(r.outcome).toBe("completed");
+    expect(r.gmail?.outcome).toBe("connected");
+    expect(fs.existsSync(path.join(tenantPaths(UID, root).secretsDir, "gmail.oauth.enc"))).toBe(true);
+    expect(calls.find((c) => c.rpc === "engine_store_integration_secret")).toBeTruthy();
+    expect(calls.find((c) => c.rpc === "complete_engine_job")!.args!["p_status"]).toBe("succeeded");
+
+    const { client: c2, calls: calls2 } = fakeClient(quotaOk, request);
+    const refused = await runTenantJob({
+      userId: UID, kind: "gmail_exchange", jobId: JOB, client: c2, config: withCreds,
+      seams: { user: user(), tenantKey: KEY, gmailExchange: async () => { throw new Error("Gmail grant carries scopes outside readonly+compose (x) — drafts only; refusing."); } },
+    });
+    expect(refused.outcome).toBe("refused");
+    expect(calls2.find((c) => c.rpc === "complete_engine_job")!.args!["p_status"]).toBe("dead");
   });
 
   it("kinds that have no engine yet are refused as dead, without materializing anything", async () => {

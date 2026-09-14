@@ -32,6 +32,10 @@ import { deriveTenantKey } from "./keys.js";
 import { tenantPaths, type TenantPaths } from "./paths.js";
 import { computeRunBudget, countLocalCompleted, readCloudQuota, type CloudQuota, type RunBudget } from "./quota.js";
 import { runReconnectVerify, type ReconnectResult, type ReconnectSeams } from "./reconnect.js";
+import { runGmailExchange, type GmailExchangeResult } from "./gmailExchange.js";
+import { selectOutreachDraftRows } from "./outreachMirror.js";
+import { pushOutreachDrafts } from "../cloud/engineQueue.js";
+import { runFieldSignalsPush, type FieldSignalsPushResult } from "../cloud/fieldSignals.js";
 import { hasSealed, unsealSecret, wipeUnsealed, writeUnsealedStorageState } from "./secrets.js";
 import { materializeWorkspace, type MaterializeReport } from "./workspace.js";
 
@@ -58,7 +62,7 @@ import { materializeWorkspace, type MaterializeReport } from "./workspace.js";
 
 export const JOBRIGHT_STATE_SECRET = "jobright.storage";
 
-export type TenantJobKind = "apply" | "outreach" | "feed_sample" | "reconnect_verify";
+export type TenantJobKind = "apply" | "outreach" | "feed_sample" | "reconnect_verify" | "gmail_exchange";
 
 export type TenantRunOutcome =
   | "completed"
@@ -98,6 +102,8 @@ export type TenantRunSeams = {
   repoRoot?: string;
   /** reconnect_verify: provider + session seam (tests inject fakes). */
   reconnect?: ReconnectSeams;
+  /** gmail_exchange: the code exchange (tests inject a fake). */
+  gmailExchange?: Parameters<typeof runGmailExchange>[0]["exchange"];
 };
 
 export type TenantRunInput = {
@@ -142,6 +148,9 @@ export type TenantRunResult = {
   sync: SupabaseSyncResult | null;
   receipts: ReceiptsPushResult | null;
   reconnect: ReconnectResult | null;
+  gmail: GmailExchangeResult | null;
+  outreach_drafts_pushed: number;
+  signals: FieldSignalsPushResult | null;
   engine_state: EngineState;
   job_completion: EngineJobCompletion | null;
   plaintext_wiped: number;
@@ -306,6 +315,9 @@ export async function runTenantJob(input: TenantRunInput): Promise<TenantRunResu
     sync: null,
     receipts: null,
     reconnect: null,
+    gmail: null,
+    outreach_drafts_pushed: 0,
+    signals: null,
     engine_state: "idle",
     job_completion: null,
     plaintext_wiped: 0,
@@ -390,6 +402,29 @@ export async function runTenantJob(input: TenantRunInput): Promise<TenantRunResu
       }
       notes.push(r.reason ?? "capture did not complete");
       return await finish(r.outcome === "refused" ? "refused" : "capture_failed", "failed", { retryAfterSeconds: 600, error: r.reason });
+    }
+
+    // ── gmail_exchange: the user consented in the web app; exchange the code ──
+    if (input.kind === "gmail_exchange") {
+      const key = seams.tenantKey ?? deriveTenantKey(resolveTenantMasterKey(config.tenantsRoot), paths.userId);
+      fs.mkdirSync(paths.secretsDir, { recursive: true });
+      const g = await runGmailExchange({
+        client: client as unknown as Parameters<typeof runGmailExchange>[0]["client"],
+        config,
+        userId: paths.userId,
+        paths,
+        tenantKey: key,
+        ...(seams.gmailExchange ? { exchange: seams.gmailExchange } : {}),
+        now,
+      });
+      result.gmail = g;
+      if (g.outcome === "connected") {
+        notes.push(`Gmail connected (${g.scopes.join(" ")})`);
+        return await finish("completed", "succeeded");
+      }
+      notes.push(g.reason ?? g.outcome);
+      // A refused or stale grant is final for this request: the user must consent again.
+      return await finish(g.outcome === "exchange_failed" ? "error" : "refused", g.outcome === "exchange_failed" ? "failed" : "dead", { retryAfterSeconds: 600, error: g.reason });
     }
 
     // ── only `apply` runs today; outreach / feed_sample arrive with their milestones ──
@@ -539,10 +574,21 @@ export async function runTenantJob(input: TenantRunInput): Promise<TenantRunResu
       } catch (err) {
         notes.push(`receipts push failed: ${err instanceof Error ? err.message : String(err)}`);
       }
+      try {
+        // THAT a referral draft exists (company, contact, subject, draft id) — never a body.
+        result.outreach_drafts_pushed = await pushOutreachDrafts(queue, selectOutreachDraftRows(db, paths.userId));
+      } catch (err) {
+        notes.push(`outreach_drafts push failed: ${err instanceof Error ? err.message : String(err)}`);
+      }
+      try {
+        // WHICH questions the tenant's forms asked and how often unanswered — never an answer.
+        result.signals = await runFieldSignalsPush({ db, userId: paths.userId, config, client });
+      } catch (err) {
+        notes.push(`field signals push failed: ${err instanceof Error ? err.message : String(err)}`);
+      }
     } else {
       notes.push("sync skipped: SUPABASE_SYNC_ENABLED off");
     }
-    notes.push("field signals push lands with plan M21");
 
     const handoffs = deriveHandoffsFromRun({
       userId: paths.userId,

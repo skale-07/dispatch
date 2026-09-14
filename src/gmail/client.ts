@@ -1,14 +1,30 @@
 import { getConfig } from "../config/index.js";
-import { GMAIL_READONLY_SCOPE, GmailWriteForbiddenError } from "./readonlyGuards.js";
-import { readGmailToken, type GmailTokenFile } from "./tokenStore.js";
+import { GMAIL_ALLOWED_SCOPES, GMAIL_READONLY_SCOPE, GmailWriteForbiddenError } from "./readonlyGuards.js";
+import { readGmailToken, tokenScopes, type GmailTokenFile } from "./tokenStore.js";
 
 /**
  * Zero-dependency readonly Gmail client (two REST endpoints via fetch —
  * the googleapis package would pull a large tree for this). The absence of
- * any send/modify method here is structural, and the granted scope is
+ * any send/modify method here is structural, and the granted scopes are
  * asserted on the STORED grant at construction (plus on any refresh
- * response that reports scope): anything beyond gmail.readonly throws.
+ * response that reports scope): readonly must be present and nothing
+ * beyond readonly + compose may be (drafts only; the compose scope is
+ * used by src/gmail/draftsApi.ts, never here).
  */
+
+function assertGrantScopes(scopes: readonly string[], where: string): void {
+  const beyond = scopes.filter((s) => !(GMAIL_ALLOWED_SCOPES as readonly string[]).includes(s));
+  if (beyond.length > 0) {
+    throw new GmailWriteForbiddenError(
+      `Gmail grant (${where}) carries scopes outside readonly+compose (${beyond.join(", ")}) — drafts only; refusing. Re-run gmail:auth.`,
+    );
+  }
+  if (!scopes.includes(GMAIL_READONLY_SCOPE)) {
+    throw new GmailWriteForbiddenError(
+      `Gmail grant (${where}) lacks the readonly scope — refusing. Re-run gmail:auth.`,
+    );
+  }
+}
 
 export function assertGmailVerificationAllowed(reason: string): void {
   const cfg = getConfig();
@@ -53,11 +69,7 @@ export class GmailClient {
     }
     // The stored grant is the authority on scope — the refresh response's
     // scope field is optional, so trusting it alone would fail open.
-    if (token.scope !== GMAIL_READONLY_SCOPE) {
-      throw new GmailWriteForbiddenError(
-        `Stored Gmail grant scope is not readonly (${token.scope}) — re-run gmail:auth.`,
-      );
-    }
+    assertGrantScopes(tokenScopes(token), "stored");
     this.token = token;
     this.fetchImpl = options?.fetchImpl ?? (fetch as unknown as FetchLike);
   }
@@ -88,14 +100,14 @@ export class GmailClient {
     if (!body.access_token) {
       throw new Error("Gmail token refresh returned no access_token");
     }
-    // Secondary check: the stored grant was asserted readonly in the
-    // constructor; if the refresh response reports scope at all, it must
-    // agree (absence here no longer weakens anything).
+    // Secondary check: the stored grant was asserted in the constructor;
+    // if the refresh response reports scope at all, it must stay within
+    // the allowed set (absence here no longer weakens anything).
     const scopes = (body.scope ?? "").split(/\s+/).filter(Boolean);
-    const beyondReadonly = scopes.filter((s) => s !== GMAIL_READONLY_SCOPE);
-    if (beyondReadonly.length > 0) {
+    const beyond = scopes.filter((s) => !(GMAIL_ALLOWED_SCOPES as readonly string[]).includes(s));
+    if (beyond.length > 0) {
       throw new GmailWriteForbiddenError(
-        `Gmail token carries non-readonly scopes (${beyondReadonly.join(", ")}) — refusing. Re-run gmail:auth with readonly only.`,
+        `Gmail token carries scopes outside readonly+compose (${beyond.join(", ")}) — drafts only; refusing. Re-run gmail:auth.`,
       );
     }
     this.accessToken = body.access_token;

@@ -471,6 +471,7 @@
         "src/candidate/screeners.ts": "SCREENER_REGISTRY patterns + policies",
         "src/candidate/screenerPredict.ts": "profile-derived predictions",
         "src/candidate/sensitiveProfile.ts": "encrypted demographics; nothing inferred",
+        "src/candidate/identity.ts": "candidateIdentity() — the LOADED profile's name + LinkedIn (the operator's in the operator's process, the tenant's in a tenant child); outreach signatures validate against it, never a literal (plan M19)",
         "src/candidate/sensitiveCrypto.ts": "AES-256-GCM blob format + the key-provider seam: CANDIDATE_KEY_PROVIDER=dpapi (operator master, today's path) | env (insecure test key) | tenant (HKDF of the DPAPI-wrapped master under TENANTS_ROOT, salt TENANT_USER_ID); absent ⇒ pre-M13 behaviour",
         "src/candidate/publicProfile.ts": "name/contact/links/education",
         "src/candidate/screenersIO.ts": "screeners.json load/write; custom persist; forgetCustomScreenerAnswers",
@@ -537,22 +538,44 @@
     },
     {
       "id": "mail",
-      "label": "Gmail (read-only) & Outlook (drafts-only)",
+      "label": "Gmail (readonly + compose, drafts only) & Outlook (drafts-only)",
       "layer": "verify",
-      "purpose": "Gmail is READ-ONLY (readonlyGuards bans mutating identifiers); used for verification codes. Outlook creates DRAFTS only — sendGuards.ts is the banned-identifier source enforced by scripts/check-forbidden.ts. Mail is never sent by this system.",
+      "purpose": "Gmail: readonly for verification codes; compose (plan M19, decision 2026-09-11) ONLY to create drafts in a hosted user's own mailbox — readonlyGuards.ts pins the two scopes and bans every send endpoint (messages and drafts, dotted and slashed) + the send/modify scopes, enforced by scripts/check-forbidden.ts; draftsApi.ts admits exactly POST users/me/drafts + GET users/me/drafts/{id} per request and reports a draft only after a DRAFT-label read-back. Outlook creates DRAFTS only — sendGuards.ts is its banned-identifier source. Mail is never sent by this system.",
       "paths": [
         "src/gmail",
         "src/outlook"
       ],
       "key_files": {
         "src/gmail/waitForVerification.ts": "bounded mailbox poll for codes/links",
-        "src/gmail/readonlyGuards.ts": "banned Gmail mutation identifiers",
+        "src/gmail/readonlyGuards.ts": "GMAIL_READONLY_SCOPE, GMAIL_COMPOSE_SCOPE (the only literal site), GMAIL_ALLOWED_SCOPES, FORBIDDEN_GMAIL_IDENTIFIERS (check:forbidden source)",
+        "src/gmail/tokenStore.ts": "private/auth/gmail.oauth.json — v2 scopes[] (⊆ allowed, readonly required), v1 scope still parses; normalizeGmailToken / tokenScopes",
+        "src/gmail/accessToken.ts": "refreshAccessToken + assertScopesAllowed shared by the readonly client and the drafts transport; invalid_grant names itself (the 7-day Testing-mode expiry ⇒ gmail_reconnect)",
+        "src/gmail/oauthExchange.ts": "exchangeAuthorizationCode (PKCE code + verifier, Web client) — refuses grants outside readonly+compose, without readonly, or without a refresh token; account email from users/me/profile",
+        "src/gmail/draftsApi.ts": "assertDraftsOnlyEndpoint, buildRfc822 (multipart with attachments), createDraftViaApi with DRAFT read-back (SENT ⇒ refused)",
         "src/outlook/draftRun.ts": "create + verify a draft",
         "src/outlook/sendGuards.ts": "banned Outlook send identifiers (check:forbidden source)"
       },
       "key_exports": {
         "src/outlook/sendGuards.ts": [
           "FORBIDDEN_OUTLOOK_IDENTIFIERS"
+        ],
+        "src/gmail/readonlyGuards.ts": [
+          "GMAIL_READONLY_SCOPE",
+          "GMAIL_COMPOSE_SCOPE",
+          "GMAIL_ALLOWED_SCOPES",
+          "FORBIDDEN_GMAIL_IDENTIFIERS"
+        ],
+        "src/gmail/draftsApi.ts": [
+          "assertDraftsOnlyEndpoint",
+          "buildRfc822",
+          "createDraftViaApi"
+        ],
+        "src/gmail/oauthExchange.ts": [
+          "exchangeAuthorizationCode"
+        ],
+        "src/gmail/accessToken.ts": [
+          "refreshAccessToken",
+          "assertScopesAllowed"
         ]
       }
     },
@@ -814,7 +837,9 @@
         "supabase/migrations/20260911000600_user_personas.sql": "onboarding parity 4/5: outreach persona rows (the only source of project claims; placeholder names refused like personas.ts)",
         "supabase/migrations/20260911000700_user_integrations.sql": "onboarding parity 5/5: jobright/gmail integration rows; secrets ciphertext RPC-only (engine_store/read_integration_secret, engine_set_integration_status for service_role); my_integrations view + set_my_integration({premium|disconnect}) for users",
         "src/cloud/engineQueue.ts": "engine work queue client + pure mappers (20260911000800): leaseEngineJobs (FOR UPDATE SKIP LOCKED), completeEngineJob (backoff, dead at max_attempts), reapEngineJobLeases; toEngineJobResult/toHandoffTaskRow/toFeedSampleRow/toOutreachDraftRow/toUserIntegrationsRow are the engine->cloud boundary (feed samples are title/company/location only; outreach drafts record that a draft exists, never a body; handoff context is whitelisted to host/application/ats)",
-        "src/cloud/fieldSignalKeys.ts": "field-surfacing vocabulary (20260911000900), mirrored from SQL and drift-tested: CANONICAL_FIELD_KEYS (profile-backed canonicals MINUS every demographic canonical), FIELD_EVENT_KINDS, SUGGESTION_STORES, SIGNAL_KEY_RE (canonical:|screener:|label:<12-hex>); the signals push filters against it BEFORE the database whitelist refuses"
+        "src/cloud/fieldSignalKeys.ts": "field-surfacing vocabulary (20260911000900), mirrored from SQL and drift-tested: CANONICAL_FIELD_KEYS (profile-backed canonicals MINUS every demographic canonical), FIELD_EVENT_KINDS, SUGGESTION_STORES, SIGNAL_KEY_RE (canonical:|screener:|label:<12-hex>); the signals push filters against it BEFORE the database whitelist refuses",
+        "src/cloud/fieldSignals.ts": "the engine push (plan M21): selectTenantFieldSignals (fill_field_outcomes ⋈ fill_runs + screener_predictions → one row per (signal_key, ats): forms seen / unanswered / required / first+last seen), selectUserFieldEvents (one per (field, application, kind)), usableSignalLabel (demographic / sensitive / widget / unusable / < 8 chars ⇒ never a signal), FIELD_SIGNAL_COLUMNS + FIELD_EVENT_COLUMNS exact whitelists (no expected_*/observed_*/value_fingerprint/selected_option/options_sample_json/prediction_json), runFieldSignalsPush (engine_upsert_field_signals/events, batches of 200) — runs in cloud:sync (--no-signals) and after every tenant run",
+        "src/cloud/fieldPinsCli.ts": "npm run cloud:field-pins -- list|add|disable (admin_field_pins; service role behind SUPABASE_SYNC_ENABLED; keys/stores validated against the vocabulary; a pin never carries an answer)"
       },
       "key_exports": {
         "src/cloud/invites.ts": [
@@ -910,6 +935,8 @@
         "src/tenants/context.ts": "currentTenant(): null in the operator's process; in a tenant child (CANDIDATE_KEY_PROVIDER=tenant + TENANT_USER_ID) the workspace paths, email and the manifest's outreach eligibility",
         "src/tenants/capture.ts": "the JobRight connect/reconnect handoff, engine side: provisionHandoff (requested → provisioning → live, +15 min), captureHandoff (user_done → verifying → attach via the injected session seam → validate app shell → storageState sealed as secrets/jobright.storage.enc → premium probe → completed + engine_set_integration_status | open again while attempts < 3 | failed; provider session always released), resolveJobrightAuthParks (resolve JobRight AUTH_REQUIRED reviews, requeue through the legal AUTH_REQUIRED → APPLICATION_OPENING edge), assessPremiumText (doubt ⇒ unknown)",
         "src/tenants/reconnect.ts": "runReconnectVerify — the reconnect_verify job: read the tenant's user_done task, connect URL from the provider (never stored), lazy-import the session seam, capture, then resolve the parks; refuses by reason for any other task state/kind",
+        "src/tenants/gmailExchange.ts": "runGmailExchange — the gmail_exchange job: read the user's gmail_oauth_requests row, exchange with the engine's Web client (only holder of the secret), refuse wider/readonly-less/offline-less grants, store the refresh token as cloud ciphertext WITHOUT the client secret, seal secrets/gmail.oauth.enc under the tenant key, delete the request; stale (>15 min) ⇒ deleted + disconnected with the reason",
+        "src/tenants/outreachMirror.ts": "selectOutreachDraftRows — the tenant's DRAFTED gmail_drafts as outreach_drafts rows (company, contact, subject, draft id) — never a body",
         "src/tenants/scheduler.ts": "planApplyJobs (pure: every refusal named — no quota row, quota_exhausted, paused, blocking handoff, apply job active, within 60-min cadence, tick cap 5), schedulerTick (reap → handoff poller → planner → lease ≤ maxConcurrent → run), makeSchedulerIo (the only place the scheduler's supabase queries live; a double-enqueue is the partial unique index refusing, read as 'exists'), runTenantScheduler (bounded by duration AND ceil(duration/interval)+1 ticks; SIGINT stops leasing after the current tick)",
         "src/cloud/tenantMaterializer.ts": "PURE cloud rows → engine files: toPublicProfile (validated by publicProfileSchema, nothing invented, \"\" when unknown), toScreenerBank (bank + unambiguous profile mirrors, parseScreenerBank), toAboutMe (narrative + generated Application facts from present facts only), toPersona (personaSchema or the reason), toSensitiveProfile (RPC plaintext: answer→value, prefer_not→Decline to self-identify, skip→\"\"), toDocumentTargets (own-uid object paths in the kind's bucket only), toEducationPolicy, materializeTenant → manifest"
       },
@@ -971,6 +998,12 @@
           "schedulerTick",
           "makeSchedulerIo",
           "runTenantScheduler"
+        ],
+        "src/tenants/gmailExchange.ts": [
+          "runGmailExchange"
+        ],
+        "src/tenants/outreachMirror.ts": [
+          "selectOutreachDraftRows"
         ],
         "src/cloud/tenantMaterializer.ts": [
           "materializeTenant",

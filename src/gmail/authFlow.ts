@@ -80,12 +80,15 @@ export async function runGmailAuthFlow(input: {
       `Granted scopes exceed readonly (${beyond.join(", ")}) — refusing to store the token.`,
     );
   }
+  // The operator's own grant stays readonly-only (this flow never asks for
+  // compose); the file is written in the v2 shape with that single scope.
   return writeGmailToken({
     client_id: input.clientId,
     client_secret: input.clientSecret,
     refresh_token: body.refresh_token,
     account_email: input.accountEmail,
     scope: GMAIL_READONLY_SCOPE,
+    scopes: [GMAIL_READONLY_SCOPE],
     obtained_at: new Date().toISOString(),
   });
 }

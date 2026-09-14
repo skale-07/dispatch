@@ -425,6 +425,28 @@ export async function setMyIntegration(
   if (error) throw new Error(error.message);
 }
 
+/**
+ * Per-user Gmail (20260914000100): hand the PKCE code + verifier to the
+ * engine, which exchanges it with the client secret only it holds and
+ * refuses any grant wider than readonly + compose. Returns the job id the
+ * dashboard can watch; the integration row reads `pending_handoff` until
+ * the engine connects it.
+ */
+export async function submitGmailOauthCode(input: {
+  code: string;
+  codeVerifier: string;
+  redirectUri: string;
+}): Promise<{ jobId: string | null }> {
+  const { data, error } = await client().rpc(CONTRACT.submitGmailOauthCodeRpc, {
+    p_code: input.code,
+    p_code_verifier: input.codeVerifier,
+    p_redirect_uri: input.redirectUri,
+  });
+  if (error) throw new Error(error.message);
+  const row = (Array.isArray(data) ? data[0] : data) as { job_id?: string } | null;
+  return { jobId: typeof row?.job_id === "string" ? row.job_id : null };
+}
+
 /* ── handoff tasks (the human steps the engine cannot do headlessly) ── */
 
 export async function listMyHandoffTasks(): Promise<HandoffTaskRow[]> {

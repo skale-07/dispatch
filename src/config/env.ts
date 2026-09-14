@@ -298,6 +298,17 @@ const envSchema = z.object({
   /** SECRET: never logged, never artifacted, never in any frontend. */
   BROWSERBASE_API_KEY: z.string().optional(),
   BROWSERBASE_PROJECT_ID: z.string().optional(),
+  /**
+   * Per-user Gmail (plan v0.5 M19): Dispatch's own Google WEB OAuth client.
+   * The SPA runs the PKCE consent with the client id; only the ENGINE holds
+   * the secret and exchanges the code (tenant job gmail_exchange). Plain
+   * settings, not capability flags — drafts stay behind GMAIL_DRAFTS_ENABLED
+   * and the scope set is pinned in src/gmail/readonlyGuards.ts. The
+   * repo-root desktop client_secret_*.json remains operator-only.
+   */
+  GMAIL_OAUTH_CLIENT_ID: z.string().optional(),
+  GMAIL_OAUTH_CLIENT_SECRET: z.string().optional(),
+  GMAIL_OAUTH_REDIRECT_URI: z.string().optional(),
 });
 
 export type AppConfig = {
@@ -391,6 +402,10 @@ export type AppConfig = {
   /** Present only when the operator configured it; consumers must not log it. */
   browserbaseApiKey: string | undefined;
   browserbaseProjectId: string | undefined;
+  /** Per-user Gmail Web OAuth client (engine-side exchange). Secret never logged. */
+  gmailOauthClientId: string | undefined;
+  gmailOauthClientSecret: string | undefined;
+  gmailOauthRedirectUri: string | undefined;
   /** Always false — no send capability exists. */
   emailSendEnabled: false;
 };
@@ -545,6 +560,9 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
     remoteBrowserEnabled: parsed.REMOTE_BROWSER_ENABLED,
     browserbaseApiKey: parsed.BROWSERBASE_API_KEY,
     browserbaseProjectId: parsed.BROWSERBASE_PROJECT_ID,
+    gmailOauthClientId: parsed.GMAIL_OAUTH_CLIENT_ID?.trim() || undefined,
+    gmailOauthClientSecret: parsed.GMAIL_OAUTH_CLIENT_SECRET?.trim() || undefined,
+    gmailOauthRedirectUri: parsed.GMAIL_OAUTH_REDIRECT_URI?.trim() || undefined,
     emailSendEnabled: false,
   };
 }
