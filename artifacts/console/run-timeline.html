@@ -60,22 +60,52 @@
 </style></head>
 <body><div class="wrap">
 <h1>Dispatch run timeline</h1>
-<p class="sub">Generated 2026-09-14T04:57:26.789Z · 40 navigation run(s) · read-only view of artifacts/</p>
-<div class="stats"><span class="stat"><b>15</b> resolved</span><span class="stat"><b>14</b> unknown</span><span class="stat"><b>4</b> auth</span><span class="stat"><b>4</b> budget</span><span class="stat"><b>2</b> submit_risk</span><span class="stat"><b>1</b> closed</span></div>
+<p class="sub">Generated 2026-09-14T05:01:31.962Z · 40 navigation run(s) · read-only view of artifacts/</p>
+<div class="stats"><span class="stat"><b>14</b> resolved</span><span class="stat"><b>14</b> unknown</span><span class="stat"><b>4</b> auth</span><span class="stat"><b>4</b> budget</span><span class="stat"><b>2</b> closed</span><span class="stat"><b>2</b> submit_risk</span></div>
 <section class="cycle">
   <h2>Latest cycle</h2>
   <dl>
-    <div><dt>Started</dt><dd>2026-09-14T04:57:26.364Z</dd></div>
-    <div><dt>Outcome</dt><dd>skipped_already_armed</dd></div>
-    <div><dt>Agent leg</dt><dd>UNAVAILABLE — AGENT_FALLBACK_ENABLED is off; nav phase C will be skipped for every app</dd></div>
+    <div><dt>Started</dt><dd>2026-09-14T05:00:41.618Z</dd></div>
+    <div><dt>Outcome</dt><dd>completed</dd></div>
+    <div><dt>Agent leg</dt><dd>available</dd></div>
     <div><dt>Default resume</dt><dd>ready (C:\dev\jobright-application-agent\private\candidate\resumes\general.pdf)</dd></div>
-    <div><dt>Apps started</dt><dd>—</dd></div>
-    <div><dt>Submits used</dt><dd>—</dd></div>
-    <div><dt>Stopped</dt><dd>—</dd></div>
+    <div><dt>Apps started</dt><dd>1</dd></div>
+    <div><dt>Submits used</dt><dd>0</dd></div>
+    <div><dt>Stopped</dt><dd>apps_cap</dd></div>
   </dl>
-  
+  <h3>Session notes</h3><ul class="notes"><li>triage sweep: 0 confirmed, 0 refuted, 0 expired of 156 pending</li><li>triage 2ac2e197: engage_agent_leg — precondition failed: no navigation wall in evidence — agent leg only helps nav-walled apps</li><li>artifact autopush: 245 file(s) pushed to master as 038ecd66</li></ul>
 </section>
 <h2>Applications</h2>
+<details class="app ok">
+  <summary>
+    <span class="id">2ac2e197</span>
+    <span class="co">RS&amp;H</span>
+    <span class="badge">resolved</span>
+    <span class="chip">anchor_href</span>
+    <span class="chip">generic</span>
+    
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — resolved (12 candidates, employer match)<span class="ev">careers-rsandh.icims.com</span></li></ol>
+    <h4>Notes</h4><ul class="notes"><li>none</li></ul>
+    
+  </div>
+</details>
+<details class="app muted">
+  <summary>
+    <span class="id">6ec588fc</span>
+    <span class="co">—</span>
+    <span class="badge">wall: closed</span>
+    
+    
+    
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>open</b> — posting is CLOSED on JobRight — navigation abandoned</li></ol>
+    <h4>Notes</h4><ul class="notes"><li>jobright banner says this job has closed; no Apply path exists</li></ul>
+    
+  </div>
+</details>
 <details class="app ok">
   <summary>
     <span class="id">117826ed</span>
@@ -642,36 +672,6 @@
   </summary>
   <div class="body">
     <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — resolved (12 candidates, employer match)<span class="ev">delta.avature.net</span></li></ol>
-    <h4>Notes</h4><ul class="notes"><li>none</li></ul>
-    
-  </div>
-</details>
-<details class="app ok">
-  <summary>
-    <span class="id">5264e94a</span>
-    <span class="co">ABEC</span>
-    <span class="badge">resolved</span>
-    <span class="chip">anchor_llm</span>
-    <span class="chip">generic</span>
-    
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no congruent apply href (9 external links)<span class="ev">recruiting.paylocity.com, www.linkedin.com, www.crunchbase.com, www.pharmaceutical-technology.com, www.morningstar.com, sbj.net</span></li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>A_anchor_llm</b> — candidate promoted by adjudication<span class="ev">recruiting.paylocity.com</span></li></ol>
-    <h4>Notes</h4><ul class="notes"><li>phase A: 6 external host(s) seen: recruiting.paylocity.com, www.linkedin.com, www.crunchbase.com, www.pharmaceutical-technology.com, www.morningstar.com, sbj.net</li><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>anchor adjudication: promoted recruiting.paylocity.com</li><li>anchor adjudication rationale (UNVERIFIED): Paylocity ATS job detail page is the employer's own application system; other links are news articles.</li><li>employer congruence unverifiable (no employer name decodable from URL (host and path are generic)) — recorded</li></ul>
-    
-  </div>
-</details>
-<details class="app ok">
-  <summary>
-    <span class="id">ea3a9027</span>
-    <span class="co">USAA</span>
-    <span class="badge">resolved</span>
-    <span class="chip">anchor_href</span>
-    <span class="chip">generic</span>
-    
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — resolved (11 candidates, employer match)<span class="ev">www.usaajobs.com</span></li></ol>
     <h4>Notes</h4><ul class="notes"><li>none</li></ul>
     
   </div>
