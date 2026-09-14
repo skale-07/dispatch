@@ -1,0 +1,43 @@
+{
+  "run_id": "[REDACTED]",
+  "outcome": "stopped",
+  "steps": [
+    {
+      "observation": "13b5782c7e0fb804",
+      "action": "click",
+      "reason": "Apply Online starts the application for this exact posting.",
+      "result": "clicked observed control; next observation checks progress",
+      "model": "claude-opus-5",
+      "target": "control-9"
+    },
+    {
+      "observation": "4ee21610695240dc",
+      "action": "authenticate",
+      "reason": "Login wall on Taleo; use the approved credential service to sign in.",
+      "result": "portal auth: not_an_auth_wall",
+      "model": "claude-opus-5"
+    },
+    {
+      "observation": "4ee21610695240dc",
+      "action": "click",
+      "reason": "Auth service didn't handle this wall; create a new account via New User to reach the application.",
+      "result": "clicked observed control; next observation checks progress",
+      "model": "claude-opus-5",
+      "target": "control-7"
+    },
+    {
+      "observation": "855ae07802204a86",
+      "action": "stop",
+      "reason": "Taleo requires creating a new account (username/password/email) before the application; portal auth reported not_an_auth_wall and I must not invent credentials, so no applicant form is reachable.",
+      "result": "model stopped",
+      "model": "claude-opus-5"
+    }
+  ],
+  "notes": [
+    "model calls: 4 of 4 steps"
+  ],
+  "evidence": [
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-86b27a73-f158-43cb-8e80-1001372db947\\observation.json",
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-86b27a73-f158-43cb-8e80-1001372db947\\page.png"
+  ]
+}
