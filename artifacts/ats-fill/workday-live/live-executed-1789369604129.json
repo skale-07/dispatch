@@ -1,0 +1,865 @@
+{
+  "ats": "workday",
+  "url": "https://rb.wd5.myworkdayjobs.com/frs/job/San-Francisco-CA/XMLNAME-2027-SF-Fed-Summer-Internship---BUSINESS-ANALYST-Intern_R-0000033321",
+  "requested_url": "https://rb.wd5.myworkdayjobs.com/frs/job/San-Francisco-CA/XMLNAME-2027-SF-Fed-Summer-Internship---BUSINESS-ANALYST-Intern_R-0000033321",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://rb.wd5.myworkdayjobs.com/en-US/frs/job/San-Francisco%2C-CA/XMLNAME-2027-SF-Fed-Summer-Internship---BUSINESS-ANALYST-Intern_R-0000033321/apply/applyManually",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 12,
+    "skipped_count": 12,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "source--source",
+      "label": "How Did You Hear About Us?",
+      "type": "select",
+      "canonical_field": "how_heard",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f_1",
+      "label": "My Information",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "f_2",
+      "label": "Legal Name",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "name--legalName--firstName",
+      "label": "First Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "name--legalName--middleName",
+      "label": "Middle Name",
+      "type": "text",
+      "canonical_field": "legal_name.middle",
+      "action": "SKIP",
+      "reason": "Profile value empty for legal_name.middle"
+    },
+    {
+      "field_id": "name--legalName--lastName",
+      "label": "Last Name",
+      "type": "text",
+      "canonical_field": "legal_name.last",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f_6",
+      "label": "Legal Name",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "name--preferredCheck",
+      "label": "I have a preferred name",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "address--addressLine1",
+      "label": "Address Line 1",
+      "type": "text",
+      "canonical_field": "address.line1",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "address--addressLine2",
+      "label": "Address Line 2",
+      "type": "text",
+      "canonical_field": "address.line2",
+      "action": "SKIP",
+      "reason": "Profile value empty for address.line2"
+    },
+    {
+      "field_id": "address--city",
+      "label": "City",
+      "type": "text",
+      "canonical_field": "address.city",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f_11",
+      "label": "Address",
+      "type": "text",
+      "canonical_field": "address.line1",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "address--postalCode",
+      "label": "Postal Code",
+      "type": "text",
+      "canonical_field": "address.postal_code",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "address--regionSubdivision1",
+      "label": "County",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "f_14",
+      "label": "Phone",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phoneNumber--countryPhoneCode",
+      "label": "Country Phone Code",
+      "type": "select",
+      "canonical_field": "address.country",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phoneNumber--phoneNumber",
+      "label": "Phone Number",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phoneNumber--extension",
+      "label": "Phone Extension",
+      "type": "text",
+      "canonical_field": "screener:custom:phone_extension",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "kq7l7",
+      "label": "field_18",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "country--country",
+      "label": "Country",
+      "type": "select",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "name--legalName--title",
+      "label": "Prefix",
+      "type": "select",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "name--legalName--social",
+      "label": "Suffix",
+      "type": "select",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "address--countryRegion",
+      "label": "State",
+      "type": "select",
+      "canonical_field": "address.state",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phoneNumber--phoneType",
+      "label": "Phone Device Type",
+      "type": "select",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "already answered on the form (\"Home\") — prediction not applied"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\workday-live\\form-snapshot-1789369593664.html",
+  "fill": {
+    "filled": [],
+    "skipped": [
+      "f_11 (address.line1) — anchorless twin of an anchored canonical (#69)",
+      "f_14 (phone) — anchorless twin of an anchored canonical (#69)"
+    ],
+    "errors": [
+      "source--source: combobox option not committed: opened via control click; filter yielded no/unmatched options; re-collected unfiltered (residue cleared); scroll-harvested 249 option(s); stored answer \"LinkedIn\" not offered — class fallback picked \"Comoros\"",
+      "name--legalName--firstName: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[id=\"name--legalName--firstName\"]').first()\u001b[22m\n\u001b[2m    - locator resolved to <input value=\"\" type=\"text\" class=\"css-vdy8yd\" aria-required=\"false\" id=\"name--legalName--firstName\" name=\"legalName--firstNameLocal\"/>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div>Colombia</div> from <div data-popper-placement=\"bottom\" data-behavior-click-outside-close=\"topmost\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div>Colombia</div> from <div data-popper-placement=\"bottom\" data-behavior-click-outside-close=\"topmost\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div>Colombia</div> from <div data-popper-placement=\"bottom\" data-popper-reference-hidden=\"\" data-behavior-click-outside-close=\"topmost\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div>Colombia</div> from <div data-popper-placement=\"bottom\" data-popper-reference-hidden=\"\" data-behavior-click-outside-close=\"topmost\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div>Colombia</div> from <div data-popper-placement=\"bottom\" data-behavior-click-outside-close=\"topmost\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div>Colombia</div> from <div data-popper-placement=\"bottom\" data-behavior-click-outside-close=\"topmost\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <div>Colombia</div> from <div data-popper-placement=\"bottom\" data-popper-reference-hidden=\"\" data-behavior-click-outside-close=\"topmost\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 500ms\u001b[22m\n",
+      "name--legalName--lastName: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[id=\"name--legalName--lastName\"]').first()\u001b[22m\n\u001b[2m    - locator resolved to <input value=\"\" type=\"text\" class=\"css-vdy8yd\" aria-required=\"true\" name=\"legalName--lastName\" id=\"name--legalName--lastName\"/>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <ul role=\"menu\" class=\"css-sl7ei\" aria-labelledby=\"account-submenu-button\">…</ul> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <ul role=\"menu\" class=\"css-sl7ei\" aria-labelledby=\"account-submenu-button\">…</ul> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  2 × retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"css-2ilfdb\">…</div> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  2 × retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <ul role=\"menu\" class=\"css-sl7ei\" aria-labelledby=\"account-submenu-button\">…</ul> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <ul role=\"menu\" class=\"css-sl7ei\" aria-labelledby=\"account-submenu-button\">…</ul> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"css-2ilfdb\">…</div> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"css-2ilfdb\">…</div> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 500ms\u001b[22m\n",
+      "address--addressLine1: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[id=\"address--addressLine1\"]').first()\u001b[22m\n\u001b[2m    - locator resolved to <input value=\"\" type=\"text\" class=\"css-vdy8yd\" name=\"addressLine1\" aria-required=\"false\" id=\"address--addressLine1\"/>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <ul role=\"menu\" class=\"css-sl7ei\" aria-labelledby=\"account-submenu-button\">…</ul> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <ul role=\"menu\" class=\"css-sl7ei\" aria-labelledby=\"account-submenu-button\">…</ul> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  2 × retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"css-2ilfdb\">…</div> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  2 × retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <ul role=\"menu\" class=\"css-sl7ei\" aria-labelledby=\"account-submenu-button\">…</ul> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <ul role=\"menu\" class=\"css-sl7ei\" aria-labelledby=\"account-submenu-button\">…</ul> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"css-2ilfdb\">…</div> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"css-2ilfdb\">…</div> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 500ms\u001b[22m\n",
+      "address--city: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[id=\"address--city\"]').first()\u001b[22m\n\u001b[2m    - locator resolved to <input value=\"\" type=\"text\" name=\"city\" id=\"address--city\" class=\"css-vdy8yd\" aria-required=\"false\"/>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <button class=\"css-1v0si5d\" data-automation-id=\"submenu-back-button\">…</button> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <ul role=\"menu\" class=\"css-sl7ei\" aria-labelledby=\"account-submenu-button\">…</ul> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <ul role=\"menu\" class=\"css-sl7ei\" aria-labelledby=\"account-submenu-button\">…</ul> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  2 × retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"css-2ilfdb\">…</div> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  2 × retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <ul role=\"menu\" class=\"css-sl7ei\" aria-labelledby=\"account-submenu-button\">…</ul> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <ul role=\"menu\" class=\"css-sl7ei\" aria-labelledby=\"account-submenu-button\">…</ul> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"css-2ilfdb\">…</div> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"css-2ilfdb\">…</div> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 500ms\u001b[22m\n",
+      "address--postalCode: control not found on the page (label \"Postal Code\") — failing fast instead of waiting 30s",
+      "phoneNumber--countryPhoneCode: combobox option not committed: removed 1 stale chip(s) (\"Comoros (+269)\") before picking; opened via control click; filter yielded no/unmatched options; re-collected unfiltered (residue cleared); scroll-harvested 249 option(s); ambiguous match for \"United States\" (2 candidates): United States Minor Outlying Islands | United States of America",
+      "phoneNumber--phoneNumber: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[id=\"phoneNumber--phoneNumber\"]').first()\u001b[22m\n\u001b[2m    - locator resolved to <input value=\"\" type=\"text\" name=\"phoneNumber\" class=\"css-vdy8yd\" aria-required=\"true\" id=\"phoneNumber--phoneNumber\"/>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <ul role=\"menu\" class=\"css-sl7ei\" aria-labelledby=\"account-submenu-button\">…</ul> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <ul role=\"menu\" class=\"css-sl7ei\" aria-labelledby=\"account-submenu-button\">…</ul> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    9 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <ul role=\"menu\" class=\"css-sl7ei\" aria-labelledby=\"account-submenu-button\">…</ul> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n",
+      "phoneNumber--extension: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[id=\"phoneNumber--extension\"]').first()\u001b[22m\n\u001b[2m    - locator resolved to <input value=\"\" type=\"text\" name=\"extension\" class=\"css-vdy8yd\" aria-required=\"false\" id=\"phoneNumber--extension\"/>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <ul role=\"menu\" class=\"css-sl7ei\" aria-labelledby=\"account-submenu-button\">…</ul> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <ul role=\"menu\" class=\"css-sl7ei\" aria-labelledby=\"account-submenu-button\">…</ul> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    9 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <ul role=\"menu\" class=\"css-sl7ei\" aria-labelledby=\"account-submenu-button\">…</ul> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n",
+      "address--countryRegion: control not found on the page (label \"State\") — failing fast instead of waiting 30s",
+      "name--legalName--secondaryLastName: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[id=\"name--legalName--secondaryLastName\"]').first()\u001b[22m\n\u001b[2m    - locator resolved to <input value=\"\" type=\"text\" class=\"css-vdy8yd\" aria-required=\"true\" name=\"legalName--firstName\" id=\"name--legalName--secondaryLastName\"/>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <ul role=\"menu\" class=\"css-sl7ei\" aria-labelledby=\"account-submenu-button\">…</ul> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <ul role=\"menu\" class=\"css-sl7ei\" aria-labelledby=\"account-submenu-button\">…</ul> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  2 × retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"css-2ilfdb\">…</div> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  2 × retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <ul role=\"menu\" class=\"css-sl7ei\" aria-labelledby=\"account-submenu-button\">…</ul> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <ul role=\"menu\" class=\"css-sl7ei\" aria-labelledby=\"account-submenu-button\">…</ul> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"css-2ilfdb\">…</div> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"css-2ilfdb\">…</div> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 500ms\u001b[22m\n",
+      "revealed controls did not verify: legal_name.first"
+    ],
+    "field_meta": [
+      {
+        "field_id": "source--source",
+        "canonical_field": "how_heard",
+        "control_kind": "combobox",
+        "selected_option": "Comoros",
+        "match_via": "synonym",
+        "notes": [
+          "opened via control click",
+          "filter yielded no/unmatched options; re-collected unfiltered (residue cleared)",
+          "scroll-harvested 249 option(s)",
+          "stored answer \"LinkedIn\" not offered — class fallback picked \"Comoros\""
+        ]
+      },
+      {
+        "field_id": "phoneNumber--countryPhoneCode",
+        "canonical_field": "address.country",
+        "control_kind": "combobox",
+        "selected_option": null,
+        "match_via": null,
+        "notes": [
+          "removed 1 stale chip(s) (\"Comoros (+269)\") before picking",
+          "opened via control click",
+          "filter yielded no/unmatched options; re-collected unfiltered (residue cleared)",
+          "scroll-harvested 249 option(s)",
+          "ambiguous match for \"United States\" (2 candidates): United States Minor Outlying Islands | United States of America"
+        ],
+        "options_sample": [
+          "Select One",
+          "Afghanistan",
+          "Åland Islands",
+          "Albania",
+          "Algeria",
+          "American Samoa",
+          "Andorra",
+          "Angola",
+          "Anguilla",
+          "Antigua and Barbuda",
+          "Argentina",
+          "Armenia",
+          "Aruba",
+          "Australia",
+          "Austria",
+          "Azerbaijan",
+          "Bahamas",
+          "Bahrain",
+          "Bangladesh",
+          "Barbados"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": false,
+    "fields": [
+      {
+        "canonical_field": "how_heard",
+        "expected": "LinkedIn",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "match": false
+      },
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "",
+        "match": false
+      },
+      {
+        "canonical_field": "legal_name.last",
+        "expected": "Kale",
+        "observed": "",
+        "match": false
+      },
+      {
+        "canonical_field": "address.line1",
+        "expected": "3510 N Charles St",
+        "observed": "",
+        "match": false
+      },
+      {
+        "canonical_field": "address.city",
+        "expected": "Baltimore",
+        "observed": "",
+        "match": false
+      },
+      {
+        "canonical_field": "address.postal_code",
+        "expected": "21218",
+        "observed": "",
+        "match": false
+      },
+      {
+        "canonical_field": "address.country",
+        "expected": "United States",
+        "observed": {
+          "value": "Armenia (+374)",
+          "label": "Armenia (+374)"
+        },
+        "match": false
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "",
+        "match": false
+      },
+      {
+        "canonical_field": "screener:custom:phone_extension",
+        "expected": "[REDACTED_PHONE]",
+        "observed": "",
+        "match": false
+      },
+      {
+        "canonical_field": "address.state",
+        "expected": "Maryland",
+        "observed": null,
+        "match": false
+      }
+    ],
+    "uploads": [],
+    "warnings": [
+      "verify address.state: control not found on the page (label \"State\") — failing fast instead of waiting 30s"
+    ]
+  },
+  "uploads": null,
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: posting (no fields, Apply CTA present)",
+    "workday page kind at gate: posting",
+    "login wall on rb.wd5.myworkdayjobs.com: no_form_found; fields[email=false password=false confirm=false]",
+    "portal auth: clicked \"Apply\" (attempt 1)",
+    "portal auth: clicked Apply Manually (attempt 2)",
+    "portal auth: no account form within 15s of Apply Manually",
+    "portal auth: Apply / Apply Manually not found on attempt 3",
+    "standing portal login used for rb.wd5.myworkdayjobs.com",
+    "portal auth: no sign-in form on this page",
+    "workday apply route: manual (#275)",
+    "workday page kind after auth: wizard",
+    "section-expand: expanded 2 collapsed section(s)",
+    "section-expand: expanded \"skale072007@gmail.com\"",
+    "option harvest: scraped real options for 3/19 control(s) before planning",
+    "workday header: an open menu overlays the page — closing before fill (#198)",
+    "workday header: menu still open after Escape + heading click",
+    "revealed required control(s) after the fill (#224): \"Given Name(s) - Latin Script\" — second plan pass",
+    "revealed pass: filled 0, verify failed (legal_name.first)",
+    "timing: base page (24 planned) — plan 7s, fill 103s, verify 1s",
+    "retype: how_heard re-pick not committed — stored answer \"LinkedIn\" not offered — class fallback picked \"Comoros\"",
+    "retype: legal_name.first failed — locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[id=\"name--legalName--firstName\"]').first",
+    "retype: legal_name.last failed — locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[id=\"name--legalName--lastName\"]').first(",
+    "retype: address.line1 failed — locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[id=\"address--addressLine1\"]').first()\u001b[2",
+    "retype: address.city failed — locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[id=\"address--city\"]').first()\u001b[22m\n\u001b[2m ",
+    "retype: address.postal_code failed — locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[id=\"address--postalCode\"]').first()\u001b[22m",
+    "retype: phone failed — locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[id=\"phoneNumber--phoneNumber\"]').first()",
+    "retype: screener:custom:phone_extension failed — locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[id=\"phoneNumber--extension\"]').first()\u001b[",
+    "retype: address.state re-pick failed — locator.evaluate: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[id=\"address--cou",
+    "page error scan: no visible validation errors on the page",
+    "page-complete waiver not applied: page requires 3 unanswered question(s): \"Given Name(s) - Latin Script*\"; \"Family Name - Latin Script*\"; \"Phone Number*\"",
+    "resume on disk but this page has no file input — not an upload miss",
+    "wizard option harvest: scraped real options for 2/14 control(s) before planning",
+    "wizard option harvest: \"Country\"×250, \"Phone Device Type\"×250",
+    "wizard fill error: source--source: combobox option not committed: opened via control click; filter yielded no/unmatched options; re-collected unfiltered (residue cleared); scroll-harvested 249 option(s); stored answer \"LinkedIn\" not offered — class fallback picked \"Social Network\"",
+    "wizard fill error: phoneNumber--countryPhoneCode: combobox option not committed: removed 1 stale chip(s) (\"Comoros (+269)\") before picking; opened via control click; filter yielded no/unmatched options; re-collected unfiltered (residue cleared); scroll-harvested 249 option(s); no option matches \"United States\" (options: Afghanistan (+93) | Afghanistan (+93) | Åland Islands (+358) | Åland Islands (+358) | Albania (+355) | Albania (+355) | Algeria (+213) | Algeria (+213) | …)",
+    "wizard fill error: phoneNumber--phoneNumber: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[id=\"phoneNumber--phoneNumber\"]').first()\u001b[22m\n\u001b[2m    - locator resolved to <input value=\"\" type=\"text\" name=\"phoneNumber\" class=\"css-1uxeeuw\" aria-invalid=\"true\" aria-required=\"true\" id=\"phoneNumber--phoneNumber\" aria-describedby=\"error1-phoneNumber--phoneNumber\"/>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"css-ih7vnu\" data-automation-id=\"promptOption\" data-automation-label=\"Albania (+355)\" id=\"promptOption-bb554609-c1b5-47f1-b9c8-0842e8cc4166\">Albania (+355)</div> from <div class=\"css-9ced8c\" data-popper-placement=\"bottom\" data-behavior-click-outside-close=\"topmost\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"css-ih7vnu\" data-automation-id=\"promptOption\" data-automation-label=\"Albania (+355)\" id=\"promptOption-bb554609-c1b5-47f1-b9c8-0842e8cc4166\">Albania (+355)</div> from <div class=\"css-9ced8c\" data-popper-placement=\"bottom\" data-behavior-click-outside-close=\"topmost\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    9 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"css-ih7vnu\" data-automation-id=\"promptOption\" data-automation-label=\"Albania (+355)\" id=\"promptOption-bb554609-c1b5-47f1-b9c8-0842e8cc4166\">Albania (+355)</div> from <div class=\"css-9ced8c\" data-popper-placement=\"bottom\" data-behavior-click-outside-close=\"topmost\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n",
+    "wizard fill error: phoneNumber--extension: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[id=\"phoneNumber--extension\"]').first()\u001b[22m\n\u001b[2m    - locator resolved to <input value=\"\" type=\"text\" name=\"extension\" class=\"css-vdy8yd\" aria-required=\"false\" id=\"phoneNumber--extension\"/>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"css-ih7vnu\" data-automation-id=\"promptOption\" data-automation-label=\"Angola (+244)\" id=\"promptOption-c5ec7c0f-c94c-4559-a37c-ab963e38040a\">Angola (+244)</div> from <div class=\"css-9ced8c\" data-popper-placement=\"bottom\" data-behavior-click-outside-close=\"topmost\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"css-ih7vnu\" data-automation-id=\"promptOption\" data-automation-label=\"Angola (+244)\" id=\"promptOption-c5ec7c0f-c94c-4559-a37c-ab963e38040a\">Angola (+244)</div> from <div class=\"css-9ced8c\" data-popper-placement=\"bottom\" data-behavior-click-outside-close=\"topmost\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    9 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"css-ih7vnu\" data-automation-id=\"promptOption\" data-automation-label=\"Angola (+244)\" id=\"promptOption-c5ec7c0f-c94c-4559-a37c-ab963e38040a\">Angola (+244)</div> from <div class=\"css-9ced8c\" data-popper-placement=\"bottom\" data-behavior-click-outside-close=\"topmost\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n",
+    "wizard plan skips (5): \"field_1\"→No answer-alias mapping | \"I have a preferred name\"→No answer-alias mapping | \"field_13\"→No answer-alias mapping | \"Country\"→No answer-alias mapping | \"Phone Device Type\"→already answered on the form (\"Home\") — prediction",
+    "wizard retype: how_heard re-picked after empty verify read",
+    "wizard retype: phone keystroke-retyped after empty verify read",
+    "wizard retype: screener:custom:phone_extension keystroke-retyped after empty verify read",
+    "wizard: obstructions dismissed before click: open menu: hammyMenuIcon",
+    "wizard: page 2 never settled on a NEW page (heading still \"Federal Reserve System Careers\") — planning on the current DOM",
+    "wizard: page 2 heading=\"Federal Reserve System Careers\" url…33321/apply/applyManually shot=wizard-page-2-1789369529906.png",
+    "wizard: page 3 never settled on a NEW page (heading still \"Federal Reserve System Careers\") — planning on the current DOM",
+    "wizard: page 3 heading=\"Federal Reserve System Careers\" url…33321/apply/applyManually shot=wizard-page-3-1789369604026.png",
+    "wizard: page 3 did not advance 2x in a row (heading \"Federal Reserve System Careers\") — stopping the walk; the page is refusing Next, so its unanswered fields park for review (#278)",
+    "wizard: filled 1 additional page(s) — wizard:6/11",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [
+    {
+      "field_id": "country--country",
+      "label": "Country",
+      "answer_space": "closed",
+      "option_count": 250,
+      "options": [
+        "Select One",
+        "Afghanistan",
+        "Åland Islands",
+        "Albania",
+        "Algeria",
+        "American Samoa",
+        "Andorra",
+        "Angola",
+        "Anguilla",
+        "Antigua and Barbuda",
+        "Argentina",
+        "Armenia",
+        "Aruba",
+        "Australia",
+        "Austria",
+        "Azerbaijan",
+        "Bahamas",
+        "Bahrain",
+        "Bangladesh",
+        "Barbados",
+        "Belarus",
+        "Belgium",
+        "Belize",
+        "Benin",
+        "Bermuda"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "name--legalName--title",
+      "label": "Prefix",
+      "answer_space": "closed",
+      "option_count": 250,
+      "options": [
+        "Select One",
+        "Afghanistan",
+        "Åland Islands",
+        "Albania",
+        "Algeria",
+        "American Samoa",
+        "Andorra",
+        "Angola",
+        "Anguilla",
+        "Antigua and Barbuda",
+        "Argentina",
+        "Armenia",
+        "Aruba",
+        "Australia",
+        "Austria",
+        "Azerbaijan",
+        "Bahamas",
+        "Bahrain",
+        "Bangladesh",
+        "Barbados",
+        "Belarus",
+        "Belgium",
+        "Belize",
+        "Benin",
+        "Bermuda"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "phoneNumber--phoneType",
+      "label": "Phone Device Type",
+      "answer_space": "closed",
+      "option_count": 250,
+      "options": [
+        "Select One",
+        "Afghanistan",
+        "Åland Islands",
+        "Albania",
+        "Algeria",
+        "American Samoa",
+        "Andorra",
+        "Angola",
+        "Anguilla",
+        "Antigua and Barbuda",
+        "Argentina",
+        "Armenia",
+        "Aruba",
+        "Australia",
+        "Austria",
+        "Azerbaijan",
+        "Bahamas",
+        "Bahrain",
+        "Bangladesh",
+        "Barbados",
+        "Belarus",
+        "Belgium",
+        "Belize",
+        "Benin",
+        "Bermuda"
+      ],
+      "other_option": null
+    }
+  ],
+  "wizard_pages": [
+    {
+      "page": 2,
+      "url": "https://rb.wd5.myworkdayjobs.com/en-US/frs/job/San-Francisco%2C-CA/XMLNAME-2027-SF-Fed-Summer-Internship---BUSINESS-ANALYST-Intern_R-0000033321/apply/applyManually",
+      "kind": "wizard",
+      "fillable": 11,
+      "filled": 6,
+      "verify_passed": false
+    }
+  ],
+  "operator_brief": {
+    "title": "Live fill — workday https://rb.wd5.myworkdayjobs.com/frs/job/San-Francisco-CA/XMLNAME-2027-SF-Fed-Summer-Internship---BUSINESS-ANALYST-Intern_R-0000033321",
+    "summary": "22 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:how_heard",
+        "question": "How Did You Hear About Us?",
+        "field_id": "source--source",
+        "canonical_field": "how_heard",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"LinkedIn\"; page shows \"(empty)\"",
+        "expected": "LinkedIn",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "how_to_answer": [
+          "Type the intended value on the form (planned: LinkedIn). If a places/autocomplete list appears, select a matching suggestion; plain city text is enough when no list opens.",
+          "System expected \"LinkedIn\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → how_heard",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"how_heard\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:legal_name.first",
+        "question": "First Name",
+        "field_id": "name--legalName--firstName",
+        "canonical_field": "legal_name.first",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Shubham\"; page shows \"(empty)\"",
+        "expected": "Shubham",
+        "observed": "",
+        "how_to_answer": [
+          "System expected \"Shubham\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → legal_name.first",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"legal_name.first\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:legal_name.last",
+        "question": "Last Name",
+        "field_id": "name--legalName--lastName",
+        "canonical_field": "legal_name.last",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Kale\"; page shows \"(empty)\"",
+        "expected": "Kale",
+        "observed": "",
+        "how_to_answer": [
+          "System expected \"Kale\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → legal_name.last",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"legal_name.last\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:address.line1",
+        "question": "Address",
+        "field_id": "f_11",
+        "canonical_field": "address.line1",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"3510 N Charles St\"; page shows \"(empty)\"",
+        "expected": "3510 N Charles St",
+        "observed": "",
+        "how_to_answer": [
+          "System expected \"3510 N Charles St\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → address.line1",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"address.line1\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:address.city",
+        "question": "City",
+        "field_id": "address--city",
+        "canonical_field": "address.city",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Baltimore\"; page shows \"(empty)\"",
+        "expected": "Baltimore",
+        "observed": "",
+        "how_to_answer": [
+          "Type the intended value on the form (planned: Baltimore). If a places/autocomplete list appears, select a matching suggestion; plain city text is enough when no list opens.",
+          "System expected \"Baltimore\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → address.city",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"address.city\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:address.postal_code",
+        "question": "Postal Code",
+        "field_id": "address--postalCode",
+        "canonical_field": "address.postal_code",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"21218\"; page shows \"(empty)\"",
+        "expected": "21218",
+        "observed": "",
+        "how_to_answer": [
+          "System expected \"21218\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → address.postal_code",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"address.postal_code\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:address.country",
+        "question": "Country Phone Code",
+        "field_id": "phoneNumber--countryPhoneCode",
+        "canonical_field": "address.country",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"United States\"; page shows \"Armenia (+374)\"",
+        "expected": "United States",
+        "observed": {
+          "value": "Armenia (+374)",
+          "label": "Armenia (+374)"
+        },
+        "how_to_answer": [
+          "Type the intended value on the form (planned: United States). If a places/autocomplete list appears, select a matching suggestion; plain city text is enough when no list opens.",
+          "DOM shows \"Armenia (+374)\" but plan expected \"United States\". Correct the value on the form or fix profile/aliases so the plan matches the real answer.",
+          "Profile source: private/candidate/public-profile.json → address.country",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"address.country\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:phone",
+        "question": "Phone Number",
+        "field_id": "phoneNumber--phoneNumber",
+        "canonical_field": "phone",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"4805897636\"; page shows \"(empty)\"",
+        "expected": "***-***-7636",
+        "observed": "",
+        "how_to_answer": [
+          "System expected \"4805897636\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → phone",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"phone\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:custom:phone_extension",
+        "question": "Phone Extension",
+        "field_id": "phoneNumber--extension",
+        "canonical_field": "screener:custom:phone_extension",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"N/A\"; page shows \"(empty)\"",
+        "expected": "[REDACTED_PHONE]",
+        "observed": "",
+        "how_to_answer": [
+          "System expected \"N/A\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:phone_extension)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:phone_extension\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:address.state",
+        "question": "State",
+        "field_id": "address--countryRegion",
+        "canonical_field": "address.state",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Maryland\"; page shows \"(empty)\"",
+        "expected": "Maryland",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"Maryland\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → address.state",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"address.state\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "fill_error:source--source: combobox option not committed: opened via control click; filter ",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "source--source: combobox option not committed: opened via control click; filter yielded no/unmatched options; re-collected unfiltered (residue cleared); scroll-harvested 249 option(s); stored answer \"LinkedIn\" not offered — class fallback picked \"Comoros\"",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:name--legalName--firstName: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "name--legalName--firstName: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[id=\"name--legalName--firstName\"]').first()\u001b[22m\n\u001b[2m    - locator resolved to <input value=\"\" type=\"text\" class=\"css-vdy8yd\" aria-required=\"false\" id=\"name--legalName--firstName\" name=\"legalName--firstNameLocal\"/>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div>Colombia</div> from <div data-popper-placement=\"bottom\" data-behavior-click-outside-close=\"topmost\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div>Colombia</div> from <div data-popper-placement=\"bottom\" data-behavior-click-outside-close=\"topmost\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div>Colombia</div> from <div data-popper-placement=\"bottom\" data-popper-reference-hidden=\"\" data-behavior-click-outside-close=\"topmost\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div>Colombia</div> from <div data-popper-placement=\"bottom\" data-popper-reference-hidden=\"\" data-behavior-click-outside-close=\"topmost\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div>Colombia</div> from <div data-popper-placement=\"bottom\" data-behavior-click-outside-close=\"topmost\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div>Colombia</div> from <div data-popper-placement=\"bottom\" data-behavior-click-outside-close=\"topmost\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <div>Colombia</div> from <div data-popper-placement=\"bottom\" data-popper-reference-hidden=\"\" data-behavior-click-outside-close=\"topmost\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 500ms\u001b[22m\n",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:name--legalName--lastName: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "name--legalName--lastName: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[id=\"name--legalName--lastName\"]').first()\u001b[22m\n\u001b[2m    - locator resolved to <input value=\"\" type=\"text\" class=\"css-vdy8yd\" aria-required=\"true\" name=\"legalName--lastName\" id=\"name--legalName--lastName\"/>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <ul role=\"menu\" class=\"css-sl7ei\" aria-labelledby=\"account-submenu-button\">…</ul> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <ul role=\"menu\" class=\"css-sl7ei\" aria-labelledby=\"account-submenu-button\">…</ul> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  2 × retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"css-2ilfdb\">…</div> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  2 × retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <ul role=\"menu\" class=\"css-sl7ei\" aria-labelledby=\"account-submenu-button\">…</ul> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <ul role=\"menu\" class=\"css-sl7ei\" aria-labelledby=\"account-submenu-button\">…</ul> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"css-2ilfdb\">…</div> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"css-2ilfdb\">…</div> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 500ms\u001b[22m\n",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:address--addressLine1: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  -",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "address--addressLine1: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[id=\"address--addressLine1\"]').first()\u001b[22m\n\u001b[2m    - locator resolved to <input value=\"\" type=\"text\" class=\"css-vdy8yd\" name=\"addressLine1\" aria-required=\"false\" id=\"address--addressLine1\"/>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <ul role=\"menu\" class=\"css-sl7ei\" aria-labelledby=\"account-submenu-button\">…</ul> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <ul role=\"menu\" class=\"css-sl7ei\" aria-labelledby=\"account-submenu-button\">…</ul> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  2 × retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"css-2ilfdb\">…</div> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  2 × retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <ul role=\"menu\" class=\"css-sl7ei\" aria-labelledby=\"account-submenu-button\">…</ul> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <ul role=\"menu\" class=\"css-sl7ei\" aria-labelledby=\"account-submenu-button\">…</ul> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"css-2ilfdb\">…</div> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"css-2ilfdb\">…</div> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 500ms\u001b[22m\n",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:address--city: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "address--city: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[id=\"address--city\"]').first()\u001b[22m\n\u001b[2m    - locator resolved to <input value=\"\" type=\"text\" name=\"city\" id=\"address--city\" class=\"css-vdy8yd\" aria-required=\"false\"/>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <button class=\"css-1v0si5d\" data-automation-id=\"submenu-back-button\">…</button> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <ul role=\"menu\" class=\"css-sl7ei\" aria-labelledby=\"account-submenu-button\">…</ul> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <ul role=\"menu\" class=\"css-sl7ei\" aria-labelledby=\"account-submenu-button\">…</ul> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  2 × retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"css-2ilfdb\">…</div> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  2 × retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <ul role=\"menu\" class=\"css-sl7ei\" aria-labelledby=\"account-submenu-button\">…</ul> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <ul role=\"menu\" class=\"css-sl7ei\" aria-labelledby=\"account-submenu-button\">…</ul> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"css-2ilfdb\">…</div> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"css-2ilfdb\">…</div> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 500ms\u001b[22m\n",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:address--postalCode: control not found on the page (label \"Postal Code\") — faili",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "address--postalCode: control not found on the page (label \"Postal Code\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:phoneNumber--countryPhoneCode: combobox option not committed: removed 1 stale ch",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "phoneNumber--countryPhoneCode: combobox option not committed: removed 1 stale chip(s) (\"Comoros (+269)\") before picking; opened via control click; filter yielded no/unmatched options; re-collected unfiltered (residue cleared); scroll-harvested 249 option(s); ambiguous match for \"United States\" (2 candidates): United States Minor Outlying Islands | United States of America",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:phoneNumber--phoneNumber: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "phoneNumber--phoneNumber: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[id=\"phoneNumber--phoneNumber\"]').first()\u001b[22m\n\u001b[2m    - locator resolved to <input value=\"\" type=\"text\" name=\"phoneNumber\" class=\"css-vdy8yd\" aria-required=\"true\" id=\"phoneNumber--phoneNumber\"/>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <ul role=\"menu\" class=\"css-sl7ei\" aria-labelledby=\"account-submenu-button\">…</ul> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <ul role=\"menu\" class=\"css-sl7ei\" aria-labelledby=\"account-submenu-button\">…</ul> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    9 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <ul role=\"menu\" class=\"css-sl7ei\" aria-labelledby=\"account-submenu-button\">…</ul> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:phoneNumber--extension: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  ",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "phoneNumber--extension: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[id=\"phoneNumber--extension\"]').first()\u001b[22m\n\u001b[2m    - locator resolved to <input value=\"\" type=\"text\" name=\"extension\" class=\"css-vdy8yd\" aria-required=\"false\" id=\"phoneNumber--extension\"/>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <ul role=\"menu\" class=\"css-sl7ei\" aria-labelledby=\"account-submenu-button\">…</ul> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <ul role=\"menu\" class=\"css-sl7ei\" aria-labelledby=\"account-submenu-button\">…</ul> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    9 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <ul role=\"menu\" class=\"css-sl7ei\" aria-labelledby=\"account-submenu-button\">…</ul> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:address--countryRegion: control not found on the page (label \"State\") — failing ",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "address--countryRegion: control not found on the page (label \"State\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:name--legalName--secondaryLastName: locator.click: Timeout 5000ms exceeded.\nCall",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "name--legalName--secondaryLastName: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[id=\"name--legalName--secondaryLastName\"]').first()\u001b[22m\n\u001b[2m    - locator resolved to <input value=\"\" type=\"text\" class=\"css-vdy8yd\" aria-required=\"true\" name=\"legalName--firstName\" id=\"name--legalName--secondaryLastName\"/>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <ul role=\"menu\" class=\"css-sl7ei\" aria-labelledby=\"account-submenu-button\">…</ul> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <ul role=\"menu\" class=\"css-sl7ei\" aria-labelledby=\"account-submenu-button\">…</ul> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  2 × retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"css-2ilfdb\">…</div> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  2 × retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <ul role=\"menu\" class=\"css-sl7ei\" aria-labelledby=\"account-submenu-button\">…</ul> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <ul role=\"menu\" class=\"css-sl7ei\" aria-labelledby=\"account-submenu-button\">…</ul> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"css-2ilfdb\">…</div> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"css-2ilfdb\">…</div> from <div class=\"css-1kr35nd\" data-automation-id=\"header\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 500ms\u001b[22m\n",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:revealed controls did not verify: legal_name.first",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "revealed controls did not verify: legal_name.first",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      }
+    ],
+    "ok_count": 0,
+    "fail_count": 22
+  },
+  "written_at": "2026-09-14T07:06:44.143Z"
+}
