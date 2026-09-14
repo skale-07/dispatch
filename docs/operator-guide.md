@@ -159,6 +159,18 @@ and "Add Another" once per further entry (capped), fills the rows first
 row = most recent, and treats a Role Description as the resume's own text,
 not an essay. Location unknown ⇒ put the home city.
 
+Hosted users get the same rows (M23, 2026-09-14): the onboarding wizard's
+experience step offers **Fill from resume** — the PDF is read in the
+browser and either the user's own assistant (prompt with the resume text
+and the exact fields pre-filled) or the on-device reader proposes one
+editable card per role, every school and the skills list; nothing saves
+until the user continues. `tenant:materialize` maps those rows to the
+structured entries above (`toEngineEmployment` / `toEngineEducation` in
+`src/cloud/tenantMaterializer.ts`): a blank or "Remote" location becomes
+the profile's home city, a year without a month keeps the year with a
+blank month (a Month/Year widget is then left as a to-do, never filled
+with January), and a row without both company and title is dropped.
+
 **Failure modes:** `check:secrets` refusing a commit means you staged
 something private — unstage it, never force. Red `verify:phase5` before you
 changed anything means environment drift; fix before proceeding.

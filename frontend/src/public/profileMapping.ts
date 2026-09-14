@@ -56,6 +56,7 @@ function employmentToDraft(e: EmploymentEntry): EmploymentDraft {
     end_month: e.end_month ?? "",
     end_year: e.end_year != null ? String(e.end_year) : "",
     current: e.current === true,
+    remote: e.remote === true,
     summary: e.summary ?? "",
   };
 }
@@ -157,6 +158,7 @@ function employmentEntryFromDraft(d: EmploymentDraft): EmploymentEntry | null {
     ...(d.end_month.trim() ? { end_month: d.end_month.trim() } : {}),
     end_year: yearOrNull(d.end_year),
     ...(d.current ? { current: true } : {}),
+    ...(d.remote ? { remote: true } : {}),
     ...(d.summary.trim() ? { summary: d.summary.trim() } : {}),
   };
 }

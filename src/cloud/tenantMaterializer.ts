@@ -62,6 +62,111 @@ function primaryEducation(row: CloudProfileRow): EducationEntry {
     : {};
 }
 
+/* ── M23: wizard history rows → the engine's structured entries ──────── */
+
+const MONTH_NAMES = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December",
+];
+
+/** "Sep" / "september" / "9" → "September"; anything else → "" (never a guess). */
+export function canonicalMonth(v: unknown): string {
+  const t = str(v).toLowerCase().replace(/\./g, "");
+  if (!t) return "";
+  if (/^\d{1,2}$/.test(t)) {
+    const n = Number(t);
+    return n >= 1 && n <= 12 ? MONTH_NAMES[n - 1]! : "";
+  }
+  return MONTH_NAMES.find((m) => m.toLowerCase().startsWith(t.slice(0, 3))) ?? "";
+}
+
+const yearInt = (v: unknown): number | null => {
+  const n = typeof v === "number" ? v : /^\d{4}$/.test(str(v)) ? Number(str(v)) : NaN;
+  return Number.isInteger(n) && n >= 1950 && n <= 2100 ? n : null;
+};
+
+/** {month, year} when the row has a year; a month without a year is nothing (the engine's date schema needs the year). */
+function monthYear(month: unknown, year: unknown): { month: string; year: number } | undefined {
+  const y = yearInt(year);
+  return y === null ? undefined : { month: canonicalMonth(month), year: y };
+}
+
+type HomeLocation = { city: string; state: string; country: string };
+
+/**
+ * "Baltimore, MD" / "Columbus, Ohio, United States" / "Remote" → the
+ * engine's location object. An unknown or remote location takes the
+ * candidate's HOME city (operator 2026-09-14: "if you don't know location
+ * assume Baltimore, Maryland" — i.e. their own), because Workday's
+ * location field is required per row and the home city is the honest
+ * answer for where a remote or unlocated role was worked from.
+ */
+export function historyLocation(text: unknown, home: HomeLocation): HomeLocation {
+  const t = str(text);
+  if (!t || /^(?:remote|work from home|wfh)$/i.test(t)) return { ...home };
+  const parts = t.split(",").map((p) => p.trim()).filter(Boolean);
+  const city = parts[0] ?? "";
+  const state = parts[1] ?? "";
+  const country = parts[2] ?? (state ? home.country : "");
+  return { city, state, country };
+}
+
+type WizardEmployment = {
+  company?: unknown; title?: unknown; location?: unknown; remote?: unknown;
+  start_month?: unknown; start_year?: unknown; end_month?: unknown; end_year?: unknown;
+  current?: unknown; summary?: unknown; description?: unknown;
+};
+type WizardEducation = {
+  school?: unknown; degree?: unknown; field?: unknown; additional_fields?: unknown;
+  start_month?: unknown; start_year?: unknown; end_month?: unknown; end_year?: unknown; gpa?: unknown;
+};
+
+/** A wizard employment row → employmentEntrySchema input; null without a company (the engine's row needs one). */
+export function toEngineEmployment(raw: unknown, home: HomeLocation): Record<string, unknown> | null {
+  if (typeof raw !== "object" || raw === null) return null;
+  const e = raw as WizardEmployment;
+  const company = str(e.company);
+  const title = str(e.title);
+  if (!company || !title) return null;
+  const current = e.current === true;
+  const start = monthYear(e.start_month, e.start_year);
+  const end = current ? null : monthYear(e.end_month, e.end_year);
+  return {
+    company,
+    title,
+    location: historyLocation(e.location, home),
+    remote: e.remote === true || /^(?:remote|work from home|wfh)$/i.test(str(e.location)),
+    ...(start ? { start } : {}),
+    ...(end !== undefined ? { end } : {}),
+    current,
+    description: str(e.summary) || str(e.description),
+  };
+}
+
+/** A wizard education row → educationEntrySchema input; null without a school. */
+export function toEngineEducation(raw: unknown, home: HomeLocation): Record<string, unknown> | null {
+  if (typeof raw !== "object" || raw === null) return null;
+  const e = raw as WizardEducation;
+  const school = str(e.school);
+  if (!school) return null;
+  const start = monthYear(e.start_month, e.start_year);
+  const end = monthYear(e.end_month, e.end_year);
+  const gpa = typeof e.gpa === "number" ? e.gpa : Number(str(e.gpa));
+  const endYear = yearInt(e.end_year);
+  return {
+    school,
+    degree: str(e.degree),
+    field_of_study: str(e.field),
+    additional_fields_of_study: str(e.additional_fields).split(",").map((s) => s.trim()).filter(Boolean),
+    location: historyLocation(undefined, home),
+    ...(start ? { start } : {}),
+    ...(end ? { end } : {}),
+    // Still enrolled = the graduation year is in the future (an expected date).
+    current: endYear !== null && endYear > new Date().getUTCFullYear(),
+    ...(Number.isFinite(gpa) && gpa > 0 ? { gpa } : {}),
+  };
+}
+
 /** Legal first/last from the wizard; the greeting name is only a fallback split. */
 function legalName(row: CloudProfileRow): { first: string; middle: string; last: string } {
   const first = str(row.legal_first_name);
@@ -80,6 +185,11 @@ export function toPublicProfile(user: OnboardedUser): PublicProfile {
     .split(",")
     .map((s) => s.trim())
     .filter(Boolean);
+  const home: HomeLocation = {
+    city: str(row.location_city),
+    state: str(row.location_region),
+    country: str(row.location_country),
+  };
   const candidate = {
     legal_name: legalName(row),
     preferred_name: str(row.preferred_name),
@@ -114,8 +224,15 @@ export function toPublicProfile(user: OnboardedUser): PublicProfile {
     restrictive_covenants: row.restrictive_covenants === "yes" || row.restrictive_covenants === "no" ? row.restrictive_covenants : "",
     current_company: str(row.current_company),
     skills: strList(row.skills),
-    employment_history: Array.isArray(row.employment_history) ? row.employment_history : [],
-    education_history: Array.isArray(row.education) ? row.education : [],
+    // M23: wizard rows are mapped to the engine's structured entries
+    // (historyRows.ts / Workday My Experience); a row the schema cannot
+    // take (no company, no title) is left out rather than half-filled.
+    employment_history: (Array.isArray(row.employment_history) ? row.employment_history : [])
+      .map((r) => toEngineEmployment(r, home))
+      .filter((r): r is Record<string, unknown> => r !== null),
+    education_history: (Array.isArray(row.education) ? row.education : [])
+      .map((r) => toEngineEducation(r, home))
+      .filter((r): r is Record<string, unknown> => r !== null),
   };
   return parsePublicProfile(candidate);
 }

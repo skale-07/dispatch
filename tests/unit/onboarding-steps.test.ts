@@ -153,6 +153,7 @@ describe("onboarding step registry (UNIT_CONFIRMED)", () => {
           end_month: "",
           end_year: "",
           current: true,
+          remote: false,
           summary: "",
         },
       ],

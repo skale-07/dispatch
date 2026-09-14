@@ -192,6 +192,9 @@ export type EmploymentEntry = {
   end_month?: string;
   end_year?: number | null;
   current?: boolean;
+  /** Remote role (engine employment entry `remote`); absent = not remote. */
+  remote?: boolean;
+  /** What the user did there, verbatim onto description boxes (M23). */
   summary?: string;
 };
 
@@ -550,6 +553,12 @@ export type EmploymentDraft = {
   end_month: string;
   end_year: string;
   current: boolean;
+  remote: boolean;
+  /**
+   * The role's description — long on purpose (M23, operator 2026-09-14:
+   * "better to be detailed than less detailed"). Forms with a description
+   * box get it verbatim; there is no shorter copy to fall back to.
+   */
   summary: string;
 };
 
@@ -562,8 +571,16 @@ export const EMPTY_EMPLOYMENT_ENTRY: EmploymentDraft = {
   end_month: "",
   end_year: "",
   current: false,
+  remote: false,
   summary: "",
 };
+
+/** Longest role description the wizard accepts (Workday's box takes more; 4k covers a dense resume entry). */
+export const EMPLOYMENT_SUMMARY_MAX = 4000;
+/** Most roles the wizard keeps; Workday adds one section per row. */
+export const EMPLOYMENT_MAX_ROLES = 10;
+/** Most additional schools beyond the primary one. */
+export const EDUCATION_MAX_EXTRA = 5;
 
 export type ProfileDraft = {
   full_name: string;

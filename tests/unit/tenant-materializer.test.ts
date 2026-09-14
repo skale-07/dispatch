@@ -2,17 +2,27 @@ import { describe, expect, it } from "vitest";
 import { parseScreenerBank } from "../../src/candidate/screeners.js";
 import {
   DECLINE_TO_SELF_IDENTIFY,
+  canonicalMonth,
+  historyLocation,
   materializeTenant,
   mirroredScreenerAnswers,
   toAboutMe,
   toDocumentTargets,
   toEducationPolicy,
+  toEngineEducation,
+  toEngineEmployment,
   toPersona,
   toPublicProfile,
   toScreenerBank,
   toSensitiveProfile,
 } from "../../src/cloud/tenantMaterializer.js";
 import type { CloudProfileRow, OnboardedUser } from "../../src/cloud/syncMapping.js";
+import {
+  educationEntrySchema,
+  employmentEntrySchema,
+  structuredEducationHistory,
+  structuredEmploymentHistory,
+} from "../../src/candidate/publicProfile.js";
 
 /**
  * Plan M14 — cloud rows → the engine's own files, pure. The two things
@@ -254,5 +264,111 @@ describe("materializeTenant (UNIT_CONFIRMED)", () => {
     expect(m.educationPolicy).toBeNull();
     // Nothing sensitive rides in a materialization built from the pull.
     expect(JSON.stringify(m)).not.toMatch(/gender|race_ethnicity|veteran|disabilit|pronoun/i);
+  });
+});
+
+describe("M23: wizard history rows → engine structured entries (UNIT_CONFIRMED)", () => {
+  const HOME = { city: "Pittsburgh", state: "PA", country: "United States" };
+
+  it("maps a full wizard role to every key the engine's schema has", () => {
+    const row = {
+      company: "Northwind Traders",
+      title: "Software Engineer Intern",
+      location: "Seattle, WA",
+      start_month: "Jun",
+      start_year: 2025,
+      end_month: "8",
+      end_year: 2025,
+      current: false,
+      remote: false,
+      summary: "Built a Go service\nWrote integration tests",
+    };
+    const mapped = employmentEntrySchema.parse(toEngineEmployment(row, HOME));
+    expect(mapped).toEqual({
+      company: "Northwind Traders",
+      title: "Software Engineer Intern",
+      location: { city: "Seattle", state: "WA", country: "United States" },
+      remote: false,
+      start: { month: "June", year: 2025 },
+      end: { month: "August", year: 2025 },
+      current: false,
+      description: "Built a Go service\nWrote integration tests",
+    });
+    // Every schema key has a wizard source — the M23 coverage gate.
+    expect(Object.keys(employmentEntrySchema.shape).sort()).toEqual(Object.keys(mapped).sort());
+  });
+
+  it("an unknown or remote location takes the HOME city; a year-only date keeps the year with a blank month; current ⇒ end null", () => {
+    const remote = employmentEntrySchema.parse(
+      toEngineEmployment({ company: "Fabrikam", title: "Grants Assistant", location: "Remote", start_year: "2023", current: true }, HOME),
+    );
+    expect(remote.location).toEqual(HOME);
+    expect(remote.remote).toBe(true);
+    expect(remote.start).toEqual({ month: "", year: 2023 });
+    expect(remote.end).toBeNull();
+    const blank = employmentEntrySchema.parse(toEngineEmployment({ company: "Acme", title: "Intern" }, HOME));
+    expect(blank.location).toEqual(HOME);
+    expect(blank.start).toBeUndefined();
+    expect(blank.end).toBeUndefined();
+    // A month with no year is nothing, never a guessed year.
+    expect(toEngineEmployment({ company: "Acme", title: "Intern", start_month: "May" }, HOME)).not.toHaveProperty("start");
+    // No company or no title: the engine's row cannot be filled — dropped, not half-made.
+    expect(toEngineEmployment({ title: "Intern" }, HOME)).toBeNull();
+    expect(toEngineEmployment({ company: "Acme" }, HOME)).toBeNull();
+    expect(toEngineEmployment("junk", HOME)).toBeNull();
+  });
+
+  it("maps a wizard school to the engine's education entry, minors split, GPA numeric, enrolled = future graduation", () => {
+    const mapped = educationEntrySchema.parse(
+      toEngineEducation(
+        { school: "University of Pittsburgh", degree: "B.S.", field: "Computer Science", additional_fields: "Statistics, Music", start_month: "August", start_year: 2023, end_month: "May", end_year: 2099, gpa: 3.7 },
+        HOME,
+      ),
+    );
+    expect(mapped).toMatchObject({
+      school: "University of Pittsburgh",
+      degree: "B.S.",
+      field_of_study: "Computer Science",
+      additional_fields_of_study: ["Statistics", "Music"],
+      location: HOME,
+      start: { month: "August", year: 2023 },
+      end: { month: "May", year: 2099 },
+      current: true,
+      gpa: 3.7,
+    });
+    // gpa_scale is the one engine key with no wizard source, on purpose:
+    // a scale the user did not state is not assumed to be 4.0.
+    expect(Object.keys(educationEntrySchema.shape).filter((k) => k !== "gpa_scale").sort()).toEqual(Object.keys(mapped).sort());
+    expect(toEngineEducation({ degree: "B.S." }, HOME)).toBeNull();
+    expect(educationEntrySchema.parse(toEngineEducation({ school: "CCAC", end_year: 2020 }, HOME)).current).toBe(false);
+  });
+
+  it("the materialized profile's rows parse with the engine's own readers (no more raw pass-through)", () => {
+    const p = toPublicProfile({
+      ...USER,
+      profile: {
+        ...PROFILE,
+        employment_history: [
+          { company: "Acme", title: "Intern", start_year: 2025, current: true, summary: "Did things" },
+          { company: "Nameless", start_year: 2024 }, // no title ⇒ dropped
+        ],
+      },
+    });
+    expect(structuredEmploymentHistory(p)).toHaveLength(1);
+    expect(structuredEmploymentHistory(p)[0]).toMatchObject({ company: "Acme", description: "Did things", location: { city: "Pittsburgh", state: "PA" } });
+    expect(structuredEducationHistory(p)).toHaveLength(2);
+    expect(structuredEducationHistory(p)[0]).toMatchObject({ school: "University of Pittsburgh", field_of_study: "Computer Science", end: { month: "May", year: 2027 } });
+  });
+
+  it("helpers: months canonicalise, never guess; locations split on commas and default the country to home", () => {
+    expect(canonicalMonth("sep")).toBe("September");
+    expect(canonicalMonth("9")).toBe("September");
+    expect(canonicalMonth("Sept.")).toBe("September");
+    expect(canonicalMonth("Summer")).toBe("");
+    expect(canonicalMonth("")).toBe("");
+    expect(historyLocation("Columbus, Ohio, USA", HOME)).toEqual({ city: "Columbus", state: "Ohio", country: "USA" });
+    expect(historyLocation("Baltimore, MD", HOME)).toEqual({ city: "Baltimore", state: "MD", country: "United States" });
+    expect(historyLocation("Berlin", HOME)).toEqual({ city: "Berlin", state: "", country: "" });
+    expect(historyLocation("wfh", HOME)).toEqual(HOME);
   });
 });

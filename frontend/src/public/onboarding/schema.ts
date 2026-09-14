@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { EMPLOYMENT_MAX_ROLES, EMPLOYMENT_SUMMARY_MAX } from "../contract.js";
 import type { StepSlug } from "./steps.js";
 
 /**
@@ -132,13 +133,16 @@ const employmentEntry = z.object({
   end_month: text(40),
   end_year: year,
   current: z.boolean(),
-  summary: text(1000),
+  remote: z.boolean(),
+  summary: text(EMPLOYMENT_SUMMARY_MAX),
 });
 
 export const experienceLenient = z.object({
   current_company: text(200),
-  skills: text(1000),
-  employment_history: z.array(employmentEntry).max(10, "ten roles at most"),
+  skills: text(2000),
+  employment_history: z
+    .array(employmentEntry)
+    .max(EMPLOYMENT_MAX_ROLES, `${EMPLOYMENT_MAX_ROLES} roles at most`),
 });
 /** Nothing on this step is required: a first-year student may have no jobs yet. */
 export const experienceStrict = experienceLenient;

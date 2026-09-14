@@ -6,6 +6,8 @@ import { Icon } from "../../components/Icon";
 import { Eyebrow } from "../../components/public/Eyebrow";
 import { FieldHint } from "../../components/public/FieldHint";
 import {
+  EMPLOYMENT_MAX_ROLES,
+  EMPLOYMENT_SUMMARY_MAX,
   EMPLOYMENT_TYPE_OPTIONS,
   EMPTY_EDUCATION_ENTRY,
   EMPTY_EMPLOYMENT_ENTRY,
@@ -22,6 +24,7 @@ import {
   TextField,
 } from "./fields";
 import { ImportPromptDialog } from "./ImportPromptDialog";
+import { ResumeFillDialog } from "./ResumeFillDialog";
 import {
   ABOUT_MAX,
   ABOUT_MIN,
@@ -207,8 +210,16 @@ export function EducationStep(props: StepProps): JSX.Element {
 /* ── 4 experience & skills ──────────────────────────────────────────── */
 
 function EmploymentHistory(): JSX.Element {
-  const { control } = useFormContext();
+  const { control, getValues, setValue } = useFormContext();
   const { fields, append, remove } = useFieldArray({ control, name: "employment_history" });
+  // A reader (or a model) can put the employer where the title goes; one
+  // click fixes it instead of retyping both.
+  const swap = (i: number): void => {
+    const company = getValues(`employment_history.${i}.company`) as string;
+    const title = getValues(`employment_history.${i}.title`) as string;
+    setValue(`employment_history.${i}.company`, title, { shouldDirty: true });
+    setValue(`employment_history.${i}.title`, company, { shouldDirty: true });
+  };
   return (
     <div className="flex flex-col gap-4">
       <Eyebrow as="h2">roles</Eyebrow>
@@ -220,14 +231,35 @@ function EmploymentHistory(): JSX.Element {
           <Grid>
             <TextField name={`employment_history.${i}.company`} label="company" />
             <TextField name={`employment_history.${i}.title`} label="title" />
-            <TextField name={`employment_history.${i}.location`} label="location" optional />
-            <TextField name={`employment_history.${i}.start_month`} label="start month" optional />
-            <TextField name={`employment_history.${i}.start_year`} label="start year" optional inputMode="numeric" />
-            <TextField name={`employment_history.${i}.end_year`} label="end year" optional inputMode="numeric" />
+            <TextField
+              name={`employment_history.${i}.location`}
+              label="location"
+              optional
+              placeholder="Baltimore, MD"
+              hint="City and state; blank or Remote means your home city on forms that require one."
+            />
+            <TextField name={`employment_history.${i}.start_month`} label="start month" optional placeholder="June" />
+            <TextField name={`employment_history.${i}.start_year`} label="start year" optional inputMode="numeric" placeholder="2025" />
+            <TextField name={`employment_history.${i}.end_month`} label="end month" optional placeholder="August" />
+            <TextField name={`employment_history.${i}.end_year`} label="end year" optional inputMode="numeric" placeholder="2025" />
           </Grid>
-          <CheckField name={`employment_history.${i}.current`} label="I work here now" />
-          <LongTextField name={`employment_history.${i}.summary`} label="what you did" optional max={1000} rows={3} />
-          <div>
+          <div className="flex flex-col gap-2 sm:flex-row sm:gap-6">
+            <CheckField name={`employment_history.${i}.current`} label="I work here now" />
+            <CheckField name={`employment_history.${i}.remote`} label="remote role" />
+          </div>
+          <LongTextField
+            name={`employment_history.${i}.summary`}
+            label="what you did"
+            optional
+            max={EMPLOYMENT_SUMMARY_MAX}
+            rows={6}
+            hint="Be specific and complete — one line per accomplishment, with the tools, numbers and outcomes. Forms with a description box get this verbatim, so more is better than less."
+          />
+          <div className="flex flex-wrap gap-2">
+            <Button type="button" variant="outline" size="sm" onClick={() => swap(i)}>
+              <Icon name="refresh" size={14} />
+              swap company and title
+            </Button>
             <Button type="button" variant="outline" size="sm" onClick={() => remove(i)}>
               <Icon name="x" size={14} />
               remove this role
@@ -235,7 +267,7 @@ function EmploymentHistory(): JSX.Element {
           </div>
         </div>
       ))}
-      {fields.length < 10 ? (
+      {fields.length < EMPLOYMENT_MAX_ROLES ? (
         <div>
           <Button type="button" variant="outline" onClick={() => append({ ...EMPTY_EMPLOYMENT_ENTRY })}>
             <Icon name="plus" size={14} />
@@ -250,8 +282,16 @@ function EmploymentHistory(): JSX.Element {
 export function ExperienceStep(props: StepProps): JSX.Element {
   return (
     <ProfileStepForm props={props} lenient={experienceLenient} strict={experienceStrict}>
+      <ResumeFillDialog draft={props.draft} onMerge={props.onImported} />
       <TextField name="current_company" label="current employer" optional hint="Forms that ask where you work now get this; blank means none." />
-      <TextField name="skills" label="skills" optional placeholder="Python, SQL, React" hint="Comma-separated — the tools and methods you would defend in an interview." />
+      <LongTextField
+        name="skills"
+        label="skills"
+        optional
+        max={2000}
+        rows={3}
+        hint="Comma-separated, and complete — every language, framework, tool and method you would defend in an interview. Forms match their skill pickers against this list."
+      />
       <Separator />
       <EmploymentHistory />
     </ProfileStepForm>

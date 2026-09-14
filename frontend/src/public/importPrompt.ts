@@ -1,6 +1,13 @@
 import {
+  EDUCATION_MAX_EXTRA,
+  EMPLOYMENT_MAX_ROLES,
+  EMPLOYMENT_SUMMARY_MAX,
+  EMPTY_EDUCATION_ENTRY,
+  EMPTY_EMPLOYMENT_ENTRY,
   EMPTY_PROFILE,
   EMPLOYMENT_TYPE_OPTIONS,
+  type EducationDraft,
+  type EmploymentDraft,
   type ProfileDraft,
 // Extension-qualified (unlike its siblings) because the repo-root
 // tsconfig — which typechecks tests/ under node16 resolution — pulls this
@@ -72,9 +79,17 @@ export const IMPORTABLE = [
   "remote",
   "employment_types",
   "min_salary_usd",
+  // M23: structured history — one object per role / school, plus the
+  // skills list. Detailed on purpose (operator 2026-09-14).
+  "skills",
+  "employment_history",
+  "education",
 ] as const;
 
 type ImportableKey = (typeof IMPORTABLE)[number];
+
+/** Where the resume goes in the prompt; buildImportPrompt() fills it. */
+export const RESUME_PLACEHOLDER = "[PASTE YOUR RESUME HERE]";
 
 /**
  * The prompt the user copies. Written for a general assistant, not for
@@ -105,8 +120,36 @@ Use exactly these keys, and OMIT any key you cannot answer from what I gave you:
   "grad_month": "month I graduate or graduated, e.g. May",
   "grad_year": "e.g. 2027",
   "gpa": "only if it is written on the resume",
+  "education": [
+    {
+      "school": "every OTHER school on the resume gets its own object here (transfers, study abroad, an earlier degree)",
+      "degree": "e.g. Associate of Science",
+      "field": "",
+      "additional_fields": "minors, comma separated",
+      "start_month": "",
+      "start_year": "",
+      "grad_month": "",
+      "grad_year": "",
+      "gpa": "only if written"
+    }
+  ],
   "current_company": "where I work now, if anywhere",
-  "about_me": "see below",
+  "skills": ["every language, framework, tool, platform and method named anywhere on the resume — one string each, nothing grouped"],
+  "employment_history": [
+    {
+      "company": "",
+      "title": "",
+      "location": "City, ST — or Remote",
+      "remote": false,
+      "start_month": "e.g. June",
+      "start_year": "e.g. 2024",
+      "end_month": "",
+      "end_year": "",
+      "current": false,
+      "description": "see rule 5"
+    }
+  ],
+  "about_me": "see rule 4",
   "titles": "job titles I should be applying to, comma separated",
   "locations": "cities I want to work in, comma separated",
   "remote": "one of: remote, hybrid, onsite, any",
@@ -116,13 +159,26 @@ Use exactly these keys, and OMIT any key you cannot answer from what I gave you:
 
 RULES — these matter more than completeness:
 
-1. Do not invent anything. If my resume does not say it, leave the key out entirely. A missing field is fine; a wrong one goes to a real employer under my name.
+1. Do not invent anything. If my resume does not say it, leave the key out entirely (inside a role, leave the field out). A missing field is fine; a wrong one goes to a real employer under my name. Never guess a month: "Summer 2024" is start_year 2024 with no start_month.
 2. Do NOT include work authorization, visa status, or sponsorship. I answer those myself.
 3. Do NOT include gender, race, ethnicity, veteran status, disability, or pronouns. I answer self-identification questions myself in a separate, encrypted step — never include them here, and never ask me for them.
-4. "about_me" is the important one. Write 150-250 words in MY first-person voice, as if I were telling an interviewer about myself. Ground every sentence in my resume: what I have actually built, the tools I actually used, what I am looking for next. Plain and specific — no adjectives I did not earn, no "passionate", no summary-speak. This text is what gets used to answer open-ended application questions, so it should sound like me on a good day, not like a cover letter.
+4. "about_me": write 150-250 words in MY first-person voice, as if I were telling an interviewer about myself. Ground every sentence in my resume: what I have actually built, the tools I actually used, what I am looking for next. Plain and specific — no adjectives I did not earn, no "passionate", no summary-speak. This text is what gets used to answer open-ended application questions, so it should sound like me on a good day, not like a cover letter.
+5. "employment_history" is the other important one, and DETAIL BEATS BREVITY. One object per job, internship, research position, teaching role, or leadership role, most recent first. "description" is one line per accomplishment from the resume, in my words, keeping every number, tool, and outcome — do not shorten, merge, or paraphrase away specifics; application forms have a large description box and this is what goes in it. A degree line under a role is not a role.
+6. "skills": list them all, flat. "Python (pandas, NumPy)" is three skills.
 
 My resume:
-[PASTE YOUR RESUME HERE]`;
+${RESUME_PLACEHOLDER}`;
+
+/**
+ * The prompt with the resume text already in it — the copy button in the
+ * "Fill from resume" dialog uses this once the PDF has been read on
+ * device, so the user pastes ONE thing into their assistant. The text
+ * never leaves the browser except by the user's own paste.
+ */
+export function buildImportPrompt(resumeText?: string): string {
+  const text = resumeText?.trim();
+  return text ? IMPORT_PROMPT.replace(RESUME_PLACEHOLDER, text) : IMPORT_PROMPT;
+}
 
 export type ImportOutcome =
   | { ok: true; draft: ProfileDraft; filled: string[]; ignored: string[] }
@@ -144,6 +200,57 @@ function asText(value: unknown): string | null {
   if (typeof value === "string") return value.trim();
   if (typeof value === "number" && Number.isFinite(value)) return String(value);
   return null;
+}
+
+const yearText = (value: unknown): string => {
+  const t = asText(value) ?? "";
+  return /^\d{4}$/.test(t) ? t : "";
+};
+
+/** One role object from the model → a wizard row; null when it names neither company nor title. */
+function employmentFromModel(value: unknown): EmploymentDraft | null {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) return null;
+  const o = value as Record<string, unknown>;
+  const company = asText(o["company"]) ?? "";
+  const title = asText(o["title"]) ?? "";
+  if (!company && !title) return null;
+  // Models write "description" (the prompt's word) or "summary" (the wizard's); either is the same field.
+  const description = asText(o["description"]) ?? asText(o["summary"]) ?? "";
+  const location = asText(o["location"]) ?? "";
+  return {
+    ...EMPTY_EMPLOYMENT_ENTRY,
+    company,
+    title,
+    location,
+    start_month: asText(o["start_month"]) ?? "",
+    start_year: yearText(o["start_year"]),
+    end_month: asText(o["end_month"]) ?? "",
+    end_year: yearText(o["end_year"]),
+    current: o["current"] === true,
+    remote: o["remote"] === true || /^remote$/i.test(location),
+    summary: description.slice(0, EMPLOYMENT_SUMMARY_MAX),
+  };
+}
+
+/** One school object from the model → a wizard row; null without a school name. */
+function educationFromModel(value: unknown): EducationDraft | null {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) return null;
+  const o = value as Record<string, unknown>;
+  const school = asText(o["school"]) ?? "";
+  if (!school) return null;
+  const gpa = asText(o["gpa"]) ?? "";
+  return {
+    ...EMPTY_EDUCATION_ENTRY,
+    school,
+    degree: asText(o["degree"]) ?? "",
+    field: asText(o["field"]) ?? asText(o["major"]) ?? "",
+    additional_fields: asText(o["additional_fields"]) ?? asText(o["minors"]) ?? "",
+    start_month: asText(o["start_month"]) ?? "",
+    start_year: yearText(o["start_year"]),
+    grad_month: asText(o["grad_month"]) ?? asText(o["end_month"]) ?? "",
+    grad_year: yearText(o["grad_year"]) || yearText(o["end_year"]),
+    gpa: /^\d(?:\.\d{1,3})?$/.test(gpa) ? gpa : "",
+  };
 }
 
 /**
@@ -253,6 +360,72 @@ export function importDraft(
   if (salary) {
     draft.min_salary_usd = salary;
     filled.push("min_salary_usd");
+  }
+
+  // Skills: a flat list (or the comma string a model may still send),
+  // unioned with what the user already typed, never replacing it.
+  const skills = joinList(src["skills"]);
+  if (skills) {
+    const have = base.skills.split(",").map((s) => s.trim()).filter(Boolean);
+    const seen = new Set(have.map((s) => s.toLowerCase()));
+    for (const s of skills.split(",").map((x) => x.trim()).filter(Boolean)) {
+      if (!seen.has(s.toLowerCase())) {
+        seen.add(s.toLowerCase());
+        have.push(s);
+      }
+    }
+    draft.skills = have.join(", ").slice(0, 2000);
+    filled.push("skills");
+  }
+
+  // Roles: each object is validated field by field — a string where a
+  // string belongs, a 4-digit year, a real boolean — and anything else
+  // in it is dropped, not coerced. Replaces the draft's roles (a re-import
+  // is a redo, not a duplicate), capped at the wizard's limit.
+  const roles = Array.isArray(src["employment_history"])
+    ? src["employment_history"].map(employmentFromModel).filter((r): r is EmploymentDraft => r !== null)
+    : [];
+  if (roles.length > 0) {
+    draft.employment_history = roles.slice(0, EMPLOYMENT_MAX_ROLES);
+    filled.push("employment_history");
+    if (!draft.current_company.trim()) {
+      const current = roles.find((r) => r.current && r.company);
+      if (current) {
+        draft.current_company = current.company;
+        if (!filled.includes("current_company")) filled.push("current_company");
+      }
+    }
+  }
+
+  // Other schools: the flat keys stay the primary school; every object
+  // here whose school is not the primary lands in more_education. When
+  // the model sent no flat school, the first object becomes the primary.
+  const schools = Array.isArray(src["education"])
+    ? src["education"].map(educationFromModel).filter((e): e is EducationDraft => e !== null)
+    : [];
+  if (schools.length > 0) {
+    let rest = schools;
+    if (!draft.school.trim()) {
+      const primary = schools[0]!;
+      Object.assign(draft, {
+        school: primary.school,
+        degree: primary.degree,
+        field: primary.field,
+        additional_fields: primary.additional_fields,
+        start_month: primary.start_month,
+        start_year: primary.start_year,
+        grad_month: primary.grad_month,
+        grad_year: primary.grad_year,
+        gpa: primary.gpa,
+      });
+      if (!filled.includes("school")) filled.push("school");
+      rest = schools.slice(1);
+    }
+    const more = rest.filter((e) => e.school.trim().toLowerCase() !== draft.school.trim().toLowerCase());
+    if (more.length > 0) {
+      draft.more_education = more.slice(0, EDUCATION_MAX_EXTRA);
+      filled.push("education");
+    }
   }
 
   if (filled.length === 0) {

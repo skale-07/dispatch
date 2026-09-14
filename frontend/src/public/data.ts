@@ -304,6 +304,18 @@ export async function setDefaultDocument(id: string): Promise<void> {
 }
 
 /** Delete the row and the object; a missing object is not an error. */
+/**
+ * The bytes of one of the user's own documents (storage RLS: own uid
+ * prefix only), for reading a resume on device — M23 "Fill from resume".
+ * Nothing is sent anywhere; the text is parsed in the browser.
+ */
+export async function downloadDocument(doc: DocumentRow): Promise<ArrayBuffer> {
+  const { data, error } = await client().storage.from(doc.bucket).download(doc.object_path);
+  if (error) throw new Error(error.message);
+  if (!data) throw new Error("the file came back empty");
+  return data.arrayBuffer();
+}
+
 export async function removeDocument(id: string): Promise<void> {
   const docs = await listMyDocuments();
   const target = docs.find((d) => d.id === id);

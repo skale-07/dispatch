@@ -68,8 +68,11 @@ export type PublicProfile = z.infer<typeof publicProfileSchema>;
  * `unknown` in the profile schema so legacy string entries still parse —
  * these accessors return only the entries that are structured, in order.
  */
+// month "" = the candidate gave only a year (M23 wizard rows): the year
+// still reaches text/year-only date fields; a Month/Year widget is left
+// as a to-do rather than filled with an invented January.
 const monthYearSchema = z.object({
-  month: z.string().min(3),
+  month: z.string().default(""),
   year: z.number().int().min(1950).max(2100),
 });
 const historyLocationSchema = z.object({

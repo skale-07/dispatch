@@ -49,6 +49,11 @@ is LIVE until its own line says so.
 - The outreach pipeline still drafts over the debug Chrome; tenant
   children keep Gmail drafting forced off until the transport switch
   lands in `src/outreach/gmailDrafts.ts` (another session's file).
+- Workday "My Experience" rows for a tenant are UNIT_CONFIRMED only
+  (M23: wizard rows → `structuredEmploymentHistory()` entries). The soak's
+  onboarding pass should use **Fill from resume** at step 4 and the first
+  Workday application read back the rows; that is the LIVE proof.
+  Launch order after the soak: `docs/roadmap/launch-checklist-2026-09-14.md`.
 
 ## Results
 

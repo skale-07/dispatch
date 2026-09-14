@@ -118,7 +118,9 @@ function subOf<T extends string>(
 
 function monthYear(v: { month: string; year: number } | null | undefined): string | null {
   if (!v) return null;
-  return `${v.month} ${v.year}`;
+  // Year-only (wizard rows without a month): parseDateParts() returns null
+  // for "2024", so a Month/Year widget stays empty instead of guessing.
+  return v.month ? `${v.month} ${v.year}` : String(v.year);
 }
 
 function locationText(loc: EmploymentEntry["location"] | EducationEntry["location"]): string | null {

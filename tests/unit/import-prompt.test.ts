@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 import { EMPTY_PROFILE } from "../../frontend/src/public/contract.js";
 import {
   IMPORT_PROMPT,
+  RESUME_PLACEHOLDER,
+  buildImportPrompt,
   importDraft,
 } from "../../frontend/src/public/importPrompt.js";
 
@@ -149,5 +151,90 @@ describe("onboarding import prompt (UNIT_CONFIRMED)", () => {
     if (!out.ok) return;
     expect(out.draft.full_name).toBe("");
     expect(out.draft.school).toBe("JHU");
+  });
+});
+
+describe("onboarding import: structured history (M23, UNIT_CONFIRMED)", () => {
+  it("the prompt asks for detailed roles, flat skills and other schools — and still never for authorization", () => {
+    expect(IMPORT_PROMPT).toMatch(/"employment_history": \[/);
+    expect(IMPORT_PROMPT).toMatch(/"education": \[/);
+    expect(IMPORT_PROMPT).toMatch(/"skills": \[/);
+    expect(IMPORT_PROMPT).toMatch(/DETAIL BEATS BREVITY/);
+    expect(IMPORT_PROMPT).toMatch(/Never guess a month/);
+    expect(IMPORT_PROMPT).not.toMatch(/"work_authorization"|"needs_sponsorship"|"gender"|"race"/);
+    // The placeholder is what buildImportPrompt() fills.
+    expect(IMPORT_PROMPT.endsWith(RESUME_PLACEHOLDER)).toBe(true);
+    const built = buildImportPrompt("ADA EXAMPLE\nEXPERIENCE\nIntern – Acme");
+    expect(built).not.toContain(RESUME_PLACEHOLDER);
+    expect(built.endsWith("Intern – Acme")).toBe(true);
+    expect(buildImportPrompt("   ")).toBe(IMPORT_PROMPT);
+  });
+
+  it("validates each role field by field: strings, 4-digit years, real booleans; nameless objects are dropped", () => {
+    const out = importDraft(
+      JSON.stringify({
+        skills: ["Python", "pandas", "SQL"],
+        employment_history: [
+          {
+            company: "Northwind Traders",
+            title: "Software Engineer Intern",
+            location: "Seattle, WA",
+            start_month: "June",
+            start_year: 2025,
+            end_month: "August",
+            end_year: "2025",
+            current: "no", // not a boolean ⇒ false
+            description: "Built a Go service that ingests 40M events/day\nWrote integration tests with Testcontainers",
+          },
+          { company: "Hopkins Systems Lab", title: "Research Assistant", start_year: "24", current: true, location: "Remote" },
+          { description: "no company, no title" },
+          "not an object",
+        ],
+        education: [
+          { school: "Johns Hopkins University", degree: "Bachelor of Science", field: "Computer Science", grad_month: "May", grad_year: "2027", gpa: "3.82" },
+          { school: "Community College of Example", degree: "A.S.", major: "Mathematics", end_year: 2024, gpa: "high" },
+          { degree: "no school" },
+        ],
+      }),
+      { ...EMPTY_PROFILE, skills: "SQL, Excel" },
+    );
+    expect(out.ok).toBe(true);
+    if (!out.ok) return;
+    expect(out.filled).toEqual(expect.arrayContaining(["skills", "employment_history", "current_company", "school", "education"]));
+    expect(out.draft.skills).toBe("SQL, Excel, Python, pandas");
+    expect(out.draft.employment_history).toHaveLength(2);
+    expect(out.draft.employment_history[0]).toMatchObject({
+      company: "Northwind Traders",
+      title: "Software Engineer Intern",
+      location: "Seattle, WA",
+      start_month: "June",
+      start_year: "2025",
+      end_month: "August",
+      end_year: "2025",
+      current: false,
+      remote: false,
+    });
+    expect(out.draft.employment_history[0]!.summary).toContain("Testcontainers");
+    // "24" is not a year; "Remote" as the location marks the role remote.
+    expect(out.draft.employment_history[1]).toMatchObject({ start_year: "", current: true, remote: true });
+    expect(out.draft.current_company).toBe("Hopkins Systems Lab");
+    // No flat school in the reply ⇒ the first object is the primary school.
+    expect(out.draft.school).toBe("Johns Hopkins University");
+    expect(out.draft.gpa).toBe("3.82");
+    expect(out.draft.more_education).toHaveLength(1);
+    expect(out.draft.more_education[0]).toMatchObject({ school: "Community College of Example", field: "Mathematics", grad_year: "2024", gpa: "" });
+  });
+
+  it("a flat school stays primary; a matching education[] entry is not duplicated", () => {
+    const out = importDraft(
+      JSON.stringify({
+        school: "JHU",
+        education: [{ school: "jhu" }, { school: "Elsewhere College" }],
+      }),
+    );
+    expect(out.ok).toBe(true);
+    if (!out.ok) return;
+    expect(out.draft.school).toBe("JHU");
+    expect(out.draft.more_education.map((e) => e.school)).toEqual(["Elsewhere College"]);
   });
 });
