@@ -1,0 +1,72 @@
+{
+  "started_at": "2026-09-14T12:15:29.650Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\general.pdf)",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "7f27104f-3910-4539-b5ba-e0acf117825f",
+    "armed_until": "2026-09-14T14:15:29.703Z",
+    "seconds_remaining": 7200,
+    "max_submits": 1,
+    "submits_used": 0,
+    "max_apps": 1,
+    "apps_started": 0,
+    "discover_max": 1,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": {
+    "arm_run_id": "7f27104f-3910-4539-b5ba-e0acf117825f",
+    "apps_started": 1,
+    "submits_used": 0,
+    "stopped_reason": "apps_cap",
+    "discover_runs": 0,
+    "emails_generated": 0,
+    "drafts_saved": 0,
+    "essay_drafts_generated": 0,
+    "screener_predictions_generated": 0,
+    "notes": [
+      "triage sweep: 0 confirmed, 0 refuted, 0 expired of 196 pending",
+      "triage 89d3fe45: park_for_operator (executed) — review item created: 7337d6f4-7b7a-4011-ad0b-a8536ed4680d",
+      "artifact autopush: 8 file(s) pushed to master as ece90403"
+    ],
+    "per_app": [
+      {
+        "application_id": "89d3fe45-10bd-43b0-a81d-0c052e211dd3",
+        "end_state": "FAILED_RETRYABLE",
+        "stopped": "gate",
+        "stop_reason": "submission not verified: FAILED_BEFORE_CLICK — Refusing to click submit: 1 required question(s) unanswered — What is your military status?* [combobox]",
+        "submitted": false,
+        "outreach": null
+      }
+    ],
+    "nav_audit": {
+      "checked": 494,
+      "repaired": 0,
+      "parked": 0
+    },
+    "triage": {
+      "decided": 1,
+      "executed": 1
+    },
+    "artifact_autopush": {
+      "pushed": true,
+      "commit": "ece90403",
+      "files_staged": 8
+    }
+  },
+  "outcome": "completed",
+  "notes": []
+}
