@@ -1,0 +1,72 @@
+{
+  "started_at": "2026-09-14T11:43:03.960Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\general.pdf)",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "e018894a-1980-49c3-ab9d-6d8ea4654b64",
+    "armed_until": "2026-09-14T13:43:04.011Z",
+    "seconds_remaining": 7200,
+    "max_submits": 1,
+    "submits_used": 0,
+    "max_apps": 1,
+    "apps_started": 0,
+    "discover_max": 1,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": {
+    "arm_run_id": "e018894a-1980-49c3-ab9d-6d8ea4654b64",
+    "apps_started": 1,
+    "submits_used": 0,
+    "stopped_reason": "queue_drained",
+    "discover_runs": 0,
+    "emails_generated": 0,
+    "drafts_saved": 0,
+    "essay_drafts_generated": 0,
+    "screener_predictions_generated": 0,
+    "notes": [
+      "triage sweep: 0 confirmed, 0 refuted, 0 expired of 190 pending",
+      "triage 5b4c2904: park_for_operator (executed) — review item created: 486329e4-fc8f-42ef-8b7e-acf32791a52f",
+      "artifact autopush: 5 file(s) pushed to master as 284acf8e"
+    ],
+    "per_app": [
+      {
+        "application_id": "5b4c2904-ca3d-486e-a3e3-02f7f9ebcf31",
+        "end_state": "NATIVE_AUTOFILL_RUNNING",
+        "stopped": "gate",
+        "stop_reason": "workday live fill refused: NO_APPLICATION_FORM",
+        "submitted": false,
+        "outreach": null
+      }
+    ],
+    "nav_audit": {
+      "checked": 488,
+      "repaired": 0,
+      "parked": 0
+    },
+    "triage": {
+      "decided": 1,
+      "executed": 1
+    },
+    "artifact_autopush": {
+      "pushed": true,
+      "commit": "284acf8e",
+      "files_staged": 5
+    }
+  },
+  "outcome": "completed",
+  "notes": []
+}
