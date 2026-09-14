@@ -1,0 +1,72 @@
+{
+  "started_at": "2026-09-14T09:34:55.610Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\general.pdf)",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "125fccb1-8b9f-4bd0-91c5-ca6c3617f2c5",
+    "armed_until": "2026-09-14T11:34:55.656Z",
+    "seconds_remaining": 7200,
+    "max_submits": 1,
+    "submits_used": 0,
+    "max_apps": 1,
+    "apps_started": 0,
+    "discover_max": 1,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": {
+    "arm_run_id": "125fccb1-8b9f-4bd0-91c5-ca6c3617f2c5",
+    "apps_started": 1,
+    "submits_used": 0,
+    "stopped_reason": "queue_drained",
+    "discover_runs": 0,
+    "emails_generated": 0,
+    "drafts_saved": 0,
+    "essay_drafts_generated": 0,
+    "screener_predictions_generated": 0,
+    "notes": [
+      "triage sweep: 0 confirmed, 0 refuted, 0 expired of 184 pending",
+      "triage 90daf7e6: requeue_same (executed) — requeued at attempt 2",
+      "artifact autopush: 7 file(s) pushed to master as 4205f03c"
+    ],
+    "per_app": [
+      {
+        "application_id": "90daf7e6-0722-467e-9ed3-aeb3b0154c6a",
+        "end_state": "NATIVE_AUTOFILL_RUNNING",
+        "stopped": "gate",
+        "stop_reason": "workday live fill refused: NO_APPLICATION_FORM",
+        "submitted": false,
+        "outreach": null
+      }
+    ],
+    "nav_audit": {
+      "checked": 483,
+      "repaired": 0,
+      "parked": 0
+    },
+    "triage": {
+      "decided": 1,
+      "executed": 1
+    },
+    "artifact_autopush": {
+      "pushed": true,
+      "commit": "4205f03c",
+      "files_staged": 7
+    }
+  },
+  "outcome": "completed",
+  "notes": []
+}
