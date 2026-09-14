@@ -1,0 +1,74 @@
+{
+  "started_at": "2026-09-14T12:05:09.374Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\general.pdf)",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "9f6123bd-f59e-4ff4-ae53-b51060b39fa9",
+    "armed_until": "2026-09-14T14:05:09.430Z",
+    "seconds_remaining": 7200,
+    "max_submits": 1,
+    "submits_used": 0,
+    "max_apps": 1,
+    "apps_started": 0,
+    "discover_max": 1,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": {
+    "arm_run_id": "9f6123bd-f59e-4ff4-ae53-b51060b39fa9",
+    "apps_started": 1,
+    "submits_used": 0,
+    "stopped_reason": "apps_cap",
+    "discover_runs": 0,
+    "emails_generated": 0,
+    "drafts_saved": 0,
+    "essay_drafts_generated": 0,
+    "screener_predictions_generated": 0,
+    "notes": [
+      "triage sweep: 0 confirmed, 0 refuted, 0 expired of 193 pending",
+      "prediction rejected \"What is your military status?\": no answer",
+      "prediction rejected \"Do you identify as part of the LGBTQ+ community?\": no answer",
+      "triage 34d24987: park_for_operator (executed) — review item created: cddac19e-8b55-44a5-9798-952774e672f4",
+      "artifact autopush: 8 file(s) pushed to master as 427c30db"
+    ],
+    "per_app": [
+      {
+        "application_id": "34d24987-a74b-41fd-8fc3-1e33aadf554f",
+        "end_state": "FAILED_RETRYABLE",
+        "stopped": "gate",
+        "stop_reason": "submission not verified: FAILED_BEFORE_CLICK — Refusing to click submit: 1 required question(s) unanswered — What is your military status?* [combobox]",
+        "submitted": false,
+        "outreach": null
+      }
+    ],
+    "nav_audit": {
+      "checked": 492,
+      "repaired": 0,
+      "parked": 0
+    },
+    "triage": {
+      "decided": 1,
+      "executed": 1
+    },
+    "artifact_autopush": {
+      "pushed": true,
+      "commit": "427c30db",
+      "files_staged": 8
+    }
+  },
+  "outcome": "completed",
+  "notes": []
+}
