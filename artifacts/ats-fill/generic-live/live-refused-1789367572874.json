@@ -1,0 +1,83 @@
+{
+  "ats": "generic",
+  "url": "https://career-schwab.icims.com/jobs/126227/2027-technology-intern---data-engineering/job?in_iframe=1",
+  "requested_url": "https://career-schwab.icims.com/jobs/126227/2027-technology-intern---data-engineering/job?in_iframe=1",
+  "mode": "refused",
+  "gate": {
+    "ok": false,
+    "failure_code": "NAVIGATION_INCOMPLETE",
+    "reason": "model calls: 5 of 6 steps",
+    "final_url": "https://career-schwab.icims.com/jobs/126227/2027-technology-intern---data-engineering/login",
+    "page_class": "unknown"
+  },
+  "plan_summary": null,
+  "plan_fields": null,
+  "form_snapshot_path": null,
+  "fill": null,
+  "verify": null,
+  "uploads": null,
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "navigation supervisor: stopped (6 steps)"
+  ],
+  "navigation_supervisor": {
+    "run_id": "supervisor-98672bf4-4dec-45e7-9b1c-f221b0b4d224",
+    "outcome": "stopped",
+    "steps": [
+      {
+        "observation": "22ce3619a906b979",
+        "action": "click",
+        "reason": "one unambiguous Apply control",
+        "result": "clicked observed control; next observation checks progress",
+        "target": "control-26"
+      },
+      {
+        "observation": "8a684d25f0643b42",
+        "action": "authenticate",
+        "reason": "iCIMS sign-in/privacy gate reached; use portal-auth to pass the login wall before the application form.",
+        "result": "portal auth: not_an_auth_wall",
+        "model": "claude-opus-5"
+      },
+      {
+        "observation": "0f80c4512f0503f6",
+        "action": "open_frame",
+        "reason": "iCIMS privacy/sign-in frame holds the email entry step for the application; open it in this tab to proceed past the gate.",
+        "result": "opened observed frame URL",
+        "model": "claude-opus-5",
+        "target": "frame-1"
+      },
+      {
+        "observation": "60e28f39f285461e",
+        "action": "open_frame",
+        "reason": "Open the iCIMS privacy/sign-in frame directly in this tab so the email entry step becomes the main document and can be progressed.",
+        "result": "opened observed frame URL",
+        "model": "claude-opus-5",
+        "target": "frame-1"
+      },
+      {
+        "observation": "565892f1391139ce",
+        "action": "authenticate",
+        "reason": "The iCIMS frame now shows the privacy acknowledgement/email sign-in gate for this posting; use the portal-auth service to pass this login wall rather than repeating frame opens.",
+        "result": "portal auth: not_an_auth_wall",
+        "model": "claude-opus-5"
+      },
+      {
+        "observation": "37e3e73be2ad5e8f",
+        "action": "stop",
+        "reason": "iCIMS gate requires email entry plus an hCaptcha challenge that portal-auth twice rejected as not an auth wall; no further navigation control can pass this blocker without filling fields/solving captcha.",
+        "result": "model stopped",
+        "model": "claude-opus-5"
+      }
+    ],
+    "notes": [
+      "model calls: 5 of 6 steps"
+    ],
+    "evidence": [
+      "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-98672bf4-4dec-45e7-9b1c-f221b0b4d224\\observation.json",
+      "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-98672bf4-4dec-45e7-9b1c-f221b0b4d224\\page.png"
+    ]
+  },
+  "written_at": "2026-09-14T06:32:52.874Z"
+}
