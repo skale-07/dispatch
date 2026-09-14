@@ -1,0 +1,46 @@
+{
+  "run_id": "[REDACTED]",
+  "outcome": "stopped",
+  "steps": [
+    {
+      "observation": "c3cbaad1fd15013f",
+      "action": "wait",
+      "reason": "content may still be loading",
+      "result": "waited for rendering",
+      "model": "fixture-planner"
+    },
+    {
+      "observation": "a750a090ea8b6348",
+      "action": "wait",
+      "reason": "content may still be loading",
+      "result": "waited for rendering",
+      "model": "fixture-planner"
+    },
+    {
+      "observation": "c3cbaad1fd15013f",
+      "action": "wait",
+      "reason": "content may still be loading",
+      "result": "waited for rendering",
+      "model": "fixture-planner"
+    },
+    {
+      "observation": "c3cbaad1fd15013f",
+      "action": "wait",
+      "reason": "page unchanged after a wait — waiting once more (no model)",
+      "result": "repeated unchanged action refused"
+    },
+    {
+      "observation": "c3cbaad1fd15013f",
+      "action": "stop",
+      "reason": "no progress: this page state was observed 4 times",
+      "result": "model stopped"
+    }
+  ],
+  "notes": [
+    "model calls: 3 of 5 steps"
+  ],
+  "evidence": [
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-b964d641-5442-4fbd-8b07-15d2bd48562a\\observation.json",
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-b964d641-5442-4fbd-8b07-15d2bd48562a\\page.png"
+  ]
+}
