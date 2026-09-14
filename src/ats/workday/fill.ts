@@ -93,8 +93,27 @@ export async function closeWorkdayHeaderMenus(
         return { closed: true, notes };
       }
     }
+    // Live rb.wd5 2026-09-14 (app 02302b66, twice): the account submenu
+    // (`ul[role=menu][aria-labelledby=account-submenu-button]`) survived
+    // Escape AND the heading click, then intercepted every text-field
+    // click on My Information — six verify failures. A menu is a TOGGLE:
+    // its own button (the aria-labelledby target, or any expanded header
+    // button) closes it.
+    const toggleId = await open.getAttribute("aria-labelledby").catch(() => null);
+    const toggles = toggleId
+      ? page.locator(`[id="${toggleId.replace(/"/g, '\\"')}"]`)
+      : page.locator(`${workdaySelectorsV1.header.container} button[aria-expanded='true']`);
+    if ((await toggles.count().catch(() => 0)) > 0) {
+      // force: the open menu can overlay its own toggle.
+      await toggles.first().click({ timeout: 1_500, force: true }).catch(() => undefined);
+      await page.waitForTimeout(300);
+      if (!(await visible())) {
+        notes.push("workday header: menu closed via its own toggle button");
+        return { closed: true, notes };
+      }
+    }
   }
-  notes.push("workday header: menu still open after Escape + heading click");
+  notes.push("workday header: menu still open after Escape + heading click + toggle");
   return { closed: false, notes };
 }
 

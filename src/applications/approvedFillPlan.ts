@@ -4,6 +4,7 @@ import type { FillPlanEntry } from "./resolveAnswers.js";
 import { isWorkAuthorizationField } from "./resolveAnswers.js";
 import { screenerDef } from "../candidate/screeners.js";
 import { isConsentCanonical } from "./consentFields.js";
+import { isHistoryCanonical } from "./historyRows.js";
 
 /** Canonical keys safe to auto-fill from the public profile (factual only). */
 export const SAFE_FACTUAL_CANONICALS = new Set([
@@ -89,6 +90,9 @@ export function isEssayGeneratedCanonical(
 export function isAllowlistedCanonical(canonical: string | null | undefined): boolean {
   if (!canonical) return false;
   if (isScreenerFillCanonical(canonical)) return true;
+  // Structured work/education history from the operator's own profile
+  // (historyRows.ts) — resume facts, never generated.
+  if (isHistoryCanonical(canonical)) return true;
   if (isEssayGeneratedCanonical(canonical)) return true;
   if (isConsentCanonical(canonical)) return true;
   return (
@@ -200,6 +204,12 @@ function rejectFillCandidate(entry: FillPlanEntry): ApprovedFillPlanEntry | null
       isEssayGeneratedCanonical(entry.canonical_field) &&
       !isEmptyValue(entry.value)
     ) {
+      return null;
+    }
+    // A Role Description textarea holds the resume's own bullet text for
+    // that job (historyRows.ts) — the operator's fact, not an essay, at
+    // any length.
+    if (isHistoryCanonical(entry.canonical_field) && !isEmptyValue(entry.value)) {
       return null;
     }
     // #87 (live stryker ×3, deterministic): Workday renders its NUMBER

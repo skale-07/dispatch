@@ -8,6 +8,7 @@ import {
 import { classifyWorkdayPage } from "../ats/workday/pageKind.js";
 import { workdaySelectorsV1 } from "../ats/workday/selectors.js";
 import { closeWorkdayHeaderMenus } from "../ats/workday/fill.js";
+import { openWorkdayHistoryRows } from "../ats/workday/experienceSections.js";
 import { readPageValidationErrors } from "./pageErrors.js";
 import { walkWorkdayWizard } from "./workdayWizard.js";
 import {
@@ -1717,10 +1718,24 @@ export async function runAtsLiveFill(input: {
       // no matching input ⇒ nothing touched).
       let wizardTranscriptDone = false;
       if (binding.id === "workday") {
-        const walk = await walkWorkdayWizard(page, async ({ html, url }) => {
+        const walk = await walkWorkdayWizard(page, async ({ html: walkedHtml, url }) => {
+          let html = walkedHtml;
           // #198: a header menu can be (re)opened on any wizard page.
           const headerMenu = await closeWorkdayHeaderMenus(page);
           if (headerMenu.notes.length > 0) report.notes.push(...headerMenu.notes);
+          // Operator directive 2026-09-14: an EMPTY Work Experience /
+          // Education section gets one row opened before planning, when
+          // the profile has a structured entry for it (live rb.wd5: the
+          // page planned zero fields and the walk stopped).
+          try {
+            const rows = await openWorkdayHistoryRows(page, input.profile ?? loadPublicProfile());
+            report.notes.push(...rows.notes.slice(0, 4).map((n) => `wizard ${n}`));
+            if (rows.clicked > 0) html = await readLiveHtml(page);
+          } catch (err) {
+            report.notes.push(
+              `wizard experience sections: ${err instanceof Error ? err.message.slice(0, 120) : String(err)}`,
+            );
+          }
           // #126b (live finastra 2026-09-01, operator-diagnosed): wizard
           // pages planned with ZERO option data — the harvest only ever
           // ran on the first page, so the questions page's listbox

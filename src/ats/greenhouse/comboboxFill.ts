@@ -970,13 +970,33 @@ export async function clickPastStrayPopup(
     if (!/intercepts pointer events|Timeout \d+ms exceeded/.test(msg)) throw err;
     await page.keyboard.press("Escape").catch(() => undefined);
     await page.waitForTimeout(200);
+    // An open MENU (live rb.wd5: the header's account submenu) is a
+    // toggle — its own button, named by aria-labelledby, closes it.
+    const menus = page.locator("[role='menu'][aria-labelledby]").filter({ visible: true });
+    const menuCount = Math.min(await menus.count().catch(() => 0), 3);
+    for (let i = 0; i < menuCount; i++) {
+      const toggleId = await menus.nth(i).getAttribute("aria-labelledby").catch(() => null);
+      if (!toggleId) continue;
+      // force: the open menu can overlay its own toggle; the toggle is the
+      // intended target either way.
+      await page
+        .locator(`[id="${toggleId.replace(/"/g, '\\"')}"]`)
+        .first()
+        .click({ timeout: 1_500, force: true })
+        .catch(() => undefined);
+      await page.waitForTimeout(200);
+    }
     const strays = page
       .locator("[data-popper-placement], [data-popper-reference-hidden]")
       .filter({ visible: true });
     if ((await strays.count().catch(() => 0)) > 0) {
-      // A neutral click blurs whatever owns the popper; the body corner is
-      // never a form control.
-      await page.mouse.click(2, 2).catch(() => undefined);
+      // A neutral click blurs whatever owns the popper: the page's own
+      // heading, which is never a form control (the viewport corner sits
+      // inside Workday's header bar).
+      const heading = page.locator("main h1, main h2, h1, h2").first();
+      if ((await heading.count().catch(() => 0)) > 0) {
+        await heading.click({ timeout: 1_500, position: { x: 2, y: 2 } }).catch(() => undefined);
+      }
       await page.waitForTimeout(300);
     }
     await loc.click({ timeout });

@@ -60,6 +60,66 @@ export const publicProfileSchema = z.object({
 
 export type PublicProfile = z.infer<typeof publicProfileSchema>;
 
+/**
+ * Structured history entries (operator directive 2026-09-14: "extract my
+ * resumes and do this for me"). Workday's My Experience page requires Job
+ * Title / Company / dates / Role Description and School / Degree / Field of
+ * Study per row; plain-string entries carry none of that. Both arrays stay
+ * `unknown` in the profile schema so legacy string entries still parse —
+ * these accessors return only the entries that are structured, in order.
+ */
+const monthYearSchema = z.object({
+  month: z.string().min(3),
+  year: z.number().int().min(1950).max(2100),
+});
+const historyLocationSchema = z.object({
+  city: z.string().default(""),
+  state: z.string().default(""),
+  country: z.string().default(""),
+});
+export const employmentEntrySchema = z.object({
+  company: z.string().min(1),
+  title: z.string().min(1),
+  location: historyLocationSchema.optional(),
+  remote: z.boolean().optional().default(false),
+  start: monthYearSchema.optional(),
+  end: monthYearSchema.nullable().optional(),
+  current: z.boolean().optional().default(false),
+  description: z.string().optional().default(""),
+});
+export const educationEntrySchema = z.object({
+  school: z.string().min(1),
+  degree: z.string().optional().default(""),
+  field_of_study: z.string().optional().default(""),
+  additional_fields_of_study: z.array(z.string()).optional().default([]),
+  location: historyLocationSchema.optional(),
+  start: monthYearSchema.optional(),
+  end: monthYearSchema.nullable().optional(),
+  current: z.boolean().optional().default(false),
+  gpa: z.number().optional(),
+  gpa_scale: z.number().optional(),
+});
+export type EmploymentEntry = z.infer<typeof employmentEntrySchema>;
+export type EducationEntry = z.infer<typeof educationEntrySchema>;
+
+export function structuredEmploymentHistory(profile: PublicProfile): EmploymentEntry[] {
+  const out: EmploymentEntry[] = [];
+  for (const raw of profile.employment_history) {
+    const parsed = employmentEntrySchema.safeParse(raw);
+    if (parsed.success) out.push(parsed.data);
+  }
+  return out;
+}
+
+export function structuredEducationHistory(profile: PublicProfile): EducationEntry[] {
+  const out: EducationEntry[] = [];
+  for (const raw of profile.education_history) {
+    const parsed = educationEntrySchema.safeParse(raw);
+    if (parsed.success) out.push(parsed.data);
+  }
+  return out;
+}
+
 export function parsePublicProfile(data: unknown): PublicProfile {
   return publicProfileSchema.parse(data);
 }

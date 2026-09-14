@@ -13,6 +13,7 @@ import {
 import { locationTypeaheadQuery, shouldComposeCityTypeahead } from "./locationQuery.js";
 import type { ScreenerResolution } from "../candidate/screenerMatch.js";
 import { historyGroupOf, normalizeFieldLabel } from "./fieldNormalization.js";
+import { historyOrdinals, historyRowAnswer } from "./historyRows.js";
 import {
   consentCanonicalFor,
   isApplicationConsentField,
@@ -217,6 +218,9 @@ export function buildFillPlan(
 
   const answers: ResolvedApplicationAnswers = {};
   const entries: FillPlanEntry[] = [];
+  // Operator directive 2026-09-14: history rows answer from the profile's
+  // structured entries, first row on the page = most recent entry.
+  const rowOrdinals = historyOrdinals(mapped);
 
   for (const field of mapped) {
     // #243 (live Shield AI lever 2026-09-10): Lever renders a multi-select
@@ -319,6 +323,38 @@ export function buildFillPlan(
           reason: `${historyGroup.kind} row ${historyGroup.index} already holds "${held.slice(0, 40)}" (resume parse) — kept`,
         });
         continue;
+      }
+      // Structured history (operator directive 2026-09-14, live PIMCO wd1):
+      // an empty row control takes the profile's entry for its ordinal row.
+      // File inputs and the essay/demographic routing below are untouched
+      // — this is a resume fact, keyed by the control's own id or label.
+      if (field.type !== "file" && !isDemographicsField(field)) {
+        const ordinal = rowOrdinals.get(`${historyGroup.kind}:${historyGroup.index}`) ?? 0;
+        const structured = historyRowAnswer(field, ordinal, profile);
+        if (structured.answer) {
+          entries.push({
+            field_id: field.id,
+            label: field.label,
+            type: field.type,
+            canonical_field: structured.answer.canonical,
+            action: "fill",
+            value: structured.answer.value,
+            reason: structured.answer.reason,
+          });
+          continue;
+        }
+        if (/current position|left unchecked|no end date/.test(structured.reasonWhenEmpty)) {
+          entries.push({
+            field_id: field.id,
+            label: field.label,
+            type: field.type,
+            canonical_field: field.canonical_field,
+            action: "skip_empty",
+            value: null,
+            reason: structured.reasonWhenEmpty,
+          });
+          continue;
+        }
       }
       if (historyGroup.index >= 1 && !field.canonical_field && screenerHit?.status === "fill") {
         entries.push({
