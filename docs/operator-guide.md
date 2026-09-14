@@ -2228,3 +2228,74 @@ npm run cloud:schema -- apply      # run supabase/migrations/ then verify
   stopping at the first failure — then runs the same read-back.
 - No token? Paste the files into the dashboard SQL Editor in filename
   order, then run `verify`.
+
+## 27. Tenant workspaces — `tenant:materialize` / `tenant:status`
+
+```
+npm run tenant:materialize -- --user <uuid> [--force] [--skip-sensitive]
+npm run tenant:materialize -- --all [--force]
+npm run tenant:status                    # every workspace under TENANTS_ROOT
+npm run tenant:status -- --user <uuid>   # one
+```
+
+A hosted user gets their own workspace under `TENANTS_ROOT` (default
+`private/tenants/<uuid>/`): `private/candidate/` (the same files §0 has
+you write for yourself — `public-profile.json`, `screeners.json`,
+`about-me.md`, `resumes/<variant>.pdf` + `default.pdf`, `transcript.pdf`,
+`personas/default.json`, `application-education-policy.json`,
+`sensitive-profile.enc`), `secrets/*.enc`, their OWN `data/app.sqlite`,
+`artifacts/`, `runs/`. One engine process = one tenant; nothing in the
+operator's `private/` is shared except `answer-aliases.json` (a phrase
+book, not user data).
+
+- **materialize** needs `TENANT_ENGINE_ENABLED=true` and
+  `SUPABASE_SYNC_ENABLED=true` (+ `SUPABASE_URL`,
+  `SUPABASE_SERVICE_ROLE_KEY`); either off ⇒ refuses by name. It pulls the
+  onboarded users (the same read as `cloud:sync --profiles`), maps each
+  one through `src/cloud/tenantMaterializer.ts` (nothing invented: an
+  unknown fact is `""`, which the engine treats as "skip / ask per
+  application") and writes the files above, idempotently. Documents are
+  downloaded once per upload (`documents.state.json` remembers
+  `uploaded_at`; `--force` re-downloads). The self-identification answers
+  are read through the service-role RPC for that user only and written
+  ONLY as `sensitive-profile.enc` under that tenant's key (HKDF of the
+  DPAPI-wrapped `TENANTS_ROOT/master.key.dpapi`, created on first use);
+  consent withdrawn in the app ⇒ the sealed file is removed on the next
+  run. `--skip-sensitive` leaves that step out (a dry materialization for
+  inspection). Each workspace prints a report (`written`, `removed`,
+  `downloaded`, `unchanged`, `persona`, `sensitiveProfile`).
+- **status** is read-only and needs no flag: per workspace the manifest's
+  email / `materialized_at` / eligibility, the file count, the sealed
+  secret names, whether a database exists, and any plaintext left under
+  `private/unsealed/` — that list must be empty between runs; a non-empty
+  one is printed as a WARNING.
+- **run** (`npm run tenant:run -- --user <uuid> --kind apply [--job <id>]
+  [--max-submits N] [--max-apps N] [--duration <min>] [--app-deadline <sec>]`)
+  does one job for one tenant, same two gates. In order: materialize →
+  read the tenant's quota (`user_quota_status`; no row ⇒ nothing runs;
+  COMPLETED rows in the tenant's own SQLite that the mirror has not
+  counted yet are subtracted too) → require a sealed JobRight session
+  (`secrets/jobright.storage.enc`); without one it opens a
+  `jobright_connect` handoff on the dashboard, marks the engine `parked`
+  and stops — it never opens a login page → unseal that session to
+  `private/auth/jobright.storage.json` → spawn `auto:cycle` as a child
+  headless, with the tenant's `PRIVATE_DIR` / `DATABASE_PATH` /
+  `ARTIFACTS_DIR`, `CANDIDATE_KEY_PROVIDER=tenant`, unattended submits
+  capped at the quota budget, and an env that is your `.env`'s flag
+  ceiling narrowed further (artifact autopush, the agent leg, CDP
+  autolaunch, extension fill, Outlook, triage acting, board discovery and
+  Gmail drafting/verification forced off; `PORTAL_LOGIN_PASSWORD`,
+  `SUPABASE_ACCESS_TOKEN`, the service key and the tenancy switches
+  stripped) — a child can never hold a flag your `.env` lacks; hard
+  timeout = duration + 10 min, then the process tree is killed → every
+  plaintext wiped (also on error) → status + receipts synced under the
+  tenant's id → handoff tasks derived from the tenant's own review items
+  (`AUTH_REQUIRED` for JobRight ⇒ `jobright_reconnect`, other sign-in
+  walls ⇒ `ats_login`, `CAPTCHA_REQUIRED` ⇒ `captcha`) →
+  `runs/<job>/result.json` (+ `child.log`) → `complete_engine_job` when
+  `--job` was given. Exit code 1 for anything but `completed` /
+  `quota_exhausted`. `--kind outreach|feed_sample|reconnect_verify` are
+  refused as `unsupported_kind` until their milestones land.
+- The scheduler (leasing `engine_jobs`) and the JobRight connect handoff
+  (remote browser) are later milestones; until a session is sealed for a
+  tenant, `tenant:run` parks on `jobright_connect` every time.

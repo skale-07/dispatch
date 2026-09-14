@@ -2,6 +2,7 @@
 import { makeSyncClient, runProfilesPull } from "../cloud/syncSupabase.js";
 import { getConfig } from "../config/index.js";
 import { assertTenantId } from "./paths.js";
+import { runTenantJob, type TenantJobKind } from "./run.js";
 import { inspectWorkspace, listWorkspaces, materializeWorkspace } from "./workspace.js";
 
 /**
@@ -10,11 +11,15 @@ import { inspectWorkspace, listWorkspaces, materializeWorkspace } from "./worksp
  *   npm run tenant:materialize -- --user <uuid> [--force] [--skip-sensitive]
  *   npm run tenant:materialize -- --all [--force]
  *   npm run tenant:status [-- --user <uuid>]
+ *   npm run tenant:run -- --user <uuid> --kind apply [--job <id>]
+ *                         [--max-submits N] [--max-apps N] [--duration <min>] [--app-deadline <sec>]
  *
  * materialize: pull the onboarded user(s) from the cloud plane and write
  * their workspace(s) under TENANTS_ROOT. Behind TENANT_ENGINE_ENABLED and
  * SUPABASE_SYNC_ENABLED (refuses by name). status: read-only, lists each
  * workspace's files, sealed secrets and any stale unsealed plaintext.
+ * run: one job for one tenant (materialize → quota → unseal → child
+ * auto:cycle → wipe → sync → handoffs); same two gates.
  */
 
 function arg(name: string): string | undefined {
@@ -22,6 +27,37 @@ function arg(name: string): string | undefined {
   return i >= 0 ? process.argv[i + 1] : undefined;
 }
 const has = (name: string): boolean => process.argv.includes(name);
+function num(name: string): number | undefined {
+  const v = arg(name);
+  return v !== undefined && Number.isFinite(Number(v)) ? Number(v) : undefined;
+}
+
+async function run(): Promise<void> {
+  const config = getConfig();
+  if (!config.tenantEngineEnabled) {
+    throw new Error("TENANT_ENGINE_ENABLED is false (fail-closed default). Set it in .env to run tenant jobs.");
+  }
+  const userId = arg("--user");
+  if (!userId) throw new Error("tenant:run needs --user <uuid>");
+  const kind = (arg("--kind") ?? "apply") as TenantJobKind;
+  if (!["apply", "outreach", "feed_sample", "reconnect_verify"].includes(kind)) {
+    throw new Error(`--kind must be apply|outreach|feed_sample|reconnect_verify (got "${kind}")`);
+  }
+  const client = await makeSyncClient(config);
+  const result = await runTenantJob({
+    userId: assertTenantId(userId),
+    kind,
+    jobId: arg("--job") ?? null,
+    client,
+    config,
+    ...(num("--max-submits") !== undefined ? { maxSubmits: num("--max-submits")! } : {}),
+    ...(num("--max-apps") !== undefined ? { maxApps: num("--max-apps")! } : {}),
+    ...(num("--duration") !== undefined ? { durationMinutes: num("--duration")! } : {}),
+    ...(num("--app-deadline") !== undefined ? { appDeadlineSeconds: num("--app-deadline")! } : {}),
+  });
+  console.log(JSON.stringify(result, null, 2));
+  if (result.outcome !== "completed" && result.outcome !== "quota_exhausted") process.exitCode = 1;
+}
 
 async function materialize(): Promise<void> {
   const config = getConfig();
@@ -84,8 +120,9 @@ const cmd = process.argv[2];
 (async () => {
   if (cmd === "materialize") await materialize();
   else if (cmd === "status") status();
+  else if (cmd === "run") await run();
   else {
-    console.error("usage: tenant cli <materialize|status> [--user <uuid>] [--all] [--force] [--skip-sensitive]");
+    console.error("usage: tenant cli <materialize|status|run> [--user <uuid>] [--all] [--force] [--skip-sensitive] [--kind apply] [--job <id>]");
     process.exit(2);
   }
 })().catch((err: unknown) => {

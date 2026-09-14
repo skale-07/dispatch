@@ -7,6 +7,7 @@ import { getConfig, type AppConfig } from "../config/index.js";
 import { logger } from "../logging/logger.js";
 import { deriveTenantKey } from "./keys.js";
 import { tenantPaths, type TenantPaths } from "./paths.js";
+import { listUnsealed } from "./secrets.js";
 
 /**
  * materializeWorkspace (plan v0.5, M14): cloud rows → a tenant's files on
@@ -265,7 +266,7 @@ export type WorkspaceStatus = {
   manifest: Record<string, unknown> | null;
   files: string[];
   sealed: string[];
-  /** Plaintext left under private/unsealed/ — should be empty between runs. */
+  /** Plaintext left under private/unsealed/ or private/auth/*.storage.json — should be empty between runs. */
   staleUnsealed: string[];
   hasDatabase: boolean;
 };
@@ -282,7 +283,7 @@ export function inspectWorkspace(userId: string, root = getConfig().tenantsRoot)
         .sort()
     : [];
   const sealed = fs.existsSync(p.secretsDir) ? fs.readdirSync(p.secretsDir).filter((f) => f.endsWith(".enc")).sort() : [];
-  const staleUnsealed = fs.existsSync(p.unsealedDir) ? fs.readdirSync(p.unsealedDir).sort() : [];
+  const staleUnsealed = listUnsealed(p);
   return { userId: p.userId, root: p.root, manifest, files, sealed, staleUnsealed, hasDatabase: fs.existsSync(p.dbPath) };
 }
 

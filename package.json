@@ -82,6 +82,7 @@
     "cloud:schema": "tsx src/cloud/schemaCli.ts",
     "tenant:materialize": "tsx src/tenants/cli.ts materialize",
     "tenant:status": "tsx src/tenants/cli.ts status",
+    "tenant:run": "tsx src/tenants/cli.ts run",
     "hooks:install": "git config core.hooksPath .githooks",
     "check:forbidden": "tsx scripts/check-forbidden.ts",
     "check:secrets": "tsx scripts/check-secrets-staged.ts",

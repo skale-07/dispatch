@@ -69,13 +69,62 @@ export function writeUnsealed(paths: TenantPaths, name: string, data: unknown): 
   return target;
 }
 
-/** Remove every unsealed plaintext file; returns how many were removed. Idempotent. */
+/**
+ * The one plaintext file the engine reads from a FIXED location: the
+ * Playwright storageState at <privateDir>/auth/<service>.storage.json
+ * (src/auth/serviceRegistry.ts derives it from PRIVATE_DIR). Written for
+ * the run, listed as unsealed plaintext, wiped with the rest.
+ */
+export function unsealedStorageStatePath(paths: TenantPaths, service: "jobright" | "linkedin" | "outlook"): string {
+  return path.join(paths.authDir, `${service}.storage.json`);
+}
+
+export function writeUnsealedStorageState(
+  paths: TenantPaths,
+  service: "jobright" | "linkedin" | "outlook",
+  state: unknown,
+): string {
+  fs.mkdirSync(paths.authDir, { recursive: true });
+  const target = unsealedStorageStatePath(paths, service);
+  const tmp = `${target}.${process.pid}.tmp`;
+  fs.writeFileSync(tmp, `${JSON.stringify(state)}\n`, "utf8");
+  fs.renameSync(tmp, target);
+  return target;
+}
+
+/** Plaintext currently on disk that should not outlive a run (workspace-relative). */
+export function listUnsealed(paths: TenantPaths): string[] {
+  const out: string[] = [];
+  if (fs.existsSync(paths.unsealedDir)) {
+    for (const entry of fs.readdirSync(paths.unsealedDir)) out.push(`private/unsealed/${entry}`);
+  }
+  if (fs.existsSync(paths.authDir)) {
+    for (const entry of fs.readdirSync(paths.authDir)) {
+      if (entry.endsWith(".storage.json")) out.push(`private/auth/${entry}`);
+    }
+  }
+  return out.sort();
+}
+
+/**
+ * Remove every unsealed plaintext file (private/unsealed/* and the
+ * auth/*.storage.json a run wrote); returns how many were removed.
+ * Idempotent.
+ */
 export function wipeUnsealed(paths: TenantPaths): number {
-  if (!fs.existsSync(paths.unsealedDir)) return 0;
   let n = 0;
-  for (const entry of fs.readdirSync(paths.unsealedDir)) {
-    fs.rmSync(path.join(paths.unsealedDir, entry), { recursive: true, force: true });
-    n += 1;
+  if (fs.existsSync(paths.unsealedDir)) {
+    for (const entry of fs.readdirSync(paths.unsealedDir)) {
+      fs.rmSync(path.join(paths.unsealedDir, entry), { recursive: true, force: true });
+      n += 1;
+    }
+  }
+  if (fs.existsSync(paths.authDir)) {
+    for (const entry of fs.readdirSync(paths.authDir)) {
+      if (!entry.endsWith(".storage.json")) continue;
+      fs.rmSync(path.join(paths.authDir, entry), { force: true });
+      n += 1;
+    }
   }
   return n;
 }

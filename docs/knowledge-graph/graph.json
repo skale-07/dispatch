@@ -880,7 +880,7 @@
       "id": "tenants",
       "label": "Tenant workspaces (multi-tenant engine)",
       "layer": "orchestration",
-      "purpose": "Plan v0.5: one engine process per HOSTED user, in a workspace the process derives from the tenant's uuid (private/tenants/<uuid>/ — their profile, documents, sealed sessions, their OWN SQLite, artifacts, runs). Secrets are AES-GCM under a per-tenant key: HKDF-SHA256 of one DPAPI-wrapped master with the uuid as salt, reached through the candidate crypto seam (CANDIDATE_KEY_PROVIDER=tenant in the child env). Plaintext a run needs exists only under private/unsealed/ and is wiped when the run ends. The materializer (src/cloud/tenantMaterializer.ts, pure) turns cloud rows into the engine's own files and workspace.ts writes them (tenant:materialize / tenant:status); runner, scheduler and handoff capture land in the following milestones (M15–M18).",
+      "purpose": "Plan v0.5: one engine process per HOSTED user, in a workspace the process derives from the tenant's uuid (private/tenants/<uuid>/ — their profile, documents, sealed sessions, their OWN SQLite, artifacts, runs). Secrets are AES-GCM under a per-tenant key: HKDF-SHA256 of one DPAPI-wrapped master with the uuid as salt, reached through the candidate crypto seam (CANDIDATE_KEY_PROVIDER=tenant in the child env). Plaintext a run needs exists only under private/unsealed/ and is wiped when the run ends. The materializer (src/cloud/tenantMaterializer.ts, pure) turns cloud rows into the engine's own files and workspace.ts writes them (tenant:materialize / tenant:status). tenant:run (run.ts) does one job for one tenant: gate → materialize → quota budget (cloud user_quota_status minus local completions not yet mirrored) → sealed JobRight state or a jobright_connect handoff → unseal → spawn auto:cycle as a child whose env is the console flag ceiling narrowed further (childEnv.ts: forced-offs, stripped secrets, workspace paths, tenant key provider) → wipe every plaintext → sync the tenant's own rows → derive handoffs from its review items → result.json → complete_engine_job. Scheduler and remote-browser handoff capture land with M17–M18.",
       "paths": [
         "src/tenants"
       ],
@@ -889,7 +889,12 @@
         "src/tenants/keys.ts": "deriveTenantKey: HKDF-SHA256(master, salt = uuid, info dispatch/tenant-candidate-key/v1) → 32 bytes; deterministic, one-way, never hands out the master",
         "src/tenants/secrets.ts": "sealSecret / unsealSecret / hasSealed / listSealed under <workspace>/secrets/<name>.enc (closed name shape); writeUnsealed + wipeUnsealed for the run-time plaintext",
         "src/tenants/workspace.ts": "materializeWorkspace (fail-closed behind TENANT_ENGINE_ENABLED; idempotent; documents re-downloaded on uploaded_at change; self-ID plaintext from engine_read_sensitive_profile written ONLY as sensitive-profile.enc under the tenant key, consent withdrawn ⇒ removed), inspectWorkspace (read-only, reports stale unsealed plaintext), listWorkspaces",
-        "src/tenants/cli.ts": "tenant:materialize (--user|--all, --force, --skip-sensitive; needs TENANT_ENGINE_ENABLED + SUPABASE_SYNC_ENABLED) and tenant:status (read-only) — its own entrypoint, not src/cli/index.ts",
+        "src/tenants/cli.ts": "tenant:materialize (--user|--all, --force, --skip-sensitive), tenant:run (--user --kind apply [--job]) — both need TENANT_ENGINE_ENABLED + SUPABASE_SYNC_ENABLED — and tenant:status (read-only); its own entrypoint, not src/cli/index.ts",
+        "src/tenants/run.ts": "runTenantJob: the whole job (see purpose); launchChild (node + tsx/cli + the repo CLI, stdout/stderr to runs/<job>/child.log, hard timeout + taskkill /T /F); readLatestCycleReport; one child per job, no in-process retry — the cloud queue's max_attempts is the loop",
+        "src/tenants/childEnv.ts": "composeTenantChildEnv = composeChildEnv (console ceiling) + TENANT_FORCED_OFF (autopush, agent leg, CDP autolaunch, extension fill, Outlook, triage act, board discovery, Gmail drafting/verification until M19) + TENANT_STRIPPED_KEYS (operator secrets, tenancy switches, session-mode overrides) + workspace paths + CANDIDATE_KEY_PROVIDER=tenant/TENANT_USER_ID + SUPABASE_SYNC_USER_ID=<tenant> with sync itself off; flagsAboveCeiling is the test invariant",
+        "src/tenants/quota.ts": "readCloudQuota (user_quota_status; missing row ⇒ remaining 0), countLocalCompleted, computeRunBudget = min(cap, remaining − (local COMPLETED − cloud completed)⁺)",
+        "src/tenants/handoff.ts": "deriveHandoffsFromRun (pure): AUTH_REQUIRED service=jobright ⇒ jobright_reconnect, other AUTH_REQUIRED ⇒ ats_login (host from the wall url), CAPTCHA_REQUIRED ⇒ captcha, run code jobright_auth ⇒ jobright_reconnect, invalid_grant ⇒ gmail_reconnect; one per kind",
+        "src/tenants/context.ts": "currentTenant(): null in the operator's process; in a tenant child (CANDIDATE_KEY_PROVIDER=tenant + TENANT_USER_ID) the workspace paths, email and the manifest's outreach eligibility",
         "src/cloud/tenantMaterializer.ts": "PURE cloud rows → engine files: toPublicProfile (validated by publicProfileSchema, nothing invented, \"\" when unknown), toScreenerBank (bank + unambiguous profile mirrors, parseScreenerBank), toAboutMe (narrative + generated Application facts from present facts only), toPersona (personaSchema or the reason), toSensitiveProfile (RPC plaintext: answer→value, prefer_not→Decline to self-identify, skip→\"\"), toDocumentTargets (own-uid object paths in the kind's bucket only), toEducationPolicy, materializeTenant → manifest"
       },
       "key_exports": {
@@ -911,6 +916,29 @@
           "materializeWorkspace",
           "inspectWorkspace",
           "listWorkspaces"
+        ],
+        "src/tenants/run.ts": [
+          "runTenantJob",
+          "launchChild",
+          "readLatestCycleReport",
+          "JOBRIGHT_STATE_SECRET"
+        ],
+        "src/tenants/childEnv.ts": [
+          "composeTenantChildEnv",
+          "flagsAboveCeiling",
+          "TENANT_FORCED_OFF",
+          "TENANT_STRIPPED_KEYS"
+        ],
+        "src/tenants/quota.ts": [
+          "readCloudQuota",
+          "computeRunBudget",
+          "countLocalCompleted"
+        ],
+        "src/tenants/handoff.ts": [
+          "deriveHandoffsFromRun"
+        ],
+        "src/tenants/context.ts": [
+          "currentTenant"
         ],
         "src/cloud/tenantMaterializer.ts": [
           "materializeTenant",
@@ -936,7 +964,19 @@
       "from": "tenants",
       "to": "cloud",
       "kind": "reads",
-      "why": "workspaces are materialized from the cloud plane's rows (runProfilesPull: profiles, documents, screener answers, personas, integrations — never secrets) plus the service-role engine_read_sensitive_profile RPC; a tenant run syncs its OWN user's status/receipts back through runSupabaseSync/runReceiptsPush({ userId })"
+      "why": "workspaces are materialized from the cloud plane's rows (runProfilesPull: profiles, documents, screener answers, personas, integrations — never secrets) plus the service-role engine_read_sensitive_profile RPC; a tenant run reads user_quota_status for its budget, syncs its OWN user's status/receipts back through runSupabaseSync/runReceiptsPush({ userId }), writes engine_status state (running/parked/quota_exhausted/idle) and answers its engine_jobs row through completeEngineJob; handoffs go through pushHandoffTask"
+    },
+    {
+      "from": "tenants",
+      "to": "console",
+      "kind": "uses",
+      "why": "a tenant child's env starts from composeChildEnv/readCeiling (flagCeiling.ts) — the operator's .env is the ceiling; the tenant layer only narrows it further and repoints paths"
+    },
+    {
+      "from": "tenants",
+      "to": "queue",
+      "kind": "reads",
+      "why": "deriveHandoffsFromRun reads the tenant database's open review items (AUTH_REQUIRED / CAPTCHA_REQUIRED) to open the matching handoff tasks; nothing is resolved or transitioned until the capture milestone (M17)"
     },
     {
       "from": "triage",
