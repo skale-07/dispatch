@@ -9,6 +9,7 @@ import { classifyWorkdayPage } from "../ats/workday/pageKind.js";
 import { workdaySelectorsV1 } from "../ats/workday/selectors.js";
 import { closeWorkdayHeaderMenus } from "../ats/workday/fill.js";
 import { openWorkdayHistoryRows } from "../ats/workday/experienceSections.js";
+import { leverLocationSelectionEmpty } from "../ats/shared/leverLocation.js";
 import { readPageValidationErrors } from "./pageErrors.js";
 import { walkWorkdayWizard } from "./workdayWizard.js";
 import {
@@ -266,11 +267,7 @@ async function recommitAfterResumeParse(args: {
     await args.page.waitForTimeout(1_500); // let the parse land
     const verify = await args.adapter.verify(args.page, args.approvedPlan.answers);
     const stale = new Set(verify.fields.filter((f) => !f.match).map((f) => f.canonical_field));
-    const selectionCleared = (await args.page
-      .evaluate(
-        `(() => { const h = document.querySelector('input[type="hidden"][name="selectedLocation"]'); if (!h) return false; const v = (h.value || "").trim(); return v === "" || /"name"\\s*:\\s*""/.test(v); })()`,
-      )
-      .catch(() => false)) as boolean;
+    const selectionCleared = (await leverLocationSelectionEmpty(args.page)) === true;
     if (selectionCleared) stale.add("address.city");
     const redo = args.approvedPlan.entries.filter(
       (e) =>
@@ -1204,6 +1201,25 @@ export async function runAtsLiveFill(input: {
             // is also the one place the shared gate's zero-field refusal
             // cannot reach. Crowe live: 0 planned, 0 filled, verify
             // failed — a refusal names that, a 0-field fill hides it.
+            if (discoverFieldsFromHtml(planHtml).length === 0 && kind === "wizard") {
+              // Live rb.wd5 2026-09-14 (43e39cc0, cycle 145): the tenant
+              // resumes an in-progress application at its incomplete step
+              // — My Experience with EMPTY sections — so the landed page
+              // has zero controls until a row is added. Open the rows the
+              // profile can fill, then plan the page like any other.
+              try {
+                const rows = await openWorkdayHistoryRows(page, input.profile ?? loadPublicProfile());
+                report.notes.push(...rows.notes.slice(0, 4));
+                if (rows.clicked > 0) {
+                  planHtml = await readLiveHtml(page);
+                  planUrl = page.url();
+                }
+              } catch (err) {
+                report.notes.push(
+                  `experience sections: ${err instanceof Error ? err.message.slice(0, 120) : String(err)}`,
+                );
+              }
+            }
             if (discoverFieldsFromHtml(planHtml).length === 0) {
               report.gate.ok = false;
               report.gate.failure_code = "NO_APPLICATION_FORM";
@@ -1638,6 +1654,20 @@ export async function runAtsLiveFill(input: {
             "page error scan: no visible validation errors on the page",
           );
         }
+        // The POST-fill DOM beside the plan-time snapshot (live rb.wd5
+        // 2026-09-14: "address--countryRegion: control not found (label
+        // State)" after the country pick re-rendered the block — the
+        // renamed control was unknowable without this). Scrubbed like
+        // every snapshot; instrumentation never changes the outcome.
+        try {
+          const dir = path.join(getConfig().artifactsDir, "ats-fill", `${binding.id}-live`);
+          fs.mkdirSync(dir, { recursive: true });
+          const snap = path.join(dir, `verify-failed-snapshot-${Date.now()}.html`);
+          fs.writeFileSync(snap, scrubHtmlForSnapshot(await readLiveHtml(page)), "utf8");
+          report.notes.push(`verify-failed snapshot: ${path.basename(snap)}`);
+        } catch {
+          // best-effort
+        }
         // #240: the same "the page's own rules decide" waiver the submit
         // gate applies, at the EARLIER gate where it actually matters.
         // Most of tonight's losses never reached submit — a fill-stage
@@ -1881,6 +1911,13 @@ export async function runAtsLiveFill(input: {
           };
         }, {
           applicationId: input.capture?.applicationId ?? null,
+          // An empty My Experience (only "Add" buttons) has zero controls;
+          // mount the rows the profile can fill so the page gets planned.
+          onEmptyPage: async (walkPage) => {
+            const rows = await openWorkdayHistoryRows(walkPage, input.profile ?? loadPublicProfile());
+            report.notes.push(...rows.notes.slice(0, 4).map((n) => `wizard ${n}`));
+            return rows.clicked > 0;
+          },
           // Mid-walk session expiry: sign back in (same gates as
           // tryPortalAuth) and resume, instead of abandoning a wizard
           // that is already half filled.

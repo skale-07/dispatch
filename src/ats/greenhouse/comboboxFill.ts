@@ -816,17 +816,32 @@ export function pickOptionLabel(options: string[], expected: string): OptionPick
       if (t === "comp" || t === "cs") return "computer";
       return t;
     });
+  // Live rb.wd5 2026-09-14 (Field of Study): "Computer Science" against
+  // [Accounting | Actuarial Science] scored "Actuarial Science" on the lone
+  // token "science" — a generic discipline word can never be the whole
+  // match. An option qualifies only when a DISTINCTIVE token hits; generic
+  // tokens then refine the score.
+  const GENERIC_TOKENS = new Set([
+    "science", "sciences", "studies", "engineering", "arts", "general",
+    "management", "technology", "technologies", "business", "systems",
+    "applied", "degree", "other", "administration", "design", "development",
+  ]);
   if (tokens.length >= 1) {
     const scored = options
       .map((o) => {
         const ok = optionKey(o);
         let score = 0;
+        let distinctive = 0;
         for (const t of tokens) {
-          if (ok.includes(t)) score += 1;
-          else if (t === "math" && ok.includes("mathematic")) score += 3;
-          else if (t === "statistic" && ok.includes("statistic")) score += 3;
-          else if (t === "computer" && ok.includes("computer")) score += 3;
+          const generic = GENERIC_TOKENS.has(t);
+          if (ok.includes(t)) {
+            score += 1;
+            if (!generic) distinctive += 1;
+          } else if (t === "math" && ok.includes("mathematic")) { score += 3; distinctive += 1; }
+          else if (t === "statistic" && ok.includes("statistic")) { score += 3; distinctive += 1; }
+          else if (t === "computer" && ok.includes("computer")) { score += 3; distinctive += 1; }
         }
+        if (distinctive === 0 && tokens.some((t) => !GENERIC_TOKENS.has(t))) score = 0;
         // Downgrade generic "applied …" matches that only hit "applied"
         if (
           score === 1 &&
@@ -990,14 +1005,31 @@ export async function clickPastStrayPopup(
       .locator("[data-popper-placement], [data-popper-reference-hidden]")
       .filter({ visible: true });
     if ((await strays.count().catch(() => 0)) > 0) {
-      // A neutral click blurs whatever owns the popper: the page's own
-      // heading, which is never a form control (the viewport corner sits
-      // inside Workday's header bar).
+      // Workday poppers close on a click OUTSIDE (`data-behavior-click-
+      // outside-close`): dispatch that on the document body, then a
+      // neutral click on the page's own heading (never a form control).
+      // String expression: no inner functions under tsx (#245b).
+      await page
+        .evaluate(
+          "(() => { const b = document.body; for (const t of ['pointerdown', 'mousedown', 'click']) b.dispatchEvent(new MouseEvent(t, { bubbles: true })); })()",
+        )
+        .catch(() => undefined);
       const heading = page.locator("main h1, main h2, h1, h2").first();
       if ((await heading.count().catch(() => 0)) > 0) {
         await heading.click({ timeout: 1_500, position: { x: 2, y: 2 } }).catch(() => undefined);
       }
       await page.waitForTimeout(300);
+      // Live rb.wd5 2026-09-14 (twice): a popper whose REFERENCE is hidden
+      // is an orphan — its owner control re-rendered away — and nothing
+      // on the page will ever close it. Hiding it touches no form value.
+      const orphans = page.locator("[data-popper-reference-hidden]").filter({ visible: true });
+      if ((await orphans.count().catch(() => 0)) > 0) {
+        await orphans
+          .evaluateAll((els: Array<{ style: { display: string } }>) => {
+            for (const el of els) el.style.display = "none";
+          })
+          .catch(() => undefined);
+      }
     }
     await loc.click({ timeout });
     return { recovered: true };
@@ -1340,6 +1372,18 @@ async function openCombobox(
 
   notes.push(...(await clearComboboxSelection(page, clickTarget)));
 
+  // Ownership by APPEARANCE (live rb.wd5 2026-09-14: Field of Study's
+  // list was read for Skills and Degree's popup read empty — portal
+  // popups from three controls, all "visible listboxes"). Every listbox
+  // visible BEFORE the click is stamped; the one that appears after the
+  // click is the control's own. String expression: no inner functions
+  // under tsx (#245b).
+  await page
+    .evaluate(
+      "(() => { for (const el of document.querySelectorAll('[data-dispatch-seen-listbox]')) el.removeAttribute('data-dispatch-seen-listbox'); for (const el of document.querySelectorAll('[role=\"listbox\"], [class*=\"select__menu\"], [id$=\"-dropdown-list-container\"]')) { if (el.offsetParent !== null) el.setAttribute('data-dispatch-seen-listbox', '1'); } })()",
+    )
+    .catch(() => undefined);
+
   await clickTarget.click({ timeout: 10_000, force: true });
   notes.push("opened via control click");
   await page.waitForTimeout(200);
@@ -1449,33 +1493,55 @@ async function listboxForControl(page: Page, loc: Locator): Promise<Locator> {
   const withoutChips = LISTBOX_SELECTOR.split(",")
     .map((s) => `${s.trim()}:not([data-automation-id='selectedItemList'])`)
     .join(", ");
-  const candidates = page.locator(withoutChips).filter({ visible: true });
+  // Ownership by appearance first (stamped in openCombobox): a listbox
+  // that was NOT visible before the control was clicked is the one the
+  // click opened. Portal popups from other controls carry the stamp.
+  const unseen = page
+    .locator(withoutChips.split(", ").map((s) => `${s}:not([data-dispatch-seen-listbox])`).join(", "))
+    .filter({ visible: true });
+  const all = page.locator(withoutChips).filter({ visible: true });
+  const unseenCount = await unseen.count().catch(() => 0);
+  const candidates = unseenCount > 0 ? unseen : all;
   // #277 (live Leidos + PIMCO wd1 2026-09-14, `source--source` and
   // `phoneNumber--phoneType`): Workday renders popups in portals, so
   // DOCUMENT order says nothing about ownership — the first visible
   // listbox was the phone COUNTRY-CODE list, and both how-did-you-hear and
-  // device type harvested "United States of America (+1)". Pick the
-  // visible listbox nearest the control instead: a popper hangs directly
-  // under (or above) its anchor and overlaps it horizontally.
-  const n = await candidates.count().catch(() => 0);
-  if (n <= 1) return candidates.first();
-  const anchor = await loc.boundingBox().catch(() => null);
-  if (!anchor) return candidates.first();
+  // device type harvested "United States of America (+1)". Among the
+  // candidates, pick the visible listbox nearest the control: a popper
+  // hangs directly under (or above) its anchor and overlaps it
+  // horizontally.
+  const n = unseenCount > 0 ? unseenCount : await all.count().catch(() => 0);
   let best = 0;
-  let bestScore = Number.POSITIVE_INFINITY;
-  for (let i = 0; i < n; i++) {
-    const box = await candidates.nth(i).boundingBox().catch(() => null);
-    if (!box) continue;
-    const vertical = Math.max(0, box.y - (anchor.y + anchor.height), anchor.y - (box.y + box.height));
-    const overlapsX = box.x < anchor.x + anchor.width && anchor.x < box.x + box.width;
-    const horizontal = overlapsX ? 0 : Math.min(Math.abs(box.x - anchor.x), Math.abs(box.x + box.width - anchor.x - anchor.width));
-    const score = vertical + horizontal * 2;
-    if (score < bestScore) {
-      bestScore = score;
-      best = i;
+  if (n > 1) {
+    const anchor = await loc.boundingBox().catch(() => null);
+    if (anchor) {
+      let bestScore = Number.POSITIVE_INFINITY;
+      for (let i = 0; i < n; i++) {
+        const box = await candidates.nth(i).boundingBox().catch(() => null);
+        if (!box) continue;
+        const vertical = Math.max(0, box.y - (anchor.y + anchor.height), anchor.y - (box.y + box.height));
+        const overlapsX = box.x < anchor.x + anchor.width && anchor.x < box.x + box.width;
+        const horizontal = overlapsX ? 0 : Math.min(Math.abs(box.x - anchor.x), Math.abs(box.x + box.width - anchor.x - anchor.width));
+        const score = vertical + horizontal * 2;
+        if (score < bestScore) {
+          bestScore = score;
+          best = i;
+        }
+      }
     }
   }
-  return candidates.nth(best);
+  // Pin the chosen element: later re-opens re-stamp the page, and a
+  // selector-based locator would then resolve to nothing. The token is a
+  // harmless DOM attribute on the popup only.
+  const token = `lb-${Date.now().toString(36)}-${Math.floor(Math.random() * 1e6).toString(36)}`;
+  const pinned = await candidates
+    .nth(best)
+    .evaluate((el: { setAttribute: (n: string, v: string) => void }, t: string) => {
+      el.setAttribute("data-dispatch-listbox-owner", t);
+      return true;
+    }, token)
+    .catch(() => false);
+  return pinned ? page.locator(`[data-dispatch-listbox-owner="${token}"]`) : candidates.nth(best);
 }
 
 async function clickListedOption(
@@ -1882,6 +1948,50 @@ export async function fillComboboxControl(
         options = await collectOptions();
         if (options.length === 0) continue;
         if (pickOptionLabel(options, expectedText).ok) break;
+      }
+      // Operator directive 2026-09-14 ("whenever you search something up
+      // in a dropdown, clicking Enter is the best way to see if it's
+      // actually there"): Workday search prompts (Field of Study, Skills,
+      // Degree on some tenants) surface or commit the typed match only on
+      // Enter — live rb.wd5: 337 harvested rows, "Computer Science" never
+      // shown after typing. One Enter per typed filter; the read-back is
+      // the arbiter, never the keypress.
+      if (options.length === 0 || !pickOptionLabel(options, expectedText).ok) {
+        const focusedForEnter = await loc
+          .evaluate(
+            (el: { ownerDocument: { activeElement: unknown } }) =>
+              el.ownerDocument.activeElement === el,
+          )
+          .catch(() => false);
+        if (focusedForEnter) {
+          await page.keyboard.press("Enter").catch(() => undefined);
+          await page.waitForTimeout(700);
+          const afterEnter = await readComboboxValue(loc);
+          const enterHit =
+            afterEnter &&
+            [expectedText, ...(opts.alternates ?? [])].find((c) => labelsCompatible(c, afterEnter));
+          if (enterHit) {
+            notes.push(`filter "${typeText}" + Enter committed "${afterEnter}" (operator directive 2026-09-14)`);
+            await page.keyboard.press("Escape").catch(() => undefined);
+            return {
+              committed: true,
+              selectedLabel: afterEnter,
+              notes,
+              pickVia: labelsCompatible(expectedText, afterEnter) ? "exact" : "synonym",
+            };
+          }
+          options = await collectOptions();
+          if (options.length > 0 && pickOptionLabel(options, expectedText).ok) {
+            notes.push(`filter "${typeText}" + Enter surfaced ${options.length} option(s); match`);
+            break;
+          }
+          if (afterEnter && !PLACEHOLDER_RE.test(afterEnter)) {
+            // Enter committed something ELSE (a free-text chip, the top
+            // row): undo it before trying the next filter.
+            notes.push(`filter "${typeText}" + Enter committed "${afterEnter}" — not the answer; cleared`);
+            await clearComboboxSelection(page, loc).catch(() => undefined);
+          }
+        }
       }
       if (pickOptionLabel(options, expectedText).ok) {
         notes.push(

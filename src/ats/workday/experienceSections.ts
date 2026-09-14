@@ -53,33 +53,69 @@ export async function openWorkdayHistoryRows(
       : "";
     const section = SECTIONS.find((s) => s.heading.test(headingText.trim()) || s.heading.test(labelledBy.replace(/-/g, " ")));
     if (!section) continue;
-    if ((await group.locator(section.rowInput).count().catch(() => 0)) > 0) {
-      notes.push(`experience sections: ${section.kind} already shows a row — Add not clicked`);
+    const wanted = available[section.kind];
+    const rowsPresent = async (): Promise<number> => countRows(group, section.rowInput);
+    let rows = await rowsPresent();
+    if (wanted === 0) {
+      if (rows === 0) {
+        notes.push(`experience sections: ${section.kind} section is empty and the profile has no structured ${section.kind} entry — left empty`);
+      }
       continue;
     }
-    if (available[section.kind] === 0) {
-      notes.push(`experience sections: ${section.kind} section is empty and the profile has no structured ${section.kind} entry — left empty`);
+    if (rows >= wanted) {
+      notes.push(`experience sections: ${section.kind} shows ${rows} row(s) for ${wanted} structured entr${wanted === 1 ? "y" : "ies"} — nothing to add`);
       continue;
     }
-    const add = group
-      .locator("[data-automation-id='add-button'], button")
-      .filter({ hasText: /^\s*add\s*$/i })
-      .first();
-    if (!(await add.isVisible().catch(() => false))) {
-      notes.push(`experience sections: ${section.kind} section has no Add control`);
-      continue;
+    // Operator directive 2026-09-14: "usually you have to click 'Add
+    // Another'". One row per structured entry: "Add" mounts the first row
+    // of an empty section, "Add Another" each further one. Bounded by the
+    // entry count and a hard cap; every click is read back as a row count.
+    for (let guard = 0; rows < wanted && guard < MAX_ROWS_PER_SECTION; guard++) {
+      const wantAnother = rows > 0;
+      const add = group
+        .locator("[data-automation-id='add-button'], button")
+        .filter({ hasText: wantAnother ? /^\s*add\s+another\s*$/i : /^\s*add\s*$/i })
+        .last();
+      if (!(await add.isVisible().catch(() => false))) {
+        notes.push(
+          `experience sections: ${section.kind} section has no "${wantAnother ? "Add Another" : "Add"}" control (rows ${rows} of ${wanted})`,
+        );
+        break;
+      }
+      const ok = await add.click({ timeout: 3_000 }).then(() => true, () => false);
+      if (!ok) {
+        notes.push(`experience sections: "${wantAnother ? "Add Another" : "Add"}" click failed on the ${section.kind} section`);
+        break;
+      }
+      await page.waitForTimeout(settle);
+      const after = await rowsPresent();
+      if (after <= rows) {
+        notes.push(`experience sections: "${wantAnother ? "Add Another" : "Add"}" mounted no new ${section.kind} row — stopping`);
+        break;
+      }
+      clicked += 1;
+      rows = after;
+      notes.push(
+        `experience sections: opened ${section.kind} row ${rows} of ${wanted} (${wantAnother ? "Add Another" : "Add"})`,
+      );
     }
-    const ok = await add.click({ timeout: 3_000 }).then(() => true, () => false);
-    if (!ok) {
-      notes.push(`experience sections: Add click failed on the ${section.kind} section`);
-      continue;
-    }
-    await page.waitForTimeout(settle);
-    const mounted = await group.locator(section.rowInput).count().catch(() => 0);
-    clicked += 1;
-    notes.push(
-      `experience sections: opened a ${section.kind} row (${mounted} control(s) mounted) for structured entry 1 of ${available[section.kind]}`,
-    );
   }
   return { clicked, notes };
+}
+
+/** Hard cap on rows opened per section, whatever the profile holds. */
+export const MAX_ROWS_PER_SECTION = 6;
+
+/** Distinct row ids (`workExperience-N--`) present under a section. */
+async function countRows(group: import("playwright").Locator, rowInput: string): Promise<number> {
+  const ids = await group
+    .locator(rowInput)
+    .evaluateAll((els: Array<{ id: string }>) => els.map((el) => el.id))
+    .catch(() => [] as string[]);
+  const rows = new Set<string>();
+  for (const id of ids) {
+    const m = id.match(/^([A-Za-z]+-\d+)--/);
+    if (m) rows.add(m[1]!);
+  }
+  return rows.size;
 }

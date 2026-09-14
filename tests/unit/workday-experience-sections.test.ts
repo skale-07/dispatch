@@ -36,11 +36,28 @@ const MY_EXPERIENCE = `<!DOCTYPE html><html><body>
     </div>
   </div>
   <script>
+    // Workday: "Add" mounts the first row (with an "Add Another" beneath);
+    // each "Add Another" mounts one more row with a fresh index.
+    let nextRow = 6;
+    function mountRow() {
+      const n = nextRow++;
+      const rows = document.getElementById('work-rows');
+      rows.insertAdjacentHTML('beforeend',
+        '<div><label for="workExperience-' + n + '--jobTitle">Job Title</label><input id="workExperience-' + n + '--jobTitle" type="text" />' +
+        '<label for="workExperience-' + n + '--companyName">Company</label><input id="workExperience-' + n + '--companyName" type="text" /></div>');
+      let another = document.getElementById('add-another-work');
+      if (!another) {
+        another = document.createElement('button');
+        another.id = 'add-another-work';
+        another.setAttribute('data-automation-id', 'add-button');
+        another.textContent = 'Add Another';
+        another.addEventListener('click', mountRow);
+        rows.parentElement.appendChild(another);
+      }
+    }
     document.getElementById('add-work').addEventListener('click', () => {
-      document.getElementById('work-rows').innerHTML =
-        '<label for="workExperience-6--jobTitle">Job Title</label><input id="workExperience-6--jobTitle" type="text" />' +
-        '<label for="workExperience-6--companyName">Company</label><input id="workExperience-6--companyName" type="text" />' +
-        '<button data-automation-id="add-button">Add Another</button>';
+      document.getElementById('add-work').remove();
+      mountRow();
     });
     document.getElementById('add-edu').addEventListener('click', () => {
       document.getElementById('edu-rows').innerHTML =
@@ -77,6 +94,19 @@ const PROFILE = parsePublicProfile({
   education_history: [],
 });
 
+/** Operator directive 2026-09-14: one row per entry — "Add Another" for the rest. */
+const THREE_JOBS = parsePublicProfile({
+  legal_name: { first: "Shubham", last: "Kale" },
+  email: "s@example.test",
+  phone: "1",
+  employment_history: [
+    { company: "Summer Atlantic Capital", title: "Software Engineer", start: { month: "June", year: 2026 }, current: true },
+    { company: "ClarityAtlas", title: "Co-Founder", start: { month: "September", year: 2025 }, end: { month: "May", year: 2026 } },
+    { company: "SnapSort", title: "Founder", start: { month: "January", year: 2024 }, end: { month: "August", year: 2025 } },
+  ],
+  education_history: [],
+});
+
 describe("Workday My Experience sections + header menu (FIXTURE_CONFIRMED)", () => {
   useIsolatedFillEnv("safe");
 
@@ -88,12 +118,70 @@ describe("Workday My Experience sections + header menu (FIXTURE_CONFIRMED)", () 
       // No structured education entry ⇒ its Add is never clicked; Skills is not a history section.
       expect(await page.locator("#education-7--schoolName").count()).toBe(0);
       expect(await page.evaluate(() => (globalThis as unknown as { __skillAdds: number }).__skillAdds)).toBe(0);
-      expect(r.notes.join(" | ")).toMatch(/opened a employment row \(2 control\(s\) mounted\)/);
+      expect(r.notes.join(" | ")).toMatch(/opened employment row 1 of 1 \(Add\)/);
       expect(r.notes.join(" | ")).toMatch(/education section is empty and the profile has no structured education entry/);
-      // A second pass leaves the now-populated section alone (never "Add Another").
+      // A second pass leaves the now-populated section alone (one entry ⇒ one row, never "Add Another").
       const again = await openWorkdayHistoryRows(page, PROFILE, { settleMs: 100 });
       expect(again.clicked).toBe(0);
-      expect(await page.locator("#workExperience-6--jobTitle").count()).toBe(1);
+      expect(await page.locator("[id^='workExperience-'][id$='--jobTitle']").count()).toBe(1);
+    });
+  }, 60_000);
+
+  it('opens one row per structured entry: "Add" for the first, "Add Another" for each further one (operator directive 2026-09-14)', async () => {
+    await withFixtureHtmlPage(MY_EXPERIENCE, async (page) => {
+      const r = await openWorkdayHistoryRows(page, THREE_JOBS, { settleMs: 100 });
+      expect(r.clicked).toBe(3);
+      expect(await page.locator("[id^='workExperience-'][id$='--jobTitle']").count()).toBe(3);
+      expect(r.notes.join(" | ")).toMatch(/row 1 of 3 \(Add\)/);
+      expect(r.notes.join(" | ")).toMatch(/row 3 of 3 \(Add Another\)/);
+      // Idempotent: rows match entries, nothing more is added.
+      const again = await openWorkdayHistoryRows(page, THREE_JOBS, { settleMs: 100 });
+      expect(again.clicked).toBe(0);
+      expect(again.notes.join(" | ")).toMatch(/shows 3 row\(s\) for 3 structured entries — nothing to add/);
+    });
+  }, 60_000);
+
+  it("the wizard walk plans an empty page once the hook mounts rows, instead of stopping (live PIMCO cycle 144)", async () => {
+    const { walkWorkdayWizard } = await import("../../src/applications/workdayWizard.js");
+    // Page 1 has a field; Next swaps in an EMPTY My Experience (only Add).
+    const html = `<!DOCTYPE html><html><body>
+      <div data-automation-id="progressBar">steps</div>
+      <div id="stage">
+        <h2>My Information</h2>
+        <label>First Name<input data-automation-id="legalNameSection_firstName" name="firstName" /></label>
+        <button data-automation-id="bottom-navigation-next-button" type="button">Next</button>
+      </div>
+      <script>
+        document.addEventListener("click", function (e) {
+          var t = e.target;
+          if (!(t instanceof HTMLElement) || t.getAttribute("data-automation-id") !== "bottom-navigation-next-button") return;
+          document.getElementById("stage").innerHTML =
+            '<h2>My Experience</h2>' +
+            '<div role="group" aria-labelledby="Work-Experience-section"><h4 id="Work-Experience-section">Work Experience</h4>' +
+            '<button data-automation-id="add-button" id="add-work">Add</button><div id="work-rows"></div></div>';
+          document.getElementById("add-work").addEventListener("click", function () {
+            document.getElementById("work-rows").innerHTML =
+              '<label for="workExperience-6--jobTitle">Job Title</label><input id="workExperience-6--jobTitle" type="text" />';
+          });
+        });
+      </script></body></html>`;
+    await withFixtureHtmlPage(html, async (page) => {
+      const planned: string[] = [];
+      const walk = await walkWorkdayWizard(
+        page,
+        async ({ html: pageHtml }) => {
+          planned.push(/workExperience-6--jobTitle/.test(pageHtml) ? "rows" : "none");
+          return { fillable: 1, filled: 1, verifyPassed: true };
+        },
+        {
+          settleMs: 0,
+          onEmptyPage: async (p) => (await openWorkdayHistoryRows(p, PROFILE, { settleMs: 100 })).clicked > 0,
+        },
+      );
+      expect(planned).toEqual(["rows"]);
+      expect(await page.locator("[id^='workExperience-'][id$='--jobTitle']").count()).toBe(1);
+      expect(walk.notes.join(" | ")).toMatch(/rows mounted on an empty page — planning it/);
+      expect(walk.notes.join(" | ")).not.toMatch(/no fillable fields — stopping/);
     });
   }, 60_000);
 

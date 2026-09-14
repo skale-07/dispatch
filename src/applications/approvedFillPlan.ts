@@ -351,7 +351,12 @@ export function assertExecutableApprovedEntry(
         isScreenerFillCanonical(entry.canonical_field)) &&
       !isEmptyValue(entry.value) &&
       String(entry.value).length <= 80
-    )
+    ) &&
+    // Mirror of toApprovedFillPlan: a Role Description textarea carrying
+    // the profile's own structured history (historyRows.ts) is a resume
+    // fact at any length, never an essay. Live rb.wd5 2026-09-14: the plan
+    // approved it and this guard refused it at execution.
+    !(isHistoryCanonical(entry.canonical_field) && !isEmptyValue(entry.value))
   ) {
     throw new Error(`Refusing fill for ${entry.field_id}: textarea/essay`);
   }

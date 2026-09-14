@@ -6,6 +6,7 @@ import {
   pickOptionLabel,
 } from "../../src/ats/greenhouse/comboboxFill.js";
 import { wizardHeadingOf } from "../../src/applications/workdayWizard.js";
+import { matchCanonicalField } from "../../src/applications/fieldNormalization.js";
 import { inRePickCooldown, lastPickedAtOf, RE_PICK_COOLDOWN_MS } from "../../src/queue/rePickCooldown.js";
 
 /**
@@ -67,6 +68,28 @@ describe("wizard page identity reads past a constant site heading (live rb.wd5 +
     const stuck = `<h2>My Information</h2><p>Error: required</p>`;
     expect(wizardHeadingOf(stuck)).toBe(wizardHeadingOf(stuck + "<p>Error: required (2)</p>"));
     expect(wizardHeadingOf("<p>no headings</p>")).toBe("");
+  });
+});
+
+describe("a generic discipline word never carries an option match (live rb.wd5 Field of Study 2026-09-14)", () => {
+  it('"Computer Science" refuses [Accounting | Actuarial Science] and matches the real row when present', () => {
+    expect(pickOptionLabel(["Accounting", "Actuarial Science"], "Computer Science").ok).toBe(false);
+    const hit = pickOptionLabel(["Accounting", "Actuarial Science", "Computer Science", "Computer Engineering"], "Computer Science");
+    expect(hit.ok && hit.label).toBe("Computer Science");
+    // Distinctive-token matches still work for nicknames.
+    const math = pickOptionLabel(["Actuarial Science", "Mathematics", "Statistics and Data Science"], "Applied Math & Stats");
+    expect(math.ok).toBe(true);
+  });
+});
+
+describe("Workday legal-name ids outrank slid labels (live rb.wd5 2026-09-14)", () => {
+  const f = (id: string, label: string) => ({ id, inputId: id, label, type: "text" as const, required: false });
+  it("maps by the control id and never maps the local-script inputs", () => {
+    expect(matchCanonicalField(f("name--legalName--firstName", "Last Name"), {})).toBe("legal_name.first");
+    expect(matchCanonicalField(f("name--legalName--lastName", "First Name"), {})).toBe("legal_name.last");
+    expect(matchCanonicalField(f("name--legalName--middleName", "Middle Name"), {})).toBe("legal_name.middle");
+    expect(matchCanonicalField(f("name--legalName--firstNameLocal", "First Name"), {})).toBeNull();
+    expect(matchCanonicalField(f("name--legalName--lastNameLocal", "Middle Name"), {})).toBeNull();
   });
 });
 

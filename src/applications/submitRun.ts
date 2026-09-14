@@ -84,6 +84,9 @@ import {
   type OperatorFieldBrief,
 } from "./operatorFieldBrief.js";
 import { attachSupplementalMaterials } from "../ats/shared/supplementalMaterials.js";
+import { leverLocationSelectionEmpty } from "../ats/shared/leverLocation.js";
+import { openWorkdayHistoryRows } from "../ats/workday/experienceSections.js";
+import { loadPublicProfile } from "../candidate/publicProfileIO.js";
 
 export type SubmissionRunOutcome =
   | "SUBMITTED_VERIFIED"
@@ -369,6 +372,23 @@ export async function runAtsSubmission(input: {
           }
         } else {
           gate = await binding.gate(page, employerUrl, detected.normalizedUrl);
+        }
+        // Live rb.wd5 2026-09-14 (c6977f58, cycle 148): the tenant resumed
+        // the application at My Experience with EMPTY sections (the row the
+        // fill opened was never saved), so the submit-stage gate read
+        // "form markers matched but the page has no fillable fields". Open
+        // the rows the profile can fill and gate once more.
+        if (!gate.ok && gate.failureCode === "NO_APPLICATION_FORM" && binding.id === "workday") {
+          try {
+            const rows = await openWorkdayHistoryRows(page, loadPublicProfile());
+            landingNotes = [...landingNotes, ...rows.notes.slice(0, 3)];
+            if (rows.clicked > 0) {
+              gate = await binding.gate(page, employerUrl, detected.normalizedUrl);
+              landingNotes.push(`submit gate re-read after opening ${rows.clicked} experience row(s): ${gate.ok ? "ok" : gate.failureCode}`);
+            }
+          } catch (err) {
+            landingNotes.push(`experience sections: ${err instanceof Error ? err.message.slice(0, 120) : String(err)}`);
+          }
         }
         const emailedCodeWallOnly = isEmailedCodeWallOnly(gate);
         if (emailedCodeWallOnly) {
@@ -943,6 +963,25 @@ export async function runAtsSubmission(input: {
                 ats: binding.id,
               },
             });
+          }
+          // Lever (live SEP 2026-09-14, app 1d730f08): visible location text
+          // verified, hidden `selectedLocation` empty, click rejected —
+          // "Please select a location from the dropdown menu". The hidden
+          // value is what the form validates; read it before spending the
+          // click. Only when the plan actually placed a location.
+          const plannedLocation = approvedPlan.entries.some(
+            (e) => e.approved && e.action === "FILL" && e.canonical_field === "address.city",
+          );
+          const leverLocationUnselected =
+            plannedLocation && (await leverLocationSelectionEmpty(page)) === true;
+          if (leverLocationUnselected) {
+            fill = {
+              ...fill,
+              errors: [
+                ...fill.errors,
+                "location: Lever hidden selectedLocation is empty — the dropdown row was never registered; the form would reject the click",
+              ],
+            };
           }
           if (!verify.passed || !uploadOk || fill.errors.length > 0) {
             const operatorBrief = buildOperatorFieldBrief({

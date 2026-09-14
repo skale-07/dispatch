@@ -22,6 +22,21 @@ export function matchCanonicalField(
   const normalized = normalizeFieldLabel(field.label);
   const nameHint = (field.name ?? "").toLowerCase();
 
+  // Live rb.wd5 2026-09-14 (app 02302b66, cycle 146): Workday's legal-name
+  // block also renders LOCAL-script name inputs, and on that tenant label
+  // discovery slid one control over — `name--legalName--firstNameLocal`
+  // read as "First Name" (planned Shubham), `--lastNameLocal` as "Middle
+  // Name", and the real `--firstName` as "Last Name" (planned Kale). The
+  // control ids are Workday's own contract; they outrank the labels here.
+  // Local-script names are not the profile's fact: never mapped.
+  const idHint = `${field.inputId ?? ""} ${field.id ?? ""}`;
+  if (/legalName--(first|last|middle)NameLocal\b/i.test(idHint)) return null;
+  const legalNameById = idHint.match(/legalName--(firstName|lastName|middleName)\b/i);
+  if (legalNameById) {
+    const part = legalNameById[1]!.toLowerCase();
+    return part === "firstname" ? "legal_name.first" : part === "lastname" ? "legal_name.last" : "legal_name.middle";
+  }
+
   // "Phone Extension" is not the phone number (live Workday huntington
   // 2026-08-30: the profile's number was typed into the extension box).
   if (/\b(extension|ext)\b/.test(normalized) && /\b(phone|tel|telephone)\b/.test(normalized)) {

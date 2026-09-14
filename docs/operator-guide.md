@@ -147,6 +147,18 @@ copy private\candidate\answer-aliases.example.json private\candidate\answer-alia
 # edit both with your real values (gitignored)
 ```
 
+**Work and education history (2026-09-14).** Workday's "My Experience"
+page (and any board with per-job rows) fills from STRUCTURED entries in
+`public-profile.json`: `employment_history` is a list of
+`{company, title, location:{city,state,country}, start:{month,year},
+end:{month,year}|null, current, description}` and `education_history` of
+`{school, degree, field_of_study, start, end, current, gpa}`. Plain-string
+entries still parse but answer nothing — a row with no structured entry is
+left empty, never invented. The engine clicks "Add" for an empty section
+and "Add Another" once per further entry (capped), fills the rows first
+row = most recent, and treats a Role Description as the resume's own text,
+not an essay. Location unknown ⇒ put the home city.
+
 **Failure modes:** `check:secrets` refusing a commit means you staged
 something private — unstage it, never force. Red `verify:phase5` before you
 changed anything means environment drift; fix before proceeding.
@@ -1482,6 +1494,10 @@ npm run cli -- outreach:worker --headed --since 6                               
   Drafts created before 2026-09-13 have no attachment and are not redone.
 - Restart a running `outreach:worker` after changing `src/outreach`,
   `src/contacts` or `src/auth`; it does not reload code.
+
+**READY_TO_SUBMIT first (2026-09-14).** An application that is one click
+from done is handed out before any QUEUED row (a Workday wizard cut at the
+per-app deadline in READY_TO_SUBMIT used to wait behind the whole backlog).
 
 **Re-pick cooldown (#279, 2026-09-14).** The picker stamps
 `versions_json.last_picked_at` on every hand-out; an in-flight application

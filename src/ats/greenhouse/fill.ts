@@ -12,6 +12,7 @@ import type {
   UploadVerification,
 } from "../adapter.js";
 import { greenhouseSelectorsV1 } from "./selectors.js";
+import { leverLocationSelectionEmpty } from "../shared/leverLocation.js";
 import type { FillPlanEntry } from "../../applications/resolveAnswers.js";
 import {
   assertExecutableApprovedEntry,
@@ -428,7 +429,7 @@ function isLocationStyleField(entry: {
  * keyboard ArrowDown+Enter as last resort. Plain fill alone does NOT commit
  * Places-style widgets (they clear unselected text on blur).
  */
-async function fillLocationStyleText(
+export async function fillLocationStyleText(
   page: Page,
   loc: Locator,
   value: unknown,
@@ -635,6 +636,36 @@ async function fillLocationStyleText(
         `location autocomplete cleared on blur and the retry did not commit (typed "${text}"). ${notes.join("; ")}`,
       );
     }
+  }
+
+  // Lever (live SEP 2026-09-14, app 1d730f08): the visible text survived
+  // blur and verify matched it, yet the form rejected the submit — the
+  // HIDDEN selectedLocation was empty because only a dropdown-row click
+  // sets it. Read the hidden value; one retry through a mouse click on a
+  // row; still empty ⇒ fail here, where the retry is still possible,
+  // rather than at the submit click.
+  let hiddenEmpty = await leverLocationSelectionEmpty(page);
+  if (hiddenEmpty === true) {
+    notes.push("Lever hidden selectedLocation is empty after commit — re-picking from the dropdown");
+    const cityToken = text.split(/[,]/)[0]?.trim() || text;
+    await clickPastStrayPopup(page, loc);
+    await loc.fill("");
+    await loc.pressSequentially(cityToken, { delay: 60 });
+    await page.waitForTimeout(900);
+    const rows = page.locator(suggestionSelectors.join(", "));
+    if ((await rows.count().catch(() => 0)) > 0) {
+      await rows.first().click({ timeout: 2_000 }).catch(() => undefined);
+      await page.waitForTimeout(400);
+    }
+    hiddenEmpty = await leverLocationSelectionEmpty(page);
+    postBlur = (await loc.inputValue().catch(() => "")).trim() || postBlur;
+    if (hiddenEmpty === true) {
+      notes.push("Lever hidden selectedLocation still empty after the dropdown re-pick");
+      throw new Error(
+        `location dropdown selection not registered (Lever selectedLocation empty; typed "${text}"). ${notes.join("; ")}`,
+      );
+    }
+    notes.push("Lever hidden selectedLocation set by the dropdown re-pick");
   }
 
   notes.push(`location committed (blur-stable): ${postBlur.slice(0, 120)}`);

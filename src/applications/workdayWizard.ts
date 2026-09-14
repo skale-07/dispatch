@@ -96,6 +96,12 @@ export async function walkWorkdayWizard(
      * walk, as before.
      */
     onAuthWall?: (page: Page) => Promise<boolean>;
+    /**
+     * A page with zero discoverable controls (empty Work Experience /
+     * Education sections) — return true after mounting rows so the walk
+     * re-reads and plans it instead of stopping.
+     */
+    onEmptyPage?: (page: Page) => Promise<boolean>;
     applicationId?: string | null;
   } = {},
 ): Promise<WizardWalkResult> {
@@ -319,6 +325,17 @@ export async function walkWorkdayWizard(
       }
     }
 
+    if (discoverFieldsFromHtml(html).length === 0 && options.onEmptyPage) {
+      // Live PIMCO wd1 + rb.wd5 2026-09-14: My Experience with EMPTY
+      // sections has zero controls until "Add" is clicked, so this stop
+      // fired before the caller ever saw the page. The caller's hook may
+      // mount rows; when it does, the page is re-read and planned.
+      const mounted = await options.onEmptyPage(page).catch(() => false);
+      if (mounted) {
+        html = await page.content().catch(() => html);
+        notes.push(`wizard page ${extra + 1} (${kind}): rows mounted on an empty page — planning it`);
+      }
+    }
     if (discoverFieldsFromHtml(html).length === 0) {
       notes.push(`wizard page ${extra + 1} (${kind}): no fillable fields — stopping the walk`);
       break;

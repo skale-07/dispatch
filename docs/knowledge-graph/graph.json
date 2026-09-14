@@ -314,6 +314,7 @@
       ],
       "key_files": {
         "src/ats/shared/urlValidationDispatch.ts": "detectAtsFromUrl — the single URL-to-adapter decision",
+        "src/ats/shared/leverLocation.ts": "leverLocationSelectionEmpty — Lever's hidden selectedLocation is the value the form validates; read by the location fill, the #262c re-commit and the pre-click submit gate",
         "src/ats/shared/preMutationGate.ts": "verifyPageBeforeMutationGeneric (host/captcha/mismatch terminal; login wall and zero-field pages still fail the mutation lock)",
         "src/ats/shared/requiredCompleteness.ts": "refuse submit with unanswered required questions. Greenhouse React-select: skip empty filter inputs; committed value is .select__single-value, same as comboboxFill readback.",
         "src/ats/shared/submitControl.ts": "submit control resolve cascade; resolveAdvanceControl is Next/Continue (never the gated submit)",

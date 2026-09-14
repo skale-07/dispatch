@@ -468,7 +468,14 @@ function pickNextApplication(db: Db, seen: Set<string>, scope?: Set<string>): st
     return id;
   };
 
-  // QUEUED first, then anything else the pipeline can still advance —
+  // READY_TO_SUBMIT before everything (live rb.wd5 2026-09-14, app
+  // 43e39cc0: filled and verified through the whole wizard, cut at the
+  // per-app deadline one click from submit — then every QUEUED row in the
+  // backlog outranked it because the first pass only looked at QUEUED).
+  // Finishing one costs seconds; a fresh row costs minutes.
+  const ready = firstEligible(byAtsThenRecency(query("'READY_TO_SUBMIT'")));
+  if (ready) return stampPick(ready);
+  // Then QUEUED, then anything else the pipeline can still advance —
   // each set ordered easy-ATS-first (#228), recency deciding within a tier.
   const queued = firstEligible(byAtsThenRecency(query("'QUEUED'")));
   if (queued) return stampPick(queued);

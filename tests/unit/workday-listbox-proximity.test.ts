@@ -78,6 +78,70 @@ const STRAY_POPPER = `<!DOCTYPE html><html><body style="margin:0">
   </script>
 </body></html>`;
 
+/**
+ * Operator directive 2026-09-14: "whenever you search something up in a
+ * dropdown, clicking Enter is the best way to see if it's actually there".
+ * Live rb.wd5 Field of Study: 337 harvested rows, "Computer Science" never
+ * surfaced after typing; the tenant commits the typed match on Enter. The
+ * fixture is that widget: a Workday `selectinput` search box whose
+ * suggestions never render, and whose Enter commits the top match as a
+ * chip in `selectedItemList`. Negative control: without the Enter rung
+ * the fill ends "no option matches".
+ */
+const ENTER_COMMITS = `<!DOCTYPE html><html><body style="margin:0">
+  <div style="height:120px"></div>
+  <div data-automation-id="formField-fieldOfStudy" data-fkit-id="education-7--fieldOfStudy">
+    <div data-automation-id="multiSelectContainer" data-uxi-widget-type="multiselect" id="ms-fos">
+      <div data-automation-id="multiselectInputContainer">
+        <input id="education-7--fieldOfStudy" placeholder="Search" autocomplete="off" data-uxi-widget-type="selectinput" data-uxi-multiselect-id="ms-fos" style="width:280px;height:30px" />
+      </div>
+      <ul role="listbox" data-automation-id="selectedItemList" aria-label="items selected" id="chips"></ul>
+    </div>
+  </div>
+  <ul role="listbox" id="results" style="display:none;position:absolute;top:160px;left:0;width:280px;background:#fff;list-style:none;margin:0;padding:4px"></ul>
+  <script>
+    // The live shape: the popup opens on click and only ever paints the
+    // first rows of the catalog (virtualized) — the typed match is not
+    // among them — while Enter commits the catalog's own top match.
+    const catalog = ['Accounting', 'Actuarial Science', 'Computer Science', 'Computer Engineering', 'Theology'];
+    const input = document.getElementById('education-7--fieldOfStudy');
+    const results = document.getElementById('results');
+    function paint() {
+      results.innerHTML = catalog.slice(0, 2).map((c) => '<li role="option" data-automation-id="promptOption">' + c + '</li>').join('');
+      results.style.display = 'block';
+    }
+    input.addEventListener('click', paint);
+    input.addEventListener('focus', paint);
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') { results.style.display = 'none'; return; }
+      if (e.key !== 'Enter') return;
+      const q = input.value.trim().toLowerCase();
+      const hit = catalog.find((c) => c.toLowerCase().startsWith(q));
+      if (!hit) return;
+      const li = document.createElement('li');
+      li.setAttribute('data-automation-id', 'selectedItem');
+      li.textContent = hit;
+      document.getElementById('chips').appendChild(li);
+      input.value = '';
+      results.style.display = 'none';
+    });
+  </script>
+</body></html>`;
+
+describe("Enter after typing surfaces or commits the searched option (FIXTURE_CONFIRMED)", () => {
+  useIsolatedFillEnv("safe");
+
+  it("commits Computer Science through Enter when the suggestion list never renders", async () => {
+    await withFixtureHtmlPage(ENTER_COMMITS, async (page) => {
+      const r = await fillComboboxControl(page, page.locator("#education-7--fieldOfStudy"), "Computer Science");
+      expect(r.committed).toBe(true);
+      expect(r.selectedLabel).toBe("Computer Science");
+      expect(r.notes.join(" | ")).toMatch(/\+ Enter committed "Computer Science"/);
+      expect(await page.locator("#chips li").allTextContents()).toEqual(["Computer Science"]);
+    });
+  }, 60_000);
+});
+
 describe("Workday listbox targeting + stray popups (FIXTURE_CONFIRMED)", () => {
   useIsolatedFillEnv("safe");
 
