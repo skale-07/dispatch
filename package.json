@@ -83,6 +83,7 @@
     "tenant:materialize": "tsx src/tenants/cli.ts materialize",
     "tenant:status": "tsx src/tenants/cli.ts status",
     "tenant:run": "tsx src/tenants/cli.ts run",
+    "remote:probe": "tsx src/browser/remoteProbeCli.ts",
     "hooks:install": "git config core.hooksPath .githooks",
     "check:forbidden": "tsx scripts/check-forbidden.ts",
     "check:secrets": "tsx scripts/check-secrets-staged.ts",

@@ -31,6 +31,7 @@ import { deriveHandoffsFromRun } from "./handoff.js";
 import { deriveTenantKey } from "./keys.js";
 import { tenantPaths, type TenantPaths } from "./paths.js";
 import { computeRunBudget, countLocalCompleted, readCloudQuota, type CloudQuota, type RunBudget } from "./quota.js";
+import { runReconnectVerify, type ReconnectResult, type ReconnectSeams } from "./reconnect.js";
 import { hasSealed, unsealSecret, wipeUnsealed, writeUnsealedStorageState } from "./secrets.js";
 import { materializeWorkspace, type MaterializeReport } from "./workspace.js";
 
@@ -67,6 +68,10 @@ export type TenantRunOutcome =
   | "child_refused"
   | "child_failed"
   | "child_timeout"
+  /** reconnect_verify: the capture did not produce a signed-in session (task reopened or failed). */
+  | "capture_failed"
+  /** reconnect_verify: the task was not in a state this job can act on. */
+  | "refused"
   | "error";
 
 export type ChildLaunchSpec = {
@@ -91,6 +96,8 @@ export type TenantRunSeams = {
   skipMaterialize?: boolean;
   /** Repo root the child runs from; defaults to process.cwd(). */
   repoRoot?: string;
+  /** reconnect_verify: provider + session seam (tests inject fakes). */
+  reconnect?: ReconnectSeams;
 };
 
 export type TenantRunInput = {
@@ -98,6 +105,8 @@ export type TenantRunInput = {
   kind: TenantJobKind;
   /** The engine_jobs row this run answers; absent for an operator-driven run. */
   jobId?: string | null;
+  /** The engine_jobs payload (reconnect_verify reads `task_id`). */
+  payload?: Record<string, unknown> | null;
   client: SupabaseClientLike;
   config?: AppConfig;
   /** Per-run submission ceiling before the quota is applied (default 1). */
@@ -132,6 +141,7 @@ export type TenantRunResult = {
   handoffs: string[];
   sync: SupabaseSyncResult | null;
   receipts: ReceiptsPushResult | null;
+  reconnect: ReconnectResult | null;
   engine_state: EngineState;
   job_completion: EngineJobCompletion | null;
   plaintext_wiped: number;
@@ -295,6 +305,7 @@ export async function runTenantJob(input: TenantRunInput): Promise<TenantRunResu
     handoffs: [],
     sync: null,
     receipts: null,
+    reconnect: null,
     engine_state: "idle",
     job_completion: null,
     plaintext_wiped: 0,
@@ -350,14 +361,43 @@ export async function runTenantJob(input: TenantRunInput): Promise<TenantRunResu
   };
 
   try {
-    // ── only `apply` runs today; the other kinds arrive with their milestones ──
+    // ── reconnect_verify: capture the session the user just signed in to ──
+    if (input.kind === "reconnect_verify") {
+      const key = seams.tenantKey ?? deriveTenantKey(resolveTenantMasterKey(config.tenantsRoot), paths.userId);
+      db = openDatabase(paths.dbPath);
+      migrate(db);
+      const taskId = typeof input.payload?.["task_id"] === "string" ? (input.payload["task_id"] as string) : null;
+      const r = await runReconnectVerify({
+        client: client as unknown as Parameters<typeof runReconnectVerify>[0]["client"],
+        config,
+        userId: paths.userId,
+        taskId,
+        paths,
+        tenantKey: key,
+        db,
+        ...(seams.reconnect ? { seams: seams.reconnect } : {}),
+      });
+      result.reconnect = r;
+      if (r.outcome === "completed") {
+        notes.push(`JobRight session sealed; ${r.parks?.resolved ?? 0} park(s) resolved, ${r.parks?.requeued ?? 0} application(s) requeued`);
+        result.engine_state = "idle";
+        try {
+          await heartbeat(client, { userId: paths.userId, state: "idle", jobId: null });
+        } catch (err) {
+          notes.push(`heartbeat failed: ${err instanceof Error ? err.message : String(err)}`);
+        }
+        return await finish("completed", "succeeded");
+      }
+      notes.push(r.reason ?? "capture did not complete");
+      return await finish(r.outcome === "refused" ? "refused" : "capture_failed", "failed", { retryAfterSeconds: 600, error: r.reason });
+    }
+
+    // ── only `apply` runs today; outreach / feed_sample arrive with their milestones ──
     if (input.kind !== "apply") {
       notes.push(
         input.kind === "outreach"
           ? "outreach for tenants lands with the per-user Gmail transport (plan M19)"
-          : input.kind === "feed_sample"
-            ? "feed sampling lands with plan M20"
-            : "reconnect verification lands with the remote-browser handoff (plan M17)",
+          : "feed sampling lands with plan M20",
       );
       return await finish("unsupported_kind", "dead");
     }

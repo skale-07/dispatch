@@ -6,6 +6,7 @@ import { browserLaunchOptions } from "../browser/launchOptions.js";
 import { getConfig } from "../config/index.js";
 import { logger } from "../logging/logger.js";
 import { validateAuthFromPage } from "./authValidation.js";
+import { assertCdpUrlAllowed } from "./cdpPolicy.js";
 import { getServiceAuthConfig } from "./serviceRegistry.js";
 import { requireStorageState, storageStateExists } from "./storageStateManager.js";
 import type {
@@ -73,6 +74,8 @@ export class PlaywrightServiceSession implements ServiceSession {
       // We do not own this browser: close() disconnects and must never kill
       // it or close its real contexts/pages.
       const cdpUrl = this.cdpUrlOverride ?? getConfig().agentCdpUrl;
+      // Loopback always; a remote (handoff) browser only behind REMOTE_BROWSER_ENABLED.
+      assertCdpUrlAllowed(cdpUrl);
       try {
         this.browser = await chromium.connectOverCDP(cdpUrl, { timeout: 20_000 });
       } catch (err) {

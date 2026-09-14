@@ -2294,8 +2294,33 @@ book, not user data).
   walls ⇒ `ats_login`, `CAPTCHA_REQUIRED` ⇒ `captcha`) →
   `runs/<job>/result.json` (+ `child.log`) → `complete_engine_job` when
   `--job` was given. Exit code 1 for anything but `completed` /
-  `quota_exhausted`. `--kind outreach|feed_sample|reconnect_verify` are
-  refused as `unsupported_kind` until their milestones land.
-- The scheduler (leasing `engine_jobs`) and the JobRight connect handoff
-  (remote browser) are later milestones; until a session is sealed for a
-  tenant, `tenant:run` parks on `jobright_connect` every time.
+  `quota_exhausted`. `--kind outreach|feed_sample` are refused as
+  `unsupported_kind` until their milestones land.
+- **reconnect_verify** (`npm run tenant:run -- --user <uuid> --kind
+  reconnect_verify --task <handoff task id> [--job <id>]`) is the engine
+  half of the JobRight connect / reconnect handoff. The task must be the
+  tenant's own `jobright_connect` or `jobright_reconnect` in status
+  `user_done` (the user clicked "I'm signed in" in the web app); anything
+  else is refused with the reason and no browser is opened. It attaches
+  to the SAME remote browser session the user drove (CDP over the
+  provider's connect URL, admitted by `src/auth/cdpPolicy.ts` only when
+  `REMOTE_BROWSER_ENABLED=true` — with the flag off every non-loopback
+  CDP endpoint is refused by name), validates the JobRight app shell the
+  way every run does, seals the storageState as
+  `secrets/jobright.storage.enc` under the tenant's key, marks the
+  integration `connected` (premium promoted only on page evidence),
+  resolves the tenant's JobRight `AUTH_REQUIRED` parks and requeues those
+  applications, and releases the remote session. A capture that does not
+  look signed in reopens the task with the reason (up to 3 attempts),
+  then fails it.
+- `npm run remote:probe -- [--wait <sec>]` is the M16 spike as a command
+  (behind `REMOTE_BROWSER_ENABLED` + `BROWSERBASE_API_KEY` /
+  `BROWSERBASE_PROJECT_ID`): one remote session, the LIVE VIEW URL
+  printed for you to sign in, then attach → validate → capture to
+  `private/cloud/spike/jobright.storage.json` → release, with a JSON
+  report. It never touches your own `private/auth/`. Results go into
+  `docs/roadmap/browserbase-spike-2026-09-14.md`.
+- The scheduler (leasing `engine_jobs`, provisioning `requested` handoffs
+  and running `reconnect_verify` when the user is done) is the next
+  milestone; until a session is sealed for a tenant, `tenant:run --kind
+  apply` parks on `jobright_connect` every time.

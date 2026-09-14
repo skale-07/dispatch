@@ -5,7 +5,9 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { GATED_FLAG_KEYS } from "../../src/console/flagCeiling.js";
 import type { OnboardedUser } from "../../src/cloud/syncMapping.js";
 import { loadConfig } from "../../src/config/env.js";
+import { upsertJobByFingerprint } from "../../src/jobs/repository.js";
 import { upsertOpenReviewItem } from "../../src/queue/reviewItems.js";
+import { createApplication, getApplication } from "../../src/queue/stateMachine.js";
 import { closeDatabase, migrate, openDatabase } from "../../src/storage/db/client.js";
 import { composeTenantChildEnv, flagsAboveCeiling, TENANT_FORCED_OFF } from "../../src/tenants/childEnv.js";
 import { currentTenant } from "../../src/tenants/context.js";
@@ -58,7 +60,7 @@ function user(): OnboardedUser {
 
 type Call = { table?: string; rpc?: string; args?: Record<string, unknown>; rows?: unknown };
 
-function fakeClient(quotaRow: Record<string, unknown> | null): { client: any; calls: Call[] } {
+function fakeClient(quotaRow: Record<string, unknown> | null, taskRow: Record<string, unknown> | null = null): { client: any; calls: Call[] } {
   const calls: Call[] = [];
   const client = {
     storage: { from: () => ({ download: async () => ({ data: new Blob([Buffer.from("%PDF-x")]), error: null }) }) },
@@ -72,7 +74,13 @@ function fakeClient(quotaRow: Record<string, unknown> | null): { client: any; ca
         calls.push({ table, rows });
         return { error: null };
       },
-      select: () => ({ eq: () => ({ maybeSingle: async () => ({ data: quotaRow, error: null }) }) }),
+      update: (patch: Record<string, unknown>) => ({
+        eq: async (_col: string, id: string) => {
+          calls.push({ table, rows: { id, ...patch } });
+          return { error: null };
+        },
+      }),
+      select: () => ({ eq: () => ({ maybeSingle: async () => ({ data: table === "handoff_tasks" ? taskRow : quotaRow, error: null }) }) }),
     }),
   };
   return { client, calls };
@@ -241,6 +249,71 @@ describe("tenant:run (UNIT_CONFIRMED)", () => {
     });
     expect(r.outcome).toBe("child_timeout");
     expect(listUnsealed(paths)).toEqual([]);
+    expect(calls.find((c) => c.rpc === "complete_engine_job")!.args!["p_status"]).toBe("failed");
+  });
+
+  it("reconnect_verify: captures the user_done task's session, seals it, connects the integration, requeues the parked application, job succeeded", async () => {
+    const paths = tenantPaths(UID, root);
+    fs.mkdirSync(paths.dataDir, { recursive: true });
+    const seed = openDatabase(paths.dbPath);
+    migrate(seed);
+    const job = upsertJobByFingerprint(seed, { company: "Acme", role: "SWE Intern", applicationUrl: "https://jobs.lever.co/acme/1" });
+    const parked = createApplication(seed, { jobId: job.id, state: "AUTH_REQUIRED" });
+    upsertOpenReviewItem(seed, { kind: "AUTH_REQUIRED", title: "jobright authentication required", payload: { service: "jobright" } });
+    closeDatabase(seed);
+
+    const TASK = "7a7a7a7a-1111-4222-8333-444444444444";
+    const { client, calls } = fakeClient(quotaOk, { id: TASK, user_id: UID, kind: "jobright_reconnect", status: "user_done", attempts: 0, provider_session_id: "sess_9", expires_at: null });
+    const released: string[] = [];
+    const openedWith: string[] = [];
+    const r = await runTenantJob({
+      userId: UID, kind: "reconnect_verify", jobId: JOB, payload: { task_id: TASK }, client, config,
+      seams: {
+        user: user(), tenantKey: KEY,
+        reconnect: {
+          provider: {
+            name: "fake",
+            createSession: async () => { throw new Error("not used"); },
+            liveViewUrl: async () => "x",
+            connectUrl: (id) => `wss://c?sessionId=${id}`,
+            endSession: async (id) => { released.push(id); },
+          },
+          openSession: (url) => {
+            openedWith.push(url);
+            return {
+              open: async () => undefined,
+              validate: async () => ({ ok: true, status: "AUTHENTICATED", url: "https://jobright.ai/jobs/recommend", reason: "app shell", checkedAt: "2026-09-14T06:00:00.000Z" }),
+              getContext: () => ({ storageState: async () => ({ cookies: [{ name: "sid", value: "v" }], origins: [] }) }),
+              newPage: async () => ({ goto: async () => undefined, locator: () => ({ count: async () => 0 }), close: async () => undefined }),
+              close: async () => undefined,
+            };
+          },
+        },
+      },
+    });
+    expect(r.outcome).toBe("completed");
+    expect(openedWith).toEqual(["wss://c?sessionId=sess_9"]);
+    expect(released).toEqual(["sess_9"]);
+    expect(fs.existsSync(path.join(paths.secretsDir, `${JOBRIGHT_STATE_SECRET}.enc`))).toBe(true);
+    expect(r.reconnect).toMatchObject({ outcome: "completed", parks: { resolved: 1, requeued: 1 } });
+    const check = openDatabase(paths.dbPath);
+    try {
+      expect(getApplication(check, parked.id)!.state).toBe("APPLICATION_OPENING");
+    } finally {
+      closeDatabase(check);
+    }
+    expect(calls.find((c) => c.rpc === "engine_set_integration_status")!.args).toMatchObject({ p_user: UID, p_provider: "jobright", p_status: "connected" });
+    const statuses = calls.filter((c) => c.table === "handoff_tasks").map((c) => (c.rows as Record<string, unknown>)["status"]);
+    expect(statuses).toEqual(["verifying", "completed"]);
+    expect(calls.find((c) => c.rpc === "complete_engine_job")!.args!["p_status"]).toBe("succeeded");
+    expect(listUnsealed(paths)).toEqual([]);
+  });
+
+  it("reconnect_verify refuses a task that is not user_done (no browser, job failed-retryable)", async () => {
+    const { client, calls } = fakeClient(quotaOk, { id: "t", user_id: UID, kind: "jobright_connect", status: "live", attempts: 0, provider_session_id: "s", expires_at: null });
+    const r = await runTenantJob({ userId: UID, kind: "reconnect_verify", jobId: JOB, payload: { task_id: "t" }, client, config, seams: { user: user(), tenantKey: KEY, reconnect: { openSession: () => { throw new Error("must not open"); } } } });
+    expect(r.outcome).toBe("refused");
+    expect(r.reconnect?.reason).toMatch(/is live, not user_done/);
     expect(calls.find((c) => c.rpc === "complete_engine_job")!.args!["p_status"]).toBe("failed");
   });
 

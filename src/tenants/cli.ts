@@ -13,6 +13,7 @@ import { inspectWorkspace, listWorkspaces, materializeWorkspace } from "./worksp
  *   npm run tenant:status [-- --user <uuid>]
  *   npm run tenant:run -- --user <uuid> --kind apply [--job <id>]
  *                         [--max-submits N] [--max-apps N] [--duration <min>] [--app-deadline <sec>]
+ *   npm run tenant:run -- --user <uuid> --kind reconnect_verify --task <handoff task id> [--job <id>]
  *
  * materialize: pull the onboarded user(s) from the cloud plane and write
  * their workspace(s) under TENANTS_ROOT. Behind TENANT_ENGINE_ENABLED and
@@ -48,6 +49,7 @@ async function run(): Promise<void> {
     userId: assertTenantId(userId),
     kind,
     jobId: arg("--job") ?? null,
+    ...(arg("--task") ? { payload: { task_id: arg("--task") } } : {}),
     client,
     config,
     ...(num("--max-submits") !== undefined ? { maxSubmits: num("--max-submits")! } : {}),
