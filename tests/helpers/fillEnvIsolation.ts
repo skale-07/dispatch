@@ -47,6 +47,11 @@ export const CONTROLLED_FILL_ENV_KEYS = [
   // materialize a tenant workspace or accept a non-loopback CDP URL.
   "TENANT_ENGINE_ENABLED",
   "REMOTE_BROWSER_ENABLED",
+  // Key-provider seam (plan M13): an ambient "tenant" would make a fixture
+  // read the operator's sensitive-profile.enc with a derived tenant key
+  // (a GCM failure) or, with TENANT_USER_ID, write under someone's key.
+  "CANDIDATE_KEY_PROVIDER",
+  "TENANT_USER_ID",
 ] as const;
 
 export type ControlledFillEnvKey = (typeof CONTROLLED_FILL_ENV_KEYS)[number];

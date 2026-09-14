@@ -3,6 +3,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
 import { getConfig } from "../config/index.js";
+import { deriveTenantKey } from "../tenants/keys.js";
+import { tenantMasterKeyPath } from "../tenants/paths.js";
 
 const KEY_BYTES = 32;
 
@@ -20,30 +22,90 @@ export function candidateKeyPaths(privateDir = getConfig().privateDir): {
 }
 
 /**
- * Resolve a 32-byte AES key.
- * Priority:
- * 1. Insecure env key when ALLOW_INSECURE_CANDIDATE_KEY=1 (tests/dev only)
- * 2. Windows DPAPI-wrapped master key file
+ * The key-provider seam (plan v0.5, M13). Three providers, selected by
+ * CANDIDATE_KEY_PROVIDER in the process env:
+ *
+ *   dpapi   the operator's own Windows DPAPI-wrapped master (today's path)
+ *   env     the insecure test key (ALLOW_INSECURE_CANDIDATE_KEY=1 + CANDIDATE_DATA_KEY)
+ *   tenant  a per-tenant key: HKDF of the DPAPI-wrapped master under
+ *           TENANTS_ROOT with TENANT_USER_ID as the salt (src/tenants/keys.ts).
+ *           Set only in a tenant child's env by the tenant runner.
+ *
+ * ABSENT ⇒ exactly the pre-M13 behaviour: env when the insecure switch is
+ * on, otherwise dpapi. A later Fargate deployment swaps the master's
+ * source (KMS) inside the tenant branch; nothing above this seam changes.
  */
+export type CandidateKeyProvider = "dpapi" | "env" | "tenant";
+
+export function selectedKeyProvider(env: NodeJS.ProcessEnv = process.env): CandidateKeyProvider {
+  const raw = env.CANDIDATE_KEY_PROVIDER?.trim().toLowerCase();
+  if (raw === "dpapi" || raw === "env" || raw === "tenant") return raw;
+  if (raw) throw new Error(`CANDIDATE_KEY_PROVIDER must be dpapi|env|tenant (got "${raw}")`);
+  return env.ALLOW_INSECURE_CANDIDATE_KEY === "1" ? "env" : "dpapi";
+}
+
+/** Resolve the 32-byte AES key for THIS process's candidate data. */
 export function resolveCandidateDataKey(): Buffer {
-  if (process.env.ALLOW_INSECURE_CANDIDATE_KEY === "1") {
-    const raw = process.env.CANDIDATE_DATA_KEY;
-    if (!raw) {
-      throw new Error(
-        "ALLOW_INSECURE_CANDIDATE_KEY=1 requires CANDIDATE_DATA_KEY (tests/dev only)",
-      );
-    }
-    return normalizeKeyMaterial(raw);
+  switch (selectedKeyProvider()) {
+    case "env":
+      return insecureEnvKey();
+    case "tenant":
+      return resolveTenantKey();
+    case "dpapi":
+      return operatorDpapiKey();
   }
+}
 
+function insecureEnvKey(): Buffer {
+  if (process.env.ALLOW_INSECURE_CANDIDATE_KEY !== "1") {
+    throw new Error("the env key provider requires ALLOW_INSECURE_CANDIDATE_KEY=1 (tests/dev only)");
+  }
+  const raw = process.env.CANDIDATE_DATA_KEY;
+  if (!raw) {
+    throw new Error(
+      "ALLOW_INSECURE_CANDIDATE_KEY=1 requires CANDIDATE_DATA_KEY (tests/dev only)",
+    );
+  }
+  return normalizeKeyMaterial(raw);
+}
+
+function operatorDpapiKey(): Buffer {
   if (process.platform === "win32") {
-    return loadOrCreateDpapiKey();
+    return loadOrCreateDpapiKey(candidateKeyPaths().dpapiKeyPath);
   }
-
   throw new Error(
     "Candidate data key unavailable. On Windows, DPAPI master.key.dpapi is used. " +
       "For tests only, set ALLOW_INSECURE_CANDIDATE_KEY=1 and CANDIDATE_DATA_KEY.",
   );
+}
+
+/**
+ * Per-tenant key. The master is the DPAPI-wrapped file under TENANTS_ROOT
+ * (or, in tests, the insecure env material standing in for it); the
+ * tenant key is derived, never stored, and the master never leaves here.
+ */
+function resolveTenantKey(): Buffer {
+  const userId = process.env.TENANT_USER_ID?.trim();
+  if (!userId) {
+    throw new Error("CANDIDATE_KEY_PROVIDER=tenant requires TENANT_USER_ID in the child env");
+  }
+  return deriveTenantKey(resolveTenantMasterKey(), userId);
+}
+
+/**
+ * The tenant MASTER (the parent process — materializer, runner — needs it
+ * to derive a tenant's key before spawning the child). DPAPI-wrapped file
+ * under TENANTS_ROOT, created on first use; in tests the insecure env
+ * material stands in for it. Callers derive; they never persist this.
+ */
+export function resolveTenantMasterKey(tenantsRoot = getConfig().tenantsRoot): Buffer {
+  if (process.env.ALLOW_INSECURE_CANDIDATE_KEY === "1" && process.env.CANDIDATE_DATA_KEY) {
+    return normalizeKeyMaterial(process.env.CANDIDATE_DATA_KEY);
+  }
+  if (process.platform !== "win32") {
+    throw new Error("tenant master key needs Windows DPAPI on this host (Fargate swaps in KMS at this seam)");
+  }
+  return loadOrCreateDpapiKey(tenantMasterKeyPath(tenantsRoot));
 }
 
 function normalizeKeyMaterial(raw: string): Buffer {
@@ -53,8 +115,7 @@ function normalizeKeyMaterial(raw: string): Buffer {
   return createHash("sha256").update(raw, "utf8").digest();
 }
 
-function loadOrCreateDpapiKey(): Buffer {
-  const { dpapiKeyPath } = candidateKeyPaths();
+function loadOrCreateDpapiKey(dpapiKeyPath: string): Buffer {
   fs.mkdirSync(path.dirname(dpapiKeyPath), { recursive: true });
   if (fs.existsSync(dpapiKeyPath)) {
     return unprotectDpapiFile(dpapiKeyPath);

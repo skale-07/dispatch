@@ -458,6 +458,7 @@
         "src/candidate/screeners.ts": "SCREENER_REGISTRY patterns + policies",
         "src/candidate/screenerPredict.ts": "profile-derived predictions",
         "src/candidate/sensitiveProfile.ts": "encrypted demographics; nothing inferred",
+        "src/candidate/sensitiveCrypto.ts": "AES-256-GCM blob format + the key-provider seam: CANDIDATE_KEY_PROVIDER=dpapi (operator master, today's path) | env (insecure test key) | tenant (HKDF of the DPAPI-wrapped master under TENANTS_ROOT, salt TENANT_USER_ID); absent ⇒ pre-M13 behaviour",
         "src/candidate/publicProfile.ts": "name/contact/links/education",
         "src/candidate/screenersIO.ts": "screeners.json load/write; custom persist; forgetCustomScreenerAnswers",
         "src/candidate/applicationEducation.ts": "Operator-approved conditional graduation policy; per-application resume, profile, and screener context without global learning."
@@ -475,6 +476,15 @@
         ],
         "src/candidate/screenersIO.ts": [
           "forgetCustomScreenerAnswers"
+        ],
+        "src/candidate/sensitiveCrypto.ts": [
+          "resolveCandidateDataKey",
+          "selectedKeyProvider",
+          "resolveTenantMasterKey",
+          "encryptJson",
+          "decryptJson",
+          "writeEncryptedFile",
+          "readEncryptedFile"
         ]
       }
     },
@@ -865,9 +875,48 @@
         "TRIAGE_LLM_ENABLED",
         "TRIAGE_ACT_ENABLED"
       ]
+    },
+    {
+      "id": "tenants",
+      "label": "Tenant workspaces (multi-tenant engine)",
+      "layer": "orchestration",
+      "purpose": "Plan v0.5: one engine process per HOSTED user, in a workspace the process derives from the tenant's uuid (private/tenants/<uuid>/ — their profile, documents, sealed sessions, their OWN SQLite, artifacts, runs). Secrets are AES-GCM under a per-tenant key: HKDF-SHA256 of one DPAPI-wrapped master with the uuid as salt, reached through the candidate crypto seam (CANDIDATE_KEY_PROVIDER=tenant in the child env). Plaintext a run needs exists only under private/unsealed/ and is wiped when the run ends. Materializer (cloud rows → engine files), runner, scheduler and handoff capture land in the following milestones (M14–M18).",
+      "paths": [
+        "src/tenants"
+      ],
+      "key_files": {
+        "src/tenants/paths.ts": "assertTenantId (canonical uuid or refuse — a cloud row can never name a directory), tenantPaths (the whole layout from one uuid), tenantMasterKeyPath, isInsideTenant",
+        "src/tenants/keys.ts": "deriveTenantKey: HKDF-SHA256(master, salt = uuid, info dispatch/tenant-candidate-key/v1) → 32 bytes; deterministic, one-way, never hands out the master",
+        "src/tenants/secrets.ts": "sealSecret / unsealSecret / hasSealed / listSealed under <workspace>/secrets/<name>.enc (closed name shape); writeUnsealed + wipeUnsealed for the run-time plaintext"
+      },
+      "key_exports": {
+        "src/tenants/paths.ts": [
+          "assertTenantId",
+          "tenantPaths",
+          "tenantMasterKeyPath",
+          "isInsideTenant"
+        ],
+        "src/tenants/keys.ts": [
+          "deriveTenantKey"
+        ],
+        "src/tenants/secrets.ts": [
+          "sealSecret",
+          "unsealSecret",
+          "wipeUnsealed"
+        ]
+      },
+      "gates": [
+        "TENANT_ENGINE_ENABLED"
+      ]
     }
   ],
   "edges": [
+    {
+      "from": "tenants",
+      "to": "candidate",
+      "kind": "uses",
+      "why": "sealed secrets and the tenant's sensitive-profile.enc use the candidate crypto seam (encryptJson/decryptJson, writeEncryptedFile); resolveCandidateDataKey's `tenant` provider derives the per-tenant key from the DPAPI-wrapped master under TENANTS_ROOT"
+    },
     {
       "from": "triage",
       "to": "queue",

@@ -38,6 +38,7 @@ flowchart TB
   subgraph orch [Orchestration]
     automation[automation<br/>armed worker + sweeps]
     pipeline[pipeline<br/>one app, one step at a time]
+    tenants[tenants<br/>per-user workspaces + keys]
   end
   subgraph resolve [Resolve]
     jobright[jobright<br/>discovery + Apply primitives]
@@ -79,6 +80,8 @@ flowchart TB
   config -.gates.-> applications
   config -.gates.-> navigation
   config -.gates.-> automation
+  tenants --> candidate
+  config -.gates.-> tenants
 ```
 
 ## The application lifecycle (happy path)
