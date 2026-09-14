@@ -48,8 +48,10 @@ throwaway address, receive the link within a minute, land on
    `npm run build`, output `dist/`.
 3. Environment variables (production AND preview):
    `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` (publishable key only),
-   `VITE_PUBLIC_URL=https://<domain>`, `VITE_GMAIL_OAUTH_CLIENT_ID`,
+   `VITE_PUBLIC_URL=https://<domain>`,
    `VITE_LIVE_VIEW_ORIGIN=https://www.browserbase.com`.
+   (`VITE_GMAIL_OAUTH_CLIENT_ID` only if the OAuth fallback in step 3 is
+   used; unset, the Gmail card refuses by name until the CDP path lands.)
    Never `VITE_CONSOLE_ENABLED` on a public deploy.
 4. Domains → add, follow the DNS records.
 5. Engine `.env`: `CLOUD_BASE_URL=https://<domain>`.
@@ -57,22 +59,39 @@ throwaway address, receive the link within a minute, land on
 Check: `https://<domain>` renders; `/onboarding` deep link rewrites to
 the SPA (no 404); the waitlist form writes a row.
 
-## 3. Google Cloud — Gmail drafts client **[blocks outreach only]** (~15 min)
+## 3. Gmail for hosted users — in the remote Chrome, not OAuth **[blocks outreach only]**
 
-The client id + secret are already in the engine `.env`. Still needed:
+Decision 2026-09-14 (operator): the product's whole simplicity is ONE
+Chrome the engine drives over CDP, where the user logs into JobRight and
+Gmail themselves. For a hosted user that Chrome is their Browserbase
+session (step 4). So Gmail follows the same rule as JobRight: the user
+logs into Gmail in the live view, the engine drafts over CDP exactly as
+it does on the operator's port-9223 Chrome, drafts only. No Google Cloud
+project, no OAuth consent screen, no restricted-scope verification.
 
-1. Gmail API enabled on that project; consent screen in *Testing* with
-   you as a test user (7-day refresh-token expiry ⇒ the engine raises a
-   `gmail_reconnect` handoff; fine for the soak).
-2. Authorized JS origins `https://<domain>`, `http://localhost:5173`;
-   redirect URIs `https://<domain>/gmail/callback` and the localhost one.
-3. **[before strangers]** start the restricted-scope verification /
-   CASA process — `gmail.readonly` + compose are restricted scopes and
-   Google blocks non-test users until it passes (weeks, not days; start
-   it in week 1).
+What that needs (code, not accounts):
 
-Check: integrations step → connect Gmail → consent → `user_integrations`
-row with `status = connected`.
+1. The Gmail drafts transport switch: `src/outreach/gmailDrafts.ts`
+   currently drives the operator's debug Chrome; tenant children keep
+   Gmail drafting forced off until it can take the tenant's remote
+   browser (`docs/roadmap/tenant-zero-soak-2026-09-14.md`, known gaps).
+2. A `gmail_connect` handoff like `jobright_connect`: the live view opens
+   mail.google.com, the user signs in, the session is sealed with the
+   JobRight one.
+3. The first hosted Gmail sign-in is the proof: Google sometimes refuses
+   sign-in inside an automated or datacenter browser ("this browser may
+   not be secure"). Browserbase persistent contexts usually pass; if not,
+   fall back to the OAuth path below for Gmail only.
+
+Check: tenant run → a draft appears in the user's own Gmail Drafts with
+the submitted resume attached; nothing sent.
+
+**Optional fallback — Google OAuth client** (the plan's earlier M19
+path; the client id + secret are already in the engine `.env`): Gmail API
+enabled, consent screen in *Testing* with you as a test user, authorized
+origins/redirects for `<domain>/gmail/callback`, and — before strangers
+— the restricted-scope verification / CASA process (weeks). Only if the
+CDP sign-in is blocked.
 
 ## 4. Browserbase **[blocks applying]** (~15 min)
 
@@ -110,7 +129,8 @@ in Testing.
 
 ## 7. Before a public link **[before strangers]**
 
-- Custom SMTP (step 1.4) and the Google verification (step 3.3) started.
+- Custom SMTP (step 1.4); the Google verification only if the OAuth
+  fallback in step 3 turned out to be needed.
 - Quota: `user_quota_status` shows `remaining = 5` on a fresh account
   (open signup, 5 free — decision 2026-09-11).
 - A privacy line on the landing page that says what the engine stores
