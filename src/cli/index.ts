@@ -2352,7 +2352,7 @@ async function main(): Promise<void> {
             : undefined);
         const results = retryFailedApplications(
           db,
-          appId ? { applicationId: appId } : {},
+          appId ? { applicationId: appId, operator: true } : { operator: true },
         );
         if (appId && results.length === 0) {
           console.error(`No FAILED_RETRYABLE application ${appId}`);

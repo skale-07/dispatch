@@ -1833,7 +1833,18 @@ async function step(
  */
 export function retryFailedApplications(
   db: Db,
-  options: { maxAttempts?: number; applicationId?: string } = {},
+  options: {
+    maxAttempts?: number;
+    applicationId?: string;
+    /**
+     * An OPERATOR retry (`npm run retry`) drops the #279 pick stamp so the
+     * row runs on the next cycle. The loop's own per-cycle retry and
+     * triage requeues leave it: live CACI ba188b11 (cycles 158/159) was
+     * demoted, retried and re-picked two minutes later when every retry
+     * cleared the stamp.
+     */
+    operator?: boolean;
+  } = {},
 ): Array<{ application_id: string; action: "requeued" | "finalized"; attempt: number }> {
   const maxAttempts = options.maxAttempts ?? MAX_ATTEMPTS;
   const named = Boolean(options.applicationId);
@@ -1879,8 +1890,9 @@ export function retryFailedApplications(
           : `retry ${row.attempt + 1}/${maxAttempts}`,
       attempt: row.attempt + 1,
     });
-    // A deliberate retry runs on the next cycle: drop the #279 pick stamp.
-    clearPickStamp(db, row.id);
+    // A deliberate operator retry runs on the next cycle: drop the #279
+    // pick stamp. Automated retries keep it (the cooldown is for them).
+    if (options.operator) clearPickStamp(db, row.id);
     results.push({
       application_id: row.id,
       action: "requeued",

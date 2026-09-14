@@ -97,7 +97,8 @@ export function buildMutationRoutes(deps: { db: Db }): Route[] {
       method: "POST",
       pattern: "/api/retry",
       handler: ({ res }) => {
-        json(res, 200, { retried: retryFailedApplications(db) });
+        // Console retry is the operator's hand: drop the #279 pick stamp.
+        json(res, 200, { retried: retryFailedApplications(db, { operator: true }) });
       },
     },
     {
