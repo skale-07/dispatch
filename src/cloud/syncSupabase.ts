@@ -128,7 +128,16 @@ async function makeClient(url: string, serviceRoleKey: string) {
   });
 }
 
-type SupabaseClientLike = Awaited<ReturnType<typeof makeClient>>;
+export type SupabaseClientLike = Awaited<ReturnType<typeof makeClient>>;
+
+/** A service-role client for callers outside this module (tenant tooling); same gate, same key rules. */
+export async function makeSyncClient(
+  config: AppConfig = getConfig(),
+  opts: { userId?: string } = {},
+): Promise<SupabaseClientLike> {
+  const { url, serviceRoleKey } = assertSyncConfigured(config, opts);
+  return makeClient(url, serviceRoleKey);
+}
 
 export async function runSupabaseSync(options: {
   db: Db;

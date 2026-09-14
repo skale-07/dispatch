@@ -880,14 +880,17 @@
       "id": "tenants",
       "label": "Tenant workspaces (multi-tenant engine)",
       "layer": "orchestration",
-      "purpose": "Plan v0.5: one engine process per HOSTED user, in a workspace the process derives from the tenant's uuid (private/tenants/<uuid>/ — their profile, documents, sealed sessions, their OWN SQLite, artifacts, runs). Secrets are AES-GCM under a per-tenant key: HKDF-SHA256 of one DPAPI-wrapped master with the uuid as salt, reached through the candidate crypto seam (CANDIDATE_KEY_PROVIDER=tenant in the child env). Plaintext a run needs exists only under private/unsealed/ and is wiped when the run ends. Materializer (cloud rows → engine files), runner, scheduler and handoff capture land in the following milestones (M14–M18).",
+      "purpose": "Plan v0.5: one engine process per HOSTED user, in a workspace the process derives from the tenant's uuid (private/tenants/<uuid>/ — their profile, documents, sealed sessions, their OWN SQLite, artifacts, runs). Secrets are AES-GCM under a per-tenant key: HKDF-SHA256 of one DPAPI-wrapped master with the uuid as salt, reached through the candidate crypto seam (CANDIDATE_KEY_PROVIDER=tenant in the child env). Plaintext a run needs exists only under private/unsealed/ and is wiped when the run ends. The materializer (src/cloud/tenantMaterializer.ts, pure) turns cloud rows into the engine's own files and workspace.ts writes them (tenant:materialize / tenant:status); runner, scheduler and handoff capture land in the following milestones (M15–M18).",
       "paths": [
         "src/tenants"
       ],
       "key_files": {
         "src/tenants/paths.ts": "assertTenantId (canonical uuid or refuse — a cloud row can never name a directory), tenantPaths (the whole layout from one uuid), tenantMasterKeyPath, isInsideTenant",
         "src/tenants/keys.ts": "deriveTenantKey: HKDF-SHA256(master, salt = uuid, info dispatch/tenant-candidate-key/v1) → 32 bytes; deterministic, one-way, never hands out the master",
-        "src/tenants/secrets.ts": "sealSecret / unsealSecret / hasSealed / listSealed under <workspace>/secrets/<name>.enc (closed name shape); writeUnsealed + wipeUnsealed for the run-time plaintext"
+        "src/tenants/secrets.ts": "sealSecret / unsealSecret / hasSealed / listSealed under <workspace>/secrets/<name>.enc (closed name shape); writeUnsealed + wipeUnsealed for the run-time plaintext",
+        "src/tenants/workspace.ts": "materializeWorkspace (fail-closed behind TENANT_ENGINE_ENABLED; idempotent; documents re-downloaded on uploaded_at change; self-ID plaintext from engine_read_sensitive_profile written ONLY as sensitive-profile.enc under the tenant key, consent withdrawn ⇒ removed), inspectWorkspace (read-only, reports stale unsealed plaintext), listWorkspaces",
+        "src/tenants/cli.ts": "tenant:materialize (--user|--all, --force, --skip-sensitive; needs TENANT_ENGINE_ENABLED + SUPABASE_SYNC_ENABLED) and tenant:status (read-only) — its own entrypoint, not src/cli/index.ts",
+        "src/cloud/tenantMaterializer.ts": "PURE cloud rows → engine files: toPublicProfile (validated by publicProfileSchema, nothing invented, \"\" when unknown), toScreenerBank (bank + unambiguous profile mirrors, parseScreenerBank), toAboutMe (narrative + generated Application facts from present facts only), toPersona (personaSchema or the reason), toSensitiveProfile (RPC plaintext: answer→value, prefer_not→Decline to self-identify, skip→\"\"), toDocumentTargets (own-uid object paths in the kind's bucket only), toEducationPolicy, materializeTenant → manifest"
       },
       "key_exports": {
         "src/tenants/paths.ts": [
@@ -903,6 +906,18 @@
           "sealSecret",
           "unsealSecret",
           "wipeUnsealed"
+        ],
+        "src/tenants/workspace.ts": [
+          "materializeWorkspace",
+          "inspectWorkspace",
+          "listWorkspaces"
+        ],
+        "src/cloud/tenantMaterializer.ts": [
+          "materializeTenant",
+          "toPublicProfile",
+          "toScreenerBank",
+          "toSensitiveProfile",
+          "toDocumentTargets"
         ]
       },
       "gates": [
@@ -915,7 +930,13 @@
       "from": "tenants",
       "to": "candidate",
       "kind": "uses",
-      "why": "sealed secrets and the tenant's sensitive-profile.enc use the candidate crypto seam (encryptJson/decryptJson, writeEncryptedFile); resolveCandidateDataKey's `tenant` provider derives the per-tenant key from the DPAPI-wrapped master under TENANTS_ROOT"
+      "why": "sealed secrets and the tenant's sensitive-profile.enc use the candidate crypto seam (encryptJson/decryptJson, writeEncryptedFile); resolveCandidateDataKey's `tenant` provider derives the per-tenant key from the DPAPI-wrapped master under TENANTS_ROOT; the materializer validates against publicProfileSchema, parseScreenerBank, personaSchema and sensitiveProfileSchema"
+    },
+    {
+      "from": "tenants",
+      "to": "cloud",
+      "kind": "reads",
+      "why": "workspaces are materialized from the cloud plane's rows (runProfilesPull: profiles, documents, screener answers, personas, integrations — never secrets) plus the service-role engine_read_sensitive_profile RPC; a tenant run syncs its OWN user's status/receipts back through runSupabaseSync/runReceiptsPush({ userId })"
     },
     {
       "from": "triage",
