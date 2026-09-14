@@ -1,0 +1,151 @@
+{
+  "decision_id": "48778bd0-f27d-4938-af23-14cdab7328c0",
+  "application_id": "fcfc7eab-3f45-45dc-8ec5-fab7797f363b",
+  "signature": "FAILED_RETRYABLE|-|unknown|usaa.wd1.myworkdayjobs.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "fcfc7eab-3f45-45dc-8ec5-fab7797f363b",
+    "company": "USAA",
+    "role": "P&C Product Management Analyst Intern",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 1,
+    "failure_signature": "FAILED_RETRYABLE|-|unknown|usaa.wd1.myworkdayjobs.com",
+    "end_host": "usaa.wd1.myworkdayjobs.com",
+    "recent_events": [
+      {
+        "from": "SUBMITTING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "submit control not clicked: workday final submit control not found (not on the Review page?)",
+        "at": "2026-09-14T04:30:20.830Z"
+      },
+      {
+        "from": "READY_TO_SUBMIT",
+        "to": "SUBMITTING",
+        "reason": "human-approved submission started",
+        "at": "2026-09-14T04:30:12.998Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "READY_TO_SUBMIT",
+        "reason": "pipeline: fill rehearsal verified",
+        "at": "2026-09-14T04:30:07.777Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (workday live fill: 13 filled (held for submit))",
+        "at": "2026-09-14T04:30:07.776Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route inspect_only (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-14T04:28:45.197Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-14T04:28:44.427Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: workday URL validated",
+        "at": "2026-09-14T04:28:44.420Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-14T04:28:41.243Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 7141579276ac)",
+        "at": "2026-09-14T04:28:41.236Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-14T04:28:41.205Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-14T04:09:15.656Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-14T04:09:15.557Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-14T04:09:15.556Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-14T04:09:15.555Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "usaa",
+        "detail": "token \"usaa\" ~ slug \"usaa\"",
+        "expected_company": "USAA",
+        "url": "https://usaa.wd1.myworkdayjobs.com/usaajobswd/job/San-Antonio-Home-Office-I/P-C-Product-Management-Analyst-Intern_R0120949?jr_id=6aa54ea882e82a31997bd310"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (11 candidates, employer match)",
+          "evidence": "usaa.wd1.myworkdayjobs.com"
+        }
+      ]
+    },
+    "submit": {
+      "outcome": "FAILED_BEFORE_CLICK",
+      "reason": "workday final submit control not found (not on the Review page?)",
+      "brief_items": []
+    },
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": true
+    },
+    "open_review_items": [],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"requeue_same\", \"rationale\": \"First attempt; fill verified and navigation congruent. Submit failed only because the Workday Review page wasn't reached — a plausibly transient multi-step pagination/timing issue. No prior decisions, no wall, nothing forbidden; cheapest action that could change the outcome is one clean rerun.\", \"confidence\": \"medium\"}",
+  "parsed_action": "requeue_same",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "requeued at attempt 2",
+  "rationale_unverified": "First attempt; fill verified and navigation congruent. Submit failed only because the Workday Review page wasn't reached — a plausibly transient multi-step pagination/timing issue. No prior decisions, no wall, nothing forbidden; cheapest action that could change the outcome is one clean rerun."
+}

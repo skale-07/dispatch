@@ -1,0 +1,519 @@
+{
+  "ats": "workday",
+  "url": "https://usaa.wd1.myworkdayjobs.com/usaajobswd/job/San-Antonio-Home-Office-I/P-C-Product-Management-Analyst-Intern_R0120949",
+  "requested_url": "https://usaa.wd1.myworkdayjobs.com/usaajobswd/job/San-Antonio-Home-Office-I/P-C-Product-Management-Analyst-Intern_R0120949",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://usaa.wd1.myworkdayjobs.com/en-US/usaajobswd/job/San-Antonio-Home-Office-I/P-C-Product-Management-Analyst-Intern_R0120949/apply/applyManually",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 15,
+    "skipped_count": 2,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "source--source",
+      "label": "How Did You Hear About Us?",
+      "type": "select",
+      "canonical_field": "how_heard",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "candidateIsPreviousWorker",
+      "label": "Are you a former employee or returning applicant?",
+      "type": "radio",
+      "canonical_field": "screener:custom:returning_candidate_details",
+      "action": "FILL",
+      "reason": "Screener bank answer (llm_option)"
+    },
+    {
+      "field_id": "f_3",
+      "label": "Are you a current/former USAA contractor or former USAA employee?",
+      "type": "text",
+      "canonical_field": "screener:previously_applied_or_worked",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "name--legalName--firstName",
+      "label": "First Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "name--legalName--lastName",
+      "label": "Last Name",
+      "type": "text",
+      "canonical_field": "legal_name.last",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "address--addressLine1",
+      "label": "Address Line 1",
+      "type": "text",
+      "canonical_field": "address.line1",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "address--city",
+      "label": "City",
+      "type": "text",
+      "canonical_field": "address.city",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f_8",
+      "label": "Address",
+      "type": "text",
+      "canonical_field": "address.line1",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "address--postalCode",
+      "label": "Postal Code",
+      "type": "text",
+      "canonical_field": "address.postal_code",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f_10",
+      "label": "Phone",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phoneNumber--countryPhoneCode",
+      "label": "Country Phone Code",
+      "type": "select",
+      "canonical_field": "address.country",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phoneNumber--phoneNumber",
+      "label": "Phone Number",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phoneNumber--extension",
+      "label": "Phone Extension",
+      "type": "text",
+      "canonical_field": "screener:custom:phone_extension",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "cfact",
+      "label": "field_14",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "country--country",
+      "label": "Country",
+      "type": "select",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "address--countryRegion",
+      "label": "State",
+      "type": "select",
+      "canonical_field": "address.state",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phoneNumber--phoneType",
+      "label": "Phone Device Type",
+      "type": "select",
+      "canonical_field": "screener:custom:phone_device_type",
+      "action": "FILL",
+      "reason": "Screener bank answer (llm_option)"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\workday-live\\form-snapshot-1789360197251.html",
+  "fill": {
+    "filled": [
+      "how_heard",
+      "screener:custom:returning_candidate_details",
+      "screener:previously_applied_or_worked",
+      "legal_name.first",
+      "legal_name.last",
+      "address.line1",
+      "address.city",
+      "address.postal_code",
+      "address.country",
+      "phone",
+      "screener:custom:phone_extension",
+      "address.state",
+      "screener:custom:phone_device_type"
+    ],
+    "skipped": [
+      "f_8 (address.line1) — anchorless twin of an anchored canonical (#69)",
+      "f_10 (phone) — anchorless twin of an anchored canonical (#69)"
+    ],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "source--source",
+        "canonical_field": "how_heard",
+        "control_kind": "combobox",
+        "selected_option": "LinkedIn",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "filter yielded no/unmatched options; re-collected unfiltered (residue cleared)",
+          "scroll-harvested 8 option(s)",
+          "drilled into \"Social - External\" and picked leaf \"LinkedIn\""
+        ]
+      },
+      {
+        "field_id": "candidateIsPreviousWorker",
+        "canonical_field": "screener:custom:returning_candidate_details",
+        "control_kind": "text",
+        "selected_option": "No"
+      },
+      {
+        "field_id": "f_3",
+        "canonical_field": "screener:previously_applied_or_worked",
+        "control_kind": "text",
+        "selected_option": "No"
+      },
+      {
+        "field_id": "name--legalName--firstName",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "name--legalName--lastName",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "address--addressLine1",
+        "canonical_field": "address.line1",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "address--city",
+        "canonical_field": "address.city",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "address--postalCode",
+        "canonical_field": "address.postal_code",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "phoneNumber--countryPhoneCode",
+        "canonical_field": "address.country",
+        "control_kind": "combobox",
+        "selected_option": "United States of America (+1)",
+        "match_via": "exact",
+        "notes": [
+          "already committed \"United States of America (+1)\""
+        ]
+      },
+      {
+        "field_id": "phoneNumber--phoneNumber",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "phoneNumber--extension",
+        "canonical_field": "screener:custom:phone_extension",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "address--countryRegion",
+        "canonical_field": "address.state",
+        "control_kind": "combobox",
+        "selected_option": "Maryland",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Maryland\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "phoneNumber--phoneType",
+        "canonical_field": "screener:custom:phone_device_type",
+        "control_kind": "combobox",
+        "selected_option": "Cell",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "opened via JS click (mouse click swallowed)",
+          "picked \"Cell\" (exact) from open list"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "how_heard",
+        "expected": "LinkedIn",
+        "observed": {
+          "value": "LinkedIn",
+          "label": "LinkedIn"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:returning_candidate_details",
+        "expected": "false",
+        "observed": {
+          "value": "false",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:previously_applied_or_worked",
+        "expected": "No",
+        "observed": {
+          "value": "false",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.last",
+        "expected": "Kale",
+        "observed": "Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "address.line1",
+        "expected": "3510 N Charles St",
+        "observed": "3510 N Charles St",
+        "match": true
+      },
+      {
+        "canonical_field": "address.city",
+        "expected": "Baltimore",
+        "observed": "Baltimore",
+        "match": true
+      },
+      {
+        "canonical_field": "address.postal_code",
+        "expected": "21218",
+        "observed": "21218",
+        "match": true
+      },
+      {
+        "canonical_field": "address.country",
+        "expected": "United States",
+        "observed": {
+          "value": "United States of America (+1)",
+          "label": "United States of America (+1)"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:phone_extension",
+        "expected": "[REDACTED_PHONE]",
+        "observed": "[REDACTED_PHONE]",
+        "match": true
+      },
+      {
+        "canonical_field": "address.state",
+        "expected": "Maryland",
+        "observed": {
+          "value": "Maryland",
+          "label": "Maryland"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:phone_device_type",
+        "expected": "[REDACTED_PHONE]",
+        "observed": "[REDACTED]",
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 115393,
+      "verified": true,
+      "evidence": "input files: []; stillAttached=true; chip=true; resolved via primary"
+    }
+  ],
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: posting (no fields, Apply CTA present)",
+    "workday page kind at gate: posting",
+    "login wall on usaa.wd1.myworkdayjobs.com: no_form_found; fields[email=false password=false confirm=false]; submit=[Sign In]",
+    "portal auth: clicked \"Apply\" (attempt 1)",
+    "portal auth: clicked Apply Manually (attempt 2)",
+    "portal auth: account form rendered after Apply Manually",
+    "standing portal login used for usaa.wd1.myworkdayjobs.com",
+    "portal auth: flipped Create Account → Sign In (standing credentials)",
+    "portal auth sign_in: form cleared",
+    "workday apply route: manual (#275)",
+    "workday page kind after auth: wizard",
+    "section-expand: expanded 2 collapsed section(s)",
+    "section-expand: expanded \"Settings\"",
+    "section-expand: expanded \"skale072007@gmail.com\"",
+    "option harvest: scraped real options for 3/13 control(s) before planning",
+    "timing: base page (17 planned) — plan 2s, fill 34s, verify 1s",
+    "resume on disk but this page has no file input — not an upload miss",
+    "wizard plan skips (1): \"Select files\"→File uploads handled via uploadResume/uploadCoverL",
+    "wizard: page 2 never settled on a NEW page (heading still \"P&amp;C Product Management Analyst Intern\") — planning on the current DOM",
+    "wizard: page 2 heading=\"P&amp;C Product Management Analyst Inter\" url…20949/apply/applyManually shot=wizard-page-2-1789360196551.png",
+    "wizard: page 3 never settled on a NEW page (heading still \"P&amp;C Product Management Analyst Intern\") — planning on the current DOM",
+    "wizard: page 3 heading=\"P&amp;C Product Management Analyst Inter\" url…20949/apply/applyManually shot=wizard-page-3-1789360207582.png",
+    "wizard: page 3 did not advance 2x in a row (heading \"P&amp;C Product Management Analyst Inter\") — stopping the walk; the page is refusing Next, so its unanswered fields park for review (#278)",
+    "wizard: filled 1 additional page(s) — wizard:0/0",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [
+    {
+      "field_id": "country--country",
+      "label": "Country",
+      "answer_space": "closed",
+      "option_count": 250,
+      "options": [
+        "Select One",
+        "Afghanistan",
+        "Åland Islands",
+        "Albania",
+        "Algeria",
+        "American Samoa",
+        "Andorra",
+        "Angola",
+        "Anguilla",
+        "Antigua and Barbuda",
+        "Argentina",
+        "Armenia",
+        "Aruba",
+        "Australia",
+        "Austria",
+        "Azerbaijan",
+        "Bahamas",
+        "Bahrain",
+        "Bangladesh",
+        "Barbados",
+        "Belarus",
+        "Belgium",
+        "Belize",
+        "Benin",
+        "Bermuda"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "address--countryRegion",
+      "label": "State",
+      "answer_space": "closed",
+      "option_count": 61,
+      "options": [
+        "Select One",
+        "Alabama",
+        "Alaska",
+        "American Samoa",
+        "Arizona",
+        "Arkansas",
+        "Armed Forces Americas",
+        "Armed Forces Europe",
+        "Armed Forces Pacific",
+        "California",
+        "Colorado",
+        "Connecticut",
+        "Delaware",
+        "District of Columbia",
+        "Florida",
+        "Georgia",
+        "Guam",
+        "Hawaii",
+        "Idaho",
+        "Illinois",
+        "Indiana",
+        "Iowa",
+        "Kansas",
+        "Kentucky",
+        "Louisiana"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "phoneNumber--phoneType",
+      "label": "Phone Device Type",
+      "answer_space": "closed",
+      "option_count": 8,
+      "options": [
+        "Select One",
+        "Cell",
+        "Fax",
+        "MI Escalation",
+        "Pager",
+        "Telephone",
+        "Toll Free",
+        "Video"
+      ],
+      "other_option": null
+    }
+  ],
+  "wizard_pages": [
+    {
+      "page": 2,
+      "url": "https://usaa.wd1.myworkdayjobs.com/en-US/usaajobswd/job/San-Antonio-Home-Office-I/P-C-Product-Management-Analyst-Intern_R0120949/apply/applyManually",
+      "kind": "wizard",
+      "fillable": 0,
+      "filled": 0,
+      "verify_passed": false
+    }
+  ],
+  "operator_brief": {
+    "title": "Live fill — workday https://usaa.wd1.myworkdayjobs.com/usaajobswd/job/San-Antonio-Home-Office-I/P-C-Product-Management-Analyst-Intern_R0120949",
+    "summary": "No open field issues in this report.",
+    "items": [],
+    "ok_count": 13,
+    "fail_count": 0
+  },
+  "written_at": "2026-09-14T04:30:07.770Z"
+}
