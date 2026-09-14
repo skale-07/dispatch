@@ -164,11 +164,19 @@ describe("runOutreachPipeline (UNIT_CONFIRMED)", () => {
   it("enqueues, excludes from auto-apply, generates and drafts without leaving QUEUED", async () => {
     const generated: string[] = [];
     const drafted: string[] = [];
+    const rolesAtResumePick: string[] = [];
     const report = await runOutreachPipeline({
       db,
       refs: [JOB_ID],
       headless: true,
       deps: {
+        // The policy resume is picked by role, so it must run after enrich.
+        ensureResume: (d, applicationId) => {
+          rolesAtResumePick.push(
+            (d.prepare(`SELECT j.role FROM jobs j JOIN applications a ON a.job_id = j.id WHERE a.id = ?`).get(applicationId) as { role: string }).role,
+          );
+          return "no_default";
+        },
         enrichJob: async ({ db: d, applicationId }) => {
           persistJobIdentityFromSnapshot(d, applicationId, {
             company: "Acme Robotics",
@@ -239,6 +247,8 @@ describe("runOutreachPipeline (UNIT_CONFIRMED)", () => {
     expect(report.jobs).toHaveLength(1);
     const job = report.jobs[0]!;
     expect(job.ok).toBe(true);
+    expect(rolesAtResumePick).toEqual(["SWE Intern"]);
+    expect(job.notes.join(" ")).toMatch(/resume for drafts: none found — pass --resume/);
     expect(job.emails_found).toBe(1);
     expect(job.generated).toBe(1);
     expect(job.drafted).toBe(1);
@@ -271,6 +281,7 @@ describe("runOutreachPipeline (UNIT_CONFIRMED)", () => {
       db,
       refs: [JOB_ID, "not-a-job"],
       deps: {
+        ensureResume: () => "no_default",
         enrichJob: async () => undefined,
         triage: async ({ db: d, applicationId }) => {
           const c = upsertContact(d, {
@@ -331,6 +342,63 @@ describe("runOutreachPipeline (UNIT_CONFIRMED)", () => {
     expect(report.jobs[1]!.ok).toBe(false);
     expect(report.jobs[1]!.error).toMatch(/Malformed jobright job id|Not a JobRight/);
     expect(drafted).toHaveLength(1);
+  });
+
+  it("--resume registers the file the operator submitted; the post-submit tail never touches materials", async () => {
+    const registered: Array<{ applicationId: string; filePath: string }> = [];
+    const noDrafts = {
+      enrichJob: async () => undefined,
+      triage: async () => emptyTriage(),
+      makeClient: stubClient,
+      registerResume: (i: { applicationId: string; filePath: string }) => {
+        registered.push({ applicationId: i.applicationId, filePath: i.filePath });
+        return { sha256: "ab".repeat(32) };
+      },
+      ensureResume: () => {
+        throw new Error("policy pick must not run when --resume names the file");
+      },
+    };
+    const report = await runOutreachPipeline({
+      db,
+      refs: [JOB_ID],
+      resumePath: "private/candidate/resumes/general_2028.pdf",
+      deps: noDrafts,
+    });
+    const job = report.jobs[0]!;
+    expect(job.ok).toBe(true);
+    expect(registered).toEqual([{ applicationId: job.application_id, filePath: "private/candidate/resumes/general_2028.pdf" }]);
+    expect(job.notes.join(" ")).toMatch(/resume for drafts: general_2028\.pdf \(--resume, sha abababab\)/);
+
+    // A verified submission already has the resume it submitted: no registration, no policy pick.
+    const appId = job.application_id!;
+    db.prepare("UPDATE applications SET state = 'COMPLETED' WHERE id = ?").run(appId);
+    db.prepare("INSERT INTO submissions (id, application_id, submission_attempt_number, status, submitted, receipt_json) VALUES (?, ?, 1, 'VERIFIED', 1, '{}')").run(randomUUID(), appId);
+    registered.length = 0;
+    const tail = await runPostSubmitGmail({ db, applicationId: appId, deps: noDrafts });
+    expect(tail.ok).toBe(true);
+    expect(registered).toEqual([]);
+    expect(tail.notes.join(" ")).not.toMatch(/resume for drafts/);
+  });
+
+  it("a resume already registered is kept, not replaced by the policy pick", async () => {
+    const report = await runOutreachPipeline({
+      db,
+      refs: [JOB_ID],
+      deps: {
+        enrichJob: async ({ db: d, applicationId }) => {
+          d.prepare(
+            `INSERT INTO materials (id, application_id, kind, path, sha256, size_bytes, verified, metadata_json, created_at)
+             VALUES (?, ?, 'resume', 'x.pdf', ?, 1, 1, '{}', ?)`,
+          ).run(randomUUID(), applicationId, "cd".repeat(32), new Date().toISOString());
+        },
+        triage: async () => emptyTriage(),
+        makeClient: stubClient,
+        ensureResume: () => {
+          throw new Error("must not re-pick over a registered resume");
+        },
+      },
+    });
+    expect(report.jobs[0]!.notes.join(" ")).toMatch(/resume for drafts: already registered \(sha cdcdcdcd\)/);
   });
 
   it("records a per-job error and keeps going when enrich throws", async () => {

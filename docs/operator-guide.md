@@ -616,11 +616,25 @@ npm run console
 # then: Outreach → paste https://jobright.ai/jobs/info/<id> → Run outreach
 # or:
 npm run outreach -- --jobright https://jobright.ai/jobs/info/<hex> --headed
+# attach the exact file you submitted:
+npm run outreach -- --jobright https://jobright.ai/jobs/info/<hex> --resume private/candidate/resumes/general.pdf --headed
 ```
 
+**Every draft carries your resume** (operator directive 2026-09-13). With
+`--resume <pdf>` that file is registered as the application's resume and
+attached. Without it, the role's policy resume
+(`application-education-policy.json`, the file the loop would have
+submitted) is registered after the job's role is read, and the run's notes
+name it (`resume for drafts: role policy resume general.pdf …`), so pass
+`--resume` if you applied with something else. A resume already registered
+is only replaced by an explicit `--resume`. The recipient sees
+`First_Last_Resume.pdf` (from `public-profile.json`), never the sha-named
+artifact.
+
 Debug Chrome must be signed into JobRight
-**and** Gmail (`npm run chrome:debug:jobright`). Nothing sends. Review the
-Drafts folder yourself.
+**and** Gmail (`npm run chrome:debug:jobright`, or the dedicated
+`chrome:debug:gmail` on 9223 when `OUTREACH_CDP_URL` is set). Nothing sends.
+Review the Drafts folder yourself.
 
 The three buttons on an application's Outreach card remain for retries.
 
@@ -1456,6 +1470,16 @@ npm run cli -- outreach:worker --headed --since 6                               
   picks non-terminal rows, the outreach worker rows with a verified
   submission. Both need `GMAIL_DRAFTS_ENABLED`; drafts open in the debug
   Chrome (CDP) as before.
+- Each draft attaches the resume that application submitted (its verified
+  `materials` row, byte-checked against the recorded sha256) through
+  compose's own attachment input, and waits for Gmail's attachment chip and
+  for the upload to finish before Save & close. The outcome is on the
+  `gmail_drafts` row (`metadata_json.attachment.outcome`: `attached`,
+  `not_confirmed`, or null when the application has no resume). A
+  `not_confirmed` draft still saves — attach the file by hand in Drafts.
+  Drafts created before 2026-09-13 have no attachment and are not redone.
+- Restart a running `outreach:worker` after changing `src/outreach`,
+  `src/contacts` or `src/auth`; it does not reload code.
 
 `--app-deadline <sec>` is a per-application wall-clock budget. It is checked
 at pipeline step boundaries (the same cooperative seam as the console Skip

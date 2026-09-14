@@ -1,5 +1,12 @@
+import path from "node:path";
 import type { Db } from "../storage/db/client.js";
 import { logger } from "../logging/logger.js";
+import {
+  ensureResumeForApplication,
+  getRegisteredResume,
+  registerResumeMaterial,
+  type EnsureResumeResult,
+} from "../jobright/materialsRegister.js";
 import { PlaywrightServiceSession } from "../auth/serviceSession.js";
 import { detectAuthLossOnPage } from "../auth/authLossDetect.js";
 import {
@@ -143,7 +150,70 @@ export type OutreachPipelineDeps = {
     contactId: string;
     headless?: boolean;
   }) => Promise<GmailDraftResult>;
+  registerResume?: (input: {
+    db: Db;
+    applicationId: string;
+    filePath: string;
+    label?: string;
+  }) => { sha256: string };
+  ensureResume?: (db: Db, applicationId: string) => EnsureResumeResult;
 };
+
+/**
+ * Operator directive 2026-09-13: every outreach draft carries the resume
+ * submitted for the application (createGmailDraft attaches the verified
+ * `materials` row). A loop submission already has that row. An
+ * apply-yourself run records one here: the file named by --resume, else
+ * the role's policy resume — what the loop would have submitted. Runs
+ * after enrich, because the policy picks by role and a manual enqueue has
+ * no role until then. A registered resume is only replaced by an explicit
+ * --resume. Fail-open: any miss is a note and the drafts go out without
+ * an attachment rather than not at all.
+ */
+export function recordOutreachResume(input: {
+  db: Db;
+  applicationId: string;
+  resumePath?: string;
+  deps?: OutreachPipelineDeps;
+}): string {
+  const register = input.deps?.registerResume ?? registerResumeMaterial;
+  const ensure = input.deps?.ensureResume ?? ensureResumeForApplication;
+  try {
+    if (input.resumePath) {
+      const reg = register({
+        db: input.db,
+        applicationId: input.applicationId,
+        filePath: input.resumePath,
+        label: "operator applied (--resume)",
+      });
+      return `resume for drafts: ${path.basename(input.resumePath)} (--resume, sha ${reg.sha256.slice(0, 8)})`;
+    }
+    const existing = getRegisteredResume(input.db, input.applicationId);
+    if (existing) {
+      return `resume for drafts: already registered (sha ${existing.sha256.slice(0, 8)})`;
+    }
+    const outcome = ensure(input.db, input.applicationId);
+    const registered = getRegisteredResume(input.db, input.applicationId);
+    if (outcome === "no_default" || !registered) {
+      return "resume for drafts: none found — pass --resume <pdf>; drafts will have no attachment";
+    }
+    const meta = input.db
+      .prepare(`SELECT metadata_json FROM materials WHERE application_id = ? AND kind = 'resume' AND verified = 1`)
+      .get(input.applicationId) as { metadata_json: string } | undefined;
+    let original = "";
+    try {
+      const parsed = JSON.parse(meta?.metadata_json ?? "{}") as { original_path?: unknown };
+      if (typeof parsed.original_path === "string") original = ` ${path.basename(parsed.original_path)}`;
+    } catch {
+      original = "";
+    }
+    return `resume for drafts: role policy resume${original} (sha ${registered.sha256.slice(0, 8)}) — pass --resume <pdf> if you applied with a different file`;
+  } catch (err) {
+    return `resume for drafts unavailable: ${
+      err instanceof Error ? err.message.slice(0, 160) : String(err)
+    } — drafts will have no attachment`;
+  }
+}
 
 /** Same versions_json key the Applications include/exclude toggle uses. */
 export function excludeFromAutomation(db: Db, applicationId: string): void {
@@ -332,6 +402,8 @@ export async function runOutreachPipeline(input: {
   refs: string[];
   /** Existing verified submission; never re-enqueue or exclude this application. */
   postSubmitApplicationId?: string;
+  /** Apply-yourself: the resume the operator submitted, attached to every draft. */
+  resumePath?: string;
   headless?: boolean;
   deps?: OutreachPipelineDeps;
 }): Promise<OutreachPipelineReport> {
@@ -430,6 +502,16 @@ export async function runOutreachPipeline(input: {
       });
       if (twin) result.notes.push(twin);
       await enrichJob({ db: input.db, applicationId, headless });
+      if (!input.postSubmitApplicationId) {
+        result.notes.push(
+          recordOutreachResume({
+            db: input.db,
+            applicationId,
+            ...(input.resumePath ? { resumePath: input.resumePath } : {}),
+            ...(input.deps ? { deps: input.deps } : {}),
+          }),
+        );
+      }
       const triageReport = await triage({
         db: input.db,
         applicationId,

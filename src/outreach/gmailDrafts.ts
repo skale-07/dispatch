@@ -1,4 +1,6 @@
 import { createHash, randomUUID } from "node:crypto";
+import fs from "node:fs";
+import path from "node:path";
 import type { Page } from "playwright";
 import type { Db } from "../storage/db/client.js";
 import { getConfig } from "../config/index.js";
@@ -7,6 +9,8 @@ import { PlaywrightServiceSession } from "../auth/serviceSession.js";
 import { resolveGmailCdpUrl } from "../verification/gmailWebProvider.js";
 import { getContact } from "../contacts/repository.js";
 import { LINKEDIN_PROFILE_URL } from "../contacts/emailGenerate.js";
+import { loadPublicProfile } from "../candidate/publicProfileIO.js";
+import { getRegisteredResume } from "../jobright/materialsRegister.js";
 
 /**
  * Gmail DRAFTS tail (operator directive 2026-08-18): after triage +
@@ -35,6 +39,20 @@ export const gmailDraftSelectorsV1 = {
   /** Closing the compose window saves the draft. */
   saveAndClose: '[aria-label*="Save & close" i], [alt="Close" i], img.Ha',
   /**
+   * Compose's own (CSS-hidden) attachment input — the paperclip feeds it.
+   * Setting files on it is the same upload the operator's click would do.
+   */
+  attachmentInput: 'input[type="file"][name="Filedata"]',
+  /**
+   * The chip Gmail renders once a file is attached. `name` is always a
+   * sanitized [A-Za-z0-9_.-] filename (resumeAttachmentName), so it is
+   * safe to interpolate.
+   */
+  attachmentChip: (name: string): string =>
+    `[aria-label*="${name}"], div.vI:has-text("${name}"), [role="link"]:has-text("${name}")`,
+  /** An upload still in flight inside the compose window. */
+  uploadProgress: '[role="dialog"] [role="progressbar"], #composeWin [role="progressbar"]',
+  /**
    * FORBIDDEN control — never a click target. Present so the guard is
    * data, not prose, and so a test can prove no send ever fires.
    */
@@ -50,7 +68,117 @@ export type GmailDraftFields = {
   body: string;
   /** Bounded wait for Gmail's Compose control (#210); tests pass a short one. */
   composeWaitMs?: number;
+  /** The resume submitted for this application, attached to the draft. */
+  attachment?: DraftAttachment;
+  /** Bounded wait for the attachment chip / upload; tests pass a short one. */
+  attachWaitMs?: number;
 };
+
+export type DraftAttachment = {
+  /** Sanitized filename the recipient sees. */
+  name: string;
+  mimeType: string;
+  buffer: Buffer;
+  sha256: string;
+};
+
+/** attached = chip shown and no upload in flight; not_confirmed = tried, unproven. */
+export type AttachmentOutcome = "attached" | "not_confirmed" | "none";
+
+/**
+ * The filename a recipient sees: "First_Last_Resume.pdf" from the public
+ * profile, never the sha-named artifact path. Sanitized to [A-Za-z0-9_-]
+ * so it is also safe inside a selector.
+ */
+export function resumeAttachmentName(name: { first: string; last: string } | null): string {
+  const parts = [name?.first, name?.last]
+    .map((p) => (p ?? "").trim().replace(/[^A-Za-z0-9-]+/g, "_").replace(/^_+|_+$/g, ""))
+    .filter((p) => p.length > 0);
+  return parts.length > 0 ? `${parts.join("_")}_Resume.pdf` : "Resume.pdf";
+}
+
+function candidateNameFromProfile(): { first: string; last: string } | null {
+  try {
+    const profile = loadPublicProfile();
+    return { first: profile.legal_name.first, last: profile.legal_name.last };
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * The resume this application actually submitted — its verified `materials`
+ * row, byte-checked against the recorded sha256 — as a draft attachment.
+ * Every miss is a named note, never a silent draft without the resume.
+ */
+export function resolveDraftAttachment(
+  db: Db,
+  applicationId: string,
+  deps: { candidateName?: () => { first: string; last: string } | null } = {},
+): { attachment: DraftAttachment | null; note: string } {
+  const resume = getRegisteredResume(db, applicationId);
+  if (!resume) {
+    return { attachment: null, note: "no verified resume material on this application — draft has no resume attached" };
+  }
+  if (!fs.existsSync(resume.path)) {
+    return { attachment: null, note: `resume material file missing on disk (${path.basename(resume.path)}) — draft has no resume attached` };
+  }
+  const buffer = fs.readFileSync(resume.path);
+  const sha256 = createHash("sha256").update(buffer).digest("hex");
+  if (sha256 !== resume.sha256) {
+    return { attachment: null, note: "resume material changed on disk since it was registered (sha256 mismatch) — not attaching" };
+  }
+  const name = resumeAttachmentName((deps.candidateName ?? candidateNameFromProfile)());
+  return {
+    attachment: { name, mimeType: "application/pdf", buffer, sha256 },
+    note: `attaching the submitted resume as ${name} (sha ${sha256.slice(0, 8)})`,
+  };
+}
+
+/**
+ * Attach one file through compose's hidden input and prove it landed: the
+ * chip is visible AND no upload progress remains, both bounded. Closing
+ * compose while an upload is in flight can drop the file, so this runs
+ * before Save & close.
+ */
+async function attachFileOnGmailPage(
+  page: Page,
+  file: DraftAttachment,
+  waitMs: number,
+  notes: string[],
+): Promise<AttachmentOutcome> {
+  const s = gmailDraftSelectorsV1;
+  const input = page.locator(s.attachmentInput).first();
+  const present = await input
+    .waitFor({ state: "attached", timeout: Math.min(5_000, waitMs) })
+    .then(() => true)
+    .catch(() => false);
+  if (!present) {
+    notes.push("attachment input not found in compose — resume NOT attached");
+    return "not_confirmed";
+  }
+  await input.setInputFiles({ name: file.name, mimeType: file.mimeType, buffer: file.buffer });
+  const chipShown = await page
+    .locator(s.attachmentChip(file.name))
+    .first()
+    .waitFor({ state: "visible", timeout: waitMs })
+    .then(() => true)
+    .catch(() => false);
+  if (!chipShown) {
+    notes.push(`resume attachment ${file.name} not confirmed within ${Math.round(waitMs / 1000)}s — check the draft`);
+    return "not_confirmed";
+  }
+  const deadline = Date.now() + waitMs;
+  while ((await page.locator(s.uploadProgress).count().catch(() => 0)) > 0) {
+    if (Date.now() >= deadline) {
+      notes.push(`resume ${file.name} still uploading after ${Math.round(waitMs / 1000)}s — check the draft`);
+      return "not_confirmed";
+    }
+    await page.waitForTimeout(500);
+  }
+  notes.push(`resume attached: ${file.name}`);
+  return "attached";
+}
 
 function escapeHtml(text: string): string {
   return text
@@ -154,7 +282,7 @@ function fillComposeBody(el: ComposeBodyEl, parts: GmailComposePart[]): void {
 export async function draftEmailOnGmailPage(
   page: Page,
   fields: GmailDraftFields,
-): Promise<{ composed: boolean; notes: string[] }> {
+): Promise<{ composed: boolean; attachment: AttachmentOutcome; notes: string[] }> {
   const notes: string[] = [];
   const s = gmailDraftSelectorsV1;
   // #210 (day28 19:05 UTC, Verkada Frontend: 1 of 4 drafts landed, the
@@ -179,7 +307,7 @@ export async function draftEmailOnGmailPage(
       .catch(() => false);
     if (!fallbackVisible) {
       notes.push(`compose button not found (waited ${Math.round(composeWaitMs / 1000)}s)`);
-      return { composed: false, notes };
+      return { composed: false, attachment: "none", notes };
     }
   }
   // #257 (live night30, dedicated Chrome): the click LANDS ("click action
@@ -205,10 +333,16 @@ export async function draftEmailOnGmailPage(
   await body.click({ timeout: 5_000 });
   await body.evaluate(fillComposeBody, outreachBodyToComposeParts(fields.body));
 
+  // Operator directive 2026-09-13: every draft carries the resume that
+  // was submitted for the application. Proven before closing.
+  const attachment: AttachmentOutcome = fields.attachment
+    ? await attachFileOnGmailPage(page, fields.attachment, fields.attachWaitMs ?? 45_000, notes)
+    : "none";
+
   // Save & close persists the draft. NEVER the send button.
   await page.locator(s.saveAndClose).first().click({ timeout: 5_000 });
   notes.push("draft composed and closed (Gmail autosaves on close)");
-  return { composed: true, notes };
+  return { composed: true, attachment, notes };
 }
 
 /** Read-back: the draft exists iff Drafts search shows the subject. */
@@ -233,6 +367,8 @@ export type GmailDraftResult = {
   subject: string;
   status: "DRAFTED" | "FAILED";
   verified: boolean;
+  /** Whether the submitted resume rode along ("none" = nothing to attach). */
+  attachment?: AttachmentOutcome;
   notes: string[];
 };
 
@@ -314,8 +450,11 @@ export async function createGmailDraft(input: {
     notes.push(`gmail tail on its own debug Chrome (${target.url})`);
   }
   if (target.note) notes.push(target.note);
+  const resume = resolveDraftAttachment(input.db, input.applicationId);
+  notes.push(resume.note);
   let composed = false;
   let verified = false;
+  let attachment: AttachmentOutcome = "none";
   await session.open();
   try {
     const page = await session.newPage({ purpose: "gmail_draft" });
@@ -329,8 +468,10 @@ export async function createGmailDraft(input: {
         to: contact.email,
         subject: generation.subject,
         body: generation.body_text,
+        ...(resume.attachment ? { attachment: resume.attachment } : {}),
       });
       composed = result.composed;
+      attachment = result.attachment;
       notes.push(...result.notes);
       if (composed) {
         verified = await verifyDraftOnGmailPage(page, {
@@ -355,6 +496,13 @@ export async function createGmailDraft(input: {
     .update(generation.body_text)
     .digest("hex");
   const id = existing?.id ?? randomUUID();
+  const metadata = JSON.stringify({
+    body_sha256: bodySha,
+    attachment: resume.attachment
+      ? { name: resume.attachment.name, sha256: resume.attachment.sha256, outcome: attachment }
+      : null,
+    notes,
+  });
   if (existing) {
     input.db
       .prepare(
@@ -364,7 +512,7 @@ export async function createGmailDraft(input: {
         status,
         verified ? 1 : 0,
         generation.subject,
-        JSON.stringify({ body_sha256: bodySha, notes }),
+        metadata,
         id,
       );
   } else {
@@ -384,7 +532,7 @@ export async function createGmailDraft(input: {
         status,
         verified ? 1 : 0,
         new Date().toISOString(),
-        JSON.stringify({ body_sha256: bodySha, notes }),
+        metadata,
       );
   }
   logger.info("gmail draft run finished", {
@@ -395,6 +543,7 @@ export async function createGmailDraft(input: {
       contact_id: input.contactId,
       status,
       verified,
+      attachment,
     },
   });
   return {
@@ -403,6 +552,7 @@ export async function createGmailDraft(input: {
     subject: generation.subject,
     status,
     verified,
+    attachment,
     notes,
   };
 }
