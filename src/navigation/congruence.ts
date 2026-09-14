@@ -61,6 +61,11 @@ export type CompanyIdentity = {
   joined: string;
   /** Extra token sets from parentheticals, e.g. "(ESG)" → ["esg"]. */
   aliases: string[];
+  /**
+   * Whole-name spellings of a name containing "&": spelled out and dropped,
+   * e.g. "RS&H" → ["rsandh", "rsh"]. Compared to a slug by EXACT equality only.
+   */
+  ampersandSpellings?: string[];
 };
 
 export function companyIdentity(rawCompany: string): CompanyIdentity {
@@ -81,11 +86,23 @@ export function companyIdentity(rawCompany: string): CompanyIdentity {
   const tokens = rawTokens.filter(
     (t) => !LEGAL_SUFFIXES.has(t) && !STOPWORDS.has(t) && t.length >= 2,
   );
+  const ampersandSpellings: string[] = [];
+  if (name.includes("&")) {
+    const lowered = name.toLowerCase().replace(/[®™©]/g, " ");
+    for (const spelled of [lowered.replace(/&/g, " and "), lowered.replace(/&/g, " ")]) {
+      const compact = spelled
+        .split(/[^a-z0-9]+/)
+        .filter((t) => t.length > 0 && !LEGAL_SUFFIXES.has(t))
+        .join("");
+      if (compact.length >= 3 && !ampersandSpellings.includes(compact)) ampersandSpellings.push(compact);
+    }
+  }
   return {
     tokens,
     initials,
     joined: tokens.join(""),
     aliases,
+    ...(ampersandSpellings.length > 0 ? { ampersandSpellings } : {}),
   };
 }
 
@@ -513,6 +530,14 @@ function slugMatchesCompany(
     if (TENANT_TRADE_NAMES.get(token)?.has(slugCompact)) {
       return `trade name "${token}" is registered as tenant "${slugCompact}" (#280)`;
     }
+  }
+  // Live 2026-09-14 (app 2ac2e197): "RS&H" splits into "rs" + "h", so no
+  // token, initials or joined rule can see the tenant "rsandh" — a correct URL
+  // was refused. The whole name with "&" spelled out (or dropped) equal to the
+  // slug is the firm naming itself. Exact equality only: this is a safety gate.
+  const spelledHit = id.ampersandSpellings?.find((s) => s === slugCompact);
+  if (spelledHit) {
+    return `name with "&" spelled out = slug "${slugCompact}"`;
   }
   for (const token of [...id.tokens, ...id.aliases]) {
     if (token.length >= 3 && (slugCompact.includes(token) || token.includes(slugCompact))) {

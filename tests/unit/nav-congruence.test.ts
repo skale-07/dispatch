@@ -608,3 +608,35 @@ describe("#280 curated tenant trade names", () => {
     expect(other.verdict).toBe("mismatch");
   });
 });
+
+describe('"&" spelled out in a tenant slug', () => {
+  it('"RS&H" matches its iCIMS tenant "rsandh", and only exactly', () => {
+    // Live 2026-09-14 (app 2ac2e197, cycle 8): `fill refused: stored URL is
+    // for "rsandh", not RS&H (page does not name the company either)` on
+    // careers-rsandh.icims.com. "RS&H" tokenizes to "rs" + "h", so no token,
+    // initials or joined rule could see the firm's own spelled-out name.
+    const hit = checkUrlCongruence(
+      "RS&H",
+      "https://careers-rsandh.icims.com/jobs/8158/civil-engineering-intern-%28airfields%29---summer-2027/job?in_iframe=1",
+    );
+    expect(hit.verdict).not.toBe("mismatch");
+    expect(hit.detail).toMatch(/name with "&" spelled out = slug "rsandh"/);
+
+    // Exact equality only — a longer tenant that starts with it is not RS&H.
+    const near = checkUrlCongruence("RS&H", "https://careers-rsandhholdings.icims.com/jobs/1/intern/job");
+    expect(near.detail ?? "").not.toMatch(/spelled out/);
+
+    // An unrelated company on the rsandh tenant is still a mismatch.
+    expect(checkUrlCongruence("Pfizer", "https://careers-rsandh.icims.com/jobs/12345/intern/job").verdict).toBe("mismatch");
+  });
+
+  it("names without & are unchanged and carry no spellings", () => {
+    expect(companyIdentity("Energy Systems Group").ampersandSpellings).toBeUndefined();
+    expect(companyIdentity("RS&H").ampersandSpellings).toEqual(["rsandh", "rsh"]);
+    // Legal suffixes ("company") are dropped from the spellings, like everywhere else.
+    expect(companyIdentity("Barbacane, Thornton & Company").ampersandSpellings).toEqual([
+      "barbacanethorntonand",
+      "barbacanethornton",
+    ]);
+  });
+});
