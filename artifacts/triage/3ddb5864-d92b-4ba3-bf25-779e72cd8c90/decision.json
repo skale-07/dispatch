@@ -1,0 +1,156 @@
+{
+  "decision_id": "3ddb5864-d92b-4ba3-bf25-779e72cd8c90",
+  "application_id": "f2ccca50-2e04-4c92-9ae6-5974029cda1d",
+  "signature": "FAILED_RETRYABLE|-|unknown|rsm.wd1.myworkdayjobs.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "f2ccca50-2e04-4c92-9ae6-5974029cda1d",
+    "company": "RSM US LLP",
+    "role": "Oracle NetSuite Consulting Intern- Summer 2027",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 1,
+    "failure_signature": "FAILED_RETRYABLE|-|unknown|rsm.wd1.myworkdayjobs.com",
+    "end_host": "rsm.wd1.myworkdayjobs.com",
+    "recent_events": [
+      {
+        "from": "SUBMITTING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "required questions unanswered — click withheld",
+        "at": "2026-09-14T08:01:38.083Z"
+      },
+      {
+        "from": "READY_TO_SUBMIT",
+        "to": "SUBMITTING",
+        "reason": "human-approved submission started",
+        "at": "2026-09-14T08:01:34.405Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "READY_TO_SUBMIT",
+        "reason": "pipeline: fill rehearsal verified",
+        "at": "2026-09-14T08:01:34.333Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (workday live fill: 13 filled (held for submit))",
+        "at": "2026-09-14T08:01:34.332Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route inspect_only (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-14T07:59:56.831Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-14T07:59:55.914Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: workday URL validated",
+        "at": "2026-09-14T07:59:55.909Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-14T07:59:53.458Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 7141579276ac)",
+        "at": "2026-09-14T07:59:53.452Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-14T07:59:53.414Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-14T07:59:35.376Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-14T07:59:35.366Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-14T07:59:35.365Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-14T07:59:35.364Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "rsm",
+        "detail": "token \"rsm\" ~ slug \"rsm\"",
+        "expected_company": "RSM US LLP",
+        "url": "https://rsm.wd1.myworkdayjobs.com/rsmcareers/job/Dallas/Oracle-NetSuite-Consulting-Intern--Summer-2027_JR117162?jr_id=6aa3b6d24233a2201a2b3118"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (10 candidates, employer match)",
+          "evidence": "rsm.wd1.myworkdayjobs.com"
+        }
+      ]
+    },
+    "submit": {
+      "outcome": "FAILED_BEFORE_CLICK",
+      "reason": "Refusing to click submit: 3 required question(s) unanswered — Job Title* [text]; Company* [text]; Degree* [combobox]",
+      "brief_items": []
+    },
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": true
+    },
+    "open_review_items": [
+      {
+        "kind": "MANUAL",
+        "title": "3 required question(s) unanswered — answer via screeners.json/essay workflow, then requeue"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"park_for_operator\", \"rationale\": \"Submit was withheld because 3 required employer questions (Job Title, Company, Degree) have no answers in the profile data. No requeue changes this until a human supplies answers; a review item is already open for that workflow.\", \"confidence\": \"high\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: 0180f53c-fb12-4b97-834c-90aa7f0c01b8",
+  "rationale_unverified": "Submit was withheld because 3 required employer questions (Job Title, Company, Degree) have no answers in the profile data. No requeue changes this until a human supplies answers; a review item is already open for that workflow."
+}
