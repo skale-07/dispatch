@@ -1,0 +1,140 @@
+{
+  "decision_id": "821a0429-5507-4b4d-b133-24851fb57521",
+  "application_id": "43e39cc0-f45f-49dd-913f-244bd5cd64c1",
+  "signature": "AMBIGUOUS_FIELD|-|verify_mismatch|rb.wd5.myworkdayjobs.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "43e39cc0-f45f-49dd-913f-244bd5cd64c1",
+    "company": "Federal Reserve Bank of San Francisco",
+    "role": "2027 SF Fed Summer Internship - ECONOMIC RESEARCH Intern",
+    "state": "AMBIGUOUS_FIELD",
+    "attempt": 1,
+    "failure_signature": "AMBIGUOUS_FIELD|-|verify_mismatch|rb.wd5.myworkdayjobs.com",
+    "end_host": "rb.wd5.myworkdayjobs.com",
+    "recent_events": [
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "AMBIGUOUS_FIELD",
+        "reason": "pipeline: read-back verification failed",
+        "at": "2026-09-14T07:13:42.896Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (workday live fill: 0 filled (held for submit))",
+        "at": "2026-09-14T07:13:42.895Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route inspect_only (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-14T07:08:09.611Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-14T07:08:08.874Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: workday URL validated",
+        "at": "2026-09-14T07:08:08.868Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-14T07:08:06.182Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 7141579276ac)",
+        "at": "2026-09-14T07:08:06.178Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-14T07:08:06.158Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-14T06:45:24.529Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-14T06:45:24.522Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-14T06:45:24.521Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-14T06:45:24.430Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "sanfranciscoca",
+        "detail": "token \"san\" ~ slug \"sanfranciscoca\" (from URL path)",
+        "expected_company": "Federal Reserve Bank of San Francisco",
+        "url": "https://rb.wd5.myworkdayjobs.com/frs/job/San-Francisco-CA/XMLNAME-2027-SF-Fed-Summer-Internship---ECONOMIC-RESEARCH-Intern_R-0000033271?jr_id=6aa772fb82e82a31997c1e2d"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (11 candidates, employer match)",
+          "evidence": "rb.wd5.myworkdayjobs.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": false
+    },
+    "open_review_items": [
+      {
+        "kind": "AMBIGUOUS_FIELD",
+        "title": "Fill verification failed"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"park_for_operator\", \"rationale\": \"Navigation and materials were fine; failure is deterministic read-back mismatch after native fill filled 0 fields (held for submit) on Workday. No transient signal, no nav/URL problem, no wall, no duplicates, and agent leg isn't warranted since navigation resolved on tier A. Human judgment needed; a review item is already open.\", \"confidence\": \"medium\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: acbf66cc-5946-4217-981b-1fc15c233e2c",
+  "rationale_unverified": "Navigation and materials were fine; failure is deterministic read-back mismatch after native fill filled 0 fields (held for submit) on Workday. No transient signal, no nav/URL problem, no wall, no duplicates, and agent leg isn't warranted since navigation resolved on tier A. Human judgment needed; a review item is already open."
+}
