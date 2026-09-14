@@ -1,0 +1,50 @@
+{
+  "run_id": "nav-e3cf2761-2594-4662-ac53-354986d3d4b1",
+  "application_id": "5264e94a-af6f-459c-aa8e-a7a3ea579c7b",
+  "jobright_job_id": "6aa741a7654b2a9424cf88ac",
+  "method": "anchor_llm",
+  "resolved_url": "https://recruiting.paylocity.com/Recruiting/Jobs/Details/4500637",
+  "resolved_ats": "generic",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no congruent apply href (9 external links)",
+      "evidence": "recruiting.paylocity.com, www.linkedin.com, www.crunchbase.com, www.pharmaceutical-technology.com, www.morningstar.com, sbj.net"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "unresolved by deterministic phases"
+    },
+    {
+      "phase": "A_anchor_llm",
+      "outcome": "candidate promoted by adjudication",
+      "evidence": "recruiting.paylocity.com"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "phase A: 6 external host(s) seen: recruiting.paylocity.com, www.linkedin.com, www.crunchbase.com, www.pharmaceutical-technology.com, www.morningstar.com, sbj.net",
+    "no standard Apply control found (exact and broad name tiers both empty)",
+    "anchor adjudication: promoted recruiting.paylocity.com",
+    "anchor adjudication rationale (UNVERIFIED): Paylocity ATS job detail page is the employer's own application system; other links are news articles.",
+    "employer congruence unverifiable (no employer name decodable from URL (host and path are generic)) — recorded"
+  ],
+  "congruence": {
+    "verdict": "unknown",
+    "slug": null,
+    "detail": "no employer name decodable from URL (host and path are generic)",
+    "expected_company": "ABEC",
+    "url": "https://recruiting.paylocity.com/Recruiting/Jobs/Details/4500637?jr_id=6aa741a7654b2a9424cf88ac"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-09-14T04:22:39.938Z"
+}
