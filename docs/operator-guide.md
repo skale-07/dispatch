@@ -2296,8 +2296,21 @@ book, not user data).
   walls ⇒ `ats_login`, `CAPTCHA_REQUIRED` ⇒ `captcha`) →
   `runs/<job>/result.json` (+ `child.log`) → `complete_engine_job` when
   `--job` was given. Exit code 1 for anything but `completed` /
-  `quota_exhausted`. `--kind outreach|feed_sample` are refused as
-  `unsupported_kind` until their milestones land.
+  `quota_exhausted`. `--kind outreach` is refused as `unsupported_kind`
+  until the tenant Gmail transport switch lands.
+- **feed_sample** (`--kind feed_sample`, also what the dashboard's
+  "sample my feed" button enqueues) is the soft check that the user's own
+  JobRight filters produce work: with a sealed session it opens their
+  Recommended feed headless in a child that has every gated flag off and
+  `DRY_RUN` on, parses up to 10 cards, wipes the unsealed state, and
+  writes titles / companies / locations only to `jobright_feed_samples`
+  (never a description, never a job row). No session ⇒ a
+  `jobright_connect` handoff; a login wall ⇒ a `jobright_reconnect`
+  handoff and the integration marked `expired`. The same expiry chain
+  runs after an apply job: `AUTH_REQUIRED` for JobRight ⇒
+  `jobright_reconnect` + `expired`, the scheduler stops planning for that
+  user until `reconnect_verify` seals a new session, resolves the parks
+  and requeues the applications.
 - **reconnect_verify** (`npm run tenant:run -- --user <uuid> --kind
   reconnect_verify --task <handoff task id> [--job <id>]`) is the engine
   half of the JobRight connect / reconnect handoff. The task must be the

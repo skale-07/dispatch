@@ -36,6 +36,7 @@ import { runGmailExchange, type GmailExchangeResult } from "./gmailExchange.js";
 import { selectOutreachDraftRows } from "./outreachMirror.js";
 import { pushOutreachDrafts } from "../cloud/engineQueue.js";
 import { runFieldSignalsPush, type FieldSignalsPushResult } from "../cloud/fieldSignals.js";
+import { runFeedSample, type FeedSampleOutcome } from "./feedSample.js";
 import { hasSealed, unsealSecret, wipeUnsealed, writeUnsealedStorageState } from "./secrets.js";
 import { materializeWorkspace, type MaterializeReport } from "./workspace.js";
 
@@ -151,6 +152,7 @@ export type TenantRunResult = {
   gmail: GmailExchangeResult | null;
   outreach_drafts_pushed: number;
   signals: FieldSignalsPushResult | null;
+  feed_sample: FeedSampleOutcome | null;
   engine_state: EngineState;
   job_completion: EngineJobCompletion | null;
   plaintext_wiped: number;
@@ -318,6 +320,7 @@ export async function runTenantJob(input: TenantRunInput): Promise<TenantRunResu
     gmail: null,
     outreach_drafts_pushed: 0,
     signals: null,
+    feed_sample: null,
     engine_state: "idle",
     job_completion: null,
     plaintext_wiped: 0,
@@ -427,13 +430,46 @@ export async function runTenantJob(input: TenantRunInput): Promise<TenantRunResu
       return await finish(g.outcome === "exchange_failed" ? "error" : "refused", g.outcome === "exchange_failed" ? "failed" : "dead", { retryAfterSeconds: 600, error: g.reason });
     }
 
-    // ── only `apply` runs today; outreach / feed_sample arrive with their milestones ──
+    // ── feed_sample: the soft "your filters produce a feed" check (plan M20) ──
+    if (input.kind === "feed_sample") {
+      let user = seams.user ?? null;
+      if (!user) {
+        const pulled = await runProfilesPull({ client, config });
+        user = pulled.users.find((u) => u.userId === paths.userId) ?? null;
+        if (!user) throw new Error(`user ${paths.userId} is not an onboarded user`);
+      }
+      const key = seams.tenantKey ?? deriveTenantKey(resolveTenantMasterKey(config.tenantsRoot), paths.userId);
+      const fs_ = await runFeedSample({
+        client: client as unknown as Parameters<typeof runFeedSample>[0]["client"],
+        config,
+        paths,
+        email: user.email,
+        tenantKey: key,
+        runDir,
+        launch: seams.launch ?? launchChild,
+        now,
+        ...(seams.repoRoot ? { repoRoot: seams.repoRoot } : {}),
+      });
+      result.feed_sample = fs_;
+      if (fs_.handoff) result.handoffs = [fs_.handoff];
+      result.engine_state = fs_.handoff ? "parked" : "idle";
+      try {
+        await heartbeat(client, { userId: paths.userId, state: result.engine_state, jobId: null, reason: fs_.handoff });
+      } catch (err) {
+        notes.push(`heartbeat failed: ${err instanceof Error ? err.message : String(err)}`);
+      }
+      if (fs_.note) notes.push(fs_.note);
+      // A sample that ran is a success either way — the row on the dashboard says what it saw.
+      if (fs_.outcome === "sampled" || fs_.outcome === "empty_feed") return await finish("completed", "succeeded");
+      if (fs_.outcome === "needs_jobright_connect" || fs_.outcome === "auth_required") {
+        return await finish("needs_jobright_connect", "failed", { retryAfterSeconds: 3600, error: fs_.note });
+      }
+      return await finish("child_failed", "failed", { retryAfterSeconds: 900, error: fs_.note });
+    }
+
+    // ── only `apply` runs today; outreach arrives with its milestone ──
     if (input.kind !== "apply") {
-      notes.push(
-        input.kind === "outreach"
-          ? "outreach for tenants lands with the per-user Gmail transport (plan M19)"
-          : "feed sampling lands with plan M20",
-      );
+      notes.push("outreach for tenants lands with the per-user Gmail transport switch (follow-up to plan M19)");
       return await finish("unsupported_kind", "dead");
     }
 
@@ -604,6 +640,21 @@ export async function runTenantJob(input: TenantRunInput): Promise<TenantRunResu
       }
     }
     result.engine_state = handoffs.length > 0 ? "parked" : "idle";
+    if (handoffs.some((h) => h.kind === "jobright_reconnect")) {
+      // Auth expiry → handoff → (after capture) resume: the dashboard's
+      // integration row says "expired" until reconnect_verify seals a new session.
+      try {
+        const { error } = await client.rpc("engine_set_integration_status", {
+          p_user: paths.userId,
+          p_provider: "jobright",
+          p_status: "expired",
+          p_meta: { last_error: "JobRight session expired during a run" },
+        });
+        if (error) throw new Error(error.message);
+      } catch (err) {
+        notes.push(`integration status update failed: ${err instanceof Error ? err.message : String(err)}`);
+      }
+    }
     try {
       await heartbeat(client, {
         userId: paths.userId,

@@ -97,7 +97,7 @@ export type TenantChildEnvInput = {
   email: string;
   /** Submissions the run may make — the quota budget. 0 is legal (a dry sweep). */
   maxSubmits: number;
-  kind: "apply" | "outreach";
+  kind: "apply" | "outreach" | "feed_sample";
   /** Where the tenant master lives (child derives its key from it). */
   tenantsRoot: string;
   /** The parent's env (defaults to process.env). */

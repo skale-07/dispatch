@@ -37,7 +37,7 @@ import { runTenantJob, type TenantJobKind, type TenantRunResult } from "./run.js
 
 export const APPLY_CADENCE_MINUTES = 60;
 export const MAX_NEW_APPLY_PER_TICK = 5;
-export const LEASE_KINDS: readonly EngineJobKind[] = ["apply", "reconnect_verify", "gmail_exchange"];
+export const LEASE_KINDS: readonly EngineJobKind[] = ["apply", "reconnect_verify", "gmail_exchange", "feed_sample"];
 export const JOB_LEASE_SECONDS = 3600;
 const ACTIVE_HANDOFF_STATUSES = ["open", "requested", "provisioning", "live", "user_done", "verifying"] as const;
 const JOBRIGHT_HANDOFF_KINDS = new Set(["jobright_connect", "jobright_reconnect"]);

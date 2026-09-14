@@ -937,6 +937,8 @@
         "src/tenants/reconnect.ts": "runReconnectVerify — the reconnect_verify job: read the tenant's user_done task, connect URL from the provider (never stored), lazy-import the session seam, capture, then resolve the parks; refuses by reason for any other task state/kind",
         "src/tenants/gmailExchange.ts": "runGmailExchange — the gmail_exchange job: read the user's gmail_oauth_requests row, exchange with the engine's Web client (only holder of the secret), refuse wider/readonly-less/offline-less grants, store the refresh token as cloud ciphertext WITHOUT the client secret, seal secrets/gmail.oauth.enc under the tenant key, delete the request; stale (>15 min) ⇒ deleted + disconnected with the reason",
         "src/tenants/outreachMirror.ts": "selectOutreachDraftRows — the tenant's DRAFTED gmail_drafts as outreach_drafts rows (company, contact, subject, draft id) — never a body",
+        "src/tenants/feedSample.ts": "runFeedSample (plan M20) — the soft 'your filters produce a feed' check: sealed session required (else a jobright_connect handoff), unseal → feedSampleCli child with EVERY gated flag off and DRY_RUN on → wipe → titles/companies/locations only to jobright_feed_samples; an auth wall ⇒ jobright_reconnect + integration expired",
+        "src/tenants/feedSampleCli.ts": "the child: open the tenant's Recommended feed headless through the session seam, parse ≤ N cards (parseJobCardsFromFeedHtml), write JSON — no jobs table, no description read, nothing persisted",
         "src/tenants/scheduler.ts": "planApplyJobs (pure: every refusal named — no quota row, quota_exhausted, paused, blocking handoff, apply job active, within 60-min cadence, tick cap 5), schedulerTick (reap → handoff poller → planner → lease ≤ maxConcurrent → run), makeSchedulerIo (the only place the scheduler's supabase queries live; a double-enqueue is the partial unique index refusing, read as 'exists'), runTenantScheduler (bounded by duration AND ceil(duration/interval)+1 ticks; SIGINT stops leasing after the current tick)",
         "src/cloud/tenantMaterializer.ts": "PURE cloud rows → engine files: toPublicProfile (validated by publicProfileSchema, nothing invented, \"\" when unknown), toScreenerBank (bank + unambiguous profile mirrors, parseScreenerBank), toAboutMe (narrative + generated Application facts from present facts only), toPersona (personaSchema or the reason), toSensitiveProfile (RPC plaintext: answer→value, prefer_not→Decline to self-identify, skip→\"\"), toDocumentTargets (own-uid object paths in the kind's bucket only), toEducationPolicy, materializeTenant → manifest"
       },
@@ -1001,6 +1003,9 @@
         ],
         "src/tenants/gmailExchange.ts": [
           "runGmailExchange"
+        ],
+        "src/tenants/feedSample.ts": [
+          "runFeedSample"
         ],
         "src/tenants/outreachMirror.ts": [
           "selectOutreachDraftRows"
