@@ -28,13 +28,23 @@ resumes, and ATS credentials never leave this machine.
      **in filename order** → Run.
    - CLI: `supabase link --project-ref <ref>` then `supabase db push`.
 4. Auth settings: Authentication → Providers → Email → enable **Email
-   OTP / magic link** (no password provider needed for v0). Then
-   Authentication → **URL Configuration**: set **Site URL** to the
-   production origin (`https://<domain>`) and add every origin the magic
-   links may return to under **Redirect URLs** — at minimum
-   `https://<domain>/**`, `http://localhost:5173/**` (Vite dev), and the
-   Vercel preview origin(s) once known. A magic link to an unlisted
-   origin silently falls back to the Site URL.
+   OTP / magic link** (no password provider needed for v0). Open signup
+   (plan v0.5) also wants **Google** as a provider: Authentication →
+   Providers → Google → paste a Google OAuth *Web* client id + secret
+   whose authorized redirect is `https://<ref>.supabase.co/auth/v1/callback`
+   (this is the SIGN-IN client; the Gmail drafts client in A4 is a
+   different one). Then Authentication → **URL Configuration**: set
+   **Site URL** to the production origin (`https://<domain>`) and add
+   every origin the magic links may return to under **Redirect URLs** —
+   at minimum `https://<domain>/**`, `http://localhost:5173/**` (Vite
+   dev), and the Vercel preview pattern `https://*-<team>.vercel.app/**`.
+   A magic link to an unlisted origin silently falls back to the Site URL.
+4b. **Custom SMTP** (Authentication → SMTP Settings): the built-in mailer
+   is capped at a few emails per hour, which open signup exhausts on day
+   one. Point it at any transactional provider (Resend / Postmark / SES —
+   a free tier covers v0), set the sender to `no-reply@<domain>` with the
+   provider's DNS records verified, and raise Authentication → Rate
+   Limits → "emails sent" to match the provider's quota.
 5. Collect keys (Project Settings → **API Keys**). New projects show the
    NEW key style; both styles are drop-ins for supabase-js v2:
    - **Project URL** (`https://<ref>.supabase.co`) → frontend AND engine `.env`.
@@ -59,15 +69,19 @@ resumes, and ATS credentials never leave this machine.
 3. Project → Settings → Environment Variables:
    - `VITE_SUPABASE_URL` = project URL
    - `VITE_SUPABASE_ANON_KEY` = anon key
+   - `VITE_GMAIL_OAUTH_CLIENT_ID` = the Gmail drafts Web client id (A4;
+     unset ⇒ the Gmail card refuses by name, everything else works)
+   - `VITE_LIVE_VIEW_ORIGIN` = `https://www.browserbase.com` (A4)
    (Names are the contract with the storefront agent; anon key only —
-   NEVER the service-role key.)
+   NEVER the service-role key, NEVER the Gmail client secret.)
    The app is a client-routed SPA (`/redeem`, `/onboarding`,
-   `/dashboard`), so deep links must rewrite to `index.html`; storefront
-   ships `frontend/vercel.json`:
-
-   ```json
-   { "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }] }
-   ```
+   `/dashboard`, `/gmail/callback`), so deep links must rewrite to
+   `index.html`; `frontend/vercel.json` ships the rewrite AND the
+   response headers: a Content-Security-Policy whose `frame-src` lists
+   the live-view origin (Browserbase) so the JobRight connect step can
+   embed the remote browser, `connect-src` for Supabase + Google's
+   consent endpoint, `X-Frame-Options: DENY` for the app itself. Change
+   the live-view provider ⇒ change `frame-src` in the same commit.
 4. Project → Settings → Domains → add the domain, follow the DNS
    records (A / CNAME) at your registrar. SSL is automatic.
 5. Smoke: open `https://<domain>`, join the waitlist, confirm a row in
@@ -85,6 +99,32 @@ resumes, and ATS credentials never leave this machine.
    `app_users` has the row, `select * from user_quota_status` shows
    `remaining = 5`. Redeeming the same code from a second account must
    fail with `invite already redeemed`.
+
+### A4. Google Cloud (Gmail drafts) + Browserbase (~20 min)
+
+1. Google Cloud console → the project for Dispatch → APIs & Services →
+   enable the **Gmail API**. OAuth consent screen: External, app name
+   "Dispatch", add your own account under **Test users** while the app is
+   in *Testing* (refresh tokens then expire after 7 days — the engine
+   answers that with a `gmail_reconnect` handoff). Scopes: exactly
+   `gmail.readonly` and the compose scope (both *restricted*; start the
+   verification/CASA process in week 1 — production needs it).
+2. Credentials → Create → OAuth client ID → **Web application**.
+   Authorized JavaScript origins: `https://<domain>`, `http://localhost:5173`.
+   Authorized redirect URIs: `https://<domain>/gmail/callback`,
+   `http://localhost:5173/gmail/callback`. Copy the client id into
+   `VITE_GMAIL_OAUTH_CLIENT_ID` (Vercel + `frontend/.env`) and the id +
+   secret into the ENGINE `.env` as `GMAIL_OAUTH_CLIENT_ID` /
+   `GMAIL_OAUTH_CLIENT_SECRET` (+ `GMAIL_OAUTH_REDIRECT_URI` if it differs
+   from `<origin>/gmail/callback`). The secret lives on the engine box
+   only — the browser never exchanges a code.
+3. Browserbase (browserbase.com) → project → API key + project id into
+   the engine `.env` (`BROWSERBASE_API_KEY`, `BROWSERBASE_PROJECT_ID`) and
+   `REMOTE_BROWSER_ENABLED=true`. Run the spike first:
+   `npm run remote:probe` (docs/roadmap/browserbase-spike-2026-09-14.md).
+4. Engine `.env`: `TENANT_ENGINE_ENABLED=true`, `SUPABASE_SYNC_ENABLED=true`,
+   `SUPABASE_SYNC_USER_ID=<your auth uuid>`; then follow
+   docs/roadmap/tenant-zero-soak-2026-09-14.md — you are the first tenant.
 
 ## Part B — engine-side wiring (this machine)
 
