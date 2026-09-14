@@ -1,0 +1,98 @@
+{
+  "decision_id": "1c0a080c-e56e-4f64-904b-28b4d6bc1c77",
+  "application_id": "41a5d5db-cd09-4040-9f59-24b5909c4329",
+  "signature": "FAILED_RETRYABLE|budget|budget|-",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "41a5d5db-cd09-4040-9f59-24b5909c4329",
+    "company": "Flagship Pioneering",
+    "role": "Pioneering Intelligence: Agentic AI Co-Op",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 1,
+    "failure_signature": "FAILED_RETRYABLE|budget|budget|-",
+    "end_host": null,
+    "recent_events": [
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "navigation unresolved (budget)",
+        "at": "2026-09-14T14:24:40.079Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-14T14:24:40.014Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 d5f6e2353444)",
+        "at": "2026-09-14T14:24:39.987Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-14T14:24:39.740Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "ats board discovery: ready for materials/pipeline",
+        "at": "2026-09-14T14:20:40.395Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "ats board discovery: operator-listed board, title filter passed",
+        "at": "2026-09-14T14:20:40.394Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "ats board discovery: dedupe pass",
+        "at": "2026-09-14T14:20:40.392Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-14T14:20:40.389Z"
+      }
+    ],
+    "nav": {
+      "wall": "budget",
+      "method": null,
+      "notes": [
+        "target resolution failed: Application 41a5d5db-cd09-4040-9f59-24b5909c4329 has no JobRight job id"
+      ],
+      "congruence": null,
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": []
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [
+      {
+        "kind": "MANUAL",
+        "title": "Answer needed: navigation unresolved (budget)"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\":\"park_for_operator\",\"rationale\":\"Navigation could not resolve because the application has no JobRight job id and no stored URL — no tier ran (empty phase trace). Retrying the same pipeline or agent leg cannot supply the missing target; a human must provide the posting URL. A manual review item is already open.\",\"confidence\":\"high\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: 60b71f21-f621-4a81-8850-6b83d143ecfb",
+  "rationale_unverified": "Navigation could not resolve because the application has no JobRight job id and no stored URL — no tier ran (empty phase trace). Retrying the same pipeline or agent leg cannot supply the missing target; a human must provide the posting URL. A manual review item is already open."
+}

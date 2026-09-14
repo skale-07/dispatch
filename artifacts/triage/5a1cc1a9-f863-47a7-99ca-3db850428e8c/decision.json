@@ -1,0 +1,175 @@
+{
+  "decision_id": "5a1cc1a9-f863-47a7-99ca-3db850428e8c",
+  "application_id": "02302b66-d30d-47a4-bedc-053470dcbfc8",
+  "signature": "AMBIGUOUS_FIELD|-|verify_mismatch|rb.wd5.myworkdayjobs.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "02302b66-d30d-47a4-bedc-053470dcbfc8",
+    "company": "Federal Reserve Bank of San Francisco",
+    "role": "2027 SF Fed Summer Internship - TECHNICAL Intern",
+    "state": "AMBIGUOUS_FIELD",
+    "attempt": 2,
+    "failure_signature": "AMBIGUOUS_FIELD|-|verify_mismatch|rb.wd5.myworkdayjobs.com",
+    "end_host": "rb.wd5.myworkdayjobs.com",
+    "recent_events": [
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "AMBIGUOUS_FIELD",
+        "reason": "pipeline: read-back verification failed",
+        "at": "2026-09-14T14:02:36.272Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (workday live fill: 8 filled (held for submit))",
+        "at": "2026-09-14T14:02:35.958Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route inspect_only (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-14T13:56:12.862Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-14T13:56:11.501Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: workday URL validated",
+        "at": "2026-09-14T13:56:11.496Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-14T13:56:11.490Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 7141579276ac)",
+        "at": "2026-09-14T13:56:11.481Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-14T13:56:11.464Z"
+      },
+      {
+        "from": "FAILED_RETRYABLE",
+        "to": "QUEUED",
+        "reason": "operator requeue 2026-09-14: fresh fill under 8c2bbc64 (structured work/education rows, empty-section Add)",
+        "at": "2026-09-14T13:36:43.397Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "FAILED_RETRYABLE",
+        "reason": "operator requeue 2026-09-14: fresh fill under 8c2bbc64 (structured work/education rows, empty-section Add)",
+        "at": "2026-09-14T13:36:43.393Z"
+      },
+      {
+        "from": "AMBIGUOUS_FIELD",
+        "to": "FIELD_VERIFICATION",
+        "reason": "operator resolved ambiguous field (console)",
+        "at": "2026-09-14T13:36:43.367Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "AMBIGUOUS_FIELD",
+        "reason": "pipeline: read-back verification failed",
+        "at": "2026-09-14T13:08:57.057Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (workday live fill: 7 filled (held for submit))",
+        "at": "2026-09-14T13:08:57.055Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route inspect_only (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-14T13:06:13.155Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-14T13:06:12.405Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "sanfranciscoca",
+        "detail": "token \"san\" ~ slug \"sanfranciscoca\" (from URL path)",
+        "expected_company": "Federal Reserve Bank of San Francisco",
+        "url": "https://rb.wd5.myworkdayjobs.com/frs/job/San-Francisco-CA/XMLNAME-2027-SF-Fed-Summer-Internship---TECHNICAL-Intern_R-0000033262-1?jr_id=6aa772f8a77a53f5a1575589"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (11 candidates, employer match)",
+          "evidence": "rb.wd5.myworkdayjobs.com"
+        }
+      ]
+    },
+    "submit": {
+      "outcome": "FAILED_BEFORE_CLICK",
+      "reason": "workday final submit control not found (not on the Review page?)",
+      "brief_items": []
+    },
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": false
+    },
+    "open_review_items": [
+      {
+        "kind": "AMBIGUOUS_FIELD",
+        "title": "Fill verification failed"
+      }
+    ],
+    "prior_decisions": [
+      {
+        "action": "park_for_operator",
+        "failure_signature": "AMBIGUOUS_FIELD|-|verify_mismatch|rb.wd5.myworkdayjobs.com",
+        "outcome_status": "REFUTED",
+        "created_at": "2026-09-14T08:47:08.328Z"
+      },
+      {
+        "action": "requeue_same",
+        "failure_signature": "FAILED_RETRYABLE|-|unknown|rb.wd5.myworkdayjobs.com",
+        "outcome_status": "REFUTED",
+        "created_at": "2026-09-14T08:43:12.612Z"
+      }
+    ],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"engage_agent_leg\", \"rationale\": \"Deterministic native fill twice reached read-back mismatch on Workday multi-step form; operator park and plain requeue were both refuted. Navigation is clean (match, no wall) and materials verified, so the gap is form interaction, not URL or resume. Grant one bounded agent attempt to resolve the ambiguous fields and reach the Review page.\", \"confidence\": \"medium\"}",
+  "parsed_action": "engage_agent_leg",
+  "validation_note": null,
+  "precondition": {
+    "ok": false,
+    "reason": "no navigation wall in evidence — agent leg only helps nav-walled apps"
+  },
+  "mode": "act",
+  "executed": false,
+  "execution_detail": "precondition failed: no navigation wall in evidence — agent leg only helps nav-walled apps",
+  "rationale_unverified": "Deterministic native fill twice reached read-back mismatch on Workday multi-step form; operator park and plain requeue were both refuted. Navigation is clean (match, no wall) and materials verified, so the gap is form interaction, not URL or resume. Grant one bounded agent attempt to resolve the ambiguous fields and reach the Review page."
+}

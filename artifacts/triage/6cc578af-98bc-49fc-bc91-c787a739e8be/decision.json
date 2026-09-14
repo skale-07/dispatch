@@ -1,0 +1,140 @@
+{
+  "decision_id": "6cc578af-98bc-49fc-bc91-c787a739e8be",
+  "application_id": "1b127a53-45bc-485d-aaf9-dcd352b054e3",
+  "signature": "AMBIGUOUS_FIELD|-|verify_mismatch|www.google.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "1b127a53-45bc-485d-aaf9-dcd352b054e3",
+    "company": "Google",
+    "role": "Data Scientist, Product Intern, MS, Summer 2027",
+    "state": "AMBIGUOUS_FIELD",
+    "attempt": 1,
+    "failure_signature": "AMBIGUOUS_FIELD|-|verify_mismatch|www.google.com",
+    "end_host": "www.google.com",
+    "recent_events": [
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "AMBIGUOUS_FIELD",
+        "reason": "pipeline: read-back verification failed",
+        "at": "2026-09-14T14:27:29.874Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (generic live fill: 8 filled (held for submit))",
+        "at": "2026-09-14T14:27:29.872Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-14T14:27:04.190Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-14T14:27:01.362Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-14T14:27:01.356Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-14T14:26:55.585Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 d5f6e2353444)",
+        "at": "2026-09-14T14:26:55.582Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-14T14:26:55.566Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-14T14:22:16.343Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-14T14:22:16.322Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-14T14:22:16.320Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-14T14:22:16.317Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "google",
+        "detail": "token \"google\" ~ slug \"google\" (from URL host)",
+        "expected_company": "Google",
+        "url": "https://www.google.com/about/careers/applications/jobs/results/119184035237765830-data-scientist?jr_id=6aa7ff38930bff471a2a48e6"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (11 candidates, employer match)",
+          "evidence": "www.google.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": false
+    },
+    "open_review_items": [
+      {
+        "kind": "AMBIGUOUS_FIELD",
+        "title": "Fill verification failed"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\":\"requeue_same\",\"rationale\":\"First attempt; read-back verification failed after a generic live fill on a form page, with clean navigation (host congruence match, no login/captcha wall) and verified materials. A single rerun is the cheapest action that could plausibly pass verification; a review item already exists if it recurs.\",\"confidence\":\"medium\"}",
+  "parsed_action": "requeue_same",
+  "validation_note": null,
+  "precondition": {
+    "ok": false,
+    "reason": "state is AMBIGUOUS_FIELD, needs FAILED_RETRYABLE or a gate-parked mid-state"
+  },
+  "mode": "act",
+  "executed": false,
+  "execution_detail": "precondition failed: state is AMBIGUOUS_FIELD, needs FAILED_RETRYABLE or a gate-parked mid-state",
+  "rationale_unverified": "First attempt; read-back verification failed after a generic live fill on a form page, with clean navigation (host congruence match, no login/captcha wall) and verified materials. A single rerun is the cheapest action that could plausibly pass verification; a review item already exists if it recurs."
+}

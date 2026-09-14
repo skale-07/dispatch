@@ -1,0 +1,72 @@
+{
+  "started_at": "2026-09-14T14:26:49.410Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\general.pdf)",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "e6dc2748-7cbf-4088-a8ec-a2a0fab101eb",
+    "armed_until": "2026-09-14T16:26:49.460Z",
+    "seconds_remaining": 7200,
+    "max_submits": 1,
+    "submits_used": 0,
+    "max_apps": 1,
+    "apps_started": 0,
+    "discover_max": 1,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": {
+    "arm_run_id": "e6dc2748-7cbf-4088-a8ec-a2a0fab101eb",
+    "apps_started": 1,
+    "submits_used": 0,
+    "stopped_reason": "apps_cap",
+    "discover_runs": 0,
+    "emails_generated": 0,
+    "drafts_saved": 0,
+    "essay_drafts_generated": 0,
+    "screener_predictions_generated": 0,
+    "notes": [
+      "triage sweep: 0 confirmed, 0 refuted, 0 expired of 200 pending",
+      "triage 1b127a53: requeue_same — precondition failed: state is AMBIGUOUS_FIELD, needs FAILED_RETRYABLE or a gate-parked mid-state",
+      "artifact autopush: .git/index.lock held by a live git (256s old) — skipping this push"
+    ],
+    "per_app": [
+      {
+        "application_id": "1b127a53-45bc-485d-aaf9-dcd352b054e3",
+        "end_state": "AMBIGUOUS_FIELD",
+        "stopped": "review",
+        "stop_reason": "verification failed",
+        "submitted": false,
+        "outreach": null
+      }
+    ],
+    "nav_audit": {
+      "checked": 495,
+      "repaired": 0,
+      "parked": 0
+    },
+    "triage": {
+      "decided": 1,
+      "executed": 0
+    },
+    "artifact_autopush": {
+      "pushed": false,
+      "commit": null,
+      "files_staged": 0
+    }
+  },
+  "outcome": "completed",
+  "notes": []
+}

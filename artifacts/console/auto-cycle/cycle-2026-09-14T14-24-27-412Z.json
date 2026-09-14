@@ -1,0 +1,72 @@
+{
+  "started_at": "2026-09-14T14:24:27.412Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\general.pdf)",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "79ac0402-236f-4f40-af17-d295544e9b2b",
+    "armed_until": "2026-09-14T16:24:27.553Z",
+    "seconds_remaining": 7200,
+    "max_submits": 1,
+    "submits_used": 0,
+    "max_apps": 1,
+    "apps_started": 0,
+    "discover_max": 1,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": {
+    "arm_run_id": "79ac0402-236f-4f40-af17-d295544e9b2b",
+    "apps_started": 1,
+    "submits_used": 0,
+    "stopped_reason": "apps_cap",
+    "discover_runs": 0,
+    "emails_generated": 0,
+    "drafts_saved": 0,
+    "essay_drafts_generated": 0,
+    "screener_predictions_generated": 0,
+    "notes": [
+      "triage sweep: 0 confirmed, 0 refuted, 0 expired of 197 pending",
+      "triage 41a5d5db: park_for_operator (executed) — review item created: 60b71f21-f621-4a81-8850-6b83d143ecfb",
+      "artifact autopush: .git/index.lock held by a live git (88s old) — skipping this push"
+    ],
+    "per_app": [
+      {
+        "application_id": "41a5d5db-cd09-4040-9f59-24b5909c4329",
+        "end_state": "FAILED_RETRYABLE",
+        "stopped": "review",
+        "stop_reason": "navigation unresolved: budget",
+        "submitted": false,
+        "outreach": null
+      }
+    ],
+    "nav_audit": {
+      "checked": 495,
+      "repaired": 0,
+      "parked": 0
+    },
+    "triage": {
+      "decided": 1,
+      "executed": 1
+    },
+    "artifact_autopush": {
+      "pushed": false,
+      "commit": null,
+      "files_staged": 0
+    }
+  },
+  "outcome": "completed",
+  "notes": []
+}

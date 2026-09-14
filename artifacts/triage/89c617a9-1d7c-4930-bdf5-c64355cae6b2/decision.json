@@ -1,0 +1,164 @@
+{
+  "decision_id": "89c617a9-1d7c-4930-bdf5-c64355cae6b2",
+  "application_id": "c6977f58-f0c9-4d61-9eb8-ce48e99d1f5a",
+  "signature": "FAILED_RETRYABLE|-|unknown|rb.wd5.myworkdayjobs.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "c6977f58-f0c9-4d61-9eb8-ce48e99d1f5a",
+    "company": "Federal Reserve Bank of San Francisco",
+    "role": "2027 SF Fed Summer Internship - OPERATIONS Intern",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 1,
+    "failure_signature": "FAILED_RETRYABLE|-|unknown|rb.wd5.myworkdayjobs.com",
+    "end_host": "rb.wd5.myworkdayjobs.com",
+    "recent_events": [
+      {
+        "from": "READY_TO_SUBMIT",
+        "to": "FAILED_RETRYABLE",
+        "reason": "submit page gate failed: NO_APPLICATION_FORM",
+        "at": "2026-09-14T14:22:36.164Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "READY_TO_SUBMIT",
+        "reason": "pipeline: fill rehearsal verified",
+        "at": "2026-09-14T14:15:36.683Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (workday live fill: 11 filled (held for submit))",
+        "at": "2026-09-14T14:15:36.680Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route inspect_only (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-14T14:05:26.788Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-14T14:05:22.648Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: workday URL validated",
+        "at": "2026-09-14T14:05:22.633Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-14T14:05:22.609Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 7141579276ac)",
+        "at": "2026-09-14T14:05:22.588Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-14T14:05:22.567Z"
+      },
+      {
+        "from": "FAILED_RETRYABLE",
+        "to": "QUEUED",
+        "reason": "operator requeue 2026-09-14: fresh fill under 8c2bbc64 (structured work/education rows, empty-section Add)",
+        "at": "2026-09-14T13:36:43.407Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "operator requeue 2026-09-14: fresh fill under 8c2bbc64 (structured work/education rows, empty-section Add)",
+        "at": "2026-09-14T13:36:43.401Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route inspect_only (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-14T13:10:24.170Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-14T13:10:23.293Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: workday URL validated",
+        "at": "2026-09-14T13:10:23.283Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-14T13:10:23.277Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "sanfranciscoca",
+        "detail": "token \"san\" ~ slug \"sanfranciscoca\" (from URL path)",
+        "expected_company": "Federal Reserve Bank of San Francisco",
+        "url": "https://rb.wd5.myworkdayjobs.com/frs/job/San-Francisco-CA/XMLNAME-2027-SF-Fed-Summer-Internship---OPERATIONS-Intern_R-0000033263?jr_id=6aa773002ed333b4ea5cb4d8"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (11 candidates, employer match)",
+          "evidence": "rb.wd5.myworkdayjobs.com"
+        }
+      ]
+    },
+    "submit": {
+      "outcome": "FAILED_BEFORE_CLICK",
+      "reason": "Page failed identity gate (NO_APPLICATION_FORM): form markers matched but the page has no fillable fields — this is a posting/description page, not the application form",
+      "brief_items": []
+    },
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": true
+    },
+    "open_review_items": [],
+    "prior_decisions": [
+      {
+        "action": "park_for_operator",
+        "failure_signature": "AMBIGUOUS_FIELD|-|verify_mismatch|rb.wd5.myworkdayjobs.com",
+        "outcome_status": "CONFIRMED",
+        "created_at": "2026-09-14T06:51:12.275Z"
+      }
+    ],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\":\"engage_agent_leg\",\"rationale\":\"Fill and verification succeeded, but the submit gate landed on a posting/description page rather than the application form — deterministic navigation reached the wrong final page. No wall, no duplicate, materials fresh. One bounded browser-agent attempt to reach the real form is the cheapest change; agent leg not yet tried.\",\"confidence\":\"medium\"}",
+  "parsed_action": "engage_agent_leg",
+  "validation_note": null,
+  "precondition": {
+    "ok": false,
+    "reason": "no navigation wall in evidence — agent leg only helps nav-walled apps"
+  },
+  "mode": "act",
+  "executed": false,
+  "execution_detail": "precondition failed: no navigation wall in evidence — agent leg only helps nav-walled apps",
+  "rationale_unverified": "Fill and verification succeeded, but the submit gate landed on a posting/description page rather than the application form — deterministic navigation reached the wrong final page. No wall, no duplicate, materials fresh. One bounded browser-agent attempt to reach the real form is the cheapest change; agent leg not yet tried."
+}

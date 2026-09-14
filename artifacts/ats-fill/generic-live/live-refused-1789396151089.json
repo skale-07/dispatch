@@ -1,0 +1,73 @@
+{
+  "ats": "generic",
+  "url": "https://careers-uwmcareers.icims.com/jobs/15881/2027-technology-summer-internship-program/job?in_iframe=1",
+  "requested_url": "https://careers-uwmcareers.icims.com/jobs/15881/2027-technology-summer-internship-program/job?in_iframe=1",
+  "mode": "refused",
+  "gate": {
+    "ok": false,
+    "failure_code": "FORM_NOT_REACHED",
+    "reason": "still on the job posting after trying Apply — no application form to fill",
+    "final_url": "https://careers-uwmcareers.icims.com/jobs/15881/2027-technology-summer-internship-program/login",
+    "page_class": "posting"
+  },
+  "plan_summary": null,
+  "plan_fields": null,
+  "form_snapshot_path": null,
+  "fill": null,
+  "verify": null,
+  "uploads": null,
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: posting (no fields, Apply CTA present)",
+    "landed on a posting (no fields, Apply CTA present); clicking Apply via role=link accessible name is Apply (same-origin iframe)",
+    "Apply landed on: posting (no fields, Apply CTA present)",
+    "posting page (no fields, Apply CTA present) but no Apply control found — not filling the posting; no visible apply-ish controls",
+    "navigation supervisor after Apply miss: stopped (4 steps)",
+    "parked: refused to fill a listing page's own search widgets"
+  ],
+  "navigation_supervisor": {
+    "run_id": "supervisor-095b5bd7-9cf1-4ac0-8fc2-6772c4e184d5",
+    "outcome": "stopped",
+    "steps": [
+      {
+        "observation": "e88289c8b7c1554c",
+        "action": "form_ready",
+        "reason": "iCIMS application entry form is loaded in frame-1 with applicant identity fields (email, phone country code, number) for the correct UWM 2027 Technology Summer Internship posting.",
+        "result": "refused: applicant form not independently observed",
+        "model": "claude-opus-5"
+      },
+      {
+        "observation": "e88289c8b7c1554c",
+        "action": "open_frame",
+        "reason": "form_ready was refused because the applicant form wasn't independently observed; opening the iCIMS application frame directly in this tab should surface the email/phone identity fields as the primary document for verification.",
+        "result": "opened observed frame URL",
+        "model": "claude-opus-5",
+        "target": "frame-1"
+      },
+      {
+        "observation": "76b1cd145cd27005",
+        "action": "form_ready",
+        "reason": "Screenshot shows the UWM iCIMS 'Enter Your Information' applicant form with Email, Phone Country Code, and Number fields on the correct posting URL.",
+        "result": "refused: applicant form not independently observed",
+        "model": "claude-opus-5"
+      },
+      {
+        "observation": "da066e59771e9db2",
+        "action": "stop",
+        "reason": "The iCIMS 'Enter Your Information' applicant entry form is displayed (Email, Phone Country Code, Number) for the correct UWM posting, but form_ready has been refused twice ('applicant form not independently observed') and the page is gated by an hCaptcha challenge showing 'Please try again' — an invisible captcha wall blocks further verified progress. No alternate employer route remains; halting rather than repeating a refused action.",
+        "result": "model stopped",
+        "model": "claude-opus-5"
+      }
+    ],
+    "notes": [
+      "model calls: 4 of 4 steps"
+    ],
+    "evidence": [
+      "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-095b5bd7-9cf1-4ac0-8fc2-6772c4e184d5\\observation.json",
+      "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-095b5bd7-9cf1-4ac0-8fc2-6772c4e184d5\\page.png"
+    ]
+  },
+  "written_at": "2026-09-14T14:29:11.089Z"
+}
