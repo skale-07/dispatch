@@ -1,0 +1,595 @@
+{
+  "ats": "generic",
+  "url": "https://jobs.sanofi.com/en/job/waltham/2027-spring-co-op-bioinformatic-digital-data-scientist-global-immunology-waltham-ma/2649/44438978752",
+  "requested_url": "https://jobs.sanofi.com/en/job/waltham/2027-spring-co-op-bioinformatic-digital-data-scientist-global-immunology-waltham-ma/2649/44438978752",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://jobs.sanofi.com/sys/apply/job/application/2649/44438978752?languageCode=en",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 15,
+    "skipped_count": 6,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "mat-radio-group-0",
+      "label": "Yes",
+      "type": "radio",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "024f6357-7f8c-4a01-aabf-d7922b4b246c",
+      "label": "Country",
+      "type": "text",
+      "canonical_field": "address.country",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "2475578b-d5bd-45f9-b616-f5001a0c28b0",
+      "label": "First Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "33158d06-cfb0-4b88-a4a8-d8d2a5744184",
+      "label": "Last Name",
+      "type": "text",
+      "canonical_field": "legal_name.last",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "a61fb034-ec38-4113-acb6-eb27bb7cae06",
+      "label": "Address Line 1",
+      "type": "text",
+      "canonical_field": "address.line1",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "afaccfaf-3447-4b48-bd55-0f5ad41df634",
+      "label": "Address Line 2",
+      "type": "text",
+      "canonical_field": "address.line2",
+      "action": "SKIP",
+      "reason": "Profile value empty for address.line2"
+    },
+    {
+      "field_id": "1fea5cb8-b969-471d-94f7-f657a5e95275",
+      "label": "City",
+      "type": "text",
+      "canonical_field": "address.city",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "28d86dba-86bf-416d-8307-f5ff9ad36a49",
+      "label": "State",
+      "type": "text",
+      "canonical_field": "address.state",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "03db8912-53e8-4f01-8fe0-48b8efd5d0e3",
+      "label": "Postal Code",
+      "type": "text",
+      "canonical_field": "address.postal_code",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "06328f37-d6a7-464d-885c-3f83e94c1ae8",
+      "label": "County",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "e87d9ead-4100-4124-b004-ed44b063bb5a",
+      "label": "Email",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "1b46b6e2-c78a-407e-a22e-caea79373cd9",
+      "label": "Phone Number",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f7887c7f-0234-48b1-8576-8f5f10660acb",
+      "label": "Phone Extension",
+      "type": "text",
+      "canonical_field": "screener:custom:phone_extension",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "3413cc10-135c-4c08-ba39-ebcdcf41a258",
+      "label": "Add Skill",
+      "type": "text",
+      "canonical_field": "screener:custom:skill_tag",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "f8d582cb-2042-4916-a7e3-9a77c6c2185a",
+      "label": "LinkedIn URL",
+      "type": "text",
+      "canonical_field": "linkedin_url",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "21381e3b-df20-4186-abe4-337d87364505",
+      "label": "Facebook URL",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "6880709d-fe4b-4232-addc-de10b2f61e17-input",
+      "label": "I willingly accept the Terms and Conditions for submitting an application with Sanofi.",
+      "type": "checkbox",
+      "canonical_field": "application_consent:6880709d-fe4b-4232-addc-de10b2f61e17-input",
+      "action": "FILL",
+      "reason": "Application terms/confirmation checkbox"
+    },
+    {
+      "field_id": "874ff6c0-9e92-46b6-b22b-6060e64c3a74",
+      "label": "Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "10d5a71f-d0b9-45da-a55b-063b62b603ae",
+      "label": "Employee ID (if applicable)",
+      "type": "text",
+      "canonical_field": "screener:custom:predicted:10d5a71f-d0b9-45da-a55b-063b62b603ae",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): Candidate is an external applicant, not a current employee, so no employee ID applies."
+    },
+    {
+      "field_id": "eacacee9-8a7b-492b-b3a8-e5fd7b947d06",
+      "label": "Datefield of type",
+      "type": "date",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "mat-radio-group-1",
+      "label": "I do not want to answer",
+      "type": "radio",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\generic-live\\form-snapshot-1789246433887.html",
+  "fill": {
+    "filled": [
+      "address.country",
+      "legal_name.first",
+      "legal_name.last",
+      "address.line1",
+      "address.city",
+      "address.state",
+      "address.postal_code",
+      "email",
+      "phone",
+      "screener:custom:phone_extension",
+      "application_consent:6880709d-fe4b-4232-addc-de10b2f61e17-input"
+    ],
+    "skipped": [
+      "3413cc10-135c-4c08-ba39-ebcdcf41a258 — control is not visible (collapsed section or unopened editor)",
+      "f8d582cb-2042-4916-a7e3-9a77c6c2185a — control is not visible (collapsed section or unopened editor)",
+      "874ff6c0-9e92-46b6-b22b-6060e64c3a74 — control is not visible (collapsed section or unopened editor)",
+      "10d5a71f-d0b9-45da-a55b-063b62b603ae — control is not visible (collapsed section or unopened editor)"
+    ],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "024f6357-7f8c-4a01-aabf-d7922b4b246c",
+        "canonical_field": "address.country",
+        "control_kind": "combobox",
+        "selected_option": "United States of America",
+        "match_via": "exact",
+        "notes": [
+          "already committed \"United States of America\""
+        ]
+      },
+      {
+        "field_id": "2475578b-d5bd-45f9-b616-f5001a0c28b0",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "33158d06-cfb0-4b88-a4a8-d8d2a5744184",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "a61fb034-ec38-4113-acb6-eb27bb7cae06",
+        "canonical_field": "address.line1",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "1fea5cb8-b969-471d-94f7-f657a5e95275",
+        "canonical_field": "address.city",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "28d86dba-86bf-416d-8307-f5ff9ad36a49",
+        "canonical_field": "address.state",
+        "control_kind": "combobox",
+        "selected_option": "Maryland",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "opened via JS click (mouse click swallowed)",
+          "picked \"Maryland\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "03db8912-53e8-4f01-8fe0-48b8efd5d0e3",
+        "canonical_field": "address.postal_code",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "e87d9ead-4100-4124-b004-ed44b063bb5a",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "1b46b6e2-c78a-407e-a22e-caea79373cd9",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "f7887c7f-0234-48b1-8576-8f5f10660acb",
+        "canonical_field": "screener:custom:phone_extension",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "3413cc10-135c-4c08-ba39-ebcdcf41a258",
+        "canonical_field": "screener:custom:skill_tag",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled",
+          "resolved by id=3413cc10-135c-4c08-ba39-ebcdcf41a258 (planned text), 1 match(es): <input type=text> display=block visibility=visible"
+        ]
+      },
+      {
+        "field_id": "f8d582cb-2042-4916-a7e3-9a77c6c2185a",
+        "canonical_field": "linkedin_url",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled",
+          "resolved by id=f8d582cb-2042-4916-a7e3-9a77c6c2185a (planned text), 1 match(es): <input type=text> display=block visibility=visible"
+        ]
+      },
+      {
+        "field_id": "6880709d-fe4b-4232-addc-de10b2f61e17-input",
+        "canonical_field": "application_consent:6880709d-fe4b-4232-addc-de10b2f61e17-input",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "874ff6c0-9e92-46b6-b22b-6060e64c3a74",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled",
+          "resolved by id=874ff6c0-9e92-46b6-b22b-6060e64c3a74 (planned text), 1 match(es): <input type=text> display=block visibility=visible"
+        ]
+      },
+      {
+        "field_id": "10d5a71f-d0b9-45da-a55b-063b62b603ae",
+        "canonical_field": "screener:custom:predicted:10d5a71f-d0b9-45da-a55b-063b62b603ae",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled",
+          "resolved by id=10d5a71f-d0b9-45da-a55b-063b62b603ae (planned text), 1 match(es): <input type=text> display=block visibility=visible"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": false,
+    "fields": [
+      {
+        "canonical_field": "address.country",
+        "expected": "United States",
+        "observed": {
+          "value": "United States of America",
+          "label": "United States of America"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.last",
+        "expected": "Kale",
+        "observed": "Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "address.line1",
+        "expected": "3510 N Charles St",
+        "observed": "3510 N Charles St",
+        "match": true
+      },
+      {
+        "canonical_field": "address.city",
+        "expected": "Baltimore",
+        "observed": "Baltimore",
+        "match": true
+      },
+      {
+        "canonical_field": "address.state",
+        "expected": "Maryland",
+        "observed": {
+          "value": "Maryland",
+          "label": "Maryland"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "address.postal_code",
+        "expected": "21218",
+        "observed": "21218",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:phone_extension",
+        "expected": "[REDACTED_PHONE]",
+        "observed": "[REDACTED_PHONE]",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:skill_tag",
+        "expected": "Python",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "match": false
+      },
+      {
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": "",
+        "match": false
+      },
+      {
+        "canonical_field": "application_consent:6880709d-fe4b-4232-addc-de10b2f61e17-input",
+        "expected": true,
+        "observed": true,
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "",
+        "match": false
+      },
+      {
+        "canonical_field": "screener:custom:predicted:10d5a71f-d0b9-45da-a55b-063b62b603ae",
+        "expected": "N/A",
+        "observed": "",
+        "match": false
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 125751,
+      "verified": true,
+      "evidence": "input files: []; stillAttached=true; chip=true"
+    }
+  ],
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: posting (no fields, Apply CTA present)",
+    "popups dismissed: Reject all",
+    "landed on a posting (no fields, Apply CTA present); clicking Apply via role=link accessible name is Apply",
+    "Apply landed on: posting (no fields, Apply CTA present)",
+    "posting page (no fields, Apply CTA present) but no Apply control found — not filling the posting; visible apply-ish: body \"Menu Search Jobs Follow us LinkedIn Twit\"",
+    "navigation supervisor after Apply miss: form_ready (0 steps)",
+    "section-expand: expanded 3 collapsed section(s)",
+    "section-expand: expanded \"Menu\"",
+    "section-expand: expanded \"Career Areas\"",
+    "section-expand: expanded \"Why Join Us\"",
+    "option harvest: \"Add Skill\" could not be opened (locator.click: Element is not visible\nCall log:\n\u001b[2m  - waiting for locator('[id)",
+    "option harvest: scraped real options for 2/18 control(s) before planning",
+    "timing: base page (21 planned) — plan 12s, fill 36s, verify 1s",
+    "page error: Indicates a required field.",
+    "page error: How did you hear about us?",
+    "page error: Did you work previously at Sanofi?* Yes No",
+    "page error: Country",
+    "page error: First Name",
+    "page error: Last Name",
+    "page error: Address Line 1",
+    "page error: Address Line 2",
+    "page error: City",
+    "page error: State",
+    "page error: Postal Code",
+    "page error: County",
+    "page-complete waiver not applied: page requires 3 unanswered question(s): \"How did you hear about us?\"; \"Phone Device Type\"; \"Country Phone Code\"",
+    "resume parse changed 5 planned field(s) after upload (legal_name.first, screener:custom:skill_tag, linkedin_url, legal_name.first, screener:custom:predicted:10d5a71f-d0b9-45da-a55b-063b62b603ae) — re-committing once (#262c)",
+    "submit not attempted — live fill never submits"
+  ],
+  "navigation_supervisor": {
+    "run_id": "supervisor-882d5f2d-596b-4960-af65-2e3435e428b0",
+    "outcome": "form_ready",
+    "steps": [],
+    "notes": [
+      "model calls: 0 of 0 steps"
+    ],
+    "evidence": [
+      "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-882d5f2d-596b-4960-af65-2e3435e428b0\\observation.json",
+      "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-882d5f2d-596b-4960-af65-2e3435e428b0\\page.png"
+    ]
+  },
+  "harvested_options": [
+    {
+      "field_id": "024f6357-7f8c-4a01-aabf-d7922b4b246c",
+      "label": "Country",
+      "answer_space": "closed",
+      "option_count": 1,
+      "options": [
+        "United States of America"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "28d86dba-86bf-416d-8307-f5ff9ad36a49",
+      "label": "State",
+      "answer_space": "closed",
+      "option_count": 60,
+      "options": [
+        "Alabama",
+        "Alaska",
+        "American Samoa",
+        "Arizona",
+        "Arkansas",
+        "Armed Forces Americas",
+        "Armed Forces Europe",
+        "Armed Forces Pacific",
+        "California",
+        "Colorado",
+        "Connecticut",
+        "Delaware",
+        "District of Columbia",
+        "Florida",
+        "Georgia",
+        "Guam",
+        "Hawaii",
+        "Idaho",
+        "Illinois",
+        "Indiana",
+        "Iowa",
+        "Kansas",
+        "Kentucky",
+        "Louisiana",
+        "Maine"
+      ],
+      "other_option": null
+    }
+  ],
+  "operator_brief": {
+    "title": "Live fill — generic https://jobs.sanofi.com/sys/apply/job/application/2649/44438978752?languageCode=en",
+    "summary": "4 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:screener:custom:skill_tag",
+        "question": "Add Skill",
+        "field_id": "3413cc10-135c-4c08-ba39-ebcdcf41a258",
+        "canonical_field": "screener:custom:skill_tag",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Python\"; page shows \"(empty)\"",
+        "expected": "Python",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "how_to_answer": [
+          "System expected \"Python\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:skill_tag)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:skill_tag\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:linkedin_url",
+        "question": "LinkedIn URL",
+        "field_id": "f8d582cb-2042-4916-a7e3-9a77c6c2185a",
+        "canonical_field": "linkedin_url",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"https://www.linkedin.com/in/shubham-kale-8ab044288/\"; page shows \"(empty)\"",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": "",
+        "how_to_answer": [
+          "System expected \"https://www.linkedin.com/in/shubham-kale-8ab044288/\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → linkedin_url",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"linkedin_url\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:legal_name.first",
+        "question": "Name",
+        "field_id": "874ff6c0-9e92-46b6-b22b-6060e64c3a74",
+        "canonical_field": "legal_name.first",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Shubham\"; page shows \"(empty)\"",
+        "expected": "Shubham",
+        "observed": "",
+        "how_to_answer": [
+          "System expected \"Shubham\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → legal_name.first",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"legal_name.first\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:custom:predicted:10d5a71f-d0b9-45da-a55b-063b62b603ae",
+        "question": "Employee ID (if applicable)",
+        "field_id": "10d5a71f-d0b9-45da-a55b-063b62b603ae",
+        "canonical_field": "screener:custom:predicted:10d5a71f-d0b9-45da-a55b-063b62b603ae",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"N/A\"; page shows \"(empty)\"",
+        "expected": "N/A",
+        "observed": "",
+        "how_to_answer": [
+          "System expected \"N/A\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:predicted:10d5a71f-d0b9-45da-a55b-063b62b603ae)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:predicted:10d5a71f-d0b9-45da-a55b-063b62b603ae\" should match the on-form question text."
+        ]
+      }
+    ],
+    "ok_count": 11,
+    "fail_count": 4
+  },
+  "written_at": "2026-09-12T20:54:42.849Z"
+}

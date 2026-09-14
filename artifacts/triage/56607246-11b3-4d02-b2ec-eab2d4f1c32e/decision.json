@@ -1,0 +1,148 @@
+{
+  "decision_id": "56607246-11b3-4d02-b2ec-eab2d4f1c32e",
+  "application_id": "77b667ce-52a5-4058-af85-b4b9fbb67450",
+  "signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|jobs.merck.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "77b667ce-52a5-4058-af85-b4b9fbb67450",
+    "company": "Merck",
+    "role": "2027 Future Talent Program - Nonclinical Drug Safety Data Scientist - Intern",
+    "state": "NATIVE_AUTOFILL_RUNNING",
+    "attempt": 1,
+    "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|jobs.merck.com",
+    "end_host": "jobs.merck.com",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route inspect_only (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-12T23:41:51.369Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-12T23:41:31.004Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: workday URL validated",
+        "at": "2026-09-12T23:41:31.000Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "APPLICATION_OPENING",
+        "reason": "ATS handoff: Apply landed on workday — re-detecting from https://msd.wd5.myworkdayjobs.com/en-US/SearchJobs/job/USA---Massachusetts---Boston-MA-Parcel-B-Laboratory/XMLNAME-2027-Future-Talent-Program---Nonclinical-Drug-Safety-Data-Scientist---Intern_R412861",
+        "at": "2026-09-12T23:41:30.996Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-12T23:41:14.109Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-12T23:40:44.841Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-12T23:40:44.783Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-12T23:40:23.249Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 db6f3f869124)",
+        "at": "2026-09-12T23:40:23.216Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-12T23:40:22.681Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-12T22:20:49.238Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-12T22:20:49.203Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-12T22:20:49.200Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-12T22:20:49.196Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "merck",
+        "detail": "token \"merck\" ~ slug \"merck\" (from URL host)",
+        "expected_company": "Merck",
+        "url": "https://jobs.merck.com/us/en/job/MERCUSR412861ENUS/2027-future-talent-program-nonclinical-drug-safety-data-scientist-intern?jr_id=6a9f5b952c964816f65efe87"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (10 candidates, employer match)",
+          "evidence": "jobs.merck.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [
+      {
+        "kind": "MANUAL",
+        "title": "Stored application URL belongs to \"msd\", not Merck"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"park_for_operator\", \"rationale\": \"Run stalled mid NATIVE_AUTOFILL_RUNNING after a needs_login sign-in leg and a Workday handoff (msd.wd5), and an open review item already flags the stored URL as belonging to \\\"msd\\\" not Merck. Navigation congruence matched and materials verified, so no requeue changes the outcome; a human should confirm the msd/Merck entity and portal login.\", \"confidence\": \"medium\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: 2caff6d6-714c-4448-9bd5-5975b161486c",
+  "rationale_unverified": "Run stalled mid NATIVE_AUTOFILL_RUNNING after a needs_login sign-in leg and a Workday handoff (msd.wd5), and an open review item already flags the stored URL as belonging to \"msd\" not Merck. Navigation congruence matched and materials verified, so no requeue changes the outcome; a human should confirm the msd/Merck entity and portal login."
+}

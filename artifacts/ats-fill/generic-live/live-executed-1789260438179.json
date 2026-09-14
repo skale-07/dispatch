@@ -1,0 +1,82 @@
+{
+  "ats": "generic",
+  "url": "https://jobs.l3harris.com/job/Northampton-Intern%2C-Software-Engineer-MA-01060/1423747400/",
+  "requested_url": "https://jobs.l3harris.com/job/Northampton-Intern%2C-Software-Engineer-MA-01060/1423747400/",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://career-hcm20.ns2cloud.com/careers?company=L3HHCM20",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 1,
+    "skipped_count": 1,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "username",
+      "label": "Email Address:",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "password",
+      "label": "Password:",
+      "type": "unknown",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\generic-live\\form-snapshot-1789260436220.html",
+  "fill": {
+    "filled": [
+      "email"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "username",
+        "canonical_field": "email",
+        "control_kind": "text"
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": null,
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: posting (no fields, Apply CTA present)",
+    "landed on a posting (no fields, Apply CTA present); clicking Apply via a[href*=\"apply\" i]:not([href*=\"filter\" i])",
+    "Apply landed on: form (2 fillable field(s))",
+    "timing: base page (2 planned) — plan 6s, fill 1s, verify 0s",
+    "resume on disk but this page has no file input — not an upload miss",
+    "form-advance: no Next/Continue advance control matched (account-setup tier: page marker matched, 0 file input(s))",
+    "form-advance: visible CTAs: \"Show\", \"Sign In\"",
+    "form-advance: no Next/Continue after page 1 — stopping",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "wizard_pages": [],
+  "written_at": "2026-09-13T00:47:18.196Z"
+}

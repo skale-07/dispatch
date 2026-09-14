@@ -1,0 +1,121 @@
+{
+  "decision_id": "b13934f0-d0fc-4fed-9663-fd03aeca9d7c",
+  "application_id": "2a1a0dec-e1b5-433f-9400-0c074ef48bce",
+  "signature": "FAILED_RETRYABLE|duplicate_url|duplicate_url|-",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "2a1a0dec-e1b5-433f-9400-0c074ef48bce",
+    "company": "Perpay Inc.",
+    "role": "Data Science Internship, Summer 2027",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 1,
+    "failure_signature": "FAILED_RETRYABLE|duplicate_url|duplicate_url|-",
+    "end_host": null,
+    "recent_events": [
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "navigation: employer URL already held by another application",
+        "at": "2026-09-12T21:56:30.882Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-12T21:56:23.762Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 db6f3f869124)",
+        "at": "2026-09-12T21:56:23.753Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-12T21:56:23.696Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-12T18:43:10.554Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-12T18:43:10.529Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-12T18:43:10.527Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-12T18:43:10.521Z"
+      }
+    ],
+    "nav": {
+      "wall": "duplicate_url",
+      "method": null,
+      "notes": [
+        "employer URL already held by 1 other application(s): 56b0357b (Perpay Inc. — Data Science Internship, Summer 2027, COMPLETED)"
+      ],
+      "congruence": {
+        "verdict": "match",
+        "slug": "perpay",
+        "detail": "token \"perpay\" ~ slug \"perpay\"",
+        "expected_company": "Perpay Inc.",
+        "url": "https://job-boards.greenhouse.io/embed/job_app?for=perpay&token=4076978007&jr_id=6aa49270422289703bd6717d"
+      },
+      "duplicates": [
+        {
+          "application_id": "56b0357b-993a-408c-9002-8e85b71f79ea",
+          "state": "COMPLETED",
+          "company": "Perpay Inc.",
+          "role": "Data Science Internship, Summer 2027"
+        }
+      ],
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (9 candidates, employer match)",
+          "evidence": "job-boards.greenhouse.io"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [
+      {
+        "kind": "MANUAL",
+        "title": "Duplicate posting — another application already targets this URL"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\":\"abandon_duplicate\",\"rationale\":\"Same employer URL, company and role already owned by application 56b0357b which is COMPLETED. No path forward for this duplicate; abandon it.\",\"confidence\":\"high\"}",
+  "parsed_action": "abandon_duplicate",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "abandoned to FAILED_FINAL",
+  "rationale_unverified": "Same employer URL, company and role already owned by application 56b0357b which is COMPLETED. No path forward for this duplicate; abandon it."
+}

@@ -1,0 +1,191 @@
+{
+  "decision_id": "060a830f-07f9-4444-97f2-00d550c4e753",
+  "application_id": "58fae9a0-846d-492e-8f42-930b4020b3a9",
+  "signature": "FAILED_RETRYABLE|budget|budget|-",
+  "forbidden_actions": [
+    "requeue_same"
+  ],
+  "bundle": {
+    "application_id": "58fae9a0-846d-492e-8f42-930b4020b3a9",
+    "company": "PIMCO",
+    "role": "2027&nbsp;Summer Intern – Global Wealth&nbsp;Management, Private Family Capital Analyst, US&nbsp;",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 3,
+    "failure_signature": "FAILED_RETRYABLE|budget|budget|-",
+    "end_host": null,
+    "recent_events": [
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "navigation unresolved (budget)",
+        "at": "2026-09-13T01:47:20.811Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-13T01:43:49.377Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 dd9093dde3f8)",
+        "at": "2026-09-13T01:43:49.346Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-13T01:43:49.196Z"
+      },
+      {
+        "from": "FAILED_RETRYABLE",
+        "to": "QUEUED",
+        "reason": "retry 3/3",
+        "at": "2026-09-13T01:40:20.775Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "navigation unresolved (agent_unavailable)",
+        "at": "2026-09-13T01:39:57.159Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-13T01:39:39.135Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 dd9093dde3f8)",
+        "at": "2026-09-13T01:39:39.112Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-13T01:39:39.028Z"
+      },
+      {
+        "from": "FAILED_RETRYABLE",
+        "to": "QUEUED",
+        "reason": "retry 2/3",
+        "at": "2026-09-13T01:34:16.381Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "navigation unresolved (budget)",
+        "at": "2026-09-13T01:34:06.428Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-13T01:30:09.851Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 dd9093dde3f8)",
+        "at": "2026-09-13T01:30:09.840Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-13T01:30:09.788Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-13T01:13:15.158Z"
+      }
+    ],
+    "nav": {
+      "wall": "budget",
+      "method": null,
+      "notes": [
+        "phase A: anchor reads as \"workable\" (URL names \"workable\" (host), which shares nothing with company \"PIMCO\") — not preferred, deferring to the Apply click",
+        "phase A: 7 external host(s) seen: www.linkedin.com, x.com, www.crunchbase.com, www.glassdoor.com, www.koreajoongangdaily.com, alternativecreditinvestor.com, jobs.workable.com",
+        "phase A: workable-host anchor failed strict validation: jobs.workable.com/view/kG4f9N17HCsRMGPt38BsFS/2027%26nbsp%3Bsummer-intern-%E2%80%93-global-wealth%26nbsp%3Bmanagement%2C-private-family-capital-analyst%2C-us%26nbsp%3B-in-newport-beach-at-pimco — Workable host not allowlisted for application UR…",
+        "no standard Apply control found (exact and broad name tiers both empty)",
+        "anchor adjudication: model abstained",
+        "board hop: no public greenhouse/lever/ashby board found for \"PIMCO\" (pimco; 3 requests)",
+        "agent allowed_domains widened with job-page hosts: www.koreajoongangdaily.com, alternativecreditinvestor.com, jobs.workable.com",
+        "agent goal seeded with 3 candidate link(s) from the job page",
+        "agent[1]: agent wall-clock timeout",
+        "agent[1] reason: agent wall-clock timeout",
+        "agent could not attach to the debug Chrome (port answers but the session is wedged) — close ALL Chrome windows, re-run chrome:debug:jobright, then requeue"
+      ],
+      "congruence": null,
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "no congruent apply href (11 external links)",
+          "evidence": "www.linkedin.com, x.com, www.crunchbase.com, www.glassdoor.com, www.koreajoongangdaily.com, alternativecreditinvestor.com"
+        },
+        {
+          "phase": "B_apply_click",
+          "outcome": "unresolved by deterministic phases"
+        },
+        {
+          "phase": "B_board_hop",
+          "outcome": "no employer board route (3 request(s))"
+        },
+        {
+          "phase": "C_agent",
+          "outcome": "wall: budget (turn 1)"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [
+      {
+        "kind": "MANUAL",
+        "title": "Answer needed: navigation unresolved (budget)"
+      },
+      {
+        "kind": "MANUAL",
+        "title": "Answer needed: navigation unresolved (agent_unavailable)"
+      }
+    ],
+    "prior_decisions": [
+      {
+        "action": "engage_agent_leg",
+        "failure_signature": "FAILED_RETRYABLE|agent_unavailable|budget|-",
+        "outcome_status": "PENDING",
+        "created_at": "2026-09-13T01:40:20.729Z"
+      },
+      {
+        "action": "requeue_same",
+        "failure_signature": "FAILED_RETRYABLE|budget|budget|-",
+        "outcome_status": "REFUTED",
+        "created_at": "2026-09-13T01:34:16.284Z"
+      }
+    ],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": true
+  },
+  "raw_model_text": "{\"action\":\"park_for_operator\",\"rationale\":\"Agent leg already granted and it hit a wedged debug Chrome / wall-clock timeout; requeue_same refuted. Notes explicitly require human action (close Chrome, restart debug session). Materials verified, no stale URL evidence, no duplicate or login wall. Human decision needed.\",\"confidence\":\"high\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: 9bcd8cfc-a0c5-425e-8da7-7d3dfc900054",
+  "rationale_unverified": "Agent leg already granted and it hit a wedged debug Chrome / wall-clock timeout; requeue_same refuted. Notes explicitly require human action (close Chrome, restart debug session). Materials verified, no stale URL evidence, no duplicate or login wall. Human decision needed."
+}

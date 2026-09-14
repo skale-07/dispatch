@@ -1,0 +1,25 @@
+{
+  "run_id": "[REDACTED]",
+  "outcome": "stopped",
+  "steps": [
+    {
+      "observation": "a043ad59a1b1ebee",
+      "action": "wait",
+      "reason": "no navigable controls yet — waiting for rendering (no model)",
+      "result": "waited for rendering"
+    },
+    {
+      "observation": "a043ad59a1b1ebee",
+      "action": "stop",
+      "reason": "no navigable controls after waiting (page is unknown)",
+      "result": "model stopped"
+    }
+  ],
+  "notes": [
+    "model calls: 0 of 2 steps"
+  ],
+  "evidence": [
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-558fa658-74bf-4ac3-aed0-ee933641e914\\observation.json",
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-558fa658-74bf-4ac3-aed0-ee933641e914\\page.png"
+  ]
+}

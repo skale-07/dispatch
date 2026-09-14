@@ -1,0 +1,37 @@
+{
+  "run_id": "nav-1091a107-1994-4f34-9626-0a8643c05dd0",
+  "application_id": "56b0357b-993a-408c-9002-8e85b71f79ea",
+  "jobright_job_id": "6aa49665422289703bd672e1",
+  "method": "anchor_href",
+  "resolved_url": "https://boards.greenhouse.io/perpay/jobs/4076978007",
+  "resolved_ats": "greenhouse",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "resolved (9 candidates, employer match)",
+      "evidence": "boards.greenhouse.io"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "phase A: token-only greenhouse embed anchor resolved to board \"perpay\" (job 4076978007) via one read-only GET"
+  ],
+  "congruence": {
+    "verdict": "match",
+    "slug": "perpay",
+    "detail": "token \"perpay\" ~ slug \"perpay\"",
+    "expected_company": "Perpay Inc.",
+    "url": "https://boards.greenhouse.io/embed/job_app?for=perpay&token=4076978007"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-09-12T20:50:09.977Z"
+}

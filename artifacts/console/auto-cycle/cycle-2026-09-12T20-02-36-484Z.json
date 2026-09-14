@@ -1,0 +1,72 @@
+{
+  "started_at": "2026-09-12T20:02:36.484Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\swe.pdf)",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "d7159415-53c5-41d3-9bf3-0055e960d3bf",
+    "armed_until": "2026-09-12T22:02:36.546Z",
+    "seconds_remaining": 7200,
+    "max_submits": 1,
+    "submits_used": 0,
+    "max_apps": 1,
+    "apps_started": 0,
+    "discover_max": 1,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": {
+    "arm_run_id": "d7159415-53c5-41d3-9bf3-0055e960d3bf",
+    "apps_started": 1,
+    "submits_used": 1,
+    "stopped_reason": "apps_cap",
+    "discover_runs": 0,
+    "emails_generated": 0,
+    "drafts_saved": 0,
+    "essay_drafts_generated": 0,
+    "screener_predictions_generated": 0,
+    "notes": [
+      "triage sweep: 0 confirmed, 0 refuted, 0 expired of 157 pending",
+      "gmail faa35a5b-f61e-4ae4-a554-1dfeec5130f5: deferred to outreach:worker",
+      "artifact autopush: .git/index.lock held by a live git (274s old) — skipping this push"
+    ],
+    "per_app": [
+      {
+        "application_id": "faa35a5b-f61e-4ae4-a554-1dfeec5130f5",
+        "end_state": "COMPLETED",
+        "stopped": "terminal",
+        "stop_reason": "state COMPLETED is not pipeline-advanceable",
+        "submitted": true,
+        "outreach": {
+          "email_status": null,
+          "draft_status": null,
+          "skip_reason": "deferred to outreach:worker"
+        }
+      }
+    ],
+    "nav_audit": {
+      "checked": 421,
+      "repaired": 0,
+      "parked": 0
+    },
+    "artifact_autopush": {
+      "pushed": false,
+      "commit": null,
+      "files_staged": 0
+    }
+  },
+  "outcome": "completed",
+  "notes": []
+}

@@ -1,0 +1,119 @@
+{
+  "decision_id": "49c83578-2b1c-4096-baef-d9cbf9bf9cd0",
+  "application_id": "5299a2d5-e10c-44e8-9d68-1d873eeae986",
+  "signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|www.tesla.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "5299a2d5-e10c-44e8-9d68-1d873eeae986",
+    "company": "Tesla",
+    "role": "Internship, Data Engineer, Fleet Analytics (Winter/Spring 2027)",
+    "state": "NATIVE_AUTOFILL_RUNNING",
+    "attempt": 1,
+    "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|www.tesla.com",
+    "end_host": "www.tesla.com",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route ready_for_fill_later (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-14T02:30:27.623Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-14T02:30:13.798Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-14T02:30:13.732Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-14T02:30:04.119Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 d5f6e2353444)",
+        "at": "2026-09-14T02:30:04.099Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-14T02:30:03.997Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-14T02:05:54.775Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-14T02:05:54.669Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-14T02:05:54.668Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-14T02:05:54.655Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "tesla",
+        "detail": "token \"tesla\" ~ slug \"tesla\" (from URL host)",
+        "expected_company": "Tesla",
+        "url": "https://www.tesla.com/careers/search/job/283138?source=jobright&source=jobright&jr_id=6aa494dff7baf881567cf449"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (11 candidates, employer match)",
+          "evidence": "www.tesla.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"requeue_same\", \"rationale\": \"Run stalled mid-pipeline in NATIVE_AUTOFILL_RUNNING on attempt 1 with no wall, no duplicate, valid materials (resume verified) and clean navigation (anchor_href, congruence match). Looks transient; cheapest plausible fix is rerunning the same pipeline.\", \"confidence\": \"medium\"}",
+  "parsed_action": "requeue_same",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "requeued at attempt 2",
+  "rationale_unverified": "Run stalled mid-pipeline in NATIVE_AUTOFILL_RUNNING on attempt 1 with no wall, no duplicate, valid materials (resume verified) and clean navigation (anchor_href, congruence match). Looks transient; cheapest plausible fix is rerunning the same pipeline."
+}

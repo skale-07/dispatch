@@ -1,0 +1,167 @@
+{
+  "decision_id": "7b61de81-3236-43e1-a7d9-79df8913c2d6",
+  "application_id": "58fae9a0-846d-492e-8f42-930b4020b3a9",
+  "signature": "FAILED_RETRYABLE|agent_unavailable|budget|-",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "58fae9a0-846d-492e-8f42-930b4020b3a9",
+    "company": "PIMCO",
+    "role": "2027&nbsp;Summer Intern – Global Wealth&nbsp;Management, Private Family Capital Analyst, US&nbsp;",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 2,
+    "failure_signature": "FAILED_RETRYABLE|agent_unavailable|budget|-",
+    "end_host": null,
+    "recent_events": [
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "navigation unresolved (agent_unavailable)",
+        "at": "2026-09-13T01:39:57.159Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-13T01:39:39.135Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 dd9093dde3f8)",
+        "at": "2026-09-13T01:39:39.112Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-13T01:39:39.028Z"
+      },
+      {
+        "from": "FAILED_RETRYABLE",
+        "to": "QUEUED",
+        "reason": "retry 2/3",
+        "at": "2026-09-13T01:34:16.381Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "navigation unresolved (budget)",
+        "at": "2026-09-13T01:34:06.428Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-13T01:30:09.851Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 dd9093dde3f8)",
+        "at": "2026-09-13T01:30:09.840Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-13T01:30:09.788Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-13T01:13:15.158Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-13T01:13:15.142Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-13T01:13:15.141Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-13T01:13:15.139Z"
+      }
+    ],
+    "nav": {
+      "wall": "agent_unavailable",
+      "method": null,
+      "notes": [
+        "phase A: anchor reads as \"workable\" (URL names \"workable\" (host), which shares nothing with company \"PIMCO\") — not preferred, deferring to the Apply click",
+        "phase A: 7 external host(s) seen: www.linkedin.com, x.com, www.crunchbase.com, www.glassdoor.com, www.koreajoongangdaily.com, alternativecreditinvestor.com, jobs.workable.com",
+        "phase A: workable-host anchor failed strict validation: jobs.workable.com/view/kG4f9N17HCsRMGPt38BsFS/2027%26nbsp%3Bsummer-intern-%E2%80%93-global-wealth%26nbsp%3Bmanagement%2C-private-family-capital-analyst%2C-us%26nbsp%3B-in-newport-beach-at-pimco — Workable host not allowlisted for application UR…",
+        "no standard Apply control found (exact and broad name tiers both empty)",
+        "anchor adjudication: model abstained",
+        "board hop: no public greenhouse/lever/ashby board found for \"PIMCO\" (pimco; 3 requests)",
+        "unresolved by deterministic phases; agent phase unavailable: CDP Chrome unreachable at http://127.0.0.1:9222"
+      ],
+      "congruence": null,
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "no congruent apply href (11 external links)",
+          "evidence": "www.linkedin.com, x.com, www.crunchbase.com, www.glassdoor.com, www.koreajoongangdaily.com, alternativecreditinvestor.com"
+        },
+        {
+          "phase": "B_apply_click",
+          "outcome": "unresolved by deterministic phases"
+        },
+        {
+          "phase": "B_board_hop",
+          "outcome": "no employer board route (3 request(s))"
+        },
+        {
+          "phase": "C_agent",
+          "outcome": "skipped: agent phase unavailable (CDP Chrome unreachable at http://127.0.0.1:9222)"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [
+      {
+        "kind": "MANUAL",
+        "title": "Answer needed: navigation unresolved (budget)"
+      },
+      {
+        "kind": "MANUAL",
+        "title": "Answer needed: navigation unresolved (agent_unavailable)"
+      }
+    ],
+    "prior_decisions": [
+      {
+        "action": "requeue_same",
+        "failure_signature": "FAILED_RETRYABLE|budget|budget|-",
+        "outcome_status": "PENDING",
+        "created_at": "2026-09-13T01:34:16.284Z"
+      }
+    ],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"engage_agent_leg\", \"rationale\": \"Deterministic tiers A/B and board hop all exhausted; agent phase was skipped only because CDP Chrome was unreachable, not refuted. No prior agent-leg grant exists. Granting one bounded agent attempt is the cheapest action that could change the outcome; requeue_same was already tried without success.\", \"confidence\": \"medium\"}",
+  "parsed_action": "engage_agent_leg",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "requeued with agent-leg override marker (decision 7b61de81-3236-43e1-a7d9-79df8913c2d6)",
+  "rationale_unverified": "Deterministic tiers A/B and board hop all exhausted; agent phase was skipped only because CDP Chrome was unreachable, not refuted. No prior agent-leg grant exists. Granting one bounded agent attempt is the cheapest action that could change the outcome; requeue_same was already tried without success."
+}

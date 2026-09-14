@@ -1,0 +1,165 @@
+{
+  "decision_id": "88f72e10-a0e2-4122-8ae8-60dc42730042",
+  "application_id": "5299a2d5-e10c-44e8-9d68-1d873eeae986",
+  "signature": "AMBIGUOUS_FIELD|-|verify_mismatch|www.tesla.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "5299a2d5-e10c-44e8-9d68-1d873eeae986",
+    "company": "Tesla",
+    "role": "Internship, Data Engineer, Fleet Analytics (Winter/Spring 2027)",
+    "state": "AMBIGUOUS_FIELD",
+    "attempt": 2,
+    "failure_signature": "AMBIGUOUS_FIELD|-|verify_mismatch|www.tesla.com",
+    "end_host": "www.tesla.com",
+    "recent_events": [
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "AMBIGUOUS_FIELD",
+        "reason": "pipeline: read-back verification failed",
+        "at": "2026-09-14T02:34:55.031Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (generic live fill: 7 filled (held for submit))",
+        "at": "2026-09-14T02:34:55.030Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route ready_for_fill_later (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-14T02:34:21.381Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-14T02:34:14.948Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-14T02:34:14.921Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-14T02:34:14.890Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 d5f6e2353444)",
+        "at": "2026-09-14T02:34:14.859Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-14T02:34:14.765Z"
+      },
+      {
+        "from": "FAILED_RETRYABLE",
+        "to": "QUEUED",
+        "reason": "retry 2/3",
+        "at": "2026-09-14T02:31:57.626Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "triage: demoting gate-parked NATIVE_AUTOFILL_RUNNING for requeue (NATIVE_AUTOFILL_RUNNING|-|unknown|www.tesla.com)",
+        "at": "2026-09-14T02:31:57.624Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route ready_for_fill_later (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-14T02:30:27.623Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-14T02:30:13.798Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-14T02:30:13.732Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-14T02:30:04.119Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 d5f6e2353444)",
+        "at": "2026-09-14T02:30:04.099Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "tesla",
+        "detail": "token \"tesla\" ~ slug \"tesla\" (from URL host)",
+        "expected_company": "Tesla",
+        "url": "https://www.tesla.com/careers/search/job/283138?source=jobright&source=jobright&jr_id=6aa494dff7baf881567cf449"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (11 candidates, employer match)",
+          "evidence": "www.tesla.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": false
+    },
+    "open_review_items": [
+      {
+        "kind": "AMBIGUOUS_FIELD",
+        "title": "Fill verification failed"
+      }
+    ],
+    "prior_decisions": [
+      {
+        "action": "requeue_same",
+        "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|www.tesla.com",
+        "outcome_status": "PENDING",
+        "created_at": "2026-09-14T02:31:57.619Z"
+      }
+    ],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"park_for_operator\", \"rationale\": \"Fill executed (7 fields) but read-back verification failed twice on a native Tesla form; nav is congruent, no wall, resume verified, so requeue/materials/nav changes nothing. A review item is already open — a human should inspect the ambiguous fields.\", \"confidence\": \"medium\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: bbdba16f-64ce-4049-9d83-8ef9fe505a27",
+  "rationale_unverified": "Fill executed (7 fields) but read-back verification failed twice on a native Tesla form; nav is congruent, no wall, resume verified, so requeue/materials/nav changes nothing. A review item is already open — a human should inspect the ambiguous fields."
+}

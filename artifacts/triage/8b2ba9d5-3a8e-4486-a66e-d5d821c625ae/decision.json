@@ -1,0 +1,188 @@
+{
+  "decision_id": "8b2ba9d5-3a8e-4486-a66e-d5d821c625ae",
+  "application_id": "04394211-7065-445c-99b5-c1047aa43032",
+  "signature": "FAILED_RETRYABLE|-|verify_mismatch|jobs.ashbyhq.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "04394211-7065-445c-99b5-c1047aa43032",
+    "company": "ibotta",
+    "role": "Software Engineer Intern",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 1,
+    "failure_signature": "FAILED_RETRYABLE|-|verify_mismatch|jobs.ashbyhq.com",
+    "end_host": "jobs.ashbyhq.com",
+    "recent_events": [
+      {
+        "from": "SUBMITTING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "pre-submit verification failed",
+        "at": "2026-09-12T23:50:13.240Z"
+      },
+      {
+        "from": "READY_TO_SUBMIT",
+        "to": "SUBMITTING",
+        "reason": "human-approved submission started",
+        "at": "2026-09-12T23:49:33.506Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "READY_TO_SUBMIT",
+        "reason": "pipeline: essays complete — final verification occurs pre-click in submit",
+        "at": "2026-09-12T23:49:12.780Z"
+      },
+      {
+        "from": "AMBIGUOUS_FIELD",
+        "to": "FIELD_VERIFICATION",
+        "reason": "operator resolved ambiguous field (console)",
+        "at": "2026-09-12T21:21:31.101Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "AMBIGUOUS_FIELD",
+        "reason": "pipeline: read-back verification failed",
+        "at": "2026-09-12T20:22:35.126Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (ashby live fill: 15 filled (held for submit))",
+        "at": "2026-09-12T20:22:35.120Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route ready_for_fill_later (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-12T20:17:01.231Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-12T20:16:56.588Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: ashby URL validated",
+        "at": "2026-09-12T20:16:56.586Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-12T20:16:56.583Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 dd9093dde3f8)",
+        "at": "2026-09-12T20:16:56.580Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-12T20:16:56.566Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "ats board discovery: ready for materials/pipeline",
+        "at": "2026-09-12T18:40:21.720Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "ats board discovery: operator-listed board, title filter passed",
+        "at": "2026-09-12T18:40:21.515Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "ats board discovery: dedupe pass",
+        "at": "2026-09-12T18:40:21.309Z"
+      }
+    ],
+    "nav": null,
+    "submit": {
+      "outcome": "FAILED_BEFORE_CLICK",
+      "reason": "Refusing to click submit: field verification or upload did not pass",
+      "brief_items": [
+        {
+          "id": "fill_error:_systemfield_education_history-endDate-month: locator.selectOption: Timeout 2000",
+          "question": "(fill error — see problem)",
+          "field_id": null,
+          "canonical_field": null,
+          "kind": "fill_error",
+          "problem": "_systemfield_education_history-endDate-month: locator.selectOption: Timeout 2000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-field-path=\"_systemfield_education_history\"]').first().locator('[id=\"_systemfield_education_history-endDate\"]').first().locator('select').first()\u001b[22m\n\u001b[2m    - locator resolved to <select disabled class=\"_select_14jlb_39 ashby-application-form-input-dropdown-select\">…</select>\u001b[22m\n\u001b[2m  - attempting select option action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying select option action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying select option action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    4 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying select option action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n",
+          "expected": null,
+          "observed": null,
+          "how_to_answer": [
+            "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+            "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+          ]
+        },
+        {
+          "id": "fill_error:9db62ecf-95db-41b2-a9df-2fdabe926c11: combobox option not committed: listbox did",
+          "question": "(fill error — see problem)",
+          "field_id": null,
+          "canonical_field": null,
+          "kind": "fill_error",
+          "problem": "9db62ecf-95db-41b2-a9df-2fdabe926c11: combobox option not committed: listbox did not open after click or typing",
+          "expected": null,
+          "observed": null,
+          "how_to_answer": [
+            "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+            "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+          ]
+        },
+        {
+          "id": "fill_error:_systemfield_education_history-school: combobox option not committed: listbox di",
+          "question": "(fill error — see problem)",
+          "field_id": null,
+          "canonical_field": null,
+          "kind": "fill_error",
+          "problem": "_systemfield_education_history-school: combobox option not committed: listbox did not open after click or typing",
+          "expected": null,
+          "observed": null,
+          "how_to_answer": [
+            "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+            "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+          ]
+        }
+      ]
+    },
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": false
+    },
+    "open_review_items": [
+      {
+        "kind": "MANUAL",
+        "title": "Answer needed: \"End Date Year\""
+      }
+    ],
+    "prior_decisions": [
+      {
+        "action": "park_for_operator",
+        "failure_signature": "AMBIGUOUS_FIELD|-|verify_mismatch|jobs.ashbyhq.com",
+        "outcome_status": "PENDING",
+        "created_at": "2026-09-12T20:22:42.403Z"
+      }
+    ],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"park_for_operator\", \"rationale\": \"Deterministic fill cannot commit Ashby comboboxes/disabled education selects; verification blocked pre-click and a MANUAL review item ('End Date Year') is already open and unanswered. Rerunning the same pipeline or regenerating materials would not change these control-level failures — a human must supply/fix these fields.\", \"confidence\": \"high\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: 000aa570-a215-40d9-a409-2cd4cc1d624c",
+  "rationale_unverified": "Deterministic fill cannot commit Ashby comboboxes/disabled education selects; verification blocked pre-click and a MANUAL review item ('End Date Year') is already open and unanswered. Rerunning the same pipeline or regenerating materials would not change these control-level failures — a human must supply/fix these fields."
+}

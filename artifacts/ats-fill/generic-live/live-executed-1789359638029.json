@@ -1,0 +1,215 @@
+{
+  "ats": "generic",
+  "url": "https://www.usaajobs.com/job/san-antonio/investment-business-advisor-intern/1207/100507554464",
+  "requested_url": "https://www.usaajobs.com/job/san-antonio/investment-business-advisor-intern/1207/100507554464",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://www.usaajobs.com/job/san-antonio/investment-business-advisor-intern/1207/100507554464",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 7,
+    "skipped_count": 1,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "form-field-8dbdd138b5",
+      "label": "First Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "form-field-190af6282b",
+      "label": "Last Name",
+      "type": "text",
+      "canonical_field": "legal_name.last",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "form-field-e7ca688420",
+      "label": "Email Address",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "form-field-009df87a98_country",
+      "label": "Country Code",
+      "type": "select",
+      "canonical_field": "screener:custom:phone_country_code",
+      "action": "FILL",
+      "reason": "Screener bank answer (llm_option)"
+    },
+    {
+      "field_id": "form-field-009df87a98",
+      "label": "Mobile Number",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "form-field-e11181a63f-category",
+      "label": "Job Category",
+      "type": "select",
+      "canonical_field": "screener:custom:predicted:form-field-e11181a63f-category",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): Candidate is an undergraduate applying to an internship, so the Interns category fits best among the listed options."
+    },
+    {
+      "field_id": "form-field-e11181a63f-location",
+      "label": "Location",
+      "type": "select",
+      "canonical_field": "address.city",
+      "action": "FILL",
+      "reason": "Mapped from public profile; placed onto \"Baltimore, Maryland\""
+    },
+    {
+      "field_id": "optin-promotion",
+      "label": "Opt-in Promotion",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\generic-live\\form-snapshot-1789359626695.html",
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "legal_name.last",
+      "email",
+      "screener:custom:phone_country_code",
+      "phone",
+      "screener:custom:predicted:form-field-e11181a63f-category",
+      "address.city"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "form-field-8dbdd138b5",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "form-field-190af6282b",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "form-field-e7ca688420",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "form-field-009df87a98_country",
+        "canonical_field": "screener:custom:phone_country_code",
+        "control_kind": "native_select",
+        "selected_option": "+1",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "form-field-009df87a98",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "form-field-e11181a63f-category",
+        "canonical_field": "screener:custom:predicted:form-field-e11181a63f-category",
+        "control_kind": "native_select",
+        "selected_option": "Interns",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "form-field-e11181a63f-location",
+        "canonical_field": "address.city",
+        "control_kind": "native_select",
+        "selected_option": "Baltimore, Maryland",
+        "match_via": "exact"
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.last",
+        "expected": "Kale",
+        "observed": "Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:phone_country_code",
+        "expected": "[REDACTED_PHONE]",
+        "observed": "[REDACTED]",
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:form-field-e11181a63f-category",
+        "expected": "Interns",
+        "observed": {
+          "value": "8275152",
+          "label": "Interns"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "address.city",
+        "expected": "Baltimore, Maryland",
+        "observed": {
+          "value": "6252001-4361885-4347778",
+          "label": "Baltimore, Maryland"
+        },
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": null,
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: form (8 fillable field(s))",
+    "popups dismissed: close (aria-label), Accept, close (aria-label)",
+    "section-expand: expanded 3 collapsed section(s)",
+    "section-expand: expanded \"CAREER AREAS\"",
+    "timing: base page (8 planned) — plan 5s, fill 3s, verify 0s",
+    "resume on disk but this page has no file input — not an upload miss",
+    "form-advance: no Next/Continue advance control matched (account-setup tier: page marker did NOT match, 0 file input(s))",
+    "form-advance: visible CTAs: \"Explore USAA job opportunities\"",
+    "form-advance: no Next/Continue after page 1 — stopping",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "wizard_pages": [],
+  "written_at": "2026-09-14T04:20:38.044Z"
+}

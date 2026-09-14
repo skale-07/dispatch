@@ -1,0 +1,158 @@
+{
+  "decision_id": "96b2fd9d-8e7e-47f9-bbc5-9f521fd3d0c9",
+  "application_id": "e246ea07-4d61-45c5-9600-4e1738d7942e",
+  "signature": "AMBIGUOUS_FIELD|-|verify_mismatch|jobs.merck.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "e246ea07-4d61-45c5-9600-4e1738d7942e",
+    "company": "Merck",
+    "role": "2027 Future Talent Program – Manufacturing Science and Technology Intern",
+    "state": "AMBIGUOUS_FIELD",
+    "attempt": 1,
+    "failure_signature": "AMBIGUOUS_FIELD|-|verify_mismatch|jobs.merck.com",
+    "end_host": "jobs.merck.com",
+    "recent_events": [
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "AMBIGUOUS_FIELD",
+        "reason": "pipeline: read-back verification failed",
+        "at": "2026-09-13T00:32:11.512Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (workday live fill: 11 filled (held for submit))",
+        "at": "2026-09-13T00:32:11.146Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route inspect_only (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-13T00:27:24.583Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-13T00:27:19.538Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: workday URL validated",
+        "at": "2026-09-13T00:27:19.524Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "APPLICATION_OPENING",
+        "reason": "ATS handoff: Apply landed on workday — re-detecting from https://msd.wd5.myworkdayjobs.com/en-US/SearchJobs/job/USA---Pennsylvania---West-Point/XMLNAME-2027-Future-Talent-Program---Manufacturing-Science-and-Technology-Intern_R417753",
+        "at": "2026-09-13T00:27:19.508Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-13T00:26:51.377Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-13T00:26:41.038Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-13T00:26:41.026Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-13T00:26:33.968Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 dd9093dde3f8)",
+        "at": "2026-09-13T00:26:33.923Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-13T00:26:32.225Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-13T00:25:46.520Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-13T00:25:46.421Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-13T00:25:46.414Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "merck",
+        "detail": "token \"merck\" ~ slug \"merck\" (from URL host)",
+        "expected_company": "Merck",
+        "url": "https://jobs.merck.com/us/en/job/MERCUSR417753ENUS/2027-future-talent-program-manufacturing-science-and-technology-intern?jr_id=6aa4aed3c1928370a285eed8"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (10 candidates, employer match)",
+          "evidence": "jobs.merck.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": false
+    },
+    "open_review_items": [
+      {
+        "kind": "AMBIGUOUS_FIELD",
+        "title": "Fill verification failed"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\":\"park_for_operator\",\"rationale\":\"Native fill executed 11 fields on Workday but read-back verification failed with no specific failure code; a review item is already open. Materials verified, navigation congruent, no wall — a blind requeue would repeat the same mismatch. Human should inspect the ambiguous fields.\",\"confidence\":\"medium\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: 01dfd089-41bb-4b09-bdcd-c76bc8241551",
+  "rationale_unverified": "Native fill executed 11 fields on Workday but read-back verification failed with no specific failure code; a review item is already open. Materials verified, navigation congruent, no wall — a blind requeue would repeat the same mismatch. Human should inspect the ambiguous fields."
+}

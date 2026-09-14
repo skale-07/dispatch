@@ -1,0 +1,305 @@
+{
+  "ats": "ashby",
+  "url": "https://jobs.ashbyhq.com/graymatter-robotics/0f5acd77-6b34-4444-9ddc-1ce91cad177c/application",
+  "requested_url": "https://jobs.ashbyhq.com/graymatter-robotics/0f5acd77-6b34-4444-9ddc-1ce91cad177c/application",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://jobs.ashbyhq.com/graymatter-robotics/0f5acd77-6b34-4444-9ddc-1ce91cad177c/application",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 10,
+    "skipped_count": 3,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "f_0",
+      "label": "Application",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "_systemfield_name",
+      "label": "Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Single full-name field: composed legal_name.first + legal_name.last (both safe factual canonicals)"
+    },
+    {
+      "field_id": "_systemfield_email",
+      "label": "Email",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "_systemfield_resume",
+      "label": "Resume",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "bfac1777-18c5-4a30-9c51-5a8a0a1bf8f4",
+      "label": "Phone",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "532802e7-494d-4ddc-b8bc-146633c128a6",
+      "label": "LinkedIn Profile",
+      "type": "text",
+      "canonical_field": "linkedin_url",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "e03ef471-38ff-4006-af78-87754269694c",
+      "label": "Website",
+      "type": "text",
+      "canonical_field": "personal_website",
+      "action": "SKIP",
+      "reason": "Profile value empty for personal_website"
+    },
+    {
+      "field_id": "5247f40c-13ad-4be5-9b9c-7430ee006d55",
+      "label": "Github",
+      "type": "text",
+      "canonical_field": "github_url",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "_systemfield_eeoc_gender",
+      "label": "Gender",
+      "type": "select",
+      "canonical_field": "gender",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "_systemfield_eeoc_race",
+      "label": "Race",
+      "type": "select",
+      "canonical_field": "race_ethnicity",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "_systemfield_eeoc_veteran_status",
+      "label": "Veteran Status",
+      "type": "select",
+      "canonical_field": "veteran_status",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "675cd96a-4b3f-48b1-9ddf-61a5633d16a6",
+      "label": "Are you willing to work onsite full-time in Carson, CA?",
+      "type": "select",
+      "canonical_field": "screener:willing_to_relocate",
+      "action": "FILL",
+      "reason": "Screener bank answer (synonym_option)"
+    },
+    {
+      "field_id": "01357679-d7c4-4791-895a-4dd07b1df26d",
+      "label": "This role requires eligibility for U.S. security clearance at various levels (Confidential, Secret, or Top Secret) due to the nature of the work. One of the key requirements for obtaining security clearance is U.S. citizenship. Do you meet the eligibility criteria to obtain security clearance in the United States?",
+      "type": "select",
+      "canonical_field": "screener:security_clearance",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\ashby-live\\form-snapshot-1789243097192.html",
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "email",
+      "phone",
+      "linkedin_url",
+      "github_url",
+      "gender",
+      "race_ethnicity",
+      "veteran_status",
+      "screener:willing_to_relocate",
+      "screener:security_clearance"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "_systemfield_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "_systemfield_email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "bfac1777-18c5-4a30-9c51-5a8a0a1bf8f4",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "532802e7-494d-4ddc-b8bc-146633c128a6",
+        "canonical_field": "linkedin_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "5247f40c-13ad-4be5-9b9c-7430ee006d55",
+        "canonical_field": "github_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "_systemfield_eeoc_gender",
+        "canonical_field": "gender",
+        "control_kind": "native_radio_group",
+        "selected_option": "Male",
+        "match_via": "exact",
+        "notes": [
+          "picked \"Male\" (exact)"
+        ]
+      },
+      {
+        "field_id": "_systemfield_eeoc_race",
+        "canonical_field": "race_ethnicity",
+        "control_kind": "native_radio_group",
+        "selected_option": "Asian (Not Hispanic or Latino)",
+        "match_via": "unique_substring",
+        "notes": [
+          "picked \"Asian (Not Hispanic or Latino)\" (unique_substring)"
+        ]
+      },
+      {
+        "field_id": "_systemfield_eeoc_veteran_status",
+        "canonical_field": "veteran_status",
+        "control_kind": "native_radio_group",
+        "selected_option": "I am not a protected veteran",
+        "match_via": "synonym",
+        "notes": [
+          "picked \"I am not a protected veteran\" (synonym)"
+        ]
+      },
+      {
+        "field_id": "675cd96a-4b3f-48b1-9ddf-61a5633d16a6",
+        "canonical_field": "screener:willing_to_relocate",
+        "control_kind": "native_yesno_group",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "picked \"Yes\" (exact)"
+        ]
+      },
+      {
+        "field_id": "01357679-d7c4-4791-895a-4dd07b1df26d",
+        "canonical_field": "screener:security_clearance",
+        "control_kind": "native_yesno_group",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "picked \"No\" (exact)"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham Kale",
+        "observed": "Shubham Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "match": true
+      },
+      {
+        "canonical_field": "github_url",
+        "expected": "https://github.com/skale-07",
+        "observed": "https://github.com/skale-07",
+        "match": true
+      },
+      {
+        "canonical_field": "gender",
+        "expected": "Male",
+        "observed": "Male",
+        "match": true
+      },
+      {
+        "canonical_field": "race_ethnicity",
+        "expected": "South Asian",
+        "observed": "Asian (Not Hispanic or Latino)",
+        "match": true
+      },
+      {
+        "canonical_field": "veteran_status",
+        "expected": "I am not a veteran",
+        "observed": "I am not a protected veteran",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:willing_to_relocate",
+        "expected": "Yes",
+        "observed": "Yes",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:security_clearance",
+        "expected": "No",
+        "observed": "No",
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 113810,
+      "verified": true,
+      "evidence": "input files: [{\"name\":\"resume-dd9093dd.pdf\",\"size\":113810}]; stillAttached=true; chip=true; resolved via primary"
+    }
+  ],
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: form (13 fillable field(s))",
+    "timing: base page (13 planned) — plan 4s, fill 6s, verify 0s",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "written_at": "2026-09-12T19:58:27.209Z"
+}

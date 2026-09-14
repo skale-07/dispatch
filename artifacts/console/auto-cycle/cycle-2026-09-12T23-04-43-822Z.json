@@ -1,0 +1,74 @@
+{
+  "started_at": "2026-09-12T23:04:43.822Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\swe.pdf)",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "ad6f35e0-d5bb-4bc0-ac47-852202b98e2f",
+    "armed_until": "2026-09-13T01:04:49.238Z",
+    "seconds_remaining": 7200,
+    "max_submits": 1,
+    "submits_used": 0,
+    "max_apps": 1,
+    "apps_started": 0,
+    "discover_max": 1,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": {
+    "arm_run_id": "ad6f35e0-d5bb-4bc0-ac47-852202b98e2f",
+    "apps_started": 1,
+    "submits_used": 1,
+    "stopped_reason": "apps_cap",
+    "discover_runs": 0,
+    "emails_generated": 0,
+    "drafts_saved": 0,
+    "essay_drafts_generated": 0,
+    "screener_predictions_generated": 0,
+    "notes": [
+      "nav audit: 1 wrong-employer URL(s) cleared for re-navigation, 0 parked for review",
+      "triage sweep: 0 confirmed, 0 refuted, 0 expired of 175 pending",
+      "gmail 2325619e-b02f-45e9-b67e-46f46267acc6: deferred to outreach:worker",
+      "artifact autopush: removed a stale .git/index.lock (28 min old, nothing writing it)",
+      "artifact autopush failed (session unaffected): Command failed: git commit -m art: automation session ad6f35e0 (autopush) -- artifacts\n"
+    ],
+    "per_app": [
+      {
+        "application_id": "2325619e-b02f-45e9-b67e-46f46267acc6",
+        "end_state": "COMPLETED",
+        "stopped": "terminal",
+        "stop_reason": "state COMPLETED is not pipeline-advanceable",
+        "submitted": true,
+        "outreach": {
+          "email_status": null,
+          "draft_status": null,
+          "skip_reason": "deferred to outreach:worker"
+        }
+      }
+    ],
+    "nav_audit": {
+      "checked": 437,
+      "repaired": 1,
+      "parked": 0
+    },
+    "artifact_autopush": {
+      "pushed": false,
+      "commit": null,
+      "files_staged": 5544
+    }
+  },
+  "outcome": "completed",
+  "notes": []
+}

@@ -1,0 +1,28 @@
+{
+  "run_id": "[REDACTED]",
+  "outcome": "budget",
+  "steps": [
+    {
+      "observation": "7ae52a3dd667b98a",
+      "action": "click",
+      "reason": "try",
+      "result": "action failed: unknown or disallowed navigation control",
+      "model": "fixture-planner",
+      "target": "invented"
+    },
+    {
+      "observation": "7ae52a3dd667b98a",
+      "action": "form_ready",
+      "reason": "done",
+      "result": "refused: applicant form not independently observed",
+      "model": "fixture-planner"
+    }
+  ],
+  "notes": [
+    "model calls: 2 of 2 steps"
+  ],
+  "evidence": [
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-43a3361a-01e1-4a1e-a915-9071b79d4bea\\observation.json",
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-43a3361a-01e1-4a1e-a915-9071b79d4bea\\page.png"
+  ]
+}

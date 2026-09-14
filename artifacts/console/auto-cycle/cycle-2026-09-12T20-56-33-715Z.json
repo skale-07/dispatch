@@ -1,0 +1,75 @@
+{
+  "started_at": "2026-09-12T20:56:33.715Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\swe.pdf)",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "04bcc4e8-61e2-4e98-b5b9-90959ee89491",
+    "armed_until": "2026-09-12T22:56:34.945Z",
+    "seconds_remaining": 7200,
+    "max_submits": 1,
+    "submits_used": 0,
+    "max_apps": 1,
+    "apps_started": 0,
+    "discover_max": 1,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": {
+    "arm_run_id": "04bcc4e8-61e2-4e98-b5b9-90959ee89491",
+    "apps_started": 1,
+    "submits_used": 0,
+    "stopped_reason": "apps_cap",
+    "discover_runs": 0,
+    "emails_generated": 0,
+    "drafts_saved": 0,
+    "essay_drafts_generated": 0,
+    "screener_predictions_generated": 0,
+    "notes": [
+      "triage sweep: 0 confirmed, 0 refuted, 0 expired of 160 pending",
+      "prediction rejected \"Facebook URL\": no answer",
+      "prediction rejected \"Datefield of type\": no answer",
+      "prediction rejected \"I do not want to answer\": no answer",
+      "triage 706e5eba: requeue_reopen_navigation (executed) — URL cleared, → APPLICATION_OPENING",
+      "artifact autopush: .git/index.lock held by a live git (149s old) — skipping this push"
+    ],
+    "per_app": [
+      {
+        "application_id": "706e5eba-a84d-4f27-823b-814a0a48d5fe",
+        "end_state": "FAILED_RETRYABLE",
+        "stopped": "gate",
+        "stop_reason": "submission not verified: FAILED_BEFORE_CLICK — Page failed identity gate (UNTRUSTED_FINAL_HOST): navigation ended on an untrusted host: https://career55.sapsf.eu/careers?company=volvoinfor",
+        "submitted": false,
+        "outreach": null
+      }
+    ],
+    "nav_audit": {
+      "checked": 424,
+      "repaired": 0,
+      "parked": 0
+    },
+    "triage": {
+      "decided": 1,
+      "executed": 1
+    },
+    "artifact_autopush": {
+      "pushed": false,
+      "commit": null,
+      "files_staged": 0
+    }
+  },
+  "outcome": "completed",
+  "notes": []
+}

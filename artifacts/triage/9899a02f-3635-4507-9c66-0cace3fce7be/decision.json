@@ -1,0 +1,182 @@
+{
+  "decision_id": "9899a02f-3635-4507-9c66-0cace3fce7be",
+  "application_id": "d5917b41-62d0-446a-82b0-4e8377bdb0f8",
+  "signature": "FAILED_RETRYABLE|-|verify_mismatch|careers.amgen.com",
+  "forbidden_actions": [
+    "engage_agent_leg"
+  ],
+  "bundle": {
+    "application_id": "d5917b41-62d0-446a-82b0-4e8377bdb0f8",
+    "company": "Amgen",
+    "role": "Undergrad Intern – Data Scientist – Amgen’s Technology & Medical Organizations (Summer 2027)",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 2,
+    "failure_signature": "FAILED_RETRYABLE|-|verify_mismatch|careers.amgen.com",
+    "end_host": "careers.amgen.com",
+    "recent_events": [
+      {
+        "from": "SUBMITTING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "pre-submit verification failed",
+        "at": "2026-09-13T00:59:46.901Z"
+      },
+      {
+        "from": "READY_TO_SUBMIT",
+        "to": "SUBMITTING",
+        "reason": "human-approved submission started",
+        "at": "2026-09-13T00:59:37.029Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "READY_TO_SUBMIT",
+        "reason": "pipeline: fill rehearsal verified",
+        "at": "2026-09-13T00:59:35.042Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (generic live fill: 3 filled (held for submit))",
+        "at": "2026-09-13T00:59:35.041Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-13T00:58:44.134Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-13T00:58:42.078Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-13T00:58:42.072Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-13T00:58:42.067Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 db6f3f869124)",
+        "at": "2026-09-13T00:58:42.061Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-13T00:58:42.046Z"
+      },
+      {
+        "from": "FAILED_RETRYABLE",
+        "to": "QUEUED",
+        "reason": "retry 2/3",
+        "at": "2026-09-12T23:52:39.262Z"
+      },
+      {
+        "from": "SUBMITTING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "pre-submit verification failed",
+        "at": "2026-09-12T21:43:15.584Z"
+      },
+      {
+        "from": "READY_TO_SUBMIT",
+        "to": "SUBMITTING",
+        "reason": "human-approved submission started",
+        "at": "2026-09-12T21:43:07.018Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "READY_TO_SUBMIT",
+        "reason": "pipeline: fill rehearsal verified",
+        "at": "2026-09-12T21:43:05.044Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (generic live fill: 3 filled (held for submit))",
+        "at": "2026-09-12T21:43:05.041Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "amgen",
+        "detail": "token \"amgen\" ~ slug \"amgen\" (from URL host)",
+        "expected_company": "Amgen",
+        "url": "https://careers.amgen.com/en/job/washington-d-c/undergrad-intern-data-scientist-amgen-s-technology-and-medical-organizations-summer-2027/87/100494061088?jr_id=6aa48ee5422289703bd67099"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (10 candidates, employer match)",
+          "evidence": "careers.amgen.com"
+        }
+      ]
+    },
+    "submit": {
+      "outcome": "FAILED_BEFORE_CLICK",
+      "reason": "Refusing to click submit: field verification or upload did not pass",
+      "brief_items": [
+        {
+          "id": "upload:resume",
+          "question": "Upload: resume",
+          "field_id": null,
+          "canonical_field": null,
+          "kind": "upload_failed",
+          "problem": "no file input resolved: primary resume selector not attached within 3s; retrying resolve after 1500ms; primary resume selector not attached within 3s; no resume file input; 0 file inputs on page; filechooser fallback: no upload-like control found",
+          "expected": "resume-db6f3f86.pdf",
+          "observed": null,
+          "how_to_answer": [
+            "Resume is system-owned: materials:register + adapter.uploadResume on submit/fill — not a free-text profile field.",
+            "If this is ats:fill without --resume, pass --resume <pdf> or use application submit (uses registered material).",
+            "Evidence: no file input resolved: primary resume selector not attached within 3s; retrying resolve after 1500ms; primary resume selector not attached within 3s; no resume file input; 0 file inputs on page; filechooser fallback: no upload-like control found"
+          ]
+        }
+      ]
+    },
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": true
+    },
+    "open_review_items": [],
+    "prior_decisions": [
+      {
+        "action": "engage_agent_leg",
+        "failure_signature": "FAILED_RETRYABLE|-|verify_mismatch|careers.amgen.com",
+        "outcome_status": "PENDING",
+        "created_at": "2026-09-12T21:43:22.977Z"
+      }
+    ],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": true
+  },
+  "raw_model_text": "{\"action\": \"park_for_operator\", \"rationale\": \"Twice failed pre-submit because no resume file input exists on the page (0 file inputs, filechooser fallback found nothing) — navigation and materials are fine, agent leg already tried and forbidden. Same rerun would repeat identically; a human must inspect the portal upload step.\", \"confidence\": \"high\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: 0aa184c1-09f8-442b-8999-2696dcbf03e6",
+  "rationale_unverified": "Twice failed pre-submit because no resume file input exists on the page (0 file inputs, filechooser fallback found nothing) — navigation and materials are fine, agent leg already tried and forbidden. Same rerun would repeat identically; a human must inspect the portal upload step."
+}

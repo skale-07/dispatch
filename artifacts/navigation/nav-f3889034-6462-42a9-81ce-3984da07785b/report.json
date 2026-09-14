@@ -1,0 +1,48 @@
+{
+  "run_id": "nav-f3889034-6462-42a9-81ce-3984da07785b",
+  "application_id": "f14f1423-9c7a-479d-8a5a-ba3b081813c1",
+  "jobright_job_id": "6a3b61e9c0b05e48d0abfd3f",
+  "method": null,
+  "resolved_url": null,
+  "resolved_ats": null,
+  "wall": "budget",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no external anchors"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "unresolved by deterministic phases"
+    },
+    {
+      "phase": "B_board_hop",
+      "outcome": "no employer board route (3 request(s))"
+    },
+    {
+      "phase": "C_agent",
+      "outcome": "error"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "no standard Apply control found (exact and broad name tiers both empty)",
+    "board hop: no public greenhouse/lever/ashby board found for \"Acme\" (acme; 3 requests)",
+    "agent phase failed: Unexpected token 'o', \"not json at all\" is not valid JSON"
+  ],
+  "congruence": null,
+  "duplicates": null,
+  "login_wall": null,
+  "evidence": [
+    "navigation\\nav-f3889034-6462-42a9-81ce-3984da07785b\\giveup-budget.html",
+    "navigation\\nav-f3889034-6462-42a9-81ce-3984da07785b\\giveup-budget.png"
+  ],
+  "written_at": "2026-09-12T16:27:58.904Z"
+}

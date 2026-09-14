@@ -1,0 +1,59 @@
+{
+  "run_id": "nav-83cf3b8e-0604-484c-bcc7-1f1d297e9888",
+  "application_id": "17afbb03-8a92-448f-85af-fff8b033f9e6",
+  "jobright_job_id": "6a0302879bdbf34cbf8496e2",
+  "method": null,
+  "resolved_url": null,
+  "resolved_ats": null,
+  "wall": "auth",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no external anchors"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "unresolved by deterministic phases"
+    },
+    {
+      "phase": "B_board_hop",
+      "outcome": "no employer board route (3 request(s))"
+    },
+    {
+      "phase": "C_agent",
+      "outcome": "needs_input WITHOUT verification evidence on the page — mailbox not consulted, human review"
+    }
+  ],
+  "agent": {
+    "turns_used": 1,
+    "steps_used": 4,
+    "domains_visited": [
+      "jobs.ashbyhq.com"
+    ]
+  },
+  "gmail": null,
+  "need": {
+    "kind": "verification_email",
+    "sent_to": "candidate@fixture.test",
+    "requested_at": "2026-08-07T00:00:00Z",
+    "evidence": "Sign in to continue. Email. Password. Forgot password?"
+  },
+  "session": "cdp",
+  "notes": [
+    "no standard Apply control found (exact and broad name tiers both empty)",
+    "board hop: no public greenhouse/lever/ashby board found for \"Acme\" (acme; 3 requests)",
+    "verification need rejected: agent's page evidence shows no verification prompt"
+  ],
+  "congruence": null,
+  "duplicates": null,
+  "login_wall": null,
+  "evidence": [
+    "navigation\\nav-83cf3b8e-0604-484c-bcc7-1f1d297e9888\\giveup-auth.html",
+    "navigation\\nav-83cf3b8e-0604-484c-bcc7-1f1d297e9888\\giveup-auth.png"
+  ],
+  "written_at": "2026-09-13T01:15:34.970Z"
+}

@@ -1,0 +1,57 @@
+{
+  "run_id": "nav-18ac6f18-9b01-47a7-ac7c-86263114cc1f",
+  "application_id": "74ad0621-632e-439d-bf32-a5a225afd6ed",
+  "jobright_job_id": "6a9170a5fa289540b0830aa8",
+  "method": null,
+  "resolved_url": null,
+  "resolved_ats": null,
+  "wall": "budget",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no external anchors"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "unresolved by deterministic phases"
+    },
+    {
+      "phase": "B_board_hop",
+      "outcome": "no employer board route (3 request(s))"
+    },
+    {
+      "phase": "C_agent",
+      "outcome": "wall: budget (turn 1)"
+    }
+  ],
+  "agent": {
+    "turns_used": 1,
+    "steps_used": 5,
+    "domains_visited": [
+      "jobright.ai",
+      "jobs.lever.co"
+    ]
+  },
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "no standard Apply control found (exact and broad name tiers both empty)",
+    "board hop: no public greenhouse/lever/ashby board found for \"Acme\" (acme; 3 requests)",
+    "agent[1]: reached form",
+    "agent[1]: final_url rejected: host evil.example.com is outside allowed domains",
+    "agent[1] reason: sidecar final_url rejected: host evil.example.com is outside allowed domains"
+  ],
+  "congruence": null,
+  "duplicates": null,
+  "login_wall": null,
+  "evidence": [
+    "navigation\\nav-18ac6f18-9b01-47a7-ac7c-86263114cc1f\\giveup-budget.html",
+    "navigation\\nav-18ac6f18-9b01-47a7-ac7c-86263114cc1f\\giveup-budget.png"
+  ],
+  "written_at": "2026-09-13T01:15:24.660Z"
+}

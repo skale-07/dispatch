@@ -1,0 +1,73 @@
+{
+  "started_at": "2026-09-13T00:58:35.390Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\swe.pdf)",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "76fd6150-011b-4fe5-beff-a18eabf53175",
+    "armed_until": "2026-09-13T02:58:35.635Z",
+    "seconds_remaining": 7200,
+    "max_submits": 1,
+    "submits_used": 0,
+    "max_apps": 1,
+    "apps_started": 0,
+    "discover_max": 1,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": {
+    "arm_run_id": "76fd6150-011b-4fe5-beff-a18eabf53175",
+    "apps_started": 1,
+    "submits_used": 0,
+    "stopped_reason": "apps_cap",
+    "discover_runs": 0,
+    "emails_generated": 0,
+    "drafts_saved": 0,
+    "essay_drafts_generated": 0,
+    "screener_predictions_generated": 0,
+    "notes": [
+      "triage sweep: 0 confirmed, 0 refuted, 0 expired of 182 pending",
+      "triage d5917b41: park_for_operator (executed) — review item created: 0aa184c1-09f8-442b-8999-2696dcbf03e6",
+      "artifact autopush: removed a stale .git/index.lock (7 min old, nothing writing it)",
+      "artifact autopush failed (session unaffected): Command failed: git commit -m art: automation session 76fd6150 (autopush) -- artifacts\nwarning: in the working copy of 'artifacts/applications/000aa861-2856-4631-8786-1aa0cb389b12/materials/resume-aeb"
+    ],
+    "per_app": [
+      {
+        "application_id": "d5917b41-62d0-446a-82b0-4e8377bdb0f8",
+        "end_state": "FAILED_RETRYABLE",
+        "stopped": "gate",
+        "stop_reason": "submission not verified: FAILED_BEFORE_CLICK — Refusing to click submit: field verification or upload did not pass",
+        "submitted": false,
+        "outreach": null
+      }
+    ],
+    "nav_audit": {
+      "checked": 445,
+      "repaired": 0,
+      "parked": 0
+    },
+    "triage": {
+      "decided": 1,
+      "executed": 1
+    },
+    "artifact_autopush": {
+      "pushed": false,
+      "commit": null,
+      "files_staged": 6576
+    }
+  },
+  "outcome": "completed",
+  "notes": []
+}

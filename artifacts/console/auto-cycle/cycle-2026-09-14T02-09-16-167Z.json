@@ -1,0 +1,72 @@
+{
+  "started_at": "2026-09-14T02:09:16.167Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "MISSING at C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\swe.pdf — every app with no registered resume will park at materials. Point DEFAULT_RESUME_PATH in .env at your real resume.",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "58018113-0e29-4ede-9b09-1b6cb6db3368",
+    "armed_until": "2026-09-14T04:09:16.211Z",
+    "seconds_remaining": 7200,
+    "max_submits": 1,
+    "submits_used": 0,
+    "max_apps": 1,
+    "apps_started": 0,
+    "discover_max": 1,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": {
+    "arm_run_id": "58018113-0e29-4ede-9b09-1b6cb6db3368",
+    "apps_started": 1,
+    "submits_used": 1,
+    "stopped_reason": "apps_cap",
+    "discover_runs": 0,
+    "emails_generated": 0,
+    "drafts_saved": 0,
+    "essay_drafts_generated": 0,
+    "screener_predictions_generated": 0,
+    "notes": [
+      "triage sweep: 0 confirmed, 0 refuted, 0 expired of 149 pending",
+      "gmail 4ca3b601-2aeb-4aa3-bed7-9ee9921c4243: deferred to outreach:worker",
+      "artifact autopush: .git/index.lock held by a live git (274s old) — skipping this push"
+    ],
+    "per_app": [
+      {
+        "application_id": "4ca3b601-2aeb-4aa3-bed7-9ee9921c4243",
+        "end_state": "COMPLETED",
+        "stopped": "terminal",
+        "stop_reason": "state COMPLETED is not pipeline-advanceable",
+        "submitted": true,
+        "outreach": {
+          "email_status": null,
+          "draft_status": null,
+          "skip_reason": "deferred to outreach:worker"
+        }
+      }
+    ],
+    "nav_audit": {
+      "checked": 455,
+      "repaired": 0,
+      "parked": 0
+    },
+    "artifact_autopush": {
+      "pushed": false,
+      "commit": null,
+      "files_staged": 0
+    }
+  },
+  "outcome": "completed",
+  "notes": []
+}

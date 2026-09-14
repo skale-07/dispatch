@@ -1,0 +1,167 @@
+{
+  "decision_id": "9dcf3c43-c2e2-4938-9a40-a81c8d7fc899",
+  "application_id": "ea3a9027-58bf-47bb-a5b1-fc0177e1f72d",
+  "signature": "FAILED_RETRYABLE|-|verify_mismatch|www.usaajobs.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "ea3a9027-58bf-47bb-a5b1-fc0177e1f72d",
+    "company": "USAA",
+    "role": "Investment Business Advisor Intern",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 1,
+    "failure_signature": "FAILED_RETRYABLE|-|verify_mismatch|www.usaajobs.com",
+    "end_host": "www.usaajobs.com",
+    "recent_events": [
+      {
+        "from": "SUBMITTING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "pre-submit verification failed",
+        "at": "2026-09-14T04:20:49.953Z"
+      },
+      {
+        "from": "READY_TO_SUBMIT",
+        "to": "SUBMITTING",
+        "reason": "human-approved submission started",
+        "at": "2026-09-14T04:20:39.684Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "READY_TO_SUBMIT",
+        "reason": "pipeline: fill rehearsal verified",
+        "at": "2026-09-14T04:20:38.050Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (generic live fill: 7 filled (held for submit))",
+        "at": "2026-09-14T04:20:38.048Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-14T04:20:10.476Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-14T04:20:06.874Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-14T04:20:06.868Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-14T04:20:04.087Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 7141579276ac)",
+        "at": "2026-09-14T04:20:04.081Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-14T04:20:04.058Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-14T04:09:15.715Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-14T04:09:15.705Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-14T04:09:15.703Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-14T04:09:15.702Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "usaajobs",
+        "detail": "token \"usaa\" ~ slug \"usaajobs\" (from URL host)",
+        "expected_company": "USAA",
+        "url": "https://www.usaajobs.com/job/san-antonio/investment-business-advisor-intern/1207/100507554464?jr_id=6aa4dfa1a77a53f5a156e72a"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (11 candidates, employer match)",
+          "evidence": "www.usaajobs.com"
+        }
+      ]
+    },
+    "submit": {
+      "outcome": "FAILED_BEFORE_CLICK",
+      "reason": "Refusing to click submit: field verification or upload did not pass",
+      "brief_items": [
+        {
+          "id": "upload:resume",
+          "question": "Upload: resume",
+          "field_id": null,
+          "canonical_field": null,
+          "kind": "upload_failed",
+          "problem": "no file input resolved: primary resume selector not attached within 3s; retrying resolve after 1500ms; primary resume selector not attached within 3s; no resume file input; 0 file inputs on page; filechooser fallback: no upload-like control found",
+          "expected": "resume-71415792.pdf",
+          "observed": null,
+          "how_to_answer": [
+            "Resume is system-owned: materials:register + adapter.uploadResume on submit/fill — not a free-text profile field.",
+            "If this is ats:fill without --resume, pass --resume <pdf> or use application submit (uses registered material).",
+            "Evidence: no file input resolved: primary resume selector not attached within 3s; retrying resolve after 1500ms; primary resume selector not attached within 3s; no resume file input; 0 file inputs on page; filechooser fallback: no upload-like control found"
+          ]
+        }
+      ]
+    },
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": true
+    },
+    "open_review_items": [],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"engage_agent_leg\", \"rationale\": \"Deterministic fill verified 7 fields but no resume file input could be resolved (0 file inputs; filechooser fallback found nothing), likely behind a multi-step/portal upload control. Materials are present and valid (sha256 verified), nav congruence matches, no wall. A bounded agent leg can locate/trigger the upload control; no prior agent leg tried.\", \"confidence\": \"medium\"}",
+  "parsed_action": "engage_agent_leg",
+  "validation_note": null,
+  "precondition": {
+    "ok": false,
+    "reason": "no navigation wall in evidence — agent leg only helps nav-walled apps"
+  },
+  "mode": "act",
+  "executed": false,
+  "execution_detail": "precondition failed: no navigation wall in evidence — agent leg only helps nav-walled apps",
+  "rationale_unverified": "Deterministic fill verified 7 fields but no resume file input could be resolved (0 file inputs; filechooser fallback found nothing), likely behind a multi-step/portal upload control. Materials are present and valid (sha256 verified), nav congruence matches, no wall. A bounded agent leg can locate/trigger the upload control; no prior agent leg tried."
+}

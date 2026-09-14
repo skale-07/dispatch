@@ -1,0 +1,116 @@
+{
+  "decision_id": "76ce445f-251b-490c-86a4-0caaf37e3f29",
+  "application_id": "04394211-7065-445c-99b5-c1047aa43032",
+  "signature": "AMBIGUOUS_FIELD|-|verify_mismatch|jobs.ashbyhq.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "04394211-7065-445c-99b5-c1047aa43032",
+    "company": "ibotta",
+    "role": "Software Engineer Intern",
+    "state": "AMBIGUOUS_FIELD",
+    "attempt": 1,
+    "failure_signature": "AMBIGUOUS_FIELD|-|verify_mismatch|jobs.ashbyhq.com",
+    "end_host": "jobs.ashbyhq.com",
+    "recent_events": [
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "AMBIGUOUS_FIELD",
+        "reason": "pipeline: read-back verification failed",
+        "at": "2026-09-12T20:22:35.126Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (ashby live fill: 15 filled (held for submit))",
+        "at": "2026-09-12T20:22:35.120Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route ready_for_fill_later (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-12T20:17:01.231Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-12T20:16:56.588Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: ashby URL validated",
+        "at": "2026-09-12T20:16:56.586Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-12T20:16:56.583Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 dd9093dde3f8)",
+        "at": "2026-09-12T20:16:56.580Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-12T20:16:56.566Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "ats board discovery: ready for materials/pipeline",
+        "at": "2026-09-12T18:40:21.720Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "ats board discovery: operator-listed board, title filter passed",
+        "at": "2026-09-12T18:40:21.515Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "ats board discovery: dedupe pass",
+        "at": "2026-09-12T18:40:21.309Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-12T18:40:21.218Z"
+      }
+    ],
+    "nav": null,
+    "submit": null,
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": false
+    },
+    "open_review_items": [
+      {
+        "kind": "AMBIGUOUS_FIELD",
+        "title": "Fill verification failed"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\":\"park_for_operator\",\"rationale\":\"Fill executed (15 fields held for submit) but read-back verification mismatched on a live Ashby form; no transient/nav/materials signal and a review item is already open. A human should inspect the ambiguous field values before any resubmit attempt.\",\"confidence\":\"medium\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: 691f681c-d515-40ec-a6a9-73ba73e1db2f",
+  "rationale_unverified": "Fill executed (15 fields held for submit) but read-back verification mismatched on a live Ashby form; no transient/nav/materials signal and a review item is already open. A human should inspect the ambiguous field values before any resubmit attempt."
+}

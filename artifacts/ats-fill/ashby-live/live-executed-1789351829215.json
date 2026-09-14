@@ -1,0 +1,425 @@
+{
+  "ats": "ashby",
+  "url": "https://jobs.ashbyhq.com/persona.ai/ed9a7425-9798-471e-b46a-fefd59570630/application",
+  "requested_url": "https://jobs.ashbyhq.com/persona.ai/ed9a7425-9798-471e-b46a-fefd59570630/application",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://jobs.ashbyhq.com/persona.ai/ed9a7425-9798-471e-b46a-fefd59570630/application",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 15,
+    "skipped_count": 3,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "f_0",
+      "label": "Application",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "_systemfield_name",
+      "label": "Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Single full-name field: composed legal_name.first + legal_name.last (both safe factual canonicals)"
+    },
+    {
+      "field_id": "_systemfield_email",
+      "label": "Email",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "87ef69c4-a13c-4755-8f8d-aca3d0983476",
+      "label": "Phone Number",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "_systemfield_resume",
+      "label": "Resume",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "78c9b98b-8e38-4174-876a-b9da8a4a4769",
+      "label": "LinkedIn Profile",
+      "type": "text",
+      "canonical_field": "linkedin_url",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "0f9528e4-6ac5-4f58-8a93-73cefcbb173a",
+      "label": "Github/portfolio/other",
+      "type": "text",
+      "canonical_field": "personal_website",
+      "action": "SKIP",
+      "reason": "Profile value empty for personal_website"
+    },
+    {
+      "field_id": "4c5a7376-9582-46c2-bfa1-699859f10eac",
+      "label": "What about robotics and specifically humanoids has your interest? What is your motivation or story that has you excited about the kind of work we’re trying to do?",
+      "type": "textarea",
+      "canonical_field": "essay:generated:4c5a7376-9582-46c2-bfa1-699859f10eac",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "1deac491-20f8-4008-b3a3-dac7f52403a1",
+      "label": "What aspect of the robotics problem are you most interested in? Please list around three areas in your order of interest and tell us why those parts of the problem are interesting or important to you.",
+      "type": "textarea",
+      "canonical_field": "essay:generated:1deac491-20f8-4008-b3a3-dac7f52403a1",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "25316d75-e6f0-4e82-b8d1-34dd5912c4ab",
+      "label": "What is your current student status?",
+      "type": "select",
+      "canonical_field": "screener:custom:predicted:25316d75-e6f0-4e82-b8d1-34dd5912c4ab",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): Candidate is an undergraduate at Johns Hopkins, class of 2029."
+    },
+    {
+      "field_id": "ff264c58-464a-4d2d-addb-0c089f7c5fb6",
+      "label": "What time-frame are you applying for? (This can vary depending on your timeline but generally which best applies?)",
+      "type": "select",
+      "canonical_field": "screener:custom:predicted:ff264c58-464a-4d2d-addb-0c089f7c5fb6",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): Earliest available term that fits an enrolled undergraduate graduating in 2029."
+    },
+    {
+      "field_id": "_systemfield_eeoc_gender",
+      "label": "Gender",
+      "type": "select",
+      "canonical_field": "gender",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "_systemfield_eeoc_race",
+      "label": "Race",
+      "type": "select",
+      "canonical_field": "race_ethnicity",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "_systemfield_eeoc_veteran_status",
+      "label": "Veteran Status",
+      "type": "select",
+      "canonical_field": "veteran_status",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "c6c44a16-a13e-441f-806b-e1aad1e7a2e1",
+      "label": "Will you now, or in the future, require employer sponsorship for a work visa (for example, an H-1B)?",
+      "type": "select",
+      "canonical_field": "requires_sponsorship",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "6f591c71-033d-4770-a1c0-2735f39d9d65",
+      "label": "Are you able to work onsite in Houston, Texas?",
+      "type": "select",
+      "canonical_field": "screener:willing_to_relocate",
+      "action": "FILL",
+      "reason": "Screener bank answer (synonym_option)"
+    },
+    {
+      "field_id": "ccac881a-87ac-4189-bb30-bc0caf044be6",
+      "label": "Do you have experience working with robots?",
+      "type": "select",
+      "canonical_field": "screener:custom:predicted:ccac881a-87ac-4189-bb30-bc0caf044be6",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): Candidate's work spans ML, full-stack, and health systems with only microcontroller sensor work, not robotics."
+    },
+    {
+      "field_id": "a46bc557-7d16-4bb3-9334-e15922c072ef",
+      "label": "Have you worked with humanoids?",
+      "type": "select",
+      "canonical_field": "screener:custom:predicted:a46bc557-7d16-4bb3-9334-e15922c072ef",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): No humanoid robotics experience appears anywhere in the candidate's projects or work history."
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\ashby-live\\form-snapshot-1789351815527.html",
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "email",
+      "phone",
+      "linkedin_url",
+      "essay:generated:4c5a7376-9582-46c2-bfa1-699859f10eac",
+      "essay:generated:1deac491-20f8-4008-b3a3-dac7f52403a1",
+      "screener:custom:predicted:25316d75-e6f0-4e82-b8d1-34dd5912c4ab",
+      "screener:custom:predicted:ff264c58-464a-4d2d-addb-0c089f7c5fb6",
+      "gender",
+      "race_ethnicity",
+      "veteran_status",
+      "requires_sponsorship",
+      "screener:willing_to_relocate",
+      "screener:custom:predicted:ccac881a-87ac-4189-bb30-bc0caf044be6",
+      "screener:custom:predicted:a46bc557-7d16-4bb3-9334-e15922c072ef"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "_systemfield_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "_systemfield_email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "87ef69c4-a13c-4755-8f8d-aca3d0983476",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "78c9b98b-8e38-4174-876a-b9da8a4a4769",
+        "canonical_field": "linkedin_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "4c5a7376-9582-46c2-bfa1-699859f10eac",
+        "canonical_field": "essay:generated:4c5a7376-9582-46c2-bfa1-699859f10eac",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "1deac491-20f8-4008-b3a3-dac7f52403a1",
+        "canonical_field": "essay:generated:1deac491-20f8-4008-b3a3-dac7f52403a1",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "25316d75-e6f0-4e82-b8d1-34dd5912c4ab",
+        "canonical_field": "screener:custom:predicted:25316d75-e6f0-4e82-b8d1-34dd5912c4ab",
+        "control_kind": "native_radio_group",
+        "selected_option": "Current undergraduate student",
+        "match_via": "exact",
+        "notes": [
+          "picked \"Current undergraduate student\" (exact)"
+        ]
+      },
+      {
+        "field_id": "ff264c58-464a-4d2d-addb-0c089f7c5fb6",
+        "canonical_field": "screener:custom:predicted:ff264c58-464a-4d2d-addb-0c089f7c5fb6",
+        "control_kind": "native_radio_group",
+        "selected_option": "Fall 2026 (August 24 - December 18)",
+        "match_via": "exact",
+        "notes": [
+          "picked \"Fall 2026 (August 24 - December 18)\" (exact)"
+        ]
+      },
+      {
+        "field_id": "_systemfield_eeoc_gender",
+        "canonical_field": "gender",
+        "control_kind": "native_radio_group",
+        "selected_option": "Male",
+        "match_via": "exact",
+        "notes": [
+          "picked \"Male\" (exact)"
+        ]
+      },
+      {
+        "field_id": "_systemfield_eeoc_race",
+        "canonical_field": "race_ethnicity",
+        "control_kind": "native_radio_group",
+        "selected_option": "Asian (Not Hispanic or Latino)",
+        "match_via": "unique_substring",
+        "notes": [
+          "picked \"Asian (Not Hispanic or Latino)\" (unique_substring)"
+        ]
+      },
+      {
+        "field_id": "_systemfield_eeoc_veteran_status",
+        "canonical_field": "veteran_status",
+        "control_kind": "native_radio_group",
+        "selected_option": "I am not a protected veteran",
+        "match_via": "synonym",
+        "notes": [
+          "picked \"I am not a protected veteran\" (synonym)"
+        ]
+      },
+      {
+        "field_id": "c6c44a16-a13e-441f-806b-e1aad1e7a2e1",
+        "canonical_field": "requires_sponsorship",
+        "control_kind": "native_yesno_group",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "picked \"No\" (exact)"
+        ]
+      },
+      {
+        "field_id": "6f591c71-033d-4770-a1c0-2735f39d9d65",
+        "canonical_field": "screener:willing_to_relocate",
+        "control_kind": "native_yesno_group",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "picked \"Yes\" (exact)"
+        ]
+      },
+      {
+        "field_id": "ccac881a-87ac-4189-bb30-bc0caf044be6",
+        "canonical_field": "screener:custom:predicted:ccac881a-87ac-4189-bb30-bc0caf044be6",
+        "control_kind": "native_yesno_group",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "picked \"No\" (exact)"
+        ]
+      },
+      {
+        "field_id": "a46bc557-7d16-4bb3-9334-e15922c072ef",
+        "canonical_field": "screener:custom:predicted:a46bc557-7d16-4bb3-9334-e15922c072ef",
+        "control_kind": "native_yesno_group",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "picked \"No\" (exact)"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham Kale",
+        "observed": "Shubham Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:4c5a7376-9582-46c2-bfa1-699859f10eac",
+        "expected": "What draws me to humanoids is that they are the hardest version of a problem I keep running into: a learned system has to act in a world that does not forgive wrong actions. I built a Playwright-based job-application agent where a single bad click could submit a real application or fill a legal field incorrectly, so I designed it as a deterministic, operator-controlled agent with an explicit state machine and fail-closed flags like SUBMIT_ENABLED, plus a validation ladder that refused to call a capability working until it had been confirmed against live conditions rather than a local fixture. That is a software version of the problem manipulation has physically. I also built the ML core of an anomaly-detection system at Summer Atlantic Capital, including temporal sequence modeling over event streams and a learning-to-rank layer, and the thing that mattered most was not offline score but whether the output was operationally useful. Humanoid manipulation is where those two interests collide: models that have to generalize across messy contact-rich tasks, and evaluation that tells you honestly whether a policy will hold up outside the demo. I would rather work on that than on a benchmark.",
+        "observed": "What draws me to humanoids is that they are the hardest version of a problem I keep running into: a learned system has to act in a world that does not forgive wrong actions. I built a Playwright-based job-application agent where a single bad click could submit a real application or fill a legal field incorrectly, so I designed it as a deterministic, operator-controlled agent with an explicit state machine and fail-closed flags like SUBMIT_ENABLED, plus a validation ladder that refused to call a capability working until it had been confirmed against live conditions rather than a local fixture. That is a software version of the problem manipulation has physically. I also built the ML core of an anomaly-detection system at Summer Atlantic Capital, including temporal sequence modeling over event streams and a learning-to-rank layer, and the thing that mattered most was not offline score but whether the output was operationally useful. Humanoid manipulation is where those two interests collide: models that have to generalize across messy contact-rich tasks, and evaluation that tells you honestly whether a policy will hold up outside the demo. I would rather work on that than on a benchmark.",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:1deac491-20f8-4008-b3a3-dac7f52403a1",
+        "expected": "First, manipulation policy learning and generalization across contact-rich tasks, because that is where models actually meet physical constraints; second, evaluation and reliability of learned policies, since I spent months building an evaluation framework against a 4,169-case clinical standard and came away thinking judging outputs is harder than generating them; third, perception and representation for grasping, because the quality of the state a policy sees usually caps how good the policy can be.",
+        "observed": "First, manipulation policy learning and generalization across contact-rich tasks, because that is where models actually meet physical constraints; second, evaluation and reliability of learned policies, since I spent months building an evaluation framework against a 4,169-case clinical standard and came away thinking judging outputs is harder than generating them; third, perception and representation for grasping, because the quality of the state a policy sees usually caps how good the policy can be.",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:25316d75-e6f0-4e82-b8d1-34dd5912c4ab",
+        "expected": "Current undergraduate student",
+        "observed": "Current undergraduate student",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:ff264c58-464a-4d2d-addb-0c089f7c5fb6",
+        "expected": "Fall 2026 (August 24 - December 18)",
+        "observed": "Fall 2026 (August 24 - December 18)",
+        "match": true
+      },
+      {
+        "canonical_field": "gender",
+        "expected": "Male",
+        "observed": "Male",
+        "match": true
+      },
+      {
+        "canonical_field": "race_ethnicity",
+        "expected": "South Asian",
+        "observed": "Asian (Not Hispanic or Latino)",
+        "match": true
+      },
+      {
+        "canonical_field": "veteran_status",
+        "expected": "I am not a veteran",
+        "observed": "I am not a protected veteran",
+        "match": true
+      },
+      {
+        "canonical_field": "requires_sponsorship",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:willing_to_relocate",
+        "expected": "Yes",
+        "observed": "Yes",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:ccac881a-87ac-4189-bb30-bc0caf044be6",
+        "expected": "No",
+        "observed": "No",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:a46bc557-7d16-4bb3-9334-e15922c072ef",
+        "expected": "No",
+        "observed": "No",
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 126181,
+      "verified": true,
+      "evidence": "input files: [{\"name\":\"resume-d5f6e235.pdf\",\"size\":126181}]; stillAttached=true; chip=true; resolved via primary"
+    }
+  ],
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: form (18 fillable field(s))",
+    "timing: base page (18 planned) — plan 24s, fill 9s, verify 1s",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "written_at": "2026-09-14T02:10:29.278Z"
+}

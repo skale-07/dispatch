@@ -1,0 +1,58 @@
+{
+  "run_id": "nav-91aec92b-9db6-492f-8723-93cf58d456f2",
+  "application_id": "b4b98001-18b5-4616-93ce-5297501aeb6b",
+  "jobright_job_id": "6a1149e15b5c5e4021a000c1",
+  "method": "agent",
+  "resolved_url": "https://careers.acme.com/apply/form",
+  "resolved_ats": "generic",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no external anchors"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "unresolved by deterministic phases"
+    },
+    {
+      "phase": "B_board_hop",
+      "outcome": "no employer board route (3 request(s))"
+    },
+    {
+      "phase": "C_agent",
+      "outcome": "resolved (turn 1, employer match)",
+      "evidence": "careers.acme.com"
+    }
+  ],
+  "agent": {
+    "turns_used": 1,
+    "steps_used": 3,
+    "domains_visited": [
+      "careers.acme.com"
+    ]
+  },
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "no standard Apply control found (exact and broad name tiers both empty)",
+    "board hop: no public greenhouse/lever/ashby board found for \"Acme\" (acme; 3 requests)",
+    "agent[1]: cred_available:false",
+    "agent[1]: leaked:none"
+  ],
+  "congruence": {
+    "verdict": "match",
+    "slug": "acme",
+    "detail": "token \"acme\" ~ slug \"acme\" (from URL host)",
+    "expected_company": "Acme",
+    "url": "https://careers.acme.com/apply/form"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-09-12T18:37:11.675Z"
+}

@@ -1,0 +1,46 @@
+{
+  "outcome": "FAILED_BEFORE_CLICK",
+  "application_id": "80e6a0fc-827d-4740-9fbf-b3864fd730bf",
+  "submission_id": "2806e97e-82b9-4ed9-8ce4-369fbdb9009a",
+  "attempt": 1,
+  "receipt": null,
+  "review_item_id": null,
+  "reason": "Refusing to click submit: field verification or upload did not pass",
+  "artifact_path": null,
+  "operator_brief": {
+    "title": "Submit blocked — ashby app 80e6a0fc-827d-4740-9fbf-b3864fd730bf",
+    "summary": "2 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "fill_error:_systemfield_education_history-endDate-month: locator.selectOption: Timeout 2000",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "_systemfield_education_history-endDate-month: locator.selectOption: Timeout 2000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-field-path=\"_systemfield_education_history\"]').first().locator('[id=\"_systemfield_education_history-endDate\"]').first().locator('select').first()\u001b[22m\n\u001b[2m    - locator resolved to <select disabled class=\"_select_14jlb_39 ashby-application-form-input-dropdown-select\">…</select>\u001b[22m\n\u001b[2m  - attempting select option action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying select option action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying select option action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    4 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying select option action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:_systemfield_education_history-school: combobox option not committed: listbox di",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "_systemfield_education_history-school: combobox option not committed: listbox did not open after click or typing",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      }
+    ],
+    "ok_count": 18,
+    "fail_count": 2
+  }
+}

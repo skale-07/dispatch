@@ -1,0 +1,158 @@
+{
+  "decision_id": "b4f35658-c559-48e4-8302-09141ed8d4bc",
+  "application_id": "a046af81-aa6f-4f88-861b-7e0df57a6334",
+  "signature": "AMBIGUOUS_FIELD|-|verify_mismatch|careers.leidos.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "a046af81-aa6f-4f88-861b-7e0df57a6334",
+    "company": "Leidos",
+    "role": "AI/ML Intern",
+    "state": "AMBIGUOUS_FIELD",
+    "attempt": 1,
+    "failure_signature": "AMBIGUOUS_FIELD|-|verify_mismatch|careers.leidos.com",
+    "end_host": "careers.leidos.com",
+    "recent_events": [
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "AMBIGUOUS_FIELD",
+        "reason": "pipeline: read-back verification failed",
+        "at": "2026-09-12T21:14:02.252Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (workday live fill: 11 filled (held for submit))",
+        "at": "2026-09-12T21:14:02.228Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route inspect_only (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-12T21:00:25.795Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-12T21:00:21.772Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: workday URL validated",
+        "at": "2026-09-12T21:00:21.767Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "APPLICATION_OPENING",
+        "reason": "ATS handoff: Apply landed on workday — re-detecting from https://leidos.wd5.myworkdayjobs.com/External/job/Huntsville-AL/AI-ML-Intern_R-00192042",
+        "at": "2026-09-12T21:00:21.763Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-12T21:00:13.609Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-12T21:00:10.668Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-12T21:00:10.665Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-12T21:00:08.857Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 db6f3f869124)",
+        "at": "2026-09-12T21:00:08.855Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-12T21:00:08.838Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-12T20:27:52.924Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-12T20:27:52.903Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-12T20:27:52.902Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "leidos",
+        "detail": "token \"leidos\" ~ slug \"leidos\" (from URL host)",
+        "expected_company": "Leidos",
+        "url": "https://careers.leidos.com/jobs/18233449-ai-slash-ml-intern?jr_id=6aa486e18275e3a211760ae9"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (11 candidates, employer match)",
+          "evidence": "careers.leidos.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": false
+    },
+    "open_review_items": [
+      {
+        "kind": "AMBIGUOUS_FIELD",
+        "title": "Fill verification failed"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"park_for_operator\", \"rationale\": \"Fill executed (11 fields held for submit) but read-back verification mismatched on a Workday form; no transient signal, materials verified, navigation congruent, no wall or duplicate. A blind rerun would repeat the same mismatch. An open AMBIGUOUS_FIELD review item already exists — a human should inspect the field values.\", \"confidence\": \"medium\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: cf2b0b8b-4319-4a89-a7ae-12338af9b02f",
+  "rationale_unverified": "Fill executed (11 fields held for submit) but read-back verification mismatched on a Workday form; no transient signal, materials verified, navigation congruent, no wall or duplicate. A blind rerun would repeat the same mismatch. An open AMBIGUOUS_FIELD review item already exists — a human should inspect the field values."
+}

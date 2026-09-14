@@ -1,0 +1,51 @@
+{
+  "run_id": "nav-82469e40-4de7-40bb-b2f1-8f4431d66600",
+  "application_id": "2ac2e197-7e77-4062-8358-ea5579f72a61",
+  "jobright_job_id": "6a82e4271081a745e970bd71",
+  "method": "anchor_llm",
+  "resolved_url": "https://careers-rsandh.icims.com/jobs/8158/civil-engineering-intern-%28airfields%29---summer-2027/job?in_iframe=1",
+  "resolved_ats": "generic",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no congruent apply href (12 external links)",
+      "evidence": "careers-rsandh.icims.com, www.linkedin.com, x.com, www.crunchbase.com, www.glassdoor.com, www.rsandh.com"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "unresolved by deterministic phases"
+    },
+    {
+      "phase": "A_anchor_llm",
+      "outcome": "candidate promoted by adjudication",
+      "evidence": "careers-rsandh.icims.com"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "phase A: anchor reads as \"rsandh\" (URL names \"rsandh\" (tenant), which shares nothing with company \"RS&H\") — not preferred, deferring to the Apply click",
+    "phase A: 7 external host(s) seen: careers-rsandh.icims.com, www.linkedin.com, x.com, www.crunchbase.com, www.glassdoor.com, www.rsandh.com, www.einpresswire.com",
+    "no standard Apply control found (exact and broad name tiers both empty)",
+    "anchor adjudication: promoted careers-rsandh.icims.com",
+    "anchor adjudication rationale (UNVERIFIED): iCIMS tenant careers-rsandh is RS&H's own ATS, and the job title matches exactly.",
+    "congruence: URL names \"rsandh\", not \"RS&H\" (URL names \"rsandh\" (tenant), which shares nothing with company \"RS&H\") — recorded, not refused"
+  ],
+  "congruence": {
+    "verdict": "mismatch",
+    "slug": "rsandh",
+    "detail": "URL names \"rsandh\" (tenant), which shares nothing with company \"RS&H\"",
+    "expected_company": "RS&H",
+    "url": "https://careers-rsandh.icims.com/jobs/8158/civil-engineering-intern-%28airfields%29---summer-2027/job?in_iframe=1&jr_id=6a82e4271081a745e970bd71"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-09-14T04:09:52.986Z"
+}

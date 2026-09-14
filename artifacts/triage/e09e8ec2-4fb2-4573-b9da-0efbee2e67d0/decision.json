@@ -1,0 +1,140 @@
+{
+  "decision_id": "e09e8ec2-4fb2-4573-b9da-0efbee2e67d0",
+  "application_id": "2ac2e197-7e77-4062-8358-ea5579f72a61",
+  "signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|careers-rsandh.icims.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "2ac2e197-7e77-4062-8358-ea5579f72a61",
+    "company": "RS&H",
+    "role": "Civil Engineering Intern (Airfields) - Summer 2027",
+    "state": "NATIVE_AUTOFILL_RUNNING",
+    "attempt": 1,
+    "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|careers-rsandh.icims.com",
+    "end_host": "careers-rsandh.icims.com",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-14T04:09:58.026Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-14T04:09:53.057Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-14T04:09:53.047Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-14T04:09:39.924Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 7141579276ac)",
+        "at": "2026-09-14T04:09:39.916Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-14T04:09:39.865Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-14T04:09:15.830Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-14T04:09:15.725Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-14T04:09:15.724Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-14T04:09:15.721Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_llm",
+      "notes": [
+        "phase A: anchor reads as \"rsandh\" (URL names \"rsandh\" (tenant), which shares nothing with company \"RS&H\") — not preferred, deferring to the Apply click",
+        "phase A: 7 external host(s) seen: careers-rsandh.icims.com, www.linkedin.com, x.com, www.crunchbase.com, www.glassdoor.com, www.rsandh.com, www.einpresswire.com",
+        "no standard Apply control found (exact and broad name tiers both empty)",
+        "anchor adjudication: promoted careers-rsandh.icims.com",
+        "anchor adjudication rationale (UNVERIFIED): iCIMS tenant careers-rsandh is RS&H's own ATS, and the job title matches exactly.",
+        "congruence: URL names \"rsandh\", not \"RS&H\" (URL names \"rsandh\" (tenant), which shares nothing with company \"RS&H\") — recorded, not refused"
+      ],
+      "congruence": {
+        "verdict": "mismatch",
+        "slug": "rsandh",
+        "detail": "URL names \"rsandh\" (tenant), which shares nothing with company \"RS&H\"",
+        "expected_company": "RS&H",
+        "url": "https://careers-rsandh.icims.com/jobs/8158/civil-engineering-intern-%28airfields%29---summer-2027/job?in_iframe=1&jr_id=6a82e4271081a745e970bd71"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "no congruent apply href (12 external links)",
+          "evidence": "careers-rsandh.icims.com, www.linkedin.com, x.com, www.crunchbase.com, www.glassdoor.com, www.rsandh.com"
+        },
+        {
+          "phase": "B_apply_click",
+          "outcome": "unresolved by deterministic phases"
+        },
+        {
+          "phase": "A_anchor_llm",
+          "outcome": "candidate promoted by adjudication",
+          "evidence": "careers-rsandh.icims.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [
+      {
+        "kind": "MANUAL",
+        "title": "Stored application URL belongs to \"rsandh\", not RS&H"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\":\"requeue_same\",\"rationale\":\"Run stalled mid-stage in NATIVE_AUTOFILL_RUNNING on attempt 1 with no wall, no fill gate, no submit evidence and no prior decisions — looks transient. Navigation resolved to RS&H's own iCIMS tenant (congruence flag is cosmetic, already parked as a manual review item), and materials verified, so a plain rerun is the cheapest thing that could change the outcome.\",\"confidence\":\"medium\"}",
+  "parsed_action": "requeue_same",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "requeued at attempt 2",
+  "rationale_unverified": "Run stalled mid-stage in NATIVE_AUTOFILL_RUNNING on attempt 1 with no wall, no fill gate, no submit evidence and no prior decisions — looks transient. Navigation resolved to RS&H's own iCIMS tenant (congruence flag is cosmetic, already parked as a manual review item), and materials verified, so a plain rerun is the cheapest thing that could change the outcome."
+}

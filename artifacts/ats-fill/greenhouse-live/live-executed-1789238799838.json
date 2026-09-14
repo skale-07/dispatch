@@ -1,0 +1,1378 @@
+{
+  "mode": "executed",
+  "ats": "greenhouse",
+  "url": "https://boards.greenhouse.io/lyft/jobs/8802198002",
+  "plan": {
+    "answers": {
+      "legal_name.first": "Shubham",
+      "legal_name.last": "Kale",
+      "email": "s***@gmail.com",
+      "address.country": "United States",
+      "phone": "***-***-7636",
+      "address.city": "Baltimore",
+      "current_company": "Summer Atlantic Capital",
+      "start_month": "August",
+      "start_year": "2025",
+      "graduation_month": "May",
+      "graduation_year": "2029",
+      "screener:custom:anticipated_graduation_year": "Other",
+      "screener:custom:predicted:question_38294757002": "No",
+      "screener:custom:predicted:question_38294758002": "Yes",
+      "screener:custom:predicted:question_38294759002": "No accommodation needed for the hiring process.",
+      "screener:work_authorization": "[REDACTED_SPONSORSHIP]",
+      "screener:consent_agreement": "I acknowledge that I have read and understood the terms of the Lyft Candidate Privacy Notice.",
+      "pronouns": "He/Him",
+      "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+      "screener:previously_applied_or_worked": "No",
+      "address.postal_code": "21218",
+      "screener:willing_to_relocate": "I am willing to relocate before starting employment.",
+      "screener:consent_agreement:question_38294767002": "Yes",
+      "gender": "Male",
+      "hispanic_latino": "No",
+      "veteran_status": "I am not a veteran",
+      "disability_status": "No"
+    },
+    "entries": [
+      {
+        "field_id": "first_name",
+        "label": "First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "fill",
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "last_name",
+        "label": "Last Name",
+        "type": "text",
+        "canonical_field": "legal_name.last",
+        "action": "fill",
+        "value": "Kale",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "email",
+        "label": "Email",
+        "type": "text",
+        "canonical_field": "email",
+        "action": "fill",
+        "value": "s***@gmail.com",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "country",
+        "label": "Country",
+        "type": "text",
+        "canonical_field": "address.country",
+        "action": "fill",
+        "value": "United States +1",
+        "reason": "Mapped from public profile; placed onto \"United States +1\""
+      },
+      {
+        "field_id": "iti-0__search-input",
+        "label": "Search",
+        "type": "unknown",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "phone",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "fill",
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "candidate-location",
+        "label": "Location (City)",
+        "type": "text",
+        "canonical_field": "address.city",
+        "action": "fill",
+        "value": "Baltimore",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "resume",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "skip_file",
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "company-name-0",
+        "label": "Company name",
+        "type": "text",
+        "canonical_field": "current_company",
+        "action": "fill",
+        "value": "Summer Atlantic Capital",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "title-0",
+        "label": "Title",
+        "type": "text",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "start-date-month-0",
+        "label": "Start date month",
+        "type": "text",
+        "canonical_field": "start_month",
+        "action": "fill",
+        "value": "August",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "start-date-year-0",
+        "label": "Start date year",
+        "type": "text",
+        "canonical_field": "start_year",
+        "action": "fill",
+        "value": "2025",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "end-date-month-0",
+        "label": "End date month",
+        "type": "text",
+        "canonical_field": "graduation_month",
+        "action": "fill",
+        "value": "May",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "end-date-year-0",
+        "label": "End date year",
+        "type": "text",
+        "canonical_field": "graduation_year",
+        "action": "fill",
+        "value": "2029",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "current-role-0_1",
+        "label": "Current role",
+        "type": "checkbox",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_38294755002",
+        "label": "What is your anticipated graduation month and year?",
+        "type": "text",
+        "canonical_field": "screener:custom:anticipated_graduation_year",
+        "action": "fill",
+        "value": "Other",
+        "reason": "Screener bank answer (llm_option)"
+      },
+      {
+        "field_id": "question_38294756002",
+        "label": "Please enter your relevant employment and military service above using the + Add Another Employment link.",
+        "type": "text",
+        "canonical_field": "veteran_status",
+        "action": "skip_empty",
+        "value": null,
+        "reason": "Profile value empty for veteran_status"
+      },
+      {
+        "field_id": "question_38294757002",
+        "label": "May we contact your current employer?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_38294757002",
+        "action": "fill",
+        "value": "No",
+        "reason": "Predicted from operator context (llm_predict): Prior learned answer indicates the candidate declines contact with their current employer, Summer Atlantic Capital."
+      },
+      {
+        "field_id": "question_38294758002",
+        "label": "Can you perform these essential functions of the job with reasonable accommodation?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_38294758002",
+        "action": "fill",
+        "value": "Yes",
+        "reason": "Predicted from operator context (llm_predict): Standard affirmative; candidate can perform the role's essential functions."
+      },
+      {
+        "field_id": "question_38294759002",
+        "label": "Please describe any need for a reasonable accommodation for this hiring process (no documentation required).",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_38294759002",
+        "action": "fill",
+        "value": "No accommodation needed for the hiring process.",
+        "reason": "Predicted from operator context (llm_predict): No accommodation needs are indicated anywhere in the candidate's profile."
+      },
+      {
+        "field_id": "question_38294760002",
+        "label": "Work Authorization",
+        "type": "text",
+        "canonical_field": "screener:work_authorization",
+        "action": "fill",
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Screener bank answer (llm_option)"
+      },
+      {
+        "field_id": "question_38294761002",
+        "label": "Please review the linked document:",
+        "type": "text",
+        "canonical_field": "screener:consent_agreement",
+        "action": "fill",
+        "value": "I acknowledge that I have read and understood the terms of the Lyft Candidate Privacy Notice.",
+        "reason": "Screener bank answer (llm_option)"
+      },
+      {
+        "field_id": "question_38294762002[]",
+        "label": "Please share your gender pronouns.",
+        "type": "text",
+        "canonical_field": "pronouns",
+        "action": "fill",
+        "value": "He/Him",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "question_38294763002",
+        "label": "LinkedIn Profile",
+        "type": "text",
+        "canonical_field": "linkedin_url",
+        "action": "fill",
+        "value": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_38294764002",
+        "label": "Have you been employed by Lyft, or any subsidiary, affiliate, or business unit of Lyft, in the past (whether on a full-time or part-time basis)?",
+        "type": "text",
+        "canonical_field": "screener:previously_applied_or_worked",
+        "action": "fill",
+        "value": "No",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_38294765002",
+        "label": "Zip / postal code",
+        "type": "text",
+        "canonical_field": "address.postal_code",
+        "action": "fill",
+        "value": "21218",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_38294766002",
+        "label": "This position is based in the United States. Do you currently reside in commutable proximity to a Lyft Office located in New York City or are you open to relocating?",
+        "type": "text",
+        "canonical_field": "screener:willing_to_relocate",
+        "action": "fill",
+        "value": "I am willing to relocate before starting employment.",
+        "reason": "Screener bank answer (synonym_option): relocation-affirmative sentence option (ability directive 2026-08-16)"
+      },
+      {
+        "field_id": "question_38294767002",
+        "label": "I certify that the facts set forth in this Application for Employment are true and complete to the best of my knowledge. I understand that if I am employed, false statements, omissions or misrepresentations may result in my dismissal. I authorize the Employer to make an investigation of any of the facts set forth in this application and release the Employer from any liability. The employer may contact any provided references.",
+        "type": "text",
+        "canonical_field": "screener:consent_agreement:question_38294767002",
+        "action": "fill",
+        "value": "Yes",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "gender",
+        "label": "Gender",
+        "type": "text",
+        "canonical_field": "gender",
+        "action": "fill",
+        "value": "Male",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "hispanic_ethnicity",
+        "label": "Are you Hispanic/Latino?",
+        "type": "text",
+        "canonical_field": "hispanic_latino",
+        "action": "fill",
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "veteran_status",
+        "label": "Veteran Status",
+        "type": "text",
+        "canonical_field": "veteran_status",
+        "action": "fill",
+        "value": "I am not a veteran",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "disability_status",
+        "label": "Disability Status",
+        "type": "text",
+        "canonical_field": "disability_status",
+        "action": "fill",
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      }
+    ],
+    "fillable_count": 27,
+    "skipped_count": 5,
+    "review_required_count": 0
+  },
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "posting shell on landing — trying the canonical embed app first https://job-boards.greenhouse.io/embed/job_app?for=lyft&token=8802198002",
+    "schema diff: 17/18 declared question(s) matched onto 32 DOM field(s); 1 declared-only (1 required); 15 DOM-only",
+    "board API declared 18 question(s); matched complete option lists onto 9 field(s)",
+    "option harvest: \"Location (City)\" is a combobox but offered no readable options",
+    "option harvest: scraped real options for 7/21 control(s) before planning",
+    "frozen after fill→verify→upload — no further field mutation; submit never called"
+  ],
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "final_url": "https://job-boards.greenhouse.io/embed/job_app?for=lyft&token=8802198002",
+  "identity_verification": {
+    "requestedUrl": "https://boards.greenhouse.io/lyft/jobs/8802198002",
+    "finalUrl": "https://job-boards.greenhouse.io/embed/job_app?for=lyft&token=8802198002",
+    "requestedJobId": "8802198002",
+    "observedJobId": "8802198002",
+    "company": "lyft",
+    "role": "Job Application for Data Analyst Intern (Summer 2027) at Lyft",
+    "formDetected": true,
+    "fieldCount": 32,
+    "warnings": [
+      "login_wall_low: auth_provider_marker"
+    ],
+    "passed": true,
+    "failureCode": null,
+    "failureReason": null
+  },
+  "captcha_detection": {
+    "detected": false,
+    "confidence": "LOW",
+    "signals": [],
+    "dormantMarkers": [
+      "generic_captcha_word_only"
+    ]
+  },
+  "login_wall_detection": {
+    "detected": false,
+    "confidence": "LOW",
+    "signals": [
+      "auth_provider_marker"
+    ]
+  },
+  "failure_code": null,
+  "mutation_attempted": true,
+  "schema_diff": {
+    "board": "lyft",
+    "job_id": "8802198002",
+    "declared_count": 18,
+    "dom_count": 32,
+    "matched": 17,
+    "api_only": [
+      {
+        "label": "Resume/CV",
+        "required": true
+      }
+    ],
+    "dom_only": [
+      "Country",
+      "Search",
+      "Location (City)",
+      "Attach",
+      "Company name",
+      "Title",
+      "Start date month",
+      "Start date year",
+      "End date month",
+      "End date year",
+      "Current role",
+      "Gender",
+      "Are you Hispanic/Latino?",
+      "Veteran Status",
+      "Disability Status"
+    ],
+    "option_mismatches": []
+  },
+  "harvested_options": [
+    {
+      "field_id": "country",
+      "label": "Country",
+      "answer_space": "closed",
+      "option_count": 244,
+      "options": [
+        "United States +1",
+        "Afghanistan +93",
+        "Åland Islands +358",
+        "Albania +355",
+        "Algeria +213",
+        "American Samoa +1",
+        "Andorra +376",
+        "Angola +244",
+        "Anguilla +1",
+        "Antigua & Barbuda +1",
+        "Argentina +54",
+        "Armenia +374",
+        "Aruba +297",
+        "Ascension Island +247",
+        "Australia +61",
+        "Austria +43",
+        "Azerbaijan +994",
+        "Bahamas +1",
+        "Bahrain +973",
+        "Bangladesh +880",
+        "Barbados +1",
+        "Belarus +375",
+        "Belgium +32",
+        "Belize +501",
+        "Benin +229"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "start-date-month-0",
+      "label": "Start date month",
+      "answer_space": "closed",
+      "option_count": 12,
+      "options": [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "end-date-month-0",
+      "label": "End date month",
+      "answer_space": "closed",
+      "option_count": 12,
+      "options": [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "gender",
+      "label": "Gender",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "Male",
+        "Female",
+        "Decline To Self Identify"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "hispanic_ethnicity",
+      "label": "Are you Hispanic/Latino?",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "Yes",
+        "No",
+        "Decline To Self Identify"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "veteran_status",
+      "label": "Veteran Status",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "I am not a protected veteran",
+        "I identify as one or more of the classifications of a protected veteran",
+        "I don't wish to answer"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "disability_status",
+      "label": "Disability Status",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "Yes, I have a disability, or have had one in the past",
+        "No, I do not have a disability and have not had one in the past",
+        "I do not want to answer"
+      ],
+      "other_option": null
+    }
+  ],
+  "approved_plan": {
+    "entries": [
+      {
+        "field_id": "first_name",
+        "label": "First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "FILL",
+        "approved": true,
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "last_name",
+        "label": "Last Name",
+        "type": "text",
+        "canonical_field": "legal_name.last",
+        "action": "FILL",
+        "approved": true,
+        "value": "Kale",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "email",
+        "label": "Email",
+        "type": "text",
+        "canonical_field": "email",
+        "action": "FILL",
+        "approved": true,
+        "value": "s***@gmail.com",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "country",
+        "label": "Country",
+        "type": "text",
+        "canonical_field": "address.country",
+        "action": "FILL",
+        "approved": true,
+        "value": "United States +1",
+        "reason": "Mapped from public profile; placed onto \"United States +1\""
+      },
+      {
+        "field_id": "iti-0__search-input",
+        "label": "Search",
+        "type": "unknown",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "phone",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "FILL",
+        "approved": true,
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "candidate-location",
+        "label": "Location (City)",
+        "type": "text",
+        "canonical_field": "address.city",
+        "action": "FILL",
+        "approved": true,
+        "value": "Baltimore",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "resume",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "company-name-0",
+        "label": "Company name",
+        "type": "text",
+        "canonical_field": "current_company",
+        "action": "FILL",
+        "approved": true,
+        "value": "Summer Atlantic Capital",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "title-0",
+        "label": "Title",
+        "type": "text",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "start-date-month-0",
+        "label": "Start date month",
+        "type": "text",
+        "canonical_field": "start_month",
+        "action": "FILL",
+        "approved": true,
+        "value": "August",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "start-date-year-0",
+        "label": "Start date year",
+        "type": "text",
+        "canonical_field": "start_year",
+        "action": "FILL",
+        "approved": true,
+        "value": "2025",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "end-date-month-0",
+        "label": "End date month",
+        "type": "text",
+        "canonical_field": "graduation_month",
+        "action": "FILL",
+        "approved": true,
+        "value": "May",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "end-date-year-0",
+        "label": "End date year",
+        "type": "text",
+        "canonical_field": "graduation_year",
+        "action": "FILL",
+        "approved": true,
+        "value": "2029",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "current-role-0_1",
+        "label": "Current role",
+        "type": "checkbox",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "question_38294755002",
+        "label": "What is your anticipated graduation month and year?",
+        "type": "text",
+        "canonical_field": "screener:custom:anticipated_graduation_year",
+        "action": "FILL",
+        "approved": true,
+        "value": "Other",
+        "reason": "Screener bank answer (llm_option)"
+      },
+      {
+        "field_id": "question_38294756002",
+        "label": "Please enter your relevant employment and military service above using the + Add Another Employment link.",
+        "type": "text",
+        "canonical_field": "veteran_status",
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "Profile value empty for veteran_status"
+      },
+      {
+        "field_id": "question_38294757002",
+        "label": "May we contact your current employer?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_38294757002",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Predicted from operator context (llm_predict): Prior learned answer indicates the candidate declines contact with their current employer, Summer Atlantic Capital."
+      },
+      {
+        "field_id": "question_38294758002",
+        "label": "Can you perform these essential functions of the job with reasonable accommodation?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_38294758002",
+        "action": "FILL",
+        "approved": true,
+        "value": "Yes",
+        "reason": "Predicted from operator context (llm_predict): Standard affirmative; candidate can perform the role's essential functions."
+      },
+      {
+        "field_id": "question_38294759002",
+        "label": "Please describe any need for a reasonable accommodation for this hiring process (no documentation required).",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_38294759002",
+        "action": "FILL",
+        "approved": true,
+        "value": "No accommodation needed for the hiring process.",
+        "reason": "Predicted from operator context (llm_predict): No accommodation needs are indicated anywhere in the candidate's profile."
+      },
+      {
+        "field_id": "question_38294760002",
+        "label": "Work Authorization",
+        "type": "text",
+        "canonical_field": "screener:work_authorization",
+        "action": "FILL",
+        "approved": true,
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Screener bank answer (llm_option)"
+      },
+      {
+        "field_id": "question_38294761002",
+        "label": "Please review the linked document:",
+        "type": "text",
+        "canonical_field": "screener:consent_agreement",
+        "action": "FILL",
+        "approved": true,
+        "value": "I acknowledge that I have read and understood the terms of the Lyft Candidate Privacy Notice.",
+        "reason": "Screener bank answer (llm_option)"
+      },
+      {
+        "field_id": "question_38294762002[]",
+        "label": "Please share your gender pronouns.",
+        "type": "text",
+        "canonical_field": "pronouns",
+        "action": "FILL",
+        "approved": true,
+        "value": "He/Him",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "question_38294763002",
+        "label": "LinkedIn Profile",
+        "type": "text",
+        "canonical_field": "linkedin_url",
+        "action": "FILL",
+        "approved": true,
+        "value": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_38294764002",
+        "label": "Have you been employed by Lyft, or any subsidiary, affiliate, or business unit of Lyft, in the past (whether on a full-time or part-time basis)?",
+        "type": "text",
+        "canonical_field": "screener:previously_applied_or_worked",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_38294765002",
+        "label": "Zip / postal code",
+        "type": "text",
+        "canonical_field": "address.postal_code",
+        "action": "FILL",
+        "approved": true,
+        "value": "21218",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_38294766002",
+        "label": "This position is based in the United States. Do you currently reside in commutable proximity to a Lyft Office located in New York City or are you open to relocating?",
+        "type": "text",
+        "canonical_field": "screener:willing_to_relocate",
+        "action": "FILL",
+        "approved": true,
+        "value": "I am willing to relocate before starting employment.",
+        "reason": "Screener bank answer (synonym_option): relocation-affirmative sentence option (ability directive 2026-08-16)"
+      },
+      {
+        "field_id": "question_38294767002",
+        "label": "I certify that the facts set forth in this Application for Employment are true and complete to the best of my knowledge. I understand that if I am employed, false statements, omissions or misrepresentations may result in my dismissal. I authorize the Employer to make an investigation of any of the facts set forth in this application and release the Employer from any liability. The employer may contact any provided references.",
+        "type": "text",
+        "canonical_field": "screener:consent_agreement:question_38294767002",
+        "action": "FILL",
+        "approved": true,
+        "value": "Yes",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "gender",
+        "label": "Gender",
+        "type": "text",
+        "canonical_field": "gender",
+        "action": "FILL",
+        "approved": true,
+        "value": "Male",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "hispanic_ethnicity",
+        "label": "Are you Hispanic/Latino?",
+        "type": "text",
+        "canonical_field": "hispanic_latino",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "veteran_status",
+        "label": "Veteran Status",
+        "type": "text",
+        "canonical_field": "veteran_status",
+        "action": "FILL",
+        "approved": true,
+        "value": "I am not a veteran",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "disability_status",
+        "label": "Disability Status",
+        "type": "text",
+        "canonical_field": "disability_status",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      }
+    ],
+    "answers": {
+      "legal_name.first": "Shubham",
+      "legal_name.last": "Kale",
+      "email": "s***@gmail.com",
+      "address.country": "United States +1",
+      "phone": "***-***-7636",
+      "address.city": "Baltimore",
+      "current_company": "Summer Atlantic Capital",
+      "start_month": "August",
+      "start_year": "2025",
+      "graduation_month": "May",
+      "graduation_year": "2029",
+      "screener:custom:anticipated_graduation_year": "Other",
+      "screener:custom:predicted:question_38294757002": "No",
+      "screener:custom:predicted:question_38294758002": "Yes",
+      "screener:custom:predicted:question_38294759002": "No accommodation needed for the hiring process.",
+      "screener:work_authorization": "[REDACTED_SPONSORSHIP]",
+      "screener:consent_agreement": "I acknowledge that I have read and understood the terms of the Lyft Candidate Privacy Notice.",
+      "pronouns": "He/Him",
+      "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+      "screener:previously_applied_or_worked": "No",
+      "address.postal_code": "21218",
+      "screener:willing_to_relocate": "I am willing to relocate before starting employment.",
+      "screener:consent_agreement:question_38294767002": "Yes",
+      "gender": "Male",
+      "hispanic_latino": "No",
+      "veteran_status": "I am not a veteran",
+      "disability_status": "No"
+    },
+    "fillable_count": 27,
+    "skipped_count": 5,
+    "review_required_count": 0
+  },
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "legal_name.last",
+      "email",
+      "address.country",
+      "phone",
+      "address.city",
+      "current_company",
+      "start_month",
+      "start_year",
+      "graduation_month",
+      "graduation_year",
+      "screener:custom:anticipated_graduation_year",
+      "screener:custom:predicted:question_38294757002",
+      "screener:custom:predicted:question_38294758002",
+      "screener:custom:predicted:question_38294759002",
+      "screener:work_authorization",
+      "screener:consent_agreement",
+      "pronouns",
+      "linkedin_url",
+      "screener:previously_applied_or_worked",
+      "address.postal_code",
+      "screener:willing_to_relocate",
+      "screener:consent_agreement:question_38294767002",
+      "gender",
+      "hispanic_latino",
+      "veteran_status",
+      "disability_status"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "first_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "last_name",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "country",
+        "canonical_field": "address.country",
+        "control_kind": "combobox",
+        "selected_option": "+1",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"United States +1\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "phone",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "candidate-location",
+        "canonical_field": "address.city",
+        "control_kind": "combobox",
+        "selected_option": "Baltimore, Maryland, United States",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "filter \"Baltimore\" then picked \"Baltimore, Maryland, United States\" (exact)"
+        ]
+      },
+      {
+        "field_id": "company-name-0",
+        "canonical_field": "current_company",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "start-date-month-0",
+        "canonical_field": "start_month",
+        "control_kind": "combobox",
+        "selected_option": "August",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"August\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "start-date-year-0",
+        "canonical_field": "start_year",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "end-date-month-0",
+        "canonical_field": "graduation_month",
+        "control_kind": "combobox",
+        "selected_option": "May",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"May\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "end-date-year-0",
+        "canonical_field": "graduation_year",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_38294755002",
+        "canonical_field": "screener:custom:anticipated_graduation_year",
+        "control_kind": "combobox",
+        "selected_option": "Other",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Other\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_38294757002",
+        "canonical_field": "screener:custom:predicted:question_38294757002",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_38294758002",
+        "canonical_field": "screener:custom:predicted:question_38294758002",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_38294759002",
+        "canonical_field": "screener:custom:predicted:question_38294759002",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_38294760002",
+        "canonical_field": "screener:work_authorization",
+        "control_kind": "combobox",
+        "selected_option": "I am authorized to work for any employer in the country in which this position is based.",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"I am authorized to work for any employer in the country in which this position is based.\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_38294761002",
+        "canonical_field": "screener:consent_agreement",
+        "control_kind": "combobox",
+        "selected_option": "I acknowledge that I have read and understood the terms of the Lyft Candidate Privacy Notice.",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"I acknowledge that I have read and understood the terms of the Lyft Candidate Privacy Notice.\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_38294762002[]",
+        "canonical_field": "pronouns",
+        "control_kind": "combobox",
+        "selected_option": "He / Him",
+        "match_via": "ci_exact",
+        "notes": [
+          "opened via control click",
+          "picked \"He / Him\" (ci_exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_38294763002",
+        "canonical_field": "linkedin_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_38294764002",
+        "canonical_field": "screener:previously_applied_or_worked",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_38294765002",
+        "canonical_field": "address.postal_code",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_38294766002",
+        "canonical_field": "screener:willing_to_relocate",
+        "control_kind": "combobox",
+        "selected_option": "I am willing to relocate before starting employment.",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"I am willing to relocate before starting employment.\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_38294767002",
+        "canonical_field": "screener:consent_agreement:question_38294767002",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "gender",
+        "canonical_field": "gender",
+        "control_kind": "combobox",
+        "selected_option": "Male",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Male\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "hispanic_ethnicity",
+        "canonical_field": "hispanic_latino",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "veteran_status",
+        "canonical_field": "veteran_status",
+        "control_kind": "combobox",
+        "selected_option": "I am not a protected veteran",
+        "match_via": "synonym",
+        "notes": [
+          "opened via control click",
+          "picked \"I am not a protected veteran\" (synonym) from open list"
+        ]
+      },
+      {
+        "field_id": "disability_status",
+        "canonical_field": "disability_status",
+        "control_kind": "combobox",
+        "selected_option": "No, I do not have a disability and have not had one in the past",
+        "match_via": "synonym",
+        "notes": [
+          "opened via control click",
+          "picked \"No, I do not have a disability and have not had one in the past\" (synonym) from open list"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.last",
+        "expected": "Kale",
+        "observed": "Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "address.country",
+        "expected": "United States +1",
+        "observed": {
+          "value": "+1",
+          "label": "+1"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "address.city",
+        "expected": "Baltimore",
+        "observed": {
+          "value": "Baltimore, Maryland, United States",
+          "label": "Baltimore, Maryland, United States"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "current_company",
+        "expected": "Summer Atlantic Capital",
+        "observed": "Summer Atlantic Capital",
+        "match": true
+      },
+      {
+        "canonical_field": "start_month",
+        "expected": "August",
+        "observed": {
+          "value": "August",
+          "label": "August"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "start_year",
+        "expected": "2025",
+        "observed": "2025",
+        "match": true
+      },
+      {
+        "canonical_field": "graduation_month",
+        "expected": "May",
+        "observed": {
+          "value": "May",
+          "label": "May"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "graduation_year",
+        "expected": "2029",
+        "observed": "2029",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:anticipated_graduation_year",
+        "expected": "Other",
+        "observed": {
+          "value": "Other",
+          "label": "Other"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_38294757002",
+        "expected": "No",
+        "observed": {
+          "value": "No",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_38294758002",
+        "expected": "Yes",
+        "observed": {
+          "value": "Yes",
+          "label": "Yes"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_38294759002",
+        "expected": "No accommodation needed for the hiring process.",
+        "observed": "No accommodation needed for the hiring process.",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:work_authorization",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:consent_agreement",
+        "expected": "I acknowledge that I have read and understood the terms of the Lyft Candidate Privacy Notice.",
+        "observed": {
+          "value": "I acknowledge that I have read and understood the terms of the Lyft Candidate Privacy Notice.",
+          "label": "I acknowledge that I have read and understood the terms of the Lyft Candidate Privacy Notice."
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "pronouns",
+        "expected": "He/Him",
+        "observed": {
+          "value": "He / Him",
+          "label": "He / Him"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:previously_applied_or_worked",
+        "expected": "No",
+        "observed": {
+          "value": "No",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "address.postal_code",
+        "expected": "21218",
+        "observed": "21218",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:willing_to_relocate",
+        "expected": "I am willing to relocate before starting employment.",
+        "observed": {
+          "value": "I am willing to relocate before starting employment.",
+          "label": "I am willing to relocate before starting employment."
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:consent_agreement:question_38294767002",
+        "expected": "Yes",
+        "observed": "Yes",
+        "match": true
+      },
+      {
+        "canonical_field": "gender",
+        "expected": "Male",
+        "observed": {
+          "value": "Male",
+          "label": "Male"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "hispanic_latino",
+        "expected": "No",
+        "observed": {
+          "value": "No",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "veteran_status",
+        "expected": "I am not a veteran",
+        "observed": {
+          "value": "I am not a protected veteran",
+          "label": "I am not a protected veteran"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "disability_status",
+        "expected": "No",
+        "observed": {
+          "value": "No, I do not have a disability and have not had one in the past",
+          "label": "No, I do not have a disability and have not had one in the past"
+        },
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 125751,
+      "verified": true,
+      "evidence": "input files: []; stillAttached=false; chip=true"
+    }
+  ],
+  "written_at": "2026-09-12T18:46:40.092Z"
+}

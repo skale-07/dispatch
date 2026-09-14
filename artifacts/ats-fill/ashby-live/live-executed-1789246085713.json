@@ -1,0 +1,945 @@
+{
+  "ats": "ashby",
+  "url": "https://jobs.ashbyhq.com/commure/62841aa1-3ee5-4547-8380-637b737b2cb3/application",
+  "requested_url": "https://jobs.ashbyhq.com/commure/62841aa1-3ee5-4547-8380-637b737b2cb3/application",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://jobs.ashbyhq.com/commure/62841aa1-3ee5-4547-8380-637b737b2cb3/application",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 19,
+    "skipped_count": 3,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "f_0",
+      "label": "Application",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "_systemfield_name",
+      "label": "Full Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Single full-name field: composed legal_name.first + legal_name.last (both safe factual canonicals)"
+    },
+    {
+      "field_id": "_systemfield_email",
+      "label": "Email",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "_systemfield_resume",
+      "label": "Resume",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "01c02cfe-fc4d-4c95-ac7a-f2914cc4e8f1",
+      "label": "What is your LinkedIn URL?",
+      "type": "text",
+      "canonical_field": "linkedin_url",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "_systemfield_education_history",
+      "label": "Education History",
+      "type": "text",
+      "canonical_field": "screener:custom:education_history_year",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "_systemfield_education_history-degree",
+      "label": "Degree",
+      "type": "text",
+      "canonical_field": "degree",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "_systemfield_education_history-major",
+      "label": "Field of Study",
+      "type": "text",
+      "canonical_field": "major",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "_systemfield_education_history#17",
+      "label": "Education History",
+      "type": "select",
+      "canonical_field": "screener:custom:predicted:_systemfield_education_history#17",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): Profile facts list graduation in May 2029."
+    },
+    {
+      "field_id": "_systemfield_education_history#18",
+      "label": "Education History",
+      "type": "select",
+      "canonical_field": "screener:custom:education_history_year:_systemfield_education_history#18",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "_systemfield_education_history#19",
+      "label": "Education History",
+      "type": "select",
+      "canonical_field": "screener:custom:predicted:_systemfield_education_history#19",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): Profile facts list graduation in May 2029."
+    },
+    {
+      "field_id": "_systemfield_education_history#20",
+      "label": "Education History",
+      "type": "select",
+      "canonical_field": "screener:custom:education_history_year:_systemfield_education_history#20",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "_systemfield_education_history-isCurrent",
+      "label": "Still Student?",
+      "type": "checkbox",
+      "canonical_field": "screener:custom:still_student",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "245afefa-de8d-4614-9c76-19d13a335695",
+      "label": "Please upload an official or unofficial transcript.",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "41bd4bbe-ce21-4c9c-939d-6098a9c06720",
+      "label": "I have experience with the following technology stacks from a previous internship:",
+      "type": "select",
+      "canonical_field": "screener:custom:predicted:41bd4bbe-ce21-4c9c-939d-6098a9c06720",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): Prior work at Intelehealth and Gates Foundation research was built primarily in Python."
+    },
+    {
+      "field_id": "f3d6cae4-a75b-4d25-ab72-e50cb5685f18",
+      "label": "How did you hear about Commure?",
+      "type": "select",
+      "canonical_field": "screener:how_heard",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "_systemfield_eeoc_gender",
+      "label": "Gender",
+      "type": "select",
+      "canonical_field": "gender",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "_systemfield_eeoc_race",
+      "label": "Race",
+      "type": "select",
+      "canonical_field": "race_ethnicity",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "_systemfield_eeoc_veteran_status",
+      "label": "Veteran Status",
+      "type": "select",
+      "canonical_field": "veteran_status",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "_systemfield_education_history-school",
+      "label": "School",
+      "type": "text",
+      "canonical_field": "school",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "9d7f6cdf-8ab4-49fe-b397-8abcc614d326",
+      "label": "I am comfortable with this position requiring me to be in the Mountain View, CA office 5 days a week.",
+      "type": "select",
+      "canonical_field": "screener:willing_to_relocate",
+      "action": "FILL",
+      "reason": "Screener bank answer (synonym_option)"
+    },
+    {
+      "field_id": "97ad7c6e-e980-4e61-9e7f-7daca3190af7",
+      "label": "Will you now or in the future require sponsorship to work in the US?",
+      "type": "select",
+      "canonical_field": "requires_sponsorship",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\ashby-live\\form-snapshot-1789245428470.html",
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "email",
+      "linkedin_url",
+      "degree",
+      "major",
+      "screener:custom:still_student",
+      "screener:custom:predicted:41bd4bbe-ce21-4c9c-939d-6098a9c06720",
+      "screener:how_heard",
+      "gender",
+      "race_ethnicity",
+      "veteran_status",
+      "screener:willing_to_relocate",
+      "requires_sponsorship"
+    ],
+    "skipped": [],
+    "errors": [
+      "_systemfield_education_history#17: control not found on the page (label \"Education History\") — failing fast instead of waiting 30s",
+      "_systemfield_education_history#18: control not found on the page (label \"Education History\") — failing fast instead of waiting 30s",
+      "_systemfield_education_history#19: control not found on the page (label \"Education History\") — failing fast instead of waiting 30s",
+      "_systemfield_education_history#20: control not found on the page (label \"Education History\") — failing fast instead of waiting 30s",
+      "_systemfield_education_history-school: control not found on the page (label \"School\") — failing fast instead of waiting 30s",
+      "_systemfield_education_history: combobox option not committed: listbox opened after typing; no option matches \"2025\" (options: IRL HealthDEEPThailandhealthdeep.org | Fort Leavenworth Unified School District 207United Statesusd207.org | Modèles et simulations pour l'Architecture et le PatrimoineFrancemap.cnrs.fr | Laboratório de Inteligência Artificial AplicadaPortugal2ai.ipca.pt | 21 September University for Medical and Applied SciencesYemen21umas.edu.ye | Grupo Docente 2.0 C.A.Venezuelagrupodocentes20.com | Hochschule 21Germanyhs21.de | International Institute for Water and Environmental EngineeringBurkina Faso2ie-edu.org | …)"
+    ],
+    "field_meta": [
+      {
+        "field_id": "_systemfield_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "_systemfield_email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "01c02cfe-fc4d-4c95-ac7a-f2914cc4e8f1",
+        "canonical_field": "linkedin_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "_systemfield_education_history-degree",
+        "canonical_field": "degree",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "_systemfield_education_history-major",
+        "canonical_field": "major",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "_systemfield_education_history-isCurrent",
+        "canonical_field": "screener:custom:still_student",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "41bd4bbe-ce21-4c9c-939d-6098a9c06720",
+        "canonical_field": "screener:custom:predicted:41bd4bbe-ce21-4c9c-939d-6098a9c06720",
+        "control_kind": "native_checkbox_group",
+        "selected_option": "Python",
+        "match_via": "exact",
+        "notes": [
+          "picked \"Python\" (exact)"
+        ]
+      },
+      {
+        "field_id": "f3d6cae4-a75b-4d25-ab72-e50cb5685f18",
+        "canonical_field": "screener:how_heard",
+        "control_kind": "native_checkbox_group",
+        "selected_option": "LinkedIn",
+        "match_via": "exact",
+        "notes": [
+          "picked \"LinkedIn\" (exact)"
+        ]
+      },
+      {
+        "field_id": "_systemfield_eeoc_gender",
+        "canonical_field": "gender",
+        "control_kind": "native_radio_group",
+        "selected_option": "Male",
+        "match_via": "exact",
+        "notes": [
+          "picked \"Male\" (exact)"
+        ]
+      },
+      {
+        "field_id": "_systemfield_eeoc_race",
+        "canonical_field": "race_ethnicity",
+        "control_kind": "native_radio_group",
+        "selected_option": "Asian (Not Hispanic or Latino)",
+        "match_via": "unique_substring",
+        "notes": [
+          "picked \"Asian (Not Hispanic or Latino)\" (unique_substring)"
+        ]
+      },
+      {
+        "field_id": "_systemfield_eeoc_veteran_status",
+        "canonical_field": "veteran_status",
+        "control_kind": "native_radio_group",
+        "selected_option": "I am not a protected veteran",
+        "match_via": "synonym",
+        "notes": [
+          "picked \"I am not a protected veteran\" (synonym)"
+        ]
+      },
+      {
+        "field_id": "9d7f6cdf-8ab4-49fe-b397-8abcc614d326",
+        "canonical_field": "screener:willing_to_relocate",
+        "control_kind": "native_yesno_group",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "picked \"Yes\" (exact)"
+        ]
+      },
+      {
+        "field_id": "97ad7c6e-e980-4e61-9e7f-7daca3190af7",
+        "canonical_field": "requires_sponsorship",
+        "control_kind": "native_yesno_group",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "picked \"No\" (exact)"
+        ]
+      },
+      {
+        "field_id": "_systemfield_education_history",
+        "canonical_field": "screener:custom:education_history_year",
+        "control_kind": "combobox",
+        "selected_option": null,
+        "match_via": null,
+        "notes": [
+          "listbox opened after typing",
+          "no option matches \"2025\" (options: IRL HealthDEEPThailandhealthdeep.org | Fort Leavenworth Unified School District 207United Statesusd207.org | Modèles et simulations pour l'Architecture et le PatrimoineFrancemap.cnrs.fr | Laboratório de Inteligência Artificial AplicadaPortugal2ai.ipca.pt | 21 September University for Medical and Applied SciencesYemen21umas.edu.ye | Grupo Docente 2.0 C.A.Venezuelagrupodocentes20.com | Hochschule 21Germanyhs21.de | International Institute for Water and Environmental EngineeringBurkina Faso2ie-edu.org | …)"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": false,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham Kale",
+        "observed": "Shubham Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "match": true
+      },
+      {
+        "canonical_field": "degree",
+        "expected": "Bachelor of Science",
+        "observed": "Bachelor of Science",
+        "match": true
+      },
+      {
+        "canonical_field": "major",
+        "expected": "Applied Mathematics and Statistics",
+        "observed": "Applied Mathematics and Statistics",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:_systemfield_education_history#17",
+        "expected": "May",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "screener:custom:education_history_year:_systemfield_education_history#18",
+        "expected": "2025",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "screener:custom:predicted:_systemfield_education_history#19",
+        "expected": "May",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "screener:custom:education_history_year:_systemfield_education_history#20",
+        "expected": "2025",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "screener:custom:still_student",
+        "expected": "Yes",
+        "observed": true,
+        "match": true
+      },
+      {
+        "canonical_field": "school",
+        "expected": "Johns Hopkins University",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "screener:custom:predicted:41bd4bbe-ce21-4c9c-939d-6098a9c06720",
+        "expected": "Python",
+        "observed": "Python",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:how_heard",
+        "expected": "LinkedIn",
+        "observed": "LinkedIn",
+        "match": true
+      },
+      {
+        "canonical_field": "gender",
+        "expected": "Male",
+        "observed": "Male",
+        "match": true
+      },
+      {
+        "canonical_field": "race_ethnicity",
+        "expected": "South Asian",
+        "observed": "Asian (Not Hispanic or Latino)",
+        "match": true
+      },
+      {
+        "canonical_field": "veteran_status",
+        "expected": "I am not a veteran",
+        "observed": "I am not a protected veteran",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:willing_to_relocate",
+        "expected": "Yes",
+        "observed": "Yes",
+        "match": true
+      },
+      {
+        "canonical_field": "requires_sponsorship",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:education_history_year",
+        "expected": "2025",
+        "observed": null,
+        "match": false
+      }
+    ],
+    "uploads": [],
+    "warnings": [
+      "verify screener:custom:predicted:_systemfield_education_history#17: control not found on the page (label \"Education History\") — failing fast instead of waiting 30s",
+      "verify screener:custom:education_history_year:_systemfield_education_history#18: control not found on the page (label \"Education History\") — failing fast instead of waiting 30s",
+      "verify screener:custom:predicted:_systemfield_education_history#19: control not found on the page (label \"Education History\") — failing fast instead of waiting 30s",
+      "verify screener:custom:education_history_year:_systemfield_education_history#20: control not found on the page (label \"Education History\") — failing fast instead of waiting 30s",
+      "verify school: control not found on the page (label \"School\") — failing fast instead of waiting 30s"
+    ]
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 113810,
+      "verified": true,
+      "evidence": "input files: [{\"name\":\"resume-dd9093dd.pdf\",\"size\":113810}]; stillAttached=true; chip=true; resolved via primary"
+    }
+  ],
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: form (35 fillable field(s))",
+    "option harvest: scraped real options for 16/24 control(s) before planning",
+    "timing: base page (22 planned) — plan 11s, fill 162s, verify 152s",
+    "page error scan: no visible validation errors on the page",
+    "page-complete waiver not applied: page requires 1 unanswered question(s): \"Please upload an official or unofficial transcript.\"",
+    "resume parse changed 2 planned field(s) after upload (screener:custom:education_history_year, school) — re-committing once (#262c)",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [
+    {
+      "field_id": "26ecfb0f-b0e4-46ff-9280-cd03735e2dda_41bd4bbe-ce21-4c9c-939d-6098a9c06720-labeled-checkbox-0",
+      "label": "Python",
+      "answer_space": "closed",
+      "option_count": 7,
+      "options": [
+        "Python",
+        "Go",
+        "Typescript",
+        "React",
+        "Flutter",
+        "Dart",
+        "Swift"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "26ecfb0f-b0e4-46ff-9280-cd03735e2dda_41bd4bbe-ce21-4c9c-939d-6098a9c06720-labeled-checkbox-1",
+      "label": "Go",
+      "answer_space": "closed",
+      "option_count": 7,
+      "options": [
+        "Python",
+        "Go",
+        "Typescript",
+        "React",
+        "Flutter",
+        "Dart",
+        "Swift"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "26ecfb0f-b0e4-46ff-9280-cd03735e2dda_41bd4bbe-ce21-4c9c-939d-6098a9c06720-labeled-checkbox-2",
+      "label": "Typescript",
+      "answer_space": "closed",
+      "option_count": 7,
+      "options": [
+        "Python",
+        "Go",
+        "Typescript",
+        "React",
+        "Flutter",
+        "Dart",
+        "Swift"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "26ecfb0f-b0e4-46ff-9280-cd03735e2dda_41bd4bbe-ce21-4c9c-939d-6098a9c06720-labeled-checkbox-3",
+      "label": "React",
+      "answer_space": "closed",
+      "option_count": 7,
+      "options": [
+        "Python",
+        "Go",
+        "Typescript",
+        "React",
+        "Flutter",
+        "Dart",
+        "Swift"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "26ecfb0f-b0e4-46ff-9280-cd03735e2dda_41bd4bbe-ce21-4c9c-939d-6098a9c06720-labeled-checkbox-4",
+      "label": "Flutter",
+      "answer_space": "closed",
+      "option_count": 7,
+      "options": [
+        "Python",
+        "Go",
+        "Typescript",
+        "React",
+        "Flutter",
+        "Dart",
+        "Swift"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "26ecfb0f-b0e4-46ff-9280-cd03735e2dda_41bd4bbe-ce21-4c9c-939d-6098a9c06720-labeled-checkbox-5",
+      "label": "Dart",
+      "answer_space": "closed",
+      "option_count": 7,
+      "options": [
+        "Python",
+        "Go",
+        "Typescript",
+        "React",
+        "Flutter",
+        "Dart",
+        "Swift"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "26ecfb0f-b0e4-46ff-9280-cd03735e2dda_41bd4bbe-ce21-4c9c-939d-6098a9c06720-labeled-checkbox-6",
+      "label": "Swift",
+      "answer_space": "closed",
+      "option_count": 7,
+      "options": [
+        "Python",
+        "Go",
+        "Typescript",
+        "React",
+        "Flutter",
+        "Dart",
+        "Swift"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "26ecfb0f-b0e4-46ff-9280-cd03735e2dda_f3d6cae4-a75b-4d25-ab72-e50cb5685f18-labeled-checkbox-0",
+      "label": "LinkedIn",
+      "answer_space": "closed",
+      "option_count": 9,
+      "options": [
+        "LinkedIn",
+        "Company Website",
+        "Recruiter Outreach",
+        "Podcast/Blog",
+        "Industry Conference",
+        "Tech Community/Forum",
+        "Fireside Chat/Event",
+        "Other Job Boards",
+        "Campus Recruiting Event"
+      ],
+      "other_option": "Other Job Boards"
+    },
+    {
+      "field_id": "26ecfb0f-b0e4-46ff-9280-cd03735e2dda_f3d6cae4-a75b-4d25-ab72-e50cb5685f18-labeled-checkbox-1",
+      "label": "Company Website",
+      "answer_space": "closed",
+      "option_count": 9,
+      "options": [
+        "LinkedIn",
+        "Company Website",
+        "Recruiter Outreach",
+        "Podcast/Blog",
+        "Industry Conference",
+        "Tech Community/Forum",
+        "Fireside Chat/Event",
+        "Other Job Boards",
+        "Campus Recruiting Event"
+      ],
+      "other_option": "Other Job Boards"
+    },
+    {
+      "field_id": "26ecfb0f-b0e4-46ff-9280-cd03735e2dda_f3d6cae4-a75b-4d25-ab72-e50cb5685f18-labeled-checkbox-2",
+      "label": "Recruiter Outreach",
+      "answer_space": "closed",
+      "option_count": 9,
+      "options": [
+        "LinkedIn",
+        "Company Website",
+        "Recruiter Outreach",
+        "Podcast/Blog",
+        "Industry Conference",
+        "Tech Community/Forum",
+        "Fireside Chat/Event",
+        "Other Job Boards",
+        "Campus Recruiting Event"
+      ],
+      "other_option": "Other Job Boards"
+    },
+    {
+      "field_id": "26ecfb0f-b0e4-46ff-9280-cd03735e2dda_f3d6cae4-a75b-4d25-ab72-e50cb5685f18-labeled-checkbox-3",
+      "label": "Podcast/Blog",
+      "answer_space": "closed",
+      "option_count": 9,
+      "options": [
+        "LinkedIn",
+        "Company Website",
+        "Recruiter Outreach",
+        "Podcast/Blog",
+        "Industry Conference",
+        "Tech Community/Forum",
+        "Fireside Chat/Event",
+        "Other Job Boards",
+        "Campus Recruiting Event"
+      ],
+      "other_option": "Other Job Boards"
+    },
+    {
+      "field_id": "26ecfb0f-b0e4-46ff-9280-cd03735e2dda_f3d6cae4-a75b-4d25-ab72-e50cb5685f18-labeled-checkbox-4",
+      "label": "Industry Conference",
+      "answer_space": "closed",
+      "option_count": 9,
+      "options": [
+        "LinkedIn",
+        "Company Website",
+        "Recruiter Outreach",
+        "Podcast/Blog",
+        "Industry Conference",
+        "Tech Community/Forum",
+        "Fireside Chat/Event",
+        "Other Job Boards",
+        "Campus Recruiting Event"
+      ],
+      "other_option": "Other Job Boards"
+    },
+    {
+      "field_id": "26ecfb0f-b0e4-46ff-9280-cd03735e2dda_f3d6cae4-a75b-4d25-ab72-e50cb5685f18-labeled-checkbox-5",
+      "label": "Tech Community/Forum",
+      "answer_space": "closed",
+      "option_count": 9,
+      "options": [
+        "LinkedIn",
+        "Company Website",
+        "Recruiter Outreach",
+        "Podcast/Blog",
+        "Industry Conference",
+        "Tech Community/Forum",
+        "Fireside Chat/Event",
+        "Other Job Boards",
+        "Campus Recruiting Event"
+      ],
+      "other_option": "Other Job Boards"
+    },
+    {
+      "field_id": "26ecfb0f-b0e4-46ff-9280-cd03735e2dda_f3d6cae4-a75b-4d25-ab72-e50cb5685f18-labeled-checkbox-6",
+      "label": "Fireside Chat/Event",
+      "answer_space": "closed",
+      "option_count": 9,
+      "options": [
+        "LinkedIn",
+        "Company Website",
+        "Recruiter Outreach",
+        "Podcast/Blog",
+        "Industry Conference",
+        "Tech Community/Forum",
+        "Fireside Chat/Event",
+        "Other Job Boards",
+        "Campus Recruiting Event"
+      ],
+      "other_option": "Other Job Boards"
+    },
+    {
+      "field_id": "26ecfb0f-b0e4-46ff-9280-cd03735e2dda_f3d6cae4-a75b-4d25-ab72-e50cb5685f18-labeled-checkbox-7",
+      "label": "Other Job Boards",
+      "answer_space": "closed",
+      "option_count": 9,
+      "options": [
+        "LinkedIn",
+        "Company Website",
+        "Recruiter Outreach",
+        "Podcast/Blog",
+        "Industry Conference",
+        "Tech Community/Forum",
+        "Fireside Chat/Event",
+        "Other Job Boards",
+        "Campus Recruiting Event"
+      ],
+      "other_option": "Other Job Boards"
+    },
+    {
+      "field_id": "26ecfb0f-b0e4-46ff-9280-cd03735e2dda_f3d6cae4-a75b-4d25-ab72-e50cb5685f18-labeled-checkbox-8",
+      "label": "Campus Recruiting Event",
+      "answer_space": "closed",
+      "option_count": 9,
+      "options": [
+        "LinkedIn",
+        "Company Website",
+        "Recruiter Outreach",
+        "Podcast/Blog",
+        "Industry Conference",
+        "Tech Community/Forum",
+        "Fireside Chat/Event",
+        "Other Job Boards",
+        "Campus Recruiting Event"
+      ],
+      "other_option": "Other Job Boards"
+    }
+  ],
+  "operator_brief": {
+    "title": "Live fill — ashby https://jobs.ashbyhq.com/commure/62841aa1-3ee5-4547-8380-637b737b2cb3/application",
+    "summary": "12 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:screener:custom:predicted:_systemfield_education_history#17",
+        "question": "Education History",
+        "field_id": "_systemfield_education_history#17",
+        "canonical_field": "screener:custom:predicted:_systemfield_education_history#17",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"May\"; page shows \"(empty)\"",
+        "expected": "May",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"May\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:predicted:_systemfield_education_history#17)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:predicted:_systemfield_education_history#17\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:custom:education_history_year:_systemfield_education_history#18",
+        "question": "Education History",
+        "field_id": "_systemfield_education_history#18",
+        "canonical_field": "screener:custom:education_history_year:_systemfield_education_history#18",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"2025\"; page shows \"(empty)\"",
+        "expected": "2025",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"2025\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:education_history_year:_systemfield_education_history#18)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:education_history_year:_systemfield_education_history#18\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:custom:predicted:_systemfield_education_history#19",
+        "question": "Education History",
+        "field_id": "_systemfield_education_history#19",
+        "canonical_field": "screener:custom:predicted:_systemfield_education_history#19",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"May\"; page shows \"(empty)\"",
+        "expected": "May",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"May\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:predicted:_systemfield_education_history#19)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:predicted:_systemfield_education_history#19\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:custom:education_history_year:_systemfield_education_history#20",
+        "question": "Education History",
+        "field_id": "_systemfield_education_history#20",
+        "canonical_field": "screener:custom:education_history_year:_systemfield_education_history#20",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"2025\"; page shows \"(empty)\"",
+        "expected": "2025",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"2025\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:education_history_year:_systemfield_education_history#20)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:education_history_year:_systemfield_education_history#20\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:school",
+        "question": "School",
+        "field_id": "_systemfield_education_history-school",
+        "canonical_field": "school",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Johns Hopkins University\"; page shows \"(empty)\"",
+        "expected": "Johns Hopkins University",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"Johns Hopkins University\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: school)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"school\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:custom:education_history_year",
+        "question": "Education History",
+        "field_id": "_systemfield_education_history",
+        "canonical_field": "screener:custom:education_history_year",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"2025\"; page shows \"(empty)\"",
+        "expected": "2025",
+        "observed": null,
+        "how_to_answer": [
+          "Type the intended value on the form (planned: 2025). If a places/autocomplete list appears, select a matching suggestion; plain city text is enough when no list opens.",
+          "System expected \"2025\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:education_history_year)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:education_history_year\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "fill_error:_systemfield_education_history#17: control not found on the page (label \"Educati",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "_systemfield_education_history#17: control not found on the page (label \"Education History\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:_systemfield_education_history#18: control not found on the page (label \"Educati",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "_systemfield_education_history#18: control not found on the page (label \"Education History\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:_systemfield_education_history#19: control not found on the page (label \"Educati",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "_systemfield_education_history#19: control not found on the page (label \"Education History\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:_systemfield_education_history#20: control not found on the page (label \"Educati",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "_systemfield_education_history#20: control not found on the page (label \"Education History\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:_systemfield_education_history-school: control not found on the page (label \"Sch",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "_systemfield_education_history-school: control not found on the page (label \"School\") — failing fast instead of waiting 30s",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:_systemfield_education_history: combobox option not committed: listbox opened af",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "_systemfield_education_history: combobox option not committed: listbox opened after typing; no option matches \"2025\" (options: IRL HealthDEEPThailandhealthdeep.org | Fort Leavenworth Unified School District 207United Statesusd207.org | Modèles et simulations pour l'Architecture et le PatrimoineFrancemap.cnrs.fr | Laboratório de Inteligência Artificial AplicadaPortugal2ai.ipca.pt | 21 September University for Medical and Applied SciencesYemen21umas.edu.ye | Grupo Docente 2.0 C.A.Venezuelagrupodocentes20.com | Hochschule 21Germanyhs21.de | International Institute for Water and Environmental EngineeringBurkina Faso2ie-edu.org | …)",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      }
+    ],
+    "ok_count": 13,
+    "fail_count": 12
+  },
+  "written_at": "2026-09-12T20:48:06.807Z"
+}

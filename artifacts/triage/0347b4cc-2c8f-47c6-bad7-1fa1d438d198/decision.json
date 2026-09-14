@@ -1,0 +1,158 @@
+{
+  "decision_id": "0347b4cc-2c8f-47c6-bad7-1fa1d438d198",
+  "application_id": "07fa81a1-a781-4d23-8d4b-62114e001d43",
+  "signature": "AMBIGUOUS_FIELD|-|verify_mismatch|jobs.merck.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "07fa81a1-a781-4d23-8d4b-62114e001d43",
+    "company": "Merck",
+    "role": "2027 Future Talent Program – Optical Imaging Data Science – Intern",
+    "state": "AMBIGUOUS_FIELD",
+    "attempt": 1,
+    "failure_signature": "AMBIGUOUS_FIELD|-|verify_mismatch|jobs.merck.com",
+    "end_host": "jobs.merck.com",
+    "recent_events": [
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "AMBIGUOUS_FIELD",
+        "reason": "pipeline: read-back verification failed",
+        "at": "2026-09-12T22:39:06.849Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (workday live fill: 11 filled (held for submit))",
+        "at": "2026-09-12T22:39:06.847Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route inspect_only (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-12T22:23:35.354Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-12T22:23:30.149Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: workday URL validated",
+        "at": "2026-09-12T22:23:30.141Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "APPLICATION_OPENING",
+        "reason": "ATS handoff: Apply landed on workday — re-detecting from https://msd.wd5.myworkdayjobs.com/en-US/SearchJobs/job/USA---Massachusetts---Boston-MA-Parcel-B-Laboratory/XMLNAME-2027-Future-Talent-Program---Optical-Imaging-Data-Science-Intern---Intern_R412885",
+        "at": "2026-09-12T22:23:30.129Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-12T22:21:16.961Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-12T22:21:13.139Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-12T22:21:13.135Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-12T22:21:06.909Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 db6f3f869124)",
+        "at": "2026-09-12T22:21:06.901Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-12T22:21:06.780Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-12T22:20:49.344Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-12T22:20:49.271Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-12T22:20:49.267Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "merck",
+        "detail": "token \"merck\" ~ slug \"merck\" (from URL host)",
+        "expected_company": "Merck",
+        "url": "https://jobs.merck.com/us/en/job/MERCUSR412885ENUS/2027-future-talent-program-optical-imaging-data-science-intern?jr_id=6aa1aa58500b01124c77e4ea"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (10 candidates, employer match)",
+          "evidence": "jobs.merck.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": false
+    },
+    "open_review_items": [
+      {
+        "kind": "AMBIGUOUS_FIELD",
+        "title": "Fill verification failed"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"park_for_operator\", \"rationale\": \"Workday fill executed (11 fields, held for submit) but read-back verification mismatched on a live portal session; a review item is already open. Retrying the same deterministic fill would repeat the same mismatch, materials are verified present, and navigation congruence matched. A human should inspect the field discrepancy before submit.\", \"confidence\": \"medium\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: c6582cad-2179-4bf8-9850-873a33dfb6fb",
+  "rationale_unverified": "Workday fill executed (11 fields, held for submit) but read-back verification mismatched on a live portal session; a review item is already open. Retrying the same deterministic fill would repeat the same mismatch, materials are verified present, and navigation congruence matched. A human should inspect the field discrepancy before submit."
+}

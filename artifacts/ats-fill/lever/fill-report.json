@@ -8,7 +8,7 @@
       "email": "a***@example.com",
       "phone": "***-***-0100",
       "gender": "Male",
-      "race_ethnicity": "Asian",
+      "race_ethnicity": "South Asian",
       "veteran_status": "I am not a veteran"
     },
     "entries": [
@@ -126,7 +126,7 @@
         "type": "select",
         "canonical_field": "race_ethnicity",
         "action": "fill",
-        "value": "Asian",
+        "value": "South Asian",
         "reason": "Mapped from sensitive profile (operator-supplied)"
       },
       {
@@ -272,7 +272,7 @@
         "canonical_field": "race_ethnicity",
         "action": "FILL",
         "approved": true,
-        "value": "Asian",
+        "value": "South Asian",
         "reason": "Mapped from sensitive profile (operator-supplied)"
       },
       {
@@ -291,7 +291,7 @@
       "email": "a***@example.com",
       "phone": "***-***-0100",
       "gender": "Male",
-      "race_ethnicity": "Asian",
+      "race_ethnicity": "South Asian",
       "veteran_status": "I am not a veteran"
     },
     "fillable_count": 6,
@@ -336,7 +336,7 @@
         "field_id": "eeo-race",
         "canonical_field": "race_ethnicity",
         "control_kind": "native_select",
-        "selected_option": "Asian",
+        "selected_option": "South Asian",
         "match_via": "exact"
       },
       {
@@ -380,7 +380,7 @@
       },
       {
         "canonical_field": "race_ethnicity",
-        "expected": "Asian",
+        "expected": "South Asian",
         "observed": {
           "value": "Asian",
           "label": "Asian"
@@ -404,5 +404,5 @@
   "notes": [
     "submit not called — Phase 5 forbids submission"
   ],
-  "written_at": "2026-09-11T11:38:49.972Z"
+  "written_at": "2026-09-14T04:15:38.129Z"
 }

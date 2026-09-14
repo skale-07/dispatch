@@ -1,0 +1,1351 @@
+{
+  "mode": "executed",
+  "ats": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/veeamsoftware/jobs/4955293101",
+  "plan": {
+    "answers": {
+      "legal_name.first": "Shubham",
+      "legal_name.last": "Kale",
+      "screener:custom:has_preferred_name": "No",
+      "email": "s***@gmail.com",
+      "address.country": "United States",
+      "phone": "***-***-7636",
+      "degree": "Bachelor of Science",
+      "graduation_month": "May",
+      "graduation_year": "2029",
+      "screener:willing_to_relocate": "Yes",
+      "work_authorization": "[REDACTED_SPONSORSHIP]",
+      "screener:custom:residence_zip_code": "21218",
+      "screener:custom:us_state_of_residence": "Maryland",
+      "screener:previously_applied_or_worked": "No",
+      "screener:custom:predicted:question_9506086101": "Yes",
+      "screener:consent_agreement": "I agree",
+      "gender": "Male",
+      "hispanic_latino": "No",
+      "veteran_status": "I am not a veteran",
+      "disability_status": "No",
+      "application_consent:gdpr_processing_consent_given_1": true
+    },
+    "entries": [
+      {
+        "field_id": "first_name",
+        "label": "First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "fill",
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "last_name",
+        "label": "Last Name",
+        "type": "text",
+        "canonical_field": "legal_name.last",
+        "action": "fill",
+        "value": "Kale",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "preferred_name",
+        "label": "Preferred First Name",
+        "type": "text",
+        "canonical_field": "screener:custom:has_preferred_name",
+        "action": "fill",
+        "value": "No",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "email",
+        "label": "Email",
+        "type": "text",
+        "canonical_field": "email",
+        "action": "fill",
+        "value": "s***@gmail.com",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "country",
+        "label": "Country",
+        "type": "text",
+        "canonical_field": "address.country",
+        "action": "fill",
+        "value": "United States +1",
+        "reason": "Mapped from public profile; placed onto \"United States +1\""
+      },
+      {
+        "field_id": "iti-0__search-input",
+        "label": "Search",
+        "type": "unknown",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "phone",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "fill",
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "resume",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "skip_file",
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "school--0",
+        "label": "School",
+        "type": "text",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "degree--0",
+        "label": "Degree",
+        "type": "text",
+        "canonical_field": "degree",
+        "action": "fill",
+        "value": "Bachelor's Degree",
+        "reason": "Mapped from public profile; placed onto \"Bachelor's Degree\""
+      },
+      {
+        "field_id": "end-month--0",
+        "label": "End date month",
+        "type": "text",
+        "canonical_field": "graduation_month",
+        "action": "fill",
+        "value": "May",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "end-year--0",
+        "label": "End date year",
+        "type": "text",
+        "canonical_field": "graduation_year",
+        "action": "fill",
+        "value": "2029",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_9615358101",
+        "label": "This role is based out of our San Jose, CA office. Are you willing and able to accommodate this work environment?",
+        "type": "text",
+        "canonical_field": "screener:willing_to_relocate",
+        "action": "fill",
+        "value": "Yes",
+        "reason": "Screener bank answer (synonym_option)"
+      },
+      {
+        "field_id": "question_9506079101",
+        "label": "Country of residence",
+        "type": "text",
+        "canonical_field": "address.country",
+        "action": "fill",
+        "value": "United States of America",
+        "reason": "Mapped from public profile; placed onto \"United States of America\""
+      },
+      {
+        "field_id": "question_9506081101",
+        "label": "Will you now or in the future require company sponsorship for a visa or work authorization to work in the country where this role is based?",
+        "type": "text",
+        "canonical_field": "work_authorization",
+        "action": "fill",
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_9629352101",
+        "label": "Are you eligible to work in the country where this vacancy is posted?",
+        "type": "text",
+        "canonical_field": "work_authorization",
+        "action": "fill",
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_9506082101",
+        "label": "Please enter the ZIP code of your primary residence in the United States.",
+        "type": "text",
+        "canonical_field": "screener:custom:residence_zip_code",
+        "action": "fill",
+        "value": "21218",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "question_9506083101",
+        "label": "To be eligible for this position, your primary residence must be located in the United States. Please indicate the state in which you currently reside.",
+        "type": "text",
+        "canonical_field": "screener:custom:us_state_of_residence",
+        "action": "fill",
+        "value": "Maryland",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_9506085101",
+        "label": "Have you previously worked for Veeam (including as a contractor or intern)? Current Veeam employees are required to apply through the Internal Job Board.",
+        "type": "text",
+        "canonical_field": "screener:previously_applied_or_worked",
+        "action": "fill",
+        "value": "No",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_9506080101",
+        "label": "Are you eligible to work in the country where this vacancy is posted?",
+        "type": "text",
+        "canonical_field": "work_authorization",
+        "action": "fill",
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_9506086101",
+        "label": "Do you currently own, operate, or provide services to any other business or organization (e.g., consultancy, freelance, board membership, or contractual engagement)?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_9506086101",
+        "action": "fill",
+        "value": "Yes",
+        "reason": "Predicted from operator context (llm_predict): Candidate co-founded Open Health Intelligence/ClarityAtlas and serves as its technical lead while also working with Summer Atlantic Capital."
+      },
+      {
+        "field_id": "question_9506087101",
+        "label": "If yes, please describe the nature of the activity, your role, and whether it may overlap with the responsibilities or interests of Veeam.",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_9506087101",
+        "action": "fill",
+        "value": "I have two ongoing commitments outside of school. I co-founded Open Health Intelligence, where I am the technical lead for ClarityAtlas, an iOS health product built with Swift, SwiftUI, Supabase, and Apple health and motion data. I built the passive sleep-estimation system that uses HealthKit and Core Motion signals like step count and gait speed instead of requiring a wearable, and we shipped it into a live Hopkins pilot with 30+ users. I also work on applied machine learning and product at Summer Atlantic Capital / SAC Nexus, where I own much of the ML core of an anomaly-detection and alert-prioritization system, including the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, and a retrieval-augmented explanation layer for analysts. Neither is a data resilience or data security posture product, so I do not see a commercial or product conflict with Veeam. The closest technical adjacency is anomaly detection over event streams, and I am happy to discuss boundaries before starting.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_9506088101",
+        "label": "Do you agree to be a part of the talent community for future career opportunities at Veeam? Your information will be retained for up to 2 years.",
+        "type": "text",
+        "canonical_field": "screener:consent_agreement",
+        "action": "fill",
+        "value": "I agree",
+        "reason": "Screener bank answer (synonym_option)"
+      },
+      {
+        "field_id": "gender",
+        "label": "Gender",
+        "type": "text",
+        "canonical_field": "gender",
+        "action": "fill",
+        "value": "Male",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "hispanic_ethnicity",
+        "label": "Are you Hispanic/Latino?",
+        "type": "text",
+        "canonical_field": "hispanic_latino",
+        "action": "fill",
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "veteran_status",
+        "label": "Veteran Status",
+        "type": "text",
+        "canonical_field": "veteran_status",
+        "action": "fill",
+        "value": "I am not a veteran",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "disability_status",
+        "label": "Disability Status",
+        "type": "text",
+        "canonical_field": "disability_status",
+        "action": "fill",
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "gdpr_processing_consent_given_1",
+        "label": "By checking this box, I agree to allow Veeam Software to store and process my data for the purpose of considering my eligibility regarding my current application for employment.",
+        "type": "checkbox",
+        "canonical_field": "application_consent:gdpr_processing_consent_given_1",
+        "action": "fill",
+        "value": true,
+        "reason": "Application terms/confirmation checkbox"
+      }
+    ],
+    "fillable_count": 25,
+    "skipped_count": 3,
+    "review_required_count": 0
+  },
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "schema diff: 16/17 declared question(s) matched onto 28 DOM field(s); 2 declared-only (2 required); 12 DOM-only",
+    "board API declared 17 question(s); matched complete option lists onto 9 field(s)",
+    "option harvest: scraped real options for 8/16 control(s) before planning",
+    "heal pass: recovered 3/3; final verify passed: true",
+    "frozen after fill→verify→upload — no further field mutation; submit never called",
+    "page-complete waiver not applied: page requires 1 unanswered question(s): \"School*\""
+  ],
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "final_url": "https://job-boards.greenhouse.io/veeamsoftware/jobs/4955293101",
+  "identity_verification": {
+    "requestedUrl": "https://job-boards.greenhouse.io/veeamsoftware/jobs/4955293101",
+    "finalUrl": "https://job-boards.greenhouse.io/veeamsoftware/jobs/4955293101",
+    "requestedJobId": "4955293101",
+    "observedJobId": "4955293101",
+    "company": "veeamsoftware",
+    "role": "Job Application for Software Engineering Intern - Summer 2027 at Veeam Software",
+    "formDetected": true,
+    "fieldCount": 28,
+    "warnings": [
+      "login_wall_low: auth_provider_marker"
+    ],
+    "passed": true,
+    "failureCode": null,
+    "failureReason": null
+  },
+  "captcha_detection": {
+    "detected": false,
+    "confidence": "LOW",
+    "signals": [],
+    "dormantMarkers": [
+      "generic_captcha_word_only"
+    ]
+  },
+  "login_wall_detection": {
+    "detected": false,
+    "confidence": "LOW",
+    "signals": [
+      "auth_provider_marker"
+    ]
+  },
+  "failure_code": null,
+  "mutation_attempted": true,
+  "schema_diff": {
+    "board": "veeamsoftware",
+    "job_id": "4955293101",
+    "declared_count": 17,
+    "dom_count": 28,
+    "matched": 16,
+    "api_only": [
+      {
+        "label": "Resume/CV",
+        "required": true
+      },
+      {
+        "label": "Are you eligible to work in the country where this vacancy is posted?",
+        "required": true
+      }
+    ],
+    "dom_only": [
+      "Country",
+      "Search",
+      "Attach",
+      "School",
+      "Degree",
+      "End date month",
+      "End date year",
+      "Gender",
+      "Are you Hispanic/Latino?",
+      "Veteran Status",
+      "Disability Status",
+      "By checking this box, I agree to allow Veeam Software to store and process my data for the purpose of considering my eligibility regarding my current application for employment."
+    ],
+    "option_mismatches": []
+  },
+  "harvested_options": [
+    {
+      "field_id": "country",
+      "label": "Country",
+      "answer_space": "closed",
+      "option_count": 244,
+      "options": [
+        "United States +1",
+        "Afghanistan +93",
+        "Åland Islands +358",
+        "Albania +355",
+        "Algeria +213",
+        "American Samoa +1",
+        "Andorra +376",
+        "Angola +244",
+        "Anguilla +1",
+        "Antigua & Barbuda +1",
+        "Argentina +54",
+        "Armenia +374",
+        "Aruba +297",
+        "Ascension Island +247",
+        "Australia +61",
+        "Austria +43",
+        "Azerbaijan +994",
+        "Bahamas +1",
+        "Bahrain +973",
+        "Bangladesh +880",
+        "Barbados +1",
+        "Belarus +375",
+        "Belgium +32",
+        "Belize +501",
+        "Benin +229"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "school--0",
+      "label": "School",
+      "answer_space": "closed",
+      "option_count": 100,
+      "options": [
+        "Aalborg University",
+        "Aalto University",
+        "Aarhus University",
+        "Abertay University",
+        "Aberystwyth University",
+        "Abilene Christian University",
+        "Abo Akademi University",
+        "Abraham Baldwin Agricultural College",
+        "Abu Dhabi University",
+        "Academy of Art University",
+        "Acadia University",
+        "Acharya Nagarjuna University",
+        "Acupuncture and Integrative Medicine College - Berkeley",
+        "Adams State University",
+        "Adelphi University",
+        "Adrian College",
+        "Adventist University of Health Sciences",
+        "Agnes Scott College",
+        "AIB College of Business",
+        "Ain Shams University",
+        "Airlangga University",
+        "Ajou University",
+        "Alabama A&M University",
+        "Alabama State University",
+        "Alaska Pacific University"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "degree--0",
+      "label": "Degree",
+      "answer_space": "closed",
+      "option_count": 10,
+      "options": [
+        "Associate's Degree",
+        "Bachelor's Degree",
+        "Doctor of Medicine (M.D.)",
+        "Doctor of Philosophy (Ph.D.)",
+        "Engineer's Degree",
+        "High School",
+        "Juris Doctor (J.D.)",
+        "Master of Business Administration (M.B.A.)",
+        "Master's Degree",
+        "Other"
+      ],
+      "other_option": "Other"
+    },
+    {
+      "field_id": "end-month--0",
+      "label": "End date month",
+      "answer_space": "closed",
+      "option_count": 12,
+      "options": [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "gender",
+      "label": "Gender",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "Male",
+        "Female",
+        "Decline To Self Identify"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "hispanic_ethnicity",
+      "label": "Are you Hispanic/Latino?",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "Yes",
+        "No",
+        "Decline To Self Identify"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "veteran_status",
+      "label": "Veteran Status",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "I am not a protected veteran",
+        "I identify as one or more of the classifications of a protected veteran",
+        "I don't wish to answer"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "disability_status",
+      "label": "Disability Status",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "Yes, I have a disability, or have had one in the past",
+        "No, I do not have a disability and have not had one in the past",
+        "I do not want to answer"
+      ],
+      "other_option": null
+    }
+  ],
+  "approved_plan": {
+    "entries": [
+      {
+        "field_id": "first_name",
+        "label": "First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "FILL",
+        "approved": true,
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "last_name",
+        "label": "Last Name",
+        "type": "text",
+        "canonical_field": "legal_name.last",
+        "action": "FILL",
+        "approved": true,
+        "value": "Kale",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "preferred_name",
+        "label": "Preferred First Name",
+        "type": "text",
+        "canonical_field": "screener:custom:has_preferred_name",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "email",
+        "label": "Email",
+        "type": "text",
+        "canonical_field": "email",
+        "action": "FILL",
+        "approved": true,
+        "value": "s***@gmail.com",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "country",
+        "label": "Country",
+        "type": "text",
+        "canonical_field": "address.country",
+        "action": "FILL",
+        "approved": true,
+        "value": "United States +1",
+        "reason": "Mapped from public profile; placed onto \"United States +1\""
+      },
+      {
+        "field_id": "iti-0__search-input",
+        "label": "Search",
+        "type": "unknown",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "phone",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "FILL",
+        "approved": true,
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "resume",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "school--0",
+        "label": "School",
+        "type": "text",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "degree--0",
+        "label": "Degree",
+        "type": "text",
+        "canonical_field": "degree",
+        "action": "FILL",
+        "approved": true,
+        "value": "Bachelor's Degree",
+        "reason": "Mapped from public profile; placed onto \"Bachelor's Degree\""
+      },
+      {
+        "field_id": "end-month--0",
+        "label": "End date month",
+        "type": "text",
+        "canonical_field": "graduation_month",
+        "action": "FILL",
+        "approved": true,
+        "value": "May",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "end-year--0",
+        "label": "End date year",
+        "type": "text",
+        "canonical_field": "graduation_year",
+        "action": "FILL",
+        "approved": true,
+        "value": "2029",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_9615358101",
+        "label": "This role is based out of our San Jose, CA office. Are you willing and able to accommodate this work environment?",
+        "type": "text",
+        "canonical_field": "screener:willing_to_relocate",
+        "action": "FILL",
+        "approved": true,
+        "value": "Yes",
+        "reason": "Screener bank answer (synonym_option)"
+      },
+      {
+        "field_id": "question_9506079101",
+        "label": "Country of residence",
+        "type": "text",
+        "canonical_field": "address.country",
+        "action": "FILL",
+        "approved": true,
+        "value": "United States of America",
+        "reason": "Mapped from public profile; placed onto \"United States of America\""
+      },
+      {
+        "field_id": "question_9506081101",
+        "label": "Will you now or in the future require company sponsorship for a visa or work authorization to work in the country where this role is based?",
+        "type": "text",
+        "canonical_field": "work_authorization",
+        "action": "FILL",
+        "approved": true,
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_9629352101",
+        "label": "Are you eligible to work in the country where this vacancy is posted?",
+        "type": "text",
+        "canonical_field": "work_authorization",
+        "action": "FILL",
+        "approved": true,
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_9506082101",
+        "label": "Please enter the ZIP code of your primary residence in the United States.",
+        "type": "text",
+        "canonical_field": "screener:custom:residence_zip_code",
+        "action": "FILL",
+        "approved": true,
+        "value": "21218",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "question_9506083101",
+        "label": "To be eligible for this position, your primary residence must be located in the United States. Please indicate the state in which you currently reside.",
+        "type": "text",
+        "canonical_field": "screener:custom:us_state_of_residence",
+        "action": "FILL",
+        "approved": true,
+        "value": "Maryland",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_9506085101",
+        "label": "Have you previously worked for Veeam (including as a contractor or intern)? Current Veeam employees are required to apply through the Internal Job Board.",
+        "type": "text",
+        "canonical_field": "screener:previously_applied_or_worked",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_9506080101",
+        "label": "Are you eligible to work in the country where this vacancy is posted?",
+        "type": "text",
+        "canonical_field": "work_authorization",
+        "action": "FILL",
+        "approved": true,
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_9506086101",
+        "label": "Do you currently own, operate, or provide services to any other business or organization (e.g., consultancy, freelance, board membership, or contractual engagement)?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_9506086101",
+        "action": "FILL",
+        "approved": true,
+        "value": "Yes",
+        "reason": "Predicted from operator context (llm_predict): Candidate co-founded Open Health Intelligence/ClarityAtlas and serves as its technical lead while also working with Summer Atlantic Capital."
+      },
+      {
+        "field_id": "question_9506087101",
+        "label": "If yes, please describe the nature of the activity, your role, and whether it may overlap with the responsibilities or interests of Veeam.",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_9506087101",
+        "action": "FILL",
+        "approved": true,
+        "value": "I have two ongoing commitments outside of school. I co-founded Open Health Intelligence, where I am the technical lead for ClarityAtlas, an iOS health product built with Swift, SwiftUI, Supabase, and Apple health and motion data. I built the passive sleep-estimation system that uses HealthKit and Core Motion signals like step count and gait speed instead of requiring a wearable, and we shipped it into a live Hopkins pilot with 30+ users. I also work on applied machine learning and product at Summer Atlantic Capital / SAC Nexus, where I own much of the ML core of an anomaly-detection and alert-prioritization system, including the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, and a retrieval-augmented explanation layer for analysts. Neither is a data resilience or data security posture product, so I do not see a commercial or product conflict with Veeam. The closest technical adjacency is anomaly detection over event streams, and I am happy to discuss boundaries before starting.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_9506088101",
+        "label": "Do you agree to be a part of the talent community for future career opportunities at Veeam? Your information will be retained for up to 2 years.",
+        "type": "text",
+        "canonical_field": "screener:consent_agreement",
+        "action": "FILL",
+        "approved": true,
+        "value": "I agree",
+        "reason": "Screener bank answer (synonym_option)"
+      },
+      {
+        "field_id": "gender",
+        "label": "Gender",
+        "type": "text",
+        "canonical_field": "gender",
+        "action": "FILL",
+        "approved": true,
+        "value": "Male",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "hispanic_ethnicity",
+        "label": "Are you Hispanic/Latino?",
+        "type": "text",
+        "canonical_field": "hispanic_latino",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "veteran_status",
+        "label": "Veteran Status",
+        "type": "text",
+        "canonical_field": "veteran_status",
+        "action": "FILL",
+        "approved": true,
+        "value": "I am not a veteran",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "disability_status",
+        "label": "Disability Status",
+        "type": "text",
+        "canonical_field": "disability_status",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "gdpr_processing_consent_given_1",
+        "label": "By checking this box, I agree to allow Veeam Software to store and process my data for the purpose of considering my eligibility regarding my current application for employment.",
+        "type": "checkbox",
+        "canonical_field": "application_consent:gdpr_processing_consent_given_1",
+        "action": "FILL",
+        "approved": true,
+        "value": true,
+        "reason": "Application terms/confirmation checkbox"
+      }
+    ],
+    "answers": {
+      "legal_name.first": "Shubham",
+      "legal_name.last": "Kale",
+      "screener:custom:has_preferred_name": "No",
+      "email": "s***@gmail.com",
+      "address.country": "United States of America",
+      "phone": "***-***-7636",
+      "degree": "Bachelor's Degree",
+      "graduation_month": "May",
+      "graduation_year": "2029",
+      "screener:willing_to_relocate": "Yes",
+      "work_authorization": "[REDACTED_SPONSORSHIP]",
+      "screener:custom:residence_zip_code": "21218",
+      "screener:custom:us_state_of_residence": "Maryland",
+      "screener:previously_applied_or_worked": "No",
+      "screener:custom:predicted:question_9506086101": "Yes",
+      "essay:generated:question_9506087101": "I have two ongoing commitments outside of school. I co-founded Open Health Intelligence, where I am the technical lead for ClarityAtlas, an iOS health product built with Swift, SwiftUI, Supabase, and Apple health and motion data. I built the passive sleep-estimation system that uses HealthKit and Core Motion signals like step count and gait speed instead of requiring a wearable, and we shipped it into a live Hopkins pilot with 30+ users. I also work on applied machine learning and product at Summer Atlantic Capital / SAC Nexus, where I own much of the ML core of an anomaly-detection and alert-prioritization system, including the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, and a retrieval-augmented explanation layer for analysts. Neither is a data resilience or data security posture product, so I do not see a commercial or product conflict with Veeam. The closest technical adjacency is anomaly detection over event streams, and I am happy to discuss boundaries before starting.",
+      "screener:consent_agreement": "I agree",
+      "gender": "Male",
+      "hispanic_latino": "No",
+      "veteran_status": "I am not a veteran",
+      "disability_status": "No",
+      "application_consent:gdpr_processing_consent_given_1": true
+    },
+    "fillable_count": 25,
+    "skipped_count": 3,
+    "review_required_count": 0
+  },
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "legal_name.last",
+      "screener:custom:has_preferred_name",
+      "email",
+      "address.country",
+      "phone",
+      "degree",
+      "graduation_month",
+      "graduation_year",
+      "screener:willing_to_relocate",
+      "work_authorization",
+      "work_authorization",
+      "screener:custom:residence_zip_code",
+      "screener:custom:us_state_of_residence",
+      "screener:previously_applied_or_worked",
+      "work_authorization",
+      "screener:custom:predicted:question_9506086101",
+      "essay:generated:question_9506087101",
+      "screener:consent_agreement",
+      "gender",
+      "veteran_status",
+      "disability_status",
+      "application_consent:gdpr_processing_consent_given_1"
+    ],
+    "skipped": [],
+    "errors": [
+      "question_9506079101: combobox option not committed: opened via control click; picked \"United States of America\" (exact) from open list; commit not confirmed: display shows \"Uruguay\"",
+      "hispanic_ethnicity: combobox option not committed: opened via control click; picked \"No\" (exact) from open list; commit not confirmed: display shows \"Decline To Self Identify\""
+    ],
+    "field_meta": [
+      {
+        "field_id": "first_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "last_name",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "preferred_name",
+        "canonical_field": "screener:custom:has_preferred_name",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "country",
+        "canonical_field": "address.country",
+        "control_kind": "combobox",
+        "selected_option": "+1",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"United States +1\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "phone",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "degree--0",
+        "canonical_field": "degree",
+        "control_kind": "combobox",
+        "selected_option": "Bachelor's Degree",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Bachelor's Degree\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "end-month--0",
+        "canonical_field": "graduation_month",
+        "control_kind": "combobox",
+        "selected_option": "May",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"May\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "end-year--0",
+        "canonical_field": "graduation_year",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_9615358101",
+        "canonical_field": "screener:willing_to_relocate",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_9506079101",
+        "canonical_field": "address.country",
+        "control_kind": "combobox",
+        "selected_option": null,
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"United States of America\" (exact) from open list",
+          "commit not confirmed: display shows \"Uruguay\""
+        ]
+      },
+      {
+        "field_id": "question_9506081101",
+        "canonical_field": "work_authorization",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_9629352101",
+        "canonical_field": "work_authorization",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_9506082101",
+        "canonical_field": "screener:custom:residence_zip_code",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_9506083101",
+        "canonical_field": "screener:custom:us_state_of_residence",
+        "control_kind": "combobox",
+        "selected_option": "Maryland",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Maryland\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_9506085101",
+        "canonical_field": "screener:previously_applied_or_worked",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_9506080101",
+        "canonical_field": "work_authorization",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_9506086101",
+        "canonical_field": "screener:custom:predicted:question_9506086101",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_9506087101",
+        "canonical_field": "essay:generated:question_9506087101",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_9506088101",
+        "canonical_field": "screener:consent_agreement",
+        "control_kind": "combobox",
+        "selected_option": "I agree",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"I agree\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "gender",
+        "canonical_field": "gender",
+        "control_kind": "combobox",
+        "selected_option": "Male",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Male\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "hispanic_ethnicity",
+        "canonical_field": "hispanic_latino",
+        "control_kind": "combobox",
+        "selected_option": null,
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list",
+          "commit not confirmed: display shows \"Decline To Self Identify\""
+        ]
+      },
+      {
+        "field_id": "veteran_status",
+        "canonical_field": "veteran_status",
+        "control_kind": "combobox",
+        "selected_option": "I am not a protected veteran",
+        "match_via": "synonym",
+        "notes": [
+          "opened via control click",
+          "picked \"I am not a protected veteran\" (synonym) from open list"
+        ]
+      },
+      {
+        "field_id": "disability_status",
+        "canonical_field": "disability_status",
+        "control_kind": "combobox",
+        "selected_option": "No, I do not have a disability and have not had one in the past",
+        "match_via": "synonym",
+        "notes": [
+          "opened via control click",
+          "picked \"No, I do not have a disability and have not had one in the past\" (synonym) from open list"
+        ]
+      },
+      {
+        "field_id": "gdpr_processing_consent_given_1",
+        "canonical_field": "application_consent:gdpr_processing_consent_given_1",
+        "control_kind": "text"
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.last",
+        "expected": "Kale",
+        "observed": "Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:has_preferred_name",
+        "expected": "No",
+        "observed": "No",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "address.country",
+        "expected": "United States +1",
+        "observed": {
+          "value": "+1",
+          "label": "+1"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "degree",
+        "expected": "Bachelor's Degree",
+        "observed": {
+          "value": "Bachelor's Degree",
+          "label": "Bachelor's Degree"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "graduation_month",
+        "expected": "May",
+        "observed": {
+          "value": "May",
+          "label": "May"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "graduation_year",
+        "expected": "2029",
+        "observed": "2029",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:willing_to_relocate",
+        "expected": "Yes",
+        "observed": {
+          "value": "Yes",
+          "label": "Yes"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "address.country",
+        "expected": "United States of America",
+        "observed": {
+          "value": "United States of America",
+          "label": "United States of America"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "work_authorization",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "work_authorization",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:residence_zip_code",
+        "expected": "21218",
+        "observed": "21218",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:us_state_of_residence",
+        "expected": "Maryland",
+        "observed": {
+          "value": "Maryland",
+          "label": "Maryland"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:previously_applied_or_worked",
+        "expected": "No",
+        "observed": {
+          "value": "No",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "work_authorization",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_9506086101",
+        "expected": "Yes",
+        "observed": {
+          "value": "Yes",
+          "label": "Yes"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:question_9506087101",
+        "expected": "I have two ongoing commitments outside of school. I co-founded Open Health Intelligence, where I am the technical lead for ClarityAtlas, an iOS health product built with Swift, SwiftUI, Supabase, and Apple health and motion data. I built the passive sleep-estimation system that uses HealthKit and Core Motion signals like step count and gait speed instead of requiring a wearable, and we shipped it into a live Hopkins pilot with 30+ users. I also work on applied machine learning and product at Summer Atlantic Capital / SAC Nexus, where I own much of the ML core of an anomaly-detection and alert-prioritization system, including the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, and a retrieval-augmented explanation layer for analysts. Neither is a data resilience or data security posture product, so I do not see a commercial or product conflict with Veeam. The closest technical adjacency is anomaly detection over event streams, and I am happy to discuss boundaries before starting.",
+        "observed": "I have two ongoing commitments outside of school. I co-founded Open Health Intelligence, where I am the technical lead for ClarityAtlas, an iOS health product built with Swift, SwiftUI, Supabase, and Apple health and motion data. I built the passive sleep-estimation system that uses HealthKit and Core Motion signals like step count and gait speed instead of requiring a wearable, and we shipped it into a live Hopkins pilot with 30+ users. I also work on applied machine learning and product at Summer Atlantic Capital / SAC Nexus, where I own much of the ML core of an anomaly-detection and alert-prioritization system, including the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, and a retrieval-augmented explanation layer for analysts. Neither is a data resilience or data security posture product, so I do not see a commercial or product conflict with Veeam. The closest technical adjacency is anomaly detection over event streams, and I am happy to discuss boundaries before starting.",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:consent_agreement",
+        "expected": "I agree",
+        "observed": {
+          "value": "I agree",
+          "label": "I agree"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "gender",
+        "expected": "Male",
+        "observed": {
+          "value": "Male",
+          "label": "Male"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "hispanic_latino",
+        "expected": "No",
+        "observed": {
+          "value": "No",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "veteran_status",
+        "expected": "I am not a veteran",
+        "observed": {
+          "value": "I am not a protected veteran",
+          "label": "I am not a protected veteran"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "disability_status",
+        "expected": "No",
+        "observed": {
+          "value": "No, I do not have a disability and have not had one in the past",
+          "label": "No, I do not have a disability and have not had one in the past"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "application_consent:gdpr_processing_consent_given_1",
+        "expected": true,
+        "observed": true,
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "heal": {
+    "attempted": 3,
+    "healed": [
+      "country",
+      "question_9506079101",
+      "hispanic_ethnicity"
+    ],
+    "still_failing": [],
+    "attempts": [
+      {
+        "field_id": "country",
+        "layer": "heuristic",
+        "candidate": {
+          "selector": "#country",
+          "via": "label_text",
+          "score": 1,
+          "inputId": "country"
+        },
+        "healed": true,
+        "notes": [
+          "heuristic candidate #question_9506079101 skipped — it is another plan entry's control (#252)",
+          "heuristic candidate #question_9506081101 skipped — it is another plan entry's control (#252)"
+        ]
+      },
+      {
+        "field_id": "question_9506079101",
+        "layer": "heuristic",
+        "candidate": {
+          "selector": "#question_9506079101",
+          "via": "label_text",
+          "score": 1,
+          "inputId": "question_9506079101"
+        },
+        "healed": true,
+        "notes": [
+          "heuristic candidate #country skipped — it is another plan entry's control (#252)",
+          "heuristic candidate #question_9506081101 skipped — it is another plan entry's control (#252)"
+        ]
+      },
+      {
+        "field_id": "hispanic_ethnicity",
+        "layer": "heuristic",
+        "candidate": {
+          "selector": "#hispanic_ethnicity",
+          "via": "label_text",
+          "score": 1,
+          "inputId": "hispanic_ethnicity"
+        },
+        "healed": true,
+        "notes": []
+      }
+    ],
+    "sidecar_used": false
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 113810,
+      "verified": true,
+      "evidence": "input files: []; stillAttached=false; chip=true"
+    }
+  ],
+  "written_at": "2026-09-13T00:19:18.376Z"
+}

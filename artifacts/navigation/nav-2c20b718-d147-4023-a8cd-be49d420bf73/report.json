@@ -1,0 +1,48 @@
+{
+  "run_id": "nav-2c20b718-d147-4023-a8cd-be49d420bf73",
+  "application_id": "478c9443-f119-46c7-87c9-7b0d2d72447e",
+  "jobright_job_id": "6a051232f670584e21a9c5df",
+  "method": null,
+  "resolved_url": null,
+  "resolved_ats": null,
+  "wall": "budget",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no external anchors"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "unresolved by deterministic phases"
+    },
+    {
+      "phase": "B_board_hop",
+      "outcome": "no employer board route (3 request(s))"
+    },
+    {
+      "phase": "C_agent",
+      "outcome": "error"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "no standard Apply control found (exact and broad name tiers both empty)",
+    "board hop: no public greenhouse/lever/ashby board found for \"Acme\" (acme; 3 requests)",
+    "agent phase failed: sidecar produced no output. stderr: "
+  ],
+  "congruence": null,
+  "duplicates": null,
+  "login_wall": null,
+  "evidence": [
+    "navigation\\nav-2c20b718-d147-4023-a8cd-be49d420bf73\\giveup-budget.html",
+    "navigation\\nav-2c20b718-d147-4023-a8cd-be49d420bf73\\giveup-budget.png"
+  ],
+  "written_at": "2026-09-12T18:31:43.287Z"
+}

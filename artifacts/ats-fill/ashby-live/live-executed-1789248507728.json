@@ -1,0 +1,177 @@
+{
+  "ats": "ashby",
+  "url": "https://jobs.ashbyhq.com/ctgt/f657c2f5-125e-42b6-a68a-646bbea3d155/application",
+  "requested_url": "https://jobs.ashbyhq.com/ctgt/f657c2f5-125e-42b6-a68a-646bbea3d155/application",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://jobs.ashbyhq.com/ctgt/f657c2f5-125e-42b6-a68a-646bbea3d155/application",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 5,
+    "skipped_count": 2,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "f_0",
+      "label": "Application",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "_systemfield_name",
+      "label": "Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Single full-name field: composed legal_name.first + legal_name.last (both safe factual canonicals)"
+    },
+    {
+      "field_id": "_systemfield_email",
+      "label": "Email",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "_systemfield_resume",
+      "label": "Resume",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "2c7a9033-eb63-4919-8927-1b33938083c1",
+      "label": "LinkedIn Profle",
+      "type": "text",
+      "canonical_field": "linkedin_url",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "5f85a1a1-95f5-4cb1-9f6b-6386ae0f92e5",
+      "label": "My car is dirty and I need to get it cleaned, the car wash is just 2 blocks away, should I walk or should I drive there?",
+      "type": "text",
+      "canonical_field": "screener:custom:predicted:5f85a1a1-95f5-4cb1-9f6b-6386ae0f92e5",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): Logic puzzle checking attention: the car itself must be taken to the car wash, so driving is the only option that accomplishes the goal."
+    },
+    {
+      "field_id": "253cf845-7275-43ac-9d91-0b6eaba2c828",
+      "label": "Do you currently require, or will you require in the future, employer-sponsored work authorization to work legally in the United States?",
+      "type": "select",
+      "canonical_field": "work_authorization",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\ashby-live\\form-snapshot-1789248500819.html",
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "email",
+      "linkedin_url",
+      "screener:custom:predicted:5f85a1a1-95f5-4cb1-9f6b-6386ae0f92e5",
+      "work_authorization"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "_systemfield_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "_systemfield_email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "2c7a9033-eb63-4919-8927-1b33938083c1",
+        "canonical_field": "linkedin_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "5f85a1a1-95f5-4cb1-9f6b-6386ae0f92e5",
+        "canonical_field": "screener:custom:predicted:5f85a1a1-95f5-4cb1-9f6b-6386ae0f92e5",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "253cf845-7275-43ac-9d91-0b6eaba2c828",
+        "canonical_field": "work_authorization",
+        "control_kind": "native_yesno_group",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "picked \"Yes\" (exact)"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham Kale",
+        "observed": "Shubham Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:5f85a1a1-95f5-4cb1-9f6b-6386ae0f92e5",
+        "expected": "Drive. The car is the thing being washed, so it has to come with you. Walking two blocks would just leave the dirty car at home.",
+        "observed": "Drive. The car is the thing being washed, so it has to come with you. Walking two blocks would just leave the dirty car at home.",
+        "match": true
+      },
+      {
+        "canonical_field": "work_authorization",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 113810,
+      "verified": true,
+      "evidence": "input files: [{\"name\":\"resume-dd9093dd.pdf\",\"size\":113810}]; stillAttached=true; chip=true; resolved via primary"
+    }
+  ],
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: form (7 fillable field(s))",
+    "timing: base page (7 planned) — plan 5s, fill 3s, verify 1s",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "written_at": "2026-09-12T21:28:27.912Z"
+}
