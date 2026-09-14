@@ -1,0 +1,164 @@
+{
+  "decision_id": "019f83b6-3549-42e9-b1f8-c1f057ba1914",
+  "application_id": "5d8afb36-8852-474e-b059-bdfc9163372e",
+  "signature": "FAILED_RETRYABLE|-|unknown|rb.wd5.myworkdayjobs.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "5d8afb36-8852-474e-b059-bdfc9163372e",
+    "company": "Federal Reserve Bank of San Francisco",
+    "role": "2027 SF Fed Summer Internship - BUSINESS ANALYST Intern",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 1,
+    "failure_signature": "FAILED_RETRYABLE|-|unknown|rb.wd5.myworkdayjobs.com",
+    "end_host": "rb.wd5.myworkdayjobs.com",
+    "recent_events": [
+      {
+        "from": "READY_TO_SUBMIT",
+        "to": "FAILED_RETRYABLE",
+        "reason": "submit page gate failed: NO_APPLICATION_FORM",
+        "at": "2026-09-14T13:13:38.387Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "READY_TO_SUBMIT",
+        "reason": "pipeline: fill rehearsal verified",
+        "at": "2026-09-14T13:13:38.310Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (workday live fill: 11 filled (held for submit))",
+        "at": "2026-09-14T13:13:38.309Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route inspect_only (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-14T13:12:44.674Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-14T13:12:44.000Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: workday URL validated",
+        "at": "2026-09-14T13:12:43.993Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-14T13:12:43.985Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 7141579276ac)",
+        "at": "2026-09-14T13:12:43.978Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-14T13:12:43.964Z"
+      },
+      {
+        "from": "FAILED_RETRYABLE",
+        "to": "QUEUED",
+        "reason": "operator requeue 2026-09-14: fresh fill under 4caed4a1 (Workday listbox targeting / stray popper / wizard heading fixes)",
+        "at": "2026-09-14T13:00:13.025Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "FAILED_RETRYABLE",
+        "reason": "operator requeue 2026-09-14: fresh fill under 4caed4a1 (Workday listbox targeting / stray popper / wizard heading fixes)",
+        "at": "2026-09-14T13:00:13.024Z"
+      },
+      {
+        "from": "AMBIGUOUS_FIELD",
+        "to": "FIELD_VERIFICATION",
+        "reason": "operator resolved ambiguous field (console)",
+        "at": "2026-09-14T13:00:13.021Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "AMBIGUOUS_FIELD",
+        "reason": "pipeline: read-back verification failed",
+        "at": "2026-09-14T07:06:44.165Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (workday live fill: 0 filled (held for submit))",
+        "at": "2026-09-14T07:06:44.164Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route inspect_only (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-14T07:01:08.941Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "sanfranciscoca",
+        "detail": "token \"san\" ~ slug \"sanfranciscoca\" (from URL path)",
+        "expected_company": "Federal Reserve Bank of San Francisco",
+        "url": "https://rb.wd5.myworkdayjobs.com/frs/job/San-Francisco-CA/XMLNAME-2027-SF-Fed-Summer-Internship---BUSINESS-ANALYST-Intern_R-0000033321?jr_id=6aa7734ba77a53f5a1575596"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (11 candidates, employer match)",
+          "evidence": "rb.wd5.myworkdayjobs.com"
+        }
+      ]
+    },
+    "submit": {
+      "outcome": "FAILED_BEFORE_CLICK",
+      "reason": "Page failed identity gate (NO_APPLICATION_FORM): form markers matched but the page has no fillable fields — this is a posting/description page, not the application form",
+      "brief_items": []
+    },
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": true
+    },
+    "open_review_items": [],
+    "prior_decisions": [
+      {
+        "action": "park_for_operator",
+        "failure_signature": "AMBIGUOUS_FIELD|-|verify_mismatch|rb.wd5.myworkdayjobs.com",
+        "outcome_status": "PENDING",
+        "created_at": "2026-09-14T07:06:49.673Z"
+      }
+    ],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\":\"engage_agent_leg\",\"rationale\":\"Fill reported 11 fields filled and verification passed, yet the submit gate sees a posting/description page with no form — deterministic navigation landed on/reverted to the wrong page within the Workday wizard. Nav congruence matches and no wall exists, so the URL is fine; a bounded agent leg can traverse the wizard to the real submit step.\",\"confidence\":\"medium\"}",
+  "parsed_action": "engage_agent_leg",
+  "validation_note": null,
+  "precondition": {
+    "ok": false,
+    "reason": "no navigation wall in evidence — agent leg only helps nav-walled apps"
+  },
+  "mode": "act",
+  "executed": false,
+  "execution_detail": "precondition failed: no navigation wall in evidence — agent leg only helps nav-walled apps",
+  "rationale_unverified": "Fill reported 11 fields filled and verification passed, yet the submit gate sees a posting/description page with no form — deterministic navigation landed on/reverted to the wrong page within the Workday wizard. Nav congruence matches and no wall exists, so the URL is fine; a bounded agent leg can traverse the wizard to the real submit step."
+}
