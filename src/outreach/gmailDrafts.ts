@@ -7,6 +7,7 @@ import { getConfig } from "../config/index.js";
 import { logger } from "../logging/logger.js";
 import { PlaywrightServiceSession } from "../auth/serviceSession.js";
 import { resolveGmailCdpUrl } from "../verification/gmailWebProvider.js";
+import { currentTenant } from "../tenants/context.js";
 import { getContact } from "../contacts/repository.js";
 import { LINKEDIN_PROFILE_URL } from "../contacts/emailGenerate.js";
 import { loadPublicProfile } from "../candidate/publicProfileIO.js";
@@ -438,14 +439,20 @@ export async function createGmailDraft(input: {
   // #233: prefer the Gmail tail's own debug Chrome when the operator
   // started one (OUTREACH_CDP_URL); falls back to the applier's browser,
   // which is the pre-#233 behaviour.
-  const target = await resolveGmailCdpUrl();
+  // A tenant child (decision 2026-09-14) drafts through the user's OWN
+  // Gmail session, unsealed by the tenant runner as private/auth/
+  // gmail.storage.json — headless STORAGE_STATE, never the operator's
+  // debug Chrome (which the tenant env cannot even name).
+  const tenant = currentTenant();
+  const target = tenant ? { url: "", reachable: false, dedicated: false, note: null } : await resolveGmailCdpUrl();
   const useCdp = target.reachable;
   const session = new PlaywrightServiceSession({
-    service: "jobright",
+    service: tenant ? "gmail" : "jobright",
     ...(useCdp ? { mode: "CDP_ATTACH" as const, cdpUrl: target.url } : {}),
     headless: useCdp ? true : (input.headless ?? true),
   });
   const notes: string[] = [];
+  if (tenant) notes.push("gmail tail in the tenant's own sealed Gmail session (headless)");
   if (target.dedicated) {
     notes.push(`gmail tail on its own debug Chrome (${target.url})`);
   }

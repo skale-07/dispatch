@@ -33,7 +33,14 @@ export type RemoteBrowserSession = {
 
 export type RemoteBrowserProvider = {
   readonly name: string;
-  createSession(input: { userId: string; keepAliveSeconds?: number }): Promise<RemoteBrowserSession>;
+  /**
+   * A session, optionally on a persisted browser context (cookies and
+   * storage carried between sessions — the "sign in once" hedge from the
+   * spike doc, and what lets a reconnect start already signed in).
+   */
+  createSession(input: { userId: string; keepAliveSeconds?: number; contextId?: string }): Promise<RemoteBrowserSession>;
+  /** A new persisted context for a user (Browserbase Contexts API); optional for providers without one. */
+  createContext?(input: { userId: string }): Promise<string>;
   /** Live view URL for an existing session (refreshable; the debug URL can rotate). */
   liveViewUrl(sessionId: string): Promise<string>;
   /** CDP endpoint for an existing session — SECRET; derived, never stored. */
@@ -119,13 +126,23 @@ export function browserbaseProvider(input: {
 
   return {
     name: "browserbase",
-    async createSession({ userId, keepAliveSeconds }) {
+    async createContext({ userId }) {
+      const created = await call("POST", "/contexts", { projectId: input.projectId });
+      const id = str(created["id"]);
+      if (!id) throw new Error("browserbase create context returned no id");
+      void userId; // the context is bound to the tenant by where the engine stores its id, not by the provider
+      return id;
+    },
+    async createSession({ userId, keepAliveSeconds, contextId }) {
       const created = await call("POST", "/sessions", {
         projectId: input.projectId,
         // A handoff outlives the user's clicks for a while but never forever.
         timeout: Math.max(60, Math.min(keepAliveSeconds ?? DEFAULT_HANDOFF_SESSION_SECONDS, 6 * 3600)),
         keepAlive: false,
         ...(input.proxies ? { proxies: true } : {}),
+        // persist: true writes the session's cookies/storage back into the
+        // context when it ends, so the next session on it starts signed in.
+        ...(contextId ? { browserSettings: { context: { id: contextId, persist: true } } } : {}),
         userMetadata: { dispatch_user: userId },
       });
       const sessionId = str(created["id"]);

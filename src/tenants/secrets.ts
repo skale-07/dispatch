@@ -75,13 +75,13 @@ export function writeUnsealed(paths: TenantPaths, name: string, data: unknown): 
  * (src/auth/serviceRegistry.ts derives it from PRIVATE_DIR). Written for
  * the run, listed as unsealed plaintext, wiped with the rest.
  */
-export function unsealedStorageStatePath(paths: TenantPaths, service: "jobright" | "linkedin" | "outlook"): string {
+export function unsealedStorageStatePath(paths: TenantPaths, service: "jobright" | "linkedin" | "outlook" | "gmail"): string {
   return path.join(paths.authDir, `${service}.storage.json`);
 }
 
 export function writeUnsealedStorageState(
   paths: TenantPaths,
-  service: "jobright" | "linkedin" | "outlook",
+  service: "jobright" | "linkedin" | "outlook" | "gmail",
   state: unknown,
 ): string {
   fs.mkdirSync(paths.authDir, { recursive: true });

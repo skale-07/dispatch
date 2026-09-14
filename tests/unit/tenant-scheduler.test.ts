@@ -194,3 +194,31 @@ describe("runTenantScheduler (UNIT_CONFIRMED)", () => {
     expect(sleeps.every((ms) => ms === 10_000)).toBe(true);
   });
 });
+
+describe("schedulerTick: Gmail handoffs (decision 2026-09-14, UNIT_CONFIRMED)", () => {
+  it("a requested gmail_connect is provisioned like JobRight's, user_done enqueues the same verify job, and a Gmail task never blocks applying", async () => {
+    const released: string[] = [];
+    const { io, rec } = fakeIo({
+      handoffs: [
+        task({ id: "g-req", user_id: A, kind: "gmail_connect", status: "requested" }),
+        task({ id: "g-done", user_id: B, kind: "gmail_reconnect", status: "user_done", provider_session_id: "s-g" }),
+      ],
+      connected: [A, B],
+      quota: new Map([[A, 2], [B, 2]]),
+      jobs: [],
+    });
+    const report = await schedulerTick({
+      io,
+      provider: provider(released),
+      runJob: async () => ({ outcome: "completed" }) as TenantRunResult,
+      maxConcurrent: 1,
+      owner: "test",
+      now: () => NOW,
+    });
+    expect(rec.updateTask.filter((u) => u.id === "g-req").map((u) => u.patch["status"])).toEqual(["provisioning", "live"]);
+    expect(rec.insertJob).toContainEqual({ user_id: B, kind: "reconnect_verify", payload: { task_id: "g-done" } });
+    expect(report.handoffs).toMatchObject({ provisioned: 1, reconnect_enqueued: 1, left: 0 });
+    // Only a JobRight handoff blocks the planner; both users still get apply jobs.
+    expect([...report.planned.enqueue].sort()).toEqual([A, B].sort());
+  });
+});

@@ -9,7 +9,6 @@ import { Icon } from "../../components/Icon";
 import { Eyebrow } from "../../components/public/Eyebrow";
 import { FieldHint } from "../../components/public/FieldHint";
 import { LiveView } from "../../components/public/LiveView";
-import { LockedPanel } from "../../components/public/LockedPanel";
 import { PanelState } from "../../components/public/PanelState";
 import type { EngineJobRow, FeedSampleRow, HandoffTaskRow, IntegrationRow } from "../contract";
 import {
@@ -23,10 +22,13 @@ import {
   requestHandoff,
 } from "../data";
 import {
+  GMAIL_CHECKLIST,
+  GMAIL_CONNECT_KINDS,
   HANDOFF_POLL_CAP,
   HANDOFF_POLL_MS,
   JOBRIGHT_CHECKLIST,
   JOBRIGHT_CONNECT_KINDS,
+  connectKindFor,
   handoffPhase,
   integrationFor,
   integrationStatusLabel,
@@ -97,8 +99,9 @@ export function IntegrationsStep(props: StepProps): JSX.Element {
   const jobright = snap ? integrationFor(snap.integrations, "jobright") : null;
   const task = snap ? pickHandoff(snap.tasks, JOBRIGHT_CONNECT_KINDS) : null;
   const phase = handoffPhase(task);
+  const gmailTask = snap ? pickHandoff(snap.tasks, GMAIL_CONNECT_KINDS) : null;
   const feedJob = snap?.jobs.find((j) => j.kind === "feed_sample" && (j.status === "queued" || j.status === "leased")) ?? null;
-  const inFlight = isActiveHandoff(task) || feedJob !== null;
+  const inFlight = isActiveHandoff(task) || isActiveHandoff(gmailTask) || feedJob !== null;
 
   // Bounded re-read while something is in flight (no realtime publication
   // yet): HANDOFF_POLL_CAP ticks, then it stops and says so.
@@ -129,10 +132,7 @@ export function IntegrationsStep(props: StepProps): JSX.Element {
 
   // Anything that was once connected is a RE-connect (the engine treats it
   // as a session refresh); only a never-connected account "connects".
-  const connectKind =
-    jobright?.status === "expired" || jobright?.status === "revoked" || jobright?.status === "connected"
-      ? "jobright_reconnect"
-      : "jobright_connect";
+  const connectKind = connectKindFor("jobright", jobright);
 
   return (
     <div className="flex flex-col gap-6">
@@ -272,8 +272,12 @@ export function IntegrationsStep(props: StepProps): JSX.Element {
 
       <GmailSection
         gmail={snap ? integrationFor(snap.integrations, "gmail") : null}
+        task={gmailTask}
+        polls={polls}
         exchangeJob={snap?.jobs.find((j) => j.kind === "gmail_exchange" && (j.status === "queued" || j.status === "leased")) ?? null}
         email={user?.email ?? null}
+        busy={busy}
+        act={act}
         onError={(m) => setActionError(m)}
       />
 
@@ -294,24 +298,37 @@ const GMAIL_CLIENT_ID = (import.meta.env.VITE_GMAIL_OAUTH_CLIENT_ID as string | 
 const GMAIL_REDIRECT = (import.meta.env.VITE_GMAIL_OAUTH_REDIRECT_URI as string | undefined) ?? "";
 
 /**
- * Gmail, drafts only (plan M19). The consent is PKCE against Dispatch's
- * own Web client id; the code goes to the engine, which alone holds the
- * secret. Without a configured client id the card refuses by name.
+ * Gmail, drafts only. Primary path (decision 2026-09-14): a handoff like
+ * JobRight's — the user signs into Gmail inside the browser Dispatch
+ * opens, the engine verifies the inbox, seals the session and writes
+ * drafts through it. Secondary path, only when a client id is
+ * configured: the PKCE consent against Dispatch's own Web client (plan
+ * M19), exchanged by the engine.
  */
 function GmailSection({
   gmail,
+  task,
+  polls,
   exchangeJob,
   email,
+  busy,
+  act,
   onError,
 }: {
   gmail: IntegrationRow | null;
+  task: HandoffTaskRow | null;
+  polls: number;
   exchangeJob: EngineJobRow | null;
   email: string | null;
+  busy: string | null;
+  act: (label: string, run: () => Promise<unknown>) => Promise<void>;
   onError: (message: string) => void;
 }): JSX.Element {
   const [starting, setStarting] = useState(false);
   const status = gmail?.status ?? "disconnected";
+  const phase = handoffPhase(task);
   const connecting = status === "pending_handoff" || exchangeJob !== null;
+  const connectKind = connectKindFor("gmail", gmail);
 
   const start = async (): Promise<void> => {
     setStarting(true);
@@ -329,19 +346,6 @@ function GmailSection({
     }
   };
 
-  if (!GMAIL_CLIENT_ID) {
-    return (
-      <Card className="py-2">
-        <CardContent className="px-5 sm:px-8">
-          <LockedPanel
-            title="Gmail — drafts only"
-            reason="Gmail connect is not configured for this deployment (VITE_GMAIL_OAUTH_CLIENT_ID is unset). No referral drafts are written for this account, and nothing is ever sent in your name."
-          />
-        </CardContent>
-      </Card>
-    );
-  }
-
   return (
     <Card className="py-6">
       <CardContent className="flex flex-col gap-4 px-5 sm:px-8">
@@ -352,28 +356,94 @@ function GmailSection({
           </Badge>
         </div>
         <p className="m-0 text-sm text-text-dim">
-          Two permissions, both in your own account: read (verification codes from job portals) and compose
-          (referral emails written into your <span className="font-mono">Drafts</span>, for you to review and send).
-          Dispatch can never send mail in your name — the engine refuses any wider grant.
+          Same idea as JobRight: you sign into Gmail once inside a browser Dispatch opens, and it
+          keeps that session. It reads verification codes from job portals and writes referral
+          emails into your <span className="font-mono">Drafts</span> for you to review and send.
+          Dispatch can never send mail in your name.
         </p>
         {gmail?.last_error ? (
           <Alert variant="destructive">
             <AlertDescription>{gmail.last_error}</AlertDescription>
           </Alert>
         ) : null}
-        <div className="flex flex-wrap items-center gap-3">
-          <Button type="button" onClick={() => void start()} disabled={starting || (connecting && status !== "connected")}>
-            <Icon name="arrow-right" size={14} />
-            {status === "connected" ? "reconnect Gmail" : "connect Gmail"}
-          </Button>
-          <FieldHint>
-            {status === "connected" && gmail?.account_email
-              ? `connected as ${gmail.account_email}`
-              : connecting
-                ? "the engine is verifying your grant — this updates on its own"
-                : "you leave for Google and come straight back here"}
-          </FieldHint>
-        </div>
+
+        {phase === "none" || phase === "completed" || phase === "failed" || phase === "expired" || phase === "cancelled" ? (
+          <div className="flex flex-col gap-3">
+            {phase === "failed" || phase === "expired" ? (
+              <FieldHint tone="warn">
+                The last attempt {phase === "failed" ? "failed" : "expired"}
+                {task?.reason ? ` — ${task.reason}` : ""}. You can start again.
+              </FieldHint>
+            ) : null}
+            <div className="flex flex-wrap items-center gap-3">
+              <Button
+                type="button"
+                disabled={busy !== null || (connecting && status !== "connected")}
+                onClick={() => void act("gmail-request", () => requestHandoff(connectKind))}
+              >
+                <Icon name="link" size={14} />
+                {busy === "gmail-request" ? "asking…" : connectKind === "gmail_reconnect" ? "reconnect Gmail" : "connect Gmail"}
+              </Button>
+              {GMAIL_CLIENT_ID ? (
+                <Button type="button" variant="outline" onClick={() => void start()} disabled={starting || (connecting && status !== "connected")}>
+                  or use Google&apos;s consent screen
+                </Button>
+              ) : null}
+              <FieldHint>
+                {status === "connected" && gmail?.account_email
+                  ? `connected as ${gmail.account_email}`
+                  : exchangeJob
+                    ? "the engine is verifying your grant — this updates on its own"
+                    : "Dispatch opens a browser here for you to sign in"}
+              </FieldHint>
+            </div>
+          </div>
+        ) : null}
+
+        {phase === "requested" ? (
+          <div className="flex flex-col gap-3">
+            <LiveView url={null} title="Gmail sign-in" />
+            <p className="m-0 font-mono text-xs text-text-dim" role="status" aria-live="polite">
+              {polls >= HANDOFF_POLL_CAP
+                ? "still waiting for Dispatch to open a browser — the engine may be offline; refresh later"
+                : "asking Dispatch to open a browser for you…"}
+            </p>
+          </div>
+        ) : null}
+
+        {phase === "live" && task ? (
+          <div className="flex flex-col gap-4">
+            <LiveView url={task.live_view_url} title="Gmail sign-in" expiresAt={task.expires_at} />
+            <ol className="m-0 flex flex-col gap-2 pl-5 text-sm text-text">
+              {GMAIL_CHECKLIST.map((line) => (
+                <li key={line}>{line}</li>
+              ))}
+            </ol>
+            <div className="flex flex-wrap gap-3">
+              <Button type="button" disabled={busy !== null} onClick={() => void act("gmail-done", () => handoffUserDone(task.id))}>
+                <Icon name="check" size={14} />
+                {busy === "gmail-done" ? "handing back…" : "I'm signed in"}
+              </Button>
+              <Button type="button" variant="outline" disabled={busy !== null} onClick={() => void act("gmail-cancel", () => handoffCancel(task.id))}>
+                cancel
+              </Button>
+            </div>
+          </div>
+        ) : null}
+
+        {phase === "verifying" ? (
+          <p className="m-0 font-mono text-xs text-text-dim" role="status" aria-live="polite">
+            checking the session Dispatch captured — your inbox has to open headlessly before this counts as connected
+          </p>
+        ) : null}
+
+        {isActiveHandoff(task) && phase !== "live" && task ? (
+          <div>
+            <Button type="button" variant="outline" size="sm" disabled={busy !== null} onClick={() => void act("gmail-cancel", () => handoffCancel(task.id))}>
+              cancel
+            </Button>
+          </div>
+        ) : null}
       </CardContent>
     </Card>
   );

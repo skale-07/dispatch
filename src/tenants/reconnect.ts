@@ -8,6 +8,8 @@ import {
   type CaptureSession,
   type HandoffClient,
   type HandoffTaskRecord,
+  handoffService,
+  type HandoffService,
 } from "./capture.js";
 import type { TenantPaths } from "./paths.js";
 
@@ -54,9 +56,9 @@ export async function readHandoffTask(client: TaskClient, id: string): Promise<H
   };
 }
 
-async function defaultOpenSession(connectUrl: string): Promise<CaptureSession> {
+async function defaultOpenSession(connectUrl: string, service: HandoffService): Promise<CaptureSession> {
   const { PlaywrightServiceSession } = await import("../auth/serviceSession.js");
-  return new PlaywrightServiceSession({ service: "jobright", mode: "CDP_ATTACH", cdpUrl: connectUrl, skipAuthValidation: true });
+  return new PlaywrightServiceSession({ service, mode: "CDP_ATTACH", cdpUrl: connectUrl, skipAuthValidation: true });
 }
 
 export type ReconnectResult = {
@@ -82,8 +84,9 @@ export async function runReconnectVerify(input: {
   const task = await readHandoffTask(input.client, input.taskId);
   if (!task) return { outcome: "refused", reason: `handoff task ${input.taskId} not found`, capture: null, parks: null };
   if (task.user_id !== input.userId) return { outcome: "refused", reason: "handoff task belongs to another user", capture: null, parks: null };
-  if (task.kind !== "jobright_connect" && task.kind !== "jobright_reconnect") {
-    return { outcome: "refused", reason: `handoff kind ${task.kind} is not a JobRight connect (its remote-browser resolution is a later milestone)`, capture: null, parks: null };
+  const service = handoffService(task.kind);
+  if (!service) {
+    return { outcome: "refused", reason: `handoff kind ${task.kind} is not a JobRight or Gmail connect (its remote-browser resolution is a later milestone)`, capture: null, parks: null };
   }
   if (task.status !== "user_done") return { outcome: "refused", reason: `handoff task is ${task.status}, not user_done`, capture: null, parks: null };
   if (!task.provider_session_id) return { outcome: "refused", reason: "handoff task has no provider session", capture: null, parks: null };
@@ -99,7 +102,7 @@ export async function runReconnectVerify(input: {
   if (seams.openSession) {
     openSession = seams.openSession;
   } else {
-    const real = await defaultOpenSession(connectUrl);
+    const real = await defaultOpenSession(connectUrl, service);
     openSession = () => real;
   }
   const capture = await captureHandoff({
@@ -126,6 +129,8 @@ export async function runReconnectVerify(input: {
   if (capture.status !== "completed") {
     return { outcome: "capture_failed", reason: capture.reason, capture, parks: null };
   }
-  const parks = resolveJobrightAuthParks(input.db, (seams.now ?? (() => new Date()))());
+  // A fresh JobRight session unparks the applications that were waiting
+  // on it; a Gmail session parks nothing (drafts simply resume).
+  const parks = service === "jobright" ? resolveJobrightAuthParks(input.db, (seams.now ?? (() => new Date()))()) : null;
   return { outcome: "completed", reason: null, capture, parks };
 }

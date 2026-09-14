@@ -9,7 +9,7 @@ import { upsertJobByFingerprint } from "../../src/jobs/repository.js";
 import { upsertOpenReviewItem } from "../../src/queue/reviewItems.js";
 import { createApplication, getApplication } from "../../src/queue/stateMachine.js";
 import { closeDatabase, migrate, openDatabase } from "../../src/storage/db/client.js";
-import { composeTenantChildEnv, flagsAboveCeiling, TENANT_FORCED_OFF } from "../../src/tenants/childEnv.js";
+import { composeTenantChildEnv, flagsAboveCeiling, forcedOffFor, TENANT_FORCED_OFF, TENANT_GMAIL_FLAGS } from "../../src/tenants/childEnv.js";
 import { currentTenant } from "../../src/tenants/context.js";
 import { deriveTenantKey } from "../../src/tenants/keys.js";
 import { tenantPaths } from "../../src/tenants/paths.js";
@@ -415,5 +415,17 @@ describe("currentTenant (UNIT_CONFIRMED)", () => {
     } finally {
       fs.rmSync(root, { recursive: true, force: true });
     }
+  });
+});
+
+describe("tenant child env: the tenant's own Gmail session (decision 2026-09-14, UNIT_CONFIRMED)", () => {
+  it("the Gmail flags stay forced off without a sealed Gmail session and pass through from the ceiling with one", () => {
+    expect(forcedOffFor({})).toEqual(TENANT_FORCED_OFF);
+    expect(forcedOffFor({ gmailSession: false })).toEqual(TENANT_FORCED_OFF);
+    const withGmail = forcedOffFor({ gmailSession: true });
+    for (const k of TENANT_GMAIL_FLAGS) expect(withGmail).not.toContain(k);
+    for (const k of TENANT_FORCED_OFF) if (!TENANT_GMAIL_FLAGS.includes(k)) expect(withGmail).toContain(k);
+    // Never wider than the forced-off list, and never a flag outside it.
+    expect(withGmail.length).toBe(TENANT_FORCED_OFF.length - TENANT_GMAIL_FLAGS.length);
   });
 });

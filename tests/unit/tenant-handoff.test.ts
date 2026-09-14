@@ -274,3 +274,133 @@ describe("resolveJobrightAuthParks (UNIT_CONFIRMED)", () => {
     }
   });
 });
+
+describe("persisted contexts + Gmail handoffs (decision 2026-09-14, UNIT_CONFIRMED)", () => {
+  type Req = { url: string; method: string; body: unknown };
+  function fakeFetch(responses: Record<string, { status: number; body: unknown }>) {
+    const reqs: Req[] = [];
+    const fetchImpl = async (url: string, init?: { method?: string; headers?: Record<string, string>; body?: string }) => {
+      reqs.push({ url, method: init?.method ?? "GET", body: init?.body ? JSON.parse(init.body) : null });
+      const key = `${init?.method ?? "GET"} ${new URL(url).pathname}`;
+      const r = responses[key] ?? { status: 404, body: { error: "no route " + key } };
+      return { ok: r.status < 400, status: r.status, text: async () => JSON.stringify(r.body) };
+    };
+    return { fetchImpl, reqs };
+  }
+  const unusedProvider = (released: string[]) => ({
+    name: "fake",
+    createSession: async () => { throw new Error("unused"); },
+    liveViewUrl: async () => "x",
+    connectUrl: () => "wss://c",
+    endSession: async (id: string) => { released.push(id); },
+  });
+  const gmailSession = (ok: boolean): CaptureSession => ({
+    open: async () => undefined,
+    validate: async () => ({
+      ok,
+      status: ok ? "AUTHENTICATED" : "UNAUTHENTICATED",
+      url: ok ? "https://mail.google.com/mail/u/0/#inbox" : "https://accounts.google.com/v3/signin/identifier",
+      reason: ok ? "inbox" : "bounced to accounts.google.com",
+      checkedAt: "2026-09-14T05:01:00.000Z",
+    }),
+    getContext: () => ({ storageState: async () => ({ cookies: [{ name: "SID", value: "v" }], origins: [] }) }),
+    newPage: async () => ({ goto: async () => undefined, locator: () => ({ count: async () => 0 }), close: async () => undefined }),
+    close: async () => undefined,
+  });
+
+  it("browserbase: a context is created once and a session on it asks the provider to persist cookies back", async () => {
+    const { fetchImpl, reqs } = fakeFetch({
+      "POST /v1/contexts": { status: 201, body: { id: "ctx_1" } },
+      "POST /v1/sessions": { status: 201, body: { id: "sess_2" } },
+      "GET /v1/sessions/sess_2/debug": { status: 200, body: { debuggerFullscreenUrl: "https://live/2" } },
+    });
+    const p = browserbaseProvider({ apiKey: "bb_k", projectId: "proj", fetch: fetchImpl });
+    expect(await p.createContext!({ userId: UID })).toBe("ctx_1");
+    expect(reqs[0]).toMatchObject({ method: "POST", body: { projectId: "proj" } });
+    const s = await p.createSession({ userId: UID, contextId: "ctx_1" });
+    expect(s.sessionId).toBe("sess_2");
+    expect(reqs[1]!.body).toMatchObject({ browserSettings: { context: { id: "ctx_1", persist: true } } });
+    await p.createSession({ userId: UID });
+    expect(reqs[3]!.body).not.toHaveProperty("browserSettings");
+  });
+
+  it("provisionHandoff: the tenant's context is created on the first handoff and reused after; a context failure is a note, not a blocked login", async () => {
+    const { memoryContextStore } = await import("../../src/tenants/browserContexts.js");
+    const contexts = memoryContextStore();
+    const sessions: Array<{ contextId?: string }> = [];
+    let contextCalls = 0;
+    const provider = {
+      name: "fake",
+      createContext: async () => { contextCalls += 1; return "ctx_a"; },
+      createSession: async (i: { userId: string; contextId?: string }) => {
+        sessions.push(i);
+        return { provider: "fake", sessionId: `s${sessions.length}`, connectUrl: "wss://c?apiKey=k", liveViewUrl: "https://live", expiresAt: null };
+      },
+      liveViewUrl: async () => "https://live",
+      connectUrl: (id: string) => `wss://c?sessionId=${id}`,
+      endSession: async () => undefined,
+    };
+    const { client } = fakeHandoffClient();
+    await provisionHandoff({ client, provider, task: task({ status: "requested" }), contexts });
+    await provisionHandoff({ client, provider, task: task({ id: "task-2", kind: "gmail_connect", status: "requested" }), contexts });
+    expect(contextCalls).toBe(1);
+    expect(sessions.map((s) => s.contextId)).toEqual(["ctx_a", "ctx_a"]);
+    expect(contexts.get(UID)).toBe("ctx_a");
+
+    const broken = { ...provider, createContext: async () => { throw new Error("contexts not on this plan"); } };
+    const r = await provisionHandoff({ client, provider: broken, task: task({ id: "task-3", status: "requested" }), contexts: memoryContextStore() });
+    expect(r.status).toBe("live");
+    expect(sessions.at(-1)).not.toHaveProperty("contextId");
+  });
+
+  it("captureHandoff on a gmail_connect task seals gmail.storage, marks the gmail integration connected, and skips the premium probe", async () => {
+    const { GMAIL_STATE_SECRET } = await import("../../src/tenants/capture.js");
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), "dispatch-capture-gmail-"));
+    try {
+      const paths = tenantPaths(UID, root);
+      const { client, updates, rpcs } = fakeHandoffClient();
+      const released: string[] = [];
+      let probed = false;
+      const r = await captureHandoff({
+        client,
+        provider: unusedProvider(released),
+        task: task({ kind: "gmail_connect", status: "user_done", provider_session_id: "g1" }),
+        paths,
+        tenantKey: KEY,
+        connectUrl: "wss://c?apiKey=k&sessionId=g1",
+        openSession: () => gmailSession(true),
+        probeText: async () => { probed = true; return "Turbo member"; },
+      });
+      expect(r.status).toBe("completed");
+      expect(r.premium).toBe("unknown");
+      expect(probed).toBe(false);
+      expect(r.sealedPath).toBe(path.join(paths.secretsDir, `${GMAIL_STATE_SECRET}.enc`));
+      expect(readEncryptedFile<{ cookies: Array<{ name: string }> }>(r.sealedPath!, KEY).cookies[0]!.name).toBe("SID");
+      expect(released).toEqual(["g1"]);
+      expect(updates.map((u) => u.patch["status"])).toEqual(["verifying", "completed"]);
+      expect(rpcs).toEqual([{ fn: "engine_set_integration_status", args: { p_user: UID, p_provider: "gmail", p_status: "connected", p_meta: {} } }]);
+    } finally {
+      fs.rmSync(root, { recursive: true, force: true });
+    }
+  });
+
+  it("a not-signed-in Gmail names Gmail, not JobRight, in the reason", async () => {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), "dispatch-capture-gmail2-"));
+    try {
+      const { client } = fakeHandoffClient();
+      const r = await captureHandoff({
+        client,
+        provider: unusedProvider([]),
+        task: task({ kind: "gmail_reconnect", status: "user_done", provider_session_id: "g2" }),
+        paths: tenantPaths(UID, root),
+        tenantKey: KEY,
+        connectUrl: "wss://c",
+        openSession: () => gmailSession(false),
+      });
+      expect(r.status).toBe("open");
+      expect(r.reason).toMatch(/^Gmail did not look signed in/);
+    } finally {
+      fs.rmSync(root, { recursive: true, force: true });
+    }
+  });
+});

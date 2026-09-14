@@ -46,8 +46,9 @@ export const TENANT_FORCED_OFF: readonly GatedFlagKey[] = [
   "ATS_DISCOVERY_ENABLED",
   "LINKEDIN_ENRICHMENT_ENABLED",
   "AGENT_AUTHORING_ENABLED",
-  // Until M19 (per-user Gmail over the drafts-only API): the web transports
-  // would open the OPERATOR's mailbox for a stranger's application.
+  // Off unless the tenant's OWN Gmail session is unsealed for the run
+  // (forcedOffFor): the web transports would otherwise open the
+  // OPERATOR's mailbox for a stranger's application.
   "GMAIL_DRAFTS_ENABLED",
   "EMAIL_GENERATION_ENABLED",
   "GMAIL_VERIFICATION_ENABLED",
@@ -100,9 +101,27 @@ export type TenantChildEnvInput = {
   kind: "apply" | "outreach" | "feed_sample";
   /** Where the tenant master lives (child derives its key from it). */
   tenantsRoot: string;
+  /**
+   * The tenant's OWN Gmail session is unsealed for this run (decision
+   * 2026-09-14: Gmail through the remote Chrome). Only then may the Gmail
+   * flags pass through from the ceiling — the web transports would
+   * otherwise open the operator's mailbox for a stranger's application.
+   */
+  gmailSession?: boolean;
   /** The parent's env (defaults to process.env). */
   env?: NodeJS.ProcessEnv;
 };
+
+/** The Gmail flags a tenant child may keep when — and only when — its own Gmail session is unsealed. */
+export const TENANT_GMAIL_FLAGS: readonly GatedFlagKey[] = [
+  "GMAIL_DRAFTS_ENABLED",
+  "EMAIL_GENERATION_ENABLED",
+  "GMAIL_VERIFICATION_ENABLED",
+];
+
+export function forcedOffFor(input: Pick<TenantChildEnvInput, "gmailSession">): readonly GatedFlagKey[] {
+  return input.gmailSession ? TENANT_FORCED_OFF.filter((k) => !TENANT_GMAIL_FLAGS.includes(k)) : TENANT_FORCED_OFF;
+}
 
 export function composeTenantChildEnv(input: TenantChildEnvInput): NodeJS.ProcessEnv {
   const parent = input.env ?? process.env;
@@ -115,7 +134,7 @@ export function composeTenantChildEnv(input: TenantChildEnvInput): NodeJS.Proces
     unattended: { maxSubmits: Math.max(0, Math.floor(input.maxSubmits)) },
   });
 
-  for (const key of TENANT_FORCED_OFF) child[key] = "false";
+  for (const key of forcedOffFor(input)) child[key] = "false";
   for (const key of TENANT_STRIPPED_KEYS) delete child[key];
 
   // Belt and braces: every gated key is present and explicit on the child.

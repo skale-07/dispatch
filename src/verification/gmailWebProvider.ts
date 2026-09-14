@@ -4,6 +4,7 @@ import { logger } from "../logging/logger.js";
 import { extractMagicLink, extractOtpCode } from "../gmail/verificationParsers.js";
 import { gmailWebSelectorsV1 } from "../gmail/webSelectors.js";
 import { PlaywrightServiceSession } from "../auth/serviceSession.js";
+import { currentTenant } from "../tenants/context.js";
 import type { FetchVerificationCode } from "./codeProviders.js";
 
 /** Local CDP probe (duplicated from the nav layer to avoid an import cycle). */
@@ -318,14 +319,17 @@ async function pollGmailWeb(
 ): Promise<MailboxVerificationHit | null> {
   const cfg = getConfig();
   if (!cfg.gmailVerificationEnabled) return null;
-  const target = forceStorageState
+  // A tenant child reads codes from the user's OWN Gmail session
+  // (unsealed as private/auth/gmail.storage.json), never a debug Chrome.
+  const tenant = currentTenant();
+  const target = tenant || forceStorageState
     ? { url: cfg.agentCdpUrl, reachable: false, dedicated: false }
     : await resolveGmailCdpUrl();
   const useCdp = target.reachable;
   // CDP attach ignores headless (operator Chrome is already visible).
   // STORAGE_STATE launches honor headless for smoke-test visibility.
   const session = new PlaywrightServiceSession({
-    service: "jobright",
+    service: tenant ? "gmail" : "jobright",
     ...(useCdp ? { mode: "CDP_ATTACH" as const, cdpUrl: target.url } : {}),
     headless: useCdp ? true : headless,
   });

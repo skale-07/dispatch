@@ -46,9 +46,11 @@ is LIVE until its own line says so.
   was written; UNVERIFIED either way until step 2.
 - Browserbase response shapes (`connectUrl`, `debuggerFullscreenUrl`) are
   from the public API description, not a run — step 3 settles them.
-- The outreach pipeline still drafts over the debug Chrome; tenant
-  children keep Gmail drafting forced off until the transport switch
-  lands in `src/outreach/gmailDrafts.ts` (another session's file).
+- Gmail for tenants (M25, 2026-09-14): a `gmail_connect` handoff seals
+  the user's own session; the child drafts through it headless. The
+  Google sign-in inside the remote browser is the UNVERIFIED step — do
+  it in the soak right after the JobRight connect, and if Google refuses
+  the browser, the OAuth fallback in the launch checklist §3 applies.
 - Workday "My Experience" rows for a tenant are UNIT_CONFIRMED only
   (M23: wizard rows → `structuredEmploymentHistory()` entries). The soak's
   onboarding pass should use **Fill from resume** at step 4 and the first

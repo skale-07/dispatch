@@ -1,3 +1,4 @@
+import { fileContextStore, type ContextStore } from "./browserContexts.js";
 import { resolveRemoteBrowserProvider, type RemoteBrowserProvider } from "../browser/remoteBrowser.js";
 import {
   leaseEngineJobs,
@@ -41,6 +42,8 @@ export const LEASE_KINDS: readonly EngineJobKind[] = ["apply", "reconnect_verify
 export const JOB_LEASE_SECONDS = 3600;
 const ACTIVE_HANDOFF_STATUSES = ["open", "requested", "provisioning", "live", "user_done", "verifying"] as const;
 const JOBRIGHT_HANDOFF_KINDS = new Set(["jobright_connect", "jobright_reconnect"]);
+/** Kinds the remote browser resolves: JobRight and (decision 2026-09-14) Gmail, both as a sign-in the user does in the live view. */
+const REMOTE_HANDOFF_KINDS = new Set(["jobright_connect", "jobright_reconnect", "gmail_connect", "gmail_reconnect"]);
 
 export type ApplyJobSummary = { userId: string; status: string; createdAt: string };
 
@@ -134,6 +137,8 @@ export type SchedulerSeams = {
   now?: () => Date;
   sleep?: (ms: number) => Promise<void>;
   owner?: string;
+  /** Persisted remote-browser contexts per tenant (default: files under TENANTS_ROOT). */
+  contexts?: ContextStore;
 };
 
 function handoffClientFrom(io: SchedulerIo): HandoffClient {
@@ -156,6 +161,7 @@ export async function schedulerTick(input: {
   runJob: (job: EngineJob) => Promise<TenantRunResult>;
   maxConcurrent: number;
   owner: string;
+  contexts?: ContextStore;
   now?: () => Date;
 }): Promise<TickReport> {
   const now = input.now ?? (() => new Date());
@@ -189,16 +195,16 @@ export async function schedulerTick(input: {
         await input.io.updateTask(task.id, { status: "expired", live_view_url: null, provider_session_id: null });
         if (task.provider_session_id) await input.provider.endSession(task.provider_session_id).catch(() => undefined);
         report.handoffs.expired += 1;
-      } else if (task.status === "requested" && JOBRIGHT_HANDOFF_KINDS.has(task.kind)) {
-        const r = await provisionHandoff({ client: handoffClient, provider: input.provider, task, now });
+      } else if (task.status === "requested" && REMOTE_HANDOFF_KINDS.has(task.kind)) {
+        const r = await provisionHandoff({ client: handoffClient, provider: input.provider, task, now, ...(input.contexts ? { contexts: input.contexts } : {}) });
         if (r.status === "live") report.handoffs.provisioned += 1;
         else notes.push(`provision failed for ${task.user_id.slice(0, 8)}: ${r.reason}`);
-      } else if (task.status === "user_done" && JOBRIGHT_HANDOFF_KINDS.has(task.kind)) {
+      } else if (task.status === "user_done" && REMOTE_HANDOFF_KINDS.has(task.kind)) {
         const created = await input.io.insertJob({ user_id: task.user_id, kind: "reconnect_verify", payload: { task_id: task.id } });
         if (created === "created") report.handoffs.reconnect_enqueued += 1;
       } else {
-        // ats_login / captcha / gmail_* requested: their remote-browser
-        // resolution is a later milestone — the task stays visible, unchanged.
+        // ats_login / captcha requested: their remote-browser resolution is
+        // a later milestone — the task stays visible, unchanged.
         report.handoffs.left += 1;
       }
     } catch (err) {
@@ -370,6 +376,7 @@ export async function runTenantScheduler(input: {
   const sleep = seams.sleep ?? ((ms: number) => new Promise<void>((r) => setTimeout(r, ms)));
   const io = seams.io ?? makeSchedulerIo(input.client);
   const provider = seams.provider ?? resolveRemoteBrowserProvider(config);
+  const contexts = seams.contexts ?? fileContextStore(config.tenantsRoot);
   const runJob =
     seams.runJob ??
     ((job: EngineJob) =>
@@ -398,7 +405,7 @@ export async function runTenantScheduler(input: {
   process.once("SIGTERM", onSignal);
   try {
     for (let i = 0; i < tickCap; i += 1) {
-      ticks.push(await schedulerTick({ io, provider, runJob, maxConcurrent, owner, now }));
+      ticks.push(await schedulerTick({ io, provider, runJob, maxConcurrent, owner, now, contexts }));
       if (input.once) {
         stopped = "once";
         break;

@@ -2,8 +2,10 @@ import { describe, expect, it } from "vitest";
 import { EMPTY_PROFILE, type HandoffTaskRow, type PersonaRow } from "../../frontend/src/public/contract.js";
 import {
   ACTIVE_HANDOFF_STATUSES,
+  GMAIL_CONNECT_KINDS,
   HANDOFF_POLL_CAP,
   HANDOFF_POLL_MS,
+  connectKindFor,
   handoffPhase,
   integrationStatusLabel,
   isActiveHandoff,
@@ -162,5 +164,32 @@ describe("JobRight handoff phases (UNIT_CONFIRMED)", () => {
         scopes: [], connected_at: null, expires_at: null, last_checked_at: null, last_error: null, updated_at: "",
       }),
     ).toBe("connected as maya@pitt.edu");
+  });
+});
+
+describe("Gmail handoff (decision 2026-09-14, UNIT_CONFIRMED)", () => {
+  const row = (provider: "jobright" | "gmail", status: "connected" | "expired" | "revoked" | "disconnected" | "pending_handoff") => ({
+    user_id: "u", provider, status, account_email: null, premium: false,
+    scopes: [], connected_at: null, expires_at: null, last_checked_at: null, last_error: null, updated_at: "",
+  });
+
+  it("Gmail connects through the same handoff kinds the engine queue already knows; once connected it is a reconnect", () => {
+    expect(GMAIL_CONNECT_KINDS).toEqual(["gmail_connect", "gmail_reconnect"]);
+    expect(connectKindFor("gmail", null)).toBe("gmail_connect");
+    expect(connectKindFor("gmail", row("gmail", "disconnected"))).toBe("gmail_connect");
+    expect(connectKindFor("gmail", row("gmail", "pending_handoff"))).toBe("gmail_connect");
+    for (const s of ["connected", "expired", "revoked"] as const) expect(connectKindFor("gmail", row("gmail", s))).toBe("gmail_reconnect");
+    expect(connectKindFor("jobright", null)).toBe("jobright_connect");
+    expect(connectKindFor("jobright", row("jobright", "expired"))).toBe("jobright_reconnect");
+  });
+
+  it("a Gmail task and a JobRight task are picked independently of each other", () => {
+    const base = { user_id: "u", status: "live" as const, context: {}, live_view_url: null, provider_session_id: null, expires_at: null, attempts: 0, reason: null, result: null, updated_at: "" };
+    const tasks: HandoffTaskRow[] = [
+      { ...base, id: "j", kind: "jobright_connect", created_at: "2026-09-14T01:00:00Z" },
+      { ...base, id: "g", kind: "gmail_connect", created_at: "2026-09-14T02:00:00Z" },
+    ];
+    expect(pickHandoff(tasks, GMAIL_CONNECT_KINDS)?.id).toBe("g");
+    expect(pickHandoff(tasks, ["jobright_connect", "jobright_reconnect"])?.id).toBe("j");
   });
 });

@@ -1,6 +1,7 @@
 import type { Page } from "playwright";
 
-export type ServiceName = "jobright" | "linkedin" | "outlook";
+/** gmail: the user's own mailbox as a browser session (tenant handoff, decision 2026-09-14) — drafts only, never a send. */
+export type ServiceName = "jobright" | "linkedin" | "outlook" | "gmail";
 
 export type SessionPersistenceMode =
   | "STORAGE_STATE"

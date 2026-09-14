@@ -99,6 +99,6 @@ instance when idle (`aws ec2 stop-instances`); the volume and data stay.
   instance to that, or move to Fargate per user (Phase v1).
 - SQLite lives on the box's volume — back it up with EBS snapshots
   (`aws ec2 create-snapshot`); there is no RDS.
-- The Gmail transport for tenants is still forced off in
-  `src/tenants/childEnv.ts` until the drafter drives the tenant's own
-  browser (launch checklist §3).
+- Gmail for tenants runs through the user's own sealed session (M25);
+  the Gmail flags in `.env.engine` are the ceiling, and a tenant without
+  a `gmail_connect` handoff keeps them forced off automatically.

@@ -5,6 +5,7 @@ import { logger } from "../logging/logger.js";
 import { listOpenReviewItems, resolveReviewItem } from "../queue/reviewItems.js";
 import { transitionApplication } from "../queue/stateMachine.js";
 import type { Db } from "../storage/db/client.js";
+import type { ContextStore } from "./browserContexts.js";
 import type { TenantPaths } from "./paths.js";
 import { sealSecret } from "./secrets.js";
 
@@ -28,6 +29,19 @@ import { sealSecret } from "./secrets.js";
 export const HANDOFF_LIVE_MINUTES = 15;
 export const HANDOFF_MAX_ATTEMPTS = 3;
 export const JOBRIGHT_STATE_SECRET = "jobright.storage";
+/** The user's Gmail session, sealed the same way (decision 2026-09-14: Gmail through the remote Chrome, not OAuth). */
+export const GMAIL_STATE_SECRET = "gmail.storage";
+
+/** Which browser service a handoff kind signs into; null for kinds the remote browser does not resolve yet (ats_login, captcha). */
+export type HandoffService = "jobright" | "gmail";
+export function handoffService(kind: HandoffKind): HandoffService | null {
+  if (kind === "jobright_connect" || kind === "jobright_reconnect") return "jobright";
+  if (kind === "gmail_connect" || kind === "gmail_reconnect") return "gmail";
+  return null;
+}
+export function stateSecretFor(service: HandoffService): string {
+  return service === "gmail" ? GMAIL_STATE_SECRET : JOBRIGHT_STATE_SECRET;
+}
 
 export type HandoffTaskRecord = {
   id: string;
@@ -75,12 +89,35 @@ export async function provisionHandoff(input: {
   client: HandoffClient;
   provider: RemoteBrowserProvider;
   task: HandoffTaskRecord;
+  /** Persisted-context bookkeeping per tenant; absent ⇒ a fresh browser every time. */
+  contexts?: ContextStore;
   now?: () => Date;
 }): Promise<{ status: "live" | "failed"; liveViewUrl: string | null; providerSessionId: string | null; expiresAt: string | null; reason: string | null }> {
   const now = input.now ?? (() => new Date());
   await updateHandoffTask(input.client, input.task.id, { status: "provisioning" });
   try {
-    const session = await input.provider.createSession({ userId: input.task.user_id });
+    // One persisted context per tenant: created on their first handoff,
+    // reused for every later one (reconnects, the other service). A
+    // context that cannot be created is a note, never a blocked login —
+    // the session then runs without persistence.
+    let contextId: string | undefined;
+    if (input.contexts && input.provider.createContext) {
+      const existing = input.contexts.get(input.task.user_id);
+      if (existing) contextId = existing;
+      else {
+        try {
+          contextId = await input.provider.createContext({ userId: input.task.user_id });
+          input.contexts.set(input.task.user_id, contextId);
+        } catch (err) {
+          logger.warn("remote browser context unavailable; session without persistence", {
+            service: "tenants",
+            action: "handoff_context_failed",
+            metadata: { user_id: input.task.user_id, reason: err instanceof Error ? err.message.slice(0, 200) : String(err) },
+          });
+        }
+      }
+    }
+    const session = await input.provider.createSession({ userId: input.task.user_id, ...(contextId ? { contextId } : {}) });
     const expiresAt = new Date(now().getTime() + HANDOFF_LIVE_MINUTES * 60_000).toISOString();
     await updateHandoffTask(input.client, input.task.id, {
       status: "live",
@@ -162,6 +199,11 @@ export async function captureHandoff(input: {
 }): Promise<CaptureOutcome> {
   const now = input.now ?? (() => new Date());
   const attempts = (input.task.attempts ?? 0) + 1;
+  const service = handoffService(input.task.kind);
+  if (!service) {
+    throw new Error(`handoff kind ${input.task.kind} has no browser service to capture`);
+  }
+  const serviceLabel = service === "gmail" ? "Gmail" : "JobRight";
   await updateHandoffTask(input.client, input.task.id, { status: "verifying", attempts });
 
   let session: CaptureSession | null = null;
@@ -171,13 +213,14 @@ export async function captureHandoff(input: {
     await session.open();
     const validation = await session.validate();
     if (!validation.ok) {
-      outcome = { ...outcome, validation, reason: `JobRight did not look signed in: ${validation.reason}` };
+      outcome = { ...outcome, validation, reason: `${serviceLabel} did not look signed in: ${validation.reason}` };
     } else {
       const state = await session.getContext().storageState();
       if (!looksLikeStorageState(state)) throw new Error("captured storageState is not a Playwright state (cookies[]/origins[] missing)");
-      const sealedPath = sealSecret(input.paths, JOBRIGHT_STATE_SECRET, state, input.tenantKey);
+      const sealedPath = sealSecret(input.paths, stateSecretFor(service), state, input.tenantKey);
       let premium: PremiumProbe = "unknown";
-      if (input.probeText) {
+      // The premium probe is a JobRight question; a mailbox has no such signal.
+      if (input.probeText && service === "jobright") {
         try {
           premium = assessPremiumText(await input.probeText(session));
         } catch {
@@ -204,7 +247,7 @@ export async function captureHandoff(input: {
     if (outcome.premium === "present") meta["premium"] = true;
     const { error } = await input.client.rpc("engine_set_integration_status", {
       p_user: input.task.user_id,
-      p_provider: "jobright",
+      p_provider: service,
       p_status: "connected",
       p_meta: meta,
     });

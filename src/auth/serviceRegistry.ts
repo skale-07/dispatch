@@ -86,6 +86,20 @@ export function getServiceAuthConfig(service: ServiceName): ServiceAuthConfig {
         validateExtra: validateOutlookAuthExtra,
         ...shared,
       };
+    case "gmail":
+      // The user's own Gmail as a captured browser session (tenant
+      // handoff: they sign in inside the remote Chrome, the engine seals
+      // the state and drafts through it). Signed in ⇔ the inbox URL holds;
+      // any bounce to accounts.google.com is "not signed in", a challenge
+      // page is a checkpoint the user must clear in the live view.
+      return {
+        service,
+        loginUrl: "https://accounts.google.com/ServiceLogin?service=mail&continue=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F0%2F",
+        validateUrl: "https://mail.google.com/mail/u/0/#inbox",
+        unauthenticatedUrlPatterns: [/accounts\.google\.com/i, /\/ServiceLogin/i, /\/signin/i, /workspace\.google\.com/i],
+        checkpointUrlPatterns: [/\/challenge\//i, /\/speedbump\//i, /signin\/rejected/i, /deniedsigninrejected/i, /\/v3\/signin\/identifier/i],
+        ...shared,
+      };
     default: {
       const _exhaustive: never = service;
       throw new Error(`Unknown service: ${_exhaustive}`);
@@ -94,10 +108,10 @@ export function getServiceAuthConfig(service: ServiceName): ServiceAuthConfig {
 }
 
 export function parseServiceName(value: string): ServiceName {
-  if (value === "jobright" || value === "linkedin" || value === "outlook") {
+  if (value === "jobright" || value === "linkedin" || value === "outlook" || value === "gmail") {
     return value;
   }
-  throw new Error(`Invalid service "${value}". Use jobright | linkedin | outlook.`);
+  throw new Error(`Invalid service "${value}". Use jobright | linkedin | outlook | gmail.`);
 }
 
 export function parseSessionMode(value: string | undefined): SessionPersistenceMode | undefined {

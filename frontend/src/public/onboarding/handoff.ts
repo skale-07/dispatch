@@ -80,6 +80,29 @@ export const JOBRIGHT_CHECKLIST: readonly string[] = [
   "Open the Recommended feed once so it loads with your filters applied.",
 ];
 
+/**
+ * Gmail follows the same rule as JobRight (operator 2026-09-14: "the
+ * whole point of the simplicity of the system is the open chrome
+ * instance"): the user signs into Gmail inside the browser Dispatch
+ * opens, the engine keeps that session and writes drafts through it —
+ * drafts only, never a send. The OAuth consent (plan M19) stays as a
+ * fallback for deployments that configured a client id.
+ */
+export const GMAIL_CONNECT_KINDS: readonly HandoffKind[] = ["gmail_connect", "gmail_reconnect"];
+
+export const GMAIL_CHECKLIST: readonly string[] = [
+  "Sign in to Gmail with the account you apply from. If Google asks to verify it's you, finish that step in the same window.",
+  "Wait until your inbox is fully open — that is the session Dispatch keeps.",
+  "Dispatch only ever writes to Drafts; you read and send every referral email yourself.",
+];
+
+/** The connect kind for an integration: anything once connected is a RE-connect (a session refresh). */
+export function connectKindFor(provider: "jobright" | "gmail", row: IntegrationRow | null): HandoffKind {
+  const again = row?.status === "expired" || row?.status === "revoked" || row?.status === "connected";
+  if (provider === "gmail") return again ? "gmail_reconnect" : "gmail_connect";
+  return again ? "jobright_reconnect" : "jobright_connect";
+}
+
 export function integrationFor(rows: readonly IntegrationRow[], provider: IntegrationRow["provider"]): IntegrationRow | null {
   return rows.find((r) => r.provider === provider) ?? null;
 }

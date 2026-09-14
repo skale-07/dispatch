@@ -69,22 +69,24 @@ logs into Gmail in the live view, the engine drafts over CDP exactly as
 it does on the operator's port-9223 Chrome, drafts only. No Google Cloud
 project, no OAuth consent screen, no restricted-scope verification.
 
-What that needs (code, not accounts):
+Built 2026-09-14 (UNIT_CONFIRMED, M25): the `gmail_connect` /
+`gmail_reconnect` handoff is provisioned and captured exactly like
+JobRight's (integrations step card, live view, "I'm signed in"); the
+session is sealed as `gmail.storage` and unsealed for each tenant run,
+whose child then drafts and reads verification codes through the user's
+own mailbox headless (the Gmail flags pass through from the ceiling only
+when that session exists). One persisted Browserbase context per tenant
+keeps both sign-ins across handoffs.
 
-1. The Gmail drafts transport switch: `src/outreach/gmailDrafts.ts`
-   currently drives the operator's debug Chrome; tenant children keep
-   Gmail drafting forced off until it can take the tenant's remote
-   browser (`docs/roadmap/tenant-zero-soak-2026-09-14.md`, known gaps).
-2. A `gmail_connect` handoff like `jobright_connect`: the live view opens
-   mail.google.com, the user signs in, the session is sealed with the
-   JobRight one.
-3. The first hosted Gmail sign-in is the proof: Google sometimes refuses
+What remains is proof, not code:
+
+1. The first hosted Gmail sign-in in the live view: Google sometimes refuses
    sign-in inside an automated or datacenter browser ("this browser may
    not be secure"). Browserbase persistent contexts usually pass; if not,
    fall back to the OAuth path below for Gmail only.
-
-Check: tenant run → a draft appears in the user's own Gmail Drafts with
-the submitted resume attached; nothing sent.
+2. Read-back: a tenant run's `child.log` shows "gmail tail in the
+   tenant's own sealed Gmail session" and a draft with the submitted
+   resume attached appears in the user's Drafts; nothing sent.
 
 **Optional fallback — Google OAuth client** (the plan's earlier M19
 path; the client id + secret are already in the engine `.env`): Gmail API

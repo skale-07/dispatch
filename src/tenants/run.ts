@@ -62,6 +62,7 @@ import { materializeWorkspace, type MaterializeReport } from "./workspace.js";
  */
 
 export const JOBRIGHT_STATE_SECRET = "jobright.storage";
+export const GMAIL_STATE_SECRET = "gmail.storage";
 
 export type TenantJobKind = "apply" | "outreach" | "feed_sample" | "reconnect_verify" | "gmail_exchange";
 
@@ -544,6 +545,20 @@ export async function runTenantJob(input: TenantRunInput): Promise<TenantRunResu
     if (!state) throw new Error("sealed JobRight session vanished between check and unseal");
     writeUnsealedStorageState(paths, "jobright", state);
     plaintextWritten = true;
+    // The tenant's own Gmail session (gmail_connect handoff, decision
+    // 2026-09-14): unsealed beside JobRight's, so the child drafts and
+    // reads verification codes through the user's mailbox, headless,
+    // drafts only. Absent ⇒ the Gmail flags stay forced off and the run
+    // defers nothing to an outreach worker (there is none for tenants).
+    let gmailSession = false;
+    if (hasSealed(paths, GMAIL_STATE_SECRET)) {
+      const gmail = unsealSecret<unknown>(paths, GMAIL_STATE_SECRET, key);
+      if (gmail) {
+        writeUnsealedStorageState(paths, "gmail", gmail);
+        gmailSession = true;
+      }
+    }
+    notes.push(gmailSession ? "gmail: the tenant's own session is unsealed for this run (drafts only)" : "gmail: no sealed session — drafts and code reads stay off");
 
     const durationMinutes = Math.max(1, Math.floor(input.durationMinutes ?? DEFAULT_DURATION_MIN));
     const maxApps = Math.max(1, Math.floor(input.maxApps ?? DEFAULT_MAX_APPS));
@@ -556,7 +571,10 @@ export async function runTenantJob(input: TenantRunInput): Promise<TenantRunResu
         path.join("src", "cli", "index.ts"),
         "auto:cycle",
         "--no-update",
-        "--defer-gmail",
+        // With the tenant's Gmail unsealed the child runs the post-submit
+        // Gmail tail itself; otherwise "defer" (to a worker that, for a
+        // tenant, never exists) simply records the skip honestly.
+        ...(gmailSession ? [] : ["--defer-gmail"]),
         "--duration",
         String(durationMinutes),
         "--max-apps",
@@ -572,6 +590,7 @@ export async function runTenantJob(input: TenantRunInput): Promise<TenantRunResu
         maxSubmits: result.budget.maxSubmits,
         kind: "apply",
         tenantsRoot: config.tenantsRoot,
+        gmailSession,
       }),
       cwd: repoRoot,
       logPath: path.join(runDir, "child.log"),
