@@ -1,0 +1,49 @@
+{
+  "run_id": "nav-2e2e21cb-3955-4fc0-883d-de89c90d6ed4",
+  "application_id": "a3a0478e-c6cb-41f8-97a0-87c03305f02a",
+  "jobright_job_id": "6aa6c4a782e82a31997c1314",
+  "method": "anchor_llm",
+  "resolved_url": "https://jpmorganchase.contacthr.com/153531104",
+  "resolved_ats": "generic",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no congruent apply href (11 external links)",
+      "evidence": "jpmorganchase.contacthr.com, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, www.jpmorganchase.com"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "unresolved by deterministic phases"
+    },
+    {
+      "phase": "A_anchor_llm",
+      "outcome": "candidate promoted by adjudication",
+      "evidence": "jpmorganchase.contacthr.com"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "phase A: 9 external host(s) seen: jpmorganchase.contacthr.com, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, www.jpmorganchase.com, forbes.co, www.americanbanker.com, www.fool.com",
+    "no standard Apply control found (exact and broad name tiers both empty)",
+    "anchor adjudication: promoted jpmorganchase.contacthr.com",
+    "anchor adjudication rationale (UNVERIFIED): Job-specific employer-branded application link; the other match is just the corporate homepage."
+  ],
+  "congruence": {
+    "verdict": "match",
+    "slug": "jpmorganchase",
+    "detail": "token \"jpmorganchase\" ~ slug \"jpmorganchase\" (from URL host)",
+    "expected_company": "JPMorganChase",
+    "url": "https://JPMorganChase.contacthr.com/153531104?jr_id=6aa6c4a782e82a31997c1314"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-09-14T05:58:01.531Z"
+}
