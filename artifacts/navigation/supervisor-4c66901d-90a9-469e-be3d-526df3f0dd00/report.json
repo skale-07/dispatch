@@ -1,0 +1,47 @@
+{
+  "run_id": "[REDACTED]",
+  "outcome": "stopped",
+  "steps": [
+    {
+      "observation": "4425ad6e8b4ece12",
+      "action": "click",
+      "reason": "one unambiguous Apply control",
+      "result": "action failed: elementHandle.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n",
+      "target": "control-0"
+    },
+    {
+      "observation": "a5eba17292d4b708",
+      "action": "click",
+      "reason": "one unambiguous Apply control",
+      "result": "action failed: elementHandle.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n",
+      "target": "control-0"
+    },
+    {
+      "observation": "a5eba17292d4b708",
+      "action": "form_ready",
+      "reason": "The Apply modal is open showing 'Create Account to Apply' with applicant identity fields (name/email/password, Primary Phone Number) visible — this is the actual application entry form.",
+      "result": "refused: applicant form not independently observed",
+      "model": "claude-opus-5"
+    },
+    {
+      "observation": "a5eba17292d4b708",
+      "action": "authenticate",
+      "reason": "Apply modal is a 'Create Account to Apply' portal sign-in gate; credential service owns this step rather than manual field entry.",
+      "result": "portal auth: not_an_auth_wall",
+      "model": "claude-opus-5"
+    },
+    {
+      "observation": "a5eba17292d4b708",
+      "action": "stop",
+      "reason": "no progress: this page state was observed 4 times",
+      "result": "model stopped"
+    }
+  ],
+  "notes": [
+    "model calls: 2 of 5 steps"
+  ],
+  "evidence": [
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-4c66901d-90a9-469e-be3d-526df3f0dd00\\observation.json",
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-4c66901d-90a9-469e-be3d-526df3f0dd00\\page.png"
+  ]
+}
