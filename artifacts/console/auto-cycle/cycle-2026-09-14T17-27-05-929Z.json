@@ -1,0 +1,73 @@
+{
+  "started_at": "2026-09-14T17:27:05.929Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\general.pdf)",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "b9a42337-7874-422e-a8d0-632181db81e7",
+    "armed_until": "2026-09-14T19:27:05.977Z",
+    "seconds_remaining": 7200,
+    "max_submits": 1,
+    "submits_used": 0,
+    "max_apps": 1,
+    "apps_started": 0,
+    "discover_max": 1,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": {
+    "arm_run_id": "b9a42337-7874-422e-a8d0-632181db81e7",
+    "apps_started": 1,
+    "submits_used": 0,
+    "stopped_reason": "apps_cap",
+    "discover_runs": 0,
+    "emails_generated": 0,
+    "drafts_saved": 0,
+    "essay_drafts_generated": 0,
+    "screener_predictions_generated": 0,
+    "notes": [
+      "nav audit: 3 wrong-employer URL(s) cleared for re-navigation, 1 parked for review",
+      "triage sweep: 0 confirmed, 1 refuted, 0 expired of 204 pending",
+      "triage b297ef4d: requeue_same (executed) — requeued at attempt 2",
+      "artifact autopush failed (session unaffected): Command failed: git commit -m art: automation session b9a42337 (autopush) -- artifacts\nwarning: in the working copy of 'artifacts/applications/04144712-771a-4e64-9683-a542c7ab2e97/materials/resume-aeb"
+    ],
+    "per_app": [
+      {
+        "application_id": "b297ef4d-374c-4b05-904d-256fe3091b1e",
+        "end_state": "NATIVE_AUTOFILL_RUNNING",
+        "stopped": "gate",
+        "stop_reason": "greenhouse live fill refused: JOB_ID_MISMATCH",
+        "submitted": false,
+        "outreach": null
+      }
+    ],
+    "nav_audit": {
+      "checked": 507,
+      "repaired": 3,
+      "parked": 1
+    },
+    "triage": {
+      "decided": 1,
+      "executed": 1
+    },
+    "artifact_autopush": {
+      "pushed": false,
+      "commit": null,
+      "files_staged": 352
+    }
+  },
+  "outcome": "completed",
+  "notes": []
+}
