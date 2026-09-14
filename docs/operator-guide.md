@@ -2320,7 +2320,22 @@ book, not user data).
   `private/cloud/spike/jobright.storage.json` → release, with a JSON
   report. It never touches your own `private/auth/`. Results go into
   `docs/roadmap/browserbase-spike-2026-09-14.md`.
-- The scheduler (leasing `engine_jobs`, provisioning `requested` handoffs
-  and running `reconnect_verify` when the user is done) is the next
-  milestone; until a session is sealed for a tenant, `tenant:run --kind
-  apply` parks on `jobright_connect` every time.
+- **scheduler** (`npm run tenant:scheduler -- [--duration <min>]
+  [--interval <sec>] [--max-concurrent N] [--once]`, same two gates) is
+  the autonomous loop. Each tick: reap expired job leases → handoff
+  poller (`requested` JobRight connect/reconnect tasks get a remote
+  browser session and go `live` with the view the web app embeds —
+  needs `REMOTE_BROWSER_ENABLED`, otherwise the task fails with "remote
+  browser refused" as its reason; `live` tasks past their 15 minutes
+  expire and the session is released; `user_done` tasks enqueue a
+  `reconnect_verify` job) → planner (every user with JobRight
+  `connected`, quota remaining, not paused, no blocking JobRight handoff,
+  no active apply job and none created in the last 60 minutes gets ONE
+  `apply` job; at most 5 new per tick; a double-enqueue is refused by the
+  queue's own unique index) → lease up to `--max-concurrent` (default
+  `TENANT_MAX_CONCURRENT`, 1) `apply` / `reconnect_verify` jobs and run
+  each through `tenant:run`'s code path. Bounded by `--duration` (default
+  60) AND a tick cap; Ctrl+C stops leasing after the current tick (a
+  running child finishes or hits its own timeout). Prints the per-tick
+  report as JSON. `outreach` / `feed_sample` jobs are not leased until
+  their milestones land — they stay `queued`.

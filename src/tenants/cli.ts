@@ -3,6 +3,7 @@ import { makeSyncClient, runProfilesPull } from "../cloud/syncSupabase.js";
 import { getConfig } from "../config/index.js";
 import { assertTenantId } from "./paths.js";
 import { runTenantJob, type TenantJobKind } from "./run.js";
+import { runTenantScheduler } from "./scheduler.js";
 import { inspectWorkspace, listWorkspaces, materializeWorkspace } from "./workspace.js";
 
 /**
@@ -14,6 +15,7 @@ import { inspectWorkspace, listWorkspaces, materializeWorkspace } from "./worksp
  *   npm run tenant:run -- --user <uuid> --kind apply [--job <id>]
  *                         [--max-submits N] [--max-apps N] [--duration <min>] [--app-deadline <sec>]
  *   npm run tenant:run -- --user <uuid> --kind reconnect_verify --task <handoff task id> [--job <id>]
+ *   npm run tenant:scheduler -- [--duration <min>] [--interval <sec>] [--max-concurrent N] [--once]
  *
  * materialize: pull the onboarded user(s) from the cloud plane and write
  * their workspace(s) under TENANTS_ROOT. Behind TENANT_ENGINE_ENABLED and
@@ -59,6 +61,23 @@ async function run(): Promise<void> {
   });
   console.log(JSON.stringify(result, null, 2));
   if (result.outcome !== "completed" && result.outcome !== "quota_exhausted") process.exitCode = 1;
+}
+
+async function scheduler(): Promise<void> {
+  const config = getConfig();
+  if (!config.tenantEngineEnabled) {
+    throw new Error("TENANT_ENGINE_ENABLED is false (fail-closed default). Set it in .env to run the tenant scheduler.");
+  }
+  const client = await makeSyncClient(config);
+  const report = await runTenantScheduler({
+    client,
+    config,
+    once: has("--once"),
+    ...(num("--duration") !== undefined ? { durationMinutes: num("--duration")! } : {}),
+    ...(num("--interval") !== undefined ? { intervalSeconds: num("--interval")! } : {}),
+    ...(num("--max-concurrent") !== undefined ? { maxConcurrent: num("--max-concurrent")! } : {}),
+  });
+  console.log(JSON.stringify(report, null, 2));
 }
 
 async function materialize(): Promise<void> {
@@ -123,8 +142,9 @@ const cmd = process.argv[2];
   if (cmd === "materialize") await materialize();
   else if (cmd === "status") status();
   else if (cmd === "run") await run();
+  else if (cmd === "scheduler") await scheduler();
   else {
-    console.error("usage: tenant cli <materialize|status|run> [--user <uuid>] [--all] [--force] [--skip-sensitive] [--kind apply] [--job <id>]");
+    console.error("usage: tenant cli <materialize|status|run|scheduler> [--user <uuid>] [--all] [--force] [--skip-sensitive] [--kind apply] [--job <id>] [--duration <min>] [--interval <sec>] [--max-concurrent N] [--once]");
     process.exit(2);
   }
 })().catch((err: unknown) => {

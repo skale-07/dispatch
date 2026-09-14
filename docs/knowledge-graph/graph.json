@@ -893,7 +893,7 @@
       "id": "tenants",
       "label": "Tenant workspaces (multi-tenant engine)",
       "layer": "orchestration",
-      "purpose": "Plan v0.5: one engine process per HOSTED user, in a workspace the process derives from the tenant's uuid (private/tenants/<uuid>/ — their profile, documents, sealed sessions, their OWN SQLite, artifacts, runs). Secrets are AES-GCM under a per-tenant key: HKDF-SHA256 of one DPAPI-wrapped master with the uuid as salt, reached through the candidate crypto seam (CANDIDATE_KEY_PROVIDER=tenant in the child env). Plaintext a run needs exists only under private/unsealed/ and is wiped when the run ends. The materializer (src/cloud/tenantMaterializer.ts, pure) turns cloud rows into the engine's own files and workspace.ts writes them (tenant:materialize / tenant:status). tenant:run (run.ts) does one job for one tenant: gate → materialize → quota budget (cloud user_quota_status minus local completions not yet mirrored) → sealed JobRight state or a jobright_connect handoff → unseal → spawn auto:cycle as a child whose env is the console flag ceiling narrowed further (childEnv.ts: forced-offs, stripped secrets, workspace paths, tenant key provider) → wipe every plaintext → sync the tenant's own rows → derive handoffs from its review items → result.json → complete_engine_job. Scheduler and remote-browser handoff capture land with M17–M18.",
+      "purpose": "Plan v0.5: one engine process per HOSTED user, in a workspace the process derives from the tenant's uuid (private/tenants/<uuid>/ — their profile, documents, sealed sessions, their OWN SQLite, artifacts, runs). Secrets are AES-GCM under a per-tenant key: HKDF-SHA256 of one DPAPI-wrapped master with the uuid as salt, reached through the candidate crypto seam (CANDIDATE_KEY_PROVIDER=tenant in the child env). Plaintext a run needs exists only under private/unsealed/ and is wiped when the run ends. The materializer (src/cloud/tenantMaterializer.ts, pure) turns cloud rows into the engine's own files and workspace.ts writes them (tenant:materialize / tenant:status). tenant:run (run.ts) does one job for one tenant: gate → materialize → quota budget (cloud user_quota_status minus local completions not yet mirrored) → sealed JobRight state or a jobright_connect handoff → unseal → spawn auto:cycle as a child whose env is the console flag ceiling narrowed further (childEnv.ts: forced-offs, stripped secrets, workspace paths, tenant key provider) → wipe every plaintext → sync the tenant's own rows → derive handoffs from its review items → result.json → complete_engine_job. tenant:scheduler (scheduler.ts) is the bounded loop over the cloud queue: reap → handoff poller (requested JobRight tasks provisioned on the remote browser, stale live ones expired, user_done ⇒ a reconnect_verify job) → planner (connected + quota + not paused + no blocking handoff + no active/recent apply ⇒ one apply job, ≤5 per tick) → lease ≤ TENANT_MAX_CONCURRENT and run each through runTenantJob. Every cloud read/write sits behind the SchedulerIo seam.",
       "paths": [
         "src/tenants"
       ],
@@ -910,6 +910,7 @@
         "src/tenants/context.ts": "currentTenant(): null in the operator's process; in a tenant child (CANDIDATE_KEY_PROVIDER=tenant + TENANT_USER_ID) the workspace paths, email and the manifest's outreach eligibility",
         "src/tenants/capture.ts": "the JobRight connect/reconnect handoff, engine side: provisionHandoff (requested → provisioning → live, +15 min), captureHandoff (user_done → verifying → attach via the injected session seam → validate app shell → storageState sealed as secrets/jobright.storage.enc → premium probe → completed + engine_set_integration_status | open again while attempts < 3 | failed; provider session always released), resolveJobrightAuthParks (resolve JobRight AUTH_REQUIRED reviews, requeue through the legal AUTH_REQUIRED → APPLICATION_OPENING edge), assessPremiumText (doubt ⇒ unknown)",
         "src/tenants/reconnect.ts": "runReconnectVerify — the reconnect_verify job: read the tenant's user_done task, connect URL from the provider (never stored), lazy-import the session seam, capture, then resolve the parks; refuses by reason for any other task state/kind",
+        "src/tenants/scheduler.ts": "planApplyJobs (pure: every refusal named — no quota row, quota_exhausted, paused, blocking handoff, apply job active, within 60-min cadence, tick cap 5), schedulerTick (reap → handoff poller → planner → lease ≤ maxConcurrent → run), makeSchedulerIo (the only place the scheduler's supabase queries live; a double-enqueue is the partial unique index refusing, read as 'exists'), runTenantScheduler (bounded by duration AND ceil(duration/interval)+1 ticks; SIGINT stops leasing after the current tick)",
         "src/cloud/tenantMaterializer.ts": "PURE cloud rows → engine files: toPublicProfile (validated by publicProfileSchema, nothing invented, \"\" when unknown), toScreenerBank (bank + unambiguous profile mirrors, parseScreenerBank), toAboutMe (narrative + generated Application facts from present facts only), toPersona (personaSchema or the reason), toSensitiveProfile (RPC plaintext: answer→value, prefer_not→Decline to self-identify, skip→\"\"), toDocumentTargets (own-uid object paths in the kind's bucket only), toEducationPolicy, materializeTenant → manifest"
       },
       "key_exports": {
@@ -964,6 +965,12 @@
         "src/tenants/reconnect.ts": [
           "runReconnectVerify",
           "readHandoffTask"
+        ],
+        "src/tenants/scheduler.ts": [
+          "planApplyJobs",
+          "schedulerTick",
+          "makeSchedulerIo",
+          "runTenantScheduler"
         ],
         "src/cloud/tenantMaterializer.ts": [
           "materializeTenant",
