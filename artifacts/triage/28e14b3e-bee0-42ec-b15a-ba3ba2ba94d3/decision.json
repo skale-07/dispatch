@@ -1,0 +1,119 @@
+{
+  "decision_id": "28e14b3e-bee0-42ec-b15a-ba3ba2ba94d3",
+  "application_id": "33c0a0f2-0085-4ea2-ab69-729743f1b7f3",
+  "signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|frbog.taleo.net",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "33c0a0f2-0085-4ea2-ab69-729743f1b7f3",
+    "company": "Federal Reserve Board",
+    "role": "Year-Round Graduate Intern, Policy Design and Calibration - Division of Supervision & Regulation",
+    "state": "NATIVE_AUTOFILL_RUNNING",
+    "attempt": 1,
+    "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|frbog.taleo.net",
+    "end_host": "frbog.taleo.net",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-14T06:03:17.779Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-14T06:03:17.050Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-14T06:03:17.045Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-14T06:03:14.888Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 7141579276ac)",
+        "at": "2026-09-14T06:03:14.884Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-14T06:03:14.860Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-14T06:03:09.165Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-14T06:03:09.155Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-14T06:03:09.153Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-14T06:03:09.152Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "frbog",
+        "detail": "initials \"frb\" prefix slug \"frbog\" (from URL tenant)",
+        "expected_company": "Federal Reserve Board",
+        "url": "https://frbog.taleo.net/careersection/1/jobdetail.ftl?job=30826&tz=UTC-05%3A00&tzname=America%2FNew_York&jr_id=6aa786eb2ed333b4ea5cb718"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (11 candidates, employer match)",
+          "evidence": "frbog.taleo.net"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"requeue_same\", \"rationale\": \"First attempt stalled mid-run in NATIVE_AUTOFILL_RUNNING with no wall, no fill-gate failure, and navigation resolved cleanly to the correct employer tenant. Materials verified. No prior attempts or decisions, so a plain rerun is the cheapest plausible fix for a transient stall.\", \"confidence\": \"medium\"}",
+  "parsed_action": "requeue_same",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "requeued at attempt 2",
+  "rationale_unverified": "First attempt stalled mid-run in NATIVE_AUTOFILL_RUNNING with no wall, no fill-gate failure, and navigation resolved cleanly to the correct employer tenant. Materials verified. No prior attempts or decisions, so a plain rerun is the cheapest plausible fix for a transient stall."
+}
