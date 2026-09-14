@@ -1,0 +1,152 @@
+{
+  "decision_id": "a87aaf51-1793-44b4-be9b-d7a95ff39f24",
+  "application_id": "7afec146-3660-4f12-9357-58dc73288a1a",
+  "signature": "NATIVE_AUTOFILL_RUNNING|-|login_wall|www.careers.philips.com",
+  "forbidden_actions": [
+    "engage_agent_leg"
+  ],
+  "bundle": {
+    "application_id": "7afec146-3660-4f12-9357-58dc73288a1a",
+    "company": "Philips",
+    "role": "Co-op – Software System Engineering – Plymouth, MN – January 2027",
+    "state": "NATIVE_AUTOFILL_RUNNING",
+    "attempt": 1,
+    "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|login_wall|www.careers.philips.com",
+    "end_host": "www.careers.philips.com",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-14T07:14:28.910Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-14T07:14:26.441Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: workday URL validated",
+        "at": "2026-09-14T07:14:26.425Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "APPLICATION_OPENING",
+        "reason": "ATS handoff: Apply landed on workday — re-detecting from https://philips.wd3.myworkdayjobs.com/jobs-and-careers/job/Plymouth-Minnesota-United-States/Intern-Co-op---Software-System-Engineering---Plymouth--MN---Summer-2027_590406",
+        "at": "2026-09-14T07:14:26.419Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-14T07:14:17.087Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-14T07:14:15.186Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-14T07:14:15.181Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-14T07:14:12.725Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 7141579276ac)",
+        "at": "2026-09-14T07:14:12.720Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-14T07:14:12.688Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-14T06:45:24.414Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-14T06:45:24.404Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-14T06:45:24.402Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-14T06:45:24.400Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "philips",
+        "detail": "token \"philips\" ~ slug \"philips\" (from URL host)",
+        "expected_company": "Philips",
+        "url": "https://www.careers.philips.com/na/en/job/PHILUS590406ENNA/co-op-software-system-engineering-plymouth-mn-january-2027?jr_id=6aa76ac8a77a53f5a15754fc"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (11 candidates, employer match)",
+          "evidence": "www.careers.philips.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [],
+    "prior_decisions": [
+      {
+        "action": "engage_agent_leg",
+        "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|login_wall|www.careers.philips.com",
+        "outcome_status": "PENDING",
+        "created_at": "2026-09-14T07:15:29.674Z"
+      }
+    ],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": true
+  },
+  "raw_model_text": "{\"action\":\"park_for_operator\",\"rationale\":\"Login wall on Philips portal blocks autofill; agent leg already granted and pending (forbidden to repeat). Materials verified, navigation congruent, no duplicate or repeated host blocks, so requeues wouldn't change the outcome. A human should supply credentials or decide next step.\",\"confidence\":\"medium\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: 38f29505-f1f7-4bbc-8901-8a2766b39913",
+  "rationale_unverified": "Login wall on Philips portal blocks autofill; agent leg already granted and pending (forbidden to repeat). Materials verified, navigation congruent, no duplicate or repeated host blocks, so requeues wouldn't change the outcome. A human should supply credentials or decide next step."
+}
