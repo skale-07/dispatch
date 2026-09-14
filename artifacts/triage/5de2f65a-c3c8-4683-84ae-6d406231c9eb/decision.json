@@ -1,0 +1,119 @@
+{
+  "decision_id": "5de2f65a-c3c8-4683-84ae-6d406231c9eb",
+  "application_id": "975181e4-7011-4b0e-893b-9004c503eec1",
+  "signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|guardianlife.wd5.myworkdayjobs.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "975181e4-7011-4b0e-893b-9004c503eec1",
+    "company": "Guardian Life",
+    "role": "2027 Guardian Summer Intern, Digital & Technology – AI & Machine Learning",
+    "state": "NATIVE_AUTOFILL_RUNNING",
+    "attempt": 1,
+    "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|guardianlife.wd5.myworkdayjobs.com",
+    "end_host": "guardianlife.wd5.myworkdayjobs.com",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route inspect_only (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-14T11:49:10.772Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-14T11:49:10.098Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: workday URL validated",
+        "at": "2026-09-14T11:49:10.092Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-14T11:49:07.184Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 d5f6e2353444)",
+        "at": "2026-09-14T11:49:07.175Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-14T11:49:07.140Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-14T11:48:54.258Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-14T11:48:54.234Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-14T11:48:54.231Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-14T11:48:54.226Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "guardianlife",
+        "detail": "token \"guardian\" ~ slug \"guardianlife\"",
+        "expected_company": "Guardian Life",
+        "url": "https://guardianlife.wd5.myworkdayjobs.com/Guardian-Life-Careers/job/New-York/XMLNAME-2027-Guardian-Summer-Intern--Digital---Technology---AI---Machine-Learning_R000110205?source=jobright&jr_id=6aa7b8bd2ed333b4ea5cbd57"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (12 candidates, employer match)",
+          "evidence": "guardianlife.wd5.myworkdayjobs.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"requeue_same\", \"rationale\": \"Run stalled mid-pipeline in NATIVE_AUTOFILL_RUNNING on attempt 1 with no wall, no fill gate, valid navigation (employer-matched Workday URL) and verified resume. No prior attempts or decisions for this signature, so a plain rerun is the cheapest plausible fix for a transient stall.\", \"confidence\": \"medium\"}",
+  "parsed_action": "requeue_same",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "requeued at attempt 2",
+  "rationale_unverified": "Run stalled mid-pipeline in NATIVE_AUTOFILL_RUNNING on attempt 1 with no wall, no fill gate, valid navigation (employer-matched Workday URL) and verified resume. No prior attempts or decisions for this signature, so a plain rerun is the cheapest plausible fix for a transient stall."
+}
