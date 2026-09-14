@@ -5,6 +5,7 @@ import { getConfig } from "../config/index.js";
 import { workdaySelectorsV1 } from "../ats/workday/selectors.js";
 import { classifyWorkdayPage } from "../ats/workday/pageKind.js";
 import { discoverFieldsFromHtml } from "./fieldDiscovery.js";
+import { scrubHtmlForSnapshot } from "./htmlScrub.js";
 import { scanRequiredCompleteness } from "../ats/shared/requiredCompleteness.js";
 import { performTransition } from "../browser/transition.js";
 import { recordTransitionOutcome } from "../storage/transitionOutcomes.js";
@@ -59,6 +60,27 @@ export const WIZARD_PAGE_CAP = 8;
  * out; a second identical page is the page saying it will not move.
  */
 export const MAX_NO_PROGRESS_PAGES = 2;
+
+/**
+ * The page's identity for the advance poll: the first THREE h1–h3 texts,
+ * joined. Live 2026-09-14, two tenants: rb.wd5 (Fed Reserve) puts the site
+ * name in h1 ("Federal Reserve System Careers") and PIMCO wd1 puts the JOB
+ * TITLE there — both identical on every wizard step — so the old
+ * first-heading read said "never settled on a NEW page" after every Next,
+ * the #278 no-progress cap fired on page 3, and Application Questions was
+ * never filled. The step heading ("My Experience", "Application Questions
+ * 1 of 3") is the second heading; including it makes the change visible.
+ */
+export function wizardHeadingOf(html: string): string {
+  const out: string[] = [];
+  const re = /<h[123]\b[^>]*>([\s\S]{1,200}?)<\/h[123]>/gi;
+  let m: RegExpExecArray | null;
+  while (out.length < 3 && (m = re.exec(html)) !== null) {
+    const text = (m[1] ?? "").replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
+    if (text) out.push(text);
+  }
+  return out.join(" | ");
+}
 
 export async function walkWorkdayWizard(
   page: Page,
@@ -125,11 +147,7 @@ export async function walkWorkdayWizard(
     // page stale. Fingerprint by LABELS, not ids: Workday regenerates
     // its random ids on every re-render (#63b), which made the first
     // id-based poll break instantly on the SAME page.
-    const headingOf = (h: string): string =>
-      (h.match(/<h[123]\b[^>]*>([\s\S]{1,200}?)<\/h[123]>/i)?.[1] ?? "")
-        .replace(/<[^>]+>/g, "")
-        .replace(/\s+/g, " ")
-        .trim();
+    const headingOf = wizardHeadingOf;
     const fieldPrint = (h: string): string =>
       headingOf(h) +
       "::" +
@@ -218,10 +236,19 @@ export async function walkWorkdayWizard(
       try {
         const dir = path.join(getConfig().artifactsDir, "ats-fill", "workday-live");
         fs.mkdirSync(dir, { recursive: true });
-        const shot = path.join(dir, `wizard-page-${extra + 1}-${Date.now()}.png`);
+        const stamp = Date.now();
+        const shot = path.join(dir, `wizard-page-${extra + 1}-${stamp}.png`);
         await page.screenshot({ path: shot }).catch(() => undefined);
+        // The scrubbed DOM beside the pixels (live PIMCO 2026-09-14: the
+        // My Experience page's work/education rows had no snapshot to
+        // build a fixture from — only the screenshot).
+        fs.writeFileSync(
+          path.join(dir, `wizard-page-${extra + 1}-${stamp}.html`),
+          scrubHtmlForSnapshot(html),
+          "utf8",
+        );
         notes.push(
-          `wizard: page ${extra + 1} heading="${headingOf(html).slice(0, 40)}" url…${page.url().slice(-25)} shot=${path.basename(shot)}`,
+          `wizard: page ${extra + 1} heading="${headingOf(html).slice(0, 60)}" url…${page.url().slice(-25)} shot=${path.basename(shot)}`,
         );
       } catch {
         // instrumentation must never break the walk

@@ -1483,6 +1483,17 @@ npm run cli -- outreach:worker --headed --since 6                               
 - Restart a running `outreach:worker` after changing `src/outreach`,
   `src/contacts` or `src/auth`; it does not reload code.
 
+**Re-pick cooldown (#279, 2026-09-14).** The picker stamps
+`versions_json.last_picked_at` on every hand-out; an in-flight application
+(any non-QUEUED state except READY_TO_SUBMIT) picked inside the last 45
+minutes is not handed out again. Without it, a row that failed behind a
+sign-in wall refreshed its own recency and re-selected itself every cycle
+(Guardian Life ×12, First Internet Bank ×9 overnight) while newer rows
+starved. Fresh QUEUED rows, `npm run retry` requeues and rows never picked
+carry no stamp and are never delayed; a backlog whose every row is cooling
+reads as `queue_drained` for that cycle, and the loop's discovery refill
+fills the gap.
+
 `--app-deadline <sec>` is a per-application wall-clock budget. It is checked
 at pipeline step boundaries (the same cooperative seam as the console Skip
 button — never mid-click), so a job that is still in flight past the budget

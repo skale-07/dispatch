@@ -1162,6 +1162,22 @@ export async function runAtsLiveFill(input: {
               kind = classifyWorkdayPage(planHtml);
               report.notes.push(`workday page kind after re-reach: ${kind}`);
             }
+            // Operator directive 2026-09-14 ("use screenshots"): a Workday
+            // refusal after portal auth keeps its pixels. Guardian Life
+            // wd5 was refused 12 times overnight with only note text —
+            // "page after auth is off the apply flow (unknown)" — and no
+            // way to see what the page actually was.
+            const refusalShot = async (tag: string): Promise<void> => {
+              try {
+                const dir = path.join(getConfig().artifactsDir, "ats-fill", "workday-live");
+                fs.mkdirSync(dir, { recursive: true });
+                const shot = path.join(dir, `refused-${tag}-${Date.now()}.png`);
+                await page.screenshot({ path: shot }).catch(() => undefined);
+                report.notes.push(`refusal screenshot: ${path.basename(shot)} (url …${page.url().slice(-40)})`);
+              } catch {
+                // instrumentation never changes the outcome
+              }
+            };
             if (kind === "posting" || kind === "chooser") {
               report.gate.ok = false;
               report.gate.failure_code = "FORM_NOT_REACHED";
@@ -1169,6 +1185,7 @@ export async function runAtsLiveFill(input: {
               report.notes.push(
                 "parked: Apply / Apply Manually did not reach the application form",
               );
+              await refusalShot(kind);
               return persist(report);
             }
             if (kind === "auth") {
@@ -1177,6 +1194,7 @@ export async function runAtsLiveFill(input: {
               report.gate.reason = "still on Workday sign-in after portal auth";
               report.gate.page_class = "auth";
               report.notes.push("parked: Workday account wall not cleared");
+              await refusalShot("auth");
               return persist(report);
             }
             // wizard | unknown: the page claims to BE the form, so it has
@@ -1192,6 +1210,7 @@ export async function runAtsLiveFill(input: {
               report.notes.push(
                 "parked: reached a Workday page with nothing to fill",
               );
+              await refusalShot(`noform-${kind}`);
               return persist(report);
             }
             landing = classifyPage({ html: planHtml, url: planUrl });

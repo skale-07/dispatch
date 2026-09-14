@@ -98,6 +98,55 @@ const DEGREE_BUCKETS: ReadonlyArray<readonly string[]> = [
   ["high school", "secondary"],
 ];
 
+/**
+ * Phone device-type vocabulary. Live PIMCO wd1 2026-09-14: the bank's
+ * "Mobile" met a list of "Cell - Personal | Cell - Business | Home | Work"
+ * — no rung matched, verify then failed on the page's own default. A
+ * cell phone is a mobile phone; within the bucket a "personal" row beats a
+ * "business/work" one for the candidate's own number.
+ */
+const PHONE_TYPE_BUCKETS: ReadonlyArray<readonly string[]> = [
+  ["mobile", "cell", "cellular", "mobile phone", "cell phone", "cellphone"],
+  ["home", "landline", "home phone", "residence"],
+  ["work", "business", "office", "work phone"],
+];
+
+/** Loose: the OPTION side — "Cell - Personal", "Home Phone", "Work" carry a bucket token. */
+function phoneTypeBucket(key: string): number {
+  const tokens = key.split(" ");
+  for (let i = 0; i < PHONE_TYPE_BUCKETS.length; i++) {
+    if (PHONE_TYPE_BUCKETS[i]!.some((b) => key === b || tokens.includes(b))) return i;
+  }
+  return -1;
+}
+
+/**
+ * Strict: the EXPECTED side must BE a device type ("Mobile", "cell
+ * phone", "Home number") — not merely contain one of its words. Gate
+ * evidence: "Chicago office" keyed to the work bucket via "office" and
+ * a radio group committed "New York office" for it (ashby-native-group).
+ */
+function phoneTypeBucketStrict(key: string): number {
+  const m = key.match(/^([a-z]+(?: [a-z]+)?)(?: (?:phone|number))?$/);
+  if (!m) return -1;
+  const head = m[1]!;
+  for (let i = 0; i < PHONE_TYPE_BUCKETS.length; i++) {
+    if (PHONE_TYPE_BUCKETS[i]!.includes(head)) return i;
+  }
+  return -1;
+}
+
+/** Option in the expected value's phone-type bucket, personal rows first. */
+function pickPhoneTypeOption(options: string[], expected: string): OptionPick | null {
+  const bucket = phoneTypeBucketStrict(optionKey(expected));
+  if (bucket < 0) return null;
+  const hits = options.filter((o) => phoneTypeBucket(optionKey(o)) === bucket);
+  if (hits.length === 0) return null;
+  const personal = hits.find((o) => /personal/i.test(o));
+  const notBusiness = hits.find((o) => !/business|work|office/i.test(o));
+  return { ok: true, label: personal ?? notBusiness ?? hits[0]!, via: "synonym" };
+}
+
 function degreeBucket(key: string): number {
   const padded = ` ${key} `;
   for (let i = 0; i < DEGREE_BUCKETS.length; i++) {
@@ -516,6 +565,10 @@ export function pickOptionLabel(options: string[], expected: string): OptionPick
     return { ok: true, label: dialHits[0], via: "ci_exact" };
   }
 
+  // "Mobile" ↔ "Cell - Personal" (Workday device-type lists).
+  const phonePick = pickPhoneTypeOption(options, exp);
+  if (phonePick) return phonePick;
+
   // State name ↔ USPS code before substring (Maryland must not land on
   // Maryland Heights when MD is on the list).
   const statePick = pickUsStateOption(options, exp);
@@ -848,7 +901,87 @@ export function labelsCompatible(
   if (pSyns && pSyns.includes(od)) return true;
   // Dial-code-only display after picking "Country +N"
   if (/^\+\d+$/.test(d) && p.includes(d)) return true;
+  // "Mobile" committed as "Cell - Personal": same device-type bucket.
+  const pb = phoneTypeBucketStrict(op);
+  if (pb >= 0 && pb === phoneTypeBucket(od)) return true;
   return false;
+}
+
+/**
+ * Operator directive 2026-09-14 (how-did-you-hear): "most of the time
+ * LinkedIn isn't there, so it should pick any social media you can
+ * choose." A class rung between the exact/alternate picks and the
+ * "Other" / first-option last resorts: the FIRST pattern that any option
+ * satisfies wins, options in page order. Patterns are the caller's — this
+ * helper is pure and never invents an option. Placeholder rows are never
+ * picked.
+ */
+export function classPatternPick(
+  options: string[],
+  patterns: ReadonlyArray<RegExp>,
+): string | null {
+  const real = options.filter((o) => {
+    const t = o.trim();
+    return t !== "" && !PLACEHOLDER_RE.test(t) && !PLACEHOLDER_OPTION_RE.test(t);
+  });
+  for (const re of patterns) {
+    const hit = real.find((o) => re.test(o));
+    if (hit) return hit;
+  }
+  return null;
+}
+
+/**
+ * How-did-you-hear class ladder, most to least specific: the brand, then
+ * any social-media row, then job boards, then the open internet. Every
+ * rung is truthful for a posting found through JobRight/LinkedIn.
+ */
+export const HOW_HEARD_CLASS_PATTERNS: ReadonlyArray<RegExp> = [
+  /linkedin/i,
+  /social\s*(media|network)/i,
+  /\b(facebook|instagram|twitter|x\.com|tiktok|youtube|reddit|glassdoor|handshake)\b/i,
+  /\b(job|career)s?\s*(board|site|website|posting|search)/i,
+  /\b(online|internet|web\s*site|website|search\s*engine|google)\b/i,
+];
+
+/**
+ * Live rb.wd5 2026-09-14 (app 02302b66): a country listbox popper stayed
+ * open after its pick — `data-popper-reference-hidden` — and intercepted
+ * every later click on the page ("<div>Uruguay</div> … intercepts pointer
+ * events"), so first/last name and the whole address block timed out and
+ * verify failed on six fields. One bounded recovery: on a click timeout,
+ * dismiss stray popups (Escape, then a click on the page body away from
+ * any control) and retry the click ONCE. A click that still fails throws
+ * as before.
+ */
+export async function clickPastStrayPopup(
+  page: Page,
+  loc: Locator,
+  opts: { timeoutMs?: number } = {},
+): Promise<{ recovered: boolean }> {
+  const timeout = opts.timeoutMs ?? 5_000;
+  try {
+    await loc.click({ timeout });
+    return { recovered: false };
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    // Only an intercepted/timed-out click is a popup symptom; a detached
+    // or missing element is a different failure and must surface as such.
+    if (!/intercepts pointer events|Timeout \d+ms exceeded/.test(msg)) throw err;
+    await page.keyboard.press("Escape").catch(() => undefined);
+    await page.waitForTimeout(200);
+    const strays = page
+      .locator("[data-popper-placement], [data-popper-reference-hidden]")
+      .filter({ visible: true });
+    if ((await strays.count().catch(() => 0)) > 0) {
+      // A neutral click blurs whatever owns the popper; the body corner is
+      // never a form control.
+      await page.mouse.click(2, 2).catch(() => undefined);
+      await page.waitForTimeout(300);
+    }
+    await loc.click({ timeout });
+    return { recovered: true };
+  }
 }
 
 /**
@@ -1296,7 +1429,33 @@ async function listboxForControl(page: Page, loc: Locator): Promise<Locator> {
   const withoutChips = LISTBOX_SELECTOR.split(",")
     .map((s) => `${s.trim()}:not([data-automation-id='selectedItemList'])`)
     .join(", ");
-  return page.locator(withoutChips).filter({ visible: true }).first();
+  const candidates = page.locator(withoutChips).filter({ visible: true });
+  // #277 (live Leidos + PIMCO wd1 2026-09-14, `source--source` and
+  // `phoneNumber--phoneType`): Workday renders popups in portals, so
+  // DOCUMENT order says nothing about ownership — the first visible
+  // listbox was the phone COUNTRY-CODE list, and both how-did-you-hear and
+  // device type harvested "United States of America (+1)". Pick the
+  // visible listbox nearest the control instead: a popper hangs directly
+  // under (or above) its anchor and overlaps it horizontally.
+  const n = await candidates.count().catch(() => 0);
+  if (n <= 1) return candidates.first();
+  const anchor = await loc.boundingBox().catch(() => null);
+  if (!anchor) return candidates.first();
+  let best = 0;
+  let bestScore = Number.POSITIVE_INFINITY;
+  for (let i = 0; i < n; i++) {
+    const box = await candidates.nth(i).boundingBox().catch(() => null);
+    if (!box) continue;
+    const vertical = Math.max(0, box.y - (anchor.y + anchor.height), anchor.y - (box.y + box.height));
+    const overlapsX = box.x < anchor.x + anchor.width && anchor.x < box.x + box.width;
+    const horizontal = overlapsX ? 0 : Math.min(Math.abs(box.x - anchor.x), Math.abs(box.x + box.width - anchor.x - anchor.width));
+    const score = vertical + horizontal * 2;
+    if (score < bestScore) {
+      bestScore = score;
+      best = i;
+    }
+  }
+  return candidates.nth(best);
 }
 
 async function clickListedOption(
@@ -1499,6 +1658,13 @@ export async function fillComboboxControl(
      * never for demographics.
      */
     lastResortFirstOption?: boolean;
+    /**
+     * Operator directive 2026-09-14: class patterns tried, in order, when
+     * neither the stored answer nor its alternates is on the list — "pick
+     * any social media you can choose". Runs BEFORE the "Other" and
+     * first-option last resorts. Callers set it for how_heard only.
+     */
+    classPatterns?: ReadonlyArray<RegExp>;
   } = {},
 ): Promise<ComboboxFillResult> {
   const notes: string[] = [];
@@ -1803,6 +1969,27 @@ export async function fillComboboxControl(
           await loc.click({ force: true, timeout: 3_000 }).catch(() => undefined);
           await listbox.waitFor({ state: "visible", timeout: 3_000 }).catch(() => undefined);
         }
+        // Class rung over the FULL inventory (operator directive
+        // 2026-09-14: any social-media row when LinkedIn is absent).
+        const classHit = opts.classPatterns ? classPatternPick(fullInventory, opts.classPatterns) : null;
+        if (classHit && (await clickScrolledOption(page, listbox, classHit))) {
+          await page.waitForTimeout(400);
+          await page.keyboard.press("Escape").catch(() => undefined);
+          const committedLabel = await pollCommittedRead();
+          notes.push(
+            `stored answer "${expectedText}" not offered — class pattern picked "${classHit}" from the full inventory`,
+          );
+          return {
+            committed: Boolean(
+              committedLabel &&
+                (labelsCompatible(classHit, committedLabel) ||
+                  normalize(committedLabel).includes(normalize(classHit))),
+            ),
+            selectedLabel: committedLabel ?? classHit,
+            notes,
+            pickVia: "synonym",
+          };
+        }
       }
       // #71 (live tiaa #22t, probe-mapped): Workday prompt lists can be
       // TWO-LEVEL — level 1 is categories ("Job Board", "Social
@@ -2001,6 +2188,15 @@ export async function fillComboboxControl(
         `sole consent option "${options[0]}" accepted for affirmative "${expectedText}" (synonym)`,
       );
       pick = { ok: true, label: options[0]!, via: "synonym" };
+    } else if (opts.classPatterns && classPatternPick(options, opts.classPatterns)) {
+      // Operator directive 2026-09-14: a class match ("Social Media",
+      // "Job Board", …) beats the form's "Other" and the first-option
+      // last resort — it is the truthful row, not an escape hatch.
+      const cls = classPatternPick(options, opts.classPatterns)!;
+      notes.push(
+        `planned "${expectedText}" not on this list — class pattern picked "${cls}" (operator directive 2026-09-14)`,
+      );
+      pick = { ok: true, label: cls, via: "synonym" };
     } else if (opts.allowOtherFallback && findOtherOptionLabel(options)) {
       // #223: the list is open and the planned answer is provably absent.
       // The form's own "Other" is the escape hatch, and the intended

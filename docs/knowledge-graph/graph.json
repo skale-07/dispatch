@@ -82,6 +82,7 @@
         "src/queue/stateMachine.ts": "transitionApplication, createApplication",
         "src/queue/reviewItems.ts": "review item CRUD + advisory classification",
         "src/queue/reviewResolvers.ts": "operator resolutions (requeue, abandon)",
+        "src/queue/rePickCooldown.ts": "#279: inRePickCooldown — an in-flight row the pipeline just handled waits 45 min before the picker re-hands it",
         "src/queue/automationRuns.ts": "arm rows; tryConsumeUnattendedSubmission is ONE atomic conditional UPDATE",
         "src/queue/idempotency.ts": "submit-once claims",
         "src/queue/leases.ts": "per-app leases",

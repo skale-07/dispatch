@@ -10,6 +10,7 @@ import { runJobRightDiscovery } from "../jobright/discoveryRun.js";
 import { runPostSubmitGmail, type OutreachPipelineJobResult } from "../outreach/outreachPipeline.js";
 import { recordGmailTailOutcome } from "../outreach/outreachWorker.js";
 import { getApplication, transitionApplication } from "../queue/stateMachine.js";
+import { inRePickCooldown, LAST_PICKED_KEY, lastPickedAtOf } from "../queue/rePickCooldown.js";
 import { judgePostingAge } from "../jobs/postingAge.js";
 import {
   isAdvisoryReviewItem,
@@ -290,6 +291,7 @@ export function applicationAtsTier(row: {
  */
 function pickNextApplication(db: Db, seen: Set<string>, scope?: Set<string>): string | null {
   const standingPortalPassword = getConfig().portalLoginPassword;
+  const now = new Date();
   const blockedByReview = new Set(
     listOpenReviewItems(db)
       .filter(
@@ -389,6 +391,8 @@ function pickNextApplication(db: Db, seen: Set<string>, scope?: Set<string>): st
       if (scope && !scope.has(row.id)) continue;
       if (seen.has(row.id)) continue;
       if (blockedByReview.has(row.id)) continue;
+      // #279: a row this picker handed out recently waits its turn.
+      if (inRePickCooldown(row.state, lastPickedAtOf(row.versions_json), now)) continue;
       let excluded = false;
       try {
         const v = JSON.parse(row.versions_json) as { automation_excluded?: unknown };
@@ -444,11 +448,31 @@ function pickNextApplication(db: Db, seen: Set<string>, scope?: Set<string>): st
     return null;
   };
 
+  // #279: record the hand-out so the cooldown can see it next time. The
+  // stamp lives beside automation_excluded in versions_json (no schema
+  // change); every other key is preserved.
+  const stampPick = (id: string | null): string | null => {
+    if (!id) return id;
+    const row = db.prepare(`SELECT versions_json FROM applications WHERE id = ?`).get(id) as
+      | { versions_json: string }
+      | undefined;
+    let versions: Record<string, unknown> = {};
+    try {
+      const parsed = JSON.parse(row?.versions_json ?? "{}") as unknown;
+      if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) versions = parsed as Record<string, unknown>;
+    } catch {
+      versions = {};
+    }
+    versions[LAST_PICKED_KEY] = now.toISOString();
+    db.prepare(`UPDATE applications SET versions_json = ? WHERE id = ?`).run(JSON.stringify(versions), id);
+    return id;
+  };
+
   // QUEUED first, then anything else the pipeline can still advance —
   // each set ordered easy-ATS-first (#228), recency deciding within a tier.
   const queued = firstEligible(byAtsThenRecency(query("'QUEUED'")));
-  if (queued) return queued;
-  return firstEligible(
+  if (queued) return stampPick(queued);
+  return stampPick(firstEligible(
     byAtsThenRecency(query(
       `'MATERIALS_GENERATING','RESUME_DOWNLOADED','APPLICATION_OPENING',` +
         `'ATS_DETECTION','APPLICATION_INSPECTION','NATIVE_AUTOFILL_RUNNING',` +
@@ -458,7 +482,7 @@ function pickNextApplication(db: Db, seen: Set<string>, scope?: Set<string>): st
         `'JOBRIGHT_AUTOFILL_RUNNING','JOBRIGHT_AUTOFILL_VERIFICATION','FORM_RESETTING',` +
         `'FIELD_VERIFICATION','READY_TO_SUBMIT'`,
     )),
-  );
+  ));
 }
 
 

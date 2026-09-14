@@ -20,8 +20,10 @@ import {
 import { assertFormFillAllowed } from "../../applications/formFillGuards.js";
 import { isDemographicsField } from "../../applications/essayDetector.js";
 import {
+  clickPastStrayPopup,
   detectControlKind,
   fillComboboxControl,
+  HOW_HEARD_CLASS_PATTERNS,
   labelsCompatible,
   pickOptionLabel,
   readComboboxValue,
@@ -439,7 +441,7 @@ async function fillLocationStyleText(
   }
 
   await loc.scrollIntoViewIfNeeded().catch(() => undefined);
-  await loc.click({ timeout: 5_000 });
+  await clickPastStrayPopup(page, loc);
   // Clear residual/autocomplete cache
   await loc.fill("");
   await loc.press("Control+A").catch(() => undefined);
@@ -1283,6 +1285,11 @@ export async function greenhouseFillFromPlan(
               // the form's "Other" is on the list, take the first real
               // option. Scoped to THIS canonical field only.
               lastResortFirstOption: entry.canonical_field === "how_heard",
+              // Operator directive 2026-09-14: before "Other"/first-option,
+              // any social-media row (then job boards, then the internet).
+              ...(entry.canonical_field === "how_heard"
+                ? { classPatterns: HOW_HEARD_CLASS_PATTERNS }
+                : {}),
             },
           );
           field_meta.push({
@@ -1436,6 +1443,11 @@ export async function greenhouseFillFromPlan(
               // the form's "Other" is on the list, take the first real
               // option. Scoped to THIS canonical field only.
               lastResortFirstOption: entry.canonical_field === "how_heard",
+              // Operator directive 2026-09-14: before "Other"/first-option,
+              // any social-media row (then job boards, then the internet).
+              ...(entry.canonical_field === "how_heard"
+                ? { classPatterns: HOW_HEARD_CLASS_PATTERNS }
+                : {}),
             },
           );
           field_meta.push({
@@ -1637,7 +1649,14 @@ export async function greenhouseFillFromPlan(
               if (opts.keystrokeText && v.length <= 80 && v.length > 0) {
                 // #88: keystroke-level entry — the only write Workday's
                 // handlers reliably keep.
-                await loc.click({ timeout: 5_000 });
+                const stray = await clickPastStrayPopup(page, loc);
+                if (stray.recovered) {
+                  logger.info("stray popup dismissed before text fill", {
+                    service: "ats",
+                    action: "stray_popup_recovered",
+                    metadata: { field_id: entry.field_id },
+                  });
+                }
                 await loc.fill("");
                 await loc.pressSequentially(v, { delay: 25 });
               } else {
@@ -2591,7 +2610,7 @@ export async function retypeEmptyVerifyMisses(
         entry.type,
         { visibleOnly: true },
       );
-      await loc.click({ timeout: 5_000 });
+      await clickPastStrayPopup(page, loc);
       await loc.fill("");
       await loc.pressSequentially(expected, { delay: 30 });
       await loc.blur().catch(() => undefined);
