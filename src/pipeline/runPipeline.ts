@@ -10,6 +10,7 @@ import {
   type ApplicationRow,
 } from "../queue/stateMachine.js";
 import { acquireLease, releaseLease } from "../queue/leases.js";
+import { clearPickStamp } from "../queue/rePickCooldown.js";
 import {
   isAdvisoryReviewItem,
   isCompletenessUnansweredReview,
@@ -1639,6 +1640,28 @@ async function step(
         };
       }
       const held = ctx.heldSubmitSession.current;
+      // Live rb.wd5 2026-09-14 (5d8afb36, cycles 155/156): READY_TO_SUBMIT
+      // reached by a wizard walk, cut at the per-app deadline, then picked
+      // COLD by the next cycle — the submit runner opened the posting URL
+      // and refused NO_APPLICATION_FORM ("posting/description page"). A
+      // Workday submit needs the same-run page the fill leg holds (#62).
+      if (!held) {
+        const url = getEmployerApplicationUrl(db, app.id);
+        const coldAts = url ? detectAtsFromUrl(url).ats : null;
+        if (coldAts === "workday") {
+          transitionApplication(db, {
+            applicationId: app.id,
+            nextState: "NATIVE_AUTOFILL_RUNNING",
+            reason:
+              "pipeline: cold Workday submit needs the wizard reach — re-running the fill leg (#62)",
+            runId,
+          });
+          return {
+            to: "NATIVE_AUTOFILL_RUNNING",
+            note: "workday: cold READY_TO_SUBMIT — re-filling to reach the wizard for submit (#62)",
+          };
+        }
+      }
       const result = await runAtsSubmission({
         db,
         applicationId: app.id,
@@ -1856,6 +1879,8 @@ export function retryFailedApplications(
           : `retry ${row.attempt + 1}/${maxAttempts}`,
       attempt: row.attempt + 1,
     });
+    // A deliberate retry runs on the next cycle: drop the #279 pick stamp.
+    clearPickStamp(db, row.id);
     results.push({
       application_id: row.id,
       action: "requeued",

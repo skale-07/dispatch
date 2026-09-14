@@ -1,3 +1,5 @@
+import type { Db } from "../storage/db/client.js";
+
 /**
  * #279 (day31/day32 livelock): every re-pick of an in-flight application
  * refreshes its updated_at, and the worker's second pass orders by recency
@@ -7,12 +9,14 @@
  * same sign-in wall; 125 cycles produced one submission.
  *
  * The picker stamps `versions_json.last_picked_at` on every hand-out; a
- * row picked inside this window is not handed out again. Keyed on the
- * pick stamp, not updated_at, so an operator requeue or a freshly seeded
- * row (no stamp) is never delayed. Fresh QUEUED rows and READY_TO_SUBMIT
- * (one click from done) are never delayed either; the tier order and the
- * 24h recency policy are untouched. Pure, so the picker's behaviour is
- * unit-testable without the worker.
+ * row picked inside this window is not handed out again — whatever its
+ * state (live 04e7ae17, cycles 153/154: an automated requeue put the row
+ * back to QUEUED and the old QUEUED exemption re-handed it three minutes
+ * later). READY_TO_SUBMIT (one click from done) is the only exemption.
+ * OPERATOR requeues (retry, review resolutions) clear the stamp, so a
+ * deliberate requeue runs on the next cycle; fresh rows carry no stamp.
+ * Pure predicate, so the picker's behaviour is unit-testable without the
+ * worker.
  */
 export const RE_PICK_COOLDOWN_MS = 45 * 60_000;
 export const LAST_PICKED_KEY = "last_picked_at";
@@ -22,7 +26,7 @@ export function inRePickCooldown(
   lastPickedAt: string | null | undefined,
   now: Date = new Date(),
 ): boolean {
-  if (state === "QUEUED" || state === "READY_TO_SUBMIT") return false;
+  if (state === "READY_TO_SUBMIT") return false;
   if (!lastPickedAt) return false;
   const t = Date.parse(lastPickedAt);
   if (Number.isNaN(t)) return false;
@@ -39,4 +43,27 @@ export function lastPickedAtOf(versionsJson: string | null | undefined): string 
   } catch {
     return null;
   }
+}
+
+/**
+ * An operator requeue is deliberate: drop the pick stamp so the row is
+ * eligible on the next cycle. Every other versions_json key is preserved;
+ * a row without a stamp is untouched.
+ */
+export function clearPickStamp(db: Db, applicationId: string): boolean {
+  const row = db.prepare(`SELECT versions_json FROM applications WHERE id = ?`).get(applicationId) as
+    | { versions_json: string }
+    | undefined;
+  if (!row) return false;
+  let versions: Record<string, unknown> = {};
+  try {
+    const parsed = JSON.parse(row.versions_json || "{}") as unknown;
+    if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) versions = parsed as Record<string, unknown>;
+  } catch {
+    versions = {};
+  }
+  if (!(LAST_PICKED_KEY in versions)) return false;
+  delete versions[LAST_PICKED_KEY];
+  db.prepare(`UPDATE applications SET versions_json = ? WHERE id = ?`).run(JSON.stringify(versions), applicationId);
+  return true;
 }

@@ -13,6 +13,12 @@ learn mid-opening that the posting is closed (JobRight "closed" wall). A dead
 posting is ineligible, not a failure; this edge keeps it out of every future
 selection sweep without a thrown invalid-transition error.
 
+Cold Workday submit: `READY_TO_SUBMIT → NATIVE_AUTOFILL_RUNNING` (2026-09-14,
+live rb.wd5 5d8afb36) — a wizard walk cut at the per-app deadline in
+READY_TO_SUBMIT is picked cold by the next cycle; the submit runner would open
+the posting URL and refuse NO_APPLICATION_FORM, so the pipeline re-runs the
+fill leg exactly as #62 does from FIELD_VERIFICATION.
+
 Workday submit reach: `FIELD_VERIFICATION → NATIVE_AUTOFILL_RUNNING` (night20
 #62, live tiaa.wd1) — a COLD Workday entry cannot submit because the wizard
 sits behind portal auth + the Apply walk, which only the fill leg performs.

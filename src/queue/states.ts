@@ -173,7 +173,13 @@ const ALLOWED: Partial<Record<ApplicationState, readonly ApplicationState[]>> = 
   // Operator resolution: a corrected, supported employer URL was supplied —
   // re-open against it (URL validity is enforced by setEmployerApplicationUrl).
   UNSUPPORTED_ATS: ["APPLICATION_OPENING", "FAILED_FINAL"],
-  READY_TO_SUBMIT: ["SUBMITTING", "FAILED_RETRYABLE", "FAILED_FINAL"],
+  // Deliberate edge (2026-09-14, live rb.wd5 5d8afb36 cycles 155/156): a
+  // Workday wizard cut at the per-app deadline in READY_TO_SUBMIT is a
+  // COLD entry on the next cycle — the submit runner opens the posting
+  // URL and refuses NO_APPLICATION_FORM. Same shape as #62 at
+  // FIELD_VERIFICATION: re-run the fill leg so the held page carries the
+  // submit.
+  READY_TO_SUBMIT: ["SUBMITTING", "FAILED_RETRYABLE", "FAILED_FINAL", "NATIVE_AUTOFILL_RUNNING"],
   SUBMITTING: [
     "SUBMITTED",
     "SUBMISSION_VERIFICATION_FAILED",

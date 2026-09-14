@@ -2,6 +2,7 @@ import type { Db } from "../storage/db/client.js";
 import type { ApplicationState } from "./states.js";
 import { canTransition } from "./states.js";
 import { getApplication, transitionApplication } from "./stateMachine.js";
+import { clearPickStamp } from "./rePickCooldown.js";
 import {
   isTriageParkReview,
   listOpenReviewItems,
@@ -137,6 +138,8 @@ export function resolveUncertainSubmission(
       nextState: "QUEUED",
       reason: "operator requeue after uncertain resolution",
     });
+    // A deliberate requeue runs on the next cycle: drop the #279 pick stamp.
+    clearPickStamp(db, applicationId);
   }
   resolveReviewItem(db, item.id, {
     outcome: "not-submitted",
@@ -175,6 +178,7 @@ export function requeueAfterWall(
       nextState: "APPLICATION_OPENING",
       reason: `operator resolved ${item.kind.toLowerCase()} wall (console)`,
     });
+    clearPickStamp(db, item.application_id); // operator requeue: next cycle
   } else {
     skipped = `application state is ${state ?? "unknown"} — item resolved without transition`;
   }
@@ -254,6 +258,7 @@ export function requeueAmbiguousField(
       nextState: "FIELD_VERIFICATION",
       reason: "operator resolved ambiguous field (console)",
     });
+    clearPickStamp(db, item.application_id); // operator requeue: next cycle
   } else {
     skipped = `application state is ${state ?? "unknown"} — item resolved without transition`;
   }

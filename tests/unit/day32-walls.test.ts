@@ -100,8 +100,11 @@ describe("#279 re-pick cooldown", () => {
     expect(inRePickCooldown("NATIVE_AUTOFILL_RUNNING", new Date(now.getTime() - RE_PICK_COOLDOWN_MS - 1).toISOString(), now)).toBe(false);
     expect(inRePickCooldown("FIELD_VERIFICATION", "2026-09-14T11:59:59Z", now)).toBe(true);
   });
-  it("never delays fresh QUEUED rows, READY_TO_SUBMIT, or rows never handed out", () => {
-    expect(inRePickCooldown("QUEUED", "2026-09-14T11:59:59Z", now)).toBe(false);
+  it("never delays READY_TO_SUBMIT or rows never handed out; a stamped QUEUED row (automated requeue) does wait", () => {
+    // Live 04e7ae17 (cycles 153/154): an automated requeue put the row back
+    // to QUEUED and it was re-handed three minutes later.
+    expect(inRePickCooldown("QUEUED", "2026-09-14T11:59:59Z", now)).toBe(true);
+    expect(inRePickCooldown("QUEUED", null, now)).toBe(false);
     expect(inRePickCooldown("READY_TO_SUBMIT", "2026-09-14T11:59:59Z", now)).toBe(false);
     expect(inRePickCooldown("NATIVE_AUTOFILL_RUNNING", null, now)).toBe(false);
     expect(inRePickCooldown("NATIVE_AUTOFILL_RUNNING", "not a date", now)).toBe(false);
