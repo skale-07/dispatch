@@ -1,0 +1,557 @@
+{
+  "ats": "lever",
+  "url": "https://jobs.lever.co/sep/4efbdbce-a753-41b5-8ed7-0661cd193178/apply",
+  "requested_url": "https://jobs.lever.co/sep/4efbdbce-a753-41b5-8ed7-0661cd193178/apply",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://jobs.lever.co/sep/4efbdbce-a753-41b5-8ed7-0661cd193178/apply",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 22,
+    "skipped_count": 1,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "resume-upload-input",
+      "label": "resume",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "name",
+      "label": "Full name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Single full-name field: composed legal_name.first + legal_name.last (both safe factual canonicals)"
+    },
+    {
+      "field_id": "email",
+      "label": "Email",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phone",
+      "label": "Phone",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "location-input",
+      "label": "location",
+      "type": "text",
+      "canonical_field": "address.city",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "org",
+      "label": "Current company",
+      "type": "text",
+      "canonical_field": "current_company",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "cards[d1f55a4b-2033-45eb-9ed9-cb634295ba23][field0]",
+      "label": "What is your compensation expectation?",
+      "type": "text",
+      "canonical_field": "screener:custom:predicted:cards[d1f55a4b-2033-45eb-9ed9-cb634295ba23][field0]",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): Matches prior learned answer on compensation expectations; posting states $25/hr."
+    },
+    {
+      "field_id": "cards[d1f55a4b-2033-45eb-9ed9-cb634295ba23][field1]",
+      "label": "How did you hear about us?",
+      "type": "text",
+      "canonical_field": "how_heard",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "cards[d1f55a4b-2033-45eb-9ed9-cb634295ba23][field2]",
+      "label": "Years of relevant experience?",
+      "type": "text",
+      "canonical_field": "screener:custom:predicted:cards[d1f55a4b-2033-45eb-9ed9-cb634295ba23][field2]",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): Candidate has roughly two years of software/ML internship and project work since 2024."
+    },
+    {
+      "field_id": "cards[d1f55a4b-2033-45eb-9ed9-cb634295ba23][field3]",
+      "label": "Are you authorized to work in the US?",
+      "type": "select",
+      "canonical_field": "work_authorization",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "cards[d1f55a4b-2033-45eb-9ed9-cb634295ba23][field4]",
+      "label": "Do you now or will you ever require sponsorship for a work visa?",
+      "type": "select",
+      "canonical_field": "screener:requires_sponsorship",
+      "action": "FILL",
+      "reason": "Screener bank answer (llm_option)"
+    },
+    {
+      "field_id": "cards[d1f55a4b-2033-45eb-9ed9-cb634295ba23][field5]",
+      "label": "Does your work authorization now, or will it in the future, involve CPT (Curricular Practical Training) or OPT (Optional Practical Training)?",
+      "type": "select",
+      "canonical_field": "work_authorization",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "cards[d1f55a4b-2033-45eb-9ed9-cb634295ba23][field6]",
+      "label": "SEP headquarters is in Westfield, IN. We believe we do our best work together - so, this is not a remote role. Are you able to work from our Westfield, IN headquarters?",
+      "type": "select",
+      "canonical_field": "screener:willing_to_relocate",
+      "action": "FILL",
+      "reason": "Screener bank answer (synonym_option)"
+    },
+    {
+      "field_id": "cards[467d1842-3162-41e7-b366-0d5a95467a5b][field0]",
+      "label": "If you are accepted for this in-person position, what city will you be working from?",
+      "type": "text",
+      "canonical_field": "screener:custom:predicted:cards[467d1842-3162-41e7-b366-0d5a95467a5b][field0]",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): Same question repeated; same location answer."
+    },
+    {
+      "field_id": "cards[cca5365b-f04a-429f-9461-e7152e562e14][field0]",
+      "label": "We're curious — how have AI tools shown up in your work, studies, or personal projects over the past six months? What worked, what surprised you, or what are you still figuring out?",
+      "type": "textarea",
+      "canonical_field": "essay:generated:cards[cca5365b-f04a-429f-9461-e7152e562e14][field0]",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "cards[5f3519fa-ac34-4007-b46d-e27a26d993c2][field0]",
+      "label": "We'd love to know more about what makes you, you! Use the open field to include more information or links so we can learn more. (GitHub, Blog, etc)",
+      "type": "textarea",
+      "canonical_field": "essay:generated:cards[5f3519fa-ac34-4007-b46d-e27a26d993c2][field0]",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "cards[449d0463-d03a-489b-ab46-03be354abe68][field0]",
+      "label": "Our Software Engineering Intern position pay is $25/hr for summer 2027. Does this work for you?",
+      "type": "select",
+      "canonical_field": "screener:custom:predicted:cards[449d0463-d03a-489b-ab46-03be354abe68][field0]",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): Posted rate is acceptable per compensation rule."
+    },
+    {
+      "field_id": "cards[449d0463-d03a-489b-ab46-03be354abe68][field1]",
+      "label": "If you are accepted for this in-person position, what city will you be working from?",
+      "type": "text",
+      "canonical_field": "screener:custom:predicted:cards[449d0463-d03a-489b-ab46-03be354abe68][field1]",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): Same question repeated; same location answer."
+    },
+    {
+      "field_id": "cards[449d0463-d03a-489b-ab46-03be354abe68][field2]",
+      "label": "Are you currently pursuing a Bachelor's degree? And will you be continuing to pursue that degree following summer 2026?",
+      "type": "select",
+      "canonical_field": "screener:custom:predicted:cards[449d0463-d03a-489b-ab46-03be354abe68][field2]",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): Candidate is a Johns Hopkins BS student graduating May 2029, so enrollment continues after summer 2026."
+    },
+    {
+      "field_id": "eeo[gender]",
+      "label": "Gender Select ... Male Female Decline to self-identify",
+      "type": "select",
+      "canonical_field": "gender",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "eeo[race]",
+      "label": "U.S. Equal Employment Opportunity information (Completion is voluntary and will not subject you to adverse treatment)",
+      "type": "select",
+      "canonical_field": "race_ethnicity",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "eeo[veteran]",
+      "label": "Veteran status Select ... I identify as one or more of the classifications of protected veteran listed above I am not a protected veteran I decline to self-identify for protected veteran status",
+      "type": "select",
+      "canonical_field": "veteran_status",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "disabilitySelectElement",
+      "label": "Disability status Select ... Yes, I have a disability, or have had one in the past No, I do not have a disability and have not had one in the past I do not want to answer",
+      "type": "select",
+      "canonical_field": "disability_status",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\lever-live\\form-snapshot-1789392973426.html",
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "email",
+      "phone",
+      "address.city",
+      "current_company",
+      "screener:custom:predicted:cards[d1f55a4b-2033-45eb-9ed9-cb634295ba23][field0]",
+      "how_heard",
+      "screener:custom:predicted:cards[d1f55a4b-2033-45eb-9ed9-cb634295ba23][field2]",
+      "work_authorization",
+      "screener:requires_sponsorship",
+      "work_authorization",
+      "screener:willing_to_relocate",
+      "screener:custom:predicted:cards[467d1842-3162-41e7-b366-0d5a95467a5b][field0]",
+      "essay:generated:cards[cca5365b-f04a-429f-9461-e7152e562e14][field0]",
+      "essay:generated:cards[5f3519fa-ac34-4007-b46d-e27a26d993c2][field0]",
+      "screener:custom:predicted:cards[449d0463-d03a-489b-ab46-03be354abe68][field0]",
+      "screener:custom:predicted:cards[449d0463-d03a-489b-ab46-03be354abe68][field1]",
+      "screener:custom:predicted:cards[449d0463-d03a-489b-ab46-03be354abe68][field2]",
+      "gender",
+      "race_ethnicity",
+      "veteran_status",
+      "disability_status",
+      "signature_name",
+      "signature_date"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "phone",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "location-input",
+        "canonical_field": "address.city",
+        "control_kind": "text",
+        "notes": [
+          "suggestions visible: 1",
+          "matched suggestion index 0: baltimore, md, usa",
+          "no city-token match — clicking first suggestion",
+          "clicked suggestion index 0",
+          "location committed (blur-stable): Baltimore, MD, USA"
+        ]
+      },
+      {
+        "field_id": "org",
+        "canonical_field": "current_company",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "cards[d1f55a4b-2033-45eb-9ed9-cb634295ba23][field0]",
+        "canonical_field": "screener:custom:predicted:cards[d1f55a4b-2033-45eb-9ed9-cb634295ba23][field0]",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "cards[d1f55a4b-2033-45eb-9ed9-cb634295ba23][field1]",
+        "canonical_field": "how_heard",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "cards[d1f55a4b-2033-45eb-9ed9-cb634295ba23][field2]",
+        "canonical_field": "screener:custom:predicted:cards[d1f55a4b-2033-45eb-9ed9-cb634295ba23][field2]",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "cards[d1f55a4b-2033-45eb-9ed9-cb634295ba23][field3]",
+        "canonical_field": "work_authorization",
+        "control_kind": "native_select",
+        "selected_option": "Yes",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "cards[d1f55a4b-2033-45eb-9ed9-cb634295ba23][field4]",
+        "canonical_field": "screener:requires_sponsorship",
+        "control_kind": "native_select",
+        "selected_option": "I do not and will not require sponsorship at any point in the future in order to work in the US",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "cards[d1f55a4b-2033-45eb-9ed9-cb634295ba23][field5]",
+        "canonical_field": "work_authorization",
+        "control_kind": "native_select",
+        "selected_option": "Yes",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "cards[d1f55a4b-2033-45eb-9ed9-cb634295ba23][field6]",
+        "canonical_field": "screener:willing_to_relocate",
+        "control_kind": "native_select",
+        "selected_option": "Yes",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "cards[467d1842-3162-41e7-b366-0d5a95467a5b][field0]",
+        "canonical_field": "screener:custom:predicted:cards[467d1842-3162-41e7-b366-0d5a95467a5b][field0]",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "cards[cca5365b-f04a-429f-9461-e7152e562e14][field0]",
+        "canonical_field": "essay:generated:cards[cca5365b-f04a-429f-9461-e7152e562e14][field0]",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "cards[5f3519fa-ac34-4007-b46d-e27a26d993c2][field0]",
+        "canonical_field": "essay:generated:cards[5f3519fa-ac34-4007-b46d-e27a26d993c2][field0]",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "cards[449d0463-d03a-489b-ab46-03be354abe68][field0]",
+        "canonical_field": "screener:custom:predicted:cards[449d0463-d03a-489b-ab46-03be354abe68][field0]",
+        "control_kind": "native_select",
+        "selected_option": "Yes",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "cards[449d0463-d03a-489b-ab46-03be354abe68][field1]",
+        "canonical_field": "screener:custom:predicted:cards[449d0463-d03a-489b-ab46-03be354abe68][field1]",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "cards[449d0463-d03a-489b-ab46-03be354abe68][field2]",
+        "canonical_field": "screener:custom:predicted:cards[449d0463-d03a-489b-ab46-03be354abe68][field2]",
+        "control_kind": "native_select",
+        "selected_option": "Yes to both questions",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "eeo[gender]",
+        "canonical_field": "gender",
+        "control_kind": "native_select",
+        "selected_option": "Male",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "eeo[race]",
+        "canonical_field": "race_ethnicity",
+        "control_kind": "native_select",
+        "selected_option": "South Asian",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "eeo[veteran]",
+        "canonical_field": "veteran_status",
+        "control_kind": "native_select",
+        "selected_option": "I am not a veteran",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "disabilitySelectElement",
+        "canonical_field": "disability_status",
+        "control_kind": "native_select",
+        "selected_option": "No",
+        "match_via": "exact"
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham Kale",
+        "observed": "Shubham Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "address.city",
+        "expected": "Baltimore, Maryland, USA",
+        "observed": "Baltimore, MD, USA",
+        "match": true
+      },
+      {
+        "canonical_field": "current_company",
+        "expected": "Summer Atlantic Capital",
+        "observed": "Summer Atlantic Capital",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:cards[d1f55a4b-2033-45eb-9ed9-cb634295ba23][field0]",
+        "expected": "Flexible — aligned with the posted range for this role.",
+        "observed": "Flexible — aligned with the posted range for this role.",
+        "match": true
+      },
+      {
+        "canonical_field": "how_heard",
+        "expected": "LinkedIn",
+        "observed": "LinkedIn",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:cards[d1f55a4b-2033-45eb-9ed9-cb634295ba23][field2]",
+        "expected": "2",
+        "observed": "2",
+        "match": true
+      },
+      {
+        "canonical_field": "work_authorization",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:requires_sponsorship",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "work_authorization",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:willing_to_relocate",
+        "expected": "Yes",
+        "observed": {
+          "value": "Yes",
+          "label": "Yes"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:cards[467d1842-3162-41e7-b366-0d5a95467a5b][field0]",
+        "expected": "Baltimore, Maryland",
+        "observed": "Baltimore, Maryland",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:cards[cca5365b-f04a-429f-9461-e7152e562e14][field0]",
+        "expected": "Most of my recent work has been about where AI should stop, not just where it can go. I built a local Playwright job-application agent in TypeScript because job hunting is mostly repetitive browser work, but a wrong autonomous action can submit a real application or fabricate an answer. So I made it deterministic and operator-controlled: SQLite as the single source of truth, every application moving through an explicit state machine, and every mutating capability behind fail-closed flags that never default on. Free-text essays and demographic fields are architecturally blocked from auto-fill and always generate a human-review item. OpenAI only gets called at narrow sites. What surprised me was how easy it is to call something \"working\" because it passed against a local fixture, so I added a validation ladder from unit-confirmed up to live-mutation-confirmed. At Summer Atlantic Capital I'm building an anomaly-detection ML core with an RAG explanation layer, and the harder question there is not model accuracy but whether analysts can act on the output. What I'm still figuring out: as generation gets cheap, how do you evaluate it at scale? That's the problem I keep returning to.",
+        "observed": "Most of my recent work has been about where AI should stop, not just where it can go. I built a local Playwright job-application agent in TypeScript because job hunting is mostly repetitive browser work, but a wrong autonomous action can submit a real application or fabricate an answer. So I made it deterministic and operator-controlled: SQLite as the single source of truth, every application moving through an explicit state machine, and every mutating capability behind fail-closed flags that never default on. Free-text essays and demographic fields are architecturally blocked from auto-fill and always generate a human-review item. OpenAI only gets called at narrow sites. What surprised me was how easy it is to call something \"working\" because it passed against a local fixture, so I added a validation ladder from unit-confirmed up to live-mutation-confirmed. At Summer Atlantic Capital I'm building an anomaly-detection ML core with an RAG explanation layer, and the harder question there is not model accuracy but whether analysts can act on the output. What I'm still figuring out: as generation gets cheap, how do you evaluate it at scale? That's the problem I keep returning to.",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:cards[5f3519fa-ac34-4007-b46d-e27a26d993c2][field0]",
+        "expected": "I learn by building things I actually want to exist. I co-founded Open Health Intelligence and am the technical lead for ClarityAtlas, an iOS app I built end to end in Swift and SwiftUI with Supabase. The hardest technical piece was estimating sleep without a wearable, so I built a passive estimator from HealthKit and Core Motion signals like step count, gait speed, and movement patterns, plus a \"Sleep Twins\" matching service using standardized behavioral features and weighted distance. We shipped it into a live Hopkins pilot with 30+ users and got into the Pava Spark Accelerator and NSF I-Corps. I also learned that getting a meeting matters as much as the code. During Lighting of the Quads my cofounders and I spotted President Daniels, walked to Garland Hall, saw him through locked doors, and knocked until we got to pitch. That turned into a formal meeting months later. Outside of that, I write on Substack about how research institutions decide which uncertain work gets funded, and most of my side projects (a talent-discovery system, an AI photo sorter that grew to 300+ users) start from a problem I ran into myself.",
+        "observed": "I learn by building things I actually want to exist. I co-founded Open Health Intelligence and am the technical lead for ClarityAtlas, an iOS app I built end to end in Swift and SwiftUI with Supabase. The hardest technical piece was estimating sleep without a wearable, so I built a passive estimator from HealthKit and Core Motion signals like step count, gait speed, and movement patterns, plus a \"Sleep Twins\" matching service using standardized behavioral features and weighted distance. We shipped it into a live Hopkins pilot with 30+ users and got into the Pava Spark Accelerator and NSF I-Corps. I also learned that getting a meeting matters as much as the code. During Lighting of the Quads my cofounders and I spotted President Daniels, walked to Garland Hall, saw him through locked doors, and knocked until we got to pitch. That turned into a formal meeting months later. Outside of that, I write on Substack about how research institutions decide which uncertain work gets funded, and most of my side projects (a talent-discovery system, an AI photo sorter that grew to 300+ users) start from a problem I ran into myself.",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:cards[449d0463-d03a-489b-ab46-03be354abe68][field0]",
+        "expected": "Yes",
+        "observed": {
+          "value": "Yes",
+          "label": "Yes"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:cards[449d0463-d03a-489b-ab46-03be354abe68][field1]",
+        "expected": "Baltimore, Maryland",
+        "observed": "Baltimore, Maryland",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:cards[449d0463-d03a-489b-ab46-03be354abe68][field2]",
+        "expected": "Yes to both questions",
+        "observed": {
+          "value": "Yes to both questions",
+          "label": "Yes to both questions"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "gender",
+        "expected": "Male",
+        "observed": {
+          "value": "Male",
+          "label": "Male"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "race_ethnicity",
+        "expected": "South Asian",
+        "observed": {
+          "value": "Asian (Not Hispanic or Latino)",
+          "label": "Asian (Not Hispanic or Latino)"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "veteran_status",
+        "expected": "I am not a veteran",
+        "observed": {
+          "value": "I am not a Protected Veteran",
+          "label": "I am not a protected veteran"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "disability_status",
+        "expected": "No",
+        "observed": {
+          "value": "No, I do not have a disability and have not had one in the past",
+          "label": "No, I do not have a disability and have not had one in the past"
+        },
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 115393,
+      "verified": true,
+      "evidence": "input files: [{\"name\":\"resume-71415792.pdf\",\"size\":115393}]; stillAttached=true; chip=false; resolved via primary"
+    }
+  ],
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: form (23 fillable field(s))",
+    "revealed required control(s) after the fill (#224): \"Enter your full name\", \"MM/DD/YYYY\" — second plan pass",
+    "revealed pass: filled 2, verify passed",
+    "timing: base page (23 planned) — plan 30s, fill 72s, verify 5s",
+    "resume parse changed 1 planned field(s) after upload (address.city; location dropdown selection cleared) — re-committing once (#262c)",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "written_at": "2026-09-14T13:37:57.576Z"
+}
