@@ -13,7 +13,9 @@ let cached: string | null = null;
 
 export function codeVersion(): string {
   if (cached !== null) return cached;
-  cached = readGitShortSha() ?? "unknown";
+  // A container has no .git; the image bakes the sha as CODE_VERSION
+  // (deploy/engine.Dockerfile ARG) so hosted rows still carry it.
+  cached = process.env.CODE_VERSION?.trim() || readGitShortSha() || "unknown";
   return cached;
 }
 

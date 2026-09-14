@@ -99,13 +99,32 @@ function resolveTenantKey(): Buffer {
  * material stands in for it. Callers derive; they never persist this.
  */
 export function resolveTenantMasterKey(tenantsRoot = getConfig().tenantsRoot): Buffer {
+  // Hosted engine (deploy/aws): the master is injected by the host's
+  // secret store (AWS Secrets Manager → the container env) and never
+  // touches disk. Strict material only — 32 random bytes as hex or
+  // base64 — so a passphrase cannot be mistaken for a key.
+  const hosted = process.env.TENANT_MASTER_KEY;
+  if (hosted !== undefined) return parseTenantMasterKey(hosted);
   if (process.env.ALLOW_INSECURE_CANDIDATE_KEY === "1" && process.env.CANDIDATE_DATA_KEY) {
     return normalizeKeyMaterial(process.env.CANDIDATE_DATA_KEY);
   }
   if (process.platform !== "win32") {
-    throw new Error("tenant master key needs Windows DPAPI on this host (Fargate swaps in KMS at this seam)");
+    throw new Error(
+      "tenant master key: set TENANT_MASTER_KEY (32 random bytes, hex or base64, from the host's secret store) — Windows DPAPI is not available here",
+    );
   }
   return loadOrCreateDpapiKey(tenantMasterKeyPath(tenantsRoot));
+}
+
+/** 64 hex chars or base64 of exactly 32 bytes; anything else is refused by name (the value itself is never echoed). */
+export function parseTenantMasterKey(raw: string): Buffer {
+  const t = raw.trim();
+  if (/^[0-9a-fA-F]{64}$/.test(t)) return Buffer.from(t, "hex");
+  if (/^[A-Za-z0-9+/]{43}=$/.test(t)) {
+    const b = Buffer.from(t, "base64");
+    if (b.length === 32) return b;
+  }
+  throw new Error("TENANT_MASTER_KEY must be 32 random bytes as 64 hex chars or 44-char base64 (generate: openssl rand -hex 32)");
 }
 
 function normalizeKeyMaterial(raw: string): Buffer {

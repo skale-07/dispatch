@@ -105,12 +105,24 @@ CDP sign-in is blocked.
 Check: the JobRight connect step embeds the live view (CSP frame-src
 already allows it) and a `jobright_connect` handoff completes.
 
-## 5. Engine flags for hosted tenants **[blocks applying]** (~5 min)
+## 5. Engine host on AWS **[blocks applying]** (~45 min, decision 2026-09-14)
 
-In the engine `.env` (never per-shell): `TENANT_ENGINE_ENABLED=true`,
-`SUPABASE_SYNC_ENABLED=true`, `SUPABASE_SYNC_USER_ID=<your auth uuid>`.
-Then `npm run cloud:sync` once — expect `attempted/upserted` counts, not
-a refusal by name.
+The engine leaves the operator's Windows box: one EC2 box on the AWS
+credit runs the scheduler container (`deploy/engine.Dockerfile`), with
+the runbook in `deploy/aws/README.md`.
+
+1. Fresh AWS access keys on this machine (`aws sts get-caller-identity`
+   failed with a signature mismatch on 2026-09-14).
+2. `deploy/aws/.env.engine` (gitignored): the hosted env — `TENANT_ENGINE_ENABLED=true`,
+   Supabase URL + service key, `TENANT_MASTER_KEY=$(openssl rand -hex 32)`,
+   Browserbase keys + `REMOTE_BROWSER_ENABLED=true`, `CLOUD_BASE_URL`, the
+   LLM key, and the same fail-closed flags as locally; no `AGENT_CDP_URL`.
+3. `deploy/aws/deploy.sh bootstrap && deploy/aws/deploy.sh push && deploy/aws/deploy.sh stack`,
+   then `deploy/aws/deploy.sh logs`.
+
+Check: the log shows the scheduler's first tick; `tenant:status` rows
+appear under `/data/dispatch/tenants` on the box. Before the box exists,
+the same flags in the local `.env` still run the scheduler here.
 
 ## 6. Tenant-zero soak **[blocks applying]** (one evening)
 

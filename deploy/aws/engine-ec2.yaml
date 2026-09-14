@@ -1,0 +1,188 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: >
+  Dispatch hosted engine, v0: ONE Linux box running the tenant scheduler
+  container (deploy/engine.Dockerfile) with tenant workspaces on its own
+  EBS volume. Mirrors today's architecture (all tenants on one engine
+  host) on AWS credits; per-user Fargate tasks are the later shape
+  (docs/roadmap/cloud-deploy.md, Phase v1). No inbound ports at all:
+  operator access is AWS Systems Manager Session Manager, the engine only
+  needs egress (Supabase, Browserbase, ATS sites, LLM APIs).
+
+Parameters:
+  ImageUri:
+    Type: String
+    Description: ECR image URI with tag, e.g. 123456789012.dkr.ecr.us-east-1.amazonaws.com/dispatch-engine:abc1234
+  EnvSecretArn:
+    Type: String
+    Description: Secrets Manager secret whose SecretString is the engine's .env content (deploy/aws/README.md)
+  InstanceType:
+    Type: String
+    Default: t3.large
+    Description: 2 vCPU / 8 GiB fits one headless Chromium per concurrent tenant run plus the scheduler
+  VolumeSizeGiB:
+    Type: Number
+    Default: 50
+    Description: Root volume (gp3); tenant workspaces, SQLite and artifacts live under /data on it
+  AmiId:
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64
+    Description: Amazon Linux 2023 (resolved from the public SSM parameter at deploy time)
+
+Resources:
+  Vpc:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.42.0.0/16
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags: [{ Key: Name, Value: dispatch-engine }]
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+  GatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref Vpc
+      InternetGatewayId: !Ref InternetGateway
+  PublicSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref Vpc
+      CidrBlock: 10.42.1.0/24
+      MapPublicIpOnLaunch: true
+      AvailabilityZone: !Select [0, !GetAZs ""]
+      Tags: [{ Key: Name, Value: dispatch-engine-public }]
+  RouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref Vpc
+  DefaultRoute:
+    Type: AWS::EC2::Route
+    DependsOn: GatewayAttachment
+    Properties:
+      RouteTableId: !Ref RouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+  SubnetRoute:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnet
+      RouteTableId: !Ref RouteTable
+
+  # Egress only. Deliberately no ingress rules of any kind: nothing listens.
+  EngineSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: dispatch engine - egress only, no inbound
+      VpcId: !Ref Vpc
+      SecurityGroupEgress:
+        - IpProtocol: "-1"
+          CidrIp: 0.0.0.0/0
+
+  EngineRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal: { Service: ec2.amazonaws.com }
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        # Session Manager shell + SSM Run Command (deploy.sh redeploy/logs).
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+        # Pull the engine image.
+        - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+      Policies:
+        - PolicyName: dispatch-engine-env-secret
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: secretsmanager:GetSecretValue
+                Resource: !Ref EnvSecretArn
+  EngineInstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles: [!Ref EngineRole]
+
+  EngineInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref AmiId
+      InstanceType: !Ref InstanceType
+      IamInstanceProfile: !Ref EngineInstanceProfile
+      SubnetId: !Ref PublicSubnet
+      SecurityGroupIds: [!Ref EngineSecurityGroup]
+      BlockDeviceMappings:
+        - DeviceName: /dev/xvda
+          Ebs:
+            VolumeType: gp3
+            VolumeSize: !Ref VolumeSizeGiB
+            DeleteOnTermination: false
+            Encrypted: true
+      Tags: [{ Key: Name, Value: dispatch-engine }]
+      # Boot: docker + a refresh script (secret -> env file, ECR login,
+      # pull) + a systemd unit that runs the container forever. The image
+      # URI and secret ARN land in /etc/dispatch so `deploy.sh redeploy`
+      # can change the image without touching the stack.
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          set -euo pipefail
+          dnf install -y docker
+          systemctl enable --now docker
+          mkdir -p /etc/dispatch /data/dispatch
+          chmod 700 /etc/dispatch
+          echo "${ImageUri}" > /etc/dispatch/image
+          echo "${EnvSecretArn}" > /etc/dispatch/env-secret-arn
+          echo "${AWS::Region}" > /etc/dispatch/region
+          cat > /usr/local/bin/dispatch-engine-refresh <<'EOS'
+          #!/bin/bash
+          # Secret -> env file (0600), ECR login, pull the image named in /etc/dispatch/image.
+          set -euo pipefail
+          REGION=$(cat /etc/dispatch/region)
+          IMAGE=$(cat /etc/dispatch/image)
+          SECRET_ARN=$(cat /etc/dispatch/env-secret-arn)
+          umask 077
+          aws secretsmanager get-secret-value --region "$REGION" --secret-id "$SECRET_ARN" \
+            --query SecretString --output text > /etc/dispatch/engine.env.tmp
+          mv /etc/dispatch/engine.env.tmp /etc/dispatch/engine.env
+          REGISTRY=$(echo "$IMAGE" | cut -d/ -f1)
+          aws ecr get-login-password --region "$REGION" | docker login --username AWS --password-stdin "$REGISTRY"
+          docker pull "$IMAGE"
+          EOS
+          chmod 755 /usr/local/bin/dispatch-engine-refresh
+          cat > /etc/systemd/system/dispatch-engine.service <<'EOS'
+          [Unit]
+          Description=Dispatch hosted engine (tenant scheduler container)
+          After=docker.service network-online.target
+          Requires=docker.service
+
+          [Service]
+          Type=simple
+          ExecStartPre=/usr/local/bin/dispatch-engine-refresh
+          ExecStartPre=-/usr/bin/docker rm -f dispatch-engine
+          ExecStart=/bin/bash -c '/usr/bin/docker run --rm --name dispatch-engine --init --shm-size=1g \
+            --env-file /etc/dispatch/engine.env \
+            -v /data/dispatch:/data \
+            --log-driver json-file --log-opt max-size=50m --log-opt max-file=5 \
+            "$(cat /etc/dispatch/image)"'
+          ExecStop=/usr/bin/docker stop -t 90 dispatch-engine
+          Restart=always
+          RestartSec=15
+
+          [Install]
+          WantedBy=multi-user.target
+          EOS
+          systemctl daemon-reload
+          systemctl enable --now dispatch-engine
+
+Outputs:
+  InstanceId:
+    Value: !Ref EngineInstance
+  Shell:
+    Description: Operator shell (no SSH, no inbound port)
+    Value: !Sub aws ssm start-session --region ${AWS::Region} --target ${EngineInstance}
+  Logs:
+    Description: Follow the engine container's log
+    Value: !Sub aws ssm start-session --region ${AWS::Region} --target ${EngineInstance} --document-name AWS-StartInteractiveCommand --parameters command="docker logs -f --tail 200 dispatch-engine"
