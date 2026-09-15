@@ -1,0 +1,51 @@
+{
+  "run_id": "nav-25217980-1c89-4357-9981-06c6a2d02af4",
+  "application_id": "04e7ae17-c774-4c2e-a3c2-3fd6a687737f",
+  "jobright_job_id": "6aa802d4930bff471a2a49d6",
+  "method": "anchor_llm",
+  "resolved_url": "https://careers-uwmcareers.icims.com/jobs/15881/2027-technology-summer-internship-program/job?in_iframe=1",
+  "resolved_ats": "generic",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no congruent apply href (9 external links)",
+      "evidence": "careers-uwmcareers.icims.com, www.linkedin.com, x.com, www.crunchbase.com, www.newsfilecorp.com, www.prnewswire.com"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "unresolved by deterministic phases"
+    },
+    {
+      "phase": "A_anchor_llm",
+      "outcome": "candidate promoted by adjudication",
+      "evidence": "careers-uwmcareers.icims.com"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "phase A: anchor reads as \"uwmcareers\" (URL names \"uwmcareers\" (tenant), which shares nothing with company \"United Wholesale Mortgage\") — not preferred, deferring to the Apply click",
+    "phase A: 7 external host(s) seen: careers-uwmcareers.icims.com, www.linkedin.com, x.com, www.crunchbase.com, www.newsfilecorp.com, www.prnewswire.com, www.morningstar.com",
+    "no standard Apply control found (exact and broad name tiers both empty)",
+    "anchor adjudication: promoted careers-uwmcareers.icims.com",
+    "anchor adjudication rationale (UNVERIFIED): iCIMS tenant 'uwmcareers' = UWM's own ATS, job title matches exactly.",
+    "congruence: URL names \"uwmcareers\", not \"United Wholesale Mortgage\" (URL names \"uwmcareers\" (tenant), which shares nothing with company \"United Wholesale Mortgage\") — recorded, not refused"
+  ],
+  "congruence": {
+    "verdict": "mismatch",
+    "slug": "uwmcareers",
+    "detail": "URL names \"uwmcareers\" (tenant), which shares nothing with company \"United Wholesale Mortgage\"",
+    "expected_company": "United Wholesale Mortgage",
+    "url": "https://careers-uwmcareers.icims.com/jobs/15881/2027-technology-summer-internship-program/job?in_iframe=1&jr_id=6aa802d4930bff471a2a49d6"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-09-15T09:21:45.373Z"
+}
