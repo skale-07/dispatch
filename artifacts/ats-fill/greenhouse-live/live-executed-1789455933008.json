@@ -1,0 +1,1195 @@
+{
+  "mode": "executed",
+  "ats": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/aquaticcapitalmanagement/jobs/8489233002",
+  "plan": {
+    "answers": {
+      "legal_name.first": "Shubham",
+      "legal_name.last": "Kale",
+      "screener:custom:has_preferred_name": "No",
+      "email": "s***@gmail.com",
+      "address.country": "United States",
+      "phone": "***-***-7636",
+      "screener:custom:predicted:discipline--0": "Economics",
+      "start_year": "2025",
+      "graduation_year": "2029",
+      "screener:custom:predicted:question_35973714002": "No",
+      "screener:requires_sponsorship": "[REDACTED_SPONSORSHIP]",
+      "address.city": "Baltimore",
+      "screener:closest_location": "Chicago",
+      "screener:custom:degree_pursuing": "Bachelor's",
+      "screener:custom:field_of_study": "Mathematics",
+      "screener:custom:gpa_range": "3.0 -3.5",
+      "screener:custom:graduation_year": "2029 or later",
+      "screener:custom:predicted:question_35973721002[]": "I have not participated in any of these competitions",
+      "screener:custom:predicted:question_35973722002": "Yes, I have internship experience, but not within a hedge fund or proprietary trading firm.",
+      "screener:custom:predicted:question_35973723002": "Flexible — aligned with the posted range for this role.",
+      "how_heard": "LinkedIn",
+      "github_url": "https://github.com/skale-07"
+    },
+    "entries": [
+      {
+        "field_id": "first_name",
+        "label": "First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "fill",
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "last_name",
+        "label": "Last Name",
+        "type": "text",
+        "canonical_field": "legal_name.last",
+        "action": "fill",
+        "value": "Kale",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "preferred_name",
+        "label": "Preferred First Name",
+        "type": "text",
+        "canonical_field": "screener:custom:has_preferred_name",
+        "action": "fill",
+        "value": "No",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "email",
+        "label": "Email",
+        "type": "text",
+        "canonical_field": "email",
+        "action": "fill",
+        "value": "s***@gmail.com",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "country",
+        "label": "Country",
+        "type": "text",
+        "canonical_field": "address.country",
+        "action": "fill",
+        "value": "United States +1",
+        "reason": "Mapped from public profile; placed onto \"United States +1\""
+      },
+      {
+        "field_id": "iti-0__search-input",
+        "label": "Search",
+        "type": "unknown",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "phone",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "fill",
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "resume",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "skip_file",
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "school--0",
+        "label": "School",
+        "type": "text",
+        "canonical_field": "history:education[0].school",
+        "action": "fill",
+        "value": "Johns Hopkins University",
+        "reason": "Structured education entry 1 (Johns Hopkins University) — school"
+      },
+      {
+        "field_id": "degree--0",
+        "label": "Degree",
+        "type": "text",
+        "canonical_field": "history:education[0].degree",
+        "action": "fill",
+        "value": "Bachelor's Degree",
+        "reason": "Structured education entry 1 (Johns Hopkins University) — degree; placed onto \"Bachelor's Degree\""
+      },
+      {
+        "field_id": "discipline--0",
+        "label": "Discipline",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:discipline--0",
+        "action": "fill",
+        "value": "Economics",
+        "reason": "Predicted from operator context (llm_predict): Candidate studies Applied Mathematics & Statistics and Economics; Economics is the closest listed option (no math/statistics option in array)."
+      },
+      {
+        "field_id": "start-year--0",
+        "label": "Start date year",
+        "type": "text",
+        "canonical_field": "start_year",
+        "action": "fill",
+        "value": "2025",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "end-year--0",
+        "label": "End date year",
+        "type": "text",
+        "canonical_field": "graduation_year",
+        "action": "fill",
+        "value": "2029",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_35973714002",
+        "label": "Do you have any outstanding offers or deadlines?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_35973714002",
+        "action": "fill",
+        "value": "No",
+        "reason": "Predicted from operator context (llm_predict): Matches learned answers about outstanding offers and deadlines."
+      },
+      {
+        "field_id": "question_35973713002",
+        "label": "Employment eligibility status",
+        "type": "text",
+        "canonical_field": "screener:requires_sponsorship",
+        "action": "fill",
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Screener bank answer (llm_option)"
+      },
+      {
+        "field_id": "question_35973715002",
+        "label": "Current Location",
+        "type": "text",
+        "canonical_field": "address.city",
+        "action": "fill",
+        "value": "Baltimore",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_35973716002",
+        "label": "Location Preference",
+        "type": "text",
+        "canonical_field": "screener:closest_location",
+        "action": "fill",
+        "value": "Chicago",
+        "reason": "Screener bank answer (llm_option)"
+      },
+      {
+        "field_id": "question_35973717002",
+        "label": "What degree are you currently pursuing or have recently completed?",
+        "type": "text",
+        "canonical_field": "screener:custom:degree_pursuing",
+        "action": "fill",
+        "value": "Bachelor's",
+        "reason": "Screener bank answer (llm_option)"
+      },
+      {
+        "field_id": "question_35973718002[]",
+        "label": "Please select all fields of study that closely align with your education background",
+        "type": "checkbox",
+        "canonical_field": "screener:custom:field_of_study",
+        "action": "fill",
+        "value": "Mathematics",
+        "reason": "Screener bank answer (llm_option)"
+      },
+      {
+        "field_id": "question_35973719002",
+        "label": "For your most recent degree, what is/was your GPA (normalized to a 4.0 scale)?",
+        "type": "text",
+        "canonical_field": "screener:custom:gpa_range",
+        "action": "fill",
+        "value": "3.0 -3.5",
+        "reason": "Screener bank answer (llm_option)"
+      },
+      {
+        "field_id": "question_35973720002",
+        "label": "What year are you expected to graduate?",
+        "type": "text",
+        "canonical_field": "screener:custom:graduation_year",
+        "action": "fill",
+        "value": "2029 or later",
+        "reason": "Screener bank answer (llm_option)"
+      },
+      {
+        "field_id": "question_35973721002[]",
+        "label": "Have you participated in any of the following mathematics competitions?",
+        "type": "checkbox",
+        "canonical_field": "screener:custom:predicted:question_35973721002[]",
+        "action": "fill",
+        "value": "I have not participated in any of these competitions",
+        "reason": "Predicted from operator context (llm_predict): No competition participation mentioned anywhere in profile."
+      },
+      {
+        "field_id": "question_35973722002",
+        "label": "Have you completed any internships? If yes, were any of them at a hedge fund or a proprietary trading firm?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_35973722002",
+        "action": "fill",
+        "value": "Yes, I have internship experience, but not within a hedge fund or proprietary trading firm.",
+        "reason": "Predicted from operator context (llm_predict): Has internship/work experience (Intelehealth, Summer Atlantic Capital) but previously answered No to proprietary trading firm experience."
+      },
+      {
+        "field_id": "question_35973723002",
+        "label": "What are your annualized total compensation expectations?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_35973723002",
+        "action": "fill",
+        "value": "Flexible — aligned with the posted range for this role.",
+        "reason": "Predicted from operator context (llm_predict): Reuses learned compensation expectation answer with no invented figure."
+      },
+      {
+        "field_id": "question_35973724002[]",
+        "label": "How did you hear about this job?",
+        "type": "checkbox",
+        "canonical_field": "how_heard",
+        "action": "fill",
+        "value": "Other",
+        "reason": "Mapped from public profile; value \"LinkedIn\" not on the control's list — using the form's own \"Other\""
+      },
+      {
+        "field_id": "question_35973725002",
+        "label": "What is your Github username?",
+        "type": "textarea",
+        "canonical_field": "github_url",
+        "action": "fill",
+        "value": "https://github.com/skale-07",
+        "reason": "Mapped from public profile"
+      }
+    ],
+    "fillable_count": 24,
+    "skipped_count": 2,
+    "review_required_count": 0
+  },
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "schema diff: 18/19 declared question(s) matched onto 26 DOM field(s); 1 declared-only (1 required); 8 DOM-only",
+    "board API declared 19 question(s); matched complete option lists onto 9 field(s)",
+    "option harvest: scraped real options for 4/14 control(s) before planning",
+    "other-specify: chose \"Other\" and no text box appeared — nothing further to answer",
+    "frozen after fill→verify→upload — no further field mutation; submit never called"
+  ],
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "final_url": "https://job-boards.greenhouse.io/aquaticcapitalmanagement/jobs/8489233002",
+  "identity_verification": {
+    "requestedUrl": "https://job-boards.greenhouse.io/aquaticcapitalmanagement/jobs/8489233002",
+    "finalUrl": "https://job-boards.greenhouse.io/aquaticcapitalmanagement/jobs/8489233002",
+    "requestedJobId": "8489233002",
+    "observedJobId": "8489233002",
+    "company": "aquaticcapitalmanagement",
+    "role": "Job Application for Software Engineer, Intern (Summer 2027) at Aquatic Capital Management",
+    "formDetected": true,
+    "fieldCount": 26,
+    "warnings": [
+      "login_wall_low: auth_provider_marker"
+    ],
+    "passed": true,
+    "failureCode": null,
+    "failureReason": null
+  },
+  "captcha_detection": {
+    "detected": false,
+    "confidence": "LOW",
+    "signals": [],
+    "dormantMarkers": [
+      "recaptcha_api_script_loaded",
+      "generic_captcha_word_only"
+    ]
+  },
+  "login_wall_detection": {
+    "detected": false,
+    "confidence": "LOW",
+    "signals": [
+      "auth_provider_marker"
+    ]
+  },
+  "failure_code": null,
+  "mutation_attempted": true,
+  "schema_diff": {
+    "board": "aquaticcapitalmanagement",
+    "job_id": "8489233002",
+    "declared_count": 19,
+    "dom_count": 26,
+    "matched": 18,
+    "api_only": [
+      {
+        "label": "Resume/CV",
+        "required": true
+      }
+    ],
+    "dom_only": [
+      "Country",
+      "Search",
+      "Attach",
+      "School",
+      "Degree",
+      "Discipline",
+      "Start date year",
+      "End date year"
+    ],
+    "option_mismatches": []
+  },
+  "harvested_options": [
+    {
+      "field_id": "country",
+      "label": "Country",
+      "answer_space": "closed",
+      "option_count": 244,
+      "options": [
+        "United States +1",
+        "Afghanistan +93",
+        "Åland Islands +358",
+        "Albania +355",
+        "Algeria +213",
+        "American Samoa +1",
+        "Andorra +376",
+        "Angola +244",
+        "Anguilla +1",
+        "Antigua & Barbuda +1",
+        "Argentina +54",
+        "Armenia +374",
+        "Aruba +297",
+        "Ascension Island +247",
+        "Australia +61",
+        "Austria +43",
+        "Azerbaijan +994",
+        "Bahamas +1",
+        "Bahrain +973",
+        "Bangladesh +880",
+        "Barbados +1",
+        "Belarus +375",
+        "Belgium +32",
+        "Belize +501",
+        "Benin +229"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "school--0",
+      "label": "School",
+      "answer_space": "closed",
+      "option_count": 100,
+      "options": [
+        "Aachen University of Applied Sciences",
+        "Aalborg University",
+        "Aalto University",
+        "Aaniiih Nakoda College",
+        "Aarhus University",
+        "Abdullah Gül University",
+        "Abertay University",
+        "Aberystwyth University",
+        "Abilene Christian University",
+        "Abingdon & Witney College",
+        "Abo Akademi University",
+        "Åbo Akademi University",
+        "Abraham Baldwin Agricultural College",
+        "Abraham Lincoln University",
+        "Abu Dhabi University",
+        "Academy College",
+        "Academy of Art University",
+        "Academy of Economic Studies in Bucharest",
+        "Acadia University",
+        "Access Creative College",
+        "Acharya Nagarjuna University",
+        "Activate Work Inc.",
+        "Acupuncture and Integrative Medicine College - Berkeley",
+        "Acupuncture and Massage College",
+        "Adam Mickiewicz University, Poznań"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "degree--0",
+      "label": "Degree",
+      "answer_space": "closed",
+      "option_count": 23,
+      "options": [
+        "Accelerated Master's",
+        "Advanced Certificate",
+        "Associates",
+        "Associate's Degree",
+        "Bachelors",
+        "Bachelor's Degree",
+        "Certificate",
+        "Community / Technical College",
+        "Doctorate",
+        "Doctor of Medicine (M.D.)",
+        "Doctor of Philosophy (Ph.D.)",
+        "Engineer's Degree",
+        "High School",
+        "Juris Doctor (J.D.)",
+        "Master of Business Administration (M.B.A.)",
+        "Masters",
+        "Master's Degree",
+        "Master's of Business Administration",
+        "Minor or Certificate",
+        "Non-Degree Seeking",
+        "Other",
+        "Postdoctoral Studies",
+        "Technical Diploma"
+      ],
+      "other_option": "Other"
+    },
+    {
+      "field_id": "discipline--0",
+      "label": "Discipline",
+      "answer_space": "closed",
+      "option_count": 100,
+      "options": [
+        "Accounting",
+        "Actuarial/Risk Analysis",
+        "Advertising",
+        "Aerospace Engineering",
+        "African Studies",
+        "Agricultural Production Operations",
+        "Agriculture",
+        "Agriculture & Biological Engineering",
+        "Agriculture Business",
+        "Agriculture Education",
+        "Agriculture Public Services",
+        "Agronomy",
+        "American Sign Language",
+        "Animal Science",
+        "Anthropology",
+        "Applied Health Services",
+        "Architectural Engineering Technologies & Technicians",
+        "Architecture",
+        "Art",
+        "Art History",
+        "Asian Studies",
+        "Astronomy/Space Exploration",
+        "Athletic Training",
+        "Automation Engineering",
+        "Automotive Engineering"
+      ],
+      "other_option": null
+    }
+  ],
+  "approved_plan": {
+    "entries": [
+      {
+        "field_id": "first_name",
+        "label": "First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "FILL",
+        "approved": true,
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "last_name",
+        "label": "Last Name",
+        "type": "text",
+        "canonical_field": "legal_name.last",
+        "action": "FILL",
+        "approved": true,
+        "value": "Kale",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "preferred_name",
+        "label": "Preferred First Name",
+        "type": "text",
+        "canonical_field": "screener:custom:has_preferred_name",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "email",
+        "label": "Email",
+        "type": "text",
+        "canonical_field": "email",
+        "action": "FILL",
+        "approved": true,
+        "value": "s***@gmail.com",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "country",
+        "label": "Country",
+        "type": "text",
+        "canonical_field": "address.country",
+        "action": "FILL",
+        "approved": true,
+        "value": "United States +1",
+        "reason": "Mapped from public profile; placed onto \"United States +1\""
+      },
+      {
+        "field_id": "iti-0__search-input",
+        "label": "Search",
+        "type": "unknown",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "phone",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "FILL",
+        "approved": true,
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "resume",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "school--0",
+        "label": "School",
+        "type": "text",
+        "canonical_field": "history:education[0].school",
+        "action": "FILL",
+        "approved": true,
+        "value": "Johns Hopkins University",
+        "reason": "Structured education entry 1 (Johns Hopkins University) — school"
+      },
+      {
+        "field_id": "degree--0",
+        "label": "Degree",
+        "type": "text",
+        "canonical_field": "history:education[0].degree",
+        "action": "FILL",
+        "approved": true,
+        "value": "Bachelor's Degree",
+        "reason": "Structured education entry 1 (Johns Hopkins University) — degree; placed onto \"Bachelor's Degree\""
+      },
+      {
+        "field_id": "discipline--0",
+        "label": "Discipline",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:discipline--0",
+        "action": "FILL",
+        "approved": true,
+        "value": "Economics",
+        "reason": "Predicted from operator context (llm_predict): Candidate studies Applied Mathematics & Statistics and Economics; Economics is the closest listed option (no math/statistics option in array)."
+      },
+      {
+        "field_id": "start-year--0",
+        "label": "Start date year",
+        "type": "text",
+        "canonical_field": "start_year",
+        "action": "FILL",
+        "approved": true,
+        "value": "2025",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "end-year--0",
+        "label": "End date year",
+        "type": "text",
+        "canonical_field": "graduation_year",
+        "action": "FILL",
+        "approved": true,
+        "value": "2029",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_35973714002",
+        "label": "Do you have any outstanding offers or deadlines?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_35973714002",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Predicted from operator context (llm_predict): Matches learned answers about outstanding offers and deadlines."
+      },
+      {
+        "field_id": "question_35973713002",
+        "label": "Employment eligibility status",
+        "type": "text",
+        "canonical_field": "screener:requires_sponsorship",
+        "action": "FILL",
+        "approved": true,
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Screener bank answer (llm_option)"
+      },
+      {
+        "field_id": "question_35973715002",
+        "label": "Current Location",
+        "type": "text",
+        "canonical_field": "address.city",
+        "action": "FILL",
+        "approved": true,
+        "value": "Baltimore",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_35973716002",
+        "label": "Location Preference",
+        "type": "text",
+        "canonical_field": "screener:closest_location",
+        "action": "FILL",
+        "approved": true,
+        "value": "Chicago",
+        "reason": "Screener bank answer (llm_option)"
+      },
+      {
+        "field_id": "question_35973717002",
+        "label": "What degree are you currently pursuing or have recently completed?",
+        "type": "text",
+        "canonical_field": "screener:custom:degree_pursuing",
+        "action": "FILL",
+        "approved": true,
+        "value": "Bachelor's",
+        "reason": "Screener bank answer (llm_option)"
+      },
+      {
+        "field_id": "question_35973718002[]",
+        "label": "Please select all fields of study that closely align with your education background",
+        "type": "checkbox",
+        "canonical_field": "screener:custom:field_of_study",
+        "action": "FILL",
+        "approved": true,
+        "value": "Mathematics",
+        "reason": "Screener bank answer (llm_option)"
+      },
+      {
+        "field_id": "question_35973719002",
+        "label": "For your most recent degree, what is/was your GPA (normalized to a 4.0 scale)?",
+        "type": "text",
+        "canonical_field": "screener:custom:gpa_range",
+        "action": "FILL",
+        "approved": true,
+        "value": "3.0 -3.5",
+        "reason": "Screener bank answer (llm_option)"
+      },
+      {
+        "field_id": "question_35973720002",
+        "label": "What year are you expected to graduate?",
+        "type": "text",
+        "canonical_field": "screener:custom:graduation_year",
+        "action": "FILL",
+        "approved": true,
+        "value": "2029 or later",
+        "reason": "Screener bank answer (llm_option)"
+      },
+      {
+        "field_id": "question_35973721002[]",
+        "label": "Have you participated in any of the following mathematics competitions?",
+        "type": "checkbox",
+        "canonical_field": "screener:custom:predicted:question_35973721002[]",
+        "action": "FILL",
+        "approved": true,
+        "value": "I have not participated in any of these competitions",
+        "reason": "Predicted from operator context (llm_predict): No competition participation mentioned anywhere in profile."
+      },
+      {
+        "field_id": "question_35973722002",
+        "label": "Have you completed any internships? If yes, were any of them at a hedge fund or a proprietary trading firm?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_35973722002",
+        "action": "FILL",
+        "approved": true,
+        "value": "Yes, I have internship experience, but not within a hedge fund or proprietary trading firm.",
+        "reason": "Predicted from operator context (llm_predict): Has internship/work experience (Intelehealth, Summer Atlantic Capital) but previously answered No to proprietary trading firm experience."
+      },
+      {
+        "field_id": "question_35973723002",
+        "label": "What are your annualized total compensation expectations?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_35973723002",
+        "action": "FILL",
+        "approved": true,
+        "value": "Flexible — aligned with the posted range for this role.",
+        "reason": "Predicted from operator context (llm_predict): Reuses learned compensation expectation answer with no invented figure."
+      },
+      {
+        "field_id": "question_35973724002[]",
+        "label": "How did you hear about this job?",
+        "type": "checkbox",
+        "canonical_field": "how_heard",
+        "action": "FILL",
+        "approved": true,
+        "value": "Other",
+        "reason": "Mapped from public profile; value \"LinkedIn\" not on the control's list — using the form's own \"Other\""
+      },
+      {
+        "field_id": "question_35973725002",
+        "label": "What is your Github username?",
+        "type": "textarea",
+        "canonical_field": "github_url",
+        "action": "FILL",
+        "approved": true,
+        "value": "https://github.com/skale-07",
+        "reason": "Mapped from public profile"
+      }
+    ],
+    "answers": {
+      "legal_name.first": "Shubham",
+      "legal_name.last": "Kale",
+      "screener:custom:has_preferred_name": "No",
+      "email": "s***@gmail.com",
+      "address.country": "United States +1",
+      "phone": "***-***-7636",
+      "history:education[0].school": "Johns Hopkins University",
+      "history:education[0].degree": "Bachelor's Degree",
+      "screener:custom:predicted:discipline--0": "Economics",
+      "start_year": "2025",
+      "graduation_year": "2029",
+      "screener:custom:predicted:question_35973714002": "No",
+      "screener:requires_sponsorship": "[REDACTED_SPONSORSHIP]",
+      "address.city": "Baltimore",
+      "screener:closest_location": "Chicago",
+      "screener:custom:degree_pursuing": "Bachelor's",
+      "screener:custom:field_of_study": "Mathematics",
+      "screener:custom:gpa_range": "3.0 -3.5",
+      "screener:custom:graduation_year": "2029 or later",
+      "screener:custom:predicted:question_35973721002[]": "I have not participated in any of these competitions",
+      "screener:custom:predicted:question_35973722002": "Yes, I have internship experience, but not within a hedge fund or proprietary trading firm.",
+      "screener:custom:predicted:question_35973723002": "Flexible — aligned with the posted range for this role.",
+      "how_heard": "Other",
+      "github_url": "https://github.com/skale-07"
+    },
+    "fillable_count": 24,
+    "skipped_count": 2,
+    "review_required_count": 0
+  },
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "legal_name.last",
+      "screener:custom:has_preferred_name",
+      "email",
+      "address.country",
+      "phone",
+      "history:education[0].school",
+      "history:education[0].degree",
+      "screener:custom:predicted:discipline--0",
+      "start_year",
+      "graduation_year",
+      "screener:custom:predicted:question_35973714002",
+      "screener:requires_sponsorship",
+      "address.city",
+      "screener:closest_location",
+      "screener:custom:degree_pursuing",
+      "screener:custom:field_of_study",
+      "screener:custom:gpa_range",
+      "screener:custom:graduation_year",
+      "screener:custom:predicted:question_35973721002[]",
+      "screener:custom:predicted:question_35973722002",
+      "screener:custom:predicted:question_35973723002",
+      "how_heard",
+      "github_url"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "first_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "last_name",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "preferred_name",
+        "canonical_field": "screener:custom:has_preferred_name",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "country",
+        "canonical_field": "address.country",
+        "control_kind": "combobox",
+        "selected_option": "+1",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"United States +1\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "phone",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "school--0",
+        "canonical_field": "history:education[0].school",
+        "control_kind": "combobox",
+        "selected_option": "Johns Hopkins University",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "filter \"Johns Hopkins University\" then picked \"Johns Hopkins University\" (exact)"
+        ]
+      },
+      {
+        "field_id": "degree--0",
+        "canonical_field": "history:education[0].degree",
+        "control_kind": "combobox",
+        "selected_option": "Bachelor's Degree",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Bachelor's Degree\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "discipline--0",
+        "canonical_field": "screener:custom:predicted:discipline--0",
+        "control_kind": "combobox",
+        "selected_option": "Economics",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Economics\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "start-year--0",
+        "canonical_field": "start_year",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "end-year--0",
+        "canonical_field": "graduation_year",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_35973714002",
+        "canonical_field": "screener:custom:predicted:question_35973714002",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_35973713002",
+        "canonical_field": "screener:requires_sponsorship",
+        "control_kind": "combobox",
+        "selected_option": "No. already has permanent work authorization",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No. already has permanent work authorization\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_35973715002",
+        "canonical_field": "address.city",
+        "control_kind": "text",
+        "notes": [
+          "no clickable suggestion list within timeout — ArrowDown+Enter",
+          "keyboard ArrowDown+Enter",
+          "location committed (blur-stable): Baltimore"
+        ]
+      },
+      {
+        "field_id": "question_35973716002",
+        "canonical_field": "screener:closest_location",
+        "control_kind": "combobox",
+        "selected_option": "Chicago",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Chicago\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_35973717002",
+        "canonical_field": "screener:custom:degree_pursuing",
+        "control_kind": "combobox",
+        "selected_option": "Bachelor's",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Bachelor's\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_35973718002[]",
+        "canonical_field": "screener:custom:field_of_study",
+        "control_kind": "checkbox_group",
+        "selected_option": "Mathematics"
+      },
+      {
+        "field_id": "question_35973719002",
+        "canonical_field": "screener:custom:gpa_range",
+        "control_kind": "combobox",
+        "selected_option": "3.0 -3.5",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"3.0 -3.5\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_35973720002",
+        "canonical_field": "screener:custom:graduation_year",
+        "control_kind": "combobox",
+        "selected_option": "2029 or later",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"2029 or later\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_35973721002[]",
+        "canonical_field": "screener:custom:predicted:question_35973721002[]",
+        "control_kind": "checkbox_group",
+        "selected_option": "I have not participated in any of these competitions"
+      },
+      {
+        "field_id": "question_35973722002",
+        "canonical_field": "screener:custom:predicted:question_35973722002",
+        "control_kind": "combobox",
+        "selected_option": "Yes, I have internship experience, but not within a hedge fund or proprietary trading firm.",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes, I have internship experience, but not within a hedge fund or proprietary trading firm.\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_35973723002",
+        "canonical_field": "screener:custom:predicted:question_35973723002",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_35973724002[]",
+        "canonical_field": "how_heard",
+        "control_kind": "checkbox_group",
+        "selected_option": "Other"
+      },
+      {
+        "field_id": "question_35973725002",
+        "canonical_field": "github_url",
+        "control_kind": "text"
+      }
+    ]
+  },
+  "other_specify": [
+    {
+      "field_id": "question_35973724002[]",
+      "label": "How did you hear about this job?",
+      "revealed_field_id": null,
+      "filled": false,
+      "note": "chose \"Other\" and no text box appeared — nothing further to answer"
+    }
+  ],
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.last",
+        "expected": "Kale",
+        "observed": "Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:has_preferred_name",
+        "expected": "No",
+        "observed": "No",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "address.country",
+        "expected": "United States +1",
+        "observed": {
+          "value": "+1",
+          "label": "+1"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "history:education[0].school",
+        "expected": "Johns Hopkins University",
+        "observed": {
+          "value": "Johns Hopkins University",
+          "label": "Johns Hopkins University"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "history:education[0].degree",
+        "expected": "Bachelor's Degree",
+        "observed": {
+          "value": "Bachelor's Degree",
+          "label": "Bachelor's Degree"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:discipline--0",
+        "expected": "Economics",
+        "observed": {
+          "value": "Economics",
+          "label": "Economics"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "start_year",
+        "expected": "2025",
+        "observed": "2025",
+        "match": true
+      },
+      {
+        "canonical_field": "graduation_year",
+        "expected": "2029",
+        "observed": "2029",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_35973714002",
+        "expected": "No",
+        "observed": "No",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:requires_sponsorship",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "address.city",
+        "expected": "Baltimore",
+        "observed": "Baltimore",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:closest_location",
+        "expected": "Chicago",
+        "observed": {
+          "value": "Chicago",
+          "label": "Chicago"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:degree_pursuing",
+        "expected": "Bachelor's",
+        "observed": {
+          "value": "Bachelor's",
+          "label": "Bachelor's"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:field_of_study",
+        "expected": "Mathematics",
+        "observed": {
+          "value": "Mathematics",
+          "label": "Mathematics"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:gpa_range",
+        "expected": "3.0 -3.5",
+        "observed": {
+          "value": "3.0 -3.5",
+          "label": "3.0 -3.5"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:graduation_year",
+        "expected": "2029 or later",
+        "observed": {
+          "value": "2029 or later",
+          "label": "2029 or later"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_35973721002[]",
+        "expected": "I have not participated in any of these competitions",
+        "observed": {
+          "value": "I have not participated in any of these competitions",
+          "label": "I have not participated in any of these competitions"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_35973722002",
+        "expected": "Yes, I have internship experience, but not within a hedge fund or proprietary trading firm.",
+        "observed": {
+          "value": "Yes, I have internship experience, but not within a hedge fund or proprietary trading firm.",
+          "label": "Yes, I have internship experience, but not within a hedge fund or proprietary trading firm."
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_35973723002",
+        "expected": "Flexible — aligned with the posted range for this role.",
+        "observed": "Flexible — aligned with the posted range for this role.",
+        "match": true
+      },
+      {
+        "canonical_field": "how_heard",
+        "expected": "Other",
+        "observed": {
+          "value": "Other",
+          "label": "Other"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "github_url",
+        "expected": "https://github.com/skale-07",
+        "observed": "https://github.com/skale-07",
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 115393,
+      "verified": true,
+      "evidence": "input files: []; stillAttached=false; chip=true"
+    }
+  ],
+  "written_at": "2026-09-15T07:05:33.042Z"
+}
