@@ -1,0 +1,73 @@
+{
+  "started_at": "2026-09-15T05:53:01.184Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\general.pdf)",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "1fd4829e-4c01-48ed-b246-8b7376aa5832",
+    "armed_until": "2026-09-15T07:53:01.231Z",
+    "seconds_remaining": 7200,
+    "max_submits": 1,
+    "submits_used": 0,
+    "max_apps": 1,
+    "apps_started": 0,
+    "discover_max": 1,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": {
+    "arm_run_id": "1fd4829e-4c01-48ed-b246-8b7376aa5832",
+    "apps_started": 1,
+    "submits_used": 1,
+    "stopped_reason": "apps_cap",
+    "discover_runs": 0,
+    "emails_generated": 0,
+    "drafts_saved": 0,
+    "essay_drafts_generated": 0,
+    "screener_predictions_generated": 0,
+    "notes": [
+      "triage sweep: 0 confirmed, 0 refuted, 0 expired of 213 pending",
+      "preflight: CDP attach failed — debug Chrome restarted and attach-verified before the first app (1/3)",
+      "gmail 66a74201-5958-4ec4-ac19-b348033c39de: deferred to outreach:worker",
+      "artifact autopush failed (session unaffected): Command failed: git commit -m art: automation session 1fd4829e (autopush) -- artifacts\nwarning: in the working copy of 'artifacts/llm/calls-2026-09-15.jsonl', LF will be replaced by CRLF the next time"
+    ],
+    "per_app": [
+      {
+        "application_id": "66a74201-5958-4ec4-ac19-b348033c39de",
+        "end_state": "COMPLETED",
+        "stopped": "terminal",
+        "stop_reason": "state COMPLETED is not pipeline-advanceable",
+        "submitted": true,
+        "outreach": {
+          "email_status": null,
+          "draft_status": null,
+          "skip_reason": "deferred to outreach:worker"
+        }
+      }
+    ],
+    "nav_audit": {
+      "checked": 529,
+      "repaired": 0,
+      "parked": 0
+    },
+    "artifact_autopush": {
+      "pushed": false,
+      "commit": null,
+      "files_staged": 9
+    }
+  },
+  "outcome": "completed",
+  "notes": []
+}
