@@ -60,22 +60,37 @@
 </style></head>
 <body><div class="wrap">
 <h1>Dispatch run timeline</h1>
-<p class="sub">Generated 2026-09-15T12:25:30.939Z · 40 navigation run(s) · read-only view of artifacts/</p>
+<p class="sub">Generated 2026-09-15T12:28:45.483Z · 40 navigation run(s) · read-only view of artifacts/</p>
 <div class="stats"><span class="stat"><b>21</b> resolved</span><span class="stat"><b>13</b> unknown</span><span class="stat"><b>3</b> budget</span><span class="stat"><b>2</b> duplicate_url</span><span class="stat"><b>1</b> captcha</span></div>
 <section class="cycle">
   <h2>Latest cycle</h2>
   <dl>
-    <div><dt>Started</dt><dd>2026-09-15T12:24:54.868Z</dd></div>
+    <div><dt>Started</dt><dd>2026-09-15T12:27:21.312Z</dd></div>
     <div><dt>Outcome</dt><dd>completed</dd></div>
     <div><dt>Agent leg</dt><dd>available</dd></div>
     <div><dt>Default resume</dt><dd>ready (C:\dev\jobright-application-agent\private\candidate\resumes\general.pdf)</dd></div>
-    <div><dt>Apps started</dt><dd>0</dd></div>
+    <div><dt>Apps started</dt><dd>1</dd></div>
     <div><dt>Submits used</dt><dd>0</dd></div>
     <div><dt>Stopped</dt><dd>queue_drained</dd></div>
   </dl>
-  <h3>Session notes</h3><ul class="notes"><li>triage sweep: 0 confirmed, 0 refuted, 0 expired of 236 pending</li><li>artifact autopush: 1 file(s) pushed to master as dc040d6a</li></ul>
+  <h3>Session notes</h3><ul class="notes"><li>nav audit: 3 wrong-employer URL(s) cleared for re-navigation, 1 parked for review</li><li>triage sweep: 0 confirmed, 0 refuted, 0 expired of 236 pending</li><li>preflight: CDP attach failed — debug Chrome restarted and attach-verified before the first app (1/3)</li><li>triage 5e1980c2: park_for_operator (executed) — review item created: d46005b9-5297-4547-8fc6-0b61da94c4da</li><li>artifact autopush: 8 file(s) pushed to master as 26033967</li></ul>
 </section>
 <h2>Applications</h2>
+<details class="app ok">
+  <summary>
+    <span class="id">5e1980c2</span>
+    <span class="co">Dell Technologies</span>
+    <span class="badge">resolved</span>
+    <span class="chip">anchor_llm</span>
+    <span class="chip">generic</span>
+    
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no congruent apply href (11 external links)<span class="ev">iawmqy.fa.ocs.oraclecloud.com, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, www.delltechnologies.com</span></li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>A_anchor_llm</b> — candidate promoted by adjudication<span class="ev">iawmqy.fa.ocs.oraclecloud.com</span></li></ol>
+    <h4>Notes</h4><ul class="notes"><li>phase A: anchor reads as &quot;iawmqy&quot; (URL names &quot;iawmqy&quot; (tenant), which shares nothing with company &quot;Dell Technologies&quot;) — not preferred, deferring to the Apply click</li><li>phase A: 8 external host(s) seen: iawmqy.fa.ocs.oraclecloud.com, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, www.delltechnologies.com, www.fool.com, www.webpronews.com</li><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>anchor adjudication: promoted iawmqy.fa.ocs.oraclecloud.com</li><li>anchor adjudication rationale (UNVERIFIED): Oracle HCM careers site job-specific ATS link is the actual application page; Dell homepage is not job-specific, others are news.</li><li>congruence: URL names &quot;iawmqy&quot;, not &quot;Dell Technologies&quot; (URL names &quot;iawmqy&quot; (tenant), which shares nothing with company &quot;Dell Technologies&quot;) — recorded, not refused</li></ul>
+    
+  </div>
+</details>
 <details class="app ok">
   <summary>
     <span class="id">7b876a06</span>
@@ -658,21 +673,6 @@
   <div class="body">
     <h4>Phases</h4><ol class="phases"><li>none recorded</li></ol>
     <h4>Notes</h4><ul class="notes"><li>model calls: 1 of 1 steps</li></ul>
-    
-  </div>
-</details>
-<details class="app ok">
-  <summary>
-    <span class="id">fc97926b</span>
-    <span class="co">Google</span>
-    <span class="badge">resolved</span>
-    <span class="chip">anchor_href</span>
-    <span class="chip">generic</span>
-    
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — resolved (11 candidates, employer match)<span class="ev">careers.google.com</span></li></ol>
-    <h4>Notes</h4><ul class="notes"><li>none</li></ul>
     
   </div>
 </details>
