@@ -1,0 +1,73 @@
+{
+  "started_at": "2026-09-15T08:14:34.999Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\general.pdf)",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "6cf26850-a245-4be8-9693-cb2f4d20bd95",
+    "armed_until": "2026-09-15T10:14:35.040Z",
+    "seconds_remaining": 7200,
+    "max_submits": 1,
+    "submits_used": 0,
+    "max_apps": 1,
+    "apps_started": 0,
+    "discover_max": 1,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": {
+    "arm_run_id": "6cf26850-a245-4be8-9693-cb2f4d20bd95",
+    "apps_started": 1,
+    "submits_used": 0,
+    "stopped_reason": "queue_drained",
+    "discover_runs": 0,
+    "emails_generated": 0,
+    "drafts_saved": 0,
+    "essay_drafts_generated": 0,
+    "screener_predictions_generated": 0,
+    "notes": [
+      "nav audit: 3 wrong-employer URL(s) cleared for re-navigation, 1 parked for review",
+      "triage sweep: 0 confirmed, 0 refuted, 0 expired of 220 pending",
+      "triage 74dce8de: engage_agent_leg — precondition failed: no navigation wall in evidence — agent leg only helps nav-walled apps",
+      "artifact autopush: 11 file(s) pushed to master as 15d3aaed"
+    ],
+    "per_app": [
+      {
+        "application_id": "74dce8de-a6b4-4978-8b38-0e21c28b57a2",
+        "end_state": "AMBIGUOUS_FIELD",
+        "stopped": "review",
+        "stop_reason": "verification failed",
+        "submitted": false,
+        "outreach": null
+      }
+    ],
+    "nav_audit": {
+      "checked": 541,
+      "repaired": 3,
+      "parked": 1
+    },
+    "triage": {
+      "decided": 1,
+      "executed": 0
+    },
+    "artifact_autopush": {
+      "pushed": true,
+      "commit": "15d3aaed",
+      "files_staged": 11
+    }
+  },
+  "outcome": "completed",
+  "notes": []
+}
