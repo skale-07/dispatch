@@ -60,22 +60,37 @@
 </style></head>
 <body><div class="wrap">
 <h1>Dispatch run timeline</h1>
-<p class="sub">Generated 2026-09-15T08:37:27.388Z · 40 navigation run(s) · read-only view of artifacts/</p>
-<div class="stats"><span class="stat"><b>21</b> resolved</span><span class="stat"><b>11</b> unknown</span><span class="stat"><b>4</b> duplicate_url</span><span class="stat"><b>3</b> budget</span><span class="stat"><b>1</b> closed</span></div>
+<p class="sub">Generated 2026-09-15T08:40:17.450Z · 40 navigation run(s) · read-only view of artifacts/</p>
+<div class="stats"><span class="stat"><b>22</b> resolved</span><span class="stat"><b>10</b> unknown</span><span class="stat"><b>4</b> duplicate_url</span><span class="stat"><b>3</b> budget</span><span class="stat"><b>1</b> closed</span></div>
 <section class="cycle">
   <h2>Latest cycle</h2>
   <dl>
-    <div><dt>Started</dt><dd>2026-09-15T08:37:01.675Z</dd></div>
+    <div><dt>Started</dt><dd>2026-09-15T08:39:20.162Z</dd></div>
     <div><dt>Outcome</dt><dd>completed</dd></div>
     <div><dt>Agent leg</dt><dd>available</dd></div>
     <div><dt>Default resume</dt><dd>ready (C:\dev\jobright-application-agent\private\candidate\resumes\general.pdf)</dd></div>
-    <div><dt>Apps started</dt><dd>0</dd></div>
+    <div><dt>Apps started</dt><dd>1</dd></div>
     <div><dt>Submits used</dt><dd>0</dd></div>
     <div><dt>Stopped</dt><dd>queue_drained</dd></div>
   </dl>
-  <h3>Session notes</h3><ul class="notes"><li>nav audit: 1 wrong-employer URL(s) cleared for re-navigation, 0 parked for review</li><li>triage sweep: 0 confirmed, 0 refuted, 0 expired of 225 pending</li><li>artifact autopush: 1 file(s) pushed to master as 42ff194d</li></ul>
+  <h3>Session notes</h3><ul class="notes"><li>nav audit: 3 wrong-employer URL(s) cleared for re-navigation, 1 parked for review</li><li>triage sweep: 0 confirmed, 0 refuted, 0 expired of 225 pending</li><li>triage c36971da: park_for_operator (executed) — review item created: 88fbf64b-73b0-4eec-864e-c780583ed5dd</li><li>artifact autopush: 8 file(s) pushed to master as 130c20af</li></ul>
 </section>
 <h2>Applications</h2>
+<details class="app ok">
+  <summary>
+    <span class="id">c36971da</span>
+    <span class="co">Dell Technologies</span>
+    <span class="badge">resolved</span>
+    <span class="chip">anchor_llm</span>
+    <span class="chip">generic</span>
+    
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no congruent apply href (11 external links)<span class="ev">iawmqy.fa.ocs.oraclecloud.com, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, www.delltechnologies.com</span></li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>A_anchor_llm</b> — candidate promoted by adjudication<span class="ev">iawmqy.fa.ocs.oraclecloud.com</span></li></ol>
+    <h4>Notes</h4><ul class="notes"><li>phase A: anchor reads as &quot;iawmqy&quot; (URL names &quot;iawmqy&quot; (tenant), which shares nothing with company &quot;Dell Technologies&quot;) — not preferred, deferring to the Apply click</li><li>phase A: 8 external host(s) seen: iawmqy.fa.ocs.oraclecloud.com, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, www.delltechnologies.com, www.fool.com, www.webpronews.com</li><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>anchor adjudication: promoted iawmqy.fa.ocs.oraclecloud.com</li><li>anchor adjudication rationale (UNVERIFIED): Oracle HCM candidate-experience job link with specific job ID is Dell's ATS application page; homepage is not job-specific, others are news.</li><li>congruence: URL names &quot;iawmqy&quot;, not &quot;Dell Technologies&quot; (URL names &quot;iawmqy&quot; (tenant), which shares nothing with company &quot;Dell Technologies&quot;) — recorded, not refused</li></ul>
+    
+  </div>
+</details>
 <details class="app bad">
   <summary>
     <span class="id"></span>
@@ -658,21 +673,6 @@
   <div class="body">
     <h4>Phases</h4><ol class="phases"><li>none recorded</li></ol>
     <h4>Notes</h4><ul class="notes"><li>model calls: 0 of 1 steps</li></ul>
-    
-  </div>
-</details>
-<details class="app bad">
-  <summary>
-    <span class="id"></span>
-    <span class="co">—</span>
-    <span class="badge">wall: undefined</span>
-    
-    
-    
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li>none recorded</li></ol>
-    <h4>Notes</h4><ul class="notes"><li>model calls: 2 of 2 steps</li></ul>
     
   </div>
 </details>
