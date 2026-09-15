@@ -1,0 +1,244 @@
+{
+  "ats": "ashby",
+  "url": "https://jobs.ashbyhq.com/tilderesearch/bc4e4071-cf64-4460-8265-b1e5a603d6b8/application",
+  "requested_url": "https://jobs.ashbyhq.com/tilderesearch/bc4e4071-cf64-4460-8265-b1e5a603d6b8/application",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://jobs.ashbyhq.com/tilderesearch/bc4e4071-cf64-4460-8265-b1e5a603d6b8/application",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 7,
+    "skipped_count": 6,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "f_0",
+      "label": "Application",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "441b1305-d3a9-43ac-a745-2e2df6f05f0e",
+      "label": "Are you interested in internship, full-time, or both?",
+      "type": "text",
+      "canonical_field": "screener:custom:predicted:441b1305-d3a9-43ac-a745-2e2df6f05f0e",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): Candidate is an undergraduate in the class of 2029 seeking internship roles, consistent with saved internship term answers."
+    },
+    {
+      "field_id": "_systemfield_name",
+      "label": "Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Single full-name field: composed legal_name.first + legal_name.last (both safe factual canonicals)"
+    },
+    {
+      "field_id": "_systemfield_email",
+      "label": "Email",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "_systemfield_resume",
+      "label": "Resume",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "94f491e2-8363-40a6-a7d8-822e48d67124",
+      "label": "Personal Website/Blog",
+      "type": "text",
+      "canonical_field": "personal_website",
+      "action": "SKIP",
+      "reason": "Profile value empty for personal_website"
+    },
+    {
+      "field_id": "e82fd1c1-9430-4aba-869c-ce397a8a227c",
+      "label": "GitHub",
+      "type": "text",
+      "canonical_field": "github_url",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "cf0186f1-9abe-4016-b682-5924a34480ec",
+      "label": "Twitter",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "77ba409c-e02e-4033-b5fd-3bc756db14e7",
+      "label": "LinkedIn",
+      "type": "text",
+      "canonical_field": "linkedin_url",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "6b0c7b94-ed6f-48ba-b5f4-c8dc7b3d760e",
+      "label": "Tell us about the most challenging or impressive GPU kernel you've built or studied closely. What made it difficult or noteworthy? What did you learn from it?",
+      "type": "textarea",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Essay generation produced no answer"
+    },
+    {
+      "field_id": "0a2d625b-9005-405b-ab61-340aeea82bf0",
+      "label": "Which languages (e.g. Triton, Cuda) have you used for writing or optimizing GPU kernels? Please include how long you’ve worked with each",
+      "type": "textarea",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Essay generation produced no answer"
+    },
+    {
+      "field_id": "3755ecfb-a1ab-46ab-8425-661d7e1b6509",
+      "label": "What are your career goals and why do you think this role helps actualize them?",
+      "type": "textarea",
+      "canonical_field": "essay:generated:3755ecfb-a1ab-46ab-8425-661d7e1b6509",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "ffd4295c-ec1a-4f35-90c1-24962cf69cf3",
+      "label": "Is there anything you'd like us to know about you?",
+      "type": "textarea",
+      "canonical_field": "essay:generated:ffd4295c-ec1a-4f35-90c1-24962cf69cf3",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\ashby-live\\form-snapshot-1789450595541.html",
+  "fill": {
+    "filled": [
+      "screener:custom:predicted:441b1305-d3a9-43ac-a745-2e2df6f05f0e",
+      "legal_name.first",
+      "email",
+      "github_url",
+      "linkedin_url",
+      "essay:generated:3755ecfb-a1ab-46ab-8425-661d7e1b6509",
+      "essay:generated:ffd4295c-ec1a-4f35-90c1-24962cf69cf3"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "441b1305-d3a9-43ac-a745-2e2df6f05f0e",
+        "canonical_field": "screener:custom:predicted:441b1305-d3a9-43ac-a745-2e2df6f05f0e",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "_systemfield_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "_systemfield_email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "e82fd1c1-9430-4aba-869c-ce397a8a227c",
+        "canonical_field": "github_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "77ba409c-e02e-4033-b5fd-3bc756db14e7",
+        "canonical_field": "linkedin_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "3755ecfb-a1ab-46ab-8425-661d7e1b6509",
+        "canonical_field": "essay:generated:3755ecfb-a1ab-46ab-8425-661d7e1b6509",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "ffd4295c-ec1a-4f35-90c1-24962cf69cf3",
+        "canonical_field": "essay:generated:ffd4295c-ec1a-4f35-90c1-24962cf69cf3",
+        "control_kind": "text"
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "screener:custom:predicted:441b1305-d3a9-43ac-a745-2e2df6f05f0e",
+        "expected": "Internship",
+        "observed": "Internship",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham Kale",
+        "observed": "Shubham Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "github_url",
+        "expected": "https://github.com/skale-07",
+        "observed": "https://github.com/skale-07",
+        "match": true
+      },
+      {
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:3755ecfb-a1ab-46ab-8425-661d7e1b6509",
+        "expected": "I want to build systems that let people judge what increasingly capable AI models are actually doing, and eventually build companies or institutions around that problem. That came out of concrete work. At Intelehealth I designed an evaluation framework for AI-generated clinical outputs against a 4,169-case benchmark, using stratified sampling to surface systematic failure modes, and the lesson was that generating an answer with an LLM is cheap while deciding whether to trust it is hard. On the anomaly-detection system I work on at Summer Atlantic Capital, the same thing shows up operationally: temporal sequence models over event streams are only useful if analysts can act on and understand the alerts, so I built a retrieval-augmented explanation layer alongside the ranking. Tilde frames kernel engineering as a way to deeply understand how large models think, which is the version of this problem I have not worked at yet: getting underneath the model rather than evaluating its outputs. The part I would want to work on is the low-level side, where understanding is constrained by what you can actually measure and run efficiently on hardware.",
+        "observed": "I want to build systems that let people judge what increasingly capable AI models are actually doing, and eventually build companies or institutions around that problem. That came out of concrete work. At Intelehealth I designed an evaluation framework for AI-generated clinical outputs against a 4,169-case benchmark, using stratified sampling to surface systematic failure modes, and the lesson was that generating an answer with an LLM is cheap while deciding whether to trust it is hard. On the anomaly-detection system I work on at Summer Atlantic Capital, the same thing shows up operationally: temporal sequence models over event streams are only useful if analysts can act on and understand the alerts, so I built a retrieval-augmented explanation layer alongside the ranking. Tilde frames kernel engineering as a way to deeply understand how large models think, which is the version of this problem I have not worked at yet: getting underneath the model rather than evaluating its outputs. The part I would want to work on is the low-level side, where understanding is constrained by what you can actually measure and run efficiently on hardware.",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:ffd4295c-ec1a-4f35-90c1-24962cf69cf3",
+        "expected": "I should be direct that my hands-on work has been in ML systems and full-stack products rather than GPU kernels, so I would be coming in learning that layer. What I would bring is a track record of owning systems end to end. I built the ML core, event-ingestion pipeline, versioned FastAPI service, and detection API for an anomaly-detection product. I built a Playwright-based job-application agent in TypeScript where every application moves through an explicit state machine and every mutating capability sits behind fail-closed flags, plus a validation ladder that refuses to call a capability working until it has been confirmed against the level of reality it claims to support. I also co-founded Open Health Intelligence and shipped an iOS health product into a live Hopkins pilot with 30+ users, which included building passive sleep estimation from HealthKit and Core Motion signals instead of requiring a wearable. I am a U.S. citizen, I do not need sponsorship, and I am comfortable being on-site in San Francisco.",
+        "observed": "I should be direct that my hands-on work has been in ML systems and full-stack products rather than GPU kernels, so I would be coming in learning that layer. What I would bring is a track record of owning systems end to end. I built the ML core, event-ingestion pipeline, versioned FastAPI service, and detection API for an anomaly-detection product. I built a Playwright-based job-application agent in TypeScript where every application moves through an explicit state machine and every mutating capability sits behind fail-closed flags, plus a validation ladder that refuses to call a capability working until it has been confirmed against the level of reality it claims to support. I also co-founded Open Health Intelligence and shipped an iOS health product into a live Hopkins pilot with 30+ users, which included building passive sleep estimation from HealthKit and Core Motion signals instead of requiring a wearable. I am a U.S. citizen, I do not need sponsorship, and I am comfortable being on-site in San Francisco.",
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 115393,
+      "verified": true,
+      "evidence": "input files: [{\"name\":\"resume-71415792.pdf\",\"size\":115393}]; stillAttached=true; chip=true; resolved via primary"
+    }
+  ],
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: form (13 fillable field(s))",
+    "timing: base page (13 planned) — plan 19s, fill 3s, verify 0s",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "written_at": "2026-09-15T05:36:41.462Z"
+}
