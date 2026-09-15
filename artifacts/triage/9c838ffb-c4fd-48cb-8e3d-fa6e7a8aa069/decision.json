@@ -1,0 +1,129 @@
+{
+  "decision_id": "9c838ffb-c4fd-48cb-8e3d-fa6e7a8aa069",
+  "application_id": "429ec868-f4e8-4192-951e-81e33040c1d0",
+  "signature": "NATIVE_AUTOFILL_RUNNING|-|login_wall|careers.ibm.com",
+  "forbidden_actions": [
+    "requeue_same",
+    "engage_agent_leg"
+  ],
+  "bundle": {
+    "application_id": "429ec868-f4e8-4192-951e-81e33040c1d0",
+    "company": "IBM",
+    "role": "AI Native Hardware & Software Codesign internship 2027",
+    "state": "NATIVE_AUTOFILL_RUNNING",
+    "attempt": 1,
+    "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|login_wall|careers.ibm.com",
+    "end_host": "careers.ibm.com",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route ready_for_fill_later (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-15T11:56:48.522Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-15T11:56:47.926Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-15T11:56:47.920Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-15T11:56:45.376Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 d5f6e2353444)",
+        "at": "2026-09-15T11:56:45.368Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-15T11:56:45.336Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-15T11:54:08.591Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-15T11:54:08.575Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-15T11:54:08.573Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-15T11:54:08.567Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "ibm",
+        "detail": "token \"ibm\" ~ slug \"ibm\" (from URL host)",
+        "expected_company": "IBM",
+        "url": "https://careers.ibm.com/en_US/careers/JobDetail?jobId=132725&jr_id=6aa823b32ed333b4ea5cd843"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (9 candidates, employer match)",
+          "evidence": "careers.ibm.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [],
+    "prior_decisions": [
+      {
+        "action": "engage_agent_leg",
+        "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|login_wall|careers.ibm.com",
+        "outcome_status": "PENDING",
+        "created_at": "2026-09-15T11:57:13.293Z"
+      }
+    ],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": true
+  },
+  "raw_model_text": "{\"action\": \"park_for_operator\", \"rationale\": \"Login wall at careers.ibm.com on first attempt; agent leg already granted and pending, so it cannot be repeated. Navigation congruence matches and materials verified (resume sha256 present), so requeue_materials or reopen_navigation would not change the outcome. Single host block is insufficient for permanent-wall abandonment; a human should decide.\", \"confidence\": \"medium\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: b2b2aa5c-9367-47c4-8dfc-844fba444f18",
+  "rationale_unverified": "Login wall at careers.ibm.com on first attempt; agent leg already granted and pending, so it cannot be repeated. Navigation congruence matches and materials verified (resume sha256 present), so requeue_materials or reopen_navigation would not change the outcome. Single host block is insufficient for permanent-wall abandonment; a human should decide."
+}
