@@ -1,4 +1,7 @@
 import { getConfig, type AppConfig } from "../config/index.js";
+import { sdkBrowserUseApi } from "./browserUse/api.js";
+import { fileLedger } from "./browserUse/ledger.js";
+import { browserUseProvider } from "./browserUse/provider.js";
 
 /**
  * Remote browser provider seam (plan v0.5, M17).
@@ -43,8 +46,12 @@ export type RemoteBrowserProvider = {
   createContext?(input: { userId: string }): Promise<string>;
   /** Live view URL for an existing session (refreshable; the debug URL can rotate). */
   liveViewUrl(sessionId: string): Promise<string>;
-  /** CDP endpoint for an existing session — SECRET; derived, never stored. */
-  connectUrl(sessionId: string): string;
+  /**
+   * CDP endpoint for an existing session — SECRET, never stored on a row.
+   * Browserbase derives it from the key; Browser Use only ever returns it,
+   * so a cold reconnect may have to read it back (hence the Promise).
+   */
+  connectUrl(sessionId: string): string | Promise<string>;
   endSession(sessionId: string): Promise<void>;
 };
 
@@ -168,10 +175,24 @@ export function browserbaseProvider(input: {
   };
 }
 
-/** The provider this process may use: Browserbase behind the flag, otherwise the refusing one. */
+/**
+ * The provider this process may use behind REMOTE_BROWSER_ENABLED —
+ * REMOTE_BROWSER_PROVIDER picks Browserbase (default) or Browser Use
+ * (which also needs BROWSER_USE_ENABLED + its key); otherwise the
+ * refusing one. env.ts already refuses a missing credential at boot.
+ */
 export function resolveRemoteBrowserProvider(config: AppConfig = getConfig(), fetchImpl?: FetchLike): RemoteBrowserProvider {
   if (!config.remoteBrowserEnabled) return nullProvider;
-  if (!config.browserbaseApiKey || !config.browserbaseProjectId) return nullProvider; // env.ts already refuses this at boot
+  if (config.remoteBrowserProvider === "browser_use") {
+    if (!config.browserUseEnabled || !config.browserUseApiKey) return nullProvider;
+    // The SDK reads the global fetch at call time; a per-call fetch cannot be honoured, so it is refused rather than half-applied.
+    if (fetchImpl) throw new Error("resolveRemoteBrowserProvider: the browser_use provider takes no fetch override (stub the global fetch instead)");
+    return browserUseProvider(sdkBrowserUseApi({ apiKey: config.browserUseApiKey }), {
+      defaultTimeoutMinutes: config.browserUseBrowserTimeoutMin,
+      ledger: fileLedger(config.privateDir),
+    });
+  }
+  if (!config.browserbaseApiKey || !config.browserbaseProjectId) return nullProvider;
   return browserbaseProvider({
     apiKey: config.browserbaseApiKey,
     projectId: config.browserbaseProjectId,

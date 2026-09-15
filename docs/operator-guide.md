@@ -769,7 +769,9 @@ contract rather than trusted.
 | `SUPABASE_SYNC_ENABLED` | `false` | One-way aggregate status mirror to Supabase (`cloud:sync`, §25) — never PII, never read back; also gates `cloud:schema -- apply` (§26), `invites:mint --load` and `invites:roundtrip` (§24) |
 | `CONSOLE_HOSTED_MODE_ENABLED` | `false` | Console may bind a public interface: Supabase JWT on every `/api` request + hostname/user allowlists + read-only (§16, "Hosted mode"). Never on the engine machine's local console |
 | `TENANT_ENGINE_ENABLED` | `false` | The engine may materialize a hosted user's workspace under `TENANTS_ROOT` (`private/tenants/<uuid>/`) and run `auto:cycle` for them as a child whose flags are the ceiling ∩ the tenant's own (autopush / agent fallback / CDP autolaunch / Outlook / triage-act / ATS discovery forced off; portal password and access token stripped). Requires `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY` or refuses to boot; `SUPABASE_SYNC_USER_ID` is not needed — tenants carry their own ids. `TENANT_MAX_CONCURRENT` (1–8, default 1) bounds child processes |
-| `REMOTE_BROWSER_ENABLED` | `false` | The engine may attach over CDP to a NON-loopback browser — the remote session a hosted user drives during a JobRight sign-in handoff. Off: only `127.0.0.1` CDP URLs are accepted anywhere. Requires `BROWSERBASE_API_KEY` + `BROWSERBASE_PROJECT_ID` (secrets; never logged) or refuses to boot |
+| `REMOTE_BROWSER_ENABLED` | `false` | The engine may attach over CDP to a NON-loopback browser — the remote session a hosted user drives during a JobRight sign-in handoff. Off: only `127.0.0.1` CDP URLs are accepted anywhere. Requires the selected provider's credentials (`REMOTE_BROWSER_PROVIDER=browserbase` ⇒ `BROWSERBASE_API_KEY` + `BROWSERBASE_PROJECT_ID`; `browser_use` ⇒ `BROWSER_USE_ENABLED` + `BROWSER_USE_API_KEY`; secrets, never logged) or refuses to boot |
+| `BROWSER_USE_ENABLED` | `false` | Browser Use Cloud (API v4 via `browser-use-sdk`) may be called at all: managed browsers as the remote-browser provider (CAPTCHA solving always off), run status / result reads, and `npm run browseruse -- sweep`. Requires `BROWSER_USE_API_KEY` (secret) or refuses to boot |
+| `BROWSER_USE_AGENT_ENABLED` | `false` | Hosted Browser Use agent runs may be CREATED (`npm run browseruse -- run`); each spends credits, capped per run by `BROWSER_USE_MAX_COST_USD` (default and schema maximum `1`), default model `BROWSER_USE_MODEL=gpt-5.6-luna`. Inert without `BROWSER_USE_ENABLED` |
 
 Console-only (not capability flags): `CONSOLE_HOST` (`127.0.0.1`,
 validated unless hosted mode is on) and `CONSOLE_PORT` (`8899`). The
@@ -2376,6 +2378,53 @@ book, not user data).
   `private/cloud/spike/jobright.storage.json` → release, with a JSON
   report. It never touches your own `private/auth/`. Results go into
   `docs/roadmap/browserbase-spike-2026-09-14.md`.
+- **Browser Use Cloud** (`REMOTE_BROWSER_PROVIDER=browser_use` +
+  `BROWSER_USE_ENABLED` + `BROWSER_USE_API_KEY`) is the second provider
+  behind the same seam: a managed browser per handoff (its `liveUrl` is
+  what the web app embeds, its `cdpUrl` what the engine attaches to;
+  CAPTCHA solving is always off; one provider profile per tenant is the
+  persisted context; every engine browser carries `origin=jobright-agent`
+  metadata). Browsers bill per minute from creation, so every path that
+  creates one releases it in `finally`. `npm run browseruse -- <cmd>`
+  is the operator surface (one JSON report each; keys and CDP URLs are
+  never printed):
+  - `run --task "<text>" [--model m] [--max-cost 0.5] [--session <id>]
+    [--wait [--timeout-min 10]] [--schema shape.json]` creates ONE hosted
+    agent run (needs `BROWSER_USE_AGENT_ENABLED`; `--max-cost` above
+    `BROWSER_USE_MAX_COST_USD` is refused locally; the cap goes to the
+    provider as `maxCostUsd`; `--session` makes it a follow-up turn in an
+    existing session). A create whose outcome is unknown (timeout, 5xx)
+    is logged to the ledger as `create_ambiguous`, reported, and never
+    re-sent — reconcile with `runs` first. With `--wait` the run is
+    polled on the cheap status endpoint (the poll count follows the
+    timeout, ceiling 4 h; three consecutive poll failures count as a
+    timeout), a run still going at the deadline is CANCELLED so it stops
+    billing (a failed cancel still fetches the real state), and the
+    result is validated: `completed`, non-empty, cost within the cap, and
+    (with `--schema`, a `{key: type}` shape) parseable JSON of that
+    shape. Exit code 1 when validation fails.
+  - A hosted run's browser is provisioned by the provider, not through
+    the managed-browser path, and the v4 run API has no CAPTCHA setting:
+    the engine cannot turn the provider's solver off there, and the
+    hosted agent is a model that may work through one itself. The
+    engine's own CAPTCHA posture (park, never solve) holds for every
+    browser THIS engine drives; hosted runs are an operator decision per
+    task — do not point one at a form the engine would have parked.
+  - `status --run <id>`, `result --run <id> [--schema …]` (validation of
+    an existing run), `cancel --run <id>`, `runs [--limit 20]`.
+  - `browsers` (active browsers: `engine_owned` = created by this
+    engine, `run_owned` = spawned by a hosted run), `stop --browser
+    <id>`, and `sweep [--older-than-min 30] [--dry-run]`: cancel
+    non-terminal runs older than the threshold that THIS engine created
+    (ids from the ledger — a run started from the dashboard or another
+    tool on the same key is counted as `foreign_stale_runs`, never
+    cancelled) and stop ENGINE browsers older than the threshold
+    (bounded to 50 actions and 5 pages; browsers without the origin
+    label are counted as run-owned or foreign and never touched). Run
+    the sweep after any crashed hosted run.
+  - Every create (including an ambiguous one), cancel, stop and
+    validation is appended to `private/browser-use/ledger.jsonl` for
+    spend reconciliation; the handoff provider writes the same ledger.
 - **scheduler** (`npm run tenant:scheduler -- [--duration <min>]
   [--interval <sec>] [--max-concurrent N] [--once]`, same two gates) is
   the autonomous loop. Each tick: reap expired job leases → handoff

@@ -299,6 +299,32 @@ const envSchema = z.object({
   BROWSERBASE_API_KEY: z.string().optional(),
   BROWSERBASE_PROJECT_ID: z.string().optional(),
   /**
+   * Which provider REMOTE_BROWSER_ENABLED selects: browserbase (default)
+   * or browser_use (Browser Use Cloud managed browsers, which also needs
+   * BROWSER_USE_ENABLED). The selected provider's credentials are required
+   * at boot.
+   */
+  REMOTE_BROWSER_PROVIDER: z.enum(["browserbase", "browser_use"]).default("browserbase"),
+  /**
+   * Browser Use Cloud (API v4) may be called at all: managed browsers as
+   * the remote-browser provider, run status / result reads, cancel and
+   * stop sweeps. Requires BROWSER_USE_API_KEY or refuses to boot. Fail
+   * closed.
+   */
+  BROWSER_USE_ENABLED: boolFromEnv.default(false),
+  /**
+   * Hosted agent runs may be CREATED — each one spends credits, capped per
+   * run by BROWSER_USE_MAX_COST_USD. Inert without BROWSER_USE_ENABLED.
+   */
+  BROWSER_USE_AGENT_ENABLED: boolFromEnv.default(false),
+  /** SECRET: never logged, never artifacted, never in any frontend. */
+  BROWSER_USE_API_KEY: z.string().optional(),
+  BROWSER_USE_MODEL: z.string().default("gpt-5.6-luna"),
+  /** Per-run spend ceiling forwarded as maxCostUsd; the schema caps it at $1. */
+  BROWSER_USE_MAX_COST_USD: z.coerce.number().positive().max(1).default(1),
+  /** Managed-browser lifetime in minutes for a handoff (provider max 240). */
+  BROWSER_USE_BROWSER_TIMEOUT_MIN: z.coerce.number().int().min(1).max(240).default(20),
+  /**
    * Per-user Gmail (plan v0.5 M19): Dispatch's own Google WEB OAuth client.
    * The SPA runs the PKCE consent with the client id; only the ENGINE holds
    * the secret and exchanges the code (tenant job gmail_exchange). Plain
@@ -402,6 +428,17 @@ export type AppConfig = {
   /** Present only when the operator configured it; consumers must not log it. */
   browserbaseApiKey: string | undefined;
   browserbaseProjectId: string | undefined;
+  /** Which provider the remote-browser seam resolves to behind REMOTE_BROWSER_ENABLED. */
+  remoteBrowserProvider: "browserbase" | "browser_use";
+  /** Browser Use Cloud may be called (managed browsers, run reads, sweeps). Fail closed. */
+  browserUseEnabled: boolean;
+  /** Browser Use hosted agent runs may be created (spend). Inert without browserUseEnabled. */
+  browserUseAgentEnabled: boolean;
+  /** Present only when the operator configured it; consumers must not log it. */
+  browserUseApiKey: string | undefined;
+  browserUseModel: string;
+  browserUseMaxCostUsd: number;
+  browserUseBrowserTimeoutMin: number;
   /** Per-user Gmail Web OAuth client (engine-side exchange). Secret never logged. */
   gmailOauthClientId: string | undefined;
   gmailOauthClientSecret: string | undefined;
@@ -460,14 +497,28 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
       );
     }
   }
+  const browserUseKey = parsed.BROWSER_USE_API_KEY?.trim() || undefined;
+  if (parsed.BROWSER_USE_ENABLED && !browserUseKey) {
+    throw new Error("BROWSER_USE_ENABLED=true requires BROWSER_USE_API_KEY (Browser Use is fail-closed)");
+  }
   if (parsed.REMOTE_BROWSER_ENABLED) {
     const missing: string[] = [];
-    if (!parsed.BROWSERBASE_API_KEY) missing.push("BROWSERBASE_API_KEY");
-    if (!parsed.BROWSERBASE_PROJECT_ID) missing.push("BROWSERBASE_PROJECT_ID");
-    if (missing.length > 0) {
-      throw new Error(
-        `REMOTE_BROWSER_ENABLED=true requires ${missing.join(", ")} (remote browser is fail-closed)`,
-      );
+    if (parsed.REMOTE_BROWSER_PROVIDER === "browser_use") {
+      if (!parsed.BROWSER_USE_ENABLED) missing.push("BROWSER_USE_ENABLED");
+      if (!browserUseKey) missing.push("BROWSER_USE_API_KEY");
+      if (missing.length > 0) {
+        throw new Error(
+          `REMOTE_BROWSER_ENABLED=true with REMOTE_BROWSER_PROVIDER=browser_use requires ${missing.join(", ")} (remote browser is fail-closed)`,
+        );
+      }
+    } else {
+      if (!parsed.BROWSERBASE_API_KEY) missing.push("BROWSERBASE_API_KEY");
+      if (!parsed.BROWSERBASE_PROJECT_ID) missing.push("BROWSERBASE_PROJECT_ID");
+      if (missing.length > 0) {
+        throw new Error(
+          `REMOTE_BROWSER_ENABLED=true requires ${missing.join(", ")} (remote browser is fail-closed)`,
+        );
+      }
     }
   }
 
@@ -560,6 +611,13 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
     remoteBrowserEnabled: parsed.REMOTE_BROWSER_ENABLED,
     browserbaseApiKey: parsed.BROWSERBASE_API_KEY,
     browserbaseProjectId: parsed.BROWSERBASE_PROJECT_ID,
+    remoteBrowserProvider: parsed.REMOTE_BROWSER_PROVIDER,
+    browserUseEnabled: parsed.BROWSER_USE_ENABLED,
+    browserUseAgentEnabled: parsed.BROWSER_USE_AGENT_ENABLED,
+    browserUseApiKey: browserUseKey,
+    browserUseModel: parsed.BROWSER_USE_MODEL.trim() || "gpt-5.6-luna",
+    browserUseMaxCostUsd: parsed.BROWSER_USE_MAX_COST_USD,
+    browserUseBrowserTimeoutMin: parsed.BROWSER_USE_BROWSER_TIMEOUT_MIN,
     gmailOauthClientId: parsed.GMAIL_OAUTH_CLIENT_ID?.trim() || undefined,
     gmailOauthClientSecret: parsed.GMAIL_OAUTH_CLIENT_SECRET?.trim() || undefined,
     gmailOauthRedirectUri: parsed.GMAIL_OAUTH_REDIRECT_URI?.trim() || undefined,

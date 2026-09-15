@@ -151,8 +151,17 @@
         "src/browser/liveHtml.ts": "readLiveHtml (#150) — page HTML with LIVE control state (value / selected / checked) written onto a detached clone; script-bound forms hold values in properties page.content() never sees. Plan reads use this.",
         "src/auth/cdpPolicy.ts": "assertCdpUrlAllowed: loopback (127.0.0.1 / localhost / [::1]) always; any other CDP endpoint only behind REMOTE_BROWSER_ENABLED, refused by name (hostname only, never the key in the query). Called once in serviceSession's CDP_ATTACH path before connectOverCDP",
         "src/browser/remoteBrowser.ts": "RemoteBrowserProvider seam: browserbaseProvider (sessions API v1 — key in x-bb-api-key, live view from /debug, connect URL, REQUEST_RELEASE, optional residential proxies) and nullProvider (refuses by name); resolveRemoteBrowserProvider picks Browserbase only behind the flag; connect URLs are secrets (redactConnectUrl for logs, never on a row). Live shapes UNVERIFIED until the M16 spike runs",
-        "src/browser/remoteProbeCli.ts": "npm run remote:probe — the M16 spike as a command: create → LIVE VIEW → operator signs in → attach through the session seam → validate → premium probe → storageState to private/cloud/spike/ → release; JSON evidence (docs/roadmap/browserbase-spike-2026-09-14.md)"
+        "src/browser/remoteProbeCli.ts": "npm run remote:probe — the M16 spike as a command: create → LIVE VIEW → operator signs in → attach through the session seam → validate → premium probe → storageState to private/cloud/spike/ → release; JSON evidence (docs/roadmap/browserbase-spike-2026-09-14.md)",
+        "src/browser/browserUse/api.ts": "Browser Use Cloud v4 as a narrow BrowserUseApi interface (runs create/status/get/cancel/list, browsers create/get/stop/list, profiles create); sdkBrowserUseApi is the production one on the official browser-use-sdk plus a plain-fetch shim for the three endpoints the SDK lacks; key in the X-Browser-Use-API-Key header only; creates never retried (BrowserUseAmbiguousCreateError on timeout/5xx)",
+        "src/browser/browserUse/provider.ts": "browserUseProvider — managed browsers as the RemoteBrowserProvider (profile = persisted context, liveUrl for the web app, cdpUrl for the attach; solveCaptchas always false; origin metadata marks engine browsers; an unusable browser is stopped before the error)",
+        "src/browser/browserUse/runs.ts": "hosted agent runs: resolveRunRequest (model from the v4 list, maxCostUsd ≤ BROWSER_USE_MAX_COST_USD), startRun (one create, behind BROWSER_USE_AGENT_ENABLED), waitForRun (status polls capped by time AND count; timeout cancels the run), validateRunResult (completed + non-empty + within cap + optional schema), sweepAbandoned (cancel old non-terminal runs THIS engine created per the ledger, stop old engine-labelled browsers; foreign ones only counted; bounded)",
+        "src/browser/browserUse/ledger.ts": "append-only JSONL under private/browser-use/ of every run/browser this engine created (ambiguous creates included) or acted on, for spend reconciliation; readLedgerRunIds feeds the sweep",
+        "src/browser/browserUseCli.ts": "npm run browseruse -- run|status|result|cancel|runs|browsers|stop|sweep — the operator surface; one JSON report; keys and CDP URLs never printed"
       },
+      "gates": [
+        "BROWSER_USE_ENABLED",
+        "BROWSER_USE_AGENT_ENABLED"
+      ],
       "key_exports": {
         "src/auth/serviceSession.ts": [
           "PlaywrightServiceSession"
@@ -166,6 +175,35 @@
           "nullProvider",
           "resolveRemoteBrowserProvider",
           "redactConnectUrl"
+        ],
+        "src/browser/browserUse/api.ts": [
+          "sdkBrowserUseApi",
+          "BrowserUseAmbiguousCreateError",
+          "isAmbiguousCreateFailure",
+          "parseUsd"
+        ],
+        "src/browser/browserUse/provider.ts": [
+          "browserUseProvider",
+          "browserTimeoutMinutes",
+          "isEngineBrowser"
+        ],
+        "src/browser/browserUse/runs.ts": [
+          "resolveRunRequest",
+          "startRun",
+          "waitForRun",
+          "validateRunResult",
+          "extractJson",
+          "sweepAbandoned"
+        ],
+        "src/browser/browserUse/index.ts": [
+          "resolveBrowserUseApi",
+          "browserUseRunPolicy",
+          "browserUseLedger"
+        ],
+        "src/browser/browserUse/ledger.ts": [
+          "fileLedger",
+          "readLedgerRunIds",
+          "memoryLedger"
         ],
         "src/browser/fixtureSession.ts": [
           "withFixtureHtmlPage",
@@ -1349,7 +1387,9 @@
     "TRIAGE_ACT_ENABLED": "Triage may EXECUTE validated decisions through existing state-machine primitives (abandon class promoted 2026-09-06 after the read-back sweep validated live; executors keep evidence preconditions + abandonApplication's edge guard). Inert without TRIAGE_LLM_ENABLED. Fail closed.",
     "NAV_LLM_ASSIST_ENABLED": "Navigation LLM assist: promote ONE already-harvested apply candidate when both deterministic phases miss (verbatim set membership; every downstream gate unchanged), and record same-job/different-job evidence on duplicate parks (verdicts never unblock). Fail closed.",
     "TENANT_ENGINE_ENABLED": "Multi-tenant engine (plan v0.5): materialize a HOSTED user's workspace under TENANTS_ROOT and run auto:cycle for them as a child whose flags are the ceiling ∩ the tenant's own (autopush / agent fallback / CDP autolaunch / Outlook / triage-act / ATS discovery forced off; portal password + access token stripped). Requires SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY or refuses to boot; tenants carry their own ids. Fail closed.",
-    "REMOTE_BROWSER_ENABLED": "The engine may attach over CDP to a NON-loopback browser — the remote session a hosted user drives during a JobRight sign-in handoff (src/auth/cdpPolicy.ts). Off: only 127.0.0.1 CDP URLs are accepted anywhere. Requires BROWSERBASE_API_KEY + BROWSERBASE_PROJECT_ID (secrets) or refuses to boot. Fail closed."
+    "REMOTE_BROWSER_ENABLED": "The engine may attach over CDP to a NON-loopback browser — the remote session a hosted user drives during a JobRight sign-in handoff (src/auth/cdpPolicy.ts). Off: only 127.0.0.1 CDP URLs are accepted anywhere. Requires the selected provider's credentials (REMOTE_BROWSER_PROVIDER: browserbase ⇒ BROWSERBASE_API_KEY + BROWSERBASE_PROJECT_ID; browser_use ⇒ BROWSER_USE_ENABLED + BROWSER_USE_API_KEY; secrets) or refuses to boot. Fail closed.",
+    "BROWSER_USE_ENABLED": "Browser Use Cloud (API v4, browser-use-sdk) may be called: managed browsers as the remote-browser provider (CAPTCHA solving always off), run status / result reads, cancel-and-stop sweeps. Requires BROWSER_USE_API_KEY (secret) or refuses to boot. Fail closed.",
+    "BROWSER_USE_AGENT_ENABLED": "Hosted Browser Use agent runs may be CREATED (each spends credits; maxCostUsd ≤ BROWSER_USE_MAX_COST_USD, schema-capped at $1; creates never retried). Inert without BROWSER_USE_ENABLED. Fail closed."
   },
   "invariants": [
     "Every mutation capability is behind a fail-closed env flag; never defaulted on, never enabled in tests.",

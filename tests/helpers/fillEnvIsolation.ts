@@ -47,6 +47,10 @@ export const CONTROLLED_FILL_ENV_KEYS = [
   // materialize a tenant workspace or accept a non-loopback CDP URL.
   "TENANT_ENGINE_ENABLED",
   "REMOTE_BROWSER_ENABLED",
+  // Browser Use Cloud: ambient "true" would let a test reach the paid API
+  // or create a hosted agent run.
+  "BROWSER_USE_ENABLED",
+  "BROWSER_USE_AGENT_ENABLED",
   // Key-provider seam (plan M13): an ambient "tenant" would make a fixture
   // read the operator's sensitive-profile.enc with a derived tenant key
   // (a GCM failure) or, with TENANT_USER_ID, write under someone's key.

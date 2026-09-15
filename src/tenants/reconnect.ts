@@ -94,7 +94,7 @@ export async function runReconnectVerify(input: {
   const provider = seams.provider ?? resolveRemoteBrowserProvider(input.config);
   let connectUrl: string;
   try {
-    connectUrl = provider.connectUrl(task.provider_session_id);
+    connectUrl = await provider.connectUrl(task.provider_session_id);
   } catch (err) {
     return { outcome: "refused", reason: err instanceof Error ? err.message : String(err), capture: null, parks: null };
   }

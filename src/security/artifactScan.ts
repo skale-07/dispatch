@@ -171,6 +171,8 @@ export const PROMOTE_SECRET_SCAN_PATTERNS: Array<{ name: string; re: RegExp }> =
   { name: "bearer", re: /Bearer\s+[A-Za-z0-9\-._~+/]+=*/i },
   { name: "jwt", re: /\beyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\b/ },
   { name: "aws_key", re: /\bAKIA[0-9A-Z]{16}\b/ },
+  // Browser Use Cloud keys are "bu_" + a long url-safe token.
+  { name: "browser_use_key", re: /\bbu_[A-Za-z0-9_-]{24,}/ },
   { name: "private_key", re: /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/ },
   { name: "api_key_assignment", re: /(?:api[_-]?key|secret[_-]?key)\s*[:=]\s*['"]?[^\s"'<>]{8,}/i },
   { name: "ssn", re: /\b\d{3}-\d{2}-\d{4}\b/ },
