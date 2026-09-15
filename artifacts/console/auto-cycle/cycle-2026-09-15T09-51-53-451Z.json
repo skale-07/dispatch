@@ -1,0 +1,72 @@
+{
+  "started_at": "2026-09-15T09:51:53.451Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\general.pdf)",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "61a6b9f0-bba5-4ccf-b422-6b6344f0eba3",
+    "armed_until": "2026-09-15T11:51:53.484Z",
+    "seconds_remaining": 7200,
+    "max_submits": 1,
+    "submits_used": 0,
+    "max_apps": 1,
+    "apps_started": 0,
+    "discover_max": 1,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": {
+    "arm_run_id": "61a6b9f0-bba5-4ccf-b422-6b6344f0eba3",
+    "apps_started": 1,
+    "submits_used": 0,
+    "stopped_reason": "queue_drained",
+    "discover_runs": 0,
+    "emails_generated": 0,
+    "drafts_saved": 0,
+    "essay_drafts_generated": 0,
+    "screener_predictions_generated": 0,
+    "notes": [
+      "triage sweep: 0 confirmed, 0 refuted, 0 expired of 228 pending",
+      "triage ff4f8b42: park_for_operator (executed) — review item created: 020fe185-9cf9-4b8b-8ebd-fc4e16668bd8",
+      "artifact autopush: 7 file(s) pushed to master as 54537a18"
+    ],
+    "per_app": [
+      {
+        "application_id": "ff4f8b42-5f40-4a26-837b-c829effbce5c",
+        "end_state": "NATIVE_AUTOFILL_RUNNING",
+        "stopped": "gate",
+        "stop_reason": "generic live fill refused: NAVIGATION_INCOMPLETE",
+        "submitted": false,
+        "outreach": null
+      }
+    ],
+    "nav_audit": {
+      "checked": 542,
+      "repaired": 0,
+      "parked": 0
+    },
+    "triage": {
+      "decided": 1,
+      "executed": 1
+    },
+    "artifact_autopush": {
+      "pushed": true,
+      "commit": "54537a18",
+      "files_staged": 7
+    }
+  },
+  "outcome": "completed",
+  "notes": []
+}
