@@ -1,0 +1,119 @@
+{
+  "decision_id": "2302366e-a357-4eb9-a33b-aea576b46e0f",
+  "application_id": "1a59d2c0-dd0a-4069-875c-44c5dfce56bb",
+  "signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|careers.google.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "1a59d2c0-dd0a-4069-875c-44c5dfce56bb",
+    "company": "Google",
+    "role": "Software Engineering Intern, MS, Summer 2027",
+    "state": "NATIVE_AUTOFILL_RUNNING",
+    "attempt": 1,
+    "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|careers.google.com",
+    "end_host": "careers.google.com",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-15T05:20:36.746Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-15T05:20:35.699Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-15T05:20:35.679Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-15T05:20:32.977Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 7141579276ac)",
+        "at": "2026-09-15T05:20:32.972Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-15T05:20:32.940Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-14T17:27:02.595Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-14T17:27:02.557Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-14T17:27:02.554Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-14T17:27:02.553Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "google",
+        "detail": "token \"google\" ~ slug \"google\" (from URL host)",
+        "expected_company": "Google",
+        "url": "https://careers.google.com/jobs/results/94172495052972742-software-engineering-intern/?src=jobright&utm_medium=jobposting&utm_campaign=contract&jr_id=6a95afff4c22023a07935203"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (11 candidates, employer match)",
+          "evidence": "careers.google.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"requeue_same\", \"rationale\": \"First attempt stalled mid-run in NATIVE_AUTOFILL_RUNNING with no wall, no fill gate, valid navigation (host congruent) and fresh materials. No prior decisions or failed host attempts; a plain rerun is the cheapest action that could plausibly complete the stage.\", \"confidence\": \"medium\"}",
+  "parsed_action": "requeue_same",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "requeued at attempt 2",
+  "rationale_unverified": "First attempt stalled mid-run in NATIVE_AUTOFILL_RUNNING with no wall, no fill gate, valid navigation (host congruent) and fresh materials. No prior decisions or failed host attempts; a plain rerun is the cheapest action that could plausibly complete the stage."
+}
