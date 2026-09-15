@@ -1,0 +1,524 @@
+{
+  "mode": "executed",
+  "ats": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/workshop/jobs/5237900007",
+  "plan": {
+    "answers": {
+      "legal_name.first": "Shubham",
+      "legal_name.last": "Kale",
+      "email": "s***@gmail.com",
+      "address.country": "United States",
+      "phone": "***-***-7636",
+      "screener:willing_to_relocate": "Yes",
+      "requires_sponsorship": "[REDACTED_SPONSORSHIP]",
+      "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/"
+    },
+    "entries": [
+      {
+        "field_id": "first_name",
+        "label": "First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "fill",
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "last_name",
+        "label": "Last Name",
+        "type": "text",
+        "canonical_field": "legal_name.last",
+        "action": "fill",
+        "value": "Kale",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "email",
+        "label": "Email",
+        "type": "text",
+        "canonical_field": "email",
+        "action": "fill",
+        "value": "s***@gmail.com",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "country",
+        "label": "Country",
+        "type": "text",
+        "canonical_field": "address.country",
+        "action": "fill",
+        "value": "United States +1",
+        "reason": "Mapped from public profile; placed onto \"United States +1\""
+      },
+      {
+        "field_id": "iti-0__search-input",
+        "label": "Search",
+        "type": "unknown",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "phone",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "fill",
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "resume",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "skip_file",
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "question_12894804007",
+        "label": "For this role, candidates must be in Omaha, NE for Summer 2026. Are you able to meet this requirement? (Please note- housing is not provided)",
+        "type": "text",
+        "canonical_field": "screener:willing_to_relocate",
+        "action": "fill",
+        "value": "Yes",
+        "reason": "Screener bank answer (synonym_option)"
+      },
+      {
+        "field_id": "question_12894805007",
+        "label": "Why do you want to intern at Workshop?",
+        "type": "text",
+        "canonical_field": "essay:generated:question_12894805007",
+        "action": "fill",
+        "value": "I build software for problems where the interesting part is whether people actually use the thing. With ClarityAtlas, the iOS health product I lead technically, the hard work was not just the passive sleep-estimation system I built on HealthKit and Core Motion signals like step count and gait speed. It was recruiting users, running a live Hopkins pilot with 30+ people, and repeatedly explaining why the product should exist. Internal communications software has the same shape: the measure of success is whether a message reaches an employee and does something, not whether the pipeline technically ran. Workshop being a venture-backed startup is a large part of the appeal. On the anomaly-detection system I work on at SAC Nexus, I own the repository and CI scaffold, the event-ingestion pipeline, and a versioned FastAPI service, and I have learned a lot from owning something end to end rather than picking up isolated tickets. I want an internship where a junior engineer is expected to ship real pieces of a product and hear from the people using them, and a team of Workshop's size and stage seems like where that actually happens.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_12894806007",
+        "label": "Do you now or will you in the future require visa sponsorship to work in the United States?",
+        "type": "text",
+        "canonical_field": "requires_sponsorship",
+        "action": "fill",
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_12894807007",
+        "label": "LinkedIn Profile",
+        "type": "text",
+        "canonical_field": "linkedin_url",
+        "action": "fill",
+        "value": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_12894808007",
+        "label": "Website",
+        "type": "text",
+        "canonical_field": "personal_website",
+        "action": "skip_empty",
+        "value": null,
+        "reason": "Profile value empty for personal_website"
+      }
+    ],
+    "fillable_count": 9,
+    "skipped_count": 3,
+    "review_required_count": 0
+  },
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "schema diff: 9/10 declared question(s) matched onto 12 DOM field(s); 1 declared-only (1 required); 3 DOM-only",
+    "board API declared 10 question(s); matched complete option lists onto 2 field(s)",
+    "option harvest: scraped real options for 1/8 control(s) before planning",
+    "frozen after fill→verify→upload — no further field mutation; submit never called"
+  ],
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "final_url": "https://job-boards.greenhouse.io/workshop/jobs/5237900007",
+  "identity_verification": {
+    "requestedUrl": "https://job-boards.greenhouse.io/workshop/jobs/5237900007",
+    "finalUrl": "https://job-boards.greenhouse.io/workshop/jobs/5237900007",
+    "requestedJobId": "5237900007",
+    "observedJobId": "5237900007",
+    "company": "workshop",
+    "role": "Job Application for Software Engineer Intern (Summer 2027) at Workshop",
+    "formDetected": true,
+    "fieldCount": 12,
+    "warnings": [
+      "login_wall_low: auth_provider_marker"
+    ],
+    "passed": true,
+    "failureCode": null,
+    "failureReason": null
+  },
+  "captcha_detection": {
+    "detected": false,
+    "confidence": "LOW",
+    "signals": [],
+    "dormantMarkers": [
+      "generic_captcha_word_only"
+    ]
+  },
+  "login_wall_detection": {
+    "detected": false,
+    "confidence": "LOW",
+    "signals": [
+      "auth_provider_marker"
+    ]
+  },
+  "failure_code": null,
+  "mutation_attempted": true,
+  "schema_diff": {
+    "board": "workshop",
+    "job_id": "5237900007",
+    "declared_count": 10,
+    "dom_count": 12,
+    "matched": 9,
+    "api_only": [
+      {
+        "label": "Resume/CV",
+        "required": true
+      }
+    ],
+    "dom_only": [
+      "Country",
+      "Search",
+      "Attach"
+    ],
+    "option_mismatches": []
+  },
+  "harvested_options": [
+    {
+      "field_id": "country",
+      "label": "Country",
+      "answer_space": "closed",
+      "option_count": 244,
+      "options": [
+        "United States +1",
+        "Afghanistan +93",
+        "Åland Islands +358",
+        "Albania +355",
+        "Algeria +213",
+        "American Samoa +1",
+        "Andorra +376",
+        "Angola +244",
+        "Anguilla +1",
+        "Antigua & Barbuda +1",
+        "Argentina +54",
+        "Armenia +374",
+        "Aruba +297",
+        "Ascension Island +247",
+        "Australia +61",
+        "Austria +43",
+        "Azerbaijan +994",
+        "Bahamas +1",
+        "Bahrain +973",
+        "Bangladesh +880",
+        "Barbados +1",
+        "Belarus +375",
+        "Belgium +32",
+        "Belize +501",
+        "Benin +229"
+      ],
+      "other_option": null
+    }
+  ],
+  "approved_plan": {
+    "entries": [
+      {
+        "field_id": "first_name",
+        "label": "First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "FILL",
+        "approved": true,
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "last_name",
+        "label": "Last Name",
+        "type": "text",
+        "canonical_field": "legal_name.last",
+        "action": "FILL",
+        "approved": true,
+        "value": "Kale",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "email",
+        "label": "Email",
+        "type": "text",
+        "canonical_field": "email",
+        "action": "FILL",
+        "approved": true,
+        "value": "s***@gmail.com",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "country",
+        "label": "Country",
+        "type": "text",
+        "canonical_field": "address.country",
+        "action": "FILL",
+        "approved": true,
+        "value": "United States +1",
+        "reason": "Mapped from public profile; placed onto \"United States +1\""
+      },
+      {
+        "field_id": "iti-0__search-input",
+        "label": "Search",
+        "type": "unknown",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "phone",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "FILL",
+        "approved": true,
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "resume",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "question_12894804007",
+        "label": "For this role, candidates must be in Omaha, NE for Summer 2026. Are you able to meet this requirement? (Please note- housing is not provided)",
+        "type": "text",
+        "canonical_field": "screener:willing_to_relocate",
+        "action": "FILL",
+        "approved": true,
+        "value": "Yes",
+        "reason": "Screener bank answer (synonym_option)"
+      },
+      {
+        "field_id": "question_12894805007",
+        "label": "Why do you want to intern at Workshop?",
+        "type": "text",
+        "canonical_field": "essay:generated:question_12894805007",
+        "action": "FILL",
+        "approved": true,
+        "value": "I build software for problems where the interesting part is whether people actually use the thing. With ClarityAtlas, the iOS health product I lead technically, the hard work was not just the passive sleep-estimation system I built on HealthKit and Core Motion signals like step count and gait speed. It was recruiting users, running a live Hopkins pilot with 30+ people, and repeatedly explaining why the product should exist. Internal communications software has the same shape: the measure of success is whether a message reaches an employee and does something, not whether the pipeline technically ran. Workshop being a venture-backed startup is a large part of the appeal. On the anomaly-detection system I work on at SAC Nexus, I own the repository and CI scaffold, the event-ingestion pipeline, and a versioned FastAPI service, and I have learned a lot from owning something end to end rather than picking up isolated tickets. I want an internship where a junior engineer is expected to ship real pieces of a product and hear from the people using them, and a team of Workshop's size and stage seems like where that actually happens.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_12894806007",
+        "label": "Do you now or will you in the future require visa sponsorship to work in the United States?",
+        "type": "text",
+        "canonical_field": "requires_sponsorship",
+        "action": "FILL",
+        "approved": true,
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_12894807007",
+        "label": "LinkedIn Profile",
+        "type": "text",
+        "canonical_field": "linkedin_url",
+        "action": "FILL",
+        "approved": true,
+        "value": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_12894808007",
+        "label": "Website",
+        "type": "text",
+        "canonical_field": "personal_website",
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "Profile value empty for personal_website"
+      }
+    ],
+    "answers": {
+      "legal_name.first": "Shubham",
+      "legal_name.last": "Kale",
+      "email": "s***@gmail.com",
+      "address.country": "United States +1",
+      "phone": "***-***-7636",
+      "screener:willing_to_relocate": "Yes",
+      "essay:generated:question_12894805007": "I build software for problems where the interesting part is whether people actually use the thing. With ClarityAtlas, the iOS health product I lead technically, the hard work was not just the passive sleep-estimation system I built on HealthKit and Core Motion signals like step count and gait speed. It was recruiting users, running a live Hopkins pilot with 30+ people, and repeatedly explaining why the product should exist. Internal communications software has the same shape: the measure of success is whether a message reaches an employee and does something, not whether the pipeline technically ran. Workshop being a venture-backed startup is a large part of the appeal. On the anomaly-detection system I work on at SAC Nexus, I own the repository and CI scaffold, the event-ingestion pipeline, and a versioned FastAPI service, and I have learned a lot from owning something end to end rather than picking up isolated tickets. I want an internship where a junior engineer is expected to ship real pieces of a product and hear from the people using them, and a team of Workshop's size and stage seems like where that actually happens.",
+      "requires_sponsorship": "[REDACTED_SPONSORSHIP]",
+      "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/"
+    },
+    "fillable_count": 9,
+    "skipped_count": 3,
+    "review_required_count": 0
+  },
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "legal_name.last",
+      "email",
+      "address.country",
+      "phone",
+      "screener:willing_to_relocate",
+      "essay:generated:question_12894805007",
+      "requires_sponsorship",
+      "linkedin_url"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "first_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "last_name",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "country",
+        "canonical_field": "address.country",
+        "control_kind": "combobox",
+        "selected_option": "+1",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"United States +1\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "phone",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_12894804007",
+        "canonical_field": "screener:willing_to_relocate",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_12894805007",
+        "canonical_field": "essay:generated:question_12894805007",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_12894806007",
+        "canonical_field": "requires_sponsorship",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_12894807007",
+        "canonical_field": "linkedin_url",
+        "control_kind": "text"
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.last",
+        "expected": "Kale",
+        "observed": "Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "address.country",
+        "expected": "United States +1",
+        "observed": {
+          "value": "+1",
+          "label": "+1"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:willing_to_relocate",
+        "expected": "Yes",
+        "observed": {
+          "value": "Yes",
+          "label": "Yes"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:question_12894805007",
+        "expected": "I build software for problems where the interesting part is whether people actually use the thing. With ClarityAtlas, the iOS health product I lead technically, the hard work was not just the passive sleep-estimation system I built on HealthKit and Core Motion signals like step count and gait speed. It was recruiting users, running a live Hopkins pilot with 30+ people, and repeatedly explaining why the product should exist. Internal communications software has the same shape: the measure of success is whether a message reaches an employee and does something, not whether the pipeline technically ran. Workshop being a venture-backed startup is a large part of the appeal. On the anomaly-detection system I work on at SAC Nexus, I own the repository and CI scaffold, the event-ingestion pipeline, and a versioned FastAPI service, and I have learned a lot from owning something end to end rather than picking up isolated tickets. I want an internship where a junior engineer is expected to ship real pieces of a product and hear from the people using them, and a team of Workshop's size and stage seems like where that actually happens.",
+        "observed": "I build software for problems where the interesting part is whether people actually use the thing. With ClarityAtlas, the iOS health product I lead technically, the hard work was not just the passive sleep-estimation system I built on HealthKit and Core M",
+        "match": true
+      },
+      {
+        "canonical_field": "requires_sponsorship",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 115393,
+      "verified": true,
+      "evidence": "input files: []; stillAttached=false; chip=true"
+    }
+  ],
+  "written_at": "2026-09-15T06:42:49.285Z"
+}
