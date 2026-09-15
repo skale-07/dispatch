@@ -1,0 +1,268 @@
+{
+  "ats": "ashby",
+  "url": "https://jobs.ashbyhq.com/tilderesearch/b2e145db-0111-47c1-9d9f-e856a057d8ef/application",
+  "requested_url": "https://jobs.ashbyhq.com/tilderesearch/b2e145db-0111-47c1-9d9f-e856a057d8ef/application",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://jobs.ashbyhq.com/tilderesearch/b2e145db-0111-47c1-9d9f-e856a057d8ef/application",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 9,
+    "skipped_count": 4,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "f_0",
+      "label": "Application",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "e34c6711-f2db-4c55-9e4a-2122db27c6c4",
+      "label": "Are you interested in internship, full-time, or both?",
+      "type": "text",
+      "canonical_field": "screener:custom:internship_or_fulltime_interest",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "_systemfield_name",
+      "label": "Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Single full-name field: composed legal_name.first + legal_name.last (both safe factual canonicals)"
+    },
+    {
+      "field_id": "_systemfield_email",
+      "label": "Email",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "_systemfield_resume",
+      "label": "Resume",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "40b7f44f-01c9-4ef6-ac6d-dd19165bb49b",
+      "label": "Personal Website/Blog",
+      "type": "text",
+      "canonical_field": "personal_website",
+      "action": "SKIP",
+      "reason": "Profile value empty for personal_website"
+    },
+    {
+      "field_id": "64938134-c7a3-437e-85af-ce4f036bceaf",
+      "label": "GitHub",
+      "type": "text",
+      "canonical_field": "github_url",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "cdc4e5c0-ae70-4071-83c6-ae9107cfddae",
+      "label": "Twitter",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "e83f50e1-1695-4c91-b08f-540b4e6a3226",
+      "label": "LinkedIn",
+      "type": "text",
+      "canonical_field": "linkedin_url",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "8e6a4427-63d5-48a3-b020-e006766b7f7c",
+      "label": "Describe a technically challenging bug you encountered while building ML training or inference infrastructure. What made it hard to debug, and how did you ultimately resolve it?",
+      "type": "textarea",
+      "canonical_field": "essay:generated:8e6a4427-63d5-48a3-b020-e006766b7f7c",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "fd3c6869-7b76-4bab-a872-fcf028b03694",
+      "label": "Which deep learning frameworks and tools have you worked with (e.g., PyTorch, TensorFlow, JAX, Triton, CUDA)? How many years of experience with each?",
+      "type": "textarea",
+      "canonical_field": "essay:generated:fd3c6869-7b76-4bab-a872-fcf028b03694",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "6c192781-b6ef-4998-b992-69dc10246e60",
+      "label": "What are your career goals and why do you think this role helps actualize them?",
+      "type": "textarea",
+      "canonical_field": "essay:generated:6c192781-b6ef-4998-b992-69dc10246e60",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "d4ae3b7c-1c63-400c-82f9-6a51fb5247db",
+      "label": "Is there anything you'd like us to know about you?",
+      "type": "textarea",
+      "canonical_field": "essay:generated:d4ae3b7c-1c63-400c-82f9-6a51fb5247db",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\ashby-live\\form-snapshot-1789454815329.html",
+  "fill": {
+    "filled": [
+      "screener:custom:internship_or_fulltime_interest",
+      "legal_name.first",
+      "email",
+      "github_url",
+      "linkedin_url",
+      "essay:generated:8e6a4427-63d5-48a3-b020-e006766b7f7c",
+      "essay:generated:fd3c6869-7b76-4bab-a872-fcf028b03694",
+      "essay:generated:6c192781-b6ef-4998-b992-69dc10246e60",
+      "essay:generated:d4ae3b7c-1c63-400c-82f9-6a51fb5247db"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "e34c6711-f2db-4c55-9e4a-2122db27c6c4",
+        "canonical_field": "screener:custom:internship_or_fulltime_interest",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "_systemfield_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "_systemfield_email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "64938134-c7a3-437e-85af-ce4f036bceaf",
+        "canonical_field": "github_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "e83f50e1-1695-4c91-b08f-540b4e6a3226",
+        "canonical_field": "linkedin_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "8e6a4427-63d5-48a3-b020-e006766b7f7c",
+        "canonical_field": "essay:generated:8e6a4427-63d5-48a3-b020-e006766b7f7c",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "fd3c6869-7b76-4bab-a872-fcf028b03694",
+        "canonical_field": "essay:generated:fd3c6869-7b76-4bab-a872-fcf028b03694",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "6c192781-b6ef-4998-b992-69dc10246e60",
+        "canonical_field": "essay:generated:6c192781-b6ef-4998-b992-69dc10246e60",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "d4ae3b7c-1c63-400c-82f9-6a51fb5247db",
+        "canonical_field": "essay:generated:d4ae3b7c-1c63-400c-82f9-6a51fb5247db",
+        "control_kind": "text"
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "screener:custom:internship_or_fulltime_interest",
+        "expected": "Internship",
+        "observed": "Internship",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham Kale",
+        "observed": "Shubham Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "github_url",
+        "expected": "https://github.com/skale-07",
+        "observed": "https://github.com/skale-07",
+        "match": true
+      },
+      {
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:8e6a4427-63d5-48a3-b020-e006766b7f7c",
+        "expected": "The hardest problems I've hit in ML infrastructure weren't crashes. On the SAC Nexus anomaly-detection system, where I own the event-ingestion pipeline, the versioned FastAPI detection service, and the temporal sequence models over event streams, the failures that cost me the most time were the ones where everything returned a valid response. A scoring path can look healthy, pass tests, and still be operationally wrong because the alert ordering it produces is useless to an analyst. That is hard to debug because there is no exception to trace back from, so I had to build the observability first: separate the ingestion, scoring, and ranking layers so I could isolate which one was responsible, and treat the LLM explanation layer as a diagnostic rather than assuming its output reflected the model. That experience is why, on my job-application agent, I built an explicit validation ladder (UNIT_CONFIRMED to FIXTURE_CONFIRMED to LIVE_READ_ONLY_CONFIRMED to LIVE_MUTATION_CONFIRMED). Passing against a local fixture is not evidence that a capability works against reality, and I had learned that the expensive way.",
+        "observed": "The hardest problems I've hit in ML infrastructure weren't crashes. On the SAC Nexus anomaly-detection system, where I own the event-ingestion pipeline, the versioned FastAPI detection service, and the temporal sequence models over event streams, the failures that cost me the most time were the ones where everything returned a valid response. A scoring path can look healthy, pass tests, and still be operationally wrong because the alert ordering it produces is useless to an analyst. That is hard to debug because there is no exception to trace back from, so I had to build the observability first: separate the ingestion, scoring, and ranking layers so I could isolate which one was responsible, and treat the LLM explanation layer as a diagnostic rather than assuming its output reflected the model. That experience is why, on my job-application agent, I built an explicit validation ladder (UNIT_CONFIRMED to FIXTURE_CONFIRMED to LIVE_READ_ONLY_CONFIRMED to LIVE_MUTATION_CONFIRMED). Passing against a local fixture is not evidence that a capability works against reality, and I had learned that the expensive way.",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:fd3c6869-7b76-4bab-a872-fcf028b03694",
+        "expected": "PyTorch is my main deep learning framework, from training a CNN for facial-landmark prediction (~95% PCK) through RNN/Transformer-style sequence models for anomaly detection over the past couple of years; alongside that I work daily in Python with FastAPI, XGBoost and SHAP, and in TypeScript/Node with Playwright and the OpenAI API, and I've written embedded C/C++ for a dust sensor. I haven't yet written production JAX, Triton, or CUDA kernels.",
+        "observed": "PyTorch is my main deep learning framework, from training a CNN for facial-landmark prediction (~95% PCK) through RNN/Transformer-style sequence models for anomaly detection over the past couple of years; alongside that I work daily in Python with FastAPI, XGBoost and SHAP, and in TypeScript/Node with Playwright and the OpenAI API, and I've written embedded C/C++ for a dust sensor. I haven't yet written production JAX, Triton, or CUDA kernels.",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:6c192781-b6ef-4998-b992-69dc10246e60",
+        "expected": "I want to build systems that decide whether AI output should be trusted, and eventually build companies or institutions around that problem. That interest is concrete, not abstract: at Intelehealth I designed an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case clinical standard using stratified sampling, and what stuck with me was that generating an answer is cheap while deciding whether to trust it is the expensive part. My independent research on how scientific institutions select uncertain work pushed me to the same place from a different direction, which is that as AI makes generation abundant, judgment becomes the bottleneck. Understanding how large models actually think is upstream of all of that. You cannot evaluate a system whose internals are a black box; you can only score its outputs. The part I would want to work on at Tilde is the infrastructure side, training and inference tooling for interpretability experiments, because I already own that layer on an anomaly-detection system and I learn fastest when I'm responsible for a real piece of a system rather than isolated tickets.",
+        "observed": "I want to build systems that decide whether AI output should be trusted, and eventually build companies or institutions around that problem. That interest is concrete, not abstract: at Intelehealth I designed an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case clinical standard using stratified sampling, and what stuck with me was that generating an answer is cheap while deciding whether to trust it is the expensive part. My independent research on how scientific institutions select uncertain work pushed me to the same place from a different direction, which is that as AI makes generation abundant, judgment becomes the bottleneck. Understanding how large models actually think is upstream of all of that. You cannot evaluate a system whose internals are a black box; you can only score its outputs. The part I would want to work on at Tilde is the infrastructure side, training and inference tooling for interpretability experiments, because I already own that layer on an anomaly-detection system and I learn fastest when I'm responsible for a real piece of a system rather than isolated tickets.",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:d4ae3b7c-1c63-400c-82f9-6a51fb5247db",
+        "expected": "Two things. First, I care as much about where automation should stop as about where it can go. When I built my Playwright job-application agent, I architecturally prevented free-text essays and demographic fields from being auto-filled, put every mutating capability behind fail-closed flags, and had the system detect and deliberately skip Workday and iCIMS rather than handle them unreliably. I'd rather ship a smaller system I can make claims about than a broad one I can't. Second, I'm persistent in ways that are sometimes unreasonable. During Hopkins' Lighting of the Quads, my cofounders and I realized President Daniels was in Garland Hall, saw him through the locked doors, and knocked until we got to pitch him ClarityAtlas. That turned into a formal meeting months later with Hopkins leadership and the Data Science and AI Institute. I also change my mind when evidence goes against me; I started my research thinking grant-writing time was science's main constraint and now think the selection effect on which ideas get attempted matters more.",
+        "observed": "Two things. First, I care as much about where automation should stop as about where it can go. When I built my Playwright job-application agent, I architecturally prevented free-text essays and demographic fields from being auto-filled, put every mutating capability behind fail-closed flags, and had the system detect and deliberately skip Workday and iCIMS rather than handle them unreliably. I'd rather ship a smaller system I can make claims about than a broad one I can't. Second, I'm persistent in ways that are sometimes unreasonable. During Hopkins' Lighting of the Quads, my cofounders and I realized President Daniels was in Garland Hall, saw him through the locked doors, and knocked until we got to pitch him ClarityAtlas. That turned into a formal meeting months later with Hopkins leadership and the Data Science and AI Institute. I also change my mind when evidence goes against me; I started my research thinking grant-writing time was science's main constraint and now think the selection effect on which ideas get attempted matters more.",
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 126181,
+      "verified": true,
+      "evidence": "input files: [{\"name\":\"resume-d5f6e235.pdf\",\"size\":126181}]; stillAttached=true; chip=true; resolved via primary"
+    }
+  ],
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: form (13 fillable field(s))",
+    "timing: base page (13 planned) — plan 40s, fill 4s, verify 0s",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "written_at": "2026-09-15T06:47:02.863Z"
+}
