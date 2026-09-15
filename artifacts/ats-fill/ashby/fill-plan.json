@@ -77,10 +77,10 @@
         "field_id": "c0ffee00-1111-2222-3333-444455556666",
         "label": "Are you legally authorized to work in the United States?",
         "type": "radio",
-        "canonical_field": "work_authorization",
+        "canonical_field": "screener:work_authorization",
         "action": "review_required",
         "value": null,
-        "reason": "Required work_authorization missing from profile — human review"
+        "reason": "work_authorization matched but has no answer in screeners.json — add one"
       },
       {
         "field_id": "eeee5555-6666-7777-8888-99990000aaaa",
@@ -172,11 +172,11 @@
         "field_id": "c0ffee00-1111-2222-3333-444455556666",
         "label": "Are you legally authorized to work in the United States?",
         "type": "radio",
-        "canonical_field": "work_authorization",
+        "canonical_field": "screener:work_authorization",
         "action": "REVIEW_REQUIRED",
         "approved": false,
         "value": null,
-        "reason": "Required work_authorization missing from profile — human review"
+        "reason": "work_authorization matched but has no answer in screeners.json — add one"
       },
       {
         "field_id": "eeee5555-6666-7777-8888-99990000aaaa",
@@ -203,5 +203,5 @@
   "notes": [
     "plan_only — set --execute with FORM_FILL_ENABLED=true and DRY_RUN=false to mutate"
   ],
-  "written_at": "2026-09-14T15:57:41.099Z"
+  "written_at": "2026-09-15T04:50:08.537Z"
 }

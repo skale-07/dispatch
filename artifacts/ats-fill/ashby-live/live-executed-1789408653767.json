@@ -1,0 +1,444 @@
+{
+  "ats": "ashby",
+  "url": "https://jobs.ashbyhq.com/cyvl/8bfc4116-b0bb-47f8-bca1-7069a37db328/application",
+  "requested_url": "https://jobs.ashbyhq.com/cyvl/8bfc4116-b0bb-47f8-bca1-7069a37db328/application",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://jobs.ashbyhq.com/cyvl/8bfc4116-b0bb-47f8-bca1-7069a37db328/application",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 8,
+    "skipped_count": 3,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "f_0",
+      "label": "Application",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "_systemfield_name",
+      "label": "Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Single full-name field: composed legal_name.first + legal_name.last (both safe factual canonicals)"
+    },
+    {
+      "field_id": "_systemfield_email",
+      "label": "Email",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "_systemfield_resume",
+      "label": "Resume",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "46f431ac-8344-4e5d-b5cd-d40269f10235",
+      "label": "Website",
+      "type": "text",
+      "canonical_field": "personal_website",
+      "action": "SKIP",
+      "reason": "Profile value empty for personal_website"
+    },
+    {
+      "field_id": "836da35e-f89c-4bad-84ff-3b97777b8819",
+      "label": "GitHub",
+      "type": "text",
+      "canonical_field": "github_url",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "e291b578-ad15-4dfd-8441-e11dc99b82e1",
+      "label": "Why does this role interest you specifically? How does it align with your current goals?",
+      "type": "textarea",
+      "canonical_field": "essay:generated:e291b578-ad15-4dfd-8441-e11dc99b82e1",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "e2643cbf-ec3c-4d26-a94d-bdde9d2abd58",
+      "label": "Are you able to work 5 days a week in the Somerville office?",
+      "type": "select",
+      "canonical_field": "screener:willing_to_relocate",
+      "action": "FILL",
+      "reason": "Screener bank answer (synonym_option)"
+    },
+    {
+      "field_id": "96af40f1-8346-40f3-8e72-0f9cc0467eb1",
+      "label": "Are you legally authorized to work in the country where this job is located?",
+      "type": "select",
+      "canonical_field": "work_authorization",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "44fd1824-7f5f-454c-a914-da40c6846b84",
+      "label": "Do you now, or will you ever, require employment sponsorship to work in the country where this job is located?",
+      "type": "select",
+      "canonical_field": "requires_sponsorship",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "26543cdc-da0f-46af-bce7-4a20aed6fb42",
+      "label": "Where did you hear about us?",
+      "type": "select",
+      "canonical_field": "screener:how_heard",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\ashby-live\\form-snapshot-1789408653671.html",
+  "fill": {
+    "filled": [],
+    "skipped": [],
+    "errors": [
+      "_systemfield_name: locator.count: Target page, context or browser has been closed",
+      "_systemfield_email: locator.count: Target page, context or browser has been closed",
+      "836da35e-f89c-4bad-84ff-3b97777b8819: locator.count: Target page, context or browser has been closed",
+      "e291b578-ad15-4dfd-8441-e11dc99b82e1: locator.count: Target page, context or browser has been closed",
+      "e2643cbf-ec3c-4d26-a94d-bdde9d2abd58: locator.count: Target page, context or browser has been closed",
+      "96af40f1-8346-40f3-8e72-0f9cc0467eb1: locator.count: Target page, context or browser has been closed",
+      "44fd1824-7f5f-454c-a914-da40c6846b84: locator.count: Target page, context or browser has been closed",
+      "26543cdc-da0f-46af-bce7-4a20aed6fb42: locator.count: Target page, context or browser has been closed"
+    ],
+    "field_meta": []
+  },
+  "verify": {
+    "passed": false,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham Kale",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "github_url",
+        "expected": "https://github.com/skale-07",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "essay:generated:e291b578-ad15-4dfd-8441-e11dc99b82e1",
+        "expected": "I want to work on AI systems that have a concrete user, a real failure mode, and something testable, and infrastructure mapping fits that closely. Most of my best work has come from the same pattern. At Summer Atlantic Capital I built the machine-learning core of an anomaly-detection system, including the event-ingestion pipeline, a versioned FastAPI microservice, temporal sequence models over event streams, and a learning-to-rank layer for prioritizing alerts. The technical modeling was only half of it. An anomaly system that fires too often just replaces one problem with another, so I spent as much time on prioritization and on an RAG explanation layer that made outputs legible to human analysts. That is the part I would want to do at Cyvl: turn sensor and model output into something a person can actually act on. I also like that the role is full-stack. I built and shipped ClarityAtlas, an iOS health product, end to end with Swift, SwiftUI, and Supabase into a live Hopkins pilot with 30+ users, which is the same React/Python/Supabase kind of ownership this posting describes. My goal right now is to own substantial pieces of a real system on a small team, not isolated tickets, and being in-office five days a week in Boston is how I'd learn fastest.",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "screener:willing_to_relocate",
+        "expected": "Yes",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "work_authorization",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "requires_sponsorship",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": null,
+        "match": false
+      },
+      {
+        "canonical_field": "screener:how_heard",
+        "expected": "LinkedIn",
+        "observed": null,
+        "match": false
+      }
+    ],
+    "uploads": [],
+    "warnings": [
+      "verify legal_name.first: locator.count: Target page, context or browser has been closed",
+      "verify email: locator.count: Target page, context or browser has been closed",
+      "verify github_url: locator.count: Target page, context or browser has been closed",
+      "verify essay:generated:e291b578-ad15-4dfd-8441-e11dc99b82e1: locator.count: Target page, context or browser has been closed",
+      "verify screener:willing_to_relocate: locator.count: Target page, context or browser has been closed",
+      "verify work_authorization: locator.count: Target page, context or browser has been closed",
+      "verify requires_sponsorship: locator.count: Target page, context or browser has been closed",
+      "verify screener:how_heard: locator.count: Target page, context or browser has been closed"
+    ]
+  },
+  "uploads": null,
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: form (11 fillable field(s))",
+    "revealed-select: could not re-read the page after fill",
+    "revealed pass failed: page.content: Target page, context or browser has been closed",
+    "timing: base page (11 planned) — plan 10s, fill 0s, verify 0s",
+    "page error scan: no visible validation errors on the page",
+    "page-complete waiver not applied: required-completeness scan did not run",
+    "resume on disk but this page has no file input — not an upload miss",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "operator_brief": {
+    "title": "Live fill — ashby https://jobs.ashbyhq.com/cyvl/8bfc4116-b0bb-47f8-bca1-7069a37db328/application",
+    "summary": "16 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:legal_name.first",
+        "question": "Name",
+        "field_id": "_systemfield_name",
+        "canonical_field": "legal_name.first",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Shubham Kale\"; page shows \"(empty)\"",
+        "expected": "Shubham Kale",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"Shubham Kale\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → legal_name.first",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"legal_name.first\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:email",
+        "question": "Email",
+        "field_id": "_systemfield_email",
+        "canonical_field": "email",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"skale072007@gmail.com\"; page shows \"(empty)\"",
+        "expected": "s***@gmail.com",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"skale072007@gmail.com\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → email",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"email\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:github_url",
+        "question": "GitHub",
+        "field_id": "836da35e-f89c-4bad-84ff-3b97777b8819",
+        "canonical_field": "github_url",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"https://github.com/skale-07\"; page shows \"(empty)\"",
+        "expected": "https://github.com/skale-07",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"https://github.com/skale-07\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → github_url",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"github_url\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:essay:generated:e291b578-ad15-4dfd-8441-e11dc99b82e1",
+        "question": "Why does this role interest you specifically? How does it align with your current goals?",
+        "field_id": "e291b578-ad15-4dfd-8441-e11dc99b82e1",
+        "canonical_field": "essay:generated:e291b578-ad15-4dfd-8441-e11dc99b82e1",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"I want to work on AI systems that have a concrete user, a real failure mode, and something testable, and infrastructure mapping fits that closely. Most of my best work has come from the same pattern. At Summer Atlantic Capital I built the machine-learning core of an anomaly-detection system, including the event-ingestion pipeline, a versioned FastAPI microservice, temporal sequence models over event streams, and a learning-to-rank layer for prioritizing alerts. The technical modeling was only half of it. An anomaly system that fires too often just replaces one problem with another, so I spent as much time on prioritization and on an RAG explanation layer that made outputs legible to human analysts. That is the part I would want to do at Cyvl: turn sensor and model output into something a person can actually act on. I also like that the role is full-stack. I built and shipped ClarityAtlas, an iOS health product, end to end with Swift, SwiftUI, and Supabase into a live Hopkins pilot with 30+ users, which is the same React/Python/Supabase kind of ownership this posting describes. My goal right now is to own substantial pieces of a real system on a small team, not isolated tickets, and being in-office five days a week in Boston is how I'd learn fastest.\"; page shows \"(empty)\"",
+        "expected": "I want to work on AI systems that have a concrete user, a real failure mode, and something testable, and infrastructure mapping fits that closely. Most of my best work has come from the same pattern. At Summer Atlantic Capital I built the machine-learning core of an anomaly-detection system, including the event-ingestion pipeline, a versioned FastAPI microservice, temporal sequence models over event streams, and a learning-to-rank layer for prioritizing alerts. The technical modeling was only half of it. An anomaly system that fires too often just replaces one problem with another, so I spent as much time on prioritization and on an RAG explanation layer that made outputs legible to human analysts. That is the part I would want to do at Cyvl: turn sensor and model output into something a person can actually act on. I also like that the role is full-stack. I built and shipped ClarityAtlas, an iOS health product, end to end with Swift, SwiftUI, and Supabase into a live Hopkins pilot with 30+ users, which is the same React/Python/Supabase kind of ownership this posting describes. My goal right now is to own substantial pieces of a real system on a small team, not isolated tickets, and being in-office five days a week in Boston is how I'd learn fastest.",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"I want to work on AI systems that have a concrete user, a real failure mode, and something testable, and infrastructure mapping fits that closely. Most of my best work has come from the same pattern. At Summer Atlantic Capital I built the machine-learning core of an anomaly-detection system, including the event-ingestion pipeline, a versioned FastAPI microservice, temporal sequence models over event streams, and a learning-to-rank layer for prioritizing alerts. The technical modeling was only half of it. An anomaly system that fires too often just replaces one problem with another, so I spent as much time on prioritization and on an RAG explanation layer that made outputs legible to human analysts. That is the part I would want to do at Cyvl: turn sensor and model output into something a person can actually act on. I also like that the role is full-stack. I built and shipped ClarityAtlas, an iOS health product, end to end with Swift, SwiftUI, and Supabase into a live Hopkins pilot with 30+ users, which is the same React/Python/Supabase kind of ownership this posting describes. My goal right now is to own substantial pieces of a real system on a small team, not isolated tickets, and being in-office five days a week in Boston is how I'd learn fastest.\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: essay:generated:e291b578-ad15-4dfd-8441-e11dc99b82e1)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"essay:generated:e291b578-ad15-4dfd-8441-e11dc99b82e1\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:willing_to_relocate",
+        "question": "Are you able to work 5 days a week in the Somerville office?",
+        "field_id": "e2643cbf-ec3c-4d26-a94d-bdde9d2abd58",
+        "canonical_field": "screener:willing_to_relocate",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Yes\"; page shows \"(empty)\"",
+        "expected": "Yes",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"Yes\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:willing_to_relocate)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:willing_to_relocate\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:work_authorization",
+        "question": "Are you legally authorized to work in the country where this job is located?",
+        "field_id": "96af40f1-8346-40f3-8e72-0f9cc0467eb1",
+        "canonical_field": "work_authorization",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Yes\"; page shows \"(empty)\"",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"Yes\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → work_authorization",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"work_authorization\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:requires_sponsorship",
+        "question": "Do you now, or will you ever, require employment sponsorship to work in the country where this job is located?",
+        "field_id": "44fd1824-7f5f-454c-a914-da40c6846b84",
+        "canonical_field": "requires_sponsorship",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"No\"; page shows \"(empty)\"",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"No\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → requires_sponsorship",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"requires_sponsorship\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:screener:how_heard",
+        "question": "Where did you hear about us?",
+        "field_id": "26543cdc-da0f-46af-bce7-4a20aed6fb42",
+        "canonical_field": "screener:how_heard",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"LinkedIn\"; page shows \"(empty)\"",
+        "expected": "LinkedIn",
+        "observed": null,
+        "how_to_answer": [
+          "System expected \"LinkedIn\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:how_heard)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:how_heard\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "fill_error:_systemfield_name: locator.count: Target page, context or browser has been close",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "_systemfield_name: locator.count: Target page, context or browser has been closed",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:_systemfield_email: locator.count: Target page, context or browser has been clos",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "_systemfield_email: locator.count: Target page, context or browser has been closed",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:836da35e-f89c-4bad-84ff-3b97777b8819: locator.count: Target page, context or bro",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "836da35e-f89c-4bad-84ff-3b97777b8819: locator.count: Target page, context or browser has been closed",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:e291b578-ad15-4dfd-8441-e11dc99b82e1: locator.count: Target page, context or bro",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "e291b578-ad15-4dfd-8441-e11dc99b82e1: locator.count: Target page, context or browser has been closed",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:e2643cbf-ec3c-4d26-a94d-bdde9d2abd58: locator.count: Target page, context or bro",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "e2643cbf-ec3c-4d26-a94d-bdde9d2abd58: locator.count: Target page, context or browser has been closed",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:96af40f1-8346-40f3-8e72-0f9cc0467eb1: locator.count: Target page, context or bro",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "96af40f1-8346-40f3-8e72-0f9cc0467eb1: locator.count: Target page, context or browser has been closed",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:44fd1824-7f5f-454c-a914-da40c6846b84: locator.count: Target page, context or bro",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "44fd1824-7f5f-454c-a914-da40c6846b84: locator.count: Target page, context or browser has been closed",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:26543cdc-da0f-46af-bce7-4a20aed6fb42: locator.count: Target page, context or bro",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "26543cdc-da0f-46af-bce7-4a20aed6fb42: locator.count: Target page, context or browser has been closed",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      }
+    ],
+    "ok_count": 0,
+    "fail_count": 16
+  },
+  "written_at": "2026-09-14T17:57:33.814Z"
+}

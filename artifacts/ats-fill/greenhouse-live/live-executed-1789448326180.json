@@ -1,0 +1,1454 @@
+{
+  "mode": "executed",
+  "ats": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/doordashusa/jobs/8171041",
+  "plan": {
+    "answers": {
+      "legal_name.first": "Shubham",
+      "legal_name.last": "Kale",
+      "email": "s***@gmail.com",
+      "address.country": "United States",
+      "phone": "***-***-7636",
+      "address.city": "Baltimore",
+      "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+      "work_authorization": "[REDACTED_SPONSORSHIP]",
+      "requires_sponsorship": "[REDACTED_SPONSORSHIP]",
+      "screener:previously_applied_or_worked": "I have not worked at DoorDash",
+      "screener:custom:bachelors_grad_date": "September 2028 or later",
+      "screener:custom:predicted:question_68926372": "Yes",
+      "screener:custom:predicted:question_68926373[]": "New York",
+      "screener:custom:predicted:question_68926374[]": "Machine Learning",
+      "screener:custom:predicted:question_68926375": "Yes",
+      "screener:custom:predicted:question_68926376[]": "3.41 - 3.74",
+      "screener:custom:predicted:question_68940774[]": "Launchpad & AI Research",
+      "screener:consent_agreement": "Yes",
+      "screener:custom:predicted:question_68925081": "Yes",
+      "gender": "Male",
+      "transgender": "No",
+      "hispanic_latino": "No",
+      "race_ethnicity": "South Asian",
+      "veteran_status": "I am not a veteran",
+      "disability_status": "No"
+    },
+    "entries": [
+      {
+        "field_id": "first_name",
+        "label": "First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "fill",
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "last_name",
+        "label": "Last Name",
+        "type": "text",
+        "canonical_field": "legal_name.last",
+        "action": "fill",
+        "value": "Kale",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "email",
+        "label": "Email",
+        "type": "text",
+        "canonical_field": "email",
+        "action": "fill",
+        "value": "s***@gmail.com",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "country",
+        "label": "Country",
+        "type": "text",
+        "canonical_field": "address.country",
+        "action": "fill",
+        "value": "United States +1",
+        "reason": "Mapped from public profile; placed onto \"United States +1\""
+      },
+      {
+        "field_id": "iti-0__search-input",
+        "label": "Search",
+        "type": "unknown",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "phone",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "fill",
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "candidate-location",
+        "label": "Location (City)",
+        "type": "text",
+        "canonical_field": "address.city",
+        "action": "fill",
+        "value": "Baltimore",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "resume",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "skip_file",
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "cover_letter",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "skip_file",
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "school--0",
+        "label": "School",
+        "type": "text",
+        "canonical_field": "history:education[0].school",
+        "action": "fill",
+        "value": "Johns Hopkins University",
+        "reason": "Structured education entry 1 (Johns Hopkins University) — school"
+      },
+      {
+        "field_id": "degree--0",
+        "label": "Degree",
+        "type": "text",
+        "canonical_field": "history:education[0].degree",
+        "action": "fill",
+        "value": "Bachelor's Degree",
+        "reason": "Structured education entry 1 (Johns Hopkins University) — degree; placed onto \"Bachelor's Degree\""
+      },
+      {
+        "field_id": "question_68925075",
+        "label": "LinkedIn Profile",
+        "type": "text",
+        "canonical_field": "linkedin_url",
+        "action": "fill",
+        "value": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_68925076",
+        "label": "Are you legally authorized to work in the United States?",
+        "type": "text",
+        "canonical_field": "work_authorization",
+        "action": "fill",
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_68925077",
+        "label": "Will you now require immigration sponsorship by our company to attain or maintain your employment eligibility (e.g., H-1B, E-3, TN, O-1, STEM OPT, or any immigration work authorization requiring a written submission from the company to a government agency)?",
+        "type": "text",
+        "canonical_field": "requires_sponsorship",
+        "action": "fill",
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_68925078",
+        "label": "Will you in the future require immigration sponsorship by our company to attain or maintain your employment eligibility (e.g., H-1B, E-3, TN, O-1, STEM OPT, or any immigration work authorization requiring a written submission from the company to a government agency)?",
+        "type": "text",
+        "canonical_field": "requires_sponsorship",
+        "action": "fill",
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_68925079",
+        "label": "Have you worked at DoorDash?",
+        "type": "text",
+        "canonical_field": "screener:previously_applied_or_worked",
+        "action": "fill",
+        "value": "I have not worked at DoorDash",
+        "reason": "Screener bank answer (llm_option)"
+      },
+      {
+        "field_id": "question_68926371[]",
+        "label": "Please select and confirm your anticipated graduation date (Please note you must be currently enrolled in a program).",
+        "type": "text",
+        "canonical_field": "screener:custom:bachelors_grad_date",
+        "action": "fill",
+        "value": "September 2028 or later",
+        "reason": "Screener bank answer (llm_option)"
+      },
+      {
+        "field_id": "question_68926372",
+        "label": "Have you received a competitive academic scholarship, fellowship, or academic honor?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_68926372",
+        "action": "fill",
+        "value": "Yes",
+        "reason": "Predicted from operator context (llm_predict): Candidate was a national finalist in the Junior Science and Humanities Symposium, sole-author published researcher, and selected for the Pava Spark Accelerator and NSF I-Corps."
+      },
+      {
+        "field_id": "question_68926373[]",
+        "label": "Select all locations you would be open to being placed",
+        "type": "checkbox",
+        "canonical_field": "screener:custom:predicted:question_68926373[]",
+        "action": "fill",
+        "value": "New York",
+        "reason": "Predicted from operator context (llm_predict): Candidate is based in Baltimore and open to relocation, making New York the most practical listed placement."
+      },
+      {
+        "field_id": "question_68926374[]",
+        "label": "Which technical domains are you most interested in?",
+        "type": "checkbox",
+        "canonical_field": "screener:custom:predicted:question_68926374[]",
+        "action": "fill",
+        "value": "Machine Learning",
+        "reason": "Predicted from operator context (llm_predict): Candidate's core work is applied machine learning (anomaly detection, LLM evaluation, modeling), making ML the closest fit among the listed domains."
+      },
+      {
+        "field_id": "question_68926375",
+        "label": "Have you previously completed at least 1 internship or have relevant full-time experience?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_68926375",
+        "action": "fill",
+        "value": "Yes",
+        "reason": "Predicted from operator context (llm_predict): Learned answers confirm prior internship/work experience, including Intelehealth and Summer Atlantic Capital."
+      },
+      {
+        "field_id": "question_68926376[]",
+        "label": "Please indicate your most recent GPA",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_68926376[]",
+        "action": "fill",
+        "value": "3.41 - 3.74",
+        "reason": "Predicted from operator context (llm_predict): Profile GPA of 3.7 falls in the 3.41 - 3.74 band."
+      },
+      {
+        "field_id": "question_68940774[]",
+        "label": "Which engineering organizations are you most interested in? Select up to 3 preferences. Please review our Engineering Team Overview to learn more about each organization before making your selections - https://careersatdoordash.com/blog/doordash-engineering-team-overview-2026/",
+        "type": "checkbox",
+        "canonical_field": "screener:custom:predicted:question_68940774[]",
+        "action": "fill",
+        "value": "Launchpad & AI Research",
+        "reason": "Predicted from operator context (llm_predict): Their interests center on AI systems, evaluation, and research infrastructure, which maps to the Launchpad & AI Research organization."
+      },
+      {
+        "field_id": "question_68925080",
+        "label": "Applicant Privacy Acknowledgement",
+        "type": "text",
+        "canonical_field": "screener:consent_agreement",
+        "action": "fill",
+        "value": "Yes",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_68925081",
+        "label": "Would you like to receive communications via SMS and/or WhatsApp to the number provided [above or during the application process] about your application process? Message & data rates may apply and message frequency may vary. If you select no, we will only communicate with you via email and/or telephone calls. If you select yes and change your mind, you can always reply STOP to opt out.",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_68925081",
+        "action": "fill",
+        "value": "Yes",
+        "reason": "Predicted from operator context (llm_predict): Candidate has previously consented to receiving text message communications about applications."
+      },
+      {
+        "field_id": "864",
+        "label": "Gender",
+        "type": "text",
+        "canonical_field": "gender",
+        "action": "fill",
+        "value": "Male",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "1328",
+        "label": "Do you identify as transgender?",
+        "type": "text",
+        "canonical_field": "transgender",
+        "action": "fill",
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "1332",
+        "label": "Are you Hispanic or Latinx?",
+        "type": "text",
+        "canonical_field": "hispanic_latino",
+        "action": "fill",
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "1333",
+        "label": "Race (*Please select one option that best describes how you identify*)",
+        "type": "text",
+        "canonical_field": "race_ethnicity",
+        "action": "fill",
+        "value": "South Asian",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "1336",
+        "label": "Protected Veteran Status",
+        "type": "text",
+        "canonical_field": "veteran_status",
+        "action": "fill",
+        "value": "I am not a veteran",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "1337",
+        "label": "Disability Status",
+        "type": "text",
+        "canonical_field": "disability_status",
+        "action": "fill",
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      }
+    ],
+    "fillable_count": 28,
+    "skipped_count": 3,
+    "review_required_count": 0
+  },
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "schema diff: 18/20 declared question(s) matched onto 31 DOM field(s); 2 declared-only (1 required); 13 DOM-only",
+    "board API declared 20 question(s); matched complete option lists onto 13 field(s)",
+    "option harvest: \"Location (City)\" is a combobox but offered no readable options",
+    "option harvest: scraped real options for 9/15 control(s) before planning",
+    "frozen after fill→verify→upload — no further field mutation; submit never called"
+  ],
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "final_url": "https://job-boards.greenhouse.io/doordashusa/jobs/8171041",
+  "identity_verification": {
+    "requestedUrl": "https://job-boards.greenhouse.io/doordashusa/jobs/8171041",
+    "finalUrl": "https://job-boards.greenhouse.io/doordashusa/jobs/8171041",
+    "requestedJobId": "8171041",
+    "observedJobId": "8171041",
+    "company": "doordashusa",
+    "role": "Job Application for Software Engineer, Intern (Summer 2027) - US at DoorDash USA",
+    "formDetected": true,
+    "fieldCount": 31,
+    "warnings": [
+      "login_wall_low: auth_provider_marker"
+    ],
+    "passed": true,
+    "failureCode": null,
+    "failureReason": null
+  },
+  "captcha_detection": {
+    "detected": false,
+    "confidence": "LOW",
+    "signals": [],
+    "dormantMarkers": [
+      "recaptcha_api_script_loaded",
+      "generic_captcha_word_only"
+    ]
+  },
+  "login_wall_detection": {
+    "detected": false,
+    "confidence": "LOW",
+    "signals": [
+      "auth_provider_marker"
+    ]
+  },
+  "failure_code": null,
+  "mutation_attempted": true,
+  "schema_diff": {
+    "board": "doordashusa",
+    "job_id": "8171041",
+    "declared_count": 20,
+    "dom_count": 31,
+    "matched": 18,
+    "api_only": [
+      {
+        "label": "Resume/CV",
+        "required": true
+      },
+      {
+        "label": "Cover Letter",
+        "required": false
+      }
+    ],
+    "dom_only": [
+      "Country",
+      "Search",
+      "Location (City)",
+      "Attach",
+      "Attach",
+      "School",
+      "Degree",
+      "Gender",
+      "Do you identify as transgender?",
+      "Are you Hispanic or Latinx?",
+      "Race (*Please select one option that best describes how you identify*)",
+      "Protected Veteran Status",
+      "Disability Status"
+    ],
+    "option_mismatches": []
+  },
+  "harvested_options": [
+    {
+      "field_id": "country",
+      "label": "Country",
+      "answer_space": "closed",
+      "option_count": 244,
+      "options": [
+        "United States +1",
+        "Afghanistan +93",
+        "Åland Islands +358",
+        "Albania +355",
+        "Algeria +213",
+        "American Samoa +1",
+        "Andorra +376",
+        "Angola +244",
+        "Anguilla +1",
+        "Antigua & Barbuda +1",
+        "Argentina +54",
+        "Armenia +374",
+        "Aruba +297",
+        "Ascension Island +247",
+        "Australia +61",
+        "Austria +43",
+        "Azerbaijan +994",
+        "Bahamas +1",
+        "Bahrain +973",
+        "Bangladesh +880",
+        "Barbados +1",
+        "Belarus +375",
+        "Belgium +32",
+        "Belize +501",
+        "Benin +229"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "school--0",
+      "label": "School",
+      "answer_space": "closed",
+      "option_count": 100,
+      "options": [
+        "Aalborg University",
+        "Aalto University",
+        "Aarhus University",
+        "Abertay University",
+        "Aberystwyth University",
+        "Abilene Christian University",
+        "Abo Akademi University",
+        "Abraham Baldwin Agricultural College",
+        "Abu Dhabi University",
+        "Academy of Art University",
+        "Acadia University",
+        "Acharya Nagarjuna University",
+        "Acupuncture and Integrative Medicine College - Berkeley",
+        "Adams State University",
+        "Adelphi University",
+        "Adrian College",
+        "Adventist University of Health Sciences",
+        "Agnes Scott College",
+        "AIB College of Business",
+        "Ain Shams University",
+        "Airlangga University",
+        "Ajou University",
+        "Alabama A&M University",
+        "Alabama State University",
+        "Alaska Pacific University"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "degree--0",
+      "label": "Degree",
+      "answer_space": "closed",
+      "option_count": 10,
+      "options": [
+        "Associate's Degree",
+        "Bachelor's Degree",
+        "Doctor of Medicine (M.D.)",
+        "Doctor of Philosophy (Ph.D.)",
+        "Engineer's Degree",
+        "High School",
+        "Juris Doctor (J.D.)",
+        "Master of Business Administration (M.B.A.)",
+        "Master's Degree",
+        "Other"
+      ],
+      "other_option": "Other"
+    },
+    {
+      "field_id": "864",
+      "label": "Gender",
+      "answer_space": "closed",
+      "option_count": 4,
+      "options": [
+        "Male",
+        "Female",
+        "Non-binary",
+        "I don't wish to answer"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "1328",
+      "label": "Do you identify as transgender?",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "Yes",
+        "No",
+        "I don't wish to answer"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "1332",
+      "label": "Are you Hispanic or Latinx?",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "Yes",
+        "No",
+        "I don't wish to answer"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "1333",
+      "label": "Race (*Please select one option that best describes how you identify*)",
+      "answer_space": "closed",
+      "option_count": 8,
+      "options": [
+        "American Indian or Alaska Native",
+        "Asian",
+        "Black or African American",
+        "Hispanic or Latino",
+        "Native Hawaiian or Other Pacific Islander",
+        "Two or more races",
+        "White",
+        "I don't wish to answer"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "1336",
+      "label": "Protected Veteran Status",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "I am one or more of the classifications of protected veterans",
+        "I am not a protected veteran",
+        "I don't wish to answer"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "1337",
+      "label": "Disability Status",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "Yes, I have (or have previously had) a disability",
+        "No, I don’t have a disability",
+        "I don't wish to answer"
+      ],
+      "other_option": null
+    }
+  ],
+  "approved_plan": {
+    "entries": [
+      {
+        "field_id": "first_name",
+        "label": "First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "FILL",
+        "approved": true,
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "last_name",
+        "label": "Last Name",
+        "type": "text",
+        "canonical_field": "legal_name.last",
+        "action": "FILL",
+        "approved": true,
+        "value": "Kale",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "email",
+        "label": "Email",
+        "type": "text",
+        "canonical_field": "email",
+        "action": "FILL",
+        "approved": true,
+        "value": "s***@gmail.com",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "country",
+        "label": "Country",
+        "type": "text",
+        "canonical_field": "address.country",
+        "action": "FILL",
+        "approved": true,
+        "value": "United States +1",
+        "reason": "Mapped from public profile; placed onto \"United States +1\""
+      },
+      {
+        "field_id": "iti-0__search-input",
+        "label": "Search",
+        "type": "unknown",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "phone",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "FILL",
+        "approved": true,
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "candidate-location",
+        "label": "Location (City)",
+        "type": "text",
+        "canonical_field": "address.city",
+        "action": "FILL",
+        "approved": true,
+        "value": "Baltimore",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "resume",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "cover_letter",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "school--0",
+        "label": "School",
+        "type": "text",
+        "canonical_field": "history:education[0].school",
+        "action": "FILL",
+        "approved": true,
+        "value": "Johns Hopkins University",
+        "reason": "Structured education entry 1 (Johns Hopkins University) — school"
+      },
+      {
+        "field_id": "degree--0",
+        "label": "Degree",
+        "type": "text",
+        "canonical_field": "history:education[0].degree",
+        "action": "FILL",
+        "approved": true,
+        "value": "Bachelor's Degree",
+        "reason": "Structured education entry 1 (Johns Hopkins University) — degree; placed onto \"Bachelor's Degree\""
+      },
+      {
+        "field_id": "question_68925075",
+        "label": "LinkedIn Profile",
+        "type": "text",
+        "canonical_field": "linkedin_url",
+        "action": "FILL",
+        "approved": true,
+        "value": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_68925076",
+        "label": "Are you legally authorized to work in the United States?",
+        "type": "text",
+        "canonical_field": "work_authorization",
+        "action": "FILL",
+        "approved": true,
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_68925077",
+        "label": "Will you now require immigration sponsorship by our company to attain or maintain your employment eligibility (e.g., H-1B, E-3, TN, O-1, STEM OPT, or any immigration work authorization requiring a written submission from the company to a government agency)?",
+        "type": "text",
+        "canonical_field": "requires_sponsorship",
+        "action": "FILL",
+        "approved": true,
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_68925078",
+        "label": "Will you in the future require immigration sponsorship by our company to attain or maintain your employment eligibility (e.g., H-1B, E-3, TN, O-1, STEM OPT, or any immigration work authorization requiring a written submission from the company to a government agency)?",
+        "type": "text",
+        "canonical_field": "requires_sponsorship",
+        "action": "FILL",
+        "approved": true,
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_68925079",
+        "label": "Have you worked at DoorDash?",
+        "type": "text",
+        "canonical_field": "screener:previously_applied_or_worked",
+        "action": "FILL",
+        "approved": true,
+        "value": "I have not worked at DoorDash",
+        "reason": "Screener bank answer (llm_option)"
+      },
+      {
+        "field_id": "question_68926371[]",
+        "label": "Please select and confirm your anticipated graduation date (Please note you must be currently enrolled in a program).",
+        "type": "text",
+        "canonical_field": "screener:custom:bachelors_grad_date",
+        "action": "FILL",
+        "approved": true,
+        "value": "September 2028 or later",
+        "reason": "Screener bank answer (llm_option)"
+      },
+      {
+        "field_id": "question_68926372",
+        "label": "Have you received a competitive academic scholarship, fellowship, or academic honor?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_68926372",
+        "action": "FILL",
+        "approved": true,
+        "value": "Yes",
+        "reason": "Predicted from operator context (llm_predict): Candidate was a national finalist in the Junior Science and Humanities Symposium, sole-author published researcher, and selected for the Pava Spark Accelerator and NSF I-Corps."
+      },
+      {
+        "field_id": "question_68926373[]",
+        "label": "Select all locations you would be open to being placed",
+        "type": "checkbox",
+        "canonical_field": "screener:custom:predicted:question_68926373[]",
+        "action": "FILL",
+        "approved": true,
+        "value": "New York",
+        "reason": "Predicted from operator context (llm_predict): Candidate is based in Baltimore and open to relocation, making New York the most practical listed placement."
+      },
+      {
+        "field_id": "question_68926374[]",
+        "label": "Which technical domains are you most interested in?",
+        "type": "checkbox",
+        "canonical_field": "screener:custom:predicted:question_68926374[]",
+        "action": "FILL",
+        "approved": true,
+        "value": "Machine Learning",
+        "reason": "Predicted from operator context (llm_predict): Candidate's core work is applied machine learning (anomaly detection, LLM evaluation, modeling), making ML the closest fit among the listed domains."
+      },
+      {
+        "field_id": "question_68926375",
+        "label": "Have you previously completed at least 1 internship or have relevant full-time experience?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_68926375",
+        "action": "FILL",
+        "approved": true,
+        "value": "Yes",
+        "reason": "Predicted from operator context (llm_predict): Learned answers confirm prior internship/work experience, including Intelehealth and Summer Atlantic Capital."
+      },
+      {
+        "field_id": "question_68926376[]",
+        "label": "Please indicate your most recent GPA",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_68926376[]",
+        "action": "FILL",
+        "approved": true,
+        "value": "3.41 - 3.74",
+        "reason": "Predicted from operator context (llm_predict): Profile GPA of 3.7 falls in the 3.41 - 3.74 band."
+      },
+      {
+        "field_id": "question_68940774[]",
+        "label": "Which engineering organizations are you most interested in? Select up to 3 preferences. Please review our Engineering Team Overview to learn more about each organization before making your selections - https://careersatdoordash.com/blog/doordash-engineering-team-overview-2026/",
+        "type": "checkbox",
+        "canonical_field": "screener:custom:predicted:question_68940774[]",
+        "action": "FILL",
+        "approved": true,
+        "value": "Launchpad & AI Research",
+        "reason": "Predicted from operator context (llm_predict): Their interests center on AI systems, evaluation, and research infrastructure, which maps to the Launchpad & AI Research organization."
+      },
+      {
+        "field_id": "question_68925080",
+        "label": "Applicant Privacy Acknowledgement",
+        "type": "text",
+        "canonical_field": "screener:consent_agreement",
+        "action": "FILL",
+        "approved": true,
+        "value": "Yes",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_68925081",
+        "label": "Would you like to receive communications via SMS and/or WhatsApp to the number provided [above or during the application process] about your application process? Message & data rates may apply and message frequency may vary. If you select no, we will only communicate with you via email and/or telephone calls. If you select yes and change your mind, you can always reply STOP to opt out.",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_68925081",
+        "action": "FILL",
+        "approved": true,
+        "value": "Yes",
+        "reason": "Predicted from operator context (llm_predict): Candidate has previously consented to receiving text message communications about applications."
+      },
+      {
+        "field_id": "864",
+        "label": "Gender",
+        "type": "text",
+        "canonical_field": "gender",
+        "action": "FILL",
+        "approved": true,
+        "value": "Male",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "1328",
+        "label": "Do you identify as transgender?",
+        "type": "text",
+        "canonical_field": "transgender",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "1332",
+        "label": "Are you Hispanic or Latinx?",
+        "type": "text",
+        "canonical_field": "hispanic_latino",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "1333",
+        "label": "Race (*Please select one option that best describes how you identify*)",
+        "type": "text",
+        "canonical_field": "race_ethnicity",
+        "action": "FILL",
+        "approved": true,
+        "value": "South Asian",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "1336",
+        "label": "Protected Veteran Status",
+        "type": "text",
+        "canonical_field": "veteran_status",
+        "action": "FILL",
+        "approved": true,
+        "value": "I am not a veteran",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "1337",
+        "label": "Disability Status",
+        "type": "text",
+        "canonical_field": "disability_status",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      }
+    ],
+    "answers": {
+      "legal_name.first": "Shubham",
+      "legal_name.last": "Kale",
+      "email": "s***@gmail.com",
+      "address.country": "United States +1",
+      "phone": "***-***-7636",
+      "address.city": "Baltimore",
+      "history:education[0].school": "Johns Hopkins University",
+      "history:education[0].degree": "Bachelor's Degree",
+      "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+      "work_authorization": "[REDACTED_SPONSORSHIP]",
+      "requires_sponsorship": "[REDACTED_SPONSORSHIP]",
+      "screener:previously_applied_or_worked": "I have not worked at DoorDash",
+      "screener:custom:bachelors_grad_date": "September 2028 or later",
+      "screener:custom:predicted:question_68926372": "Yes",
+      "screener:custom:predicted:question_68926373[]": "New York",
+      "screener:custom:predicted:question_68926374[]": "Machine Learning",
+      "screener:custom:predicted:question_68926375": "Yes",
+      "screener:custom:predicted:question_68926376[]": "3.41 - 3.74",
+      "screener:custom:predicted:question_68940774[]": "Launchpad & AI Research",
+      "screener:consent_agreement": "Yes",
+      "screener:custom:predicted:question_68925081": "Yes",
+      "gender": "Male",
+      "transgender": "No",
+      "hispanic_latino": "No",
+      "race_ethnicity": "South Asian",
+      "veteran_status": "I am not a veteran",
+      "disability_status": "No"
+    },
+    "fillable_count": 28,
+    "skipped_count": 3,
+    "review_required_count": 0
+  },
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "legal_name.last",
+      "email",
+      "address.country",
+      "phone",
+      "address.city",
+      "history:education[0].school",
+      "history:education[0].degree",
+      "linkedin_url",
+      "work_authorization",
+      "requires_sponsorship",
+      "requires_sponsorship",
+      "screener:previously_applied_or_worked",
+      "screener:custom:bachelors_grad_date",
+      "screener:custom:predicted:question_68926372",
+      "screener:custom:predicted:question_68926373[]",
+      "screener:custom:predicted:question_68926374[]",
+      "screener:custom:predicted:question_68926375",
+      "screener:custom:predicted:question_68926376[]",
+      "screener:custom:predicted:question_68940774[]",
+      "screener:consent_agreement",
+      "screener:custom:predicted:question_68925081",
+      "gender",
+      "transgender",
+      "hispanic_latino",
+      "race_ethnicity",
+      "veteran_status",
+      "disability_status"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "first_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "last_name",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "country",
+        "canonical_field": "address.country",
+        "control_kind": "combobox",
+        "selected_option": "+1",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"United States +1\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "phone",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "candidate-location",
+        "canonical_field": "address.city",
+        "control_kind": "combobox",
+        "selected_option": "Baltimore, Maryland, United States",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "filter \"Baltimore\" then picked \"Baltimore, Maryland, United States\" (exact)"
+        ]
+      },
+      {
+        "field_id": "school--0",
+        "canonical_field": "history:education[0].school",
+        "control_kind": "combobox",
+        "selected_option": "Johns Hopkins University",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "filter \"Johns Hopkins University\" then picked \"Johns Hopkins University\" (exact)"
+        ]
+      },
+      {
+        "field_id": "degree--0",
+        "canonical_field": "history:education[0].degree",
+        "control_kind": "combobox",
+        "selected_option": "Bachelor's Degree",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Bachelor's Degree\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_68925075",
+        "canonical_field": "linkedin_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_68925076",
+        "canonical_field": "work_authorization",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_68925077",
+        "canonical_field": "requires_sponsorship",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_68925078",
+        "canonical_field": "requires_sponsorship",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_68925079",
+        "canonical_field": "screener:previously_applied_or_worked",
+        "control_kind": "combobox",
+        "selected_option": "I have not worked at DoorDash",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"I have not worked at DoorDash\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_68926371[]",
+        "canonical_field": "screener:custom:bachelors_grad_date",
+        "control_kind": "combobox",
+        "selected_option": "September 2028 or later",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"September 2028 or later\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_68926372",
+        "canonical_field": "screener:custom:predicted:question_68926372",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_68926373[]",
+        "canonical_field": "screener:custom:predicted:question_68926373[]",
+        "control_kind": "checkbox_group",
+        "selected_option": "New York"
+      },
+      {
+        "field_id": "question_68926374[]",
+        "canonical_field": "screener:custom:predicted:question_68926374[]",
+        "control_kind": "checkbox_group",
+        "selected_option": "Machine Learning"
+      },
+      {
+        "field_id": "question_68926375",
+        "canonical_field": "screener:custom:predicted:question_68926375",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_68926376[]",
+        "canonical_field": "screener:custom:predicted:question_68926376[]",
+        "control_kind": "combobox",
+        "selected_option": "3.41 - 3.74",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"3.41 - 3.74\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_68940774[]",
+        "canonical_field": "screener:custom:predicted:question_68940774[]",
+        "control_kind": "checkbox_group",
+        "selected_option": "Launchpad & AI Research"
+      },
+      {
+        "field_id": "question_68925080",
+        "canonical_field": "screener:consent_agreement",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_68925081",
+        "canonical_field": "screener:custom:predicted:question_68925081",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "864",
+        "canonical_field": "gender",
+        "control_kind": "combobox",
+        "selected_option": "Male",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Male\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "1328",
+        "canonical_field": "transgender",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "1332",
+        "canonical_field": "hispanic_latino",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "1333",
+        "canonical_field": "race_ethnicity",
+        "control_kind": "combobox",
+        "selected_option": "Asian",
+        "match_via": "unique_substring",
+        "notes": [
+          "opened via control click",
+          "picked \"Asian\" (unique_substring) from open list"
+        ]
+      },
+      {
+        "field_id": "1336",
+        "canonical_field": "veteran_status",
+        "control_kind": "combobox",
+        "selected_option": "I am not a protected veteran",
+        "match_via": "synonym",
+        "notes": [
+          "opened via control click",
+          "picked \"I am not a protected veteran\" (synonym) from open list"
+        ]
+      },
+      {
+        "field_id": "1337",
+        "canonical_field": "disability_status",
+        "control_kind": "combobox",
+        "selected_option": "No, I don’t have a disability",
+        "match_via": "synonym",
+        "notes": [
+          "opened via control click",
+          "picked \"No, I don’t have a disability\" (synonym) from open list"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.last",
+        "expected": "Kale",
+        "observed": "Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "address.country",
+        "expected": "United States +1",
+        "observed": {
+          "value": "+1",
+          "label": "+1"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "address.city",
+        "expected": "Baltimore",
+        "observed": {
+          "value": "Baltimore, Maryland, United States",
+          "label": "Baltimore, Maryland, United States"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "history:education[0].school",
+        "expected": "Johns Hopkins University",
+        "observed": {
+          "value": "Johns Hopkins University",
+          "label": "Johns Hopkins University"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "history:education[0].degree",
+        "expected": "Bachelor's Degree",
+        "observed": {
+          "value": "Bachelor's Degree",
+          "label": "Bachelor's Degree"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "match": true
+      },
+      {
+        "canonical_field": "work_authorization",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "requires_sponsorship",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "requires_sponsorship",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:previously_applied_or_worked",
+        "expected": "I have not worked at DoorDash",
+        "observed": {
+          "value": "I have not worked at DoorDash",
+          "label": "I have not worked at DoorDash"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:bachelors_grad_date",
+        "expected": "September 2028 or later",
+        "observed": {
+          "value": "September 2028 or later",
+          "label": "September 2028 or later"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_68926372",
+        "expected": "Yes",
+        "observed": {
+          "value": "Yes",
+          "label": "Yes"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_68926373[]",
+        "expected": "New York",
+        "observed": {
+          "value": "New York",
+          "label": "New York"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_68926374[]",
+        "expected": "Machine Learning",
+        "observed": {
+          "value": "Machine Learning",
+          "label": "Machine Learning"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_68926375",
+        "expected": "Yes",
+        "observed": {
+          "value": "Yes",
+          "label": "Yes"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_68926376[]",
+        "expected": "3.41 - 3.74",
+        "observed": {
+          "value": "3.41 - 3.74",
+          "label": "3.41 - 3.74"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_68940774[]",
+        "expected": "Launchpad & AI Research",
+        "observed": {
+          "value": "Launchpad & AI Research",
+          "label": "Launchpad & AI Research"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:consent_agreement",
+        "expected": "Yes",
+        "observed": {
+          "value": "Yes",
+          "label": "Yes"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_68925081",
+        "expected": "Yes",
+        "observed": {
+          "value": "Yes",
+          "label": "Yes"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "gender",
+        "expected": "Male",
+        "observed": {
+          "value": "Male",
+          "label": "Male"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "transgender",
+        "expected": "No",
+        "observed": {
+          "value": "No",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "hispanic_latino",
+        "expected": "No",
+        "observed": {
+          "value": "No",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "race_ethnicity",
+        "expected": "South Asian",
+        "observed": {
+          "value": "Asian",
+          "label": "Asian"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "veteran_status",
+        "expected": "I am not a veteran",
+        "observed": {
+          "value": "I am not a protected veteran",
+          "label": "I am not a protected veteran"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "disability_status",
+        "expected": "No",
+        "observed": {
+          "value": "No, I don’t have a disability",
+          "label": "No, I don’t have a disability"
+        },
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 115393,
+      "verified": true,
+      "evidence": "input files: []; stillAttached=false; chip=true"
+    }
+  ],
+  "written_at": "2026-09-15T04:58:46.257Z"
+}

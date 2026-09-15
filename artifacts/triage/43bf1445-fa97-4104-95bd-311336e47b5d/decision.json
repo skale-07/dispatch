@@ -1,0 +1,142 @@
+{
+  "decision_id": "43bf1445-fa97-4104-95bd-311336e47b5d",
+  "application_id": "dc5fdb11-bef0-4bb4-992b-860aee9e9c10",
+  "signature": "FAILED_RETRYABLE|-|verify_mismatch|jobs.lever.co",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "dc5fdb11-bef0-4bb4-992b-860aee9e9c10",
+    "company": "Reply",
+    "role": "AI/Machine Learning Intern",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 1,
+    "failure_signature": "FAILED_RETRYABLE|-|verify_mismatch|jobs.lever.co",
+    "end_host": "jobs.lever.co",
+    "recent_events": [
+      {
+        "from": "SUBMITTING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "pre-submit verification failed",
+        "at": "2026-09-15T05:05:47.161Z"
+      },
+      {
+        "from": "READY_TO_SUBMIT",
+        "to": "SUBMITTING",
+        "reason": "human-approved submission started",
+        "at": "2026-09-15T05:05:41.736Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "READY_TO_SUBMIT",
+        "reason": "pipeline: fill rehearsal verified",
+        "at": "2026-09-15T05:05:28.429Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (lever live fill: 16 filled (held for submit))",
+        "at": "2026-09-15T05:05:28.427Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route needs_review_unmapped (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-15T05:04:53.841Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-15T05:04:39.466Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: lever URL validated",
+        "at": "2026-09-15T05:04:39.460Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-15T05:04:39.453Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 d5f6e2353444)",
+        "at": "2026-09-15T05:04:39.446Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-15T05:04:39.412Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "ats board discovery: ready for materials/pipeline",
+        "at": "2026-09-15T04:56:18.310Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "ats board discovery: operator-listed board, title filter passed",
+        "at": "2026-09-15T04:56:18.289Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "ats board discovery: dedupe pass",
+        "at": "2026-09-15T04:56:18.270Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-15T04:56:18.233Z"
+      }
+    ],
+    "nav": null,
+    "submit": {
+      "outcome": "FAILED_BEFORE_CLICK",
+      "reason": "Refusing to click submit: field verification or upload did not pass",
+      "brief_items": [
+        {
+          "id": "fill_error:location: Lever hidden selectedLocation is empty — the dropdown row was never re",
+          "question": "(fill error — see problem)",
+          "field_id": null,
+          "canonical_field": null,
+          "kind": "fill_error",
+          "problem": "location: Lever hidden selectedLocation is empty — the dropdown row was never registered; the form would reject the click",
+          "expected": null,
+          "observed": null,
+          "how_to_answer": [
+            "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+            "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+          ]
+        }
+      ]
+    },
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": true
+    },
+    "open_review_items": [],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\":\"park_for_operator\",\"rationale\":\"Pre-submit verification blocked on a Lever location typeahead: hidden selectedLocation never registered. Deterministic fill already succeeded on 16 fields and retrying the same pipeline would hit the same widget; materials and URL are fine. A human should set the location field or fix the selector/alias.\",\"confidence\":\"medium\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: 1bd325eb-52e0-4d35-a514-2a198b4a266b",
+  "rationale_unverified": "Pre-submit verification blocked on a Lever location typeahead: hidden selectedLocation never registered. Deterministic fill already succeeded on 16 fields and retrying the same pipeline would hit the same widget; materials and URL are fine. A human should set the location field or fix the selector/alias."
+}

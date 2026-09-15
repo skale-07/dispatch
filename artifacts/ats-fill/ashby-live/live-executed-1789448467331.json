@@ -1,0 +1,378 @@
+{
+  "ats": "ashby",
+  "url": "https://jobs.ashbyhq.com/ibotta/666cac72-9e06-46ee-aea0-576f766338b2/application",
+  "requested_url": "https://jobs.ashbyhq.com/ibotta/666cac72-9e06-46ee-aea0-576f766338b2/application",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://jobs.ashbyhq.com/ibotta/666cac72-9e06-46ee-aea0-576f766338b2/application",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 13,
+    "skipped_count": 2,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "f_0",
+      "label": "Application",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "_systemfield_name",
+      "label": "Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Single full-name field: composed legal_name.first + legal_name.last (both safe factual canonicals)"
+    },
+    {
+      "field_id": "_systemfield_resume",
+      "label": "Resume",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "_systemfield_email",
+      "label": "Email",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "41f0db72-29fd-483c-bf61-a2ab5e78df5e",
+      "label": "Phone Number",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "0da43404-2603-45f0-9acf-423c98dd7ebf",
+      "label": "What are your compensation expectations?",
+      "type": "text",
+      "canonical_field": "screener:custom:compensation_expectations",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "1d16b836-eedb-4714-9711-8f3ede819942",
+      "label": "If this position is located in Denver, CO as Hybrid, are you willing to relocate to Denver if you are not already local?",
+      "type": "select",
+      "canonical_field": "relocation",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "a2446eb5-7b22-4488-a43f-da693e80167d",
+      "label": "We care about addressing everyone correctly. If you wish to, add your personal pronouns below to share with the hiring team.",
+      "type": "select",
+      "canonical_field": "pronouns",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "_systemfield_eeoc_gender",
+      "label": "Gender",
+      "type": "select",
+      "canonical_field": "gender",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "_systemfield_eeoc_race",
+      "label": "Race",
+      "type": "select",
+      "canonical_field": "race_ethnicity",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "_systemfield_eeoc_veteran_status",
+      "label": "Veteran Status",
+      "type": "select",
+      "canonical_field": "veteran_status",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "5af87151-95ee-40e5-8796-54fd8e3593e5",
+      "label": "How did you hear about us?",
+      "type": "text",
+      "canonical_field": "how_heard",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "50ca2c5f-92f9-4553-9b99-407194dc8066",
+      "label": "Are you authorized to work lawfully in the United States for Ibotta?",
+      "type": "select",
+      "canonical_field": "work_authorization",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "3c31baac-c53d-4c47-af10-2a8032d33ac0",
+      "label": "Will you now or in the future require Ibotta to commence (\"sponsor\") an immigration case in order to employ you (for example, H-1B or other employment-based immigration case)? This is sometimes called \"sponsorship\" for an employment-based visa status.",
+      "type": "select",
+      "canonical_field": "requires_sponsorship",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "c63457a7-f437-4216-b2e6-8bf6a4703547",
+      "label": "Have you worked for Ibotta previously?",
+      "type": "select",
+      "canonical_field": "screener:previously_applied_or_worked",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\ashby-live\\form-snapshot-1789448457772.html",
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "email",
+      "phone",
+      "screener:custom:compensation_expectations",
+      "relocation",
+      "pronouns",
+      "gender",
+      "race_ethnicity",
+      "veteran_status",
+      "work_authorization",
+      "requires_sponsorship",
+      "screener:previously_applied_or_worked",
+      "how_heard"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "_systemfield_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "_systemfield_email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "41f0db72-29fd-483c-bf61-a2ab5e78df5e",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "0da43404-2603-45f0-9acf-423c98dd7ebf",
+        "canonical_field": "screener:custom:compensation_expectations",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "1d16b836-eedb-4714-9711-8f3ede819942",
+        "canonical_field": "relocation",
+        "control_kind": "native_radio_group",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "picked \"Yes\" (exact)"
+        ]
+      },
+      {
+        "field_id": "a2446eb5-7b22-4488-a43f-da693e80167d",
+        "canonical_field": "pronouns",
+        "control_kind": "native_radio_group",
+        "selected_option": "He/Him",
+        "match_via": "exact",
+        "notes": [
+          "picked \"He/Him\" (exact)"
+        ]
+      },
+      {
+        "field_id": "_systemfield_eeoc_gender",
+        "canonical_field": "gender",
+        "control_kind": "native_radio_group",
+        "selected_option": "Male",
+        "match_via": "exact",
+        "notes": [
+          "picked \"Male\" (exact)"
+        ]
+      },
+      {
+        "field_id": "_systemfield_eeoc_race",
+        "canonical_field": "race_ethnicity",
+        "control_kind": "native_radio_group",
+        "selected_option": "Asian (Not Hispanic or Latino)",
+        "match_via": "unique_substring",
+        "notes": [
+          "picked \"Asian (Not Hispanic or Latino)\" (unique_substring)"
+        ]
+      },
+      {
+        "field_id": "_systemfield_eeoc_veteran_status",
+        "canonical_field": "veteran_status",
+        "control_kind": "native_radio_group",
+        "selected_option": "I am not a protected veteran",
+        "match_via": "synonym",
+        "notes": [
+          "picked \"I am not a protected veteran\" (synonym)"
+        ]
+      },
+      {
+        "field_id": "50ca2c5f-92f9-4553-9b99-407194dc8066",
+        "canonical_field": "work_authorization",
+        "control_kind": "native_yesno_group",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "picked \"Yes\" (exact)"
+        ]
+      },
+      {
+        "field_id": "3c31baac-c53d-4c47-af10-2a8032d33ac0",
+        "canonical_field": "requires_sponsorship",
+        "control_kind": "native_yesno_group",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "picked \"No\" (exact)"
+        ]
+      },
+      {
+        "field_id": "c63457a7-f437-4216-b2e6-8bf6a4703547",
+        "canonical_field": "screener:previously_applied_or_worked",
+        "control_kind": "native_yesno_group",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "picked \"No\" (exact)"
+        ]
+      },
+      {
+        "field_id": "5af87151-95ee-40e5-8796-54fd8e3593e5",
+        "canonical_field": "how_heard",
+        "control_kind": "combobox",
+        "selected_option": "LinkedIn",
+        "match_via": "exact",
+        "notes": [
+          "listbox opened after typing",
+          "picked \"LinkedIn\" (exact)"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham Kale",
+        "observed": "Shubham Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:compensation_expectations",
+        "expected": "Flexible — aligned with the posted range for this role.",
+        "observed": "Flexible — aligned with the posted range for this role.",
+        "match": true
+      },
+      {
+        "canonical_field": "relocation",
+        "expected": "Yes",
+        "observed": "Yes",
+        "match": true
+      },
+      {
+        "canonical_field": "pronouns",
+        "expected": "He/Him",
+        "observed": "He/Him",
+        "match": true
+      },
+      {
+        "canonical_field": "gender",
+        "expected": "Male",
+        "observed": "Male",
+        "match": true
+      },
+      {
+        "canonical_field": "race_ethnicity",
+        "expected": "South Asian",
+        "observed": "Asian (Not Hispanic or Latino)",
+        "match": true
+      },
+      {
+        "canonical_field": "veteran_status",
+        "expected": "I am not a veteran",
+        "observed": "I am not a protected veteran",
+        "match": true
+      },
+      {
+        "canonical_field": "work_authorization",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "requires_sponsorship",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:previously_applied_or_worked",
+        "expected": "No",
+        "observed": "No",
+        "match": true
+      },
+      {
+        "canonical_field": "how_heard",
+        "expected": "LinkedIn",
+        "observed": "LinkedIn",
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 126181,
+      "verified": true,
+      "evidence": "input files: [{\"name\":\"resume-d5f6e235.pdf\",\"size\":126181}]; stillAttached=true; chip=true; resolved via primary"
+    }
+  ],
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: form (15 fillable field(s))",
+    "timing: base page (15 planned) — plan 2s, fill 7s, verify 0s",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "written_at": "2026-09-15T05:01:07.361Z"
+}

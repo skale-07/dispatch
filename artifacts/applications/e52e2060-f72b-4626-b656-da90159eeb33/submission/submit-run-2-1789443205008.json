@@ -1,0 +1,51 @@
+{
+  "outcome": "FAILED_BEFORE_CLICK",
+  "application_id": "e52e2060-f72b-4626-b656-da90159eeb33",
+  "submission_id": "d32a4f6c-5d71-4aa4-9ffb-9cc49730e264",
+  "attempt": 2,
+  "receipt": null,
+  "review_item_id": null,
+  "reason": "Refusing to click submit: field verification or upload did not pass",
+  "artifact_path": null,
+  "operator_brief": {
+    "title": "Submit blocked — workday app e52e2060-f72b-4626-b656-da90159eeb33",
+    "summary": "2 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:current_company",
+        "question": "4) * To the best of your knowledge and belief, are you aware of a contract or agreement with your current employer (or other company), such as a non-competition, non-disclosure, or non-solicitation agreement, that impact or interfere with your ability to work for the Company or communicate with former colleagues about working at the Company",
+        "field_id": "[REDACTED]",
+        "canonical_field": "current_company",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Summer Atlantic Capital\"; page shows \"No\"",
+        "expected": "Summer Atlantic Capital",
+        "observed": {
+          "value": "No",
+          "label": "No"
+        },
+        "how_to_answer": [
+          "DOM shows \"No\" but plan expected \"Summer Atlantic Capital\". Correct the value on the form or fix profile/aliases so the plan matches the real answer.",
+          "Profile source: private/candidate/public-profile.json → current_company",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"current_company\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "upload:resume",
+        "question": "Upload: resume",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "upload_failed",
+        "problem": "resume file input not found; primary resume selector not attached within 3s; retrying resolve after 1500ms; primary resume selector not attached within 3s; no resume file input; 0 file inputs on page; no upload widget on this wizard page — walk-time upload is the evidence (#84)",
+        "expected": "resume-71415792.pdf",
+        "observed": null,
+        "how_to_answer": [
+          "Resume is system-owned: materials:register + adapter.uploadResume on submit/fill — not a free-text profile field.",
+          "If this is ats:fill without --resume, pass --resume <pdf> or use application submit (uses registered material).",
+          "Evidence: resume file input not found; primary resume selector not attached within 3s; retrying resolve after 1500ms; primary resume selector not attached within 3s; no resume file input; 0 file inputs on page; no upload widget on this wizard page — walk-time upload is the evidence (#84)"
+        ]
+      }
+    ],
+    "ok_count": 10,
+    "fail_count": 2
+  }
+}

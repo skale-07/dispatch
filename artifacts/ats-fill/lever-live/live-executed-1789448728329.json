@@ -1,0 +1,476 @@
+{
+  "ats": "lever",
+  "url": "https://jobs.lever.co/reply/74422215-dd06-404a-a35c-3c9bd80e1f0b/apply",
+  "requested_url": "https://jobs.lever.co/reply/74422215-dd06-404a-a35c-3c9bd80e1f0b/apply",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://jobs.lever.co/reply/74422215-dd06-404a-a35c-3c9bd80e1f0b/apply",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 16,
+    "skipped_count": 5,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "opportunityLocationId",
+      "label": "opportunityLocationId",
+      "type": "select",
+      "canonical_field": "screener:custom:predicted:opportunityLocationId",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): Prior answer (Washington, DC) isn't offered here; candidate is willing to relocate, so the larger hub option, Chicago, is selected."
+    },
+    {
+      "field_id": "resume-upload-input",
+      "label": "resume",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "name",
+      "label": "Full name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Single full-name field: composed legal_name.first + legal_name.last (both safe factual canonicals)"
+    },
+    {
+      "field_id": "email",
+      "label": "Email",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phone",
+      "label": "Phone",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "location-input",
+      "label": "location",
+      "type": "text",
+      "canonical_field": "address.city",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "org",
+      "label": "Current company",
+      "type": "text",
+      "canonical_field": "current_company",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "urls[LinkedIn]",
+      "label": "LinkedIn URL",
+      "type": "text",
+      "canonical_field": "linkedin_url",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "urls[Portfolio]",
+      "label": "Portfolio URL",
+      "type": "text",
+      "canonical_field": "personal_website",
+      "action": "SKIP",
+      "reason": "Profile value empty for personal_website"
+    },
+    {
+      "field_id": "cards[26fe5f27-340a-4241-ab3a-cffdc38bfb01][field0]",
+      "label": "Will you be able to work more than 30 Hours/ Week?",
+      "type": "checkbox",
+      "canonical_field": "screener:hours_per_week",
+      "action": "FILL",
+      "reason": "Screener bank answer (llm_option)"
+    },
+    {
+      "field_id": "cards[26fe5f27-340a-4241-ab3a-cffdc38bfb01][field0]",
+      "label": "Will you be able to work more than 30 Hours/ Week?",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "duplicate of the same control (cards[26fe5f27-340a-4241-ab3a-cffdc38bfb01][field0]) — answered once"
+    },
+    {
+      "field_id": "cards[26fe5f27-340a-4241-ab3a-cffdc38bfb01][field1]",
+      "label": "Will you now or in the future require work sponsorship?",
+      "type": "radio",
+      "canonical_field": "requires_sponsorship",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "cards[26fe5f27-340a-4241-ab3a-cffdc38bfb01][field2]",
+      "label": "What is your desired hourly compensation?",
+      "type": "textarea",
+      "canonical_field": "screener:custom:desired_compensation",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "cards[26fe5f27-340a-4241-ab3a-cffdc38bfb01][field3]",
+      "label": "Are you able to work regularly onsite in our office in Bloomfield Hills, MI or Chicago, IL?",
+      "type": "radio",
+      "canonical_field": "screener:willing_to_relocate",
+      "action": "FILL",
+      "reason": "Screener bank answer (synonym_option)"
+    },
+    {
+      "field_id": "cards[26fe5f27-340a-4241-ab3a-cffdc38bfb01][field4]",
+      "label": "When are you available to start?",
+      "type": "text",
+      "canonical_field": "screener:custom:available_start_date",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "cards[26fe5f27-340a-4241-ab3a-cffdc38bfb01][field5]",
+      "label": "What is your graduation date?",
+      "type": "text",
+      "canonical_field": "screener:custom:expected_graduation_date",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "cards[26fe5f27-340a-4241-ab3a-cffdc38bfb01][field6]",
+      "label": "Were you referred to us? If yes, please provide the name of the contact and how you know them.",
+      "type": "textarea",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "essay draft rejected (too short (16 words)): What is your desired hourly compensation?"
+    },
+    {
+      "field_id": "eeo[gender]",
+      "label": "Gender Select ... Male Female Decline to self-identify",
+      "type": "select",
+      "canonical_field": "gender",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "eeo[race]",
+      "label": "U.S. Equal Employment Opportunity information (Completion is voluntary and will not subject you to adverse treatment)",
+      "type": "select",
+      "canonical_field": "race_ethnicity",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "eeo[veteran]",
+      "label": "Veteran status Select ... I am a veteran I am not a veteran Decline to self-identify",
+      "type": "select",
+      "canonical_field": "veteran_status",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "consent[marketing]",
+      "label": "Yes, Reply can contact me about future job opportunities for up to 6 months Privacy policy",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\lever-live\\form-snapshot-1789448715135.html",
+  "fill": {
+    "filled": [
+      "screener:custom:predicted:opportunityLocationId",
+      "legal_name.first",
+      "email",
+      "phone",
+      "address.city",
+      "current_company",
+      "linkedin_url",
+      "screener:hours_per_week",
+      "requires_sponsorship",
+      "screener:custom:desired_compensation",
+      "screener:willing_to_relocate",
+      "screener:custom:available_start_date",
+      "screener:custom:expected_graduation_date",
+      "gender",
+      "race_ethnicity",
+      "veteran_status"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "opportunityLocationId",
+        "canonical_field": "screener:custom:predicted:opportunityLocationId",
+        "control_kind": "native_select",
+        "selected_option": "Chicago, Illinois",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "phone",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "location-input",
+        "canonical_field": "address.city",
+        "control_kind": "text",
+        "notes": [
+          "suggestions visible: 1",
+          "matched suggestion index 0: baltimore, md, usa",
+          "no city-token match — clicking first suggestion",
+          "clicked suggestion index 0",
+          "location committed (blur-stable): Baltimore, MD, USA"
+        ]
+      },
+      {
+        "field_id": "org",
+        "canonical_field": "current_company",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "urls[LinkedIn]",
+        "canonical_field": "linkedin_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "cards[26fe5f27-340a-4241-ab3a-cffdc38bfb01][field0]",
+        "canonical_field": "screener:hours_per_week",
+        "control_kind": "checkbox_group",
+        "selected_option": "Yes"
+      },
+      {
+        "field_id": "cards[26fe5f27-340a-4241-ab3a-cffdc38bfb01][field1]",
+        "canonical_field": "requires_sponsorship",
+        "control_kind": "text",
+        "selected_option": "No"
+      },
+      {
+        "field_id": "cards[26fe5f27-340a-4241-ab3a-cffdc38bfb01][field2]",
+        "canonical_field": "screener:custom:desired_compensation",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "cards[26fe5f27-340a-4241-ab3a-cffdc38bfb01][field3]",
+        "canonical_field": "screener:willing_to_relocate",
+        "control_kind": "text",
+        "selected_option": "Yes"
+      },
+      {
+        "field_id": "cards[26fe5f27-340a-4241-ab3a-cffdc38bfb01][field4]",
+        "canonical_field": "screener:custom:available_start_date",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "cards[26fe5f27-340a-4241-ab3a-cffdc38bfb01][field5]",
+        "canonical_field": "screener:custom:expected_graduation_date",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "eeo[gender]",
+        "canonical_field": "gender",
+        "control_kind": "native_select",
+        "selected_option": "Male",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "eeo[race]",
+        "canonical_field": "race_ethnicity",
+        "control_kind": "native_select",
+        "selected_option": "South Asian",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "eeo[veteran]",
+        "canonical_field": "veteran_status",
+        "control_kind": "native_select",
+        "selected_option": "I am not a veteran",
+        "match_via": "exact"
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "screener:custom:predicted:opportunityLocationId",
+        "expected": "Chicago, Illinois",
+        "observed": {
+          "value": "7717aa63-b42a-4993-baca-8e699dd49acc",
+          "label": "Chicago, Illinois"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham Kale",
+        "observed": "Shubham Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "address.city",
+        "expected": "Baltimore, Maryland, USA",
+        "observed": "Baltimore, MD, USA",
+        "match": true
+      },
+      {
+        "canonical_field": "current_company",
+        "expected": "Summer Atlantic Capital",
+        "observed": "Summer Atlantic Capital",
+        "match": true
+      },
+      {
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:hours_per_week",
+        "expected": "Yes",
+        "observed": {
+          "value": "Yes",
+          "label": "Yes"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "requires_sponsorship",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:desired_compensation",
+        "expected": "Flexible — aligned with the posted range for this role",
+        "observed": "Flexible — aligned with the posted range for this role",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:willing_to_relocate",
+        "expected": "Yes",
+        "observed": {
+          "value": "Yes",
+          "label": "Yes"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:available_start_date",
+        "expected": "2027-01-01",
+        "observed": "2027-01-01",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:expected_graduation_date",
+        "expected": "May 2029",
+        "observed": "May 2029",
+        "match": true
+      },
+      {
+        "canonical_field": "gender",
+        "expected": "Male",
+        "observed": {
+          "value": "Male",
+          "label": "Male"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "race_ethnicity",
+        "expected": "South Asian",
+        "observed": {
+          "value": "Asian (Not Hispanic or Latino)",
+          "label": "Asian (Not Hispanic or Latino)"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "veteran_status",
+        "expected": "I am not a veteran",
+        "observed": {
+          "value": "I am not a veteran",
+          "label": "I am not a veteran"
+        },
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 126181,
+      "verified": true,
+      "evidence": "input files: [{\"name\":\"resume-d5f6e235.pdf\",\"size\":126181}]; stillAttached=true; chip=false; resolved via primary"
+    }
+  ],
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: form (21 fillable field(s))",
+    "option harvest: scraped real options for 2/12 control(s) before planning",
+    "timing: base page (21 planned) — plan 19s, fill 7s, verify 2s",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [
+    {
+      "field_id": "cards[26fe5f27-340a-4241-ab3a-cffdc38bfb01][field0]",
+      "label": "Yes",
+      "answer_space": "closed",
+      "option_count": 2,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "cards[26fe5f27-340a-4241-ab3a-cffdc38bfb01][field0]",
+      "label": "No",
+      "answer_space": "closed",
+      "option_count": 2,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "other_option": null
+    }
+  ],
+  "written_at": "2026-09-15T05:05:28.412Z"
+}

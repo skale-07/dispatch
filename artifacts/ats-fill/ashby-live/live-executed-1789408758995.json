@@ -1,0 +1,112 @@
+{
+  "ats": "ashby",
+  "url": "https://jobs.ashbyhq.com/withpace/9acdae91-3834-4c08-8579-fd14ff40a76b/application",
+  "requested_url": "https://jobs.ashbyhq.com/withpace/9acdae91-3834-4c08-8579-fd14ff40a76b/application",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://jobs.ashbyhq.com/withpace/9acdae91-3834-4c08-8579-fd14ff40a76b/application",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 2,
+    "skipped_count": 2,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "f_0",
+      "label": "Application",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "_systemfield_name",
+      "label": "Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Single full-name field: composed legal_name.first + legal_name.last (both safe factual canonicals)"
+    },
+    {
+      "field_id": "_systemfield_email",
+      "label": "Email",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "_systemfield_resume",
+      "label": "Resume",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\ashby-live\\form-snapshot-1789408754870.html",
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "email"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "_systemfield_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "_systemfield_email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham Kale",
+        "observed": "Shubham Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 115393,
+      "verified": true,
+      "evidence": "input files: [{\"name\":\"resume-71415792.pdf\",\"size\":115393}]; stillAttached=true; chip=true; resolved via primary"
+    }
+  ],
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: form (4 fillable field(s))",
+    "timing: base page (4 planned) — plan 0s, fill 1s, verify 0s",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "written_at": "2026-09-14T17:59:19.012Z"
+}

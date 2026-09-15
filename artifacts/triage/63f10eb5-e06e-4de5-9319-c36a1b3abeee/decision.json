@@ -1,0 +1,138 @@
+{
+  "decision_id": "63f10eb5-e06e-4de5-9319-c36a1b3abeee",
+  "application_id": "4ab3f42f-1e51-4036-92fc-f7c34f0e3afb",
+  "signature": "NATIVE_AUTOFILL_RUNNING|-|login_wall|iawmqy.fa.ocs.oraclecloud.com",
+  "forbidden_actions": [
+    "engage_agent_leg",
+    "requeue_reopen_navigation"
+  ],
+  "bundle": {
+    "application_id": "4ab3f42f-1e51-4036-92fc-f7c34f0e3afb",
+    "company": "Dell Technologies",
+    "role": "ISG Software Engineering Undergrad Internship",
+    "state": "NATIVE_AUTOFILL_RUNNING",
+    "attempt": 1,
+    "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|login_wall|iawmqy.fa.ocs.oraclecloud.com",
+    "end_host": "iawmqy.fa.ocs.oraclecloud.com",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route ready_for_fill_later (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-14T17:53:52.259Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-14T17:53:50.666Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-14T17:53:50.657Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-14T17:53:42.306Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 7141579276ac)",
+        "at": "2026-09-14T17:53:42.299Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-14T17:53:42.269Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-14T17:27:02.757Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-14T17:27:02.743Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-14T17:27:02.742Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-14T17:27:02.740Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_llm",
+      "notes": [
+        "phase A: anchor reads as \"iawmqy\" (URL names \"iawmqy\" (tenant), which shares nothing with company \"Dell Technologies\") — not preferred, deferring to the Apply click",
+        "phase A: 8 external host(s) seen: iawmqy.fa.ocs.oraclecloud.com, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, www.delltechnologies.com, www.fool.com, www.webpronews.com",
+        "no standard Apply control found (exact and broad name tiers both empty)",
+        "anchor adjudication: promoted iawmqy.fa.ocs.oraclecloud.com",
+        "anchor adjudication rationale (UNVERIFIED): Oracle HCM candidate-experience job req is Dell's ATS-hosted posting for this specific job; homepage is generic, others are news.",
+        "congruence: URL names \"iawmqy\", not \"Dell Technologies\" (URL names \"iawmqy\" (tenant), which shares nothing with company \"Dell Technologies\") — recorded, not refused"
+      ],
+      "congruence": {
+        "verdict": "mismatch",
+        "slug": "iawmqy",
+        "detail": "URL names \"iawmqy\" (tenant), which shares nothing with company \"Dell Technologies\"",
+        "expected_company": "Dell Technologies",
+        "url": "https://iawmqy.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/297773?jr_id=6aa81edf654b2a9424cfabbd"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "no congruent apply href (11 external links)",
+          "evidence": "iawmqy.fa.ocs.oraclecloud.com, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, www.delltechnologies.com"
+        },
+        {
+          "phase": "B_apply_click",
+          "outcome": "unresolved by deterministic phases"
+        },
+        {
+          "phase": "A_anchor_llm",
+          "outcome": "candidate promoted by adjudication",
+          "evidence": "iawmqy.fa.ocs.oraclecloud.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\":\"park_for_operator\",\"rationale\":\"Login wall hit on an unverified, company-incongruent Oracle tenant host (iawmqy vs Dell). Navigation reopen and agent leg are forbidden, materials are fresh (resume verified), and a plain rerun would hit the same wall. Single occurrence, so a permanent-wall abandon is premature; a human should verify the posting URL.\",\"confidence\":\"high\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: 9a8e6345-13b5-4ac4-a26b-6bfb93b91d17",
+  "rationale_unverified": "Login wall hit on an unverified, company-incongruent Oracle tenant host (iawmqy vs Dell). Navigation reopen and agent leg are forbidden, materials are fresh (resume verified), and a plain rerun would hit the same wall. Single occurrence, so a permanent-wall abandon is premature; a human should verify the posting URL."
+}
