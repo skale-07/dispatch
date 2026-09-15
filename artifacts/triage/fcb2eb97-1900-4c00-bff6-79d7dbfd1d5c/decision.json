@@ -1,0 +1,119 @@
+{
+  "decision_id": "fcb2eb97-1900-4c00-bff6-79d7dbfd1d5c",
+  "application_id": "e1b609ed-4469-4baf-876b-72e162b7dc60",
+  "signature": "NATIVE_AUTOFILL_RUNNING|-|login_wall|zionsbancorp.referrals.selectminds.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "e1b609ed-4469-4baf-876b-72e162b7dc60",
+    "company": "Zions Bancorporation",
+    "role": "Intern- Data Analytics Engineer",
+    "state": "NATIVE_AUTOFILL_RUNNING",
+    "attempt": 1,
+    "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|login_wall|zionsbancorp.referrals.selectminds.com",
+    "end_host": "zionsbancorp.referrals.selectminds.com",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-15T05:33:20.411Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-15T05:33:18.918Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-15T05:33:18.911Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-15T05:33:16.127Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 d5f6e2353444)",
+        "at": "2026-09-15T05:33:16.119Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-15T05:33:16.090Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-15T05:30:47.664Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-15T05:30:47.655Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-15T05:30:47.654Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-15T05:30:47.653Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "zionsbancorp",
+        "detail": "token \"zions\" ~ slug \"zionsbancorp\" (from URL host)",
+        "expected_company": "Zions Bancorporation",
+        "url": "https://zionsbancorp.referrals.selectminds.com/jobs/intern-data-analytics-engineer-28094?jr_id=6aa839fd2ed333b4ea5ce019"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (11 candidates, employer match)",
+          "evidence": "zionsbancorp.referrals.selectminds.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"requeue_same\", \"rationale\": \"First attempt; run stalled in NATIVE_AUTOFILL_RUNNING at a portal sign-in step with no recorded wall, no failed host history, and navigation congruent. Materials verified. A single cheap rerun of the same pipeline is the plausible next step before escalating.\", \"confidence\": \"medium\"}",
+  "parsed_action": "requeue_same",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "requeued at attempt 2",
+  "rationale_unverified": "First attempt; run stalled in NATIVE_AUTOFILL_RUNNING at a portal sign-in step with no recorded wall, no failed host history, and navigation congruent. Materials verified. A single cheap rerun of the same pipeline is the plausible next step before escalating."
+}
