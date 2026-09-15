@@ -1,0 +1,140 @@
+{
+  "decision_id": "09d45ec4-ceb8-4b6b-bc7a-4e80a4b3a5cf",
+  "application_id": "8ca33650-0574-4bba-a156-daf79dcadbb3",
+  "signature": "AMBIGUOUS_FIELD|-|verify_mismatch|textron.taleo.net",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "8ca33650-0574-4bba-a156-daf79dcadbb3",
+    "company": "Textron",
+    "role": "2027 Intern - Pricing & Estimating - Hunt Valley, MD",
+    "state": "AMBIGUOUS_FIELD",
+    "attempt": 1,
+    "failure_signature": "AMBIGUOUS_FIELD|-|verify_mismatch|textron.taleo.net",
+    "end_host": "textron.taleo.net",
+    "recent_events": [
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "AMBIGUOUS_FIELD",
+        "reason": "pipeline: read-back verification failed",
+        "at": "2026-09-15T10:47:12.637Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (generic live fill: 1 filled (held for submit))",
+        "at": "2026-09-15T10:47:12.636Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-15T10:46:44.087Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-15T10:46:42.288Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-15T10:46:42.271Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-15T10:46:38.556Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 7141579276ac)",
+        "at": "2026-09-15T10:46:38.545Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-15T10:46:38.464Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-15T10:46:30.883Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-15T10:46:30.872Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-15T10:46:30.871Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-15T10:46:30.870Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "textron",
+        "detail": "token \"textron\" ~ slug \"textron\" (from URL tenant)",
+        "expected_company": "Textron",
+        "url": "https://textron.taleo.net/careersection/textron_ur/jobdetail.ftl?job=1539964&tz=UTC-05%3A00&tzname=America%2FNew_York&jr_id=6a966434d13b4819f39db8e6"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (12 candidates, employer match)",
+          "evidence": "textron.taleo.net"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": false
+    },
+    "open_review_items": [
+      {
+        "kind": "AMBIGUOUS_FIELD",
+        "title": "Fill verification failed"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"park_for_operator\", \"rationale\": \"Read-back verification failed on a Taleo portal requiring sign-in; navigation and materials are sound (URL congruent, resume verified), so requeuing the same pipeline would repeat the same ambiguous fill. A review item is already open — a human should resolve the field/login ambiguity.\", \"confidence\": \"medium\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: 8b25f0f3-e060-46a9-9f66-eeffe705dd48",
+  "rationale_unverified": "Read-back verification failed on a Taleo portal requiring sign-in; navigation and materials are sound (URL congruent, resume verified), so requeuing the same pipeline would repeat the same ambiguous fill. A review item is already open — a human should resolve the field/login ambiguity."
+}
