@@ -1,0 +1,134 @@
+{
+  "decision_id": "c658588d-719c-4da3-9389-3f2e5e8bedfa",
+  "application_id": "b297ef4d-374c-4b05-904d-256fe3091b1e",
+  "signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|boards.greenhouse.io",
+  "forbidden_actions": [
+    "requeue_same"
+  ],
+  "bundle": {
+    "application_id": "b297ef4d-374c-4b05-904d-256fe3091b1e",
+    "company": "Waymo",
+    "role": "2027 Summer Intern, BS/MS, Software Engineer",
+    "state": "NATIVE_AUTOFILL_RUNNING",
+    "attempt": 2,
+    "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|boards.greenhouse.io",
+    "end_host": "boards.greenhouse.io",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-15T06:44:45.251Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-15T06:44:40.330Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: greenhouse URL validated",
+        "at": "2026-09-15T06:44:40.323Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-15T06:44:40.317Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 7141579276ac)",
+        "at": "2026-09-15T06:44:40.308Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-15T06:44:40.291Z"
+      },
+      {
+        "from": "FAILED_RETRYABLE",
+        "to": "QUEUED",
+        "reason": "retry 2/3",
+        "at": "2026-09-14T17:27:34.664Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "triage: demoting gate-parked NATIVE_AUTOFILL_RUNNING for requeue (NATIVE_AUTOFILL_RUNNING|-|unknown|boards.greenhouse.io)",
+        "at": "2026-09-14T17:27:34.662Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-14T17:27:20.058Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-14T17:27:10.653Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: greenhouse URL validated",
+        "at": "2026-09-14T17:27:10.645Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-14T17:27:10.637Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 7141579276ac)",
+        "at": "2026-09-14T17:27:10.629Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-14T17:27:10.595Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "ats board discovery: ready for materials/pipeline",
+        "at": "2026-09-14T17:26:33.815Z"
+      }
+    ],
+    "nav": null,
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [],
+    "prior_decisions": [
+      {
+        "action": "requeue_same",
+        "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|boards.greenhouse.io",
+        "outcome_status": "REFUTED",
+        "created_at": "2026-09-14T17:27:34.661Z"
+      }
+    ],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\":\"park_for_operator\",\"rationale\":\"Stalls at needs_login portal sign-in on Greenhouse twice; identical requeue already refuted, materials verified (resume sha ok), URL validated so nav/materials requeues wouldn't change outcome, and no nav tier exhaustion evidence to justify an agent leg. A human should supply portal credentials/decide.\",\"confidence\":\"medium\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: 81973986-2e13-4177-b1c1-d29099bcb5f3",
+  "rationale_unverified": "Stalls at needs_login portal sign-in on Greenhouse twice; identical requeue already refuted, materials verified (resume sha ok), URL validated so nav/materials requeues wouldn't change outcome, and no nav tier exhaustion evidence to justify an agent leg. A human should supply portal credentials/decide."
+}
