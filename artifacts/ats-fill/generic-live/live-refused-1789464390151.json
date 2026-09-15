@@ -1,0 +1,35 @@
+{
+  "ats": "generic",
+  "url": "https://prescientedge.hua.hrsmart.com/hr/ats/Posting/view/2051",
+  "requested_url": "https://prescientedge.hua.hrsmart.com/hr/ats/Posting/view/2051",
+  "mode": "refused",
+  "gate": {
+    "ok": false,
+    "failure_code": "AUTH_REQUIRED",
+    "reason": "portal auth did not clear the wall (wall_remains)",
+    "final_url": "https://prescientedge.hua.hrsmart.com/hr/ats/JobSeeker/applyTo/2051",
+    "page_class": "auth"
+  },
+  "plan_summary": null,
+  "plan_fields": null,
+  "form_snapshot_path": null,
+  "fill": null,
+  "verify": null,
+  "uploads": null,
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: posting (no fields, Apply CTA present)",
+    "landed on a posting (no fields, Apply CTA present); clicking Apply via text \"Apply to this Job\"",
+    "Apply landed on: auth (login wall: password_input_visible_in_dom,email_and_password_inputs)",
+    "login wall on prescientedge.hua.hrsmart.com: sign_in_form; fields[email=true password=true confirm=false]; submit=[Log in]",
+    "standing portal login used for prescientedge.hua.hrsmart.com",
+    "portal auth sign_in: credentials_rejected — \"Error: Invalid login information entered.\"",
+    "portal auth: sign-in rejected and no create-account route is offered on this page",
+    "portal auth: wall remains (credentials_rejected)",
+    "portal auth: attempt recorded against the host's budget (3 failures in 6h ⇒ cool-down)",
+    "parked: account wall not cleared"
+  ],
+  "written_at": "2026-09-15T09:26:30.151Z"
+}

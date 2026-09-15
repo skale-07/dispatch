@@ -1,0 +1,49 @@
+{
+  "run_id": "nav-747b8a6f-7311-4613-990e-18b8f4b3669c",
+  "application_id": "b7abb2f8-9e1f-44f6-97de-c94af313e11e",
+  "jobright_job_id": "6a9ad00ed5ff1f3f1c39b53b",
+  "method": "anchor_llm",
+  "resolved_url": "https://prescientedge.hua.hrsmart.com/hr/ats/Posting/view/2051",
+  "resolved_ats": "generic",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no congruent apply href (9 external links)",
+      "evidence": "prescientedge.hua.hrsmart.com, www.linkedin.com, www.crunchbase.com, www.prescientedge.com, www.washingtontechnology.com, www.morningstar.com"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "unresolved by deterministic phases"
+    },
+    {
+      "phase": "A_anchor_llm",
+      "outcome": "candidate promoted by adjudication",
+      "evidence": "prescientedge.hua.hrsmart.com"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "phase A: 6 external host(s) seen: prescientedge.hua.hrsmart.com, www.linkedin.com, www.crunchbase.com, www.prescientedge.com, www.washingtontechnology.com, www.morningstar.com",
+    "no standard Apply control found (exact and broad name tiers both empty)",
+    "anchor adjudication: promoted prescientedge.hua.hrsmart.com",
+    "anchor adjudication rationale (UNVERIFIED): Employer's own ATS posting link on hrsmart under prescientedge subdomain."
+  ],
+  "congruence": {
+    "verdict": "match",
+    "slug": "prescientedge",
+    "detail": "token \"prescient\" ~ slug \"prescientedge\" (from URL host)",
+    "expected_company": "Prescient Edge",
+    "url": "https://prescientedge.hua.hrsmart.com/hr/ats/Posting/view/2051?jr_id=6a9ad00ed5ff1f3f1c39b53b"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-09-15T09:26:04.694Z"
+}

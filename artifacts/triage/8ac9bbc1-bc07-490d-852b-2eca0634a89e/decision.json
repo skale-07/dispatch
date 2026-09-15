@@ -1,0 +1,133 @@
+{
+  "decision_id": "8ac9bbc1-bc07-490d-852b-2eca0634a89e",
+  "application_id": "b7abb2f8-9e1f-44f6-97de-c94af313e11e",
+  "signature": "NATIVE_AUTOFILL_RUNNING|-|login_wall|prescientedge.hua.hrsmart.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "b7abb2f8-9e1f-44f6-97de-c94af313e11e",
+    "company": "Prescient Edge",
+    "role": "Junior Software Developer Intern",
+    "state": "NATIVE_AUTOFILL_RUNNING",
+    "attempt": 1,
+    "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|login_wall|prescientedge.hua.hrsmart.com",
+    "end_host": "prescientedge.hua.hrsmart.com",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-15T09:26:06.861Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-15T09:26:04.756Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-15T09:26:04.745Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-15T09:25:58.719Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 7141579276ac)",
+        "at": "2026-09-15T09:25:58.711Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-15T09:25:58.663Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-15T09:25:52.002Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-15T09:25:51.981Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-15T09:25:51.979Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-15T09:25:51.977Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_llm",
+      "notes": [
+        "phase A: 6 external host(s) seen: prescientedge.hua.hrsmart.com, www.linkedin.com, www.crunchbase.com, www.prescientedge.com, www.washingtontechnology.com, www.morningstar.com",
+        "no standard Apply control found (exact and broad name tiers both empty)",
+        "anchor adjudication: promoted prescientedge.hua.hrsmart.com",
+        "anchor adjudication rationale (UNVERIFIED): Employer's own ATS posting link on hrsmart under prescientedge subdomain."
+      ],
+      "congruence": {
+        "verdict": "match",
+        "slug": "prescientedge",
+        "detail": "token \"prescient\" ~ slug \"prescientedge\" (from URL host)",
+        "expected_company": "Prescient Edge",
+        "url": "https://prescientedge.hua.hrsmart.com/hr/ats/Posting/view/2051?jr_id=6a9ad00ed5ff1f3f1c39b53b"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "no congruent apply href (9 external links)",
+          "evidence": "prescientedge.hua.hrsmart.com, www.linkedin.com, www.crunchbase.com, www.prescientedge.com, www.washingtontechnology.com, www.morningstar.com"
+        },
+        {
+          "phase": "B_apply_click",
+          "outcome": "unresolved by deterministic phases"
+        },
+        {
+          "phase": "A_anchor_llm",
+          "outcome": "candidate promoted by adjudication",
+          "evidence": "prescientedge.hua.hrsmart.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\":\"engage_agent_leg\",\"rationale\":\"Attempt 1, no prior agent leg, no failed host history. Deterministic tiers found no Apply control (both name tiers empty) and the run stalled at a portal sign-in step on the employer's own ATS (congruence match). One bounded agent attempt is the cheapest plausible path through the login/apply flow before parking or abandoning.\",\"confidence\":\"medium\"}",
+  "parsed_action": "engage_agent_leg",
+  "validation_note": null,
+  "precondition": {
+    "ok": false,
+    "reason": "no navigation wall in evidence — agent leg only helps nav-walled apps"
+  },
+  "mode": "act",
+  "executed": false,
+  "execution_detail": "precondition failed: no navigation wall in evidence — agent leg only helps nav-walled apps",
+  "rationale_unverified": "Attempt 1, no prior agent leg, no failed host history. Deterministic tiers found no Apply control (both name tiers empty) and the run stalled at a portal sign-in step on the employer's own ATS (congruence match). One bounded agent attempt is the cheapest plausible path through the login/apply flow before parking or abandoning."
+}
