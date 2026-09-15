@@ -1,0 +1,248 @@
+{
+  "ats": "generic",
+  "url": "https://www.tesla.com/careers/search/job/283290",
+  "requested_url": "https://www.tesla.com/careers/search/job/283290",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://www.tesla.com/careers/search/job/apply/283290",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 7,
+    "skipped_count": 2,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "2864df23-4894-4b4d-bf36-8f9343dda6dc",
+      "label": "Legal First Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f0e00951-4a8c-4f04-b6f4-9e8824e667de",
+      "label": "Legal Last Name",
+      "type": "text",
+      "canonical_field": "legal_name.last",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "66e3177a-5bf8-483f-b38b-742b1e7e17b4",
+      "label": "Middle Name (Optional)",
+      "type": "text",
+      "canonical_field": "legal_name.middle",
+      "action": "SKIP",
+      "reason": "Profile value empty for legal_name.middle"
+    },
+    {
+      "field_id": "b66b6c22-19c9-4012-b4da-6686576c5cd0",
+      "label": "Preferred Name (Optional)",
+      "type": "text",
+      "canonical_field": "screener:custom:has_preferred_name",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "3796f642-5a03-4b16-a57c-83e10d88c53b",
+      "label": "Phone Number",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "0c7e1160-988c-41b8-8e8f-b86e89b220a8",
+      "label": "Contact Phone Type",
+      "type": "select",
+      "canonical_field": "screener:custom:contact_phone_type",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "0d8ddc93-45bf-4019-8162-3fa8db2b23ae",
+      "label": "Email",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "ce0880ac-e7a8-4229-b5fa-b7cfc981c336",
+      "label": "Country/Region of Residence",
+      "type": "select",
+      "canonical_field": "address.country",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "ea16a2b5-16af-48f2-9b15-52b573d0ef35",
+      "label": "Select File",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "c191b2f9-2979-44e3-ae80-8401a318d6e0",
+      "label": "When are you available to start an internship?",
+      "type": "text",
+      "canonical_field": "screener:start_availability",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "a2703433-fd86-4ce7-b36c-cffb3000ebce",
+      "label": "How many months are you available for an internship? Internships must be at least three months long.",
+      "type": "select",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "employment row 7 already holds \"- Select -\" (resume parse) — kept"
+    },
+    {
+      "field_id": "04aecabf-b5c4-47fa-bc76-d2650c247ec4",
+      "label": "Are you available for a full-time internship? Only full-time positions are offered.",
+      "type": "select",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "employment row 4 already holds \"- Select -\" (resume parse) — kept"
+    },
+    {
+      "field_id": "job.jobInternshipThesis",
+      "label": "Yes",
+      "type": "radio",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\generic-live\\form-snapshot-1789460093679.html",
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "legal_name.last",
+      "screener:custom:has_preferred_name",
+      "phone",
+      "screener:custom:contact_phone_type",
+      "email",
+      "address.country"
+    ],
+    "skipped": [
+      "c191b2f9-2979-44e3-ae80-8401a318d6e0 — control is readonly/disabled (page-owned value)"
+    ],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "2864df23-4894-4b4d-bf36-8f9343dda6dc",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "f0e00951-4a8c-4f04-b6f4-9e8824e667de",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "b66b6c22-19c9-4012-b4da-6686576c5cd0",
+        "canonical_field": "screener:custom:has_preferred_name",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "3796f642-5a03-4b16-a57c-83e10d88c53b",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "0c7e1160-988c-41b8-8e8f-b86e89b220a8",
+        "canonical_field": "screener:custom:contact_phone_type",
+        "control_kind": "native_select",
+        "selected_option": "Mobile",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "0d8ddc93-45bf-4019-8162-3fa8db2b23ae",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "ce0880ac-e7a8-4229-b5fa-b7cfc981c336",
+        "canonical_field": "address.country",
+        "control_kind": "native_select",
+        "selected_option": "United States",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "c191b2f9-2979-44e3-ae80-8401a318d6e0",
+        "canonical_field": "screener:start_availability",
+        "control_kind": "text",
+        "notes": [
+          "readonly/disabled — skipped, the page owns this value"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": false,
+    "fields": [
+      {
+        "canonical_field": "screener:start_availability",
+        "expected": "Flexible — aligned to the posted term",
+        "observed": "",
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": [
+      "verify screener:start_availability: control is readonly/disabled — page-owned value accepted in place"
+    ]
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 126181,
+      "verified": true,
+      "evidence": "input files: [{\"name\":\"resume-d5f6e235.pdf\",\"size\":126181}]; stillAttached=true; chip=true"
+    }
+  ],
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: posting (no fields, Apply CTA present)",
+    "landed on a posting (no fields, Apply CTA present); clicking Apply via role=link accessible name is Apply",
+    "Apply landed on: unknown (no signals matched)",
+    "Apply opened a new tab — the flow continues there",
+    "timing: base page (9 planned) — plan 0s, fill 2s, verify 0s",
+    "timing: revealed page (4 planned) — plan 2s, fill 0s, verify 0s",
+    "resolved advance: \"Next\"",
+    "form-advance: verify failed on page 2 — not advancing further",
+    "form-advance: filled 1 additional page(s) — form:0/1",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "wizard_pages": [
+    {
+      "page": 2,
+      "url": "https://www.tesla.com/careers/search/job/apply/283290",
+      "kind": "form",
+      "fillable": 1,
+      "filled": 0,
+      "verify_passed": false
+    }
+  ],
+  "operator_brief": {
+    "title": "Live fill — generic https://www.tesla.com/careers/search/job/apply/283290",
+    "summary": "No open field issues in this report.",
+    "items": [],
+    "ok_count": 1,
+    "fail_count": 0
+  },
+  "written_at": "2026-09-15T08:14:53.727Z"
+}
