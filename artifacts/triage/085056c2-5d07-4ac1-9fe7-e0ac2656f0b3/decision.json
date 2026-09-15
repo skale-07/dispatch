@@ -1,0 +1,121 @@
+{
+  "decision_id": "085056c2-5d07-4ac1-9fe7-e0ac2656f0b3",
+  "application_id": "316853c5-54b9-4a5c-85e1-37ea44bb4024",
+  "signature": "FAILED_RETRYABLE|duplicate_url|duplicate_url|-",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "316853c5-54b9-4a5c-85e1-37ea44bb4024",
+    "company": "Figma",
+    "role": "Data Science Intern (2027)",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 1,
+    "failure_signature": "FAILED_RETRYABLE|duplicate_url|duplicate_url|-",
+    "end_host": null,
+    "recent_events": [
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "navigation: employer URL already held by another application",
+        "at": "2026-09-15T05:19:08.536Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-15T05:19:03.116Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 d5f6e2353444)",
+        "at": "2026-09-15T05:19:03.108Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-15T05:19:03.059Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-15T04:57:37.775Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-15T04:57:37.758Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-15T04:57:37.756Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-15T04:57:37.755Z"
+      }
+    ],
+    "nav": {
+      "wall": "duplicate_url",
+      "method": null,
+      "notes": [
+        "employer URL already held by 1 other application(s): 5221a787 (Figma — Data Science Intern (2027), COMPLETED)"
+      ],
+      "congruence": {
+        "verdict": "match",
+        "slug": "figma",
+        "detail": "token \"figma\" ~ slug \"figma\"",
+        "expected_company": "Figma",
+        "url": "https://job-boards.greenhouse.io/embed/job_app?for=figma&token=6178857004&jr_id=6aa836052ed333b4ea5cdea6"
+      },
+      "duplicates": [
+        {
+          "application_id": "5221a787-c5b7-4f7c-88a6-f8bb47b9c5e3",
+          "state": "COMPLETED",
+          "company": "Figma",
+          "role": "Data Science Intern (2027)"
+        }
+      ],
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (10 candidates, employer match)",
+          "evidence": "job-boards.greenhouse.io"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [
+      {
+        "kind": "MANUAL",
+        "title": "Duplicate posting — another application already targets this URL"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\":\"abandon_duplicate\",\"rationale\":\"Same Figma URL and role already owned by COMPLETED application 5221a787; congruence matches. No path forward for this duplicate.\",\"confidence\":\"high\"}",
+  "parsed_action": "abandon_duplicate",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "abandoned to FAILED_FINAL",
+  "rationale_unverified": "Same Figma URL and role already owned by COMPLETED application 5221a787; congruence matches. No path forward for this duplicate."
+}
