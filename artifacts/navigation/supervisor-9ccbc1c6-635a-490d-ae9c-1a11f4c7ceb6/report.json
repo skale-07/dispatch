@@ -1,0 +1,50 @@
+{
+  "run_id": "[REDACTED]",
+  "outcome": "form_ready",
+  "steps": [
+    {
+      "observation": "7e8f50a4e9f33062",
+      "action": "click",
+      "reason": "one unambiguous Apply control",
+      "result": "clicked observed control; next observation checks progress",
+      "target": "control-1"
+    },
+    {
+      "observation": "f3ffe761a48229d7",
+      "action": "click",
+      "reason": "Choose Apply Manually in the Start Your Application chooser to reach the actual form fields.",
+      "result": "action failed: elementHandle.click: Element is not attached to the DOM\nCall log:\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n",
+      "model": "claude-opus-5",
+      "target": "control-2"
+    },
+    {
+      "observation": "57fc409c9a72b68b",
+      "action": "click",
+      "reason": "one unambiguous Apply control",
+      "result": "clicked observed control; next observation checks progress",
+      "target": "control-1"
+    },
+    {
+      "observation": "f3ffe761a48229d7",
+      "action": "click",
+      "reason": "Choose Apply Manually in the chooser to reach the actual application form.",
+      "result": "action failed: elementHandle.click: Element is not attached to the DOM\nCall log:\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n",
+      "model": "claude-opus-5",
+      "target": "control-2"
+    },
+    {
+      "observation": "57fc409c9a72b68b",
+      "action": "authenticate",
+      "reason": "The Apply chooser loop keeps failing on a stale 'Apply Manually' element; signing in first via the approved credential service should route Apply directly into the Workday application form.",
+      "result": "portal auth: signed_in",
+      "model": "claude-opus-5"
+    }
+  ],
+  "notes": [
+    "model calls: 3 of 5 steps"
+  ],
+  "evidence": [
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-9ccbc1c6-635a-490d-ae9c-1a11f4c7ceb6\\observation.json",
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-9ccbc1c6-635a-490d-ae9c-1a11f4c7ceb6\\page.png"
+  ]
+}
