@@ -1,0 +1,28 @@
+{
+  "run_id": "[REDACTED]",
+  "outcome": "form_ready",
+  "steps": [
+    {
+      "observation": "333ba920140e86f0",
+      "action": "click",
+      "reason": "Continue Application resumes the signed-in Workday application for this exact posting.",
+      "result": "clicked observed control; next observation checks progress",
+      "model": "claude-opus-5",
+      "target": "control-8"
+    },
+    {
+      "observation": "196c475f95c55345",
+      "action": "wait",
+      "reason": "My Information step is loading (0 fields yet); wait for the form fields to render.",
+      "result": "waited for rendering",
+      "model": "claude-opus-5"
+    }
+  ],
+  "notes": [
+    "model calls: 2 of 2 steps"
+  ],
+  "evidence": [
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-c7b2a9cc-0d0a-4d70-a84d-f3a614fd96b3\\observation.json",
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-c7b2a9cc-0d0a-4d70-a84d-f3a614fd96b3\\page.png"
+  ]
+}
