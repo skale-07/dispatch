@@ -1,0 +1,441 @@
+{
+  "ats": "lever",
+  "url": "https://jobs.lever.co/acronaviation/6c0066e6-ed85-43c9-b1ec-911709dafca9/apply",
+  "requested_url": "https://jobs.lever.co/acronaviation/6c0066e6-ed85-43c9-b1ec-911709dafca9/apply",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://jobs.lever.co/acronaviation/6c0066e6-ed85-43c9-b1ec-911709dafca9/apply",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 14,
+    "skipped_count": 3,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "resume-upload-input",
+      "label": "resume",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "name",
+      "label": "Full name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Single full-name field: composed legal_name.first + legal_name.last (both safe factual canonicals)"
+    },
+    {
+      "field_id": "email",
+      "label": "Email",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phone",
+      "label": "Phone",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "location-input",
+      "label": "location",
+      "type": "text",
+      "canonical_field": "address.city",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "org",
+      "label": "Current company",
+      "type": "text",
+      "canonical_field": "current_company",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "urls[LinkedIn]",
+      "label": "LinkedIn URL",
+      "type": "text",
+      "canonical_field": "linkedin_url",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "urls[Other]",
+      "label": "Other website",
+      "type": "text",
+      "canonical_field": "personal_website",
+      "action": "SKIP",
+      "reason": "Profile value empty for personal_website"
+    },
+    {
+      "field_id": "cards[559b4332-0d7a-4aa5-9110-fb9f9c5b1f0a][field0]",
+      "label": "This position requires regular on-site presence in our North Phoenix, AZ office. Are you able and willing to work on-site at this location?",
+      "type": "radio",
+      "canonical_field": "screener:willing_to_relocate",
+      "action": "FILL",
+      "reason": "Screener bank answer (synonym_option)"
+    },
+    {
+      "field_id": "cards[141a300b-94b1-4339-b396-82c79b86c6aa][field0]",
+      "label": "This position may require access to information, technology, software, or hardware that is subject to U.S. export control laws and regulations. Under these regulations, a U.S. Person includes a U.S. citizen, U.S. national, lawful permanent resident (Green Card holder), refugee, asylee, or other individual authorized to receive export-controlled information under applicable U.S. law. Do you qualify as a U.S. Person?",
+      "type": "radio",
+      "canonical_field": "screener:custom:export_control_status",
+      "action": "FILL",
+      "reason": "Screener bank answer (llm_option)"
+    },
+    {
+      "field_id": "cards[5c6900b2-8431-4ff5-a81b-93d6fc521729][field0]",
+      "label": "What is your current academic standing?",
+      "type": "select",
+      "canonical_field": "screener:custom:predicted:cards[5c6900b2-8431-4ff5-a81b-93d6fc521729][field0]",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): Started at Johns Hopkins in August 2025 with expected graduation May 2029, so the candidate has completed freshman year and is now a sophomore."
+    },
+    {
+      "field_id": "cards[e5807675-5cc0-492f-81e4-1740d4e67e4e][field0]",
+      "label": "When do you expect to complete your current degree program? Please provide your expected graduation month and year (MM/YYYY).",
+      "type": "textarea",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Essay generation produced no answer"
+    },
+    {
+      "field_id": "additional-information",
+      "label": "Additional information",
+      "type": "textarea",
+      "canonical_field": "essay:generated:additional-information",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "eeo[gender]",
+      "label": "Gender Select ... Male Female Decline to self-identify",
+      "type": "select",
+      "canonical_field": "gender",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "eeo[race]",
+      "label": "Gender Select ... Male Female Decline to self-identify",
+      "type": "radio",
+      "canonical_field": "race_ethnicity",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "eeo[veteran]",
+      "label": "Veteran status Select ... I identify as one or more of the classifications of protected veteran listed above I am not a protected veteran I decline to self-identify for protected veteran status",
+      "type": "select",
+      "canonical_field": "veteran_status",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "disabilitySelectElement",
+      "label": "Disability status Select ... Yes, I have a disability, or have had one in the past No, I do not have a disability and have not had one in the past I do not want to answer",
+      "type": "select",
+      "canonical_field": "disability_status",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\lever-live\\form-snapshot-1789451337578.html",
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "email",
+      "phone",
+      "address.city",
+      "current_company",
+      "linkedin_url",
+      "screener:willing_to_relocate",
+      "screener:custom:export_control_status",
+      "screener:custom:predicted:cards[5c6900b2-8431-4ff5-a81b-93d6fc521729][field0]",
+      "essay:generated:additional-information",
+      "gender",
+      "veteran_status",
+      "disability_status",
+      "signature_name",
+      "signature_date"
+    ],
+    "skipped": [],
+    "errors": [
+      "eeo[race]: No radio option for \"South Asian\""
+    ],
+    "field_meta": [
+      {
+        "field_id": "name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "phone",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "location-input",
+        "canonical_field": "address.city",
+        "control_kind": "text",
+        "notes": [
+          "suggestions visible: 1",
+          "matched suggestion index 0: baltimore, md, usa",
+          "no city-token match — clicking first suggestion",
+          "clicked suggestion index 0",
+          "location committed (blur-stable): Baltimore, MD, USA"
+        ]
+      },
+      {
+        "field_id": "org",
+        "canonical_field": "current_company",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "urls[LinkedIn]",
+        "canonical_field": "linkedin_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "cards[559b4332-0d7a-4aa5-9110-fb9f9c5b1f0a][field0]",
+        "canonical_field": "screener:willing_to_relocate",
+        "control_kind": "text",
+        "selected_option": "Yes"
+      },
+      {
+        "field_id": "cards[141a300b-94b1-4339-b396-82c79b86c6aa][field0]",
+        "canonical_field": "screener:custom:export_control_status",
+        "control_kind": "text",
+        "selected_option": "Yes"
+      },
+      {
+        "field_id": "cards[5c6900b2-8431-4ff5-a81b-93d6fc521729][field0]",
+        "canonical_field": "screener:custom:predicted:cards[5c6900b2-8431-4ff5-a81b-93d6fc521729][field0]",
+        "control_kind": "native_select",
+        "selected_option": "Completed Freshman year, currently studying in Sophomore year",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "additional-information",
+        "canonical_field": "essay:generated:additional-information",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "eeo[gender]",
+        "canonical_field": "gender",
+        "control_kind": "native_select",
+        "selected_option": "Male",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "eeo[veteran]",
+        "canonical_field": "veteran_status",
+        "control_kind": "native_select",
+        "selected_option": "I am not a veteran",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "disabilitySelectElement",
+        "canonical_field": "disability_status",
+        "control_kind": "native_select",
+        "selected_option": "No",
+        "match_via": "exact"
+      }
+    ]
+  },
+  "verify": {
+    "passed": false,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham Kale",
+        "observed": "Shubham Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "address.city",
+        "expected": "Baltimore, Maryland, USA",
+        "observed": "Baltimore, MD, USA",
+        "match": true
+      },
+      {
+        "canonical_field": "current_company",
+        "expected": "Summer Atlantic Capital",
+        "observed": "Summer Atlantic Capital",
+        "match": true
+      },
+      {
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:willing_to_relocate",
+        "expected": "Yes",
+        "observed": {
+          "value": "Yes",
+          "label": "Yes"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:export_control_status",
+        "expected": "Yes",
+        "observed": {
+          "value": "Yes",
+          "label": "Yes"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:cards[5c6900b2-8431-4ff5-a81b-93d6fc521729][field0]",
+        "expected": "Completed Freshman year, currently studying in Sophomore year",
+        "observed": {
+          "value": "Completed Freshman year, currently studying in Sophomore year",
+          "label": "Completed Freshman year, currently studying in Sophomore year"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:additional-information",
+        "expected": "A bit of context on how I work. Most of my experience is in building systems where the interesting part is the constraints around the model, not the model itself. At Summer Atlantic Capital I build the machine-learning core of an anomaly-detection and alert-prioritization system: event ingestion, temporal sequence modeling over event streams, a versioned FastAPI detection service, and a learning-to-rank layer, because an anomaly system that fires too often just creates a second problem. I also built a browser automation agent in TypeScript where every mutating capability sits behind fail-closed flags and every application moves through an explicit state machine, and where a capability is only called working once it has been validated against the level of reality it claims to support, not just a local fixture. That habit of specifying states, failure modes, and verification levels before claiming something works is what I would bring to systems engineering work. I am a U.S. citizen authorized to work in the United States without sponsorship, and I am comfortable being handed a piece of a larger system and expected to own it, document it, and test it.",
+        "observed": "A bit of context on how I work. Most of my experience is in building systems where the interesting part is the constraints around the model, not the model itself. At Summer Atlantic Capital I build the machine-learning core of an anomaly-detection and alert-prioritization system: event ingestion, temporal sequence modeling over event streams, a versioned FastAPI detection service, and a learning-to-rank layer, because an anomaly system that fires too often just creates a second problem. I also built a browser automation agent in TypeScript where every mutating capability sits behind fail-closed flags and every application moves through an explicit state machine, and where a capability is only called working once it has been validated against the level of reality it claims to support, not just a local fixture. That habit of specifying states, failure modes, and verification levels before claiming something works is what I would bring to systems engineering work. I am a U.S. citizen authorized to work in the United States without sponsorship, and I am comfortable being handed a piece of a larger system and expected to own it, document it, and test it.",
+        "match": true
+      },
+      {
+        "canonical_field": "gender",
+        "expected": "Male",
+        "observed": {
+          "value": "Male",
+          "label": "Male"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "race_ethnicity",
+        "expected": "South Asian",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "match": false
+      },
+      {
+        "canonical_field": "veteran_status",
+        "expected": "I am not a veteran",
+        "observed": {
+          "value": "I am not a Protected Veteran",
+          "label": "I am not a protected veteran"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "disability_status",
+        "expected": "No",
+        "observed": {
+          "value": "No, I do not have a disability and have not had one in the past",
+          "label": "No, I do not have a disability and have not had one in the past"
+        },
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 115393,
+      "verified": true,
+      "evidence": "input files: [{\"name\":\"resume-71415792.pdf\",\"size\":115393}]; stillAttached=true; chip=false; resolved via primary"
+    }
+  ],
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: form (17 fillable field(s))",
+    "revealed required control(s) after the fill (#224): \"Enter your full name\", \"MM/DD/YYYY\" — second plan pass",
+    "revealed pass: filled 2, verify passed",
+    "timing: base page (17 planned) — plan 19s, fill 18s, verify 0s",
+    "page error scan: no visible validation errors on the page",
+    "verify-failed snapshot: verify-failed-snapshot-1789451355670.html",
+    "page-complete waiver not applied: 1 fill error(s) may have written a value: eeo[race]: No radio option for \"South Asian\"",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "operator_brief": {
+    "title": "Live fill — lever https://jobs.lever.co/acronaviation/6c0066e6-ed85-43c9-b1ec-911709dafca9/apply",
+    "summary": "2 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:race_ethnicity",
+        "question": "Gender Select ... Male Female Decline to self-identify",
+        "field_id": "eeo[race]",
+        "canonical_field": "race_ethnicity",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"South Asian\"; page shows \"(empty)\"",
+        "expected": "South Asian",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "how_to_answer": [
+          "System expected \"South Asian\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: race_ethnicity)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"race_ethnicity\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "fill_error:eeo[race]: No radio option for \"South Asian\"",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "eeo[race]: No radio option for \"South Asian\"",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      }
+    ],
+    "ok_count": 13,
+    "fail_count": 2
+  },
+  "written_at": "2026-09-15T05:49:18.414Z"
+}
