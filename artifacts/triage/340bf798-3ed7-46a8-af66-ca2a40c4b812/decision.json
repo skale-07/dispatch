@@ -1,0 +1,122 @@
+{
+  "decision_id": "340bf798-3ed7-46a8-af66-ca2a40c4b812",
+  "application_id": "b8cbaeb9-f000-4463-a8e8-1f14a650d50f",
+  "signature": "FAILED_RETRYABLE|duplicate_url|duplicate_url|-",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "b8cbaeb9-f000-4463-a8e8-1f14a650d50f",
+    "company": "OpenGov Inc.",
+    "role": "Intern, Software Engineer",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 1,
+    "failure_signature": "FAILED_RETRYABLE|duplicate_url|duplicate_url|-",
+    "end_host": null,
+    "recent_events": [
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "navigation: employer URL already held by another application",
+        "at": "2026-09-15T06:30:07.982Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-15T06:30:01.391Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 7141579276ac)",
+        "at": "2026-09-15T06:30:01.373Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-15T06:30:01.279Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-15T05:30:47.649Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-15T05:30:47.641Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-15T05:30:47.640Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-15T05:30:47.640Z"
+      }
+    ],
+    "nav": {
+      "wall": "duplicate_url",
+      "method": null,
+      "notes": [
+        "employer URL already held by 1 other application(s): 930a5a95 (OpenGov — Intern, Software Engineer, COMPLETED)",
+        "dup adjudication: same_job"
+      ],
+      "congruence": {
+        "verdict": "match",
+        "slug": "opengov",
+        "detail": "token \"opengov\" ~ slug \"opengov\"",
+        "expected_company": "OpenGov Inc.",
+        "url": "https://jobs.ashbyhq.com/opengov/c31622c1-be01-4d4a-b7cf-d116be84cc08/application?jr_id=6aa85ec13a9f0a4fe6f18e9f"
+      },
+      "duplicates": [
+        {
+          "application_id": "930a5a95-9b5c-42a0-9aac-83301e117f4c",
+          "state": "COMPLETED",
+          "company": "OpenGov",
+          "role": "Intern, Software Engineer"
+        }
+      ],
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (10 candidates, employer match)",
+          "evidence": "jobs.ashbyhq.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [
+      {
+        "kind": "MANUAL",
+        "title": "Duplicate posting — another application already targets this URL"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\":\"abandon_duplicate\",\"rationale\":\"Evidence shows same URL already owned by application 930a5a95 (COMPLETED, same company/role), adjudicated same_job. No path forward for this duplicate.\",\"confidence\":\"high\"}",
+  "parsed_action": "abandon_duplicate",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "abandoned to FAILED_FINAL",
+  "rationale_unverified": "Evidence shows same URL already owned by application 930a5a95 (COMPLETED, same company/role), adjudicated same_job. No path forward for this duplicate."
+}
