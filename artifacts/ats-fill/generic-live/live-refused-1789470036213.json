@@ -1,0 +1,80 @@
+{
+  "ats": "generic",
+  "url": "https://careers-uwmcareers.icims.com/jobs/15881/2027-technology-summer-internship-program/job?in_iframe=1",
+  "requested_url": "https://careers-uwmcareers.icims.com/jobs/15881/2027-technology-summer-internship-program/job?in_iframe=1",
+  "mode": "refused",
+  "gate": {
+    "ok": false,
+    "failure_code": "FORM_NOT_REACHED",
+    "reason": "still on the job posting after trying Apply — no application form to fill",
+    "final_url": "https://careers-uwmcareers.icims.com/jobs/15881/2027-technology-summer-internship-program/login",
+    "page_class": "posting"
+  },
+  "plan_summary": null,
+  "plan_fields": null,
+  "form_snapshot_path": null,
+  "fill": null,
+  "verify": null,
+  "uploads": null,
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: posting (no fields, Apply CTA present)",
+    "landed on a posting (no fields, Apply CTA present); clicking Apply via role=link accessible name is Apply (same-origin iframe)",
+    "Apply landed on: posting (no fields, Apply CTA present)",
+    "posting page (no fields, Apply CTA present) but no Apply control found — not filling the posting; no visible apply-ish controls",
+    "navigation supervisor after Apply miss: stopped (5 steps)",
+    "parked: refused to fill a listing page's own search widgets"
+  ],
+  "navigation_supervisor": {
+    "run_id": "supervisor-7c50939f-602d-4967-9b4a-4982be2812d8",
+    "outcome": "stopped",
+    "steps": [
+      {
+        "observation": "8c7141119def1b5f",
+        "action": "form_ready",
+        "reason": "iCIMS applicant identity fields (Email, phone country code, number) are present in frame-1 for the correct UWM job 15881; ready for fill/auth stage.",
+        "result": "refused: applicant form not independently observed",
+        "model": "claude-opus-5"
+      },
+      {
+        "observation": "8c7141119def1b5f",
+        "action": "authenticate",
+        "reason": "Frame-1 is the iCIMS candidate sign-in/registration step for the correct UWM job 15881; form_ready was refused since these are portal login fields, so hand off to the approved portal-auth service rather than repeating.",
+        "result": "portal auth: not_an_auth_wall",
+        "model": "claude-opus-5"
+      },
+      {
+        "observation": "8c7141119def1b5f",
+        "action": "open_frame",
+        "reason": "Open the iCIMS application frame in this tab so its applicant identity fields (Email, phone) are independently observed as the active document.",
+        "result": "opened observed frame URL",
+        "model": "claude-opus-5",
+        "target": "frame-1"
+      },
+      {
+        "observation": "a191266a8fcae465",
+        "action": "form_ready",
+        "reason": "The iCIMS application start form for UWM job 15881 is now the active observed document with applicant identity fields (Email, Phone Country Code, Number) visible; no further navigation needed.",
+        "result": "refused: applicant form not independently observed",
+        "model": "claude-opus-5"
+      },
+      {
+        "observation": "fefda3393d76d974",
+        "action": "stop",
+        "reason": "We are at the iCIMS candidate start page for the correct UWM job 15881 with Email/Phone entry fields, but form_ready was twice refused (fields not independently verified, likely due to hCaptcha challenge blocking in frame-2) and portal auth reported not_an_auth_wall. An hCaptcha 'Please try again' challenge is active and cannot be solved here; no further navigation action can progress. Stopping on this concrete blocker.",
+        "result": "model stopped",
+        "model": "claude-opus-5"
+      }
+    ],
+    "notes": [
+      "model calls: 5 of 5 steps"
+    ],
+    "evidence": [
+      "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-7c50939f-602d-4967-9b4a-4982be2812d8\\observation.json",
+      "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-7c50939f-602d-4967-9b4a-4982be2812d8\\page.png"
+    ]
+  },
+  "written_at": "2026-09-15T11:00:36.213Z"
+}
