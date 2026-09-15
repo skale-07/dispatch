@@ -1,0 +1,133 @@
+{
+  "decision_id": "95d9526e-73d5-4506-baa8-4757ffa0ddc3",
+  "application_id": "db1172c1-8357-4ba5-9254-acf3912972c4",
+  "signature": "FAILED_RETRYABLE|duplicate_url|duplicate_url|-",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "db1172c1-8357-4ba5-9254-acf3912972c4",
+    "company": "RS Medical",
+    "role": "IT Programming Intern I",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 1,
+    "failure_signature": "FAILED_RETRYABLE|duplicate_url|duplicate_url|-",
+    "end_host": null,
+    "recent_events": [
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "navigation: employer URL already held by another application",
+        "at": "2026-09-15T05:31:14.521Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-15T05:30:58.017Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 7141579276ac)",
+        "at": "2026-09-15T05:30:57.955Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-15T05:30:57.472Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-15T05:30:47.696Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-15T05:30:47.687Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-15T05:30:47.686Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-15T05:30:47.684Z"
+      }
+    ],
+    "nav": {
+      "wall": "duplicate_url",
+      "method": null,
+      "notes": [
+        "phase A: 5 external host(s) seen: recruiting.paylocity.com, www.linkedin.com, x.com, www.crunchbase.com, www.einpresswire.com",
+        "Apply control: autofill CTA (tier 0)",
+        "jobright interstitial: clicked \"Apply Without Customizing\"",
+        "popup captured on attempt 1",
+        "phase B: captured URL reads as \"intel\" (slug \"intel\" shares nothing with company \"RS Medical\") — kept, provenance is the Apply click",
+        "congruence: URL names \"intel\", not \"RS Medical\" (slug \"intel\" shares nothing with company \"RS Medical\") — recorded, not refused",
+        "employer URL already held by 1 other application(s): e52e2060 (Intel — AI Solutions Engineering Undergraduate Intern, SUBMITTED)",
+        "dup adjudication: different_job"
+      ],
+      "congruence": {
+        "verdict": "mismatch",
+        "slug": "intel",
+        "detail": "slug \"intel\" shares nothing with company \"RS Medical\"",
+        "expected_company": "RS Medical",
+        "url": "https://intel.wd1.myworkdayjobs.com/External/job/US-Oregon-Hillsboro/AI-Solutions-Engineering-Undergraduate-Intern_JR0286629?jr_id=6aa8a3a44cb6b0e0b828dc64"
+      },
+      "duplicates": [
+        {
+          "application_id": "e52e2060-f72b-4626-b656-da90159eeb33",
+          "state": "SUBMITTED",
+          "company": "Intel",
+          "role": "AI Solutions Engineering Undergraduate Intern"
+        }
+      ],
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "no congruent apply href (9 external links)",
+          "evidence": "recruiting.paylocity.com, www.linkedin.com, x.com, www.crunchbase.com, www.einpresswire.com"
+        },
+        {
+          "phase": "B_apply_click",
+          "outcome": "resolved via popup",
+          "evidence": "intel.wd1.myworkdayjobs.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [
+      {
+        "kind": "MANUAL",
+        "title": "Duplicate posting — another application already targets this URL"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"requeue_reopen_navigation\", \"rationale\": \"Captured URL points to Intel's Workday posting, incongruent with RS Medical, and collides with a submitted Intel application; dup adjudication says different_job. The stored URL is wrong, not a genuine duplicate. Clear it and re-resolve navigation (Paylocity host seen in phase A is a plausible target).\", \"confidence\": \"high\"}",
+  "parsed_action": "requeue_reopen_navigation",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "URL cleared, → APPLICATION_OPENING",
+  "rationale_unverified": "Captured URL points to Intel's Workday posting, incongruent with RS Medical, and collides with a submitted Intel application; dup adjudication says different_job. The stored URL is wrong, not a genuine duplicate. Clear it and re-resolve navigation (Paylocity host seen in phase A is a plausible target)."
+}

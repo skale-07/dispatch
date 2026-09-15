@@ -1,0 +1,64 @@
+{
+  "run_id": "nav-5c4bd09c-8abc-4ed8-899f-efa4ca28950b",
+  "application_id": "db1172c1-8357-4ba5-9254-acf3912972c4",
+  "jobright_job_id": "6aa88627a77a53f5a1579ead",
+  "method": null,
+  "resolved_url": null,
+  "resolved_ats": null,
+  "wall": "duplicate_url",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no congruent apply href (9 external links)",
+      "evidence": "recruiting.paylocity.com, www.linkedin.com, x.com, www.crunchbase.com, www.einpresswire.com"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "resolved via popup",
+      "evidence": "intel.wd1.myworkdayjobs.com"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "phase A: 5 external host(s) seen: recruiting.paylocity.com, www.linkedin.com, x.com, www.crunchbase.com, www.einpresswire.com",
+    "Apply control: autofill CTA (tier 0)",
+    "jobright interstitial: clicked \"Apply Without Customizing\"",
+    "popup captured on attempt 1",
+    "phase B: captured URL reads as \"intel\" (slug \"intel\" shares nothing with company \"RS Medical\") — kept, provenance is the Apply click",
+    "congruence: URL names \"intel\", not \"RS Medical\" (slug \"intel\" shares nothing with company \"RS Medical\") — recorded, not refused",
+    "employer URL already held by 1 other application(s): e52e2060 (Intel — AI Solutions Engineering Undergraduate Intern, SUBMITTED)",
+    "dup adjudication: different_job"
+  ],
+  "congruence": {
+    "verdict": "mismatch",
+    "slug": "intel",
+    "detail": "slug \"intel\" shares nothing with company \"RS Medical\"",
+    "expected_company": "RS Medical",
+    "url": "https://intel.wd1.myworkdayjobs.com/External/job/US-Oregon-Hillsboro/AI-Solutions-Engineering-Undergraduate-Intern_JR0286629?jr_id=6aa8a3a44cb6b0e0b828dc64"
+  },
+  "duplicates": [
+    {
+      "application_id": "e52e2060-f72b-4626-b656-da90159eeb33",
+      "state": "SUBMITTED",
+      "company": "Intel",
+      "role": "AI Solutions Engineering Undergraduate Intern"
+    }
+  ],
+  "login_wall": null,
+  "dup_adjudication": {
+    "verdict": "different_job",
+    "rationale": "URL is an Intel Workday posting for AI Solutions Engineering Intern; the other record is RS Medical IT Programming Intern — different companies and roles, likely misattributed URL."
+  },
+  "evidence": [
+    "navigation\\nav-5c4bd09c-8abc-4ed8-899f-efa4ca28950b\\giveup-duplicate_url.html",
+    "navigation\\nav-5c4bd09c-8abc-4ed8-899f-efa4ca28950b\\giveup-duplicate_url.png"
+  ],
+  "written_at": "2026-09-15T05:31:14.478Z"
+}
