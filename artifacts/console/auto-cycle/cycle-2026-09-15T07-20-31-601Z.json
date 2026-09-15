@@ -1,0 +1,73 @@
+{
+  "started_at": "2026-09-15T07:20:31.601Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\general.pdf)",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "9fc768e9-c14c-40b6-80c2-4d8c06f3686f",
+    "armed_until": "2026-09-15T09:20:31.717Z",
+    "seconds_remaining": 7200,
+    "max_submits": 1,
+    "submits_used": 0,
+    "max_apps": 1,
+    "apps_started": 0,
+    "discover_max": 1,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": {
+    "arm_run_id": "9fc768e9-c14c-40b6-80c2-4d8c06f3686f",
+    "apps_started": 1,
+    "submits_used": 0,
+    "stopped_reason": "queue_drained",
+    "discover_runs": 0,
+    "emails_generated": 0,
+    "drafts_saved": 0,
+    "essay_drafts_generated": 0,
+    "screener_predictions_generated": 0,
+    "notes": [
+      "nav audit: 3 wrong-employer URL(s) cleared for re-navigation, 1 parked for review",
+      "triage sweep: 0 confirmed, 0 refuted, 0 expired of 216 pending",
+      "triage 790c42bc: requeue_same (executed) — requeued at attempt 2",
+      "artifact autopush: 10 file(s) pushed to master as 17e6249f"
+    ],
+    "per_app": [
+      {
+        "application_id": "790c42bc-28fa-433e-9f70-a1c4d65ca089",
+        "end_state": "FAILED_RETRYABLE",
+        "stopped": "review",
+        "stop_reason": "navigation unresolved: budget",
+        "submitted": false,
+        "outreach": null
+      }
+    ],
+    "nav_audit": {
+      "checked": 538,
+      "repaired": 3,
+      "parked": 1
+    },
+    "triage": {
+      "decided": 1,
+      "executed": 1
+    },
+    "artifact_autopush": {
+      "pushed": true,
+      "commit": "17e6249f",
+      "files_staged": 10
+    }
+  },
+  "outcome": "completed",
+  "notes": []
+}
