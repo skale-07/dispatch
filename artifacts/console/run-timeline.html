@@ -60,12 +60,12 @@
 </style></head>
 <body><div class="wrap">
 <h1>Dispatch run timeline</h1>
-<p class="sub">Generated 2026-09-15T05:27:52.680Z · 40 navigation run(s) · read-only view of artifacts/</p>
-<div class="stats"><span class="stat"><b>17</b> resolved</span><span class="stat"><b>10</b> unknown</span><span class="stat"><b>4</b> auth</span><span class="stat"><b>4</b> budget</span><span class="stat"><b>2</b> closed</span><span class="stat"><b>2</b> submit_risk</span><span class="stat"><b>1</b> duplicate_url</span></div>
+<p class="sub">Generated 2026-09-15T05:32:36.384Z · 40 navigation run(s) · read-only view of artifacts/</p>
+<div class="stats"><span class="stat"><b>17</b> resolved</span><span class="stat"><b>9</b> unknown</span><span class="stat"><b>4</b> auth</span><span class="stat"><b>4</b> budget</span><span class="stat"><b>2</b> duplicate_url</span><span class="stat"><b>2</b> closed</span><span class="stat"><b>2</b> submit_risk</span></div>
 <section class="cycle">
   <h2>Latest cycle</h2>
   <dl>
-    <div><dt>Started</dt><dd>2026-09-15T05:25:54.540Z</dd></div>
+    <div><dt>Started</dt><dd>2026-09-15T05:30:51.769Z</dd></div>
     <div><dt>Outcome</dt><dd>completed</dd></div>
     <div><dt>Agent leg</dt><dd>available</dd></div>
     <div><dt>Default resume</dt><dd>ready (C:\dev\jobright-application-agent\private\candidate\resumes\general.pdf)</dd></div>
@@ -73,9 +73,24 @@
     <div><dt>Submits used</dt><dd>0</dd></div>
     <div><dt>Stopped</dt><dd>apps_cap</dd></div>
   </dl>
-  <h3>Session notes</h3><ul class="notes"><li>triage sweep: 0 confirmed, 0 refuted, 0 expired of 207 pending</li><li>triage 5d36ff03: park_for_operator (executed) — review item created: ca191e92-efae-48ce-ab4a-5781932511f7</li><li>artifact autopush: 8 file(s) pushed to master as bf25626c</li></ul>
+  <h3>Session notes</h3><ul class="notes"><li>nav audit: 3 wrong-employer URL(s) cleared for re-navigation, 1 parked for review</li><li>triage sweep: 0 confirmed, 0 refuted, 0 expired of 208 pending</li><li>triage db1172c1: requeue_reopen_navigation (executed) — URL cleared, → APPLICATION_OPENING</li><li>artifact autopush: 24 file(s) pushed to master as 16d8baef</li></ul>
 </section>
 <h2>Applications</h2>
+<details class="app bad">
+  <summary>
+    <span class="id">db1172c1</span>
+    <span class="co">RS Medical</span>
+    <span class="badge">wall: duplicate_url</span>
+    
+    
+    
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no congruent apply href (9 external links)<span class="ev">recruiting.paylocity.com, www.linkedin.com, x.com, www.crunchbase.com, www.einpresswire.com</span></li><li><b>B_apply_click</b> — resolved via popup<span class="ev">intel.wd1.myworkdayjobs.com</span></li></ol>
+    <h4>Notes</h4><ul class="notes"><li>phase A: 5 external host(s) seen: recruiting.paylocity.com, www.linkedin.com, x.com, www.crunchbase.com, www.einpresswire.com</li><li>Apply control: autofill CTA (tier 0)</li><li>jobright interstitial: clicked &quot;Apply Without Customizing&quot;</li><li>popup captured on attempt 1</li><li>phase B: captured URL reads as &quot;intel&quot; (slug &quot;intel&quot; shares nothing with company &quot;RS Medical&quot;) — kept, provenance is the Apply click</li><li>congruence: URL names &quot;intel&quot;, not &quot;RS Medical&quot; (slug &quot;intel&quot; shares nothing with company &quot;RS Medical&quot;) — recorded, not refused</li><li>employer URL already held by 1 other application(s): e52e2060 (Intel — AI Solutions Engineering Undergraduate Intern, SUBMITTED)</li><li>dup adjudication: different_job</li></ul>
+    
+  </div>
+</details>
 <details class="app ok">
   <summary>
     <span class="id">5d36ff03</span>
@@ -658,21 +673,6 @@
   <div class="body">
     <h4>Phases</h4><ol class="phases"><li>none recorded</li></ol>
     <h4>Notes</h4><ul class="notes"><li>model calls: 0 of 1 steps</li></ul>
-    
-  </div>
-</details>
-<details class="app bad">
-  <summary>
-    <span class="id"></span>
-    <span class="co">—</span>
-    <span class="badge">wall: undefined</span>
-    
-    
-    
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li>none recorded</li></ol>
-    <h4>Notes</h4><ul class="notes"><li>model calls: 2 of 2 steps</li></ul>
     
   </div>
 </details>

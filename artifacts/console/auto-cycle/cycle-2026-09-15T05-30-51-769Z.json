@@ -1,0 +1,73 @@
+{
+  "started_at": "2026-09-15T05:30:51.769Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\general.pdf)",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "c35665d3-2994-41d1-831c-67d04971c213",
+    "armed_until": "2026-09-15T07:30:51.815Z",
+    "seconds_remaining": 7200,
+    "max_submits": 1,
+    "submits_used": 0,
+    "max_apps": 1,
+    "apps_started": 0,
+    "discover_max": 1,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": {
+    "arm_run_id": "c35665d3-2994-41d1-831c-67d04971c213",
+    "apps_started": 1,
+    "submits_used": 0,
+    "stopped_reason": "apps_cap",
+    "discover_runs": 0,
+    "emails_generated": 0,
+    "drafts_saved": 0,
+    "essay_drafts_generated": 0,
+    "screener_predictions_generated": 0,
+    "notes": [
+      "nav audit: 3 wrong-employer URL(s) cleared for re-navigation, 1 parked for review",
+      "triage sweep: 0 confirmed, 0 refuted, 0 expired of 208 pending",
+      "triage db1172c1: requeue_reopen_navigation (executed) — URL cleared, → APPLICATION_OPENING",
+      "artifact autopush: 24 file(s) pushed to master as 16d8baef"
+    ],
+    "per_app": [
+      {
+        "application_id": "db1172c1-8357-4ba5-9254-acf3912972c4",
+        "end_state": "FAILED_RETRYABLE",
+        "stopped": "review",
+        "stop_reason": "navigation refused: duplicate employer URL",
+        "submitted": false,
+        "outreach": null
+      }
+    ],
+    "nav_audit": {
+      "checked": 530,
+      "repaired": 3,
+      "parked": 1
+    },
+    "triage": {
+      "decided": 1,
+      "executed": 1
+    },
+    "artifact_autopush": {
+      "pushed": true,
+      "commit": "16d8baef",
+      "files_staged": 24
+    }
+  },
+  "outcome": "completed",
+  "notes": []
+}
