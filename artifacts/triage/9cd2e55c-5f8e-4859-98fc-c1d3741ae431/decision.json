@@ -1,0 +1,128 @@
+{
+  "decision_id": "9cd2e55c-5f8e-4859-98fc-c1d3741ae431",
+  "application_id": "ef7fc65d-b5b5-477e-8af9-adf5bdf21ee1",
+  "signature": "CAPTCHA_REQUIRED|captcha|captcha|-",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "ef7fc65d-b5b5-477e-8af9-adf5bdf21ee1",
+    "company": "Mujin",
+    "role": "Intern - Software Development (Spring 2027)",
+    "state": "CAPTCHA_REQUIRED",
+    "attempt": 1,
+    "failure_signature": "CAPTCHA_REQUIRED|captcha|captcha|-",
+    "end_host": null,
+    "recent_events": [
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "CAPTCHA_REQUIRED",
+        "reason": "navigation: blocking CAPTCHA on the employer path",
+        "at": "2026-09-15T11:55:27.725Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-15T11:54:19.137Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 7141579276ac)",
+        "at": "2026-09-15T11:54:19.132Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-15T11:54:19.087Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-15T11:54:08.766Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-15T11:54:08.727Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-15T11:54:08.724Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-15T11:54:08.720Z"
+      }
+    ],
+    "nav": {
+      "wall": "captcha",
+      "method": null,
+      "notes": [
+        "phase A: 9 external host(s) seen: www.ziprecruiter.com, www.linkedin.com, x.com, www.crunchbase.com, www.glassdoor.com, www.mujin.co.jp, www.techtimes.com, thepeninsulaqatar.com, technode.global",
+        "no standard Apply control found (exact and broad name tiers both empty)",
+        "anchor adjudication: model abstained",
+        "board hop: no public greenhouse/lever/ashby board found for \"Mujin\" (mujin; 3 requests)",
+        "agent allowed_domains widened with job-page hosts: www.ziprecruiter.com, www.mujin.co.jp, www.techtimes.com, thepeninsulaqatar.com, technode.global",
+        "agent goal seeded with 4 candidate link(s) from the job page",
+        "agent[1]: agent visited 1 off-domain URL(s) — noted, not fatal: careers.rtx.com",
+        "agent[1]: elapsed 54s, steps 2",
+        "agent[1] reason: agent stopped: captcha"
+      ],
+      "congruence": null,
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "no congruent apply href (11 external links)",
+          "evidence": "www.ziprecruiter.com, www.linkedin.com, x.com, www.crunchbase.com, www.glassdoor.com, www.mujin.co.jp"
+        },
+        {
+          "phase": "B_apply_click",
+          "outcome": "unresolved by deterministic phases"
+        },
+        {
+          "phase": "B_board_hop",
+          "outcome": "no employer board route (3 request(s))"
+        },
+        {
+          "phase": "C_agent",
+          "outcome": "wall: captcha (turn 1)"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [
+      {
+        "kind": "CAPTCHA_REQUIRED",
+        "title": "Navigation blocked by CAPTCHA"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\":\"park_for_operator\",\"rationale\":\"Attempt 1 hit a blocking CAPTCHA after all deterministic tiers failed and the agent leg already ran and was stopped by captcha. No apply route or employer board exists, so requeues/materials/navigation changes wouldn't change the outcome, and one block isn't enough to call it a permanent wall. A human should resolve the apply path.\",\"confidence\":\"medium\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: e5b7d16b-c2d0-4d59-9d71-98029bdc4446",
+  "rationale_unverified": "Attempt 1 hit a blocking CAPTCHA after all deterministic tiers failed and the agent leg already ran and was stopped by captcha. No apply route or employer board exists, so requeues/materials/navigation changes wouldn't change the outcome, and one block isn't enough to call it a permanent wall. A human should resolve the apply path."
+}
