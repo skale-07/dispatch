@@ -1,0 +1,73 @@
+{
+  "started_at": "2026-09-15T05:04:36.052Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\general.pdf)",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "92500f0a-e892-4d7c-8a32-fae2336fca3e",
+    "armed_until": "2026-09-15T07:04:36.130Z",
+    "seconds_remaining": 7200,
+    "max_submits": 1,
+    "submits_used": 0,
+    "max_apps": 1,
+    "apps_started": 0,
+    "discover_max": 1,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": {
+    "arm_run_id": "92500f0a-e892-4d7c-8a32-fae2336fca3e",
+    "apps_started": 1,
+    "submits_used": 0,
+    "stopped_reason": "apps_cap",
+    "discover_runs": 0,
+    "emails_generated": 0,
+    "drafts_saved": 0,
+    "essay_drafts_generated": 0,
+    "screener_predictions_generated": 0,
+    "notes": [
+      "triage sweep: 0 confirmed, 0 refuted, 0 expired of 201 pending",
+      "triage dc5fdb11: park_for_operator (executed) — review item created: 1bd325eb-52e0-4d35-a514-2a198b4a266b",
+      "artifact autopush: removed a stale .git/index.lock (6 min old, nothing writing it)",
+      "artifact autopush: 1129 file(s) pushed to master as a053a2f6"
+    ],
+    "per_app": [
+      {
+        "application_id": "dc5fdb11-bef0-4bb4-992b-860aee9e9c10",
+        "end_state": "FAILED_RETRYABLE",
+        "stopped": "gate",
+        "stop_reason": "submission not verified: FAILED_BEFORE_CLICK — Refusing to click submit: field verification or upload did not pass",
+        "submitted": false,
+        "outreach": null
+      }
+    ],
+    "nav_audit": {
+      "checked": 520,
+      "repaired": 0,
+      "parked": 0
+    },
+    "triage": {
+      "decided": 1,
+      "executed": 1
+    },
+    "artifact_autopush": {
+      "pushed": true,
+      "commit": "a053a2f6",
+      "files_staged": 1129
+    }
+  },
+  "outcome": "completed",
+  "notes": []
+}
