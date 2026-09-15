@@ -60,22 +60,37 @@
 </style></head>
 <body><div class="wrap">
 <h1>Dispatch run timeline</h1>
-<p class="sub">Generated 2026-09-15T12:39:32.508Z · 40 navigation run(s) · read-only view of artifacts/</p>
+<p class="sub">Generated 2026-09-15T12:43:03.801Z · 40 navigation run(s) · read-only view of artifacts/</p>
 <div class="stats"><span class="stat"><b>21</b> resolved</span><span class="stat"><b>13</b> unknown</span><span class="stat"><b>3</b> budget</span><span class="stat"><b>2</b> duplicate_url</span><span class="stat"><b>1</b> captcha</span></div>
 <section class="cycle">
   <h2>Latest cycle</h2>
   <dl>
-    <div><dt>Started</dt><dd>2026-09-15T12:39:08.430Z</dd></div>
+    <div><dt>Started</dt><dd>2026-09-15T12:41:25.202Z</dd></div>
     <div><dt>Outcome</dt><dd>completed</dd></div>
     <div><dt>Agent leg</dt><dd>available</dd></div>
     <div><dt>Default resume</dt><dd>ready (C:\dev\jobright-application-agent\private\candidate\resumes\general.pdf)</dd></div>
-    <div><dt>Apps started</dt><dd>0</dd></div>
-    <div><dt>Submits used</dt><dd>0</dd></div>
-    <div><dt>Stopped</dt><dd>queue_drained</dd></div>
+    <div><dt>Apps started</dt><dd>1</dd></div>
+    <div><dt>Submits used</dt><dd>1</dd></div>
+    <div><dt>Stopped</dt><dd>apps_cap</dd></div>
   </dl>
-  <h3>Session notes</h3><ul class="notes"><li>nav audit: 1 wrong-employer URL(s) cleared for re-navigation, 0 parked for review</li><li>triage sweep: 0 confirmed, 0 refuted, 0 expired of 238 pending</li><li>artifact autopush: 1 file(s) pushed to master as f381fa13</li></ul>
+  <h3>Session notes</h3><ul class="notes"><li>nav audit: 3 wrong-employer URL(s) cleared for re-navigation, 1 parked for review</li><li>triage sweep: 0 confirmed, 0 refuted, 0 expired of 238 pending</li><li>gmail 922ab36a-cb2d-47dc-a3fb-7f8e5a2f93da: deferred to outreach:worker</li><li>artifact autopush: 9 file(s) pushed to master as 0413ac20</li></ul>
 </section>
 <h2>Applications</h2>
+<details class="app ok">
+  <summary>
+    <span class="id">922ab36a</span>
+    <span class="co">BTI360</span>
+    <span class="badge">resolved</span>
+    <span class="chip">anchor_href</span>
+    <span class="chip">greenhouse</span>
+    
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — resolved (11 candidates, employer match)<span class="ev">boards.greenhouse.io</span></li></ol>
+    <h4>Notes</h4><ul class="notes"><li>phase A: token-only greenhouse embed anchor resolved to board &quot;bti36021&quot; (job 8155152) via one read-only GET</li></ul>
+    
+  </div>
+</details>
 <details class="app bad">
   <summary>
     <span class="id"></span>
@@ -658,21 +673,6 @@
   <div class="body">
     <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no congruent apply href (11 external links)<span class="ev">www.linkedin.com, www.crunchbase.com, www.glassdoor.com, us.cibc.com, www.americanbanker.com, www.newswire.ca</span></li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>B_board_hop</b> — no employer board route (9 request(s))</li><li><b>C_agent</b> — wall: budget (turn 1)</li></ol>
     <h4>Notes</h4><ul class="notes"><li>phase A: 7 external host(s) seen: www.linkedin.com, www.crunchbase.com, www.glassdoor.com, us.cibc.com, www.americanbanker.com, www.newswire.ca, www.prnewswire.com</li><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>anchor adjudication: model abstained</li><li>board hop: no public greenhouse/lever/ashby board found for &quot;CIBC US&quot; (cibcus, cibc-us, cibc; 9 requests)</li><li>agent allowed_domains widened with job-page hosts: us.cibc.com, www.americanbanker.com, www.newswire.ca, www.prnewswire.com</li><li>agent goal seeded with 4 candidate link(s) from the job page</li><li>agent[1]: agent wall-clock timeout</li><li>agent[1] reason: agent wall-clock timeout</li><li>agent could not attach to the debug Chrome (port answers but the session is wedged) — close ALL Chrome windows, re-run chrome:debug:jobright, then requeue</li></ul>
-    
-  </div>
-</details>
-<details class="app ok">
-  <summary>
-    <span class="id">450ba704</span>
-    <span class="co">Point72</span>
-    <span class="badge">resolved</span>
-    <span class="chip">anchor_href</span>
-    <span class="chip">greenhouse</span>
-    
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — resolved (10 candidates, employer match)<span class="ev">job-boards.greenhouse.io</span></li></ol>
-    <h4>Notes</h4><ul class="notes"><li>none</li></ul>
     
   </div>
 </details>
