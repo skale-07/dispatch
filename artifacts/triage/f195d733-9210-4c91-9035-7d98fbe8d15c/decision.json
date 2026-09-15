@@ -1,0 +1,119 @@
+{
+  "decision_id": "f195d733-9210-4c91-9035-7d98fbe8d15c",
+  "application_id": "fc97926b-85b7-4258-98ee-902258434658",
+  "signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|careers.google.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "fc97926b-85b7-4258-98ee-902258434658",
+    "company": "Google",
+    "role": "Data Scientist, Product Intern, MS, Summer 2027",
+    "state": "NATIVE_AUTOFILL_RUNNING",
+    "attempt": 1,
+    "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|careers.google.com",
+    "end_host": "careers.google.com",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-15T06:59:21.485Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-15T06:59:20.656Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-15T06:59:20.647Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-15T06:59:17.906Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 d5f6e2353444)",
+        "at": "2026-09-15T06:59:17.899Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-15T06:59:17.865Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-14T15:13:16.074Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-14T15:13:16.063Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-14T15:13:16.062Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-14T15:13:16.060Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "google",
+        "detail": "token \"google\" ~ slug \"google\" (from URL host)",
+        "expected_company": "Google",
+        "url": "https://careers.google.com/jobs/results/119184035237765830-data-scientist/?src=jobright&utm_medium=jobposting&utm_campaign=contract&jr_id=6aa804dd930bff471a2a4a42"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (11 candidates, employer match)",
+          "evidence": "careers.google.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"requeue_same\", \"rationale\": \"Run stalled mid-stage in NATIVE_AUTOFILL_RUNNING on attempt 1 with no wall, no fill gate failure, and clean navigation (employer-matched URL, resume verified). No evidence of stale materials, bad URL, or exhausted tiers — a plain rerun is the cheapest action that could complete the autofill/sign-in leg.\", \"confidence\": \"medium\"}",
+  "parsed_action": "requeue_same",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "requeued at attempt 2",
+  "rationale_unverified": "Run stalled mid-stage in NATIVE_AUTOFILL_RUNNING on attempt 1 with no wall, no fill gate failure, and clean navigation (employer-matched URL, resume verified). No evidence of stale materials, bad URL, or exhausted tiers — a plain rerun is the cheapest action that could complete the autofill/sign-in leg."
+}
