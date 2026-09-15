@@ -1,0 +1,158 @@
+{
+  "decision_id": "712f726f-8005-4a11-8c30-5b467e03abb0",
+  "application_id": "6b985980-1c7a-41a0-9725-acf76aa8d0c1",
+  "signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|globalhr.wd5.myworkdayjobs.com",
+  "forbidden_actions": [
+    "requeue_same"
+  ],
+  "bundle": {
+    "application_id": "6b985980-1c7a-41a0-9725-acf76aa8d0c1",
+    "company": "RTX",
+    "role": "Software Engineering Co-op (Summer/Fall 2027)",
+    "state": "NATIVE_AUTOFILL_RUNNING",
+    "attempt": 2,
+    "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|globalhr.wd5.myworkdayjobs.com",
+    "end_host": "globalhr.wd5.myworkdayjobs.com",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route inspect_only (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-15T10:26:05.896Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-15T10:26:04.570Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: workday URL validated",
+        "at": "2026-09-15T10:26:04.561Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-15T10:26:04.480Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 7141579276ac)",
+        "at": "2026-09-15T10:26:04.472Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-15T10:26:04.260Z"
+      },
+      {
+        "from": "FAILED_RETRYABLE",
+        "to": "QUEUED",
+        "reason": "retry 2/3",
+        "at": "2026-09-15T09:40:19.437Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "triage: demoting gate-parked NATIVE_AUTOFILL_RUNNING for requeue (NATIVE_AUTOFILL_RUNNING|-|unknown|globalhr.wd5.myworkdayjobs.com)",
+        "at": "2026-09-15T09:40:19.436Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route inspect_only (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-15T09:38:12.438Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-15T09:38:11.765Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: workday URL validated",
+        "at": "2026-09-15T09:38:11.757Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-15T09:38:09.225Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 7141579276ac)",
+        "at": "2026-09-15T09:38:09.217Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-15T09:38:09.185Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-15T09:38:02.948Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "recrtxextgateway",
+        "detail": "token \"rtx\" ~ slug \"recrtxextgateway\" (from URL path)",
+        "expected_company": "RTX",
+        "url": "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-OR-WILSONVILLE-596--27500-SW-Parkway-Ave--BLDG-596/Software-Engineering-Co-op--Summer-Fall-2027-_01870236?jr_id=6aa8bd7b17ddad6a8a47d0a8"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (10 candidates, employer match)",
+          "evidence": "globalhr.wd5.myworkdayjobs.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [],
+    "prior_decisions": [
+      {
+        "action": "requeue_same",
+        "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|globalhr.wd5.myworkdayjobs.com",
+        "outcome_status": "REFUTED",
+        "created_at": "2026-09-15T09:40:19.434Z"
+      }
+    ],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\":\"park_for_operator\",\"rationale\":\"Navigation resolved cleanly (no wall, employer match) and materials verified; the run stalls in NATIVE_AUTOFILL_RUNNING because JOBRIGHT_AUTOFILL_ENABLED is off, so native fill has no path. Requeue_same already refuted; regenerating materials or re-resolving navigation addresses nothing. A human should decide on config/manual completion.\",\"confidence\":\"medium\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: 632b0e20-07c6-4459-8868-26fc34399739",
+  "rationale_unverified": "Navigation resolved cleanly (no wall, employer match) and materials verified; the run stalls in NATIVE_AUTOFILL_RUNNING because JOBRIGHT_AUTOFILL_ENABLED is off, so native fill has no path. Requeue_same already refuted; regenerating materials or re-resolving navigation addresses nothing. A human should decide on config/manual completion."
+}
