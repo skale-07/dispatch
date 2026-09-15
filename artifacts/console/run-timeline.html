@@ -60,22 +60,37 @@
 </style></head>
 <body><div class="wrap">
 <h1>Dispatch run timeline</h1>
-<p class="sub">Generated 2026-09-15T08:04:08.690Z · 40 navigation run(s) · read-only view of artifacts/</p>
-<div class="stats"><span class="stat"><b>19</b> resolved</span><span class="stat"><b>15</b> unknown</span><span class="stat"><b>3</b> duplicate_url</span><span class="stat"><b>2</b> budget</span><span class="stat"><b>1</b> closed</span></div>
+<p class="sub">Generated 2026-09-15T08:11:42.517Z · 40 navigation run(s) · read-only view of artifacts/</p>
+<div class="stats"><span class="stat"><b>18</b> resolved</span><span class="stat"><b>15</b> unknown</span><span class="stat"><b>3</b> budget</span><span class="stat"><b>3</b> duplicate_url</span><span class="stat"><b>1</b> closed</span></div>
 <section class="cycle">
   <h2>Latest cycle</h2>
   <dl>
-    <div><dt>Started</dt><dd>2026-09-15T08:03:43.668Z</dd></div>
+    <div><dt>Started</dt><dd>2026-09-15T08:07:34.732Z</dd></div>
     <div><dt>Outcome</dt><dd>completed</dd></div>
     <div><dt>Agent leg</dt><dd>available</dd></div>
     <div><dt>Default resume</dt><dd>ready (C:\dev\jobright-application-agent\private\candidate\resumes\general.pdf)</dd></div>
-    <div><dt>Apps started</dt><dd>0</dd></div>
+    <div><dt>Apps started</dt><dd>1</dd></div>
     <div><dt>Submits used</dt><dd>0</dd></div>
     <div><dt>Stopped</dt><dd>queue_drained</dd></div>
   </dl>
-  <h3>Session notes</h3><ul class="notes"><li>triage sweep: 0 confirmed, 0 refuted, 0 expired of 221 pending</li><li>artifact autopush: 1 file(s) pushed to master as 2f23b49c</li></ul>
+  <h3>Session notes</h3><ul class="notes"><li>triage sweep: 0 confirmed, 0 refuted, 0 expired of 221 pending</li><li>artifact autopush: 6 file(s) pushed to master as 17373d9c</li></ul>
 </section>
 <h2>Applications</h2>
+<details class="app bad">
+  <summary>
+    <span class="id">790c42bc</span>
+    <span class="co">—</span>
+    <span class="badge">wall: budget</span>
+    
+    
+    <span class="chip">agent 1t/0s</span>
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no congruent apply href (11 external links)<span class="ev">www.linkedin.com, www.crunchbase.com, www.glassdoor.com, us.cibc.com, www.americanbanker.com, www.newswire.ca</span></li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>B_board_hop</b> — no employer board route (9 request(s))</li><li><b>C_agent</b> — wall: budget (turn 1)</li></ol>
+    <h4>Notes</h4><ul class="notes"><li>phase A: 7 external host(s) seen: www.linkedin.com, www.crunchbase.com, www.glassdoor.com, us.cibc.com, www.americanbanker.com, www.newswire.ca, www.prnewswire.com</li><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>anchor adjudication: model abstained</li><li>board hop: no public greenhouse/lever/ashby board found for &quot;CIBC US&quot; (cibcus, cibc-us, cibc; 9 requests)</li><li>agent allowed_domains widened with job-page hosts: us.cibc.com, www.americanbanker.com, www.newswire.ca, www.prnewswire.com</li><li>agent goal seeded with 4 candidate link(s) from the job page</li><li>agent[1]: agent wall-clock timeout</li><li>agent[1] reason: agent wall-clock timeout</li><li>agent could not attach to the debug Chrome (port answers but the session is wedged) — close ALL Chrome windows, re-run chrome:debug:jobright, then requeue</li></ul>
+    
+  </div>
+</details>
 <details class="app ok">
   <summary>
     <span class="id">db227e0d</span>
@@ -659,21 +674,6 @@
     <h4>Phases</h4><ol class="phases"><li>none recorded</li></ol>
     <h4>Notes</h4><ul class="notes"><li>model calls: 1 of 2 steps</li></ul>
     
-  </div>
-</details>
-<details class="app ok">
-  <summary>
-    <span class="id">81127045</span>
-    <span class="co">Acme</span>
-    <span class="badge">resolved</span>
-    <span class="chip">agent</span>
-    <span class="chip">generic</span>
-    <span class="chip">agent 1t/3s</span>
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>B_board_hop</b> — no employer board route (3 request(s))</li><li><b>C_agent</b> — resolved (turn 1, employer match)<span class="ev">careers.acme.com</span></li></ol>
-    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>board hop: no public greenhouse/lever/ashby board found for &quot;Acme&quot; (acme; 3 requests)</li><li>agent[1]: cred_available:false</li><li>agent[1]: leaked:none</li></ul>
-    <h4>Hosts visited</h4><p class="hosts">careers.acme.com</p>
   </div>
 </details>
 <footer>Every row is one navigation run. Green = employer URL resolved; amber = auth/CAPTCHA wall; red = unresolved; grey = posting closed. Expand a row for its phase trace and the notes that explain the stop.</footer>
