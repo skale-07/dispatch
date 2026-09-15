@@ -493,6 +493,25 @@ describe("buildFillPlan screener integration (UNIT_CONFIRMED)", () => {
     expect(fields[0]!.canonical_field).toBeNull();
   });
 
+  it("releases a Yes/No control mapped to a profile canonical the profile does not hold (live Intel Workday 2026-09-14)", () => {
+    const fields = [
+      field("q_moon", "Maintain any secondary non-Intel employment or engage in a non-Intel business activity?", "select", [
+        "Select One",
+        "Yes",
+        "No",
+      ]),
+    ];
+    fields[0]!.canonical_field = "current_company";
+    releaseUnplaceableProfileMappings(fields, { ...profile, current_company: "" });
+    expect(fields[0]!.canonical_field).toBeNull();
+    expect(fields[0]!.mapping_confidence).toBe("none");
+    // A blank profile value on a NON yes/no list stays mapped (nothing to judge against).
+    const uni = [field("q_uni", "Which university?", "select", ["Select...", "MIT", "Stanford"])];
+    uni[0]!.canonical_field = "school";
+    releaseUnplaceableProfileMappings(uni, { ...profile, school: "" });
+    expect(uni[0]!.canonical_field).toBe("school");
+  });
+
   it("keeps a profile mapping when the form offers Other", () => {
     const fields = [
       field("q_uni", "Which university do you attend?", "select", [
@@ -619,5 +638,39 @@ describe("custom-bank question reuse (UNIT_CONFIRMED)", () => {
     expect(
       learnedCustomAnswersFor(bank, ["Which country are you authorized to work in?"]),
     ).toEqual([]);
+  });
+});
+
+describe("stub labels cannot claim long questions (live Intel Workday 2026-09-14, UNIT_CONFIRMED)", () => {
+  const Q4 =
+    "4) * To the best of your knowledge and belief, are you aware of a contract or agreement with your current employer (or other company), such as a non-competition, non-disclosure, or non-solicitation agreement, that impact or interfere with your ability to work for the Company or communicate with former colleagues about working at the Company";
+
+  it("a two-token stored label contained in a sixty-word question scores below the reuse threshold", async () => {
+    const { scoreScreenerLabelOverlap, CUSTOM_REUSE_MIN_SCORE } = await import("../../src/candidate/screenerMatch.js");
+    expect(scoreScreenerLabelOverlap("Current Employer", Q4)).toBeLessThan(CUSTOM_REUSE_MIN_SCORE);
+    // Two real questions about the same thing still match.
+    expect(scoreScreenerLabelOverlap("Who is your current or previous employer?", "Who is your current employer?")).toBeGreaterThanOrEqual(CUSTOM_REUSE_MIN_SCORE);
+  });
+
+  it("an exact stored label beats a stub entry even when the stub's containment score ties at 1.0", async () => {
+    const { findCustomScreenerMatch } = await import("../../src/candidate/screenerMatch.js");
+    const bank: ScreenerAnswerBank = {
+      version: 1,
+      answers: {},
+      custom: {
+        current_employer: { answer: "Summer Atlantic Capital", labels: ["Current Employer", "Who is your current or previous employer?"], promoted_at: "" },
+        non_compete_agreement_awareness: { answer: "No", labels: [Q4], promoted_at: "" },
+      },
+    };
+    expect(findCustomScreenerMatch(Q4, bank)).toMatchObject({ key: "non_compete_agreement_awareness", exact: true });
+  });
+
+  it("the answer alias 'Current employer' names a field, not the non-compete question", async () => {
+    const { matchCanonicalField } = await import("../../src/applications/fieldNormalization.js");
+    const aliases = { current_company: ["Current employer", "Employer", "Current company"] };
+    const mk = (label: string) => ({ id: "f1", label, type: "select" as const, required: true, options: ["Select One", "Yes", "No"] }) as unknown as Parameters<typeof matchCanonicalField>[0];
+    expect(matchCanonicalField(mk(Q4), aliases)).not.toBe("current_company");
+    expect(matchCanonicalField(mk("Current employer"), aliases)).toBe("current_company");
+    expect(matchCanonicalField(mk("Current Employer *"), aliases)).toBe("current_company");
   });
 });

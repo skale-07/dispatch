@@ -379,6 +379,13 @@ export function scoreScreenerLabelOverlap(a: string, b: string): number {
   if (shared < 2) return 0;
   const jaccard = shared / (ta.size + tb.size - shared);
   const contained = shared / Math.min(ta.size, tb.size);
+  // Live Intel Workday 2026-09-14 (e52e2060): the two-token label
+  // "Current Employer" was fully CONTAINED in the sixty-word non-compete
+  // question, scored 1.0, and the company name was fed to a Yes/No
+  // list on four runs. A stub label inside a long question is a topic
+  // mention, not the same question — containment only counts when the
+  // shorter side has enough content to be a question of its own.
+  if (Math.min(ta.size, tb.size) <= 3 && Math.max(ta.size, tb.size) >= 8) return jaccard;
   return Math.max(jaccard, contained);
 }
 
@@ -478,10 +485,15 @@ export function findCustomScreenerMatch(
       entryBest = Math.max(entryBest, scoreScreenerLabelOverlap(label, stored));
     }
     if (entryBest < minScore) continue;
-    if (!best || entryBest > best.score) {
-      runnerUp = best?.score ?? 0;
+    // An EXACT stored label is the same question by definition and beats
+    // any paraphrase score, including a 1.0 containment tie (live Intel
+    // 2026-09-14: the exact entry lost a tie to a stub-label entry and the
+    // ambiguity rule below then returned null for a question the bank
+    // answered verbatim).
+    if (!best || (exact && !best.exact) || (exact === best.exact && entryBest > best.score)) {
+      runnerUp = best && !(exact && !best.exact) ? best.score : runnerUp;
       best = { key, score: entryBest, exact };
-    } else if (entryBest > runnerUp) {
+    } else if (!(best.exact && !exact) && entryBest > runnerUp) {
       runnerUp = entryBest;
     }
   }

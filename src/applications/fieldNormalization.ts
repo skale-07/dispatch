@@ -266,6 +266,19 @@ function matchCanonicalFieldInner(
     if (/signature/i.test(idHint) && field.type !== "checkbox" && field.type !== "radio") {
       return "signature_name";
     }
+    // Workday's CC-305 form (live Intel 2026-09-15): the signature line is
+    // selfIdentifiedDisabilityData--name / --dateSignedOn, and the answer
+    // is a checkbox group whose OPTIONS say "…have a disability…" under a
+    // boilerplate label ("Please check one of the boxes below:").
+    if (/selfIdentifiedDisabilityData--dateSignedOn|dateSignedOn/i.test(idHint)) return "signature_date";
+    if (/selfIdentifiedDisabilityData--name\b/i.test(idHint)) return "signature_name";
+    if (
+      /disabilityStatus|AreYouDisabled/i.test(idHint) ||
+      ((field.type === "checkbox" || field.type === "radio" || field.type === "select") &&
+        (field.options ?? []).filter((o) => /\bdisabilit(?:y|ies)\b/i.test(o)).length >= 2)
+    ) {
+      return "disability_status";
+    }
   }
   if (/^(today'?s\s+)?date$/.test(normalized) || /^date\s+(signed|of\s+signature)$/.test(normalized)) {
     return "signature_date";
@@ -309,6 +322,17 @@ function matchCanonicalFieldInner(
           !phraseIsQuestionLike &&
           normalized.length > Math.max(30, 3 * p.length)
         ) {
+          continue;
+        }
+        // Live Intel Workday 2026-09-14 (e52e2060): the two-word alias
+        // "Current employer" (question-like by the rule above) matched
+        // inside the 340-char "…aware of a contract or agreement with your
+        // current employer…?" non-compete question, so the company name
+        // was fed to a Yes/No list on four runs. A noun phrase of one or
+        // two words names a FIELD; it may not claim a label many times its
+        // length — that is a sentence mentioning the topic. Three-word-plus
+        // phrases keep plain containment.
+        if (p.split(" ").length <= 2 && normalized.length > Math.max(60, 6 * p.length)) {
           continue;
         }
         // #103 (live tiaa): a short alias must match as a WHOLE WORD —

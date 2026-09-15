@@ -125,8 +125,23 @@ export function isDemographicsField(field: DiscoveredField): boolean {
   if (/signature/i.test(`${field.name ?? ""} ${field.inputId ?? ""} ${field.id ?? ""}`)) {
     return false;
   }
+  // Live Intel Workday 2026-09-15 (e52e2060): Workday's CC-305 page puts
+  // the signature line under selfIdentifiedDisabilityData--name /
+  // --dateSignedOn / --employeeId — ids that CONTAIN "disability" while
+  // holding no demographic value at all. Deferred to the sensitive path
+  // they stayed empty and the wizard refused Next on two runs.
+  if (
+    /selfIdentifiedDisabilityData--(?:name|dateSignedOn|employeeId)\b|dateSignedOn/i.test(
+      `${field.name ?? ""} ${field.inputId ?? ""} ${field.id ?? ""}`,
+    )
+  ) {
+    return false;
+  }
+  // The OPTIONS say what a boilerplate label hides ("Please check one of
+  // the boxes below:" → "Yes, I have a disability…"; live Intel 2026-09-15).
+  const optionText = (field.options ?? []).join(" ");
   const n = normalizeFieldLabel(
-    `${field.label} ${field.name ?? ""} ${field.inputId ?? ""}`,
+    `${field.label} ${field.name ?? ""} ${field.inputId ?? ""} ${field.id ?? ""} ${optionText}`,
   );
   // pronouns?\b, not bare "pronoun": Sierra's live "Name pronounciation"
   // (sic) question contains the substring and was deferred to the

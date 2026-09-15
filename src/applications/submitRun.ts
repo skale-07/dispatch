@@ -772,6 +772,18 @@ export async function runAtsSubmission(input: {
                 f.expected === null || f.expected === undefined
                   ? ""
                   : String(f.expected).trim();
+              // Live Intel Workday 2026-09-14: "Maintain any secondary
+              // non-Intel employment…?" carried the current_company
+              // canonical with an EMPTY profile value; the screener path
+              // answered "No" on the page. Nothing was planned from the
+              // profile, so there is no divergence to judge — the
+              // required-completeness scan below still guards emptiness.
+              if (expectedText === "" && observedText !== "") {
+                waived.push(
+                  `${f.canonical_field}: no profile value was planned; the page holds "${observedText}" from the screener path (#122c)`,
+                );
+                return { ...f, match: true };
+              }
               if (
                 observedText === "" ||
                 (expectedText.length >= 40 &&

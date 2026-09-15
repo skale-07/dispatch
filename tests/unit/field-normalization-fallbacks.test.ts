@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { matchCanonicalField } from "../../src/applications/fieldNormalization.js";
+import { isDemographicsField as isDemographicsFieldTop } from "../../src/applications/essayDetector.js";
 
 describe("matchCanonicalField name/id fallbacks", () => {
   it("maps Lever location-input and org without relying on alias phrase alone", () => {
@@ -579,5 +580,37 @@ describe("school never answers a high-school or year question (#265)", () => {
     expect(matchCanonicalField(f("Year of High School Graduation"), aliases)).toBeNull();
     expect(matchCanonicalField(f("High School Name", "text"), aliases)).toBeNull();
     expect(matchCanonicalField(f("School graduation date"), aliases)).toBeNull();
+  });
+});
+
+describe("Workday CC-305 self-identification page (live Intel 2026-09-15, e52e2060)", () => {
+  const isDemographicsField = isDemographicsFieldTop;
+  const name = { id: "selfIdentifiedDisabilityData--name", label: "Name", type: "text" as const, required: true, name: "name" };
+  const date = { id: "selfIdentifiedDisabilityData--dateSignedOn", label: "Date", type: "text" as const, required: true, name: "" };
+  const boxes = {
+    id: "64cbff5f364f10000ae7a421cf210000-disabilityStatus",
+    label: "Please check one of the boxes below:",
+    type: "checkbox" as const,
+    required: true,
+    name: "",
+    options: [
+      "Yes, I have a disability, or have had one in the past",
+      "No, I do not have a disability and have not had one in the past",
+      "I do not want to answer",
+    ],
+  };
+  it("the signature line is the applicant's name and today's date, not a demographic value", () => {
+    expect(isDemographicsField(name)).toBe(false);
+    expect(isDemographicsField(date)).toBe(false);
+    expect(matchCanonicalField(name, { "legal_name.first": ["Name"] })).toBe("signature_name");
+    expect(matchCanonicalField(date, { graduation_year: ["Date"] })).toBe("signature_date");
+  });
+  it("the boilerplate-labelled checkbox group is disability_status by its options and id, and stays demographic", () => {
+    expect(matchCanonicalField(boxes, {})).toBe("disability_status");
+    expect(isDemographicsField(boxes)).toBe(true);
+    // Options alone decide when the id carries nothing.
+    expect(matchCanonicalField({ ...boxes, id: "q_7" }, {})).toBe("disability_status");
+    // A generic two-option checkbox group with no disability wording is untouched.
+    expect(matchCanonicalField({ ...boxes, id: "q_8", options: ["Yes", "No"] }, {})).not.toBe("disability_status");
   });
 });

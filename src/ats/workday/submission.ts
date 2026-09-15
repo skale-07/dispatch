@@ -33,10 +33,15 @@ export function detectWorkdaySubmission(
   finalUrl: string,
 ): WorkdaySubmissionClassification {
   void finalUrl;
-  if (
-    workdaySelectorsV1.confirmationMarkers.test(renderedMarkup(html)) &&
-    !workdaySelectorsV1.wizard.pageMarkers.test(html)
-  ) {
+  // Live Intel wd1 2026-09-15 (e52e2060): the final Submit lands on
+  // Candidate Home with an "Application Submitted" modal and the new row
+  // reading "We Are Reviewing Your Application" — and the bare "Review"
+  // in the wizard page markers matched "Reviewing", so a real receipt was
+  // classified still_on_form and parked as uncertain. The wizard's own
+  // signature is its progress bar; a confirmation with no progress bar
+  // is a confirmation.
+  const wizardChrome = /data-automation-id=["']progressBar/i.test(html);
+  if (workdaySelectorsV1.confirmationMarkers.test(renderedMarkup(html)) && !wizardChrome) {
     return "confirmed";
   }
   if (detectErrorPageSignals(html, "")) {

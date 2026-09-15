@@ -337,8 +337,40 @@ export async function walkWorkdayWizard(
       }
     }
     if (discoverFieldsFromHtml(html).length === 0) {
-      notes.push(`wizard page ${extra + 1} (${kind}): no fillable fields — stopping the walk`);
-      break;
+      // Live Intel wd1 2026-09-15 (e52e2060 run 6): the read after Next
+      // carried the NEW step's heading ("Application Questions", 3 of 6)
+      // over the OLD page's body, still disabled by Workday's save — zero
+      // discoverable controls — and the walk stopped one page in, the
+      // pipeline promoted to READY_TO_SUBMIT, and the submit step found
+      // no Submit button. Give the SPA a bounded moment to finish the
+      // swap; a page that is still empty but still shows Next is an
+      // info page (or a late render) to advance past, never the end.
+      let late = 0;
+      if (settleTimeoutMs > 0) {
+        for (let attempt = 0; attempt < 3 && late === 0; attempt++) {
+          await page.waitForTimeout(1_500);
+          const fresh = await page.content().catch(() => "");
+          late = fresh ? discoverFieldsFromHtml(fresh).length : 0;
+          if (late > 0) {
+            html = fresh;
+            notes.push(`wizard page ${extra + 1} (${kind}): ${late} field(s) appeared after a late render`);
+          }
+        }
+      }
+      if (late === 0) {
+        const stillNext = page.getByRole("button", { name: NEXT_NAME_RE }).first();
+        const hasNext =
+          (await stillNext.count().catch(() => 0)) > 0 &&
+          (await stillNext.isVisible().catch(() => false));
+        if (hasNext && kind === "wizard") {
+          notes.push(
+            `wizard page ${extra + 1} (${kind}): no fillable fields but a Next control — advancing past it`,
+          );
+          continue;
+        }
+        notes.push(`wizard page ${extra + 1} (${kind}): no fillable fields — stopping the walk`);
+        break;
+      }
     }
     const result = await fillCurrentPage({ html, url: page.url() });
     pages.push({

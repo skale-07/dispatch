@@ -149,6 +149,13 @@ const FULL_NAME_MATCHERS: Record<string, FullNameFieldMatcher> = {
  * hold that value and has no Other, the mapping is wrong — drop it so
  * predict answers the question that is actually on the page.
  */
+/** A two-or-three option list that is Yes/No (with an optional decline) — a question, never a company or school name. */
+function isYesNoOptions(options: readonly string[]): boolean {
+  const norm = options.map((o) => o.trim().toLowerCase());
+  const core = norm.filter((o) => !/prefer not|decline|n\/a|not applicable/.test(o));
+  return core.length === 2 && core.includes("yes") && core.includes("no");
+}
+
 export function releaseUnplaceableProfileMappings(
   mapped: MappedField[],
   profile: PublicProfile,
@@ -161,7 +168,18 @@ export function releaseUnplaceableProfileMappings(
     );
     if (options.length < 2) continue;
     const raw = getProfileValue(profile, f.canonical_field);
-    if (raw === undefined || raw === null || raw === "") continue;
+    // An option control mapped to a profile canonical the profile does
+    // not hold (live Intel Workday 2026-09-14: a Yes/No "secondary
+    // non-Intel employment?" read as current_company, profile blank) can
+    // never be filled from the profile — release it so the screener path
+    // answers the question that is on the page, and the submit-stage
+    // evidence check has no phantom expectation to fail against.
+    if (raw === undefined || raw === null || raw === "") {
+      if (!isYesNoOptions(options)) continue;
+      f.canonical_field = null;
+      f.mapping_confidence = "none";
+      continue;
+    }
     if (pickOptionLabel(options, String(raw)).ok) continue;
     if (findOtherOption(f.options ?? [])) continue;
     f.canonical_field = null;

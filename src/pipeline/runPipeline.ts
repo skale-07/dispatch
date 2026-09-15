@@ -1434,7 +1434,15 @@ async function step(
             }
             return {
               gateFailure: null,
-              verifyPassed: liveReport.verify?.passed === true,
+              // Live Intel Workday 2026-09-14 (e52e2060): the base-page verify passed
+              // while the questionnaire page refused Next twice with two
+              // required fields empty — the walk reported it (verify_passed
+              // false on that page) and the pipeline still promoted to
+              // READY_TO_SUBMIT, where the submit step found no Submit button.
+              // A wizard page that did not verify is a failed fill.
+              verifyPassed:
+                liveReport.verify?.passed === true &&
+                (liveReport.wizard_pages ?? []).every((p) => p.verify_passed),
               detail: `${detected.ats} live fill: ${liveReport.fill?.filled.length ?? 0} filled${sessionNote}`,
               operatorBrief: liveReport.operator_brief,
             };
