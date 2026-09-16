@@ -1,0 +1,140 @@
+{
+  "decision_id": "04075fdd-bd41-4564-91f1-e0ac103b585e",
+  "application_id": "136f1aaa-3ada-4108-adf6-f3700f3d3f4c",
+  "signature": "AMBIGUOUS_FIELD|-|verify_mismatch|tencent.wd1.myworkdayjobs.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "136f1aaa-3ada-4108-adf6-f3700f3d3f4c",
+    "company": "Tencent",
+    "role": "Machine Learning Intern",
+    "state": "AMBIGUOUS_FIELD",
+    "attempt": 1,
+    "failure_signature": "AMBIGUOUS_FIELD|-|verify_mismatch|tencent.wd1.myworkdayjobs.com",
+    "end_host": "tencent.wd1.myworkdayjobs.com",
+    "recent_events": [
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "AMBIGUOUS_FIELD",
+        "reason": "pipeline: read-back verification failed",
+        "at": "2026-09-16T11:51:47.220Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (workday live fill: 10 filled (held for submit))",
+        "at": "2026-09-16T11:51:47.217Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route inspect_only (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-16T11:41:59.257Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-16T11:41:56.973Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: workday URL validated",
+        "at": "2026-09-16T11:41:56.966Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-16T11:41:54.159Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 d5f6e2353444)",
+        "at": "2026-09-16T11:41:54.152Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-16T11:41:54.084Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-16T11:41:45.869Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-16T11:41:45.853Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-16T11:41:45.852Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-16T11:41:45.850Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "tencent",
+        "detail": "token \"tencent\" ~ slug \"tencent\"",
+        "expected_company": "Tencent",
+        "url": "https://tencent.wd1.myworkdayjobs.com/tencent_careers/job/US-California-Palo-Alto/Machine-Learning-Intern_R108140-1?jr_id=6aa8ec5610b1cd4f41604494"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (9 candidates, employer match)",
+          "evidence": "tencent.wd1.myworkdayjobs.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": true
+    },
+    "open_review_items": [
+      {
+        "kind": "AMBIGUOUS_FIELD",
+        "title": "Fill verification failed"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"requeue_same\", \"rationale\": \"Navigation and materials were fine (URL congruent, resume verified, 10 fields filled); only read-back verification flagged a mismatch, while the fill gate itself reports verify_passed=true. That contradiction plus attempt 1 with no prior remediation suggests a transient timing/read-back issue worth one identical rerun before escalating.\", \"confidence\": \"medium\"}",
+  "parsed_action": "requeue_same",
+  "validation_note": null,
+  "precondition": {
+    "ok": false,
+    "reason": "state is AMBIGUOUS_FIELD, needs FAILED_RETRYABLE or a gate-parked mid-state"
+  },
+  "mode": "act",
+  "executed": false,
+  "execution_detail": "precondition failed: state is AMBIGUOUS_FIELD, needs FAILED_RETRYABLE or a gate-parked mid-state",
+  "rationale_unverified": "Navigation and materials were fine (URL congruent, resume verified, 10 fields filled); only read-back verification flagged a mismatch, while the fill gate itself reports verify_passed=true. That contradiction plus attempt 1 with no prior remediation suggests a transient timing/read-back issue worth one identical rerun before escalating."
+}
