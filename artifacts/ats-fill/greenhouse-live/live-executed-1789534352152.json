@@ -1,0 +1,1766 @@
+{
+  "mode": "executed",
+  "ats": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/duolingounirecruitment/jobs/8806115002",
+  "plan": {
+    "answers": {
+      "legal_name.first": "Shubham",
+      "legal_name.last": "Kale",
+      "email": "s***@gmail.com",
+      "address.country": "United States",
+      "phone": "***-***-7636",
+      "address.city": "Baltimore",
+      "major": "Applied Mathematics and Statistics",
+      "graduation_month": "May",
+      "graduation_year": "2029",
+      "screener:custom:expected_graduation_date": "Spring/Summer 2029",
+      "screener:custom:undergrad_gpa": "3.7 out of 4.0",
+      "screener:willing_to_relocate": "Yes",
+      "screener:custom:predicted:question_38316080002": "No",
+      "how_heard": "LinkedIn",
+      "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+      "work_authorization": "[REDACTED_SPONSORSHIP]",
+      "requires_sponsorship": "[REDACTED_SPONSORSHIP]",
+      "screener:custom:predicted:question_38316093002": "NA",
+      "screener:custom:predicted:question_38316094002": "NA",
+      "gender_identity": "Man",
+      "race_ethnicity": "South Asian",
+      "sexual_orientation": "Heterosexual",
+      "transgender": "No",
+      "disability_status": "No",
+      "veteran_status": "I am not a veteran"
+    },
+    "entries": [
+      {
+        "field_id": "first_name",
+        "label": "First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "fill",
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "last_name",
+        "label": "Last Name",
+        "type": "text",
+        "canonical_field": "legal_name.last",
+        "action": "fill",
+        "value": "Kale",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "email",
+        "label": "Email",
+        "type": "text",
+        "canonical_field": "email",
+        "action": "fill",
+        "value": "s***@gmail.com",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "country",
+        "label": "Country",
+        "type": "text",
+        "canonical_field": "address.country",
+        "action": "fill",
+        "value": "United States +1",
+        "reason": "Mapped from public profile; placed onto \"United States +1\""
+      },
+      {
+        "field_id": "iti-0__search-input",
+        "label": "Search",
+        "type": "unknown",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "phone",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "fill",
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "candidate-location",
+        "label": "Location (City)",
+        "type": "text",
+        "canonical_field": "address.city",
+        "action": "fill",
+        "value": "Baltimore",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "resume",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "skip_file",
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "cover_letter",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "skip_file",
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "school--0",
+        "label": "School",
+        "type": "text",
+        "canonical_field": "history:education[0].school",
+        "action": "fill",
+        "value": "Johns Hopkins University",
+        "reason": "Structured education entry 1 (Johns Hopkins University) — school"
+      },
+      {
+        "field_id": "degree--0",
+        "label": "Degree",
+        "type": "text",
+        "canonical_field": "history:education[0].degree",
+        "action": "fill",
+        "value": "Bachelor's Degree",
+        "reason": "Structured education entry 1 (Johns Hopkins University) — degree; placed onto \"Bachelor's Degree\""
+      },
+      {
+        "field_id": "discipline--0",
+        "label": "Discipline",
+        "type": "text",
+        "canonical_field": "major",
+        "action": "fill",
+        "value": "Mathematics",
+        "reason": "Mapped from public profile; placed onto \"Mathematics\""
+      },
+      {
+        "field_id": "end-month--0",
+        "label": "End date month",
+        "type": "text",
+        "canonical_field": "graduation_month",
+        "action": "fill",
+        "value": "May",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "end-year--0",
+        "label": "End date year",
+        "type": "text",
+        "canonical_field": "graduation_year",
+        "action": "fill",
+        "value": "2029",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_38316074002",
+        "label": "Preferred First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "fill",
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_38316075002",
+        "label": "How do you pronounce your name? (e.g., 'An-na' or 'Ah-na')",
+        "type": "text",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "Predict produced no usable answer"
+      },
+      {
+        "field_id": "question_38349624002",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "skip_file",
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "question_38316077002",
+        "label": "What is your expected graduation timeline?",
+        "type": "text",
+        "canonical_field": "screener:custom:expected_graduation_date",
+        "action": "fill",
+        "value": "Spring/Summer 2029",
+        "reason": "Screener bank answer (llm_option)"
+      },
+      {
+        "field_id": "question_38316078002",
+        "label": "Undergraduate GPA",
+        "type": "text",
+        "canonical_field": "screener:custom:undergrad_gpa",
+        "action": "fill",
+        "value": "3.7 out of 4.0",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "question_38316079002",
+        "label": "Are you willing to work from the office location of the job?",
+        "type": "text",
+        "canonical_field": "screener:willing_to_relocate",
+        "action": "fill",
+        "value": "Yes",
+        "reason": "Screener bank answer (synonym_option)"
+      },
+      {
+        "field_id": "question_38316080002",
+        "label": "Do you have a Duolingo account? If yes, what is your username?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_38316080002",
+        "action": "fill",
+        "value": "No",
+        "reason": "Predicted from operator context (llm_predict): No Duolingo account is mentioned anywhere in the candidate's materials."
+      },
+      {
+        "field_id": "question_38316081002",
+        "label": "Why are you interested in Duolingo?",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_38316081002",
+        "action": "fill",
+        "value": "What draws me to Duolingo is that it's an education product with a real user on the other side and measurable failure modes. Most of what I've built lives in that same space. I shipped ClarityAtlas, an iOS health app, into a live Hopkins pilot with 30+ users, and the hardest part wasn't the passive sleep-estimation system I built on HealthKit and Core Motion signals like step count and gait speed. It was figuring out what people would actually open the app for. I learned the same lesson earlier with SnapSort, an AI photo-sorting product I built on Flask and AWS and grew to 300+ users: a technically functional system and a product people use are very different things. Duolingo runs experiments against half a billion learners, which means product questions get answered with data rather than opinion, and that's the kind of feedback loop I want to build inside. I'm also interested in teaching and evaluation as a technical problem, which is close to the core of what a learning product has to get right.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_38316082002",
+        "label": "Share with us your proudest accomplishment. This can be pre-college.",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_38316082002",
+        "action": "fill",
+        "value": "My independent research on Valley Fever, which I started in high school. I grew up around the environmental conditions the disease tracks with, and I wanted to know whether dust and agricultural activity could explain case patterns. I built an SIR-style epidemiological model in Python starting from the differential equations rather than a library, because I wanted to actually understand what each term was doing, and then connected the disease dynamics to environmental variables. I also programmed a microcontroller-based dust sensor in C/C++ so the environmental side wasn't purely theoretical. The work became a sole-author publication in the Journal of Student Research and I was selected as a national finalist in the Junior Science and Humanities Symposium. I'm proud of it less for the outcomes than because it was the first time I stopped treating math as a self-contained exercise and used it to explain something happening around me. Almost everything I've built since, from health models to anomaly detection, comes out of that shift.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_38316083002",
+        "label": "How will your personal experiences make an impact at Duolingo?",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_38316083002",
+        "action": "fill",
+        "value": "The most useful habit I'd bring is changing my mind when evidence contradicts me. Over the past year I've independently studied how scientific research gets funded and evaluated, and I started with a confident thesis: that grant-writing time was the main constraint on science and that compensation was pushing talented people out of academia. Interviews with researchers, administrators, and science-policy people broke both claims. The more interesting effect turned out to be selection, meaning researchers learn which ideas are legible enough to survive review and never attempt the ones that aren't, and many people knowingly trade compensation for autonomy. Sitting with that changed how I approach product work too. At Open Health Intelligence, my cofounders and I spotted President Ron Daniels through the locked doors of Garland Hall and knocked until we got to pitch him, which turned into a formal meeting months later with Data Science and AI Institute leadership. On a team that makes fact-based decisions and experiments constantly, I'd be comfortable proposing a strong hypothesis and equally comfortable being the person who says it didn't hold.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_38316084002",
+        "label": "Tell us about your experience in computer science. Why did you choose computer science?",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_38316084002",
+        "action": "fill",
+        "value": "I came to computer science through problems rather than through the field itself. I study Applied Mathematics and Statistics and Economics at Hopkins, and I kept running into questions where the math was only useful if I could build the system around it. That's how I ended up writing most of my work in code. The range has been wide on purpose. On a Gates Foundation-funded Hopkins / South African MRC health-equity project I was lead model developer, training XGBoost models on a national survey dataset of roughly 10 million records, using SHAP for feature selection, and designing G-formula causal simulations for counterfactual interventions. At Summer Atlantic Capital I own large parts of an anomaly-detection system, including the event-ingestion pipeline, a versioned FastAPI microservice, temporal sequence models over event streams, and a learning-to-rank layer for alert prioritization. I chose computer science because it's the fastest way I know to test whether an idea survives contact with a real user. Building is how I find out what I was wrong about.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_38316085002",
+        "label": "Is there anything else not listed on your resume that you would like to share with us?",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_38316085002",
+        "action": "fill",
+        "value": "One thing not on my resume is how much I think about where automation should stop. I built a Playwright-based job-application agent in TypeScript because job hunting is full of repetitive browser work, but I deliberately designed it as a deterministic operator-controlled system rather than an autonomous agent. Every application moves through an explicit state machine, SQLite is the single source of truth because browser automation gets dangerous when state diverges across processes, and every mutating capability sits behind fail-closed flags that never default on. Free-text essays and demographic fields are architecturally prevented from being auto-filled and always generate a human-review item. I also built a validation ladder so a capability isn't called working just because it passed against a local fixture. Workday and iCIMS are detected and skipped rather than handled unreliably, which was a deliberate choice to do less badly. That instinct came out of evaluation work at Intelehealth, where I compared LLM-generated clinical outputs against a 4,169-case standard and learned that generating an answer is cheap and deciding whether to trust it is the hard part.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_38316086002",
+        "label": "Where did you hear about this job?",
+        "type": "text",
+        "canonical_field": "how_heard",
+        "action": "fill",
+        "value": "LinkedIn",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_38316087002[]",
+        "label": "What Duolingo sponsored conferences have you attended and/or organizations are you a part of?",
+        "type": "checkbox",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "Predict produced no usable answer"
+      },
+      {
+        "field_id": "question_38316088002",
+        "label": "Alternate Email",
+        "type": "text",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "Predict produced no usable answer"
+      },
+      {
+        "field_id": "question_38316089002",
+        "label": "LinkedIn Profile",
+        "type": "text",
+        "canonical_field": "linkedin_url",
+        "action": "fill",
+        "value": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_38316090002",
+        "label": "Website",
+        "type": "text",
+        "canonical_field": "personal_website",
+        "action": "skip_empty",
+        "value": null,
+        "reason": "Profile value empty for personal_website"
+      },
+      {
+        "field_id": "question_38316091002",
+        "label": "Are you authorized to work lawfully in the United States for Duolingo?",
+        "type": "text",
+        "canonical_field": "work_authorization",
+        "action": "fill",
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_38316092002",
+        "label": "Will you now, or in the future, require sponsorship (i.e. H-1B visa, etc.) to legally work in the U.S.?",
+        "type": "text",
+        "canonical_field": "requires_sponsorship",
+        "action": "fill",
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_38316093002",
+        "label": "If so, are you eligible or currently in a period of Optional Practical Training (OPT)?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_38316093002",
+        "action": "fill",
+        "value": "NA",
+        "reason": "Predicted from operator context (llm_predict): Candidate is a U.S. citizen, so OPT does not apply."
+      },
+      {
+        "field_id": "question_38316094002",
+        "label": "After the OPT, are you eligible for a 24-month OPT extension or are currently in a 24-month OPT extension based upon a degree from a qualifying U.S. institution in Science, Technology, Engineering, or Mathematics after the Optional Practical Training (OPT)?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_38316094002",
+        "action": "fill",
+        "value": "NA",
+        "reason": "Predicted from operator context (llm_predict): Candidate is a U.S. citizen requiring no visa status, so the STEM OPT extension is not applicable."
+      },
+      {
+        "field_id": "4028533002",
+        "label": "How would you describe your gender identity? (mark all that apply)",
+        "type": "text",
+        "canonical_field": "gender_identity",
+        "action": "fill",
+        "value": "Man",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "4028534002",
+        "label": "How would you describe your racial/ethnic background? (mark all that apply)",
+        "type": "text",
+        "canonical_field": "race_ethnicity",
+        "action": "fill",
+        "value": "South Asian",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "4028535002",
+        "label": "How would you describe your sexual orientation? (mark all that apply)",
+        "type": "text",
+        "canonical_field": "sexual_orientation",
+        "action": "fill",
+        "value": "Heterosexual",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "4028536002",
+        "label": "Do you identify as transgender?",
+        "type": "text",
+        "canonical_field": "transgender",
+        "action": "fill",
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "4028537002",
+        "label": "Do you have a disability or chronic condition (physical, visual, auditory, cognitive, mental, emotional, other) that substantially limits one or more of your major life activities, including mobility, communication (seeing, hearing, speaking), & learning",
+        "type": "text",
+        "canonical_field": "disability_status",
+        "action": "fill",
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "4028538002",
+        "label": "Are you a veteran or active member of the United States Armed Forces?",
+        "type": "text",
+        "canonical_field": "veteran_status",
+        "action": "fill",
+        "value": "I am not a veteran",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      }
+    ],
+    "fillable_count": 33,
+    "skipped_count": 8,
+    "review_required_count": 0
+  },
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "schema diff: 24/27 declared question(s) matched onto 41 DOM field(s); 3 declared-only (2 required); 17 DOM-only",
+    "board API declared 27 question(s); matched complete option lists onto 8 field(s)",
+    "option harvest: \"Location (City)\" is a combobox but offered no readable options",
+    "option harvest: scraped real options for 11/24 control(s) before planning",
+    "frozen after fill→verify→upload — no further field mutation; submit never called"
+  ],
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "final_url": "https://job-boards.greenhouse.io/duolingounirecruitment/jobs/8806115002",
+  "identity_verification": {
+    "requestedUrl": "https://job-boards.greenhouse.io/duolingounirecruitment/jobs/8806115002",
+    "finalUrl": "https://job-boards.greenhouse.io/duolingounirecruitment/jobs/8806115002",
+    "requestedJobId": "8806115002",
+    "observedJobId": "8806115002",
+    "company": "duolingounirecruitment",
+    "role": "Job Application for Software Engineer, Thrive Intern at Duolingo University Recruitment",
+    "formDetected": true,
+    "fieldCount": 41,
+    "warnings": [
+      "login_wall_low: auth_provider_marker"
+    ],
+    "passed": true,
+    "failureCode": null,
+    "failureReason": null
+  },
+  "captcha_detection": {
+    "detected": false,
+    "confidence": "LOW",
+    "signals": [],
+    "dormantMarkers": [
+      "recaptcha_api_script_loaded",
+      "generic_captcha_word_only"
+    ]
+  },
+  "login_wall_detection": {
+    "detected": false,
+    "confidence": "LOW",
+    "signals": [
+      "auth_provider_marker"
+    ]
+  },
+  "failure_code": null,
+  "mutation_attempted": true,
+  "schema_diff": {
+    "board": "duolingounirecruitment",
+    "job_id": "8806115002",
+    "declared_count": 27,
+    "dom_count": 41,
+    "matched": 24,
+    "api_only": [
+      {
+        "label": "Resume/CV",
+        "required": true
+      },
+      {
+        "label": "Cover Letter",
+        "required": false
+      },
+      {
+        "label": "Please upload a copy of your most up-to-date college transcripts.",
+        "required": true
+      }
+    ],
+    "dom_only": [
+      "Country",
+      "Search",
+      "Location (City)",
+      "Attach",
+      "Attach",
+      "School",
+      "Degree",
+      "Discipline",
+      "End date month",
+      "End date year",
+      "Attach",
+      "How would you describe your gender identity? (mark all that apply)",
+      "How would you describe your racial/ethnic background? (mark all that apply)",
+      "How would you describe your sexual orientation? (mark all that apply)",
+      "Do you identify as transgender?",
+      "Do you have a disability or chronic condition (physical, visual, auditory, cognitive, mental, emotional, other) that substantially limits one or more of your major life activities, including mobility, communication (seeing, hearing, speaking), & learning",
+      "Are you a veteran or active member of the United States Armed Forces?"
+    ],
+    "option_mismatches": []
+  },
+  "harvested_options": [
+    {
+      "field_id": "country",
+      "label": "Country",
+      "answer_space": "closed",
+      "option_count": 244,
+      "options": [
+        "United States +1",
+        "Afghanistan +93",
+        "Åland Islands +358",
+        "Albania +355",
+        "Algeria +213",
+        "American Samoa +1",
+        "Andorra +376",
+        "Angola +244",
+        "Anguilla +1",
+        "Antigua & Barbuda +1",
+        "Argentina +54",
+        "Armenia +374",
+        "Aruba +297",
+        "Ascension Island +247",
+        "Australia +61",
+        "Austria +43",
+        "Azerbaijan +994",
+        "Bahamas +1",
+        "Bahrain +973",
+        "Bangladesh +880",
+        "Barbados +1",
+        "Belarus +375",
+        "Belgium +32",
+        "Belize +501",
+        "Benin +229"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "school--0",
+      "label": "School",
+      "answer_space": "closed",
+      "option_count": 100,
+      "options": [
+        "Aalborg University",
+        "Aalto University",
+        "Aarhus University",
+        "Abertay University",
+        "Aberystwyth University",
+        "Abilene Christian University",
+        "Abo Akademi University",
+        "Abraham Baldwin Agricultural College",
+        "Abu Dhabi University",
+        "Academy of Art University",
+        "Acadia University",
+        "Acharya Nagarjuna University",
+        "Acupuncture and Integrative Medicine College - Berkeley",
+        "Adams State University",
+        "Adelphi University",
+        "Adrian College",
+        "Adventist University of Health Sciences",
+        "Agnes Scott College",
+        "AIB College of Business",
+        "Ain Shams University",
+        "Airlangga University",
+        "Ajou University",
+        "Alabama A&M University",
+        "Alabama State University",
+        "Alaska Pacific University"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "degree--0",
+      "label": "Degree",
+      "answer_space": "closed",
+      "option_count": 10,
+      "options": [
+        "Associate's Degree",
+        "Bachelor's Degree",
+        "Doctor of Medicine (M.D.)",
+        "Doctor of Philosophy (Ph.D.)",
+        "Engineer's Degree",
+        "High School",
+        "Juris Doctor (J.D.)",
+        "Master of Business Administration (M.B.A.)",
+        "Master's Degree",
+        "Other"
+      ],
+      "other_option": "Other"
+    },
+    {
+      "field_id": "discipline--0",
+      "label": "Discipline",
+      "answer_space": "closed",
+      "option_count": 73,
+      "options": [
+        "Accounting",
+        "African Studies",
+        "Agriculture",
+        "Anthropology",
+        "Applied Health Services",
+        "Architecture",
+        "Art",
+        "Asian Studies",
+        "Biology",
+        "Business",
+        "Business Administration",
+        "Chemistry",
+        "Classical Languages",
+        "Communications & Film",
+        "Computer Science",
+        "Dentistry",
+        "Developing Nations",
+        "Discipline Unknown",
+        "Earth Sciences",
+        "Economics",
+        "Education",
+        "Electronics",
+        "Engineering",
+        "English Studies",
+        "Environmental Studies"
+      ],
+      "other_option": "Other"
+    },
+    {
+      "field_id": "end-month--0",
+      "label": "End date month",
+      "answer_space": "closed",
+      "option_count": 12,
+      "options": [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "4028533002",
+      "label": "How would you describe your gender identity? (mark all that apply)",
+      "answer_space": "closed",
+      "option_count": 5,
+      "options": [
+        "Man",
+        "Non-binary",
+        "Woman",
+        "I don't wish to answer",
+        "I prefer to self-describe"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "4028534002",
+      "label": "How would you describe your racial/ethnic background? (mark all that apply)",
+      "answer_space": "closed",
+      "option_count": 11,
+      "options": [
+        "Black or of African descent",
+        "East Asian",
+        "Hispanic, Latinx or of Spanish Origin",
+        "Indigenous, American Indian or Alaska Native",
+        "Middle Eastern or North African Native",
+        "Hawaiian or Pacific Islander",
+        "South Asian",
+        "Southeast Asian",
+        "White or European",
+        "I don't wish to answer",
+        "I prefer to self-describe"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "4028535002",
+      "label": "How would you describe your sexual orientation? (mark all that apply)",
+      "answer_space": "closed",
+      "option_count": 8,
+      "options": [
+        "Asexual",
+        "Bisexual and/or pansexual",
+        "Gay",
+        "Heterosexual",
+        "Lesbian",
+        "Queer",
+        "I don't wish to answer",
+        "I prefer to self-describe"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "4028536002",
+      "label": "Do you identify as transgender?",
+      "answer_space": "closed",
+      "option_count": 4,
+      "options": [
+        "Yes",
+        "No",
+        "I don't wish to answer",
+        "I prefer to self-describe"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "4028537002",
+      "label": "Do you have a disability or chronic condition (physical, visual, auditory, cognitive, mental, emotional, other) that substantially limits one or more of your major life activities, including mobility, communication (seeing, hearing, speaking), & learning",
+      "answer_space": "closed",
+      "option_count": 4,
+      "options": [
+        "Yes",
+        "No",
+        "I don't wish to answer",
+        "I prefer to self-describe"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "4028538002",
+      "label": "Are you a veteran or active member of the United States Armed Forces?",
+      "answer_space": "closed",
+      "option_count": 4,
+      "options": [
+        "I am a veteran or active member",
+        "No, I am not a veteran or active member",
+        "I don't wish to answer",
+        "I prefer to self-describe"
+      ],
+      "other_option": null
+    }
+  ],
+  "approved_plan": {
+    "entries": [
+      {
+        "field_id": "first_name",
+        "label": "First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "FILL",
+        "approved": true,
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "last_name",
+        "label": "Last Name",
+        "type": "text",
+        "canonical_field": "legal_name.last",
+        "action": "FILL",
+        "approved": true,
+        "value": "Kale",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "email",
+        "label": "Email",
+        "type": "text",
+        "canonical_field": "email",
+        "action": "FILL",
+        "approved": true,
+        "value": "s***@gmail.com",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "country",
+        "label": "Country",
+        "type": "text",
+        "canonical_field": "address.country",
+        "action": "FILL",
+        "approved": true,
+        "value": "United States +1",
+        "reason": "Mapped from public profile; placed onto \"United States +1\""
+      },
+      {
+        "field_id": "iti-0__search-input",
+        "label": "Search",
+        "type": "unknown",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "phone",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "FILL",
+        "approved": true,
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "candidate-location",
+        "label": "Location (City)",
+        "type": "text",
+        "canonical_field": "address.city",
+        "action": "FILL",
+        "approved": true,
+        "value": "Baltimore",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "resume",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "cover_letter",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "school--0",
+        "label": "School",
+        "type": "text",
+        "canonical_field": "history:education[0].school",
+        "action": "FILL",
+        "approved": true,
+        "value": "Johns Hopkins University",
+        "reason": "Structured education entry 1 (Johns Hopkins University) — school"
+      },
+      {
+        "field_id": "degree--0",
+        "label": "Degree",
+        "type": "text",
+        "canonical_field": "history:education[0].degree",
+        "action": "FILL",
+        "approved": true,
+        "value": "Bachelor's Degree",
+        "reason": "Structured education entry 1 (Johns Hopkins University) — degree; placed onto \"Bachelor's Degree\""
+      },
+      {
+        "field_id": "discipline--0",
+        "label": "Discipline",
+        "type": "text",
+        "canonical_field": "major",
+        "action": "FILL",
+        "approved": true,
+        "value": "Mathematics",
+        "reason": "Mapped from public profile; placed onto \"Mathematics\""
+      },
+      {
+        "field_id": "end-month--0",
+        "label": "End date month",
+        "type": "text",
+        "canonical_field": "graduation_month",
+        "action": "FILL",
+        "approved": true,
+        "value": "May",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "end-year--0",
+        "label": "End date year",
+        "type": "text",
+        "canonical_field": "graduation_year",
+        "action": "FILL",
+        "approved": true,
+        "value": "2029",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_38316074002",
+        "label": "Preferred First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "FILL",
+        "approved": true,
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_38316075002",
+        "label": "How do you pronounce your name? (e.g., 'An-na' or 'Ah-na')",
+        "type": "text",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "Predict produced no usable answer"
+      },
+      {
+        "field_id": "question_38349624002",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "question_38316077002",
+        "label": "What is your expected graduation timeline?",
+        "type": "text",
+        "canonical_field": "screener:custom:expected_graduation_date",
+        "action": "FILL",
+        "approved": true,
+        "value": "Spring/Summer 2029",
+        "reason": "Screener bank answer (llm_option)"
+      },
+      {
+        "field_id": "question_38316078002",
+        "label": "Undergraduate GPA",
+        "type": "text",
+        "canonical_field": "screener:custom:undergrad_gpa",
+        "action": "FILL",
+        "approved": true,
+        "value": "3.7 out of 4.0",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "question_38316079002",
+        "label": "Are you willing to work from the office location of the job?",
+        "type": "text",
+        "canonical_field": "screener:willing_to_relocate",
+        "action": "FILL",
+        "approved": true,
+        "value": "Yes",
+        "reason": "Screener bank answer (synonym_option)"
+      },
+      {
+        "field_id": "question_38316080002",
+        "label": "Do you have a Duolingo account? If yes, what is your username?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_38316080002",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Predicted from operator context (llm_predict): No Duolingo account is mentioned anywhere in the candidate's materials."
+      },
+      {
+        "field_id": "question_38316081002",
+        "label": "Why are you interested in Duolingo?",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_38316081002",
+        "action": "FILL",
+        "approved": true,
+        "value": "What draws me to Duolingo is that it's an education product with a real user on the other side and measurable failure modes. Most of what I've built lives in that same space. I shipped ClarityAtlas, an iOS health app, into a live Hopkins pilot with 30+ users, and the hardest part wasn't the passive sleep-estimation system I built on HealthKit and Core Motion signals like step count and gait speed. It was figuring out what people would actually open the app for. I learned the same lesson earlier with SnapSort, an AI photo-sorting product I built on Flask and AWS and grew to 300+ users: a technically functional system and a product people use are very different things. Duolingo runs experiments against half a billion learners, which means product questions get answered with data rather than opinion, and that's the kind of feedback loop I want to build inside. I'm also interested in teaching and evaluation as a technical problem, which is close to the core of what a learning product has to get right.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_38316082002",
+        "label": "Share with us your proudest accomplishment. This can be pre-college.",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_38316082002",
+        "action": "FILL",
+        "approved": true,
+        "value": "My independent research on Valley Fever, which I started in high school. I grew up around the environmental conditions the disease tracks with, and I wanted to know whether dust and agricultural activity could explain case patterns. I built an SIR-style epidemiological model in Python starting from the differential equations rather than a library, because I wanted to actually understand what each term was doing, and then connected the disease dynamics to environmental variables. I also programmed a microcontroller-based dust sensor in C/C++ so the environmental side wasn't purely theoretical. The work became a sole-author publication in the Journal of Student Research and I was selected as a national finalist in the Junior Science and Humanities Symposium. I'm proud of it less for the outcomes than because it was the first time I stopped treating math as a self-contained exercise and used it to explain something happening around me. Almost everything I've built since, from health models to anomaly detection, comes out of that shift.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_38316083002",
+        "label": "How will your personal experiences make an impact at Duolingo?",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_38316083002",
+        "action": "FILL",
+        "approved": true,
+        "value": "The most useful habit I'd bring is changing my mind when evidence contradicts me. Over the past year I've independently studied how scientific research gets funded and evaluated, and I started with a confident thesis: that grant-writing time was the main constraint on science and that compensation was pushing talented people out of academia. Interviews with researchers, administrators, and science-policy people broke both claims. The more interesting effect turned out to be selection, meaning researchers learn which ideas are legible enough to survive review and never attempt the ones that aren't, and many people knowingly trade compensation for autonomy. Sitting with that changed how I approach product work too. At Open Health Intelligence, my cofounders and I spotted President Ron Daniels through the locked doors of Garland Hall and knocked until we got to pitch him, which turned into a formal meeting months later with Data Science and AI Institute leadership. On a team that makes fact-based decisions and experiments constantly, I'd be comfortable proposing a strong hypothesis and equally comfortable being the person who says it didn't hold.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_38316084002",
+        "label": "Tell us about your experience in computer science. Why did you choose computer science?",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_38316084002",
+        "action": "FILL",
+        "approved": true,
+        "value": "I came to computer science through problems rather than through the field itself. I study Applied Mathematics and Statistics and Economics at Hopkins, and I kept running into questions where the math was only useful if I could build the system around it. That's how I ended up writing most of my work in code. The range has been wide on purpose. On a Gates Foundation-funded Hopkins / South African MRC health-equity project I was lead model developer, training XGBoost models on a national survey dataset of roughly 10 million records, using SHAP for feature selection, and designing G-formula causal simulations for counterfactual interventions. At Summer Atlantic Capital I own large parts of an anomaly-detection system, including the event-ingestion pipeline, a versioned FastAPI microservice, temporal sequence models over event streams, and a learning-to-rank layer for alert prioritization. I chose computer science because it's the fastest way I know to test whether an idea survives contact with a real user. Building is how I find out what I was wrong about.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_38316085002",
+        "label": "Is there anything else not listed on your resume that you would like to share with us?",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_38316085002",
+        "action": "FILL",
+        "approved": true,
+        "value": "One thing not on my resume is how much I think about where automation should stop. I built a Playwright-based job-application agent in TypeScript because job hunting is full of repetitive browser work, but I deliberately designed it as a deterministic operator-controlled system rather than an autonomous agent. Every application moves through an explicit state machine, SQLite is the single source of truth because browser automation gets dangerous when state diverges across processes, and every mutating capability sits behind fail-closed flags that never default on. Free-text essays and demographic fields are architecturally prevented from being auto-filled and always generate a human-review item. I also built a validation ladder so a capability isn't called working just because it passed against a local fixture. Workday and iCIMS are detected and skipped rather than handled unreliably, which was a deliberate choice to do less badly. That instinct came out of evaluation work at Intelehealth, where I compared LLM-generated clinical outputs against a 4,169-case standard and learned that generating an answer is cheap and deciding whether to trust it is the hard part.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_38316086002",
+        "label": "Where did you hear about this job?",
+        "type": "text",
+        "canonical_field": "how_heard",
+        "action": "FILL",
+        "approved": true,
+        "value": "LinkedIn",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_38316087002[]",
+        "label": "What Duolingo sponsored conferences have you attended and/or organizations are you a part of?",
+        "type": "checkbox",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "Predict produced no usable answer"
+      },
+      {
+        "field_id": "question_38316088002",
+        "label": "Alternate Email",
+        "type": "text",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "Predict produced no usable answer"
+      },
+      {
+        "field_id": "question_38316089002",
+        "label": "LinkedIn Profile",
+        "type": "text",
+        "canonical_field": "linkedin_url",
+        "action": "FILL",
+        "approved": true,
+        "value": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_38316090002",
+        "label": "Website",
+        "type": "text",
+        "canonical_field": "personal_website",
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "Profile value empty for personal_website"
+      },
+      {
+        "field_id": "question_38316091002",
+        "label": "Are you authorized to work lawfully in the United States for Duolingo?",
+        "type": "text",
+        "canonical_field": "work_authorization",
+        "action": "FILL",
+        "approved": true,
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_38316092002",
+        "label": "Will you now, or in the future, require sponsorship (i.e. H-1B visa, etc.) to legally work in the U.S.?",
+        "type": "text",
+        "canonical_field": "requires_sponsorship",
+        "action": "FILL",
+        "approved": true,
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_38316093002",
+        "label": "If so, are you eligible or currently in a period of Optional Practical Training (OPT)?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_38316093002",
+        "action": "FILL",
+        "approved": true,
+        "value": "NA",
+        "reason": "Predicted from operator context (llm_predict): Candidate is a U.S. citizen, so OPT does not apply."
+      },
+      {
+        "field_id": "question_38316094002",
+        "label": "After the OPT, are you eligible for a 24-month OPT extension or are currently in a 24-month OPT extension based upon a degree from a qualifying U.S. institution in Science, Technology, Engineering, or Mathematics after the Optional Practical Training (OPT)?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_38316094002",
+        "action": "FILL",
+        "approved": true,
+        "value": "NA",
+        "reason": "Predicted from operator context (llm_predict): Candidate is a U.S. citizen requiring no visa status, so the STEM OPT extension is not applicable."
+      },
+      {
+        "field_id": "4028533002",
+        "label": "How would you describe your gender identity? (mark all that apply)",
+        "type": "text",
+        "canonical_field": "gender_identity",
+        "action": "FILL",
+        "approved": true,
+        "value": "Man",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "4028534002",
+        "label": "How would you describe your racial/ethnic background? (mark all that apply)",
+        "type": "text",
+        "canonical_field": "race_ethnicity",
+        "action": "FILL",
+        "approved": true,
+        "value": "South Asian",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "4028535002",
+        "label": "How would you describe your sexual orientation? (mark all that apply)",
+        "type": "text",
+        "canonical_field": "sexual_orientation",
+        "action": "FILL",
+        "approved": true,
+        "value": "Heterosexual",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "4028536002",
+        "label": "Do you identify as transgender?",
+        "type": "text",
+        "canonical_field": "transgender",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "4028537002",
+        "label": "Do you have a disability or chronic condition (physical, visual, auditory, cognitive, mental, emotional, other) that substantially limits one or more of your major life activities, including mobility, communication (seeing, hearing, speaking), & learning",
+        "type": "text",
+        "canonical_field": "disability_status",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "4028538002",
+        "label": "Are you a veteran or active member of the United States Armed Forces?",
+        "type": "text",
+        "canonical_field": "veteran_status",
+        "action": "FILL",
+        "approved": true,
+        "value": "I am not a veteran",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      }
+    ],
+    "answers": {
+      "legal_name.first": "Shubham",
+      "legal_name.last": "Kale",
+      "email": "s***@gmail.com",
+      "address.country": "United States +1",
+      "phone": "***-***-7636",
+      "address.city": "Baltimore",
+      "history:education[0].school": "Johns Hopkins University",
+      "history:education[0].degree": "Bachelor's Degree",
+      "major": "Mathematics",
+      "graduation_month": "May",
+      "graduation_year": "2029",
+      "screener:custom:expected_graduation_date": "Spring/Summer 2029",
+      "screener:custom:undergrad_gpa": "3.7 out of 4.0",
+      "screener:willing_to_relocate": "Yes",
+      "screener:custom:predicted:question_38316080002": "No",
+      "essay:generated:question_38316081002": "What draws me to Duolingo is that it's an education product with a real user on the other side and measurable failure modes. Most of what I've built lives in that same space. I shipped ClarityAtlas, an iOS health app, into a live Hopkins pilot with 30+ users, and the hardest part wasn't the passive sleep-estimation system I built on HealthKit and Core Motion signals like step count and gait speed. It was figuring out what people would actually open the app for. I learned the same lesson earlier with SnapSort, an AI photo-sorting product I built on Flask and AWS and grew to 300+ users: a technically functional system and a product people use are very different things. Duolingo runs experiments against half a billion learners, which means product questions get answered with data rather than opinion, and that's the kind of feedback loop I want to build inside. I'm also interested in teaching and evaluation as a technical problem, which is close to the core of what a learning product has to get right.",
+      "essay:generated:question_38316082002": "My independent research on Valley Fever, which I started in high school. I grew up around the environmental conditions the disease tracks with, and I wanted to know whether dust and agricultural activity could explain case patterns. I built an SIR-style epidemiological model in Python starting from the differential equations rather than a library, because I wanted to actually understand what each term was doing, and then connected the disease dynamics to environmental variables. I also programmed a microcontroller-based dust sensor in C/C++ so the environmental side wasn't purely theoretical. The work became a sole-author publication in the Journal of Student Research and I was selected as a national finalist in the Junior Science and Humanities Symposium. I'm proud of it less for the outcomes than because it was the first time I stopped treating math as a self-contained exercise and used it to explain something happening around me. Almost everything I've built since, from health models to anomaly detection, comes out of that shift.",
+      "essay:generated:question_38316083002": "The most useful habit I'd bring is changing my mind when evidence contradicts me. Over the past year I've independently studied how scientific research gets funded and evaluated, and I started with a confident thesis: that grant-writing time was the main constraint on science and that compensation was pushing talented people out of academia. Interviews with researchers, administrators, and science-policy people broke both claims. The more interesting effect turned out to be selection, meaning researchers learn which ideas are legible enough to survive review and never attempt the ones that aren't, and many people knowingly trade compensation for autonomy. Sitting with that changed how I approach product work too. At Open Health Intelligence, my cofounders and I spotted President Ron Daniels through the locked doors of Garland Hall and knocked until we got to pitch him, which turned into a formal meeting months later with Data Science and AI Institute leadership. On a team that makes fact-based decisions and experiments constantly, I'd be comfortable proposing a strong hypothesis and equally comfortable being the person who says it didn't hold.",
+      "essay:generated:question_38316084002": "I came to computer science through problems rather than through the field itself. I study Applied Mathematics and Statistics and Economics at Hopkins, and I kept running into questions where the math was only useful if I could build the system around it. That's how I ended up writing most of my work in code. The range has been wide on purpose. On a Gates Foundation-funded Hopkins / South African MRC health-equity project I was lead model developer, training XGBoost models on a national survey dataset of roughly 10 million records, using SHAP for feature selection, and designing G-formula causal simulations for counterfactual interventions. At Summer Atlantic Capital I own large parts of an anomaly-detection system, including the event-ingestion pipeline, a versioned FastAPI microservice, temporal sequence models over event streams, and a learning-to-rank layer for alert prioritization. I chose computer science because it's the fastest way I know to test whether an idea survives contact with a real user. Building is how I find out what I was wrong about.",
+      "essay:generated:question_38316085002": "One thing not on my resume is how much I think about where automation should stop. I built a Playwright-based job-application agent in TypeScript because job hunting is full of repetitive browser work, but I deliberately designed it as a deterministic operator-controlled system rather than an autonomous agent. Every application moves through an explicit state machine, SQLite is the single source of truth because browser automation gets dangerous when state diverges across processes, and every mutating capability sits behind fail-closed flags that never default on. Free-text essays and demographic fields are architecturally prevented from being auto-filled and always generate a human-review item. I also built a validation ladder so a capability isn't called working just because it passed against a local fixture. Workday and iCIMS are detected and skipped rather than handled unreliably, which was a deliberate choice to do less badly. That instinct came out of evaluation work at Intelehealth, where I compared LLM-generated clinical outputs against a 4,169-case standard and learned that generating an answer is cheap and deciding whether to trust it is the hard part.",
+      "how_heard": "LinkedIn",
+      "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+      "work_authorization": "[REDACTED_SPONSORSHIP]",
+      "requires_sponsorship": "[REDACTED_SPONSORSHIP]",
+      "screener:custom:predicted:question_38316093002": "NA",
+      "screener:custom:predicted:question_38316094002": "NA",
+      "gender_identity": "Man",
+      "race_ethnicity": "South Asian",
+      "sexual_orientation": "Heterosexual",
+      "transgender": "No",
+      "disability_status": "No",
+      "veteran_status": "I am not a veteran"
+    },
+    "fillable_count": 33,
+    "skipped_count": 8,
+    "review_required_count": 0
+  },
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "legal_name.last",
+      "email",
+      "address.country",
+      "phone",
+      "address.city",
+      "history:education[0].school",
+      "history:education[0].degree",
+      "major",
+      "graduation_month",
+      "graduation_year",
+      "legal_name.first",
+      "screener:custom:expected_graduation_date",
+      "screener:custom:undergrad_gpa",
+      "screener:willing_to_relocate",
+      "screener:custom:predicted:question_38316080002",
+      "essay:generated:question_38316081002",
+      "essay:generated:question_38316082002",
+      "essay:generated:question_38316083002",
+      "essay:generated:question_38316084002",
+      "essay:generated:question_38316085002",
+      "how_heard",
+      "linkedin_url",
+      "work_authorization",
+      "requires_sponsorship",
+      "screener:custom:predicted:question_38316093002",
+      "screener:custom:predicted:question_38316094002",
+      "gender_identity",
+      "race_ethnicity",
+      "sexual_orientation",
+      "transgender",
+      "disability_status",
+      "veteran_status"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "first_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "last_name",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "country",
+        "canonical_field": "address.country",
+        "control_kind": "combobox",
+        "selected_option": "+1",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"United States +1\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "phone",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "candidate-location",
+        "canonical_field": "address.city",
+        "control_kind": "combobox",
+        "selected_option": "Baltimore, Maryland, United States",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "filter \"Baltimore\" then picked \"Baltimore, Maryland, United States\" (exact)"
+        ]
+      },
+      {
+        "field_id": "school--0",
+        "canonical_field": "history:education[0].school",
+        "control_kind": "combobox",
+        "selected_option": "Johns Hopkins University",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "filter \"Johns Hopkins University\" then picked \"Johns Hopkins University\" (exact)"
+        ]
+      },
+      {
+        "field_id": "degree--0",
+        "canonical_field": "history:education[0].degree",
+        "control_kind": "combobox",
+        "selected_option": "Bachelor's Degree",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Bachelor's Degree\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "discipline--0",
+        "canonical_field": "major",
+        "control_kind": "combobox",
+        "selected_option": "Mathematics",
+        "match_via": "synonym",
+        "notes": [
+          "opened via control click",
+          "picked \"Mathematics\" (synonym) from open list"
+        ]
+      },
+      {
+        "field_id": "end-month--0",
+        "canonical_field": "graduation_month",
+        "control_kind": "combobox",
+        "selected_option": "May",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"May\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "end-year--0",
+        "canonical_field": "graduation_year",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_38316074002",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_38316077002",
+        "canonical_field": "screener:custom:expected_graduation_date",
+        "control_kind": "combobox",
+        "selected_option": "Spring/Summer 2029",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Spring/Summer 2029\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_38316078002",
+        "canonical_field": "screener:custom:undergrad_gpa",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_38316079002",
+        "canonical_field": "screener:willing_to_relocate",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_38316080002",
+        "canonical_field": "screener:custom:predicted:question_38316080002",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_38316081002",
+        "canonical_field": "essay:generated:question_38316081002",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_38316082002",
+        "canonical_field": "essay:generated:question_38316082002",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_38316083002",
+        "canonical_field": "essay:generated:question_38316083002",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_38316084002",
+        "canonical_field": "essay:generated:question_38316084002",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_38316085002",
+        "canonical_field": "essay:generated:question_38316085002",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_38316086002",
+        "canonical_field": "how_heard",
+        "control_kind": "combobox",
+        "selected_option": "LinkedIn",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"LinkedIn\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_38316089002",
+        "canonical_field": "linkedin_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_38316091002",
+        "canonical_field": "work_authorization",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_38316092002",
+        "canonical_field": "requires_sponsorship",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_38316093002",
+        "canonical_field": "screener:custom:predicted:question_38316093002",
+        "control_kind": "combobox",
+        "selected_option": "NA",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"NA\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_38316094002",
+        "canonical_field": "screener:custom:predicted:question_38316094002",
+        "control_kind": "combobox",
+        "selected_option": "NA",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"NA\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "4028533002",
+        "canonical_field": "gender_identity",
+        "control_kind": "combobox",
+        "selected_option": "Man",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Man\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "4028534002",
+        "canonical_field": "race_ethnicity",
+        "control_kind": "combobox",
+        "selected_option": "South Asian",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"South Asian\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "4028535002",
+        "canonical_field": "sexual_orientation",
+        "control_kind": "combobox",
+        "selected_option": "Heterosexual",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Heterosexual\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "4028536002",
+        "canonical_field": "transgender",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "4028537002",
+        "canonical_field": "disability_status",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "4028538002",
+        "canonical_field": "veteran_status",
+        "control_kind": "combobox",
+        "selected_option": "No, I am not a veteran or active member",
+        "match_via": "synonym",
+        "notes": [
+          "opened via control click",
+          "picked \"No, I am not a veteran or active member\" (synonym) from open list"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.last",
+        "expected": "Kale",
+        "observed": "Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "address.country",
+        "expected": "United States +1",
+        "observed": {
+          "value": "+1",
+          "label": "+1"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "address.city",
+        "expected": "Baltimore",
+        "observed": {
+          "value": "Baltimore, Maryland, United States",
+          "label": "Baltimore, Maryland, United States"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "history:education[0].school",
+        "expected": "Johns Hopkins University",
+        "observed": {
+          "value": "Johns Hopkins University",
+          "label": "Johns Hopkins University"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "history:education[0].degree",
+        "expected": "Bachelor's Degree",
+        "observed": {
+          "value": "Bachelor's Degree",
+          "label": "Bachelor's Degree"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "major",
+        "expected": "Mathematics",
+        "observed": {
+          "value": "Mathematics",
+          "label": "Mathematics"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "graduation_month",
+        "expected": "May",
+        "observed": {
+          "value": "May",
+          "label": "May"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "graduation_year",
+        "expected": "2029",
+        "observed": "2029",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:expected_graduation_date",
+        "expected": "Spring/Summer 2029",
+        "observed": {
+          "value": "Spring/Summer 2029",
+          "label": "Spring/Summer 2029"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:undergrad_gpa",
+        "expected": "3.7 out of 4.0",
+        "observed": "3.7 out of 4.0",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:willing_to_relocate",
+        "expected": "Yes",
+        "observed": {
+          "value": "Yes",
+          "label": "Yes"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_38316080002",
+        "expected": "No",
+        "observed": "No",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:question_38316081002",
+        "expected": "What draws me to Duolingo is that it's an education product with a real user on the other side and measurable failure modes. Most of what I've built lives in that same space. I shipped ClarityAtlas, an iOS health app, into a live Hopkins pilot with 30+ users, and the hardest part wasn't the passive sleep-estimation system I built on HealthKit and Core Motion signals like step count and gait speed. It was figuring out what people would actually open the app for. I learned the same lesson earlier with SnapSort, an AI photo-sorting product I built on Flask and AWS and grew to 300+ users: a technically functional system and a product people use are very different things. Duolingo runs experiments against half a billion learners, which means product questions get answered with data rather than opinion, and that's the kind of feedback loop I want to build inside. I'm also interested in teaching and evaluation as a technical problem, which is close to the core of what a learning product has to get right.",
+        "observed": "What draws me to Duolingo is that it's an education product with a real user on the other side and measurable failure modes. Most of what I've built lives in that same space. I shipped ClarityAtlas, an iOS health app, into a live Hopkins pilot with 30+ users, and the hardest part wasn't the passive sleep-estimation system I built on HealthKit and Core Motion signals like step count and gait speed. It was figuring out what people would actually open the app for. I learned the same lesson earlier with SnapSort, an AI photo-sorting product I built on Flask and AWS and grew to 300+ users: a technically functional system and a product people use are very different things. Duolingo runs experiments against half a billion learners, which means product questions get answered with data rather than opinion, and that's the kind of feedback loop I want to build inside. I'm also interested in teaching and evaluation as a technical problem, which is close to the core of what a learning product has to get right.",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:question_38316082002",
+        "expected": "My independent research on Valley Fever, which I started in high school. I grew up around the environmental conditions the disease tracks with, and I wanted to know whether dust and agricultural activity could explain case patterns. I built an SIR-style epidemiological model in Python starting from the differential equations rather than a library, because I wanted to actually understand what each term was doing, and then connected the disease dynamics to environmental variables. I also programmed a microcontroller-based dust sensor in C/C++ so the environmental side wasn't purely theoretical. The work became a sole-author publication in the Journal of Student Research and I was selected as a national finalist in the Junior Science and Humanities Symposium. I'm proud of it less for the outcomes than because it was the first time I stopped treating math as a self-contained exercise and used it to explain something happening around me. Almost everything I've built since, from health models to anomaly detection, comes out of that shift.",
+        "observed": "My independent research on Valley Fever, which I started in high school. I grew up around the environmental conditions the disease tracks with, and I wanted to know whether dust and agricultural activity could explain case patterns. I built an SIR-style epidemiological model in Python starting from the differential equations rather than a library, because I wanted to actually understand what each term was doing, and then connected the disease dynamics to environmental variables. I also programmed a microcontroller-based dust sensor in C/C++ so the environmental side wasn't purely theoretical. The work became a sole-author publication in the Journal of Student Research and I was selected as a national finalist in the Junior Science and Humanities Symposium. I'm proud of it less for the outcomes than because it was the first time I stopped treating math as a self-contained exercise and used it to explain something happening around me. Almost everything I've built since, from health models to anomaly detection, comes out of that shift.",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:question_38316083002",
+        "expected": "The most useful habit I'd bring is changing my mind when evidence contradicts me. Over the past year I've independently studied how scientific research gets funded and evaluated, and I started with a confident thesis: that grant-writing time was the main constraint on science and that compensation was pushing talented people out of academia. Interviews with researchers, administrators, and science-policy people broke both claims. The more interesting effect turned out to be selection, meaning researchers learn which ideas are legible enough to survive review and never attempt the ones that aren't, and many people knowingly trade compensation for autonomy. Sitting with that changed how I approach product work too. At Open Health Intelligence, my cofounders and I spotted President Ron Daniels through the locked doors of Garland Hall and knocked until we got to pitch him, which turned into a formal meeting months later with Data Science and AI Institute leadership. On a team that makes fact-based decisions and experiments constantly, I'd be comfortable proposing a strong hypothesis and equally comfortable being the person who says it didn't hold.",
+        "observed": "The most useful habit I'd bring is changing my mind when evidence contradicts me. Over the past year I've independently studied how scientific research gets funded and evaluated, and I started with a confident thesis: that grant-writing time was the main constraint on science and that compensation was pushing talented people out of academia. Interviews with researchers, administrators, and science-policy people broke both claims. The more interesting effect turned out to be selection, meaning researchers learn which ideas are legible enough to survive review and never attempt the ones that aren't, and many people knowingly trade compensation for autonomy. Sitting with that changed how I approach product work too. At Open Health Intelligence, my cofounders and I spotted President Ron Daniels through the locked doors of Garland Hall and knocked until we got to pitch him, which turned into a formal meeting months later with Data Science and AI Institute leadership. On a team that makes fact-based decisions and experiments constantly, I'd be comfortable proposing a strong hypothesis and equally comfortable being the person who says it didn't hold.",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:question_38316084002",
+        "expected": "I came to computer science through problems rather than through the field itself. I study Applied Mathematics and Statistics and Economics at Hopkins, and I kept running into questions where the math was only useful if I could build the system around it. That's how I ended up writing most of my work in code. The range has been wide on purpose. On a Gates Foundation-funded Hopkins / South African MRC health-equity project I was lead model developer, training XGBoost models on a national survey dataset of roughly 10 million records, using SHAP for feature selection, and designing G-formula causal simulations for counterfactual interventions. At Summer Atlantic Capital I own large parts of an anomaly-detection system, including the event-ingestion pipeline, a versioned FastAPI microservice, temporal sequence models over event streams, and a learning-to-rank layer for alert prioritization. I chose computer science because it's the fastest way I know to test whether an idea survives contact with a real user. Building is how I find out what I was wrong about.",
+        "observed": "I came to computer science through problems rather than through the field itself. I study Applied Mathematics and Statistics and Economics at Hopkins, and I kept running into questions where the math was only useful if I could build the system around it. That's how I ended up writing most of my work in code. The range has been wide on purpose. On a Gates Foundation-funded Hopkins / South African MRC health-equity project I was lead model developer, training XGBoost models on a national survey dataset of roughly 10 million records, using SHAP for feature selection, and designing G-formula causal simulations for counterfactual interventions. At Summer Atlantic Capital I own large parts of an anomaly-detection system, including the event-ingestion pipeline, a versioned FastAPI microservice, temporal sequence models over event streams, and a learning-to-rank layer for alert prioritization. I chose computer science because it's the fastest way I know to test whether an idea survives contact with a real user. Building is how I find out what I was wrong about.",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:question_38316085002",
+        "expected": "One thing not on my resume is how much I think about where automation should stop. I built a Playwright-based job-application agent in TypeScript because job hunting is full of repetitive browser work, but I deliberately designed it as a deterministic operator-controlled system rather than an autonomous agent. Every application moves through an explicit state machine, SQLite is the single source of truth because browser automation gets dangerous when state diverges across processes, and every mutating capability sits behind fail-closed flags that never default on. Free-text essays and demographic fields are architecturally prevented from being auto-filled and always generate a human-review item. I also built a validation ladder so a capability isn't called working just because it passed against a local fixture. Workday and iCIMS are detected and skipped rather than handled unreliably, which was a deliberate choice to do less badly. That instinct came out of evaluation work at Intelehealth, where I compared LLM-generated clinical outputs against a 4,169-case standard and learned that generating an answer is cheap and deciding whether to trust it is the hard part.",
+        "observed": "One thing not on my resume is how much I think about where automation should stop. I built a Playwright-based job-application agent in TypeScript because job hunting is full of repetitive browser work, but I deliberately designed it as a deterministic operator-controlled system rather than an autonomous agent. Every application moves through an explicit state machine, SQLite is the single source of truth because browser automation gets dangerous when state diverges across processes, and every mutating capability sits behind fail-closed flags that never default on. Free-text essays and demographic fields are architecturally prevented from being auto-filled and always generate a human-review item. I also built a validation ladder so a capability isn't called working just because it passed against a local fixture. Workday and iCIMS are detected and skipped rather than handled unreliably, which was a deliberate choice to do less badly. That instinct came out of evaluation work at Intelehealth, where I compared LLM-generated clinical outputs against a 4,169-case standard and learned that generating an answer is cheap and deciding whether to trust it is the hard part.",
+        "match": true
+      },
+      {
+        "canonical_field": "how_heard",
+        "expected": "LinkedIn",
+        "observed": {
+          "value": "LinkedIn",
+          "label": "LinkedIn"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "match": true
+      },
+      {
+        "canonical_field": "work_authorization",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "requires_sponsorship",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_38316093002",
+        "expected": "NA",
+        "observed": {
+          "value": "NA",
+          "label": "NA"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_38316094002",
+        "expected": "NA",
+        "observed": {
+          "value": "NA",
+          "label": "NA"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "gender_identity",
+        "expected": "Man",
+        "observed": {
+          "value": "Man",
+          "label": "Man"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "race_ethnicity",
+        "expected": "South Asian",
+        "observed": {
+          "value": "South Asian",
+          "label": "South Asian"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "sexual_orientation",
+        "expected": "Heterosexual",
+        "observed": {
+          "value": "Heterosexual",
+          "label": "Heterosexual"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "transgender",
+        "expected": "No",
+        "observed": {
+          "value": "No",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "disability_status",
+        "expected": "No",
+        "observed": {
+          "value": "No",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "veteran_status",
+        "expected": "I am not a veteran",
+        "observed": {
+          "value": "No, I am not a veteran or active member",
+          "label": "No, I am not a veteran or active member"
+        },
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 115393,
+      "verified": true,
+      "evidence": "input files: []; stillAttached=false; chip=true"
+    }
+  ],
+  "written_at": "2026-09-16T04:52:32.187Z"
+}
