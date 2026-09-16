@@ -1,0 +1,121 @@
+{
+  "decision_id": "170a03d3-b9c4-42d4-b100-4e276a1779b5",
+  "application_id": "3d081110-3dd6-4eed-aeb9-cda302d550ea",
+  "signature": "FAILED_RETRYABLE|duplicate_url|duplicate_url|-",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "3d081110-3dd6-4eed-aeb9-cda302d550ea",
+    "company": "Brevium",
+    "role": "Software Engineer Intern",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 1,
+    "failure_signature": "FAILED_RETRYABLE|duplicate_url|duplicate_url|-",
+    "end_host": null,
+    "recent_events": [
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "navigation: employer URL already held by another application",
+        "at": "2026-09-16T08:00:16.499Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-16T08:00:12.111Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 7141579276ac)",
+        "at": "2026-09-16T08:00:12.103Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-16T08:00:12.059Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-16T07:00:02.468Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-16T07:00:02.453Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-16T07:00:02.452Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-16T07:00:02.451Z"
+      }
+    ],
+    "nav": {
+      "wall": "duplicate_url",
+      "method": null,
+      "notes": [
+        "employer URL already held by 1 other application(s): f264f13d (Brevium — Software Engineer Intern, COMPLETED)"
+      ],
+      "congruence": {
+        "verdict": "match",
+        "slug": "brevium",
+        "detail": "token \"brevium\" ~ slug \"brevium\"",
+        "expected_company": "Brevium",
+        "url": "https://job-boards.greenhouse.io/embed/job_app?for=brevium&token=4713683006&jr_id=6aaa05fe28e24cb38513dee6"
+      },
+      "duplicates": [
+        {
+          "application_id": "f264f13d-88db-4883-bad7-ad9143f55a80",
+          "state": "COMPLETED",
+          "company": "Brevium",
+          "role": "Software Engineer Intern"
+        }
+      ],
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (8 candidates, employer match)",
+          "evidence": "job-boards.greenhouse.io"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [
+      {
+        "kind": "MANUAL",
+        "title": "Duplicate posting — another application already targets this URL"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"abandon_duplicate\", \"rationale\": \"Same employer URL is already owned by completed application f264f13d for the identical Brevium Software Engineer Intern role; congruence matches. No rerun would change this — abandon as duplicate.\", \"confidence\": \"high\"}",
+  "parsed_action": "abandon_duplicate",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "abandoned to FAILED_FINAL",
+  "rationale_unverified": "Same employer URL is already owned by completed application f264f13d for the identical Brevium Software Engineer Intern role; congruence matches. No rerun would change this — abandon as duplicate."
+}
