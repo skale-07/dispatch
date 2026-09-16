@@ -1,0 +1,156 @@
+{
+  "decision_id": "86cff0aa-2679-4a6b-927c-0e1b4a095bfa",
+  "application_id": "cf8fbf59-6538-47e6-8dca-21a90994ae3a",
+  "signature": "AMBIGUOUS_FIELD|-|verify_mismatch|jobs.polymer.co",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "cf8fbf59-6538-47e6-8dca-21a90994ae3a",
+    "company": "Daylit",
+    "role": "AI Deployment Co-Op (Northeastern Students only) Spring 2027",
+    "state": "AMBIGUOUS_FIELD",
+    "attempt": 1,
+    "failure_signature": "AMBIGUOUS_FIELD|-|verify_mismatch|jobs.polymer.co",
+    "end_host": "jobs.polymer.co",
+    "recent_events": [
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "AMBIGUOUS_FIELD",
+        "reason": "pipeline: read-back verification failed",
+        "at": "2026-09-16T11:02:10.607Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (generic live fill: 6 filled (held for submit))",
+        "at": "2026-09-16T11:02:10.606Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route ready_for_fill_later (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-16T10:59:18.077Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-16T10:59:16.330Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-16T10:59:16.320Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-16T10:59:07.825Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 d5f6e2353444)",
+        "at": "2026-09-16T10:59:07.819Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-16T10:59:07.788Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-16T06:25:07.826Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-16T06:25:07.813Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-16T06:25:07.811Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-16T06:25:07.810Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_llm",
+      "notes": [
+        "phase A: anchor reads as \"lendica\" (URL names \"lendica\" (path), which shares nothing with company \"Daylit\") — not preferred, deferring to the Apply click",
+        "phase A: 6 external host(s) seen: jobs.polymer.co, www.linkedin.com, www.crunchbase.com, www.daylit.com, www.businesswire.com, www.crowdfundinsider.com",
+        "no standard Apply control found (exact and broad name tiers both empty)",
+        "anchor adjudication: promoted jobs.polymer.co",
+        "anchor adjudication rationale (UNVERIFIED): Only actual ATS job posting link (Polymer board, job-specific ID); Daylit likely rebranded from Lendica. Others are homepage or news articles.",
+        "congruence: URL names \"lendica\", not \"Daylit\" (URL names \"lendica\" (path), which shares nothing with company \"Daylit\") — recorded, not refused"
+      ],
+      "congruence": {
+        "verdict": "mismatch",
+        "slug": "lendica",
+        "detail": "URL names \"lendica\" (path), which shares nothing with company \"Daylit\"",
+        "expected_company": "Daylit",
+        "url": "https://jobs.polymer.co/lendica/41165?jr_id=6aa9925e28e24cb38513af2b"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "no congruent apply href (11 external links)",
+          "evidence": "jobs.polymer.co, www.linkedin.com, www.crunchbase.com, www.daylit.com, www.businesswire.com, www.crowdfundinsider.com"
+        },
+        {
+          "phase": "B_apply_click",
+          "outcome": "unresolved by deterministic phases"
+        },
+        {
+          "phase": "A_anchor_llm",
+          "outcome": "candidate promoted by adjudication",
+          "evidence": "jobs.polymer.co"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": false
+    },
+    "open_review_items": [
+      {
+        "kind": "AMBIGUOUS_FIELD",
+        "title": "Fill verification failed"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\":\"park_for_operator\",\"rationale\":\"Read-back verification failed on a form whose URL congruence is a mismatch (jobs.polymer.co/lendica vs Daylit), promoted only by unverified LLM adjudication. A human should confirm this is the right posting and why 6 filled fields failed verification before any resubmit; a blind requeue would repeat it.\",\"confidence\":\"medium\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: 8b02b976-55a7-48cb-ba5c-9fede326377b",
+  "rationale_unverified": "Read-back verification failed on a form whose URL congruence is a mismatch (jobs.polymer.co/lendica vs Daylit), promoted only by unverified LLM adjudication. A human should confirm this is the right posting and why 6 filled fields failed verification before any resubmit; a blind requeue would repeat it."
+}

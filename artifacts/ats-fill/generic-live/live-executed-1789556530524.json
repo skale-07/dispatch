@@ -1,0 +1,246 @@
+{
+  "ats": "generic",
+  "url": "https://jobs.polymer.co/lendica/41165",
+  "requested_url": "https://jobs.polymer.co/lendica/41165",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://jobs.polymer.co/lendica/41165#apply",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 6,
+    "skipped_count": 3,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "inputName",
+      "label": "Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "inputEmailaddress",
+      "label": "Email address",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "inputPhonenumber",
+      "label": "Phone number",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "inputLocation",
+      "label": "Location",
+      "type": "text",
+      "canonical_field": "address.city",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "file",
+      "label": "Attach resume/CV",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "react-select-2-input",
+      "label": "Are you legally authorized to work for any employer in the US?",
+      "type": "text",
+      "canonical_field": "work_authorization",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "react-select-3-input",
+      "label": "Do you now, or will you ever, require employment sponsorship to work in the US?",
+      "type": "text",
+      "canonical_field": "requires_sponsorship",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "inputDidsomeonereferyoutothisjobatDaylit?Pleaseprovidetheirname.",
+      "label": "Did someone refer you to this job at Daylit? Please provide their name.",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "employment row 28 — the profile holds one entry; not answered from the bank"
+    },
+    {
+      "field_id": "27129",
+      "label": "Attach file",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\generic-live\\form-snapshot-1789556366552.html",
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "email",
+      "phone",
+      "address.city",
+      "work_authorization",
+      "requires_sponsorship"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "inputName",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "inputEmailaddress",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "inputPhonenumber",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "inputLocation",
+        "canonical_field": "address.city",
+        "control_kind": "text",
+        "notes": [
+          "no clickable suggestion list within timeout — ArrowDown+Enter",
+          "keyboard ArrowDown+Enter",
+          "location committed (blur-stable): Baltimore, Maryland, USA"
+        ]
+      },
+      {
+        "field_id": "react-select-2-input",
+        "canonical_field": "work_authorization",
+        "control_kind": "text",
+        "notes": [
+          "opened via control click",
+          "listbox did not open after click",
+          "fell back to text fill — no listbox"
+        ]
+      },
+      {
+        "field_id": "react-select-3-input",
+        "canonical_field": "requires_sponsorship",
+        "control_kind": "text",
+        "notes": [
+          "opened via control click",
+          "listbox did not open after click",
+          "fell back to text fill — no listbox"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": false,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "address.city",
+        "expected": "Baltimore, Maryland, USA",
+        "observed": "Baltimore, Maryland, USA",
+        "match": true
+      },
+      {
+        "canonical_field": "work_authorization",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": false
+      },
+      {
+        "canonical_field": "requires_sponsorship",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 126181,
+      "verified": true,
+      "evidence": "input files: [{\"name\":\"resume-d5f6e235.pdf\",\"size\":126181}]; stillAttached=true; chip=true"
+    }
+  ],
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: posting (no fields, Apply CTA present)",
+    "landed on a posting (no fields, Apply CTA present); clicking Apply via role=link accessible name is Apply",
+    "Apply landed on: form (9 fillable field(s))",
+    "option harvest: \"Are you legally authorized to work for any employer in the U\" is a combobox but offered no readable options",
+    "option harvest: \"Do you now, or will you ever, require employment sponsorship\" is a combobox but offered no readable options",
+    "timing: base page (9 planned) — plan 0s, fill 84s, verify 0s",
+    "page error: option No focused, 2 of 2. 1 result available for search term No. Use Up and Down to choose options, press Enter to select the currently focused option, press Escape to exit the menu, press Tab to sel",
+    "verify-failed snapshot: verify-failed-snapshot-1789556451063.html",
+    "page-complete waiver not applied: page shows its own validation error(s)",
+    "resume parse changed 2 planned field(s) after upload (work_authorization, requires_sponsorship) — re-committing once (#262c)",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "operator_brief": {
+    "title": "Live fill — generic https://jobs.polymer.co/lendica/41165#apply",
+    "summary": "1 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:work_authorization",
+        "question": "Are you legally authorized to work for any employer in the US?",
+        "field_id": "react-select-2-input",
+        "canonical_field": "work_authorization",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Yes\"; page shows \"(empty)\"",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "how_to_answer": [
+          "System expected \"Yes\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → work_authorization",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"work_authorization\" should match the on-form question text."
+        ]
+      }
+    ],
+    "ok_count": 5,
+    "fail_count": 1
+  },
+  "written_at": "2026-09-16T11:02:10.549Z"
+}
