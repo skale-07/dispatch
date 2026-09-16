@@ -1,0 +1,71 @@
+{
+  "started_at": "2026-09-16T14:38:39.018Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\general.pdf)",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "c5df463f-5289-43ec-be17-b9d914c809db",
+    "armed_until": "2026-09-16T16:38:39.134Z",
+    "seconds_remaining": 7200,
+    "max_submits": 1,
+    "submits_used": 0,
+    "max_apps": 1,
+    "apps_started": 0,
+    "discover_max": 1,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": {
+    "arm_run_id": "c5df463f-5289-43ec-be17-b9d914c809db",
+    "apps_started": 1,
+    "submits_used": 0,
+    "stopped_reason": "apps_cap",
+    "discover_runs": 0,
+    "emails_generated": 0,
+    "drafts_saved": 0,
+    "essay_drafts_generated": 0,
+    "screener_predictions_generated": 0,
+    "notes": [
+      "triage sweep: 0 confirmed, 1 refuted, 0 expired of 283 pending",
+      "artifact autopush: 19 file(s) pushed to master as 236ace0cf"
+    ],
+    "per_app": [
+      {
+        "application_id": "f9ec820b-8150-4e9f-a543-168d6adaeb2c",
+        "end_state": "AMBIGUOUS_FIELD",
+        "stopped": "review",
+        "stop_reason": "verification failed",
+        "submitted": false,
+        "outreach": null
+      }
+    ],
+    "nav_audit": {
+      "checked": 598,
+      "repaired": 0,
+      "parked": 0
+    },
+    "triage": {
+      "decided": 0,
+      "executed": 0
+    },
+    "artifact_autopush": {
+      "pushed": true,
+      "commit": "236ace0cf",
+      "files_staged": 19
+    }
+  },
+  "outcome": "completed",
+  "notes": []
+}
