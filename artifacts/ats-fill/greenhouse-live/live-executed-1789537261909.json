@@ -1,0 +1,1696 @@
+{
+  "mode": "executed",
+  "ats": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/duolingounirecruitment/jobs/8806878002",
+  "plan": {
+    "answers": {
+      "legal_name.first": "Shubham",
+      "legal_name.last": "Kale",
+      "email": "s***@gmail.com",
+      "address.country": "United States",
+      "phone": "***-***-7636",
+      "address.city": "Baltimore",
+      "major": "Applied Mathematics and Statistics",
+      "graduation_month": "May",
+      "graduation_year": "2029",
+      "screener:custom:expected_graduation_date": "Spring/Summer 2029",
+      "screener:custom:opt_i_acknowledge_that_gecko_has_an_in_office_culture_and_th": "Yes",
+      "screener:custom:predicted:question_38320861002[]": "New York, NY",
+      "screener:custom:undergrad_gpa": "3.7 out of 4.0",
+      "screener:custom:duolingo_account": "No",
+      "how_heard": "LinkedIn",
+      "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+      "work_authorization": "[REDACTED_SPONSORSHIP]",
+      "requires_sponsorship": "[REDACTED_SPONSORSHIP]",
+      "screener:custom:opt_eligibility": "NA",
+      "screener:custom:opt_eligibility:question_38320874002": "NA",
+      "gender_identity": "Man",
+      "race_ethnicity": "South Asian",
+      "sexual_orientation": "Heterosexual",
+      "transgender": "No",
+      "disability_status": "No",
+      "veteran_status": "I am not a veteran"
+    },
+    "entries": [
+      {
+        "field_id": "first_name",
+        "label": "First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "fill",
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "last_name",
+        "label": "Last Name",
+        "type": "text",
+        "canonical_field": "legal_name.last",
+        "action": "fill",
+        "value": "Kale",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "email",
+        "label": "Email",
+        "type": "text",
+        "canonical_field": "email",
+        "action": "fill",
+        "value": "s***@gmail.com",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "country",
+        "label": "Country",
+        "type": "text",
+        "canonical_field": "address.country",
+        "action": "fill",
+        "value": "United States +1",
+        "reason": "Mapped from public profile; placed onto \"United States +1\""
+      },
+      {
+        "field_id": "iti-0__search-input",
+        "label": "Search",
+        "type": "unknown",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "phone",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "fill",
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "candidate-location",
+        "label": "Location (City)",
+        "type": "text",
+        "canonical_field": "address.city",
+        "action": "fill",
+        "value": "Baltimore",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "resume",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "skip_file",
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "cover_letter",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "skip_file",
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "school--0",
+        "label": "School",
+        "type": "text",
+        "canonical_field": "history:education[0].school",
+        "action": "fill",
+        "value": "Johns Hopkins University",
+        "reason": "Structured education entry 1 (Johns Hopkins University) — school"
+      },
+      {
+        "field_id": "degree--0",
+        "label": "Degree",
+        "type": "text",
+        "canonical_field": "history:education[0].degree",
+        "action": "fill",
+        "value": "Bachelor's Degree",
+        "reason": "Structured education entry 1 (Johns Hopkins University) — degree; placed onto \"Bachelor's Degree\""
+      },
+      {
+        "field_id": "discipline--0",
+        "label": "Discipline",
+        "type": "text",
+        "canonical_field": "major",
+        "action": "fill",
+        "value": "Mathematics",
+        "reason": "Mapped from public profile; placed onto \"Mathematics\""
+      },
+      {
+        "field_id": "end-month--0",
+        "label": "End date month",
+        "type": "text",
+        "canonical_field": "graduation_month",
+        "action": "fill",
+        "value": "May",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "end-year--0",
+        "label": "End date year",
+        "type": "text",
+        "canonical_field": "graduation_year",
+        "action": "fill",
+        "value": "2029",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_38320857002",
+        "label": "Preferred First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "fill",
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_38320858002",
+        "label": "How do you pronounce your name? (e.g., 'An-na' or 'Ah-na')",
+        "type": "text",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "Predict produced no usable answer"
+      },
+      {
+        "field_id": "question_38320859002",
+        "label": "What is your expected graduation timeline?",
+        "type": "text",
+        "canonical_field": "screener:custom:expected_graduation_date",
+        "action": "fill",
+        "value": "Spring/Summer 2029",
+        "reason": "Screener bank answer (llm_option)"
+      },
+      {
+        "field_id": "question_38320860002",
+        "label": "Are you willing to work from the office location of the job?",
+        "type": "text",
+        "canonical_field": "screener:custom:opt_i_acknowledge_that_gecko_has_an_in_office_culture_and_th",
+        "action": "fill",
+        "value": "Yes",
+        "reason": "Screener bank answer (llm_option)"
+      },
+      {
+        "field_id": "question_38320861002[]",
+        "label": "Do you have a preference in office location? (Please note - office assignment cannot be guaranteed for this program.)",
+        "type": "checkbox",
+        "canonical_field": "screener:custom:predicted:question_38320861002[]",
+        "action": "fill",
+        "value": "New York, NY",
+        "reason": "Predicted from operator context (llm_predict): Candidate is open to any office and based on the East Coast (Baltimore), making New York the nearest listed option."
+      },
+      {
+        "field_id": "question_38320862002",
+        "label": "Undergraduate GPA",
+        "type": "text",
+        "canonical_field": "screener:custom:undergrad_gpa",
+        "action": "fill",
+        "value": "3.7 out of 4.0",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "question_38320863002",
+        "label": "Do you have a Duolingo account? If yes, what is your username?",
+        "type": "text",
+        "canonical_field": "screener:custom:duolingo_account",
+        "action": "fill",
+        "value": "No",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "question_38320864002",
+        "label": "Why are you interested in Duolingo?",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_38320864002",
+        "action": "fill",
+        "value": "What draws me to Duolingo is that the product has to work for half a billion people who will quit if it stops being useful, which is a much harder constraint than a demo. Most of what I have built runs into that same wall. With ClarityAtlas, the iOS health app I lead technically at Open Health Intelligence, the interesting problem was not the model but whether someone would keep opening it. I built passive sleep estimation from HealthKit and Core Motion signals like step count, gait speed, and movement patterns specifically so users would not need a wearable, and we shipped it into a live Hopkins pilot with 30+ users. The underlying question I care about, how technology can increase a person's own judgment rather than quietly replacing it, is basically a learning question, and Duolingo is one of the few places working on it at real scale. I also like that decisions are made from evidence. My Intelehealth work, where I designed an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case standard, taught me that deciding whether an output should be trusted is usually harder than generating it. I would want to work on that side of the product.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_38320865002",
+        "label": "How will your personal experiences make an impact at Duolingo?",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_38320865002",
+        "action": "fill",
+        "value": "Two habits I would bring. First, I own systems end to end rather than isolated pieces. At Summer Atlantic Capital I built the machine-learning core of an anomaly-detection system, including the repository and CI scaffold, the event-ingestion pipeline, a versioned FastAPI microservice, temporal sequence models over event streams, and a learning-to-rank layer for prioritizing alerts. The thing I kept returning to was operational usefulness: an anomaly system that fires too often creates a second problem instead of solving the first, so ranking and explanation quality mattered as much as raw detection performance. I expect that instinct to transfer to any system where output volume can outrun human attention. Second, I think carefully about where automation should stop. In a Playwright-based job-application agent I built in TypeScript, I made SQLite the single source of truth because browser automation gets dangerous when state diverges across processes, put every mutating capability behind fail-closed flags, and architecturally prevented free-text and demographic fields from being auto-filled. I also built a validation ladder so nothing counts as working just because it passed against a local fixture. I would rather ship something narrower and actually verified than something broad and unreliable.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_38320866002",
+        "label": "Where did you hear about this job?",
+        "type": "text",
+        "canonical_field": "how_heard",
+        "action": "fill",
+        "value": "LinkedIn",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_38320867002[]",
+        "label": "What Duolingo sponsored conferences have you attended and/or organizations are you a part of?",
+        "type": "checkbox",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "Predict produced no usable answer"
+      },
+      {
+        "field_id": "question_38320868002",
+        "label": "Alternate Email",
+        "type": "text",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "Predict produced no usable answer"
+      },
+      {
+        "field_id": "question_38320869002",
+        "label": "LinkedIn Profile",
+        "type": "text",
+        "canonical_field": "linkedin_url",
+        "action": "fill",
+        "value": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_38320870002",
+        "label": "Website",
+        "type": "text",
+        "canonical_field": "personal_website",
+        "action": "skip_empty",
+        "value": null,
+        "reason": "Profile value empty for personal_website"
+      },
+      {
+        "field_id": "question_38320871002",
+        "label": "Are you authorized to work lawfully in the United States for Duolingo?",
+        "type": "text",
+        "canonical_field": "work_authorization",
+        "action": "fill",
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_38320872002",
+        "label": "Will you now, or in the future, require sponsorship (i.e. H-1B visa, etc.) to legally work in the U.S.?",
+        "type": "text",
+        "canonical_field": "requires_sponsorship",
+        "action": "fill",
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_38320873002",
+        "label": "If so, are you eligible or currently in a period of Optional Practical Training (OPT)?",
+        "type": "text",
+        "canonical_field": "screener:custom:opt_eligibility",
+        "action": "fill",
+        "value": "NA",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_38320874002",
+        "label": "After the OPT, are you eligible for a 24-month OPT extension or are currently in a 24-month OPT extension based upon a degree from a qualifying U.S. institution in Science, Technology, Engineering, or Mathematics after the Optional Practical Training (OPT)?",
+        "type": "text",
+        "canonical_field": "screener:custom:opt_eligibility:question_38320874002",
+        "action": "fill",
+        "value": "NA",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "4028533002",
+        "label": "How would you describe your gender identity? (mark all that apply)",
+        "type": "text",
+        "canonical_field": "gender_identity",
+        "action": "fill",
+        "value": "Man",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "4028534002",
+        "label": "How would you describe your racial/ethnic background? (mark all that apply)",
+        "type": "text",
+        "canonical_field": "race_ethnicity",
+        "action": "fill",
+        "value": "South Asian",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "4028535002",
+        "label": "How would you describe your sexual orientation? (mark all that apply)",
+        "type": "text",
+        "canonical_field": "sexual_orientation",
+        "action": "fill",
+        "value": "Heterosexual",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "4028536002",
+        "label": "Do you identify as transgender?",
+        "type": "text",
+        "canonical_field": "transgender",
+        "action": "fill",
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "4028537002",
+        "label": "Do you have a disability or chronic condition (physical, visual, auditory, cognitive, mental, emotional, other) that substantially limits one or more of your major life activities, including mobility, communication (seeing, hearing, speaking), & learning",
+        "type": "text",
+        "canonical_field": "disability_status",
+        "action": "fill",
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "4028538002",
+        "label": "Are you a veteran or active member of the United States Armed Forces?",
+        "type": "text",
+        "canonical_field": "veteran_status",
+        "action": "fill",
+        "value": "I am not a veteran",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      }
+    ],
+    "fillable_count": 31,
+    "skipped_count": 7,
+    "review_required_count": 0
+  },
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "schema diff: 22/24 declared question(s) matched onto 38 DOM field(s); 2 declared-only (1 required); 16 DOM-only",
+    "board API declared 24 question(s); matched complete option lists onto 9 field(s)",
+    "option harvest: \"Location (City)\" is a combobox but offered no readable options",
+    "option harvest: scraped real options for 11/24 control(s) before planning",
+    "frozen after fill→verify→upload — no further field mutation; submit never called"
+  ],
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "final_url": "https://job-boards.greenhouse.io/duolingounirecruitment/jobs/8806878002",
+  "identity_verification": {
+    "requestedUrl": "https://job-boards.greenhouse.io/duolingounirecruitment/jobs/8806878002",
+    "finalUrl": "https://job-boards.greenhouse.io/duolingounirecruitment/jobs/8806878002",
+    "requestedJobId": "8806878002",
+    "observedJobId": "8806878002",
+    "company": "duolingounirecruitment",
+    "role": "Job Application for Software Engineer, Intern at Duolingo University Recruitment",
+    "formDetected": true,
+    "fieldCount": 38,
+    "warnings": [
+      "login_wall_low: auth_provider_marker"
+    ],
+    "passed": true,
+    "failureCode": null,
+    "failureReason": null
+  },
+  "captcha_detection": {
+    "detected": false,
+    "confidence": "LOW",
+    "signals": [],
+    "dormantMarkers": [
+      "recaptcha_api_script_loaded",
+      "generic_captcha_word_only"
+    ]
+  },
+  "login_wall_detection": {
+    "detected": false,
+    "confidence": "LOW",
+    "signals": [
+      "auth_provider_marker"
+    ]
+  },
+  "failure_code": null,
+  "mutation_attempted": true,
+  "schema_diff": {
+    "board": "duolingounirecruitment",
+    "job_id": "8806878002",
+    "declared_count": 24,
+    "dom_count": 38,
+    "matched": 22,
+    "api_only": [
+      {
+        "label": "Resume/CV",
+        "required": true
+      },
+      {
+        "label": "Cover Letter",
+        "required": false
+      }
+    ],
+    "dom_only": [
+      "Country",
+      "Search",
+      "Location (City)",
+      "Attach",
+      "Attach",
+      "School",
+      "Degree",
+      "Discipline",
+      "End date month",
+      "End date year",
+      "How would you describe your gender identity? (mark all that apply)",
+      "How would you describe your racial/ethnic background? (mark all that apply)",
+      "How would you describe your sexual orientation? (mark all that apply)",
+      "Do you identify as transgender?",
+      "Do you have a disability or chronic condition (physical, visual, auditory, cognitive, mental, emotional, other) that substantially limits one or more of your major life activities, including mobility, communication (seeing, hearing, speaking), & learning",
+      "Are you a veteran or active member of the United States Armed Forces?"
+    ],
+    "option_mismatches": []
+  },
+  "harvested_options": [
+    {
+      "field_id": "country",
+      "label": "Country",
+      "answer_space": "closed",
+      "option_count": 244,
+      "options": [
+        "United States +1",
+        "Afghanistan +93",
+        "Åland Islands +358",
+        "Albania +355",
+        "Algeria +213",
+        "American Samoa +1",
+        "Andorra +376",
+        "Angola +244",
+        "Anguilla +1",
+        "Antigua & Barbuda +1",
+        "Argentina +54",
+        "Armenia +374",
+        "Aruba +297",
+        "Ascension Island +247",
+        "Australia +61",
+        "Austria +43",
+        "Azerbaijan +994",
+        "Bahamas +1",
+        "Bahrain +973",
+        "Bangladesh +880",
+        "Barbados +1",
+        "Belarus +375",
+        "Belgium +32",
+        "Belize +501",
+        "Benin +229"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "school--0",
+      "label": "School",
+      "answer_space": "closed",
+      "option_count": 100,
+      "options": [
+        "Aalborg University",
+        "Aalto University",
+        "Aarhus University",
+        "Abertay University",
+        "Aberystwyth University",
+        "Abilene Christian University",
+        "Abo Akademi University",
+        "Abraham Baldwin Agricultural College",
+        "Abu Dhabi University",
+        "Academy of Art University",
+        "Acadia University",
+        "Acharya Nagarjuna University",
+        "Acupuncture and Integrative Medicine College - Berkeley",
+        "Adams State University",
+        "Adelphi University",
+        "Adrian College",
+        "Adventist University of Health Sciences",
+        "Agnes Scott College",
+        "AIB College of Business",
+        "Ain Shams University",
+        "Airlangga University",
+        "Ajou University",
+        "Alabama A&M University",
+        "Alabama State University",
+        "Alaska Pacific University"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "degree--0",
+      "label": "Degree",
+      "answer_space": "closed",
+      "option_count": 10,
+      "options": [
+        "Associate's Degree",
+        "Bachelor's Degree",
+        "Doctor of Medicine (M.D.)",
+        "Doctor of Philosophy (Ph.D.)",
+        "Engineer's Degree",
+        "High School",
+        "Juris Doctor (J.D.)",
+        "Master of Business Administration (M.B.A.)",
+        "Master's Degree",
+        "Other"
+      ],
+      "other_option": "Other"
+    },
+    {
+      "field_id": "discipline--0",
+      "label": "Discipline",
+      "answer_space": "closed",
+      "option_count": 73,
+      "options": [
+        "Accounting",
+        "African Studies",
+        "Agriculture",
+        "Anthropology",
+        "Applied Health Services",
+        "Architecture",
+        "Art",
+        "Asian Studies",
+        "Biology",
+        "Business",
+        "Business Administration",
+        "Chemistry",
+        "Classical Languages",
+        "Communications & Film",
+        "Computer Science",
+        "Dentistry",
+        "Developing Nations",
+        "Discipline Unknown",
+        "Earth Sciences",
+        "Economics",
+        "Education",
+        "Electronics",
+        "Engineering",
+        "English Studies",
+        "Environmental Studies"
+      ],
+      "other_option": "Other"
+    },
+    {
+      "field_id": "end-month--0",
+      "label": "End date month",
+      "answer_space": "closed",
+      "option_count": 12,
+      "options": [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "4028533002",
+      "label": "How would you describe your gender identity? (mark all that apply)",
+      "answer_space": "closed",
+      "option_count": 5,
+      "options": [
+        "Man",
+        "Non-binary",
+        "Woman",
+        "I don't wish to answer",
+        "I prefer to self-describe"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "4028534002",
+      "label": "How would you describe your racial/ethnic background? (mark all that apply)",
+      "answer_space": "closed",
+      "option_count": 11,
+      "options": [
+        "Black or of African descent",
+        "East Asian",
+        "Hispanic, Latinx or of Spanish Origin",
+        "Indigenous, American Indian or Alaska Native",
+        "Middle Eastern or North African Native",
+        "Hawaiian or Pacific Islander",
+        "South Asian",
+        "Southeast Asian",
+        "White or European",
+        "I don't wish to answer",
+        "I prefer to self-describe"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "4028535002",
+      "label": "How would you describe your sexual orientation? (mark all that apply)",
+      "answer_space": "closed",
+      "option_count": 8,
+      "options": [
+        "Asexual",
+        "Bisexual and/or pansexual",
+        "Gay",
+        "Heterosexual",
+        "Lesbian",
+        "Queer",
+        "I don't wish to answer",
+        "I prefer to self-describe"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "4028536002",
+      "label": "Do you identify as transgender?",
+      "answer_space": "closed",
+      "option_count": 4,
+      "options": [
+        "Yes",
+        "No",
+        "I don't wish to answer",
+        "I prefer to self-describe"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "4028537002",
+      "label": "Do you have a disability or chronic condition (physical, visual, auditory, cognitive, mental, emotional, other) that substantially limits one or more of your major life activities, including mobility, communication (seeing, hearing, speaking), & learning",
+      "answer_space": "closed",
+      "option_count": 4,
+      "options": [
+        "Yes",
+        "No",
+        "I don't wish to answer",
+        "I prefer to self-describe"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "4028538002",
+      "label": "Are you a veteran or active member of the United States Armed Forces?",
+      "answer_space": "closed",
+      "option_count": 4,
+      "options": [
+        "I am a veteran or active member",
+        "No, I am not a veteran or active member",
+        "I don't wish to answer",
+        "I prefer to self-describe"
+      ],
+      "other_option": null
+    }
+  ],
+  "approved_plan": {
+    "entries": [
+      {
+        "field_id": "first_name",
+        "label": "First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "FILL",
+        "approved": true,
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "last_name",
+        "label": "Last Name",
+        "type": "text",
+        "canonical_field": "legal_name.last",
+        "action": "FILL",
+        "approved": true,
+        "value": "Kale",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "email",
+        "label": "Email",
+        "type": "text",
+        "canonical_field": "email",
+        "action": "FILL",
+        "approved": true,
+        "value": "s***@gmail.com",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "country",
+        "label": "Country",
+        "type": "text",
+        "canonical_field": "address.country",
+        "action": "FILL",
+        "approved": true,
+        "value": "United States +1",
+        "reason": "Mapped from public profile; placed onto \"United States +1\""
+      },
+      {
+        "field_id": "iti-0__search-input",
+        "label": "Search",
+        "type": "unknown",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "phone",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "FILL",
+        "approved": true,
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "candidate-location",
+        "label": "Location (City)",
+        "type": "text",
+        "canonical_field": "address.city",
+        "action": "FILL",
+        "approved": true,
+        "value": "Baltimore",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "resume",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "cover_letter",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "school--0",
+        "label": "School",
+        "type": "text",
+        "canonical_field": "history:education[0].school",
+        "action": "FILL",
+        "approved": true,
+        "value": "Johns Hopkins University",
+        "reason": "Structured education entry 1 (Johns Hopkins University) — school"
+      },
+      {
+        "field_id": "degree--0",
+        "label": "Degree",
+        "type": "text",
+        "canonical_field": "history:education[0].degree",
+        "action": "FILL",
+        "approved": true,
+        "value": "Bachelor's Degree",
+        "reason": "Structured education entry 1 (Johns Hopkins University) — degree; placed onto \"Bachelor's Degree\""
+      },
+      {
+        "field_id": "discipline--0",
+        "label": "Discipline",
+        "type": "text",
+        "canonical_field": "major",
+        "action": "FILL",
+        "approved": true,
+        "value": "Mathematics",
+        "reason": "Mapped from public profile; placed onto \"Mathematics\""
+      },
+      {
+        "field_id": "end-month--0",
+        "label": "End date month",
+        "type": "text",
+        "canonical_field": "graduation_month",
+        "action": "FILL",
+        "approved": true,
+        "value": "May",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "end-year--0",
+        "label": "End date year",
+        "type": "text",
+        "canonical_field": "graduation_year",
+        "action": "FILL",
+        "approved": true,
+        "value": "2029",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_38320857002",
+        "label": "Preferred First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "FILL",
+        "approved": true,
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_38320858002",
+        "label": "How do you pronounce your name? (e.g., 'An-na' or 'Ah-na')",
+        "type": "text",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "Predict produced no usable answer"
+      },
+      {
+        "field_id": "question_38320859002",
+        "label": "What is your expected graduation timeline?",
+        "type": "text",
+        "canonical_field": "screener:custom:expected_graduation_date",
+        "action": "FILL",
+        "approved": true,
+        "value": "Spring/Summer 2029",
+        "reason": "Screener bank answer (llm_option)"
+      },
+      {
+        "field_id": "question_38320860002",
+        "label": "Are you willing to work from the office location of the job?",
+        "type": "text",
+        "canonical_field": "screener:custom:opt_i_acknowledge_that_gecko_has_an_in_office_culture_and_th",
+        "action": "FILL",
+        "approved": true,
+        "value": "Yes",
+        "reason": "Screener bank answer (llm_option)"
+      },
+      {
+        "field_id": "question_38320861002[]",
+        "label": "Do you have a preference in office location? (Please note - office assignment cannot be guaranteed for this program.)",
+        "type": "checkbox",
+        "canonical_field": "screener:custom:predicted:question_38320861002[]",
+        "action": "FILL",
+        "approved": true,
+        "value": "New York, NY",
+        "reason": "Predicted from operator context (llm_predict): Candidate is open to any office and based on the East Coast (Baltimore), making New York the nearest listed option."
+      },
+      {
+        "field_id": "question_38320862002",
+        "label": "Undergraduate GPA",
+        "type": "text",
+        "canonical_field": "screener:custom:undergrad_gpa",
+        "action": "FILL",
+        "approved": true,
+        "value": "3.7 out of 4.0",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "question_38320863002",
+        "label": "Do you have a Duolingo account? If yes, what is your username?",
+        "type": "text",
+        "canonical_field": "screener:custom:duolingo_account",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "question_38320864002",
+        "label": "Why are you interested in Duolingo?",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_38320864002",
+        "action": "FILL",
+        "approved": true,
+        "value": "What draws me to Duolingo is that the product has to work for half a billion people who will quit if it stops being useful, which is a much harder constraint than a demo. Most of what I have built runs into that same wall. With ClarityAtlas, the iOS health app I lead technically at Open Health Intelligence, the interesting problem was not the model but whether someone would keep opening it. I built passive sleep estimation from HealthKit and Core Motion signals like step count, gait speed, and movement patterns specifically so users would not need a wearable, and we shipped it into a live Hopkins pilot with 30+ users. The underlying question I care about, how technology can increase a person's own judgment rather than quietly replacing it, is basically a learning question, and Duolingo is one of the few places working on it at real scale. I also like that decisions are made from evidence. My Intelehealth work, where I designed an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case standard, taught me that deciding whether an output should be trusted is usually harder than generating it. I would want to work on that side of the product.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_38320865002",
+        "label": "How will your personal experiences make an impact at Duolingo?",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_38320865002",
+        "action": "FILL",
+        "approved": true,
+        "value": "Two habits I would bring. First, I own systems end to end rather than isolated pieces. At Summer Atlantic Capital I built the machine-learning core of an anomaly-detection system, including the repository and CI scaffold, the event-ingestion pipeline, a versioned FastAPI microservice, temporal sequence models over event streams, and a learning-to-rank layer for prioritizing alerts. The thing I kept returning to was operational usefulness: an anomaly system that fires too often creates a second problem instead of solving the first, so ranking and explanation quality mattered as much as raw detection performance. I expect that instinct to transfer to any system where output volume can outrun human attention. Second, I think carefully about where automation should stop. In a Playwright-based job-application agent I built in TypeScript, I made SQLite the single source of truth because browser automation gets dangerous when state diverges across processes, put every mutating capability behind fail-closed flags, and architecturally prevented free-text and demographic fields from being auto-filled. I also built a validation ladder so nothing counts as working just because it passed against a local fixture. I would rather ship something narrower and actually verified than something broad and unreliable.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_38320866002",
+        "label": "Where did you hear about this job?",
+        "type": "text",
+        "canonical_field": "how_heard",
+        "action": "FILL",
+        "approved": true,
+        "value": "LinkedIn",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_38320867002[]",
+        "label": "What Duolingo sponsored conferences have you attended and/or organizations are you a part of?",
+        "type": "checkbox",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "Predict produced no usable answer"
+      },
+      {
+        "field_id": "question_38320868002",
+        "label": "Alternate Email",
+        "type": "text",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "Predict produced no usable answer"
+      },
+      {
+        "field_id": "question_38320869002",
+        "label": "LinkedIn Profile",
+        "type": "text",
+        "canonical_field": "linkedin_url",
+        "action": "FILL",
+        "approved": true,
+        "value": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_38320870002",
+        "label": "Website",
+        "type": "text",
+        "canonical_field": "personal_website",
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "Profile value empty for personal_website"
+      },
+      {
+        "field_id": "question_38320871002",
+        "label": "Are you authorized to work lawfully in the United States for Duolingo?",
+        "type": "text",
+        "canonical_field": "work_authorization",
+        "action": "FILL",
+        "approved": true,
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_38320872002",
+        "label": "Will you now, or in the future, require sponsorship (i.e. H-1B visa, etc.) to legally work in the U.S.?",
+        "type": "text",
+        "canonical_field": "requires_sponsorship",
+        "action": "FILL",
+        "approved": true,
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_38320873002",
+        "label": "If so, are you eligible or currently in a period of Optional Practical Training (OPT)?",
+        "type": "text",
+        "canonical_field": "screener:custom:opt_eligibility",
+        "action": "FILL",
+        "approved": true,
+        "value": "NA",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_38320874002",
+        "label": "After the OPT, are you eligible for a 24-month OPT extension or are currently in a 24-month OPT extension based upon a degree from a qualifying U.S. institution in Science, Technology, Engineering, or Mathematics after the Optional Practical Training (OPT)?",
+        "type": "text",
+        "canonical_field": "screener:custom:opt_eligibility:question_38320874002",
+        "action": "FILL",
+        "approved": true,
+        "value": "NA",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "4028533002",
+        "label": "How would you describe your gender identity? (mark all that apply)",
+        "type": "text",
+        "canonical_field": "gender_identity",
+        "action": "FILL",
+        "approved": true,
+        "value": "Man",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "4028534002",
+        "label": "How would you describe your racial/ethnic background? (mark all that apply)",
+        "type": "text",
+        "canonical_field": "race_ethnicity",
+        "action": "FILL",
+        "approved": true,
+        "value": "South Asian",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "4028535002",
+        "label": "How would you describe your sexual orientation? (mark all that apply)",
+        "type": "text",
+        "canonical_field": "sexual_orientation",
+        "action": "FILL",
+        "approved": true,
+        "value": "Heterosexual",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "4028536002",
+        "label": "Do you identify as transgender?",
+        "type": "text",
+        "canonical_field": "transgender",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "4028537002",
+        "label": "Do you have a disability or chronic condition (physical, visual, auditory, cognitive, mental, emotional, other) that substantially limits one or more of your major life activities, including mobility, communication (seeing, hearing, speaking), & learning",
+        "type": "text",
+        "canonical_field": "disability_status",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "4028538002",
+        "label": "Are you a veteran or active member of the United States Armed Forces?",
+        "type": "text",
+        "canonical_field": "veteran_status",
+        "action": "FILL",
+        "approved": true,
+        "value": "I am not a veteran",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      }
+    ],
+    "answers": {
+      "legal_name.first": "Shubham",
+      "legal_name.last": "Kale",
+      "email": "s***@gmail.com",
+      "address.country": "United States +1",
+      "phone": "***-***-7636",
+      "address.city": "Baltimore",
+      "history:education[0].school": "Johns Hopkins University",
+      "history:education[0].degree": "Bachelor's Degree",
+      "major": "Mathematics",
+      "graduation_month": "May",
+      "graduation_year": "2029",
+      "screener:custom:expected_graduation_date": "Spring/Summer 2029",
+      "screener:custom:opt_i_acknowledge_that_gecko_has_an_in_office_culture_and_th": "Yes",
+      "screener:custom:predicted:question_38320861002[]": "New York, NY",
+      "screener:custom:undergrad_gpa": "3.7 out of 4.0",
+      "screener:custom:duolingo_account": "No",
+      "essay:generated:question_38320864002": "What draws me to Duolingo is that the product has to work for half a billion people who will quit if it stops being useful, which is a much harder constraint than a demo. Most of what I have built runs into that same wall. With ClarityAtlas, the iOS health app I lead technically at Open Health Intelligence, the interesting problem was not the model but whether someone would keep opening it. I built passive sleep estimation from HealthKit and Core Motion signals like step count, gait speed, and movement patterns specifically so users would not need a wearable, and we shipped it into a live Hopkins pilot with 30+ users. The underlying question I care about, how technology can increase a person's own judgment rather than quietly replacing it, is basically a learning question, and Duolingo is one of the few places working on it at real scale. I also like that decisions are made from evidence. My Intelehealth work, where I designed an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case standard, taught me that deciding whether an output should be trusted is usually harder than generating it. I would want to work on that side of the product.",
+      "essay:generated:question_38320865002": "Two habits I would bring. First, I own systems end to end rather than isolated pieces. At Summer Atlantic Capital I built the machine-learning core of an anomaly-detection system, including the repository and CI scaffold, the event-ingestion pipeline, a versioned FastAPI microservice, temporal sequence models over event streams, and a learning-to-rank layer for prioritizing alerts. The thing I kept returning to was operational usefulness: an anomaly system that fires too often creates a second problem instead of solving the first, so ranking and explanation quality mattered as much as raw detection performance. I expect that instinct to transfer to any system where output volume can outrun human attention. Second, I think carefully about where automation should stop. In a Playwright-based job-application agent I built in TypeScript, I made SQLite the single source of truth because browser automation gets dangerous when state diverges across processes, put every mutating capability behind fail-closed flags, and architecturally prevented free-text and demographic fields from being auto-filled. I also built a validation ladder so nothing counts as working just because it passed against a local fixture. I would rather ship something narrower and actually verified than something broad and unreliable.",
+      "how_heard": "LinkedIn",
+      "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+      "work_authorization": "[REDACTED_SPONSORSHIP]",
+      "requires_sponsorship": "[REDACTED_SPONSORSHIP]",
+      "screener:custom:opt_eligibility": "NA",
+      "screener:custom:opt_eligibility:question_38320874002": "NA",
+      "gender_identity": "Man",
+      "race_ethnicity": "South Asian",
+      "sexual_orientation": "Heterosexual",
+      "transgender": "No",
+      "disability_status": "No",
+      "veteran_status": "I am not a veteran"
+    },
+    "fillable_count": 31,
+    "skipped_count": 7,
+    "review_required_count": 0
+  },
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "legal_name.last",
+      "email",
+      "address.country",
+      "phone",
+      "address.city",
+      "history:education[0].school",
+      "history:education[0].degree",
+      "major",
+      "graduation_month",
+      "graduation_year",
+      "legal_name.first",
+      "screener:custom:expected_graduation_date",
+      "screener:custom:opt_i_acknowledge_that_gecko_has_an_in_office_culture_and_th",
+      "screener:custom:predicted:question_38320861002[]",
+      "screener:custom:undergrad_gpa",
+      "screener:custom:duolingo_account",
+      "essay:generated:question_38320864002",
+      "essay:generated:question_38320865002",
+      "how_heard",
+      "linkedin_url",
+      "work_authorization",
+      "requires_sponsorship",
+      "screener:custom:opt_eligibility",
+      "screener:custom:opt_eligibility:question_38320874002",
+      "gender_identity",
+      "race_ethnicity",
+      "sexual_orientation",
+      "transgender",
+      "disability_status",
+      "veteran_status"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "first_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "last_name",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "country",
+        "canonical_field": "address.country",
+        "control_kind": "combobox",
+        "selected_option": "+1",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"United States +1\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "phone",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "candidate-location",
+        "canonical_field": "address.city",
+        "control_kind": "combobox",
+        "selected_option": "Baltimore, Maryland, United States",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "filter \"Baltimore\" → 10 option(s); match",
+          "picked \"Baltimore, Maryland, United States\" (exact)"
+        ],
+        "options_sample": [
+          "Baltimore, Maryland, United States",
+          "Baltimore, Maryland, United States",
+          "New Baltimore, Michigan, United States",
+          "New Baltimore, Virginia, United States",
+          "Baltimore Highlands, Maryland, United States",
+          "South Baltimore, Maryland, United States",
+          "North Baltimore, Ohio, United States",
+          "Town of New Baltimore, New York, United States",
+          "Baltimore, Ohio, United States",
+          "New Baltimore, Ohio, United States"
+        ]
+      },
+      {
+        "field_id": "school--0",
+        "canonical_field": "history:education[0].school",
+        "control_kind": "combobox",
+        "selected_option": "Johns Hopkins University",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "filter \"Johns Hopkins University\" then picked \"Johns Hopkins University\" (exact)"
+        ]
+      },
+      {
+        "field_id": "degree--0",
+        "canonical_field": "history:education[0].degree",
+        "control_kind": "combobox",
+        "selected_option": "Bachelor's Degree",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Bachelor's Degree\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "discipline--0",
+        "canonical_field": "major",
+        "control_kind": "combobox",
+        "selected_option": "Mathematics",
+        "match_via": "synonym",
+        "notes": [
+          "opened via control click",
+          "picked \"Mathematics\" (synonym) from open list"
+        ]
+      },
+      {
+        "field_id": "end-month--0",
+        "canonical_field": "graduation_month",
+        "control_kind": "combobox",
+        "selected_option": "May",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"May\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "end-year--0",
+        "canonical_field": "graduation_year",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_38320857002",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_38320859002",
+        "canonical_field": "screener:custom:expected_graduation_date",
+        "control_kind": "combobox",
+        "selected_option": "Spring/Summer 2029",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Spring/Summer 2029\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_38320860002",
+        "canonical_field": "screener:custom:opt_i_acknowledge_that_gecko_has_an_in_office_culture_and_th",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_38320861002[]",
+        "canonical_field": "screener:custom:predicted:question_38320861002[]",
+        "control_kind": "checkbox_group",
+        "selected_option": "New York, NY"
+      },
+      {
+        "field_id": "question_38320862002",
+        "canonical_field": "screener:custom:undergrad_gpa",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_38320863002",
+        "canonical_field": "screener:custom:duolingo_account",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_38320864002",
+        "canonical_field": "essay:generated:question_38320864002",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_38320865002",
+        "canonical_field": "essay:generated:question_38320865002",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_38320866002",
+        "canonical_field": "how_heard",
+        "control_kind": "combobox",
+        "selected_option": "LinkedIn",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"LinkedIn\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_38320869002",
+        "canonical_field": "linkedin_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_38320871002",
+        "canonical_field": "work_authorization",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_38320872002",
+        "canonical_field": "requires_sponsorship",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_38320873002",
+        "canonical_field": "screener:custom:opt_eligibility",
+        "control_kind": "combobox",
+        "selected_option": "NA",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"NA\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_38320874002",
+        "canonical_field": "screener:custom:opt_eligibility:question_38320874002",
+        "control_kind": "combobox",
+        "selected_option": "NA",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"NA\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "4028533002",
+        "canonical_field": "gender_identity",
+        "control_kind": "combobox",
+        "selected_option": "Man",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Man\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "4028534002",
+        "canonical_field": "race_ethnicity",
+        "control_kind": "combobox",
+        "selected_option": "South Asian",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"South Asian\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "4028535002",
+        "canonical_field": "sexual_orientation",
+        "control_kind": "combobox",
+        "selected_option": "Heterosexual",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Heterosexual\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "4028536002",
+        "canonical_field": "transgender",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "4028537002",
+        "canonical_field": "disability_status",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "4028538002",
+        "canonical_field": "veteran_status",
+        "control_kind": "combobox",
+        "selected_option": "No, I am not a veteran or active member",
+        "match_via": "synonym",
+        "notes": [
+          "opened via control click",
+          "picked \"No, I am not a veteran or active member\" (synonym) from open list"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.last",
+        "expected": "Kale",
+        "observed": "Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "address.country",
+        "expected": "United States +1",
+        "observed": {
+          "value": "+1",
+          "label": "+1"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "address.city",
+        "expected": "Baltimore",
+        "observed": {
+          "value": "Baltimore, Maryland, United States",
+          "label": "Baltimore, Maryland, United States"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "history:education[0].school",
+        "expected": "Johns Hopkins University",
+        "observed": {
+          "value": "Johns Hopkins University",
+          "label": "Johns Hopkins University"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "history:education[0].degree",
+        "expected": "Bachelor's Degree",
+        "observed": {
+          "value": "Bachelor's Degree",
+          "label": "Bachelor's Degree"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "major",
+        "expected": "Mathematics",
+        "observed": {
+          "value": "Mathematics",
+          "label": "Mathematics"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "graduation_month",
+        "expected": "May",
+        "observed": {
+          "value": "May",
+          "label": "May"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "graduation_year",
+        "expected": "2029",
+        "observed": "2029",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:expected_graduation_date",
+        "expected": "Spring/Summer 2029",
+        "observed": {
+          "value": "Spring/Summer 2029",
+          "label": "Spring/Summer 2029"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:opt_i_acknowledge_that_gecko_has_an_in_office_culture_and_th",
+        "expected": "Yes",
+        "observed": {
+          "value": "Yes",
+          "label": "Yes"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_38320861002[]",
+        "expected": "New York, NY",
+        "observed": {
+          "value": "New York, NY",
+          "label": "New York, NY"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:undergrad_gpa",
+        "expected": "3.7 out of 4.0",
+        "observed": "3.7 out of 4.0",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:duolingo_account",
+        "expected": "No",
+        "observed": "No",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:question_38320864002",
+        "expected": "What draws me to Duolingo is that the product has to work for half a billion people who will quit if it stops being useful, which is a much harder constraint than a demo. Most of what I have built runs into that same wall. With ClarityAtlas, the iOS health app I lead technically at Open Health Intelligence, the interesting problem was not the model but whether someone would keep opening it. I built passive sleep estimation from HealthKit and Core Motion signals like step count, gait speed, and movement patterns specifically so users would not need a wearable, and we shipped it into a live Hopkins pilot with 30+ users. The underlying question I care about, how technology can increase a person's own judgment rather than quietly replacing it, is basically a learning question, and Duolingo is one of the few places working on it at real scale. I also like that decisions are made from evidence. My Intelehealth work, where I designed an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case standard, taught me that deciding whether an output should be trusted is usually harder than generating it. I would want to work on that side of the product.",
+        "observed": "What draws me to Duolingo is that the product has to work for half a billion people who will quit if it stops being useful, which is a much harder constraint than a demo. Most of what I have built runs into that same wall. With ClarityAtlas, the iOS health app I lead technically at Open Health Intelligence, the interesting problem was not the model but whether someone would keep opening it. I built passive sleep estimation from HealthKit and Core Motion signals like step count, gait speed, and movement patterns specifically so users would not need a wearable, and we shipped it into a live Hopkins pilot with 30+ users. The underlying question I care about, how technology can increase a person's own judgment rather than quietly replacing it, is basically a learning question, and Duolingo is one of the few places working on it at real scale. I also like that decisions are made from evidence. My Intelehealth work, where I designed an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case standard, taught me that deciding whether an output should be trusted is usually harder than generating it. I would want to work on that side of the product.",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:question_38320865002",
+        "expected": "Two habits I would bring. First, I own systems end to end rather than isolated pieces. At Summer Atlantic Capital I built the machine-learning core of an anomaly-detection system, including the repository and CI scaffold, the event-ingestion pipeline, a versioned FastAPI microservice, temporal sequence models over event streams, and a learning-to-rank layer for prioritizing alerts. The thing I kept returning to was operational usefulness: an anomaly system that fires too often creates a second problem instead of solving the first, so ranking and explanation quality mattered as much as raw detection performance. I expect that instinct to transfer to any system where output volume can outrun human attention. Second, I think carefully about where automation should stop. In a Playwright-based job-application agent I built in TypeScript, I made SQLite the single source of truth because browser automation gets dangerous when state diverges across processes, put every mutating capability behind fail-closed flags, and architecturally prevented free-text and demographic fields from being auto-filled. I also built a validation ladder so nothing counts as working just because it passed against a local fixture. I would rather ship something narrower and actually verified than something broad and unreliable.",
+        "observed": "Two habits I would bring. First, I own systems end to end rather than isolated pieces. At Summer Atlantic Capital I built the machine-learning core of an anomaly-detection system, including the repository and CI scaffold, the event-ingestion pipeline, a versioned FastAPI microservice, temporal sequence models over event streams, and a learning-to-rank layer for prioritizing alerts. The thing I kept returning to was operational usefulness: an anomaly system that fires too often creates a second problem instead of solving the first, so ranking and explanation quality mattered as much as raw detection performance. I expect that instinct to transfer to any system where output volume can outrun human attention. Second, I think carefully about where automation should stop. In a Playwright-based job-application agent I built in TypeScript, I made SQLite the single source of truth because browser automation gets dangerous when state diverges across processes, put every mutating capability behind fail-closed flags, and architecturally prevented free-text and demographic fields from being auto-filled. I also built a validation ladder so nothing counts as working just because it passed against a local fixture. I would rather ship something narrower and actually verified than something broad and unreliable.",
+        "match": true
+      },
+      {
+        "canonical_field": "how_heard",
+        "expected": "LinkedIn",
+        "observed": {
+          "value": "LinkedIn",
+          "label": "LinkedIn"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "match": true
+      },
+      {
+        "canonical_field": "work_authorization",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "requires_sponsorship",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:opt_eligibility",
+        "expected": "NA",
+        "observed": {
+          "value": "NA",
+          "label": "NA"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:opt_eligibility:question_38320874002",
+        "expected": "NA",
+        "observed": {
+          "value": "NA",
+          "label": "NA"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "gender_identity",
+        "expected": "Man",
+        "observed": {
+          "value": "Man",
+          "label": "Man"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "race_ethnicity",
+        "expected": "South Asian",
+        "observed": {
+          "value": "South Asian",
+          "label": "South Asian"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "sexual_orientation",
+        "expected": "Heterosexual",
+        "observed": {
+          "value": "Heterosexual",
+          "label": "Heterosexual"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "transgender",
+        "expected": "No",
+        "observed": {
+          "value": "No",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "disability_status",
+        "expected": "No",
+        "observed": {
+          "value": "No",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "veteran_status",
+        "expected": "I am not a veteran",
+        "observed": {
+          "value": "No, I am not a veteran or active member",
+          "label": "No, I am not a veteran or active member"
+        },
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 115393,
+      "verified": true,
+      "evidence": "input files: []; stillAttached=false; chip=true"
+    }
+  ],
+  "written_at": "2026-09-16T05:41:01.969Z"
+}
