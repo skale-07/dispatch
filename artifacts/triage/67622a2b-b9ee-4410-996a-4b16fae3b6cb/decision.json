@@ -1,0 +1,165 @@
+{
+  "decision_id": "67622a2b-b9ee-4410-996a-4b16fae3b6cb",
+  "application_id": "03804806-3913-4d91-9c55-0e991f11a7c9",
+  "signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|jobs.iadb.org",
+  "forbidden_actions": [
+    "requeue_same",
+    "engage_agent_leg"
+  ],
+  "bundle": {
+    "application_id": "03804806-3913-4d91-9c55-0e991f11a7c9",
+    "company": "Inter-American Development Bank",
+    "role": "IDB. Undergraduate Technical AI and Data Intern",
+    "state": "NATIVE_AUTOFILL_RUNNING",
+    "attempt": 2,
+    "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|jobs.iadb.org",
+    "end_host": "jobs.iadb.org",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-16T09:11:42.198Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-16T09:11:40.966Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-16T09:11:40.953Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-16T09:11:40.938Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 d5f6e2353444)",
+        "at": "2026-09-16T09:11:40.927Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-16T09:11:40.905Z"
+      },
+      {
+        "from": "FAILED_RETRYABLE",
+        "to": "QUEUED",
+        "reason": "retry 2/3",
+        "at": "2026-09-16T07:39:29.414Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "triage: demoting gate-parked NATIVE_AUTOFILL_RUNNING for requeue (NATIVE_AUTOFILL_RUNNING|-|unknown|jobs.iadb.org)",
+        "at": "2026-09-16T07:39:29.412Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-16T07:39:22.778Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-16T07:39:20.942Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-16T07:39:20.929Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-16T07:39:18.404Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 d5f6e2353444)",
+        "at": "2026-09-16T07:39:18.395Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-16T07:39:18.359Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-16T07:39:07.214Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "iadb",
+        "detail": "initials \"iadb\" = slug \"iadb\" (from URL host)",
+        "expected_company": "Inter-American Development Bank",
+        "url": "https://jobs.iadb.org/job/Washington-D_C_-IDB_-Undergraduate-Technical-AI-and-Data-Intern-DC-20577/1422751900/?feedId=437600&jr_id=6a8d472047679c68bf5e28a2"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (13 candidates, employer match)",
+          "evidence": "jobs.iadb.org"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [],
+    "prior_decisions": [
+      {
+        "action": "engage_agent_leg",
+        "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|jobs.iadb.org",
+        "outcome_status": "PENDING",
+        "created_at": "2026-09-16T10:43:13.033Z"
+      },
+      {
+        "action": "requeue_same",
+        "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|jobs.iadb.org",
+        "outcome_status": "REFUTED",
+        "created_at": "2026-09-16T07:39:29.410Z"
+      }
+    ],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": true
+  },
+  "raw_model_text": "{\"action\":\"park_for_operator\",\"rationale\":\"Stalls at portal sign-in on jobs.iadb.org both attempts; requeue_same already refuted and agent leg already granted (pending). Navigation congruence matches and resume verified, so materials/navigation requeues would not change the outcome. No evidence of duplicate or repeated hard block, so human login decision is needed.\",\"confidence\":\"high\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: 935f57ef-2c37-4b0c-9d94-1c9c29ab27ef",
+  "rationale_unverified": "Stalls at portal sign-in on jobs.iadb.org both attempts; requeue_same already refuted and agent leg already granted (pending). Navigation congruence matches and resume verified, so materials/navigation requeues would not change the outcome. No evidence of duplicate or repeated hard block, so human login decision is needed."
+}
