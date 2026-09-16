@@ -1,0 +1,144 @@
+{
+  "decision_id": "44eed42a-0dfe-41f3-8e85-ee9a6f0dc225",
+  "application_id": "2b550f9a-404f-4927-9e40-8a6a1888583c",
+  "signature": "AMBIGUOUS_FIELD|-|verify_mismatch|tencent.wd1.myworkdayjobs.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "2b550f9a-404f-4927-9e40-8a6a1888583c",
+    "company": "Tencent",
+    "role": "Machine Learning Intern",
+    "state": "AMBIGUOUS_FIELD",
+    "attempt": 1,
+    "failure_signature": "AMBIGUOUS_FIELD|-|verify_mismatch|tencent.wd1.myworkdayjobs.com",
+    "end_host": "tencent.wd1.myworkdayjobs.com",
+    "recent_events": [
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "AMBIGUOUS_FIELD",
+        "reason": "pipeline: read-back verification failed",
+        "at": "2026-09-16T07:08:01.350Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (workday live fill: 8 filled (held for submit))",
+        "at": "2026-09-16T07:08:01.346Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route inspect_only (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-16T07:01:51.332Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-16T07:01:48.701Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: workday URL validated",
+        "at": "2026-09-16T07:01:48.692Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-16T07:01:46.128Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 d5f6e2353444)",
+        "at": "2026-09-16T07:01:46.122Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-16T07:01:46.085Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-16T07:00:02.539Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-16T07:00:02.528Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-16T07:00:02.527Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-16T07:00:02.525Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "tencent",
+        "detail": "token \"tencent\" ~ slug \"tencent\"",
+        "expected_company": "Tencent",
+        "url": "https://tencent.wd1.myworkdayjobs.com/oa_huoshui_platform/job/US-California-Palo-Alto/Machine-Learning-Intern_R108140?jr_id=6aa8e9a8eff87f571fc980a1"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (9 candidates, employer match)",
+          "evidence": "tencent.wd1.myworkdayjobs.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": false
+    },
+    "open_review_items": [
+      {
+        "kind": "MANUAL",
+        "title": "Answer needed: \"Country/Region/Territory Phone Code\""
+      },
+      {
+        "kind": "AMBIGUOUS_FIELD",
+        "title": "Fill verification failed"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"park_for_operator\", \"rationale\": \"Fill executed but read-back verification failed, and an open review item shows a required question (\\\"Country/Region/Territory Phone Code\\\") needs a human answer. Navigation is correct and materials are fresh, so no requeue would change the outcome; a human must supply the missing field value.\", \"confidence\": \"high\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: 822efa41-bd09-43ac-b3aa-9deade1adcc2",
+  "rationale_unverified": "Fill executed but read-back verification failed, and an open review item shows a required question (\"Country/Region/Territory Phone Code\") needs a human answer. Navigation is correct and materials are fresh, so no requeue would change the outcome; a human must supply the missing field value."
+}
