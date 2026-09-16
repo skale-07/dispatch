@@ -1,0 +1,188 @@
+{
+  "ats": "ashby",
+  "url": "https://jobs.ashbyhq.com/antares/922a527d-9826-446d-9aba-ffc611995830/application",
+  "requested_url": "https://jobs.ashbyhq.com/antares/922a527d-9826-446d-9aba-ffc611995830/application",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://jobs.ashbyhq.com/antares/922a527d-9826-446d-9aba-ffc611995830/application",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 5,
+    "skipped_count": 4,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "f_0",
+      "label": "Application",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "_systemfield_name",
+      "label": "Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Single full-name field: composed legal_name.first + legal_name.last (both safe factual canonicals)"
+    },
+    {
+      "field_id": "61112831-f228-4c30-bc90-a10585634012",
+      "label": "Phone",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "_systemfield_email",
+      "label": "Email",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "_systemfield_resume",
+      "label": "Resume",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "b0550dba-5be2-4ca9-b716-b22fb28dbd8f",
+      "label": "Cover Letter",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "84b30c1f-52d4-4b0f-9035-da2d53d4c69c",
+      "label": "Why Antares?",
+      "type": "textarea",
+      "canonical_field": "essay:generated:84b30c1f-52d4-4b0f-9035-da2d53d4c69c",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "e9f57cb6-6106-4ff1-8812-a24424444f07",
+      "label": "Please include your LinkedIn profile",
+      "type": "text",
+      "canonical_field": "linkedin_url",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "b1293dff-a764-4c7a-9a39-124e189e3f07",
+      "label": "Export Compliance",
+      "type": "select",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\ashby-live\\form-snapshot-1789569113862.html",
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "phone",
+      "email",
+      "essay:generated:84b30c1f-52d4-4b0f-9035-da2d53d4c69c",
+      "linkedin_url"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "_systemfield_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "61112831-f228-4c30-bc90-a10585634012",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "_systemfield_email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "84b30c1f-52d4-4b0f-9035-da2d53d4c69c",
+        "canonical_field": "essay:generated:84b30c1f-52d4-4b0f-9035-da2d53d4c69c",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "e9f57cb6-6106-4ff1-8812-a24424444f07",
+        "canonical_field": "linkedin_url",
+        "control_kind": "text"
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham Kale",
+        "observed": "Shubham Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:84b30c1f-52d4-4b0f-9035-da2d53d4c69c",
+        "expected": "I like problems where a technical system has to survive contact with real physical and institutional constraints, and advanced nuclear sits squarely there. Most of my work has been building systems that have to hold up when the stakes are real rather than demos that look good in a notebook. At Summer Atlantic Capital I built the machine-learning core of an anomaly-detection system, including the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, and a learning-to-rank layer for prioritizing alerts. The thing I kept coming back to was operational usefulness: an anomaly system that fires too often creates a second problem instead of solving the first, so failure modes, explanation quality, and documentation mattered as much as model metrics. That instinct is why an engineering-heavy nuclear software team appeals to me. I also spend a lot of time on where automation should stop. In a job-application agent I built, every mutating capability sat behind fail-closed flags and a validation ladder so nothing counted as working just because it passed a local fixture. Antares is the kind of place where that discipline is the job, not an afterthought, and I would want to own a real piece of the stack in Los Angeles rather than isolated tickets.",
+        "observed": "I like problems where a technical system has to survive contact with real physical and institutional constraints, and advanced nuclear sits squarely there. Most of my work has been building systems that have to hold up when the stakes are real rather than demos that look good in a notebook. At Summer Atlantic Capital I built the machine-learning core of an anomaly-detection system, including the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, and a learning-to-rank layer for prioritizing alerts. The thing I kept coming back to was operational usefulness: an anomaly system that fires too often creates a second problem instead of solving the first, so failure modes, explanation quality, and documentation mattered as much as model metrics. That instinct is why an engineering-heavy nuclear software team appeals to me. I also spend a lot of time on where automation should stop. In a job-application agent I built, every mutating capability sat behind fail-closed flags and a validation ladder so nothing counted as working just because it passed a local fixture. Antares is the kind of place where that discipline is the job, not an afterthought, and I would want to own a real piece of the stack in Los Angeles rather than isolated tickets.",
+        "match": true
+      },
+      {
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 115393,
+      "verified": true,
+      "evidence": "input files: [{\"name\":\"resume-71415792.pdf\",\"size\":115393}]; stillAttached=true; chip=true; resolved via primary"
+    }
+  ],
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: form (9 fillable field(s))",
+    "timing: base page (9 planned) — plan 11s, fill 2s, verify 0s",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "written_at": "2026-09-16T14:31:58.605Z"
+}
