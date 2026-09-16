@@ -60,22 +60,37 @@
 </style></head>
 <body><div class="wrap">
 <h1>Dispatch run timeline</h1>
-<p class="sub">Generated 2026-09-16T06:22:45.121Z · 40 navigation run(s) · read-only view of artifacts/</p>
+<p class="sub">Generated 2026-09-16T06:26:20.929Z · 40 navigation run(s) · read-only view of artifacts/</p>
 <div class="stats"><span class="stat"><b>17</b> unknown</span><span class="stat"><b>15</b> resolved</span><span class="stat"><b>3</b> budget</span><span class="stat"><b>2</b> closed</span><span class="stat"><b>2</b> auth</span><span class="stat"><b>1</b> submit_risk</span></div>
 <section class="cycle">
   <h2>Latest cycle</h2>
   <dl>
-    <div><dt>Started</dt><dd>2026-09-16T06:22:17.084Z</dd></div>
+    <div><dt>Started</dt><dd>2026-09-16T06:25:17.867Z</dd></div>
     <div><dt>Outcome</dt><dd>completed</dd></div>
     <div><dt>Agent leg</dt><dd>available</dd></div>
     <div><dt>Default resume</dt><dd>ready (C:\dev\jobright-application-agent\private\candidate\resumes\general.pdf)</dd></div>
-    <div><dt>Apps started</dt><dd>0</dd></div>
+    <div><dt>Apps started</dt><dd>1</dd></div>
     <div><dt>Submits used</dt><dd>0</dd></div>
-    <div><dt>Stopped</dt><dd>queue_drained</dd></div>
+    <div><dt>Stopped</dt><dd>apps_cap</dd></div>
   </dl>
-  <h3>Session notes</h3><ul class="notes"><li>triage sweep: 0 confirmed, 0 refuted, 0 expired of 252 pending</li><li>artifact autopush: 2 file(s) pushed to master as 46bf811d</li></ul>
+  <h3>Session notes</h3><ul class="notes"><li>nav audit: 2 wrong-employer URL(s) cleared for re-navigation, 0 parked for review</li><li>triage sweep: 0 confirmed, 0 refuted, 0 expired of 252 pending</li><li>triage f910ec6f: engage_agent_leg — precondition failed: no navigation wall in evidence — agent leg only helps nav-walled apps</li><li>artifact autopush: 32 file(s) pushed to master as cc6e8506</li></ul>
 </section>
 <h2>Applications</h2>
+<details class="app ok">
+  <summary>
+    <span class="id">f910ec6f</span>
+    <span class="co">Tech Jobs for Good</span>
+    <span class="badge">resolved</span>
+    <span class="chip">anchor_href</span>
+    <span class="chip">generic</span>
+    
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — resolved (9 candidates, employer match)<span class="ev">techjobsforgood.com</span></li></ol>
+    <h4>Notes</h4><ul class="notes"><li>none</li></ul>
+    
+  </div>
+</details>
 <details class="app ok">
   <summary>
     <span class="id">9ccb0d82</span>
@@ -659,21 +674,6 @@
     <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>B_board_hop</b> — no employer board route (3 request(s))</li><li><b>C_agent</b> — resolved (turn 1, employer match)<span class="ev">careers.acme.com</span></li></ol>
     <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>board hop: no public greenhouse/lever/ashby board found for &quot;Acme&quot; (acme; 3 requests)</li><li>agent[1]: cred_available:false</li><li>agent[1]: leaked:none</li></ul>
     <h4>Hosts visited</h4><p class="hosts">careers.acme.com</p>
-  </div>
-</details>
-<details class="app ok">
-  <summary>
-    <span class="id">a56a0297</span>
-    <span class="co">Acme</span>
-    <span class="badge">resolved</span>
-    <span class="chip">agent</span>
-    <span class="chip">ashby</span>
-    <span class="chip">agent 2t/6s</span>
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no external anchors</li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>B_board_hop</b> — no employer board route (3 request(s))</li><li><b>D_gmail</b> — verification code retrieved</li><li><b>C_agent</b> — resolved (turn 2, employer match)<span class="ev">jobs.ashbyhq.com</span></li></ol>
-    <h4>Notes</h4><ul class="notes"><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>board hop: no public greenhouse/lever/ashby board found for &quot;Acme&quot; (acme; 3 requests)</li><li>agent[2]: continuation ok</li></ul>
-    <h4>Hosts visited</h4><p class="hosts">jobs.ashbyhq.com</p>
   </div>
 </details>
 <footer>Every row is one navigation run. Green = employer URL resolved; amber = auth/CAPTCHA wall; red = unresolved; grey = posting closed. Expand a row for its phase trace and the notes that explain the stop.</footer>

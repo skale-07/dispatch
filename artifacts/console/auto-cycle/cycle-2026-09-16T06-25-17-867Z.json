@@ -1,0 +1,73 @@
+{
+  "started_at": "2026-09-16T06:25:17.867Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\general.pdf)",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "ea882175-f345-41f8-a052-f51b3debb0b4",
+    "armed_until": "2026-09-16T08:25:17.927Z",
+    "seconds_remaining": 7200,
+    "max_submits": 1,
+    "submits_used": 0,
+    "max_apps": 1,
+    "apps_started": 0,
+    "discover_max": 1,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": {
+    "arm_run_id": "ea882175-f345-41f8-a052-f51b3debb0b4",
+    "apps_started": 1,
+    "submits_used": 0,
+    "stopped_reason": "apps_cap",
+    "discover_runs": 0,
+    "emails_generated": 0,
+    "drafts_saved": 0,
+    "essay_drafts_generated": 0,
+    "screener_predictions_generated": 0,
+    "notes": [
+      "nav audit: 2 wrong-employer URL(s) cleared for re-navigation, 0 parked for review",
+      "triage sweep: 0 confirmed, 0 refuted, 0 expired of 252 pending",
+      "triage f910ec6f: engage_agent_leg — precondition failed: no navigation wall in evidence — agent leg only helps nav-walled apps",
+      "artifact autopush: 32 file(s) pushed to master as cc6e8506"
+    ],
+    "per_app": [
+      {
+        "application_id": "f910ec6f-d419-4b76-ac4f-9452cf9d8145",
+        "end_state": "FAILED_RETRYABLE",
+        "stopped": "gate",
+        "stop_reason": "submission not verified: FAILED_BEFORE_CLICK — Refusing to click submit: field verification or upload did not pass",
+        "submitted": false,
+        "outreach": null
+      }
+    ],
+    "nav_audit": {
+      "checked": 571,
+      "repaired": 2,
+      "parked": 0
+    },
+    "triage": {
+      "decided": 1,
+      "executed": 0
+    },
+    "artifact_autopush": {
+      "pushed": true,
+      "commit": "cc6e8506",
+      "files_staged": 32
+    }
+  },
+  "outcome": "completed",
+  "notes": []
+}
