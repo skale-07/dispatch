@@ -1,0 +1,227 @@
+{
+  "ats": "ashby",
+  "url": "https://jobs.ashbyhq.com/roadrunner/eeeb9757-78e0-4776-889e-507a013e1fcf/application",
+  "requested_url": "https://jobs.ashbyhq.com/roadrunner/eeeb9757-78e0-4776-889e-507a013e1fcf/application",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://jobs.ashbyhq.com/roadrunner/eeeb9757-78e0-4776-889e-507a013e1fcf/application",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 7,
+    "skipped_count": 2,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "f_0",
+      "label": "Application",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "_systemfield_resume",
+      "label": "Resume",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "_systemfield_name",
+      "label": "Full Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Single full-name field: composed legal_name.first + legal_name.last (both safe factual canonicals)"
+    },
+    {
+      "field_id": "_systemfield_email",
+      "label": "Email",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "e3b73f1b-0123-421e-9174-25bd1e056594",
+      "label": "Phone Number",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "5ee47aa2-5326-4bad-a49b-a15dbc302c69",
+      "label": "LinkedIn Profile",
+      "type": "text",
+      "canonical_field": "linkedin_url",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "3e03bdb7-8b63-4c9d-b7d9-780451fd642f",
+      "label": "This role is based in San Francisco, CA. Are you located in the San Francisco Bay Area or willing to relocate?",
+      "type": "select",
+      "canonical_field": "relocation",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "bf0e880f-647f-4606-a05d-134679a8b5d9",
+      "label": "Are you legally authorized to work in the United States?",
+      "type": "select",
+      "canonical_field": "work_authorization",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "9fe7a4cf-dfbf-40c9-8b0e-9dfddd9dced9",
+      "label": "Will you now or in the future require visa sponsorship to work in the United States?",
+      "type": "select",
+      "canonical_field": "requires_sponsorship",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\ashby-live\\form-snapshot-1789539514781.html",
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "email",
+      "phone",
+      "linkedin_url",
+      "relocation",
+      "work_authorization",
+      "requires_sponsorship"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "_systemfield_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "_systemfield_email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "e3b73f1b-0123-421e-9174-25bd1e056594",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "5ee47aa2-5326-4bad-a49b-a15dbc302c69",
+        "canonical_field": "linkedin_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "3e03bdb7-8b63-4c9d-b7d9-780451fd642f",
+        "canonical_field": "relocation",
+        "control_kind": "native_yesno_group",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "picked \"Yes\" (exact)"
+        ]
+      },
+      {
+        "field_id": "bf0e880f-647f-4606-a05d-134679a8b5d9",
+        "canonical_field": "work_authorization",
+        "control_kind": "native_yesno_group",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "picked \"Yes\" (exact)"
+        ]
+      },
+      {
+        "field_id": "9fe7a4cf-dfbf-40c9-8b0e-9dfddd9dced9",
+        "canonical_field": "requires_sponsorship",
+        "control_kind": "native_yesno_group",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "picked \"No\" (exact)"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham Kale",
+        "observed": "Shubham Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "match": true
+      },
+      {
+        "canonical_field": "relocation",
+        "expected": "Yes",
+        "observed": "Yes",
+        "match": true
+      },
+      {
+        "canonical_field": "work_authorization",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "requires_sponsorship",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 115393,
+      "verified": true,
+      "evidence": "input files: [{\"name\":\"resume-71415792.pdf\",\"size\":115393}]; stillAttached=true; chip=true; resolved via primary"
+    }
+  ],
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: form (9 fillable field(s))",
+    "timing: base page (9 planned) — plan 0s, fill 3s, verify 0s",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "written_at": "2026-09-16T06:18:40.292Z"
+}
