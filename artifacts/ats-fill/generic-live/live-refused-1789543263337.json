@@ -1,0 +1,46 @@
+{
+  "ats": "generic",
+  "url": "https://careers.google.com/jobs/results/119184035237765830-data-scientist/",
+  "requested_url": "https://careers.google.com/jobs/results/119184035237765830-data-scientist/",
+  "mode": "refused",
+  "gate": {
+    "ok": false,
+    "failure_code": "NAVIGATION_INCOMPLETE",
+    "reason": "model calls: 1 of 1 steps",
+    "final_url": "https://families.google.com/service-restricted?es=ABAdc_icx4OHB73RFhu_D2gLnRFmSKI69Lj4sPq9Kxw4AAjXxP8ZdPDot0LRR0DuZ_pwWCXRkzBa-3h4o0J70gTlfDsRCaP30Q&continue=http://careers.google.com/jobs/results/119184035237765830-data-scientist/",
+    "page_class": "unknown"
+  },
+  "plan_summary": null,
+  "plan_fields": null,
+  "form_snapshot_path": null,
+  "fill": null,
+  "verify": null,
+  "uploads": null,
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "navigation supervisor: stopped (1 steps)"
+  ],
+  "navigation_supervisor": {
+    "run_id": "supervisor-9bbc817d-fb95-4934-bf22-6e7b1eb79da4",
+    "outcome": "stopped",
+    "steps": [
+      {
+        "observation": "ddf9c67979f9856e",
+        "action": "stop",
+        "reason": "Account-level block: Google returns a supervised-account 'Can't access this service' age restriction page instead of the careers posting. No route forward without a different credential; concrete blocker.",
+        "result": "model stopped",
+        "model": "claude-opus-5"
+      }
+    ],
+    "notes": [
+      "model calls: 1 of 1 steps"
+    ],
+    "evidence": [
+      "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-9bbc817d-fb95-4934-bf22-6e7b1eb79da4\\observation.json",
+      "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-9bbc817d-fb95-4934-bf22-6e7b1eb79da4\\page.png"
+    ]
+  },
+  "written_at": "2026-09-16T07:21:03.337Z"
+}
