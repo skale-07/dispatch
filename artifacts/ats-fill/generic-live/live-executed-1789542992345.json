@@ -1,0 +1,109 @@
+{
+  "ats": "generic",
+  "url": "https://textron.taleo.net/careersection/textron_ur/jobdetail.ftl?job=1540728&tz=UTC-05%3A00&tzname=America%2FNew_York",
+  "requested_url": "https://textron.taleo.net/careersection/textron_ur/jobdetail.ftl?job=1540728&tz=UTC-05%3A00&tzname=America%2FNew_York",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://textron.taleo.net/careersection/iam/accessmanagement/login.jsf",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 1,
+    "skipped_count": 0,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "dialogTemplate-dialogForm-email",
+      "label": "Email Address . Required",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    }
+  ],
+  "form_snapshot_path": null,
+  "fill": {
+    "filled": [
+      "email"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "dialogTemplate-dialogForm-email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": null,
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: posting (no fields, Apply CTA present)",
+    "posting page (no fields, Apply CTA present) but no Apply control found — not filling the posting; no visible apply-ish controls",
+    "navigation supervisor after Apply miss: form_ready (3 steps)",
+    "timing: base page (1 planned) — plan 0s, fill 0s, verify 0s",
+    "resume on disk but this page has no file input — not an upload miss",
+    "resolved advance: \"Continue\"",
+    "form-advance: page 2 has no fillable fields — stopping",
+    "submit not attempted — live fill never submits"
+  ],
+  "navigation_supervisor": {
+    "run_id": "supervisor-46c3c6ed-0680-4f18-8802-6fd51a71e351",
+    "outcome": "form_ready",
+    "steps": [
+      {
+        "observation": "6f5e30d2291c1dbd",
+        "action": "click",
+        "reason": "Start application via Apply Online on the correct Textron posting.",
+        "result": "clicked observed control; next observation checks progress",
+        "model": "claude-opus-5",
+        "target": "control-9"
+      },
+      {
+        "observation": "00c7e0663bac2a9c",
+        "action": "authenticate",
+        "reason": "Login wall on Textron Taleo; use approved credential service to sign in.",
+        "result": "portal auth: not_an_auth_wall",
+        "model": "claude-opus-5"
+      },
+      {
+        "observation": "00c7e0663bac2a9c",
+        "action": "click",
+        "reason": "Auth service declined; bypass login by applying as guest to reach the application form.",
+        "result": "clicked observed control; next observation checks progress",
+        "model": "claude-opus-5",
+        "target": "control-8"
+      }
+    ],
+    "notes": [
+      "model calls: 3 of 3 steps"
+    ],
+    "evidence": [
+      "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-46c3c6ed-0680-4f18-8802-6fd51a71e351\\observation.json",
+      "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-46c3c6ed-0680-4f18-8802-6fd51a71e351\\page.png"
+    ]
+  },
+  "harvested_options": [],
+  "wizard_pages": [],
+  "written_at": "2026-09-16T07:16:32.359Z"
+}

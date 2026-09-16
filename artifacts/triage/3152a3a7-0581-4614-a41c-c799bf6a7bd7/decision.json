@@ -1,0 +1,145 @@
+{
+  "decision_id": "3152a3a7-0581-4614-a41c-c799bf6a7bd7",
+  "application_id": "1f61dbce-6e9b-4178-a728-3dce57f64d86",
+  "signature": "FAILED_RETRYABLE|-|unknown|textron.taleo.net",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "1f61dbce-6e9b-4178-a728-3dce57f64d86",
+    "company": "Textron",
+    "role": "2027 Software Engineer Intern",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 1,
+    "failure_signature": "FAILED_RETRYABLE|-|unknown|textron.taleo.net",
+    "end_host": "textron.taleo.net",
+    "recent_events": [
+      {
+        "from": "READY_TO_SUBMIT",
+        "to": "FAILED_RETRYABLE",
+        "reason": "submit page gate failed: NO_APPLICATION_FORM",
+        "at": "2026-09-16T07:16:32.407Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "READY_TO_SUBMIT",
+        "reason": "pipeline: fill rehearsal verified",
+        "at": "2026-09-16T07:16:32.367Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (generic live fill: 1 filled (held for submit))",
+        "at": "2026-09-16T07:16:32.366Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-16T07:16:09.241Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-16T07:16:08.160Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-16T07:16:08.152Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-16T07:16:06.019Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 7141579276ac)",
+        "at": "2026-09-16T07:16:06.009Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-16T07:16:05.968Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-16T06:25:08.002Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-16T06:25:07.965Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-16T06:25:07.956Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-16T06:25:07.954Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "textron",
+        "detail": "token \"textron\" ~ slug \"textron\" (from URL tenant)",
+        "expected_company": "Textron",
+        "url": "https://textron.taleo.net/careersection/textron_ur/jobdetail.ftl?job=1540728&tz=UTC-05%3A00&tzname=America%2FNew_York&jr_id=6aa9e889eff87f571fc9c739"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (12 candidates, employer match)",
+          "evidence": "textron.taleo.net"
+        }
+      ]
+    },
+    "submit": {
+      "outcome": "FAILED_BEFORE_CLICK",
+      "reason": "Page failed identity gate (NO_APPLICATION_FORM): form markers matched but the page has no fillable fields — this is a posting/description page, not the application form",
+      "brief_items": []
+    },
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": true
+    },
+    "open_review_items": [],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"engage_agent_leg\", \"rationale\": \"Deterministic navigation resolved only to the Taleo job description page; submit gate found no fillable form. Nav tiers exhausted at anchor_href with no wall or duplicate. A bounded agent leg can traverse the Taleo apply flow/sign-in to reach the real form. Not tried before.\", \"confidence\": \"medium\"}",
+  "parsed_action": "engage_agent_leg",
+  "validation_note": null,
+  "precondition": {
+    "ok": false,
+    "reason": "no navigation wall in evidence — agent leg only helps nav-walled apps"
+  },
+  "mode": "act",
+  "executed": false,
+  "execution_detail": "precondition failed: no navigation wall in evidence — agent leg only helps nav-walled apps",
+  "rationale_unverified": "Deterministic navigation resolved only to the Taleo job description page; submit gate found no fillable form. Nav tiers exhausted at anchor_href with no wall or duplicate. A bounded agent leg can traverse the Taleo apply flow/sign-in to reach the real form. Not tried before."
+}
