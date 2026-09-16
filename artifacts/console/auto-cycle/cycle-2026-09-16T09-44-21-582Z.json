@@ -1,0 +1,59 @@
+{
+  "started_at": "2026-09-16T09:44:21.582Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\general.pdf)",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "6237979e-f1c5-48d3-b7f4-1e52947f333c",
+    "armed_until": "2026-09-16T11:44:21.636Z",
+    "seconds_remaining": 7200,
+    "max_submits": 1,
+    "submits_used": 0,
+    "max_apps": 1,
+    "apps_started": 0,
+    "discover_max": 1,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": {
+    "arm_run_id": "6237979e-f1c5-48d3-b7f4-1e52947f333c",
+    "apps_started": 0,
+    "submits_used": 0,
+    "stopped_reason": "queue_drained",
+    "discover_runs": 0,
+    "emails_generated": 0,
+    "drafts_saved": 0,
+    "essay_drafts_generated": 0,
+    "screener_predictions_generated": 0,
+    "notes": [
+      "triage sweep: 0 confirmed, 0 refuted, 0 expired of 269 pending",
+      "artifact autopush: removed a stale .git/index.lock (6 min old, nothing writing it)",
+      "artifact autopush: 11 file(s) pushed to master as 4378431d"
+    ],
+    "per_app": [],
+    "nav_audit": {
+      "checked": 589,
+      "repaired": 0,
+      "parked": 0
+    },
+    "artifact_autopush": {
+      "pushed": true,
+      "commit": "4378431d",
+      "files_staged": 11
+    }
+  },
+  "outcome": "completed",
+  "notes": []
+}
