@@ -58,7 +58,13 @@ resumes, and ATS credentials never leave this machine.
      keys are not JWTs — fine for supabase-js, but they cannot be used
      anywhere expecting a decodable JWT.
 
-### A2. Domain + Vercel (~20 min)
+### A2. Domain + hosting (~20 min)
+
+> Superseded 2026-09-16: the frontend deploys to Azure Static Web Apps
+> (`deploy/azure/deploy.sh site-create → site-push → site-domain`,
+> runbook `deploy/azure/README.md`); Vercel is not used. The env-var
+> names below are unchanged and now live in `frontend/.env.production`.
+> The Vercel steps stay for reference only.
 
 1. Buy the domain (any registrar, ~$10/yr — the only v0 cash).
 2. Create a free Vercel account (Hobby) → New Project → import the

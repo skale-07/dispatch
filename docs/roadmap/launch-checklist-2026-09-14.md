@@ -62,23 +62,30 @@ neither can complete —
   lists `http://localhost:5173/**` and the production origin — a
   `redirectTo` not on that list is silently replaced by the Site URL.
 
-## 2. Domain + Vercel **[blocks signup]** (~20 min + DNS wait)
+## 2. Domain + Azure Static Web Apps **[blocks signup]** (~20 min + DNS wait)
 
-1. Buy the domain (only cash item in v0).
-2. Vercel → New Project → root `frontend/`, preset Vite, build
-   `npm run build`, output `dist/`.
-3. Environment variables (production AND preview):
-   `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` (publishable key only),
-   `VITE_PUBLIC_URL=https://<domain>`,
-   `VITE_LIVE_VIEW_ORIGIN=https://www.browserbase.com`.
-   (`VITE_GMAIL_OAUTH_CLIENT_ID` only if the OAuth fallback in step 3 is
-   used; unset, the Gmail card refuses by name until the CDP path lands.)
-   Never `VITE_CONSOLE_ENABLED` on a public deploy.
-4. Domains → add, follow the DNS records.
-5. Engine `.env`: `CLOUD_BASE_URL=https://<domain>`.
+Decision 2026-09-16: Azure credits, no Vercel. The frontend is an Azure
+Static Web App (Free); `frontend/public/staticwebapp.config.json` carries
+the SPA rewrite and the same headers `vercel.json` did. Runbook:
+`deploy/azure/README.md`.
+
+1. Buy the domain at GoDaddy (only cash item in v0).
+2. `az login`, then `deploy/azure/deploy.sh site-create` — prints the
+   default `*.azurestaticapps.net` hostname.
+3. `frontend/.env.production` (gitignored): `VITE_SUPABASE_URL`,
+   `VITE_SUPABASE_ANON_KEY` (publishable key only),
+   `VITE_PUBLIC_URL=https://<domain>`, `VITE_LIVE_VIEW_ORIGIN` (the
+   provider's live-view origin: `https://www.browserbase.com` or
+   `https://live.browser-use.com`). Never `VITE_CONSOLE_ENABLED`.
+4. `deploy/azure/deploy.sh site-push` — builds and deploys `dist/`.
+5. `deploy/azure/deploy.sh site-domain www.<domain>` after the CNAME at
+   GoDaddy; the apex needs a TXT record plus a GoDaddy forward to `www`
+   (or Azure DNS with an alias record) — see the runbook.
+6. Engine `.env` (and `deploy/azure/.env.engine`): `CLOUD_BASE_URL=https://<domain>`.
 
 Check: `https://<domain>` renders; `/onboarding` deep link rewrites to
-the SPA (no 404); the waitlist form writes a row.
+the SPA (no 404); the waitlist form writes a row; Supabase → URL
+Configuration lists this origin.
 
 ## 3. Gmail for hosted users — in the remote Chrome, not OAuth **[blocks outreach only]**
 
@@ -128,23 +135,25 @@ CDP sign-in is blocked.
 Check: the JobRight connect step embeds the live view (CSP frame-src
 already allows it) and a `jobright_connect` handoff completes.
 
-## 5. Engine host on AWS **[blocks applying]** (~45 min, decision 2026-09-14)
+## 5. Engine host on Azure **[blocks applying]** (~45 min, decision 2026-09-16)
 
-The engine leaves the operator's Windows box: one EC2 box on the AWS
-credit runs the scheduler container (`deploy/engine.Dockerfile`), with
-the runbook in `deploy/aws/README.md`.
+The engine leaves the operator's Windows box: one Azure VM on the credit
+runs the scheduler container (`deploy/engine.Dockerfile`), with the
+runbook in `deploy/azure/README.md`. (The AWS variant from 2026-09-14,
+`deploy/aws/`, stays as the reference; it was never deployed — the
+deployer identity was the blocker and the credits are Azure.)
 
-1. Fresh AWS access keys on this machine (`aws sts get-caller-identity`
-   failed with a signature mismatch on 2026-09-14).
-2. `deploy/aws/.env.engine` (gitignored): the hosted env — `TENANT_ENGINE_ENABLED=true`,
-   Supabase URL + service key, `TENANT_MASTER_KEY=$(openssl rand -hex 32)`,
-   Browserbase keys + `REMOTE_BROWSER_ENABLED=true`, `CLOUD_BASE_URL`, the
-   LLM key, and the same fail-closed flags as locally; no `AGENT_CDP_URL`.
-3. `deploy/aws/deploy.sh bootstrap && deploy/aws/deploy.sh push && deploy/aws/deploy.sh stack`,
-   then `deploy/aws/deploy.sh logs`.
+1. `az login` + `az account set --subscription <credits sub>` on this
+   machine (the CLI was installed 2026-09-16).
+2. `deploy/azure/.env.engine` (gitignored, seeded from the AWS draft with
+   the master key already inside): fill `CLOUD_BASE_URL` and the
+   remote-browser provider block; no `AGENT_CDP_URL`.
+3. `deploy/azure/deploy.sh bootstrap && deploy/azure/deploy.sh push && deploy/azure/deploy.sh stack`,
+   then `deploy/azure/deploy.sh logs` (no local Docker: the image builds
+   in ACR).
 
 Check: the log shows the scheduler's first tick; `tenant:status` rows
-appear under `/data/dispatch/tenants` on the box. Before the box exists,
+appear under `/data/dispatch/tenants` on the VM. Before the VM exists,
 the same flags in the local `.env` still run the scheduler here.
 
 ## 6. Tenant-zero soak **[blocks applying]** (one evening)

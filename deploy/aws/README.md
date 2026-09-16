@@ -1,4 +1,9 @@
-# Hosted engine on AWS — v0 runbook
+# Hosted engine on AWS — v0 runbook (reference variant)
+
+> 2026-09-16: the operator's credits are Azure, so the live path is
+> `deploy/azure/` (same shape: one VM, Key Vault secret, ACR image, no
+> inbound ports, plus Static Web Apps for the frontend). This AWS variant
+> was never deployed and stays as the reference and the drift-tested twin.
 
 One Linux box (EC2, Amazon Linux 2023) running the tenant scheduler
 container from `deploy/engine.Dockerfile`, tenant workspaces on its own

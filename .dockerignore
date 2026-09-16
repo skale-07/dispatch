@@ -24,6 +24,11 @@ docs
 *.log
 .env
 .env.*
+# Root-level patterns do not reach subdirectories: the hosted env drafts
+# (deploy/azure/.env.engine, deploy/aws/.env.engine) and frontend/.env*
+# must never ride along — with ACR Tasks the context is uploaded to Azure.
+**/.env
+**/.env.*
 !.env.example
 *.storage.json
 *.enc

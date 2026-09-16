@@ -1,0 +1,17 @@
+{
+  "$comment": "Azure Static Web Apps config for the public SPA (operator decision 2026-09-16: Azure hosting, no Vercel). Mirrors frontend/vercel.json: deep links rewrite to index.html; the same response headers on every route, including the Content-Security-Policy whose frame-src lists BOTH remote-browser live-view origins (Browserbase and Browser Use) so either provider's handoff can be embedded. tests/unit/deploy-azure.test.ts pins the two files to the same headers.",
+  "navigationFallback": {
+    "rewrite": "/index.html",
+    "exclude": ["/assets/*", "/*.{css,js,map,ico,png,svg,webp,woff,woff2,json,txt,xml}"]
+  },
+  "globalHeaders": {
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "Referrer-Policy": "strict-origin-when-cross-origin",
+    "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
+    "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://*.supabase.co; font-src 'self'; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://accounts.google.com; frame-src https://www.browserbase.com https://*.browserbase.com https://live.browser-use.com; form-action 'self' https://accounts.google.com; base-uri 'self'; object-src 'none'"
+  },
+  "mimeTypes": {
+    ".json": "application/json"
+  }
+}
