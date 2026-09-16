@@ -1,0 +1,121 @@
+{
+  "decision_id": "883d79b7-d2e1-4544-80be-87a58d5d507b",
+  "application_id": "9a38f971-d94a-4cd4-acf9-93a5050bc642",
+  "signature": "FAILED_RETRYABLE|duplicate_url|duplicate_url|-",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "9a38f971-d94a-4cd4-acf9-93a5050bc642",
+    "company": "Gecko Robotics",
+    "role": "AI/Machine Learning Engineering Intern",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 1,
+    "failure_signature": "FAILED_RETRYABLE|duplicate_url|duplicate_url|-",
+    "end_host": null,
+    "recent_events": [
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "navigation: employer URL already held by another application",
+        "at": "2026-09-16T14:33:27.846Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-16T14:33:25.622Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 d5f6e2353444)",
+        "at": "2026-09-16T14:33:25.616Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-16T14:33:25.589Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-16T14:26:39.138Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-16T14:26:39.133Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-16T14:26:39.133Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-16T14:26:39.132Z"
+      }
+    ],
+    "nav": {
+      "wall": "duplicate_url",
+      "method": null,
+      "notes": [
+        "employer URL already held by 1 other application(s): 4d667a60 (Gecko Robotics — AI/Machine Learning Engineering Intern, QUEUED)"
+      ],
+      "congruence": {
+        "verdict": "match",
+        "slug": "geckorobotics",
+        "detail": "token \"gecko\" ~ slug \"geckorobotics\"",
+        "expected_company": "Gecko Robotics",
+        "url": "https://jobs.ashbyhq.com/gecko-robotics/c097505b-0a28-4a33-a917-268f463641e8/application?jr_id=6aaaa0814be87a72913a05a0"
+      },
+      "duplicates": [
+        {
+          "application_id": "4d667a60-087e-4d03-95ad-a0768941c495",
+          "state": "QUEUED",
+          "company": "Gecko Robotics",
+          "role": "AI/Machine Learning Engineering Intern"
+        }
+      ],
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (12 candidates, employer match)",
+          "evidence": "jobs.ashbyhq.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [
+      {
+        "kind": "MANUAL",
+        "title": "Duplicate posting — another application already targets this URL"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"abandon_duplicate\", \"rationale\": \"Same URL and identical company/role already owned by application 4d667a60 (QUEUED). Evidence is explicit; no retry would change ownership.\", \"confidence\": \"high\"}",
+  "parsed_action": "abandon_duplicate",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "abandoned to FAILED_FINAL",
+  "rationale_unverified": "Same URL and identical company/role already owned by application 4d667a60 (QUEUED). Evidence is explicit; no retry would change ownership."
+}
