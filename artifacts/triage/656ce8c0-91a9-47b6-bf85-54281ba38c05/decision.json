@@ -1,0 +1,124 @@
+{
+  "decision_id": "656ce8c0-91a9-47b6-bf85-54281ba38c05",
+  "application_id": "6726edb6-a432-42e6-9c60-9aef0ded8a6e",
+  "signature": "CAPTCHA_REQUIRED|-|captcha|ats.rippling.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "6726edb6-a432-42e6-9c60-9aef0ded8a6e",
+    "company": "apexanalytix",
+    "role": "Data Science Intern (Summer 2027)",
+    "state": "CAPTCHA_REQUIRED",
+    "attempt": 1,
+    "failure_signature": "CAPTCHA_REQUIRED|-|captcha|ats.rippling.com",
+    "end_host": "ats.rippling.com",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "CAPTCHA_REQUIRED",
+        "reason": "pipeline: blocking CAPTCHA on employer form",
+        "at": "2026-09-16T07:43:04.142Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-16T07:43:02.202Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-16T07:43:02.195Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-16T07:42:59.801Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 d5f6e2353444)",
+        "at": "2026-09-16T07:42:59.792Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-16T07:42:59.752Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-16T05:12:46.699Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-16T05:12:46.687Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-16T05:12:46.686Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-16T05:12:46.685Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "apexanalytixcareers",
+        "detail": "token \"apexanalytix\" ~ slug \"apexanalytixcareers\" (from URL path)",
+        "expected_company": "apexanalytix",
+        "url": "https://ats.rippling.com/apexanalytix-careers/jobs/0cfde729-9d23-4186-91a7-464a4b87af53?jr_id=6aa9660509ae03adcacdd2f0"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (12 candidates, employer match)",
+          "evidence": "ats.rippling.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [
+      {
+        "kind": "CAPTCHA_REQUIRED",
+        "title": "Blocking CAPTCHA on employer form"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\":\"park_for_operator\",\"rationale\":\"First attempt hit a blocking CAPTCHA on the employer form; navigation and materials are fine, so requeueing changes nothing and there's no repeat-block history justifying permanent abandonment. A human can solve the CAPTCHA or decide. A review item is already open.\",\"confidence\":\"medium\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: 6f46fcd2-dd21-4ed6-be19-d178afa86537",
+  "rationale_unverified": "First attempt hit a blocking CAPTCHA on the employer form; navigation and materials are fine, so requeueing changes nothing and there's no repeat-block history justifying permanent abandonment. A human can solve the CAPTCHA or decide. A review item is already open."
+}
