@@ -1,0 +1,49 @@
+{
+  "run_id": "nav-56e57d3b-5011-4c41-a009-4f6f1f6028e7",
+  "application_id": "9ccb0d82-b89d-45ee-911e-30fdf82c7f64",
+  "jobright_job_id": "6aaa0c5f120c360b6bd4a6ff",
+  "method": "employer_board",
+  "resolved_url": "https://jobs.lever.co/questanalytics/614edbbf-410b-4100-8ef9-e1af7ddddfd5/apply",
+  "resolved_ats": "lever",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no congruent apply href (10 external links)",
+      "evidence": "www.ziprecruiter.com, www.linkedin.com, x.com, www.crunchbase.com, navanta.com, www.prnewswire.com"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "unresolved by deterministic phases"
+    },
+    {
+      "phase": "B_board_hop",
+      "outcome": "resolved on the employer's lever board (exact title)",
+      "evidence": "jobs.lever.co"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "phase A: 6 external host(s) seen: www.ziprecruiter.com, www.linkedin.com, x.com, www.crunchbase.com, navanta.com, www.prnewswire.com",
+    "no standard Apply control found (exact and broad name tiers both empty)",
+    "anchor adjudication: model abstained",
+    "board hop: lever:questanalytics lists \"Quest Analytics Internship Program - Summer 2027 in Kansas City\" (Overland Park, KS; exact title) — employer's own route taken over the aggregator"
+  ],
+  "congruence": {
+    "verdict": "match",
+    "slug": "questanalytics",
+    "detail": "token \"quest\" ~ slug \"questanalytics\"",
+    "expected_company": "Quest Analytics",
+    "url": "https://jobs.lever.co/questanalytics/614edbbf-410b-4100-8ef9-e1af7ddddfd5/apply"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-09-16T06:15:26.494Z"
+}

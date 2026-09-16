@@ -1,0 +1,203 @@
+{
+  "decision_id": "25daca9d-856e-415c-9a15-4d1a8719a970",
+  "application_id": "9ccb0d82-b89d-45ee-911e-30fdf82c7f64",
+  "signature": "FAILED_RETRYABLE|-|verify_mismatch|jobs.lever.co",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "9ccb0d82-b89d-45ee-911e-30fdf82c7f64",
+    "company": "Quest Analytics",
+    "role": "Quest Analytics Internship Program - Summer 2027 in Kansas City",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 1,
+    "failure_signature": "FAILED_RETRYABLE|-|verify_mismatch|jobs.lever.co",
+    "end_host": "jobs.lever.co",
+    "recent_events": [
+      {
+        "from": "SUBMITTING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "pre-submit verification failed",
+        "at": "2026-09-16T06:17:09.460Z"
+      },
+      {
+        "from": "READY_TO_SUBMIT",
+        "to": "SUBMITTING",
+        "reason": "human-approved submission started",
+        "at": "2026-09-16T06:17:03.972Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "READY_TO_SUBMIT",
+        "reason": "pipeline: fill rehearsal verified",
+        "at": "2026-09-16T06:16:48.067Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (lever live fill: 20 filled (held for submit))",
+        "at": "2026-09-16T06:16:48.065Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route needs_review_unmapped (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-16T06:15:28.940Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-16T06:15:26.562Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: lever URL validated",
+        "at": "2026-09-16T06:15:26.547Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-16T06:15:18.066Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 7141579276ac)",
+        "at": "2026-09-16T06:15:18.057Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-16T06:15:18.021Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-16T05:12:46.780Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-16T05:12:46.771Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-16T05:12:46.770Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-16T05:12:46.769Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "employer_board",
+      "notes": [
+        "phase A: 6 external host(s) seen: www.ziprecruiter.com, www.linkedin.com, x.com, www.crunchbase.com, navanta.com, www.prnewswire.com",
+        "no standard Apply control found (exact and broad name tiers both empty)",
+        "anchor adjudication: model abstained",
+        "board hop: lever:questanalytics lists \"Quest Analytics Internship Program - Summer 2027 in Kansas City\" (Overland Park, KS; exact title) — employer's own route taken over the aggregator"
+      ],
+      "congruence": {
+        "verdict": "match",
+        "slug": "questanalytics",
+        "detail": "token \"quest\" ~ slug \"questanalytics\"",
+        "expected_company": "Quest Analytics",
+        "url": "https://jobs.lever.co/questanalytics/614edbbf-410b-4100-8ef9-e1af7ddddfd5/apply"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "no congruent apply href (10 external links)",
+          "evidence": "www.ziprecruiter.com, www.linkedin.com, x.com, www.crunchbase.com, navanta.com, www.prnewswire.com"
+        },
+        {
+          "phase": "B_apply_click",
+          "outcome": "unresolved by deterministic phases"
+        },
+        {
+          "phase": "B_board_hop",
+          "outcome": "resolved on the employer's lever board (exact title)",
+          "evidence": "jobs.lever.co"
+        }
+      ]
+    },
+    "submit": {
+      "outcome": "FAILED_BEFORE_CLICK",
+      "reason": "Refusing to click submit: field verification or upload did not pass",
+      "brief_items": [
+        {
+          "id": "verify:screener:custom:tech_stack_postman",
+          "question": "What technology stack do you have work/school experience with?",
+          "field_id": "cards[216589d9-6bd8-4f2d-b1c4-30e1525b5f56][field0]",
+          "canonical_field": "screener:custom:tech_stack_postman",
+          "kind": "verify_mismatch",
+          "problem": "Expected \"Postman\"; page shows \"(empty)\"",
+          "expected": "Postman",
+          "observed": {
+            "value": "",
+            "label": ""
+          },
+          "how_to_answer": [
+            "System expected \"Postman\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+            "Profile source: private/candidate/public-profile.json (key: screener:custom:tech_stack_postman)",
+            "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:tech_stack_postman\" should match the on-form question text."
+          ]
+        },
+        {
+          "id": "fill_error:location: Lever hidden selectedLocation is empty — the dropdown row was never re",
+          "question": "(fill error — see problem)",
+          "field_id": null,
+          "canonical_field": null,
+          "kind": "fill_error",
+          "problem": "location: Lever hidden selectedLocation is empty — the dropdown row was never registered; the form would reject the click",
+          "expected": null,
+          "observed": null,
+          "how_to_answer": [
+            "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+            "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+          ]
+        }
+      ]
+    },
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": true
+    },
+    "open_review_items": [
+      {
+        "kind": "MANUAL",
+        "title": "Answer needed: \"What technology stack do you have work/school experience with?\""
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\":\"park_for_operator\",\"rationale\":\"Pre-submit verification failed on two structural fill issues (custom screener left empty despite expected value, and Lever hidden selectedLocation never registered). These are mapping/control-type defects a rerun won't change; an open MANUAL review item already exists. A human must supply/fix the answers.\",\"confidence\":\"high\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: 6dd9177c-8d2b-45bb-902c-bfbf25f82f9a",
+  "rationale_unverified": "Pre-submit verification failed on two structural fill issues (custom screener left empty despite expected value, and Lever hidden selectedLocation never registered). These are mapping/control-type defects a rerun won't change; an open MANUAL review item already exists. A human must supply/fix the answers."
+}

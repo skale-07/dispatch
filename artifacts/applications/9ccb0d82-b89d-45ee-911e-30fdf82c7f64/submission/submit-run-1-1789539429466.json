@@ -1,0 +1,50 @@
+{
+  "outcome": "FAILED_BEFORE_CLICK",
+  "application_id": "9ccb0d82-b89d-45ee-911e-30fdf82c7f64",
+  "submission_id": "bfd6f635-2f7b-4d3f-a6fe-c96abe0821a4",
+  "attempt": 1,
+  "receipt": null,
+  "review_item_id": null,
+  "reason": "Refusing to click submit: field verification or upload did not pass",
+  "artifact_path": null,
+  "operator_brief": {
+    "title": "Submit blocked — lever app 9ccb0d82-b89d-45ee-911e-30fdf82c7f64",
+    "summary": "2 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:screener:custom:tech_stack_postman",
+        "question": "What technology stack do you have work/school experience with?",
+        "field_id": "cards[216589d9-6bd8-4f2d-b1c4-30e1525b5f56][field0]",
+        "canonical_field": "screener:custom:tech_stack_postman",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Postman\"; page shows \"(empty)\"",
+        "expected": "Postman",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "how_to_answer": [
+          "System expected \"Postman\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:tech_stack_postman)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:tech_stack_postman\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "fill_error:location: Lever hidden selectedLocation is empty — the dropdown row was never re",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "location: Lever hidden selectedLocation is empty — the dropdown row was never registered; the form would reject the click",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      }
+    ],
+    "ok_count": 21,
+    "fail_count": 2
+  }
+}
