@@ -1,0 +1,98 @@
+{
+  "decision_id": "9b0ffbf6-7995-410f-8354-b0f69813ed11",
+  "application_id": "e32c009a-054a-4243-80eb-399aed7096e6",
+  "signature": "FAILED_RETRYABLE|budget|budget|-",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "e32c009a-054a-4243-80eb-399aed7096e6",
+    "company": "National Information Solutions Cooperative",
+    "role": "Intern - Platform Development (Systems Engineering)",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 1,
+    "failure_signature": "FAILED_RETRYABLE|budget|budget|-",
+    "end_host": null,
+    "recent_events": [
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "navigation unresolved (budget)",
+        "at": "2026-09-16T07:00:17.685Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-16T07:00:17.627Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 7141579276ac)",
+        "at": "2026-09-16T07:00:17.614Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-16T07:00:17.537Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "ats board discovery: ready for materials/pipeline",
+        "at": "2026-09-16T04:41:40.843Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "ats board discovery: operator-listed board, title filter passed",
+        "at": "2026-09-16T04:41:40.842Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "ats board discovery: dedupe pass",
+        "at": "2026-09-16T04:41:40.841Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-16T04:41:40.839Z"
+      }
+    ],
+    "nav": {
+      "wall": "budget",
+      "method": null,
+      "notes": [
+        "target resolution failed: Application e32c009a-054a-4243-80eb-399aed7096e6 has no JobRight job id"
+      ],
+      "congruence": null,
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": []
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [
+      {
+        "kind": "MANUAL",
+        "title": "Answer needed: navigation unresolved (budget)"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\":\"park_for_operator\",\"rationale\":\"Navigation never started: target resolution failed because the application has no JobRight job id and no stored employer URL. No tier was exhausted, materials are fine, and no transient error — retries or agent leg cannot supply a missing target. A human must provide the posting URL; a review item is already open.\",\"confidence\":\"high\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: 8b5a114d-1f87-4ded-9297-a22eb14a2a89",
+  "rationale_unverified": "Navigation never started: target resolution failed because the application has no JobRight job id and no stored employer URL. No tier was exhausted, materials are fine, and no transient error — retries or agent leg cannot supply a missing target. A human must provide the posting URL; a review item is already open."
+}
