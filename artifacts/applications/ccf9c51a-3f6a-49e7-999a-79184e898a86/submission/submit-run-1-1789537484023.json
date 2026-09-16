@@ -1,0 +1,37 @@
+{
+  "outcome": "FAILED_BEFORE_CLICK",
+  "application_id": "ccf9c51a-3f6a-49e7-999a-79184e898a86",
+  "submission_id": "157fbbd1-458d-4d3f-afc8-c3f9b9f15556",
+  "attempt": 1,
+  "receipt": null,
+  "review_item_id": null,
+  "reason": "Refusing to click submit: field verification or upload did not pass",
+  "artifact_path": null,
+  "operator_brief": {
+    "title": "Submit blocked — greenhouse app ccf9c51a-3f6a-49e7-999a-79184e898a86",
+    "summary": "1 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:address.city",
+        "question": "Location (State)",
+        "field_id": "question_10418168007",
+        "canonical_field": "address.city",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Baltimore\"; page shows \"Other - Outside of the United States\"",
+        "expected": "Baltimore",
+        "observed": {
+          "value": "Other - Outside of the United States",
+          "label": "Other - Outside of the United States"
+        },
+        "how_to_answer": [
+          "Type the intended value on the form (planned: Baltimore). If a places/autocomplete list appears, select a matching suggestion; plain city text is enough when no list opens.",
+          "DOM shows \"Other - Outside of the United States\" but plan expected \"Baltimore\". Correct the value on the form or fix profile/aliases so the plan matches the real answer.",
+          "Profile source: private/candidate/public-profile.json → address.city",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"address.city\" should match the on-form question text."
+        ]
+      }
+    ],
+    "ok_count": 21,
+    "fail_count": 1
+  }
+}

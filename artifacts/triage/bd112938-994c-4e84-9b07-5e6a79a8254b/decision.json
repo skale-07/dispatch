@@ -1,0 +1,147 @@
+{
+  "decision_id": "bd112938-994c-4e84-9b07-5e6a79a8254b",
+  "application_id": "ccf9c51a-3f6a-49e7-999a-79184e898a86",
+  "signature": "FAILED_RETRYABLE|-|verify_mismatch|job-boards.greenhouse.io",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "ccf9c51a-3f6a-49e7-999a-79184e898a86",
+    "company": "Hometap",
+    "role": "Full Stack Engineering Co-op - Spring 2027",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 1,
+    "failure_signature": "FAILED_RETRYABLE|-|verify_mismatch|job-boards.greenhouse.io",
+    "end_host": "job-boards.greenhouse.io",
+    "recent_events": [
+      {
+        "from": "SUBMITTING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "pre-submit verification failed",
+        "at": "2026-09-16T05:44:44.019Z"
+      },
+      {
+        "from": "READY_TO_SUBMIT",
+        "to": "SUBMITTING",
+        "reason": "human-approved submission started",
+        "at": "2026-09-16T05:44:36.926Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "READY_TO_SUBMIT",
+        "reason": "pipeline: fill rehearsal verified",
+        "at": "2026-09-16T05:44:22.746Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (live fill: 22 filled (held for submit))",
+        "at": "2026-09-16T05:44:22.742Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route needs_review_unmapped (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-16T05:43:33.522Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-16T05:43:30.050Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: greenhouse URL validated",
+        "at": "2026-09-16T05:43:30.043Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-16T05:43:30.031Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 7141579276ac)",
+        "at": "2026-09-16T05:43:30.023Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-16T05:43:29.964Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "ats board discovery: ready for materials/pipeline",
+        "at": "2026-09-16T04:41:22.823Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "ats board discovery: operator-listed board, title filter passed",
+        "at": "2026-09-16T04:41:22.822Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "ats board discovery: dedupe pass",
+        "at": "2026-09-16T04:41:22.821Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-16T04:41:22.820Z"
+      }
+    ],
+    "nav": null,
+    "submit": {
+      "outcome": "FAILED_BEFORE_CLICK",
+      "reason": "Refusing to click submit: field verification or upload did not pass",
+      "brief_items": [
+        {
+          "id": "verify:address.city",
+          "question": "Location (State)",
+          "field_id": "question_10418168007",
+          "canonical_field": "address.city",
+          "kind": "verify_mismatch",
+          "problem": "Expected \"Baltimore\"; page shows \"Other - Outside of the United States\"",
+          "expected": "Baltimore",
+          "observed": {
+            "value": "Other - Outside of the United States",
+            "label": "Other - Outside of the United States"
+          },
+          "how_to_answer": [
+            "Type the intended value on the form (planned: Baltimore). If a places/autocomplete list appears, select a matching suggestion; plain city text is enough when no list opens.",
+            "DOM shows \"Other - Outside of the United States\" but plan expected \"Baltimore\". Correct the value on the form or fix profile/aliases so the plan matches the real answer.",
+            "Profile source: private/candidate/public-profile.json → address.city",
+            "Alias check: private/candidate/answer-aliases.json phrases for \"address.city\" should match the on-form question text."
+          ]
+        }
+      ]
+    },
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": null,
+      "verify_passed": true
+    },
+    "open_review_items": [],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"park_for_operator\", \"rationale\": \"Pre-submit verify mismatch: form dropdown \\\"Location (State)\\\" got \\\"Other - Outside of the United States\\\" instead of profile city \\\"Baltimore\\\". This is a data/alias mapping problem on a select field, not transient — rerunning or regenerating materials won't change it. A human must fix the profile/alias mapping or answer the question.\", \"confidence\": \"high\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: 3d14d813-a988-40d5-a2fb-dfd8cd6c65e3",
+  "rationale_unverified": "Pre-submit verify mismatch: form dropdown \"Location (State)\" got \"Other - Outside of the United States\" instead of profile city \"Baltimore\". This is a data/alias mapping problem on a select field, not transient — rerunning or regenerating materials won't change it. A human must fix the profile/alias mapping or answer the question."
+}
