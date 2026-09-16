@@ -1,0 +1,119 @@
+{
+  "decision_id": "67325e7f-c966-464c-b086-47156954f1fe",
+  "application_id": "49adf5f5-f98f-4c21-adca-f3c0927f1e36",
+  "signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|careers.rtx.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "49adf5f5-f98f-4c21-adca-f3c0927f1e36",
+    "company": "RTX",
+    "role": "Software Engineer Intern (Summer 2027)",
+    "state": "NATIVE_AUTOFILL_RUNNING",
+    "attempt": 1,
+    "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|careers.rtx.com",
+    "end_host": "careers.rtx.com",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-16T07:09:35.036Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-16T07:09:33.038Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-16T07:09:33.030Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-16T07:09:30.204Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 7141579276ac)",
+        "at": "2026-09-16T07:09:30.197Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-16T07:09:30.168Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-16T07:00:02.487Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-16T07:00:02.475Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-16T07:00:02.474Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-16T07:00:02.473Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "rtx",
+        "detail": "token \"rtx\" ~ slug \"rtx\" (from URL host)",
+        "expected_company": "RTX",
+        "url": "https://careers.rtx.com/global/en/job/RAYTGLOBAL01873556EXTERNALENGLOBAL/software-engineer-intern-summer-2027?jr_id=6aa9f2ae09ae03adcace0657"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (10 candidates, employer match)",
+          "evidence": "careers.rtx.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"requeue_same\", \"rationale\": \"First attempt stalled mid-run in NATIVE_AUTOFILL_RUNNING with no wall, no fill_gate outcome, and navigation resolved cleanly to a congruent RTX URL with fresh verified resume. No evidence of a persistent block or stale materials — a plain rerun is the cheapest action that could complete the portal sign-in/fill leg.\", \"confidence\": \"medium\"}",
+  "parsed_action": "requeue_same",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "requeued at attempt 2",
+  "rationale_unverified": "First attempt stalled mid-run in NATIVE_AUTOFILL_RUNNING with no wall, no fill_gate outcome, and navigation resolved cleanly to a congruent RTX URL with fresh verified resume. No evidence of a persistent block or stale materials — a plain rerun is the cheapest action that could complete the portal sign-in/fill leg."
+}

@@ -1,0 +1,91 @@
+{
+  "ats": "generic",
+  "url": "https://careers.rtx.com/global/en/job/RAYTGLOBAL01873556EXTERNALENGLOBAL/software-engineer-intern-summer-2027",
+  "requested_url": "https://careers.rtx.com/global/en/job/RAYTGLOBAL01873556EXTERNALENGLOBAL/software-engineer-intern-summer-2027",
+  "mode": "refused",
+  "gate": {
+    "ok": false,
+    "failure_code": "FORM_NOT_REACHED",
+    "reason": "still on the job posting after trying Apply — no application form to fill",
+    "final_url": "https://careers.rtx.com/global/en/job/RAYTGLOBAL01873556EXTERNALENGLOBAL/Software-Engineer-Intern-Summer-2027",
+    "page_class": "posting"
+  },
+  "plan_summary": null,
+  "plan_fields": null,
+  "form_snapshot_path": null,
+  "fill": null,
+  "verify": null,
+  "uploads": null,
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: posting (no fields, Apply CTA present)",
+    "posting page (no fields, Apply CTA present) but no Apply control found — not filling the posting; no visible apply-ish controls",
+    "navigation supervisor after Apply miss: stopped (7 steps)",
+    "parked: refused to fill a listing page's own search widgets"
+  ],
+  "navigation_supervisor": {
+    "run_id": "supervisor-996dc253-9745-464b-9752-002bc27c5ec6",
+    "outcome": "stopped",
+    "steps": [
+      {
+        "observation": "4b0af4a3ad07109e",
+        "action": "click",
+        "reason": "Apply link goes to RTX Workday application for this exact job ID 01873556.",
+        "result": "clicked observed control; next observation checks progress",
+        "model": "claude-opus-5",
+        "target": "control-0"
+      },
+      {
+        "observation": "b40d6d38749d6eb9",
+        "action": "wait",
+        "reason": "no navigable controls yet — waiting for rendering (no model)",
+        "result": "waited for rendering"
+      },
+      {
+        "observation": "965b39e90014ca6c",
+        "action": "click",
+        "reason": "one unambiguous Apply control",
+        "result": "clicked observed control; next observation checks progress",
+        "target": "control-1"
+      },
+      {
+        "observation": "b2062255c474b1ba",
+        "action": "authenticate",
+        "reason": "Workday apply flow at Create Account/Sign In step; use portal auth to proceed.",
+        "result": "portal auth: account_created",
+        "model": "claude-opus-5"
+      },
+      {
+        "observation": "904ad44b5efec610",
+        "action": "wait",
+        "reason": "Account created; page still rendering login/redirect — wait for redirect to apply form.",
+        "result": "waited for rendering",
+        "model": "claude-opus-5"
+      },
+      {
+        "observation": "e20acb0744852ed1",
+        "action": "authenticate",
+        "reason": "Still at Workday sign-in wall; use portal auth to sign in with the created account and reach the apply form.",
+        "result": "portal auth: wall_remains",
+        "model": "claude-opus-5"
+      },
+      {
+        "observation": "afe543360f8db38f",
+        "action": "stop",
+        "reason": "Workday sign-in wall persists after account creation and two portal-auth attempts (wall_remains); only social sign-in (Google/LinkedIn) options are actionable, and 'Sign in with email' is disallowed. No route to the applicant form.",
+        "result": "model stopped",
+        "model": "claude-opus-5"
+      }
+    ],
+    "notes": [
+      "model calls: 5 of 7 steps"
+    ],
+    "evidence": [
+      "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-996dc253-9745-464b-9752-002bc27c5ec6\\observation.json",
+      "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-996dc253-9745-464b-9752-002bc27c5ec6\\page.png"
+    ]
+  },
+  "written_at": "2026-09-16T07:11:42.144Z"
+}
