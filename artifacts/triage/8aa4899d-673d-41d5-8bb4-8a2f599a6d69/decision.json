@@ -1,0 +1,148 @@
+{
+  "decision_id": "8aa4899d-673d-41d5-8bb4-8a2f599a6d69",
+  "application_id": "46fad676-7e75-4267-8fd2-8d4c5c072e04",
+  "signature": "AMBIGUOUS_FIELD|-|verify_mismatch|q2ebanking.wd5.myworkdayjobs.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "46fad676-7e75-4267-8fd2-8d4c5c072e04",
+    "company": "Q2",
+    "role": "2027 Summer Internship - Software Engineer",
+    "state": "AMBIGUOUS_FIELD",
+    "attempt": 1,
+    "failure_signature": "AMBIGUOUS_FIELD|-|verify_mismatch|q2ebanking.wd5.myworkdayjobs.com",
+    "end_host": "q2ebanking.wd5.myworkdayjobs.com",
+    "recent_events": [
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "AMBIGUOUS_FIELD",
+        "reason": "pipeline: read-back verification failed",
+        "at": "2026-09-16T06:41:34.031Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (workday live fill: 12 filled (held for submit))",
+        "at": "2026-09-16T06:41:34.030Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route inspect_only (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-16T06:32:52.592Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-16T06:32:50.133Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: workday URL validated",
+        "at": "2026-09-16T06:32:50.126Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-16T06:32:47.798Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 7141579276ac)",
+        "at": "2026-09-16T06:32:47.791Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-16T06:32:47.742Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-16T06:25:07.941Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-16T06:25:07.909Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-16T06:25:07.908Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-16T06:25:07.907Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "q2ebanking",
+        "detail": "abbreviation \"q2\" opens slug \"q2ebanking\"",
+        "expected_company": "Q2",
+        "url": "https://q2ebanking.wd5.myworkdayjobs.com/q2/job/Austin-Texas/XMLNAME-2027-Summer-Internship---Software-Engineer_REQ-12794?jr_id=6aa9b7033387a3d9b67d646f"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (10 candidates, employer match)",
+          "evidence": "q2ebanking.wd5.myworkdayjobs.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": true
+    },
+    "open_review_items": [
+      {
+        "kind": "MANUAL",
+        "title": "Answer needed: \"Facebook\""
+      },
+      {
+        "kind": "MANUAL",
+        "title": "Answer needed: \"Personal Information\""
+      },
+      {
+        "kind": "AMBIGUOUS_FIELD",
+        "title": "Fill verification failed"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"park_for_operator\", \"rationale\": \"Fill executed (12 fields) but read-back verification failed, and there are already open MANUAL review items asking for unanswered questions (\\\"Facebook\\\", \\\"Personal Information\\\"). Navigation and materials are sound, so a requeue would repeat the same ambiguity; a human must supply the missing answers/resolve the mismatch.\", \"confidence\": \"high\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: f5287543-ab49-4d0e-a5ea-e330fa873169",
+  "rationale_unverified": "Fill executed (12 fields) but read-back verification failed, and there are already open MANUAL review items asking for unanswered questions (\"Facebook\", \"Personal Information\"). Navigation and materials are sound, so a requeue would repeat the same ambiguity; a human must supply the missing answers/resolve the mismatch."
+}
