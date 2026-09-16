@@ -126,7 +126,7 @@ export function SignupPage(): JSX.Element {
   const { code: codeParam } = useParams();
   const [search] = useSearchParams();
   const location = useLocation();
-  const { session, signOut } = useAuth();
+  const { session, signOut, authError, clearAuthError } = useAuth();
   const providers = useOAuthProviders();
   const enabledProviders = (Object.keys(PROVIDER_LABEL) as OAuthProvider[]).filter(
     (p) => providers[p],
@@ -144,7 +144,9 @@ export function SignupPage(): JSX.Element {
   /** The provider whose redirect is in progress, if any. */
   const [oauth, setOauth] = useState<OAuthProvider | null>(null);
   const [sentTo, setSentTo] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  // A provider that refused AFTER the hop lands here signed out with the
+  // reason in the URL (AuthContext read it); show it where the buttons are.
+  const [error, setError] = useState<string | null>(authError);
   const arrivedWithInvite = invite.trim().length > 0 && !sentTo;
   usePageTitle(
     session
@@ -251,6 +253,7 @@ export function SignupPage(): JSX.Element {
   const withProvider = async (provider: OAuthProvider): Promise<void> => {
     setOauth(provider);
     setError(null);
+    clearAuthError();
     try {
       // Stash before the redirect — this tab is about to leave for the
       // provider's consent page, exactly like the magic-link hop.
@@ -273,6 +276,7 @@ export function SignupPage(): JSX.Element {
     if (!addr) return;
     setSending(true);
     setError(null);
+    clearAuthError();
     try {
       if (invite.trim()) stashInviteCode(invite);
       const from = destination();

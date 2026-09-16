@@ -41,6 +41,27 @@ Check: open the deployed site in a private window, sign up with a
 throwaway address, receive the link within a minute, land on
 `/onboarding`.
 
+Observed 2026-09-15 (read-only probe of `/auth/v1/authorize` for each
+provider, project `qqcmgsoscbvcivlhtlgc`): both providers are ENABLED but
+neither can complete —
+- **GitHub**: Supabase forwards `client_id=skale-07's Project` — the OAuth
+  app's *name* is in the provider's Client ID field. Fix: GitHub →
+  Settings → Developer settings → OAuth Apps → the app → copy **Client
+  ID** (an `Ov23li…` / hex string) into Supabase → Authentication →
+  Providers → GitHub → Client ID; the app's **Authorization callback
+  URL** must be `https://qqcmgsoscbvcivlhtlgc.supabase.co/auth/v1/callback`.
+- **Google**: `Error 400: redirect_uri_mismatch` — the sign-in client
+  `67523008699-…` (project `dispatch-auth-508803`) has no authorized
+  redirect URI. Fix: Google Cloud → Credentials → that Web client →
+  Authorized redirect URIs → add the same Supabase callback URL above
+  (the client's downloaded JSON showed no `redirect_uris`, which is how
+  this was missed).
+- The frontend now shows a provider failure that came back in the URL
+  (`authError` in AuthContext) instead of bouncing silently to /signup.
+- Still to confirm in the dashboard: Authentication → URL Configuration
+  lists `http://localhost:5173/**` and the production origin — a
+  `redirectTo` not on that list is silently replaced by the Site URL.
+
 ## 2. Domain + Vercel **[blocks signup]** (~20 min + DNS wait)
 
 1. Buy the domain (only cash item in v0).

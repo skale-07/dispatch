@@ -11,6 +11,7 @@ import { Navigate, useLocation } from "react-router-dom";
 import { SUPABASE_CONFIGURED, SUPABASE_UNCONFIGURED_REASON } from "../lib/appConfig";
 import { supabase } from "../lib/supabaseClient";
 import { ensureMember } from "../public/data";
+import { describeAuthError, readAuthErrorFromUrl, stripAuthErrorFromUrl } from "./authError";
 
 /**
  * Session state for the public app, from the one Supabase seam.
@@ -40,6 +41,13 @@ type AuthState = {
   session: Session | null;
   user: User | null;
   membership: Membership;
+  /**
+   * A provider sign-in that failed after the hop, read once from the URL
+   * Supabase sent the user back to (see authError.ts). The signup page
+   * shows it; anything else may ignore it. Cleared by the next attempt.
+   */
+  authError: string | null;
+  clearAuthError: () => void;
   signOut: () => Promise<void>;
 };
 
@@ -49,13 +57,25 @@ const AuthCtx = createContext<AuthState>({
   session: null,
   user: null,
   membership: { status: "idle" },
+  authError: null,
+  clearAuthError: () => {},
   signOut: async () => {},
 });
+
+/** Read (and strip) a callback error from the current URL, once, at first render. */
+function takeAuthErrorFromLocation(): string | null {
+  if (typeof window === "undefined") return null;
+  const found = readAuthErrorFromUrl(window.location);
+  if (!found) return null;
+  window.history.replaceState(window.history.state, "", stripAuthErrorFromUrl(window.location));
+  return describeAuthError(found);
+}
 
 export function AuthProvider({ children }: { children: ReactNode }): JSX.Element {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(SUPABASE_CONFIGURED);
   const [membership, setMembership] = useState<Membership>({ status: "idle" });
+  const [authError, setAuthError] = useState<string | null>(takeAuthErrorFromLocation);
   const ensuredFor = useRef<string | null>(null);
 
   const userId = session?.user.id ?? null;
@@ -115,6 +135,8 @@ export function AuthProvider({ children }: { children: ReactNode }): JSX.Element
     session,
     user: session?.user ?? null,
     membership,
+    authError,
+    clearAuthError: () => setAuthError(null),
     signOut: async () => {
       await supabase?.auth.signOut();
     },
