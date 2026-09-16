@@ -1,0 +1,140 @@
+{
+  "decision_id": "df47889e-1241-4d33-8aab-c69287a7aa8c",
+  "application_id": "b6042f61-5923-4580-9f9d-1d7247937c56",
+  "signature": "AMBIGUOUS_FIELD|-|verify_mismatch|relx.wd3.myworkdayjobs.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "b6042f61-5923-4580-9f9d-1d7247937c56",
+    "company": "LexisNexis",
+    "role": "Data Science Internship",
+    "state": "AMBIGUOUS_FIELD",
+    "attempt": 1,
+    "failure_signature": "AMBIGUOUS_FIELD|-|verify_mismatch|relx.wd3.myworkdayjobs.com",
+    "end_host": "relx.wd3.myworkdayjobs.com",
+    "recent_events": [
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "AMBIGUOUS_FIELD",
+        "reason": "pipeline: read-back verification failed",
+        "at": "2026-09-16T05:55:52.376Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (workday live fill: 12 filled (held for submit))",
+        "at": "2026-09-16T05:55:52.370Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route inspect_only (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-16T05:46:04.232Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-16T05:46:03.363Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: workday URL validated",
+        "at": "2026-09-16T05:46:03.352Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-16T05:46:01.066Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 d5f6e2353444)",
+        "at": "2026-09-16T05:46:01.053Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-16T05:46:01.014Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-16T05:12:46.679Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-16T05:12:46.664Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-16T05:12:46.663Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-16T05:12:46.659Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "lexisnexislegal",
+        "detail": "token \"lexisnexis\" ~ slug \"lexisnexislegal\" (from URL path)",
+        "expected_company": "LexisNexis",
+        "url": "https://relx.wd3.myworkdayjobs.com/lexisnexislegal/job/Raleigh-NC/Data-Science-Internship_R118691-1?jr_id=6aa9c7c010b1cd4f41607d90"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (11 candidates, employer match)",
+          "evidence": "relx.wd3.myworkdayjobs.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": true
+    },
+    "open_review_items": [
+      {
+        "kind": "AMBIGUOUS_FIELD",
+        "title": "Fill verification failed"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"park_for_operator\", \"rationale\": \"Evidence is contradictory: fill gate reports verify_passed=true on a form page with 12 fields filled, yet the pipeline moved to AMBIGUOUS_FIELD on read-back mismatch. Navigation is congruent, no wall, materials verified, so no requeue would change the outcome. A human should adjudicate the field mismatch.\", \"confidence\": \"medium\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: afab8d4b-3d88-4761-905f-931e08a0d17a",
+  "rationale_unverified": "Evidence is contradictory: fill gate reports verify_passed=true on a form page with 12 fields filled, yet the pipeline moved to AMBIGUOUS_FIELD on read-back mismatch. Navigation is congruent, no wall, materials verified, so no requeue would change the outcome. A human should adjudicate the field mismatch."
+}
