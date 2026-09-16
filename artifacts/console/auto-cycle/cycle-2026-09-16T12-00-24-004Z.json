@@ -1,0 +1,58 @@
+{
+  "started_at": "2026-09-16T12:00:24.004Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\general.pdf)",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "0ea3336b-63d7-472d-8777-abc3cf3a6482",
+    "armed_until": "2026-09-16T14:00:24.052Z",
+    "seconds_remaining": 7200,
+    "max_submits": 1,
+    "submits_used": 0,
+    "max_apps": 1,
+    "apps_started": 0,
+    "discover_max": 1,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": {
+    "arm_run_id": "0ea3336b-63d7-472d-8777-abc3cf3a6482",
+    "apps_started": 0,
+    "submits_used": 0,
+    "stopped_reason": "queue_drained",
+    "discover_runs": 0,
+    "emails_generated": 0,
+    "drafts_saved": 0,
+    "essay_drafts_generated": 0,
+    "screener_predictions_generated": 0,
+    "notes": [
+      "triage sweep: 0 confirmed, 0 refuted, 0 expired of 277 pending",
+      "artifact autopush: 1 file(s) pushed to master as 96eeff27"
+    ],
+    "per_app": [],
+    "nav_audit": {
+      "checked": 592,
+      "repaired": 0,
+      "parked": 0
+    },
+    "artifact_autopush": {
+      "pushed": true,
+      "commit": "96eeff27",
+      "files_staged": 1
+    }
+  },
+  "outcome": "completed",
+  "notes": []
+}
