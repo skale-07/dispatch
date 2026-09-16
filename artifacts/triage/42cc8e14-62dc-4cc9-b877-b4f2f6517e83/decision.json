@@ -1,0 +1,140 @@
+{
+  "decision_id": "42cc8e14-62dc-4cc9-b877-b4f2f6517e83",
+  "application_id": "214e7e7e-a62c-420b-9546-a8102f74e6aa",
+  "signature": "AMBIGUOUS_FIELD|-|verify_mismatch|q2ebanking.wd5.myworkdayjobs.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "214e7e7e-a62c-420b-9546-a8102f74e6aa",
+    "company": "Q2",
+    "role": "2027 Summer Internship - Data Science",
+    "state": "AMBIGUOUS_FIELD",
+    "attempt": 1,
+    "failure_signature": "AMBIGUOUS_FIELD|-|verify_mismatch|q2ebanking.wd5.myworkdayjobs.com",
+    "end_host": "q2ebanking.wd5.myworkdayjobs.com",
+    "recent_events": [
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "AMBIGUOUS_FIELD",
+        "reason": "pipeline: read-back verification failed",
+        "at": "2026-09-16T08:25:40.506Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (workday live fill: 12 filled (held for submit))",
+        "at": "2026-09-16T08:25:40.505Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route inspect_only (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-16T08:17:02.219Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-16T08:17:01.268Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: workday URL validated",
+        "at": "2026-09-16T08:17:01.227Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-16T08:16:58.740Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 d5f6e2353444)",
+        "at": "2026-09-16T08:16:58.732Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-16T08:16:58.682Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-16T05:12:46.716Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-16T05:12:46.706Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-16T05:12:46.704Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-16T05:12:46.703Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "q2ebanking",
+        "detail": "abbreviation \"q2\" opens slug \"q2ebanking\"",
+        "expected_company": "Q2",
+        "url": "https://q2ebanking.wd5.myworkdayjobs.com/q2/job/Austin-Texas/XMLNAME-2027-Summer-Internship---Data-Science_REQ-12796?jr_id=6aa9a82010b1cd4f41606eb6"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (10 candidates, employer match)",
+          "evidence": "q2ebanking.wd5.myworkdayjobs.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": true
+    },
+    "open_review_items": [
+      {
+        "kind": "AMBIGUOUS_FIELD",
+        "title": "Fill verification failed"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"park_for_operator\", \"rationale\": \"Read-back verification failed on a Workday form with 12 fields filled and held for submit, while the fill gate reports verify_passed=true — contradictory signals with no transient marker, no wall, and correct navigation. A review item is already open; a human should resolve the ambiguous field rather than blind-retrying an identical fill.\", \"confidence\": \"medium\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: 8abd2456-cb3f-4d89-855d-305eb2047c1b",
+  "rationale_unverified": "Read-back verification failed on a Workday form with 12 fields filled and held for submit, while the fill gate reports verify_passed=true — contradictory signals with no transient marker, no wall, and correct navigation. A review item is already open; a human should resolve the ambiguous field rather than blind-retrying an identical fill."
+}
