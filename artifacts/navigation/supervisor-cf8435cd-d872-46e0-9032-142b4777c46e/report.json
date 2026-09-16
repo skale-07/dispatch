@@ -1,0 +1,36 @@
+{
+  "run_id": "[REDACTED]",
+  "outcome": "form_ready",
+  "steps": [
+    {
+      "observation": "1ecdb76807f719e6",
+      "action": "click",
+      "reason": "Click Apply Online to start the application for this exact posting.",
+      "result": "clicked observed control; next observation checks progress",
+      "model": "claude-opus-5",
+      "target": "control-9"
+    },
+    {
+      "observation": "a3e33d89514ac846",
+      "action": "authenticate",
+      "reason": "Taleo applicant login page reached; use the portal-auth credential service to sign in and continue to the application.",
+      "result": "portal auth: not_an_auth_wall",
+      "model": "claude-opus-5"
+    },
+    {
+      "observation": "0c6d389965f9d5a1",
+      "action": "click",
+      "reason": "Portal auth failed; 'Apply as Guest' bypasses account creation and goes straight to the application form.",
+      "result": "clicked observed control; next observation checks progress",
+      "model": "claude-opus-5",
+      "target": "control-8"
+    }
+  ],
+  "notes": [
+    "model calls: 3 of 3 steps"
+  ],
+  "evidence": [
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-cf8435cd-d872-46e0-9032-142b4777c46e\\observation.json",
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-cf8435cd-d872-46e0-9032-142b4777c46e\\page.png"
+  ]
+}
