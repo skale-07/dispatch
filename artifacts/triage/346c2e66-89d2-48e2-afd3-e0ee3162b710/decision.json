@@ -1,0 +1,167 @@
+{
+  "decision_id": "346c2e66-89d2-48e2-afd3-e0ee3162b710",
+  "application_id": "f910ec6f-d419-4b76-ac4f-9452cf9d8145",
+  "signature": "FAILED_RETRYABLE|-|verify_mismatch|techjobsforgood.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "f910ec6f-d419-4b76-ac4f-9452cf9d8145",
+    "company": "Tech Jobs for Good",
+    "role": "Product Engineer Intern",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 1,
+    "failure_signature": "FAILED_RETRYABLE|-|verify_mismatch|techjobsforgood.com",
+    "end_host": "techjobsforgood.com",
+    "recent_events": [
+      {
+        "from": "SUBMITTING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "pre-submit verification failed",
+        "at": "2026-09-16T06:25:43.150Z"
+      },
+      {
+        "from": "READY_TO_SUBMIT",
+        "to": "SUBMITTING",
+        "reason": "human-approved submission started",
+        "at": "2026-09-16T06:25:30.653Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "READY_TO_SUBMIT",
+        "reason": "pipeline: fill rehearsal verified",
+        "at": "2026-09-16T06:25:30.604Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (generic live fill: 1 filled (held for submit))",
+        "at": "2026-09-16T06:25:30.603Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-16T06:25:24.628Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-16T06:25:22.964Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-16T06:25:22.958Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-16T06:25:20.583Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 7141579276ac)",
+        "at": "2026-09-16T06:25:20.565Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-16T06:25:20.438Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-16T06:25:08.272Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-16T06:25:08.197Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-16T06:25:08.196Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-16T06:25:08.188Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "techjobsforgood",
+        "detail": "token \"tech\" ~ slug \"techjobsforgood\" (from URL host)",
+        "expected_company": "Tech Jobs for Good",
+        "url": "https://techjobsforgood.com/jobs/36163/?ref=homepage&jr_id=6aaa13d0120c360b6bd4a91b"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (9 candidates, employer match)",
+          "evidence": "techjobsforgood.com"
+        }
+      ]
+    },
+    "submit": {
+      "outcome": "FAILED_BEFORE_CLICK",
+      "reason": "Refusing to click submit: field verification or upload did not pass",
+      "brief_items": [
+        {
+          "id": "upload:resume",
+          "question": "Upload: resume",
+          "field_id": null,
+          "canonical_field": null,
+          "kind": "upload_failed",
+          "problem": "no file input resolved: primary resume selector not attached within 3s; retrying resolve after 1500ms; primary resume selector not attached within 3s; no resume file input; 0 file inputs on page; filechooser fallback: \"Browse Organizations\": click failed",
+          "expected": "resume-71415792.pdf",
+          "observed": null,
+          "how_to_answer": [
+            "Resume is system-owned: materials:register + adapter.uploadResume on submit/fill — not a free-text profile field.",
+            "If this is ats:fill without --resume, pass --resume <pdf> or use application submit (uses registered material).",
+            "Evidence: no file input resolved: primary resume selector not attached within 3s; retrying resolve after 1500ms; primary resume selector not attached within 3s; no resume file input; 0 file inputs on page; filechooser fallback: \"Browse Organizations\": click failed"
+          ]
+        }
+      ]
+    },
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": true
+    },
+    "open_review_items": [],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"engage_agent_leg\", \"rationale\": \"Navigation resolved and verify passed, but no resume file input exists on the reached page (0 file inputs; filechooser fallback hit \\\"Browse Organizations\\\"), so deterministic fill cannot complete — likely the real apply form is behind a further portal step/sign-in. A bounded agent attempt can reach the actual upload form; URL congruence matches so reopening navigation is unwarranted.\", \"confidence\": \"medium\"}",
+  "parsed_action": "engage_agent_leg",
+  "validation_note": null,
+  "precondition": {
+    "ok": false,
+    "reason": "no navigation wall in evidence — agent leg only helps nav-walled apps"
+  },
+  "mode": "act",
+  "executed": false,
+  "execution_detail": "precondition failed: no navigation wall in evidence — agent leg only helps nav-walled apps",
+  "rationale_unverified": "Navigation resolved and verify passed, but no resume file input exists on the reached page (0 file inputs; filechooser fallback hit \"Browse Organizations\"), so deterministic fill cannot complete — likely the real apply form is behind a further portal step/sign-in. A bounded agent attempt can reach the actual upload form; URL congruence matches so reopening navigation is unwarranted."
+}
