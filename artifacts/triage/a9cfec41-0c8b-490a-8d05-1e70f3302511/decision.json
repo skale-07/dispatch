@@ -1,0 +1,119 @@
+{
+  "decision_id": "a9cfec41-0c8b-490a-8d05-1e70f3302511",
+  "application_id": "f63bd53e-ffe9-4648-b8e4-3d3880a224c7",
+  "signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|referral-libertymutual.icims.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "f63bd53e-ffe9-4648-b8e4-3d3880a224c7",
+    "company": "Liberty Mutual Insurance",
+    "role": "Solaria Labs Software Development Co-op (Jan - June 2027)",
+    "state": "NATIVE_AUTOFILL_RUNNING",
+    "attempt": 1,
+    "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|referral-libertymutual.icims.com",
+    "end_host": "referral-libertymutual.icims.com",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route ready_for_fill_later (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-16T08:28:27.320Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-16T08:28:26.062Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-16T08:28:26.047Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-16T08:28:22.991Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 7141579276ac)",
+        "at": "2026-09-16T08:28:22.985Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-16T08:28:22.954Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-16T08:28:15.435Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-16T08:28:15.424Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-16T08:28:15.423Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-16T08:28:15.422Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "libertymutual",
+        "detail": "token \"liberty\" ~ slug \"libertymutual\" (from URL tenant)",
+        "expected_company": "Liberty Mutual Insurance",
+        "url": "https://referral-libertymutual.icims.com/jobs/261797/solaria-labs-software-development-co-op-%28jan---june-2027%29/job?in_iframe=1&jr_id=6aa9529709ae03adcacdcb90"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (10 candidates, employer match)",
+          "evidence": "referral-libertymutual.icims.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"requeue_same\", \"rationale\": \"Run stalled mid-pipeline in NATIVE_AUTOFILL_RUNNING on attempt 1 with no wall, no fill gate, valid matching employer URL and verified resume. No evidence of a persistent blocker — a plain rerun is the cheapest action that could complete the native fill.\", \"confidence\": \"medium\"}",
+  "parsed_action": "requeue_same",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "requeued at attempt 2",
+  "rationale_unverified": "Run stalled mid-pipeline in NATIVE_AUTOFILL_RUNNING on attempt 1 with no wall, no fill gate, valid matching employer URL and verified resume. No evidence of a persistent blocker — a plain rerun is the cheapest action that could complete the native fill."
+}
