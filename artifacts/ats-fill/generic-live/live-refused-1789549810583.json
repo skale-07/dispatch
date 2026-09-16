@@ -1,0 +1,65 @@
+{
+  "ats": "generic",
+  "url": "https://myjobs.adp.com/greatwestcareers/cx/job-details?reqId=5001222290906",
+  "requested_url": "https://myjobs.adp.com/greatwestcareers/cx/job-details?reqId=5001222290906",
+  "mode": "refused",
+  "gate": {
+    "ok": false,
+    "failure_code": "FORM_NOT_REACHED",
+    "reason": "still on the job posting after trying Apply — no application form to fill",
+    "final_url": "https://myjobs.adp.com/greatwestcareers/auth",
+    "page_class": "posting"
+  },
+  "plan_summary": null,
+  "plan_fields": null,
+  "form_snapshot_path": null,
+  "fill": null,
+  "verify": null,
+  "uploads": null,
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: posting (no fields, Apply CTA present)",
+    "landed on a posting (no fields, Apply CTA present); clicking Apply via role=button accessible name is Apply",
+    "Apply landed on: posting (no fields, Apply CTA present)",
+    "posting page (no fields, Apply CTA present) but no Apply control found — not filling the posting; no visible apply-ish controls",
+    "navigation supervisor after Apply miss: stopped (3 steps)",
+    "parked: refused to fill a listing page's own search widgets"
+  ],
+  "navigation_supervisor": {
+    "run_id": "supervisor-36740aac-2f3f-4946-bf49-148fa56bdfb4",
+    "outcome": "stopped",
+    "steps": [
+      {
+        "observation": "40c5a19cb6e4a56c",
+        "action": "authenticate",
+        "reason": "ADP sign-in gate blocks the application; use approved credential service to sign in and continue to the posting's apply flow.",
+        "result": "portal auth: wall_remains",
+        "model": "claude-opus-5"
+      },
+      {
+        "observation": "70e7996fddb7077d",
+        "action": "form_ready",
+        "reason": "Registration page shows applicant identity fields (email, phone, first/last name) ready for native fill.",
+        "result": "refused: applicant form not independently observed",
+        "model": "claude-opus-5"
+      },
+      {
+        "observation": "70e7996fddb7077d",
+        "action": "stop",
+        "reason": "ADP portal requires creating a new candidate profile (no existing profile for the credential email); the approved auth service already failed here (wall_remains) and the registration fields aren't independently detected, so form_ready is refused. Progressing would require creating an account/filling registration data, which is outside scope — concrete blocker.",
+        "result": "model stopped",
+        "model": "claude-opus-5"
+      }
+    ],
+    "notes": [
+      "model calls: 3 of 3 steps"
+    ],
+    "evidence": [
+      "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-36740aac-2f3f-4946-bf49-148fa56bdfb4\\observation.json",
+      "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-36740aac-2f3f-4946-bf49-148fa56bdfb4\\page.png"
+    ]
+  },
+  "written_at": "2026-09-16T09:10:10.584Z"
+}
