@@ -1,0 +1,535 @@
+{
+  "ats": "generic",
+  "url": "https://jobs.jobvite.com/tylertech/job/oqQJAfwj",
+  "requested_url": "https://jobs.jobvite.com/tylertech/job/oqQJAfwj",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://jobs.jobvite.com/tylertech/job/oqQJAfwj/apply",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 11,
+    "skipped_count": 2,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "jv-field-yTzSYfw2",
+      "label": "First Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "jv-field-yUzSYfw3",
+      "label": "Last Name",
+      "type": "text",
+      "canonical_field": "legal_name.last",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "jv-field-y3n70fwh",
+      "label": "Preferred Name",
+      "type": "text",
+      "canonical_field": "preferred_name",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "jv-field-ySzSYfw1",
+      "label": "Email",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "jv-field-yfSWYfwL",
+      "label": "Phone",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "jv-field-y4n70fwi",
+      "label": "Address",
+      "type": "text",
+      "canonical_field": "address.line1",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "jv-field-y5n70fwj",
+      "label": "Address2",
+      "type": "text",
+      "canonical_field": "address.line2",
+      "action": "SKIP",
+      "reason": "Profile value empty for address.line2"
+    },
+    {
+      "field_id": "jv-field-y6n70fwk",
+      "label": "City",
+      "type": "text",
+      "canonical_field": "address.city",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "jv-field-y7n70fwl",
+      "label": "State",
+      "type": "select",
+      "canonical_field": "address.state",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "jv-field-y8n70fwm",
+      "label": "Zip",
+      "type": "text",
+      "canonical_field": "address.postal_code",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "jv-field-y9n70fwn",
+      "label": "Country",
+      "type": "select",
+      "canonical_field": "address.country",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "ygSWYfwM",
+      "label": "Yes (currently require sponsorship or Visa)",
+      "type": "radio",
+      "canonical_field": "requires_sponsorship",
+      "action": "FILL",
+      "reason": "Mapped from public profile; placed onto \"No (will never require sponsorship or Visa in the future)\""
+    },
+    {
+      "field_id": "file-input-1",
+      "label": "File",
+      "type": "file",
+      "canonical_field": "linkedin_url",
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "f3",
+      "label": "Male",
+      "type": "radio",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "f5",
+      "label": "Are you Hispanic or Latino (A person of Cuban, Mexican, Chicano, Puerto Rican, South or Central American, or other Spanish culture or origin, regardless of race)?",
+      "type": "radio",
+      "canonical_field": "hispanic_latino",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "f7",
+      "label": "White - A person having origins in any of the original peoples of Europe, the Middle East, or North Africa (Not Hispanic or Latino)",
+      "type": "radio",
+      "canonical_field": "hispanic_latino",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "jv-field-f9",
+      "label": "Your Name",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "jv-field-date10",
+      "label": "Today's Date",
+      "type": "date",
+      "canonical_field": "signature_date",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f20",
+      "label": "f20",
+      "type": "radio",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Demographics deferred to sensitive-profile policy path"
+    },
+    {
+      "field_id": "jv-field-f22",
+      "label": "Your Name",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "jv-field-date23",
+      "label": "Today's Date",
+      "type": "date",
+      "canonical_field": "signature_date",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f35",
+      "label": "f35",
+      "type": "radio",
+      "canonical_field": "disability_status",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "jv-field-f37",
+      "label": "Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "jv-field-date38",
+      "label": "Date",
+      "type": "date",
+      "canonical_field": "signature_date",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "jv-field-f39",
+      "label": "Employee ID (if applicable)",
+      "type": "text",
+      "canonical_field": "screener:custom:employee_id",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\generic-live\\form-snapshot-1789543970610.html",
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "legal_name.last",
+      "preferred_name",
+      "email",
+      "phone",
+      "address.line1",
+      "address.city",
+      "address.state",
+      "address.postal_code",
+      "address.country",
+      "requires_sponsorship",
+      "hispanic_latino",
+      "hispanic_latino",
+      "disability_status",
+      "legal_name.first",
+      "screener:custom:employee_id"
+    ],
+    "skipped": [],
+    "errors": [
+      "jv-field-date10: locator.fill: Error: Malformed value\nCall log:\n\u001b[2m  - waiting for locator('[id=\"jv-field-date10\"]').first()\u001b[22m\n\u001b[2m    - locator resolved to <input type=\"date\" jv-clear=\"\" maxlength=\"\" autocomplete=\"\" name=\"input-date10\" required=\"required\" id=\"jv-field-date10\" aria-required=\"true\" ng-switch-when=\"input\" ng-required=\"field.required\" ng-pattern=\"[object Object]\" ng-model=\"ngModel[field.viewFieldEId]\" ng-class=\"{ 'jv-form-bg-icon': field.icon }\" class=\"ng-pristine ng-untouched ng-scope ng-empty ng-invalid ng-invalid-required ng-valid-pattern ng-valid-maxlength\"/>\u001b[22m\n\u001b[2m    - fill(\"09/16/2026\")\u001b[22m\n\u001b[2m  - attempting fill action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and editable\u001b[22m\n",
+      "jv-field-date23: locator.fill: Error: Malformed value\nCall log:\n\u001b[2m  - waiting for locator('[id=\"jv-field-date23\"]').first()\u001b[22m\n\u001b[2m    - locator resolved to <input type=\"date\" jv-clear=\"\" maxlength=\"\" autocomplete=\"\" name=\"input-date23\" required=\"required\" id=\"jv-field-date23\" aria-required=\"true\" ng-switch-when=\"input\" ng-required=\"field.required\" ng-pattern=\"[object Object]\" ng-model=\"ngModel[field.viewFieldEId]\" ng-class=\"{ 'jv-form-bg-icon': field.icon }\" class=\"ng-pristine ng-untouched ng-scope ng-empty ng-invalid ng-invalid-required ng-valid-pattern ng-valid-maxlength\"/>\u001b[22m\n\u001b[2m    - fill(\"09/16/2026\")\u001b[22m\n\u001b[2m  - attempting fill action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and editable\u001b[22m\n",
+      "jv-field-date38: locator.fill: Error: Malformed value\nCall log:\n\u001b[2m  - waiting for locator('[id=\"jv-field-date38\"]').first()\u001b[22m\n\u001b[2m    - locator resolved to <input type=\"date\" jv-clear=\"\" maxlength=\"\" autocomplete=\"\" name=\"input-date38\" required=\"required\" id=\"jv-field-date38\" aria-required=\"true\" ng-switch-when=\"input\" ng-required=\"field.required\" ng-pattern=\"[object Object]\" ng-model=\"ngModel[field.viewFieldEId]\" ng-class=\"{ 'jv-form-bg-icon': field.icon }\" class=\"ng-pristine ng-untouched ng-scope ng-empty ng-invalid ng-invalid-required ng-valid-pattern ng-valid-maxlength\"/>\u001b[22m\n\u001b[2m    - fill(\"09/16/2026\")\u001b[22m\n\u001b[2m  - attempting fill action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and editable\u001b[22m\n"
+    ],
+    "field_meta": [
+      {
+        "field_id": "jv-field-yTzSYfw2",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "jv-field-yUzSYfw3",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "jv-field-y3n70fwh",
+        "canonical_field": "preferred_name",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "jv-field-ySzSYfw1",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "jv-field-yfSWYfwL",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "jv-field-y4n70fwi",
+        "canonical_field": "address.line1",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "jv-field-y6n70fwk",
+        "canonical_field": "address.city",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "jv-field-y7n70fwl",
+        "canonical_field": "address.state",
+        "control_kind": "native_select",
+        "selected_option": "Maryland",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "jv-field-y8n70fwm",
+        "canonical_field": "address.postal_code",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "jv-field-y9n70fwn",
+        "canonical_field": "address.country",
+        "control_kind": "native_select",
+        "selected_option": "United States",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "ygSWYfwM",
+        "canonical_field": "requires_sponsorship",
+        "control_kind": "text",
+        "selected_option": "No (will never require sponsorship or Visa in the future)"
+      },
+      {
+        "field_id": "f5",
+        "canonical_field": "hispanic_latino",
+        "control_kind": "text",
+        "selected_option": "No"
+      },
+      {
+        "field_id": "f7",
+        "canonical_field": "hispanic_latino",
+        "control_kind": "text",
+        "selected_option": "White - A person having origins in any of the original peoples of Europe, the Middle East, or North Africa (Not Hispanic or Latino)"
+      },
+      {
+        "field_id": "f35",
+        "canonical_field": "disability_status",
+        "control_kind": "text",
+        "selected_option": "No, I do not have a disability and have not had one in the past"
+      },
+      {
+        "field_id": "jv-field-f37",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "jv-field-f39",
+        "canonical_field": "screener:custom:employee_id",
+        "control_kind": "text"
+      }
+    ]
+  },
+  "verify": {
+    "passed": false,
+    "fields": [
+      {
+        "canonical_field": "hispanic_latino",
+        "expected": "No",
+        "observed": {
+          "value": "No",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "hispanic_latino",
+        "expected": "No",
+        "observed": {
+          "value": "White - A person having origins in any of the original peoples of Europe, the Middle East, or North Africa (Not Hispanic or Latino)",
+          "label": "White - A person having origins in any of the original peoples of Europe, the Middle East, or North Africa (Not Hispanic or Latino)"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "signature_date",
+        "expected": "09/16/2026",
+        "observed": "",
+        "match": false
+      },
+      {
+        "canonical_field": "signature_date",
+        "expected": "09/16/2026",
+        "observed": "",
+        "match": false
+      },
+      {
+        "canonical_field": "disability_status",
+        "expected": "No",
+        "observed": {
+          "value": "No, I do not have a disability and have not had one in the past",
+          "label": "No, I do not have a disability and have not had one in the past"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "signature_date",
+        "expected": "09/16/2026",
+        "observed": "",
+        "match": false
+      },
+      {
+        "canonical_field": "screener:custom:employee_id",
+        "expected": "N/A",
+        "observed": "N/A",
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 115393,
+      "verified": true,
+      "evidence": "input files: [{\"name\":\"resume-71415792.pdf\",\"size\":115393}]; stillAttached=true; chip=true"
+    }
+  ],
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: posting (no fields, Apply CTA present)",
+    "landed on a posting (no fields, Apply CTA present); clicking Apply via role=link accessible name is Apply",
+    "Apply landed on: form (12 fillable field(s))",
+    "section-expand: expanded 2 collapsed section(s)",
+    "section-expand: expanded \"Select\"",
+    "section-expand: expanded \"Add Cover Letter\"",
+    "timing: base page (13 planned) — plan 0s, fill 9s, verify 1s",
+    "timing: revealed page (12 planned) — plan 13s, fill 2s, verify 1s",
+    "resolved advance: \"Next\"",
+    "form-advance: verify failed on page 2 — not advancing further",
+    "form-advance: filled 1 additional page(s) — form:5/8",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "wizard_pages": [
+    {
+      "page": 2,
+      "url": "https://jobs.jobvite.com/tylertech/job/oqQJAfwj/apply",
+      "kind": "form",
+      "fillable": 8,
+      "filled": 5,
+      "verify_passed": false
+    }
+  ],
+  "operator_brief": {
+    "title": "Live fill — generic https://jobs.jobvite.com/tylertech/job/oqQJAfwj/apply",
+    "summary": "6 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:signature_date",
+        "question": "signature_date",
+        "field_id": null,
+        "canonical_field": "signature_date",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"09/16/2026\"; page shows \"(empty)\"",
+        "expected": "09/16/2026",
+        "observed": "",
+        "how_to_answer": [
+          "System expected \"09/16/2026\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: signature_date)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"signature_date\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:signature_date",
+        "question": "signature_date",
+        "field_id": null,
+        "canonical_field": "signature_date",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"09/16/2026\"; page shows \"(empty)\"",
+        "expected": "09/16/2026",
+        "observed": "",
+        "how_to_answer": [
+          "System expected \"09/16/2026\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: signature_date)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"signature_date\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:signature_date",
+        "question": "signature_date",
+        "field_id": null,
+        "canonical_field": "signature_date",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"09/16/2026\"; page shows \"(empty)\"",
+        "expected": "09/16/2026",
+        "observed": "",
+        "how_to_answer": [
+          "System expected \"09/16/2026\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: signature_date)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"signature_date\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "fill_error:jv-field-date10: locator.fill: Error: Malformed value\nCall log:\n\u001b[2m  - waiting ",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "jv-field-date10: locator.fill: Error: Malformed value\nCall log:\n\u001b[2m  - waiting for locator('[id=\"jv-field-date10\"]').first()\u001b[22m\n\u001b[2m    - locator resolved to <input type=\"date\" jv-clear=\"\" maxlength=\"\" autocomplete=\"\" name=\"input-date10\" required=\"required\" id=\"jv-field-date10\" aria-required=\"true\" ng-switch-when=\"input\" ng-required=\"field.required\" ng-pattern=\"[object Object]\" ng-model=\"ngModel[field.viewFieldEId]\" ng-class=\"{ 'jv-form-bg-icon': field.icon }\" class=\"ng-pristine ng-untouched ng-scope ng-empty ng-invalid ng-invalid-required ng-valid-pattern ng-valid-maxlength\"/>\u001b[22m\n\u001b[2m    - fill(\"09/16/2026\")\u001b[22m\n\u001b[2m  - attempting fill action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and editable\u001b[22m\n",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:jv-field-date23: locator.fill: Error: Malformed value\nCall log:\n\u001b[2m  - waiting ",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "jv-field-date23: locator.fill: Error: Malformed value\nCall log:\n\u001b[2m  - waiting for locator('[id=\"jv-field-date23\"]').first()\u001b[22m\n\u001b[2m    - locator resolved to <input type=\"date\" jv-clear=\"\" maxlength=\"\" autocomplete=\"\" name=\"input-date23\" required=\"required\" id=\"jv-field-date23\" aria-required=\"true\" ng-switch-when=\"input\" ng-required=\"field.required\" ng-pattern=\"[object Object]\" ng-model=\"ngModel[field.viewFieldEId]\" ng-class=\"{ 'jv-form-bg-icon': field.icon }\" class=\"ng-pristine ng-untouched ng-scope ng-empty ng-invalid ng-invalid-required ng-valid-pattern ng-valid-maxlength\"/>\u001b[22m\n\u001b[2m    - fill(\"09/16/2026\")\u001b[22m\n\u001b[2m  - attempting fill action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and editable\u001b[22m\n",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:jv-field-date38: locator.fill: Error: Malformed value\nCall log:\n\u001b[2m  - waiting ",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "jv-field-date38: locator.fill: Error: Malformed value\nCall log:\n\u001b[2m  - waiting for locator('[id=\"jv-field-date38\"]').first()\u001b[22m\n\u001b[2m    - locator resolved to <input type=\"date\" jv-clear=\"\" maxlength=\"\" autocomplete=\"\" name=\"input-date38\" required=\"required\" id=\"jv-field-date38\" aria-required=\"true\" ng-switch-when=\"input\" ng-required=\"field.required\" ng-pattern=\"[object Object]\" ng-model=\"ngModel[field.viewFieldEId]\" ng-class=\"{ 'jv-form-bg-icon': field.icon }\" class=\"ng-pristine ng-untouched ng-scope ng-empty ng-invalid ng-invalid-required ng-valid-pattern ng-valid-maxlength\"/>\u001b[22m\n\u001b[2m    - fill(\"09/16/2026\")\u001b[22m\n\u001b[2m  - attempting fill action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and editable\u001b[22m\n",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      }
+    ],
+    "ok_count": 5,
+    "fail_count": 6
+  },
+  "written_at": "2026-09-16T07:32:50.814Z"
+}
