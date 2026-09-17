@@ -1,7 +1,0 @@
-# DRAFT (UNVERIFIED) — edit before approving
-
-Question: Role Description*
-
----
-
-I want to spend the summer building production software on a team where the systems have real users and real failure modes, which is what the Technology Analyst role at PIMCO describes. Most of my recent work has been infrastructure rather than demos. At Summer Atlantic Capital / SAC Nexus I build the machine-learning core of an anomaly-detection and alert-prioritization system, and I own the repository and CI scaffold, the event-ingestion pipeline, a versioned FastAPI microservice, and the public detection API. The modeling side uses temporal sequence models over event streams plus a learning-to-rank layer, but the part I think about most is operational usefulness: an anomaly system that fires too many alerts just creates a second problem, so prioritization and explanation quality matter as much as raw accuracy. I also built a Playwright job-application agent in TypeScript where every action moves through an explicit state machine and every mutating capability sits behind fail-closed flags, because state that diverges across processes is how automation quietly does the wrong thing. I am an undergraduate at Johns Hopkins studying Applied Mathematics and Statistics and Economics, and I am looking for a team where a junior engineer is expected to own a substantial piece of a system rather than isolated tickets.

@@ -14,18 +14,21 @@ import { scanArtifactPaths } from "../src/security/artifactScan.js";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 function listTrackedOrStaged(): string[] {
-  try {
-    const out = execSync("git ls-files -c -o --exclude-standard", {
-      cwd: root,
-      encoding: "utf8",
-    });
-    return out.split(/\r?\n/).filter(Boolean);
-  } catch {
-    return [];
-  }
+  // `maxBuffer` must be generous: this repo's tree has grown past the
+  // 1 MiB default, and a bare try/catch here previously turned that
+  // overflow into a silent empty list — the gate was reporting "ok" while
+  // scanning zero files. A failure here must be loud, never swallowed.
+  const out = execSync("git ls-files -c -o --exclude-standard", {
+    cwd: root,
+    encoding: "utf8",
+    maxBuffer: 256 * 1024 * 1024,
+  });
+  return out.split(/\r?\n/).filter(Boolean);
 }
 
-const result = scanArtifactPaths(listTrackedOrStaged(), root);
+const trackedOrStaged = listTrackedOrStaged();
+console.log(`check-secrets: scanning ${trackedOrStaged.length} tracked/staged paths`);
+const result = scanArtifactPaths(trackedOrStaged, root);
 
 if (!result.ok) {
   for (const hit of result.hits) {

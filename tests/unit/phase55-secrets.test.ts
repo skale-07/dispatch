@@ -7,6 +7,7 @@ import {
   SYNTHETIC_RESUME_RELATIVE_PATH,
   SYNTHETIC_RESUME_SHA256,
   checkArtifactPath,
+  checkGitignoreContents,
   isSyntheticResumeAllowlisted,
   scanArtifactPaths,
   scanTextForSecrets,
@@ -83,6 +84,15 @@ describe("phase55 secrets allowlist", () => {
     expect(hits[0]?.reason).toMatch(/Forbidden artifact/);
   });
 
+  it("flags the real generated resume-<sha8>.pdf filename shape (regression: this exact shape passed undetected for 14,000+ commits)", () => {
+    const hits = checkArtifactPath(
+      "artifacts/applications/app123/materials/resume-a1b2c3d4.pdf",
+      workspaceRoot,
+    );
+    expect(hits.length).toBeGreaterThan(0);
+    expect(hits[0]?.reason).toMatch(/Forbidden artifact/);
+  });
+
   it("flags allowlisted path if content is not a synthetic PDF", () => {
     const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), "jaa-sec-"));
     const rel = SYNTHETIC_RESUME_RELATIVE_PATH;
@@ -107,6 +117,18 @@ describe("phase55 secrets allowlist", () => {
       h.file.includes("sample-resume"),
     );
     expect(resumeHits).toEqual([]);
+  });
+
+  it("does not let a commented-out required entry satisfy the .gitignore check (regression: 'artifacts/' was commented out for months while this check kept passing)", () => {
+    const commentedOut = "data/\n# artifacts/\ncache/\n*.storage.json\n*.enc\nprivate/**\n";
+    const hits = checkGitignoreContents(commentedOut);
+    expect(hits.some((h) => h.reason.includes("artifacts/"))).toBe(true);
+  });
+
+  it("accepts an active (uncommented) required entry", () => {
+    const active = "data/\nartifacts/\ncache/\n*.storage.json\n*.enc\nprivate/**\n";
+    const hits = checkGitignoreContents(active);
+    expect(hits.some((h) => h.reason.includes("artifacts/"))).toBe(false);
   });
 
   it("scanTextForSecrets detects emails and AWS keys", () => {

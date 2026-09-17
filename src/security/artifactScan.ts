@@ -23,7 +23,11 @@ export const FORBIDDEN_ARTIFACT_NAME_PATTERNS: RegExp[] = [
   /sensitive-profile\.enc$/i,
   /master\.key\.dpapi$/i,
   /cookies\.json$/i,
-  /resume\.pdf$/i,
+  // Matches both the literal "resume.pdf" and the real generated filename
+  // shape "resume-<sha8>.pdf" written by resumeDownload.ts's
+  // resumeArtifactPath() — the exact-match-only version of this pattern let
+  // every real generated resume through undetected (see docs/security.md).
+  /resume(-[0-9a-f]+)?\.pdf$/i,
   /cover-letter\.pdf$/i,
   /submission-receipt\.json$/i,
   // Lessons from the 774cc9b leak: editor Local History snapshots carried a
@@ -134,9 +138,18 @@ export function checkArtifactPath(
 }
 
 export function checkGitignoreContents(gitignoreText: string): ArtifactScanHit[] {
+  // A commented-out line (e.g. "# artifacts/") must not satisfy the
+  // requirement — a naive whole-text substring check let exactly that
+  // happen for months (the real "artifacts/" line was commented out while
+  // this check kept passing), leaving 55,000+ real application artifacts
+  // tracked in git.
+  const activeText = gitignoreText
+    .split(/\r?\n/)
+    .filter((line) => !line.trim().startsWith("#"))
+    .join("\n");
   const hits: ArtifactScanHit[] = [];
   for (const required of REQUIRED_GITIGNORE_ENTRIES) {
-    if (!gitignoreText.includes(required)) {
+    if (!activeText.includes(required)) {
       hits.push({
         file: ".gitignore",
         reason: `.gitignore missing required entry: ${required}`,
