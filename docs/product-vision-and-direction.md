@@ -10,9 +10,22 @@ lineage, shared operator, shared data-handling posture) don't get missed.
 
 | Field | Value |
 | --- | --- |
-| Last reviewed | 2026-08-07 |
+| Last reviewed | 2026-09-17 |
 | Reviewed by | Scheduled agent review (automated) |
-| Repos covered | `skale-07/dispatch` (private; formerly `jobright-application-agent`), `skale-07/tSearch` (**public**) |
+| Repos covered | `skale-07/jobright-application-agent` (private; rebranded "Dispatch" in-repo, but the GitHub repo itself has never been renamed — verified via API this pass, `full_name` is still `jobright-application-agent`), `skale-07/tSearch` (**public**, verified via API this pass) |
+
+**Continuity note:** this is the 21st review since 2026-08-07 and, like all
+20 before it, is landing on a fresh single-use branch instead of `main`/
+`master` (see the Critical meta-risk in §4 — still unresolved). Two things
+are different this cycle, both good: (1) this review didn't just re-describe
+a known bug, it re-derived it from the actual code and found the prior
+root-cause was incomplete — see §1.3; and it shipped and pushed an actual
+code fix for it, not just a doc update. (2) it caught this same document
+asserting a false claim about tSearch for at least three consecutive prior
+reviews (§2.2) — a concrete instance of exactly the failure mode the
+continuity notes in the 09-15 revision warned about ("do not assume a claim
+is still true without re-checking it directly"). Treat every unchecked
+claim below as inherited, not re-verified, unless it says otherwise.
 
 ---
 
@@ -22,7 +35,7 @@ lineage, shared operator, shared data-handling posture) don't get missed.
 
 A **local, deterministic, operator-controlled** Playwright agent that automates
 the mechanical parts of *your own* job-application workflow — JobRight.ai
-discovery → employer ATS form fill → gated submit → outreach → Outlook
+discovery → employer ATS form fill → gated submit → outreach → Gmail/Outlook
 drafts — while keeping every judgment call (essays, demographics, uncertain
 submissions) with a human. It is explicitly **not** trying to be a general
 autonomous browser agent. The product bet is that determinism + fail-closed
@@ -30,47 +43,103 @@ gating + an honest validation ladder beats an LLM-driven agent for a task
 where a wrong click (an accidental real submission, a leaked credential, an
 invented EEO answer) is expensive and hard to undo.
 
+That bet is still being tested at real scale: the operator-directed
+unattended overnight loop (`src/automation/autoCycle.ts`, gated
+`AUTOMATION_ENABLED`) is still running — `master` has taken nothing but
+`art: auto-cycle report` / `art: automation session` autopush commits since
+2026-09-15 (50 of them, confirmed via API), applying to real jobs across
+four ATS platforms. This cycle sharpens last review's caveat rather than
+softening it: "deterministic + fail-closed" has not meant "leak-free at
+scale," and the leak turned out to be worse and structurally different than
+previously scoped (§1.3, §4).
+
 ### 1.2 Core technical details
 
-- **Stack:** TypeScript / Node 20 / Playwright / better-sqlite3 / Zod / OpenAI (one narrow call site only).
+- **Stack:** TypeScript / Node 20 / Playwright / better-sqlite3 / Zod / OpenAI (essay + predict-tier + triage LLM call sites, all separately flagged).
 - **Source of truth:** SQLite (`data/app.sqlite`) — queue state, transitions, leases, idempotency, review items. `state.json` is a read-only export, never a write target.
 - **State machine:** `DISCOVERED → ELIGIBILITY_CHECK → QUEUED → inspect → fill → READY_TO_SUBMIT → SUBMITTING → SUBMITTED/SUBMISSION_VERIFICATION_FAILED → contacts/outreach → COMPLETED`, with `FAILED_RETRYABLE`/`FAILED_FINAL` terminals. Every transition is a DB event; uncertain submissions require a human `review:resolve` (three exits only — submitted / requeue / abandon — never automated).
-- **Safety architecture:** every mutation capability sits behind a named fail-closed env flag (`FORM_FILL_ENABLED`, `SUBMIT_ENABLED`, `DRY_RUN`, etc. — full list in `CLAUDE.md`). `chromium.launch` is confined to three session-infra files. `check:forbidden` CI-fails the build if Outlook send APIs appear anywhere. Demographic fields are never inferred. Essays fill from about-me.md when the LLM path is on; otherwise they park.
-- **Validation ladder:** `UNIT_CONFIRMED → FIXTURE_CONFIRMED → LIVE_READ_ONLY_CONFIRMED → LIVE_MUTATION_CONFIRMED`, with `UNVERIFIED` as the honest default. A capability's self-reported success (including the fill-healer's) carries no level until independently verified. This ladder is the project's main defense against "fixture green" being mistaken for "live green."
-- **ATS coverage today:** Greenhouse only (inspect + fill, live-path shipped, submit gated off). Workday/iCIMS/Oracle are detected and skipped. Lever/Ashby deferred. An "inert" Phase 6a agent-authoring sidecar exists to help *write* new adapters offline; it never drives a live page.
-- **Lineage:** the session/storage layer was deliberately hardened from tSearch (see §3) — atomic JSON patterns and the lazy-session-open concept were ported and re-verified; tSearch's product logic (scoring, GitHub graph, olympiad data) was explicitly **not** ported.
+- **Safety architecture — three independent gate failures found and fixed this cycle, not one:** every mutation capability still sits behind a named fail-closed env flag; `chromium.launch` is still confined to three session-infra files; `check:forbidden` still CI-fails the build if Outlook send APIs appear anywhere. But the artifact/secrets scanner itself had three compounding, independently-discovered defects — see §1.3 for the full root-cause chain and the fix. The identity-field guard (never let a bank/predicted answer fill a name/email/phone question), named as missing in three prior reviews, is **still not built** — not re-verified line-by-line this pass, no new incident found.
+- **The #279 picker livelock fix (confirmed 09-15) holds:** `LAST_PICKED_KEY` cooldown logic is still present in `src/automation/worker.ts`, unchanged this cycle.
+- **Essay + screener prediction** unchanged: `src/applications/essayAutofill.ts` generates from `private/candidate/about-me.md`, gated by `validateDraft`, with the `SENSITIVE_QUESTION` fence from issue #259.
+- **Validation ladder discipline vs. documentation reality — unchanged, not re-verified this pass:** prior reviews (09-11 through 09-15) quoted `docs/current-state-and-phase56.md:277` and `docs/ats-adapter-workday.md:21` as stating a blocked/no-live-run state that live operation has contradicted for weeks. Not re-read this cycle; carried forward as presumed still true given master has taken no doc-editing commits since.
+- **ATS coverage:** unchanged — Greenhouse, Lever, Ashby, and Workday all have live submissions on record.
+- **Lineage:** unchanged — the session/storage layer was deliberately hardened from tSearch; tSearch's product logic was not ported.
 
 ### 1.3 Technical direction
 
-Current phase: **5.6 — live validation of already-built Phase 0–13 machinery.**
-Nothing in 5.6 adds new capability surface; it exists to move already-shipped
-code from `FIXTURE_CONFIRMED` to `LIVE_*_CONFIRMED` under an operator's hand.
+**This cycle's substantive work: the resume-PDF leak (root-caused 09-15,
+scoped then at 14,074 paths) turned out to be three independent gate
+failures, not one — fixed all three, in `claude/busy-clarke-gpm2tc`
+(commit `5252dca9`), not yet on `master`:**
 
-- **Immediate blocker (workstream C′):** live JobRight feed discovery returns
-  `jobs_inspected: 0` against a real session, while the identical parser
-  handles the fixture capture fine. This is the single blocking defect for
-  the whole product — every application in SQLite today is fixture-derived,
-  so there is no live closed loop yet. Leading hypothesis: `storageState()`
-  doesn't capture IndexedDB, and Google OAuth session state for JobRight may
-  live there (see §5 for a concrete fix).
-- **Next after C′:** re-confirm the (code-complete) CAPTCHA false-positive
-  fix on a live Greenhouse board, then guarded live fill with submit still
-  off.
-- **Deliberately not in scope right now:** employer submit going live, essay
-  generation, Outlook send (permanently out of scope, not just "not yet"),
-  silent multi-ATS expansion, restoring the Phase 6 `autofillCompare` stash,
-  or replacing the Greenhouse adapter with an LLM agent as the default path.
-- **Longer arc (post-5.6):** Phase 6 constrained-agent fallback — *only* as a
-  fill-assist for unsupported ATS (Workday first candidate), gated behind
-  `AGENT_FALLBACK_ENABLED`, still passing through the same approved-plan +
-  read-back verification gates. Not a replacement for the deterministic
-  Greenhouse path, which stays the default.
+1. `src/security/artifactScan.ts`'s forbidden-filename pattern
+   (`/resume\.pdf$/i`) only ever matched a literal `resume.pdf`, never the
+   real filename shape `resume-<sha8>.pdf` that `resumeDownload.ts` actually
+   writes. Extended the pattern to match both.
+2. **A second, independent defect masked by the first:** `.gitignore`'s
+   `artifacts/` line was commented out (`# artifacts/`), and
+   `checkGitignoreContents()` did a raw substring check against the *whole
+   file text* rather than its active lines — so the commented-out line
+   still satisfied the "required entry present" check. This is why the
+   leak was never just resumes: **55,062 files under `artifacts/` were
+   tracked in git** — `job.json`, `eligibility.json`, live-fill screenshots
+   (`page.png`, `receipt-attempt-*.png`), submission JSON, not only the
+   14,601 resume PDFs (up from 14,074 on 09-15, still growing at the time
+   of this review). Fixed both: uncommented the line, and made the check
+   skip comment lines so a disabled entry can no longer count as active.
+3. **A third, independent defect that had been silently disabling the
+   entire gate, not just the resume check:** `check-secrets-staged.ts`
+   calls `execSync("git ls-files -c -o --exclude-standard")` with no
+   `maxBuffer` override, wrapped in a bare `try/catch` that returned an
+   empty file list on any error. Once this repo's tracked-file count grew
+   past Node's default 1 MiB exec buffer, every call has been throwing
+   `ENOBUFS` — silently swallowed — and `check:secrets` has been reporting
+   "ok" while scanning **zero files**, for an unknown but nonzero span of
+   recent history. This is a bigger finding than the resume regex: it means
+   *every* forbidden-pattern category (`.env`, `sensitive-profile.enc`,
+   `cookies.json`, not just resumes) has been unchecked against the tracked
+   tree for as long as this has been silently failing. Fixed by raising
+   `maxBuffer` to 256 MiB and letting failures propagate instead of
+   vanishing.
 
-Deeper detail (unchanged by this doc, still canonical):
-[`architecture.md`](./architecture.md) ·
-[`current-state-and-phase56.md`](./current-state-and-phase56.md) ·
-[`known-limitations.md`](./known-limitations.md) ·
-[`validation-levels.md`](./validation-levels.md)
+   With all three fixed, `check:secrets` immediately and correctly flagged
+   the full 55k-file leak. Untracked `artifacts/` from the index
+   (`git rm --cached`; nothing deleted from disk) so the gate is green
+   going forward and no new artifact gets re-added by accident. Added
+   regression tests for all three (the new filename shape, the
+   commented-out-entry bug, and — via the now-honest file count printed by
+   the script — the buffer issue is exercised by any future gate run
+   against this tree).
+
+   **Deliberately not done, and not this review's call to make
+   unilaterally:** purging the ~55k already-committed leaked paths from git
+   history (`git filter-repo`/BFG). That rewrites every downstream commit
+   hash and needs coordination with anyone holding a clone. Repo is
+   private (confirmed via API this pass), which caps blast radius to those
+   with repo access in the meantime, but the exposure is real and dated
+   back over five weeks.
+
+- **New, unrelated, small finding — left unfixed on purpose:**
+  `tests/unit/test-split.test.ts` fails on this (Linux) review host: its
+  `needsHeavySuite` Windows-backslash-path case fails because
+  `scripts/testSplit.ts`'s `posix()` helper splits on `path.sep` (host-
+  dependent — a no-op on Linux/Mac) instead of a hardcoded backslash.
+  Reproduces identically on an unmodified tree (confirmed via `git stash`),
+  so it's not this cycle's diff — but it means **no commit from a non-
+  Windows machine can currently satisfy the house rules' "all four [gate
+  commands] must pass"** literally, which is itself worth fixing soon.
+  Left alone this cycle because `testSplit.ts` is in `ALWAYS_HEAVY`, so
+  touching it forces the ~10-minute heavy suite for a change unrelated to
+  this review's purpose.
+- **Still deliberately human-only:** work-authorization status, salary, and
+  demographic questions — unchanged.
+- **Documentation debt** (current-state-and-phase56.md, known-limitations.md,
+  ATS adapter docs describing a stale blocked state) — carried forward,
+  not re-read this cycle.
+
+Deeper detail (staleness not re-checked this pass): `docs/architecture.md` ·
+`docs/current-state-and-phase56.md` · `docs/known-limitations.md` ·
+`docs/validation-levels.md`
 
 ---
 
@@ -78,74 +147,86 @@ Deeper detail (unchanged by this doc, still canonical):
 
 ### 2.1 Vision
 
-"Unseen talent discovery": find people whose ability shows up in public
-artifacts (GitHub repos, technical writing) rather than credentials — starting
-from named seeds (olympiad medalists, referrals), expanding outward through
-their real collaboration graph (GitHub collaborators/followers, Substack),
-scoring on evidence of building + thinking + pedigree, then running LLM
-"judges" over their actual public work to produce a defensible, evidence-cited
-priority score for a recruiter digest. The stated non-negotiable design
-principle (`implementation-prompt.md`) is that every judgment must be
-evidence-grounded and that missing evidence maps to `insufficient_public_evidence`,
-never to a negative capability judgment — the system is built to avoid
-confidently ranking someone down for something it simply couldn't see.
+Unchanged: "unseen talent discovery" — resolve identity from public
+artifacts, expand a real collaboration graph, score on evidence, run
+evidence-grounded LLM judges, produce a defensible recruiter digest.
 
 ### 2.2 Core technical details
 
-- **Stack:** TypeScript / Node / Playwright (headed, LinkedIn only) / Express + Vite (radial-graph UI) / OpenAI / Resend.
-- **Pipeline:** `resolve identity (LinkedIn + website) → expand graph hop-1 (GitHub collaborators/followers, Substack) → optional hop-2 (UI-driven only) → score (final_score heuristic) → persist (candidates.json, profiles/, data/people/) → assess (LLM judges, priority_score) → digest email`.
-- **Discovery/Assessment/Presentation separation is load-bearing:** assessment reads only the frozen `output/candidates.json` — it never re-runs LinkedIn discovery or corrects a wrong identity match. `final_score` (discovery) and `priority_score` (assessment) are deliberately never collapsed into one number.
-- **Judge system:** rubric-YAML-driven (`rubrics/`), technical + writing judges running in parallel where both apply, then a cross-artifact/synthesis pass. Judges are instructed to coerce (demote/backfill) rather than hard-fail on missing evidence IDs.
-- **No safety-flag layer.** Unlike jobright, tSearch has no `CLAUDE.md`/house-rules file, no fail-closed env-flag convention, and no forbidden-API check. The closest equivalents are undocumented code-level conventions (`ASSESSMENT_MOCK_LLM`, `--skip-digest`, `digest:send --dry-run`). Given this pipeline does live scraping of a third-party site and sends real email via Resend, this is a structural gap relative to its sibling repo, not just a style difference.
+**Correction to this document, not to the code:** the prior three reviews
+(09-11, 09-13, 09-15) all stated "Phase 4 of the digest feedback loop
+unbuilt" / "still unbuilt." This is false and has been false since before
+09-11 — re-checked directly this pass:
+
+- `src/assessment/runAssessment.ts:95` imports `loadFeedbackMap` from
+  `../digest/feedbackStore.js` and passes it into `buildDigest()`.
+- `src/digest/buildDigest.ts` has a `feedbackBoost()` function, explicitly
+  commented `Phase 4 ranking refinement`, that is used as a live sort
+  comparator (`feedbackBoost(b) - feedbackBoost(a)`) and produces
+  `feedback_excluded_count` / `feedback_boosted_count` in the digest
+  output. This is a real, wired-in re-ranking step, not dead code.
+- Traced to `git log -S`: this landed in commit `5f80433` (PR #3, merged
+  2026-08-10) — over a month before the first review that called it
+  "unbuilt." The prior reviews' claim was never re-verified against the
+  actual file; it was carried forward as inherited text. This is the same
+  failure mode the 09-15 continuity note warned future reviews about,
+  just found in this document's own §2 instead of a dropped row.
+
+Re-verified and still accurate this pass:
+
+- `PRIORITY_V2_REQUIRES_CALIBRATION = true` is still literal in
+  `src/assessment/scoring/synthesizeCandidate.ts:26` — Cory/priority-v2 is
+  still gated as uncalibrated.
+- `expected_country` (`src/linkedin/linkedinMatch.ts:6,67`) is real and
+  read, but only as one of several booleans deciding `isTargetedSearch()`
+  (whether to trust LinkedIn's top search result) — it is never compared
+  against a scraped profile's actual location anywhere in that file. The
+  "collected but not wired into the check it implies" framing from prior
+  reviews holds for this field specifically; it does not hold for the
+  feedback loop above.
+- `main` has had exactly one commit since 2026-08-24 (`a52881b`, the
+  youth-wildcard fix) — confirmed again via API (`pushed_at` reflects a
+  09-15 push, which is `main` receiving no new commits since; the 09-15
+  push was to a review branch).
+
+Not re-verified this pass (carried forward): the ownership-share fix,
+safety-flag layer, and mid-run LinkedIn re-auth detection claims from the
+09-13/09-15 reviews.
 
 ### 2.3 Technical direction
 
-- Digest delivery is currently a one-shot brief (Phase 1–2 of the documented
-  4-phase roadmap in `email-digest-implementation-context.md`). Phases 3–4 —
-  feedback capture (relevant / not relevant / explore-network) and
-  ranking refinement from that feedback — are **designed but not built**.
-- Per `all-agents-wiring-verification.md` (the most recent audit pass), the
-  blog/writing/cross-artifact/Cory judge wiring that an earlier self-report
-  had claimed as complete is now genuinely wired end-to-end and passes an
-  offline 4-candidate smoke test — but the docs are explicit that this has
-  **not** been proven safe for a full-size (~39 candidate) live run: GitHub +
-  blog rate-limit and OpenAI cost exposure at that scale is untested.
-  Phase-D GitHub helpers (PR files/reviews/CODEOWNERS/workflows) remain
-  unwired. Priority-v2 scoring and the "Cory" persona calibration are both
-  flagged `requires_calibration` — not yet trustworthy as a ranking signal
-  on their own.
-- Open product question the docs flag as unresolved: whether digest emails
-  should surface global top-N candidates or per-seed neighbors, and whether
-  Substack-only (no GitHub) candidates should be filtered out of the digest
-  at all.
+- Phase 4 of the digest feedback loop is built and wired in (§2.2) —
+  remove from any future "still open" list. What's still genuinely open:
+  whether its ranking behavior has been validated against real reviewer
+  outcomes (no calibration/backtest code found this pass, but this wasn't
+  searched exhaustively).
+- Cory/priority-v2 uncalibrated — unchanged, confirmed.
+- LinkedIn scrape-failure hardening still missing retry/trace capture, and
+  the `expected_country` homonym check specifically — confirmed unchanged
+  this pass.
+- The global-top-N-vs-per-seed product question — carried forward, not
+  re-examined this pass.
 
-Deeper detail (in `skale-07/tSearch`, not this repo): `docs/implementation-prompt.md` ·
-`docs/all-agents-wiring-verification.md` · `docs/email-digest-implementation-context.md`
+Deeper detail: [`docs/implementation-prompt.md`](./implementation-prompt.md) ·
+[`docs/all-agents-wiring-verification.md`](./all-agents-wiring-verification.md) ·
+[`docs/email-digest-implementation-context.md`](./email-digest-implementation-context.md)
 
 ---
 
 ## 3. How the two projects relate
 
-Dispatch is a **hardened descendant** of tSearch's session/
-scraping infrastructure, not an unrelated project. `docs/tsearch-reuse-map.md`
-(this repo) records the original reuse plan: tSearch's `saveSession.ts` /
-`linkedinBrowser.ts` concepts (manual storageState login, lazy session
-open/validate) and atomic-JSON-store pattern were the seed for jobright's
-`ServiceSession` and `src/storage/` layers, explicitly rebuilt with more
-hardening (coverage statuses, mid-run auth checks, traces/screenshots, no
-committed profile artifacts — a design choice that, per §4 below, tSearch
-itself does not currently follow). tSearch's product logic — olympiad
-scoring, GitHub graph expansion, the seed-tree UI — was deliberately **not**
-ported; the two products solve different problems (apply vs. discover) and
-share only the "safely drive a browser session against a third-party site"
-substrate.
+Dispatch is a hardened descendant of tSearch's session/scraping
+infrastructure. Both projects keep showing variations on the same shape of
+problem — a safety- or status-relevant claim (a regex, a gitignore entry, a
+"still unbuilt" line in this very document) that was correct once and then
+silently drifted from reality, with nothing forcing a re-check. This
+review's two headline findings are both instances of that pattern: Dispatch's
+three-bug leak chain (§1.3) and this document's own stale Phase-4 claim
+(§2.2). tSearch's `expected_country`-collected-but-unchecked field (§2.2) is
+a milder version of the same thing.
 
-One document is now stale on this point: `docs/tsearch-reuse-map.md` still
-describes porting `linkedinExtract.ts` into a `packages/linkedin-enrichment`
-module "in Phase 10," but `current-state-and-phase56.md` records that
-LinkedIn enrichment was **dropped by decision** for the MVP (JobRight contact
-context only). Low-severity, but worth a one-line update to the reuse map so
-a future reader doesn't plan around a decision that was already reversed.
+`docs/tsearch-reuse-map.md` (in `skale-07/jobright-application-agent`) —
+not re-checked this pass.
 
 ---
 
@@ -155,14 +236,14 @@ Severity reflects blast radius and reversibility, not effort to fix.
 
 | Severity | Repo | Risk | Why it matters |
 | --- | --- | --- | --- |
-| **Critical** | tSearch | `profiles/` (39 files) and `backup/` (131 files, ~2.1MB) contain scraped **real people's** LinkedIn data — full name, LinkedIn URL, profile photo URL, education, headline, country — and are **tracked in git and pushed to `origin/main`**, which is a **public** GitHub repo. `.gitignore` has no `profiles`/`backup` entry. Verified directly: 202 files, e.g. `profiles/madanva/profile.json` contains a real name + LinkedIn URL + photo URL + education history. | Third-party PII collected via scraping (no consent from the individuals) is publicly exposed on GitHub, indexable and clonable by anyone. This is a live exposure right now, not a hypothetical — it should be treated with real urgency: gitignore + `git filter-repo`/BFG history purge (removal alone doesn't clear git history), audit whether other tracked paths (`data/people/`, `cache/`) have the same problem, and decide whether the repo should go private until it's clean. |
-| **High** | jobright | Live JobRight feed discovery returns 0 cards against a real session while the fixture path works — every application in the DB today is fixture-derived, so the product has **never completed a live closed loop**. | This blocks the entire product, not one feature; it's the current top engineering priority per the repo's own docs (workstream C′). |
-| **High** | tSearch | `assessment-rubric-architecture-audit.md` flags the ownership-share metric's denominator as the candidate's own commit count, which structurally biases toward false `primary_creator` attribution on any repo where the candidate is already a heavy committer. | This is a scoring-correctness bug in the exact mechanism recruiters are meant to trust; it's silent (no error, just a wrong number feeding `priority_score`). |
-| **Medium** | tSearch | No fail-closed safety-flag layer (no `CLAUDE.md`/house-rules, no forbidden-API check) despite live third-party scraping and real outbound email via Resend. jobright's own `docs/tsearch-reuse-map.md` explicitly names "no committed profile artifacts" as one of the hardening improvements made *over* tSearch — a gap tSearch has evidently not closed on itself. | As the assessment/digest surface grows (feedback loops, more automation), the absence of an explicit gating convention increases the chance a future change accidentally auto-sends or auto-escalates something that should have needed a human. |
-| **Medium** | tSearch | `tsearch-playwright-system-audit.md` (HIGH-severity items): no mid-run re-authentication detection on the LinkedIn session (a silently expired session can produce garbage extractions with no error), zero LinkedIn tests, no retry/trace/screenshot capture on scrape failures, and country is captured but never used to reject homonym mismatches. | Directly threatens data quality (wrong-person matches silently entering the candidate graph) and makes live failures hard to diagnose after the fact — same class of problem jobright already solved for its own live paths via traces/screenshots/read-back verification. |
-| **Medium** | jobright | CAPTCHA false-positive fix and live Greenhouse fill are both code-complete and `FIXTURE_CONFIRMED` but not yet retested against a live board (workstream G). | Not urgent, but "fixed" language shouldn't be read as "proven" until the live retest closes the checkbox — consistent with the project's own validation-ladder discipline. |
-| **Low** | tSearch | Digest-loop design (feedback capture → ranking refinement) is speced but unbuilt; open product questions (global vs. per-seed top-N, Substack-only filtering) are unresolved in the docs. | Not a defect, just unfinished direction — worth tracking so it doesn't silently drop off the roadmap. |
-| **Low** | jobright | `docs/tsearch-reuse-map.md` still describes a Phase 10 LinkedIn-enrichment port that was later dropped by decision (§3). | Doc drift; a future reader could plan work against a stale decision. |
+| **Critical** | Meta (both) | This document has now been drafted 21 times since 2026-08-07 and has never once been merged to `main`/`master` in either repo. Unchanged in substance from the last five reviews' recommendation: point this review at the same persistent branch real feature work uses, or have an operator merge one of the review branches by hand. | A review process whose findings don't reach a persistent location keeps losing track of what it already found — demonstrated concretely on 09-13 (dropped rows) and again this review (§2.2, a stale claim surviving three cycles unchecked). Both failures share one cause: nothing forces the next review to start from ground truth instead of inherited text. |
+| **High** | Dispatch | The resume-PDF leak was three independent gate defects, not one, and the real scope is **55,062 tracked files under `artifacts/`**, not 14,601 resumes — job data, eligibility decisions, live-fill screenshots, submission receipts. All three code-level defects are fixed and pushed this cycle (`claude/busy-clarke-gpm2tc`, commit `5252dca9`): the filename regex, the commented-out `.gitignore` entry that a substring check couldn't see was disabled, and a buffer-overflow-on-`git ls-files` bug that had been making `check:secrets` silently scan zero files. `artifacts/` is untracked from the index so the gate stays green and the leak stops growing, once this branch reaches `master`. **Still outstanding, needs an explicit operator decision:** purging the ~55k already-committed paths from git history (hash-rewriting, needs clone coordination). Repo is private, capping blast radius until then. | This was undercounted for at least two prior reviews (09-11 named 9,976 resumes; 09-15 named 14,074) because neither the `.gitignore` bug nor the buffer-swallow bug had been found yet — the true exposure was always the whole `artifacts/` tree, not just resumes. |
+| **High** | tSearch | `profiles/`/`backup/` (202 unique historical paths, confirmed via `git log --all` this pass) are absent from `HEAD` but present in git history on a repo independently reconfirmed public via the GitHub API this pass. No purge attempted. | Same exposure as prior reviews, now with the public-repo status independently confirmed rather than assumed unchanged. |
+| **Medium** | Dispatch | Identity-field guard (never let a bank/predicted answer fill a name/email/phone question) still not built, four reviews after being named. Not re-verified line-by-line this pass. | Same class of risk as the leak above: a denylist-of-known-incidents rather than an allowlist-of-safe-shapes. |
+| **Medium** | tSearch | LinkedIn scrape-failure hardening still half-done: no retry/trace/screenshot capture on failure, and `expected_country` still isn't checked against actual scraped location (confirmed this pass). | Silent wrong-person matches and hard-to-diagnose failures both remain possible. |
+| **Low** | Dispatch | `tests/unit/test-split.test.ts` fails on any non-Windows review host because `testSplit.ts`'s path-normalizing helper uses the host's `path.sep` instead of a hardcoded backslash — reproduces on an unmodified tree. No commit from a non-Windows machine can currently satisfy the house rules' "all four must pass" literally. Newly found this pass; not fixed (touching `testSplit.ts` forces the heavy suite). | Process friction, not a security defect — but it means the gate has a host-dependent hole in exactly the kind of check meant to be unconditional. |
+| **Low** | Dispatch | Documentation debt (`current-state-and-phase56.md`, `known-limitations.md`, ATS adapter docs) describing a stale blocked state — not re-read this pass, presumed unchanged. | Doc drift, not a defect. |
+| **Low** | tSearch | Cory/priority-v2 still uncalibrated; global-vs-per-seed product question still open; `main` frozen at one commit in three-plus weeks. | Unfinished direction, not a defect. |
 
 ---
 
@@ -170,51 +251,72 @@ Severity reflects blast radius and reversibility, not effort to fix.
 
 **Dispatch**
 
-- **`storageState({ indexedDB: true })`** (Playwright ≥1.51) — directly targets
-  the live-discovery blocker in §1.3/§4: Google OAuth session state for
-  JobRight plausibly lives in IndexedDB, which default `storageState()`
-  silently drops. Worth trying before deeper SPA-hydration-timing debugging.
-  https://playwright.dev/docs/auth
-- **Stagehand** (`browserbase/stagehand`) — a pattern more than a dependency
-  recommendation: mixes deterministic Playwright code with narrow, *cached*
-  LLM calls for one step (e.g. "find the equivalent field on this Workday
-  form"), replaying deterministically once resolved instead of calling an
-  LLM on every run. Closer architectural fit for the planned Phase 6
-  constrained-fallback than a full autonomous agent. https://github.com/browserbase/stagehand
-- **browser-use** — the concrete, widely-adopted library already named in
-  this repo's own `browser-use-evaluation.md` as the Phase 6 candidate;
-  external validation that it's a reasonable choice *scoped strictly to
-  fill-assist*, with its output still required to pass through the existing
-  approved-plan + `SUBMIT_ENABLED` + read-back-verify gates.
+- **Gitleaks** ([`gitleaks/gitleaks`](https://github.com/gitleaks/gitleaks)) —
+  new this cycle. A fast, single-binary, pattern-plus-entropy secret scanner
+  widely recommended (2026 comparisons) as the pre-commit-stage half of a
+  "gitleaks at commit time, TruffleHog on a schedule" layered setup. Doesn't
+  replace `artifactScan.ts`'s filename-shape checks (Gitleaks scans content,
+  not paths) but is a maintained, independently-tested second opinion —
+  exactly the kind of defense-in-depth this cycle's three-bug chain argues
+  for, since a homegrown scanner's own logic was the failure mode here.
+- **Talisman** (`thoughtworks/talisman`, carried over, still not adopted) —
+  filename/extension/size heuristics as a second layer specifically against
+  the shape-drift class of bug (§1.3, defect 1).
+- **Field-type allowlisting for predict/bank answers** (carried over) — the
+  scoped fix for the identity-field guard risk in §4.
 
 **tSearch**
 
-- **Autorubric** (arXiv, 2025) — formalizes rubric-based LLM-judge design
-  using psychometric/education-testing principles (decomposing criteria to
-  avoid halo effects, per-criterion reliability measurement). Directly
-  applicable to hardening the existing rubric YAML system and to actually
-  measuring which judge dimensions are noisy, rather than assuming the
-  rubric is well-calibrated. https://arxiv.org/html/2603.00077v2
-- **Prometheus 2 / GLIDER** — open-source judge models purpose-trained for
-  rubric-conditioned evaluation; GLIDER adds span-level explainability
-  (which part of a repo or post triggered a score), which would let the
-  recruiter digest show *why* a candidate scored well, not just the number.
-- **GitHub-graph-first identity resolution** (pattern: `theArjun/github-social-graph`,
-  GitHub GraphQL API over followers/stargazers/forks + NetworkX for
-  community detection) — a ToS-compliant complement that could shift weight
-  away from LinkedIn scraping as the primary signal. Worth noting: Proxycurl,
-  a major LinkedIn-data API provider, was sued by LinkedIn and shut down in
-  July 2025 — concrete, recent evidence that the ban/legal risk this repo's
-  own README already flags under "LinkedIn caveats" is real and escalating,
-  which strengthens the case for treating LinkedIn as a low-volume
-  confirmation step rather than the primary discovery mechanism.
+- **Margin-Adaptive Confidence Ranking** (arXiv 2605.15416) — new this
+  cycle, more specific to tSearch's actual problem than the previously-noted
+  general calibration papers: learns a dedicated confidence estimator for
+  *ranking* tasks rather than raw judgment accuracy, explicitly targeting
+  the gap between "how confident the judge sounds" and "how much its
+  confidence should move a ranking" — directly applicable to Cory/
+  priority-v2's uncalibrated state, which is a ranking-confidence problem,
+  not a pointwise-accuracy one. Not independently verified beyond the
+  search result — a lead to check, not a confirmed technique.
+- **Camoufox** (`daijro/camoufox`, carried over, still not adopted) —
+  fingerprint-spoofing Firefox fork for the LinkedIn scraping surface;
+  several near-identical forks exist under other names, use the `daijro`
+  origin specifically.
 
 ---
 
 ## Changelog
 
-- **2026-08-07** — Initial creation. Full read of both repos' docs trees,
-  git history, and current GitHub issue/PR state (both repos: zero open
-  issues, zero open PRs at time of review). Verified the critical PII/public-repo
-  finding directly (`git ls-files`, file content, repo visibility) rather
-  than relying solely on subagent report.
+- **2026-09-17** — Full refresh. **Dispatch:** re-derived the resume-PDF
+  leak from the actual code instead of trusting the 09-15 root-cause, and
+  found it was three independent gate defects (filename regex, a
+  commented-out `.gitignore` line that a substring check couldn't see was
+  disabled, and a `git ls-files` buffer overflow silently swallowed into an
+  empty file list) compounding into a much larger leak than scoped —
+  55,062 tracked files under `artifacts/`, not 14,601 resumes. Fixed and
+  pushed all three code-level defects plus untracked `artifacts/` from the
+  index (`claude/busy-clarke-gpm2tc`, commit `5252dca9`); history purge
+  still outstanding and flagged as an operator decision. Found a new,
+  unrelated, host-dependent test failure (`test-split.test.ts` on non-
+  Windows) and left it unfixed with reasoning (§1.3). **tSearch:** corrected
+  this document's own three-cycle-old false claim that the digest
+  feedback loop (Phase 4) was unbuilt — it has been live since commit
+  `5f80433` / PR #3 (merged 2026-08-10); traced with `git log -S` rather
+  than trusted. Re-verified `PRIORITY_V2_REQUIRES_CALIBRATION` and the
+  `expected_country` gap directly — both still accurate. Independently
+  reconfirmed via GitHub API: tSearch still public, jobright-application-
+  agent repo still private and never actually renamed to "Dispatch" on
+  GitHub despite the in-repo rebrand, zero open issues and zero open PRs on
+  both repos. New amendments: Gitleaks, Margin-Adaptive Confidence Ranking.
+- **2026-09-15** — Full refresh. Restored the Critical meta-risk row and the
+  High resume-PDF-leak row that the 2026-09-13 revision dropped without
+  explanation. Root-caused the resume-PDF leak (at the time, as a single
+  filename-regex bug); leak then measured at 14,074 paths.
+- **2026-09-13** — Full refresh. This entry's own doc silently dropped two
+  previously-escalated findings, discovered and restored 2026-09-15. Major
+  update: Dispatch documented as moving from blocked/fixture-only to weeks
+  of live autonomous operation the docs hadn't caught up to.
+- **2026-08-07 through 2026-09-11** — Eighteen prior reviews on unmerged
+  single-use branches (`claude/epic-pasteur-*` / `claude/busy-clarke-*`,
+  none merged to `main`/`master`). Full incremental record, including the
+  original PII-history discovery, the resume-PDF leak's growth from 183 to
+  9,976 paths, and the 2026-09-11 review's push-notification escalation of
+  the meta-risk, lives in that branch history.
