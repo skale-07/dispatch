@@ -1,0 +1,58 @@
+{
+  "started_at": "2026-09-18T10:33:57.082Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\general.pdf)",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "bd81c3c6-c733-41a4-a413-110d59fd59d1",
+    "armed_until": "2026-09-18T12:33:57.182Z",
+    "seconds_remaining": 7200,
+    "max_submits": 1,
+    "submits_used": 0,
+    "max_apps": 1,
+    "apps_started": 0,
+    "discover_max": 1,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": {
+    "arm_run_id": "bd81c3c6-c733-41a4-a413-110d59fd59d1",
+    "apps_started": 0,
+    "submits_used": 0,
+    "stopped_reason": "queue_drained",
+    "discover_runs": 0,
+    "emails_generated": 0,
+    "drafts_saved": 0,
+    "essay_drafts_generated": 0,
+    "screener_predictions_generated": 0,
+    "notes": [
+      "triage sweep: 0 confirmed, 0 refuted, 0 expired of 214 pending",
+      "artifact autopush: 1 file(s) pushed to master as 2eb69c08a"
+    ],
+    "per_app": [],
+    "nav_audit": {
+      "checked": 648,
+      "repaired": 0,
+      "parked": 0
+    },
+    "artifact_autopush": {
+      "pushed": true,
+      "commit": "2eb69c08a",
+      "files_staged": 1
+    }
+  },
+  "outcome": "completed",
+  "notes": []
+}
