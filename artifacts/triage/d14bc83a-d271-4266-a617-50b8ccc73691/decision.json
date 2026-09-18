@@ -1,0 +1,165 @@
+{
+  "decision_id": "d14bc83a-d271-4266-a617-50b8ccc73691",
+  "application_id": "6d4c8da4-719e-405b-85e1-982d2f180e3b",
+  "signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|www.genia.design",
+  "forbidden_actions": [
+    "requeue_same",
+    "engage_agent_leg"
+  ],
+  "bundle": {
+    "application_id": "6d4c8da4-719e-405b-85e1-982d2f180e3b",
+    "company": "Genia",
+    "role": "Generative AI Engineer (Intern) - US",
+    "state": "NATIVE_AUTOFILL_RUNNING",
+    "attempt": 2,
+    "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|www.genia.design",
+    "end_host": "www.genia.design",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route ready_for_fill_later (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-16T08:50:57.338Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-16T08:50:55.139Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-16T08:50:55.126Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-16T08:50:55.114Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 d5f6e2353444)",
+        "at": "2026-09-16T08:50:55.101Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-16T08:50:55.075Z"
+      },
+      {
+        "from": "FAILED_RETRYABLE",
+        "to": "QUEUED",
+        "reason": "retry 2/3",
+        "at": "2026-09-16T07:13:27.595Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "triage: demoting gate-parked NATIVE_AUTOFILL_RUNNING for requeue (NATIVE_AUTOFILL_RUNNING|-|unknown|www.genia.design)",
+        "at": "2026-09-16T07:13:27.594Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route ready_for_fill_later (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-16T07:13:14.128Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-16T07:13:12.594Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-16T07:13:12.460Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-16T07:13:09.642Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 d5f6e2353444)",
+        "at": "2026-09-16T07:13:09.631Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-16T07:13:09.590Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-16T07:00:02.445Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "genia",
+        "detail": "token \"genia\" ~ slug \"genia\" (from URL host)",
+        "expected_company": "Genia",
+        "url": "https://www.genia.design/careers/generative-ai-engineer-intern---us?jr_id=6aa9b63a10b1cd4f41607342"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (10 candidates, employer match)",
+          "evidence": "www.genia.design"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [],
+    "prior_decisions": [
+      {
+        "action": "engage_agent_leg",
+        "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|www.genia.design",
+        "outcome_status": "PENDING",
+        "created_at": "2026-09-16T11:12:36.674Z"
+      },
+      {
+        "action": "requeue_same",
+        "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|www.genia.design",
+        "outcome_status": "REFUTED",
+        "created_at": "2026-09-16T07:13:27.593Z"
+      }
+    ],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": true
+  },
+  "raw_model_text": "{\"action\":\"park_for_operator\",\"rationale\":\"Navigation and materials are fine (URL congruent, resume verified); the run stalls in NATIVE_AUTOFILL_RUNNING with no wall, no fill_gate data. Requeue_same was refuted and agent leg already granted/pending, both forbidden. No duplicate or wall evidence. Needs human inspection of the native fill step.\",\"confidence\":\"high\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: 447f0a98-d565-442e-bf29-a746e6632358",
+  "rationale_unverified": "Navigation and materials are fine (URL congruent, resume verified); the run stalls in NATIVE_AUTOFILL_RUNNING with no wall, no fill_gate data. Requeue_same was refuted and agent leg already granted/pending, both forbidden. No duplicate or wall evidence. Needs human inspection of the native fill step."
+}
