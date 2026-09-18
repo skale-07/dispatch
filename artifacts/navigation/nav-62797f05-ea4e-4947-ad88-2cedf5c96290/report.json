@@ -1,0 +1,49 @@
+{
+  "run_id": "nav-62797f05-ea4e-4947-ad88-2cedf5c96290",
+  "application_id": "a9f425dc-4307-43dc-afcd-fbbc692369fc",
+  "jobright_job_id": "6aacdc0f95c707f49dff252e",
+  "method": "apply_click_popup",
+  "resolved_url": "https://ntst.wd1.myworkdayjobs.com/careers/job/Overland-Park-KS/Software-Engineer-Intern--Summer-2027-Internship-_R015667",
+  "resolved_ats": "workday",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no congruent apply href (12 external links)",
+      "evidence": "ntst.wd1.myworkdayjobs.com, www.linkedin.com, x.com, www.crunchbase.com, www.glassdoor.com, www.ntst.com"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "resolved via popup",
+      "evidence": "ntst.wd1.myworkdayjobs.com"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "phase A: anchor reads as \"ntst\" (slug \"ntst\" shares nothing with company \"Netsmart\") — not preferred, deferring to the Apply click",
+    "phase A: 9 external host(s) seen: ntst.wd1.myworkdayjobs.com, www.linkedin.com, x.com, www.crunchbase.com, www.glassdoor.com, www.ntst.com, www.bizjournals.com, www.businesswire.com, www.morningstar.com",
+    "Apply control: autofill CTA (tier 0)",
+    "jobright interstitial: clicked \"Apply Without Customizing\"",
+    "popup settled off about:blank after the interstitial",
+    "popup captured on attempt 1",
+    "phase B: captured URL reads as \"ntst\" (slug \"ntst\" shares nothing with company \"Netsmart\") — kept, provenance is the Apply click",
+    "congruence: URL names \"ntst\", not \"Netsmart\" (slug \"ntst\" shares nothing with company \"Netsmart\") — recorded, not refused"
+  ],
+  "congruence": {
+    "verdict": "mismatch",
+    "slug": "ntst",
+    "detail": "slug \"ntst\" shares nothing with company \"Netsmart\"",
+    "expected_company": "Netsmart",
+    "url": "https://ntst.wd1.myworkdayjobs.com/careers/job/Overland-Park-KS/Software-Engineer-Intern--Summer-2027-Internship-_R015667?jr_id=6aacdc0f95c707f49dff252e"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-09-18T09:13:19.353Z"
+}
