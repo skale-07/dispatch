@@ -1,0 +1,72 @@
+{
+  "started_at": "2026-09-18T06:13:06.026Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\general.pdf)",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "9738d9f1-8bb7-486a-9208-f098c449a36c",
+    "armed_until": "2026-09-18T08:13:06.149Z",
+    "seconds_remaining": 7200,
+    "max_submits": 1,
+    "submits_used": 0,
+    "max_apps": 1,
+    "apps_started": 0,
+    "discover_max": 1,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": {
+    "arm_run_id": "9738d9f1-8bb7-486a-9208-f098c449a36c",
+    "apps_started": 1,
+    "submits_used": 0,
+    "stopped_reason": "apps_cap",
+    "discover_runs": 0,
+    "emails_generated": 0,
+    "drafts_saved": 0,
+    "essay_drafts_generated": 0,
+    "screener_predictions_generated": 0,
+    "notes": [
+      "triage sweep: 0 confirmed, 0 refuted, 1 expired of 212 pending",
+      "triage 7a0a43be: requeue_same — precondition failed: state is AMBIGUOUS_FIELD, needs FAILED_RETRYABLE or a gate-parked mid-state",
+      "artifact autopush: 10 file(s) pushed to master as 43b77a233"
+    ],
+    "per_app": [
+      {
+        "application_id": "7a0a43be-f1be-4a5f-a516-370fcab6ffa6",
+        "end_state": "AMBIGUOUS_FIELD",
+        "stopped": "review",
+        "stop_reason": "verification failed",
+        "submitted": false,
+        "outreach": null
+      }
+    ],
+    "nav_audit": {
+      "checked": 632,
+      "repaired": 0,
+      "parked": 0
+    },
+    "triage": {
+      "decided": 1,
+      "executed": 0
+    },
+    "artifact_autopush": {
+      "pushed": true,
+      "commit": "43b77a233",
+      "files_staged": 10
+    }
+  },
+  "outcome": "completed",
+  "notes": []
+}
