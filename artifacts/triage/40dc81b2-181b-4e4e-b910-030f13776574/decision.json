@@ -1,0 +1,132 @@
+{
+  "decision_id": "40dc81b2-181b-4e4e-b910-030f13776574",
+  "application_id": "a10a1b3b-53c2-4573-aab4-5e664757bff2",
+  "signature": "FAILED_RETRYABLE|-|unknown|job-boards.greenhouse.io",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "a10a1b3b-53c2-4573-aab4-5e664757bff2",
+    "company": "Rocket Lab USA",
+    "role": "Systems Engineering Intern Summer 2027",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 1,
+    "failure_signature": "FAILED_RETRYABLE|-|unknown|job-boards.greenhouse.io",
+    "end_host": "job-boards.greenhouse.io",
+    "recent_events": [
+      {
+        "from": "SUBMITTING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "required questions unanswered — click withheld",
+        "at": "2026-09-18T05:59:18.099Z"
+      },
+      {
+        "from": "READY_TO_SUBMIT",
+        "to": "SUBMITTING",
+        "reason": "human-approved submission started",
+        "at": "2026-09-18T05:59:13.859Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "READY_TO_SUBMIT",
+        "reason": "pipeline: fill rehearsal verified",
+        "at": "2026-09-18T05:59:12.094Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (live fill: 29 filled (held for submit))",
+        "at": "2026-09-18T05:59:12.093Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route needs_review_unmapped (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-18T05:58:28.934Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-18T05:58:04.761Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: greenhouse URL validated",
+        "at": "2026-09-18T05:58:04.750Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-18T05:58:04.735Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 7141579276ac)",
+        "at": "2026-09-18T05:58:04.712Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-18T05:58:04.586Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "ats board discovery: ready for materials/pipeline",
+        "at": "2026-09-18T03:57:38.403Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "ats board discovery: operator-listed board, title filter passed",
+        "at": "2026-09-18T03:57:38.402Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "ats board discovery: dedupe pass",
+        "at": "2026-09-18T03:57:38.401Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-18T03:57:38.399Z"
+      }
+    ],
+    "nav": null,
+    "submit": {
+      "outcome": "FAILED_BEFORE_CLICK",
+      "reason": "Refusing to click submit: 1 required question(s) unanswered — Any offer of employment with Rocket Lab is contingent on a successful criminal background check, drug screen, and profes [combobox]",
+      "brief_items": []
+    },
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": null,
+      "verify_passed": true
+    },
+    "open_review_items": [
+      {
+        "kind": "MANUAL",
+        "title": "1 required question(s) unanswered — answer via screeners.json/essay workflow, then requeue"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\":\"park_for_operator\",\"rationale\":\"Submit was withheld because a required employer question (background-check combobox) is unmapped and unanswered; no retry or material regeneration can supply the answer. An open MANUAL review item already asks for a human answer via screeners workflow before requeue.\",\"confidence\":\"high\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: bc934bec-a7b8-4ba3-ab7c-17b3b1ad55d0",
+  "rationale_unverified": "Submit was withheld because a required employer question (background-check combobox) is unmapped and unanswered; no retry or material regeneration can supply the answer. An open MANUAL review item already asks for a human answer via screeners workflow before requeue."
+}
