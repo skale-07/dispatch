@@ -1,0 +1,291 @@
+{
+  "ats": "ashby",
+  "url": "https://jobs.ashbyhq.com/persona/eb77c97c-fa9d-4bf0-9566-e5ba4453b7d3/application",
+  "requested_url": "https://jobs.ashbyhq.com/persona/eb77c97c-fa9d-4bf0-9566-e5ba4453b7d3/application",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://jobs.ashbyhq.com/persona/eb77c97c-fa9d-4bf0-9566-e5ba4453b7d3/application",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 9,
+    "skipped_count": 5,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "f_0",
+      "label": "This job has application limits",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "_systemfield_name",
+      "label": "Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Single full-name field: composed legal_name.first + legal_name.last (both safe factual canonicals)"
+    },
+    {
+      "field_id": "_systemfield_email",
+      "label": "Email",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "currentCompany",
+      "label": "Current company",
+      "type": "text",
+      "canonical_field": "current_company",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "currentLocation",
+      "label": "Current location",
+      "type": "text",
+      "canonical_field": "address.city",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phone",
+      "label": "Phone",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "_systemfield_resume",
+      "label": "Resume",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "additionalInformation",
+      "label": "Additional information",
+      "type": "textarea",
+      "canonical_field": "essay:generated:additionalInformation",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "Twitter",
+      "label": "Twitter",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "GitHub",
+      "label": "GitHub",
+      "type": "text",
+      "canonical_field": "github_url",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "Portfolio",
+      "label": "Portfolio",
+      "type": "text",
+      "canonical_field": "personal_website",
+      "action": "SKIP",
+      "reason": "Profile value empty for personal_website"
+    },
+    {
+      "field_id": "Portfolio Password",
+      "label": "Portfolio Password",
+      "type": "text",
+      "canonical_field": "personal_website",
+      "action": "SKIP",
+      "reason": "Profile value empty for personal_website"
+    },
+    {
+      "field_id": "d1d1bb18-2486-49d8-996c-9db70c057f88",
+      "label": "How did you first learn about us?",
+      "type": "select",
+      "canonical_field": "screener:custom:opt_how_did_you_learn_about_us",
+      "action": "FILL",
+      "reason": "Screener bank answer (llm_option)"
+    },
+    {
+      "field_id": "7e7ddf9d-59dc-4286-b83f-c993a3d9c771",
+      "label": "Are you able to come into the San Francisco office 5 days a week?",
+      "type": "select",
+      "canonical_field": "screener:willing_to_relocate",
+      "action": "FILL",
+      "reason": "Screener bank answer (synonym_option)"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\ashby-live\\form-snapshot-1789708636483.html",
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "email",
+      "current_company",
+      "address.city",
+      "phone",
+      "essay:generated:additionalInformation",
+      "github_url",
+      "screener:custom:opt_how_did_you_learn_about_us",
+      "screener:willing_to_relocate"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "_systemfield_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "_systemfield_email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "currentCompany",
+        "canonical_field": "current_company",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "currentLocation",
+        "canonical_field": "address.city",
+        "control_kind": "text",
+        "notes": [
+          "no clickable suggestion list within timeout — ArrowDown+Enter",
+          "keyboard ArrowDown+Enter",
+          "location committed (blur-stable): Baltimore, Maryland, USA"
+        ]
+      },
+      {
+        "field_id": "phone",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "additionalInformation",
+        "canonical_field": "essay:generated:additionalInformation",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "GitHub",
+        "canonical_field": "github_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "d1d1bb18-2486-49d8-996c-9db70c057f88",
+        "canonical_field": "screener:custom:opt_how_did_you_learn_about_us",
+        "control_kind": "native_radio_group",
+        "selected_option": "University Job Board",
+        "match_via": "exact",
+        "notes": [
+          "picked \"University Job Board\" (exact)"
+        ]
+      },
+      {
+        "field_id": "7e7ddf9d-59dc-4286-b83f-c993a3d9c771",
+        "canonical_field": "screener:willing_to_relocate",
+        "control_kind": "native_radio_group",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "picked \"Yes\" (exact)"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham Kale",
+        "observed": "Shubham Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "current_company",
+        "expected": "Summer Atlantic Capital",
+        "observed": "Summer Atlantic Capital",
+        "match": true
+      },
+      {
+        "canonical_field": "address.city",
+        "expected": "Baltimore, Maryland, USA",
+        "observed": "Baltimore, Maryland, USA",
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:additionalInformation",
+        "expected": "The work of mine that connects most directly to identity and fraud is a Playwright-based job-application agent I built in TypeScript and Node. The interesting part was not making the browser do things, it was deciding where automation should stop. A wrong action there can submit a real application, fabricate an answer, or wrongly fill a legal or demographic field, so I put every mutating capability behind fail-closed flags like SUBMIT_ENABLED and FORM_FILL_ENABLED, used SQLite as the single source of truth because state divergence across processes is where browser automation gets dangerous, and made free-text and demographic fields architecturally impossible to autofill. I also built a validation ladder from unit-confirmed to live-mutation-confirmed, because passing against a local fixture does not mean a capability works against reality. Workday and iCIMS are detected and skipped rather than handled unreliably. I think about adversarial automation from the other side of Persona's problem, which is part of why the work interests me. Separately, at Intelehealth I built an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case standard, which is where I started treating whether an output should be trusted as the harder technical problem than generating it.",
+        "observed": "The work of mine that connects most directly to identity and fraud is a Playwright-based job-application agent I built in TypeScript and Node. The interesting part was not making the browser do things, it was deciding where automation should stop. A wrong action there can submit a real application, fabricate an answer, or wrongly fill a legal or demographic field, so I put every mutating capability behind fail-closed flags like SUBMIT_ENABLED and FORM_FILL_ENABLED, used SQLite as the single source of truth because state divergence across processes is where browser automation gets dangerous, and made free-text and demographic fields architecturally impossible to autofill. I also built a validation ladder from unit-confirmed to live-mutation-confirmed, because passing against a local fixture does not mean a capability works against reality. Workday and iCIMS are detected and skipped rather than handled unreliably. I think about adversarial automation from the other side of Persona's problem, which is part of why the work interests me. Separately, at Intelehealth I built an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case standard, which is where I started treating whether an output should be trusted as the harder technical problem than generating it.",
+        "match": true
+      },
+      {
+        "canonical_field": "github_url",
+        "expected": "https://github.com/skale-07",
+        "observed": "https://github.com/skale-07",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:opt_how_did_you_learn_about_us",
+        "expected": "University Job Board",
+        "observed": "University Job Board",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:willing_to_relocate",
+        "expected": "Yes",
+        "observed": "Yes",
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 115393,
+      "verified": true,
+      "evidence": "input files: [{\"name\":\"resume-71415792.pdf\",\"size\":115393}]; stillAttached=true; chip=true; resolved via primary"
+    }
+  ],
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: form (16 fillable field(s))",
+    "timing: base page (14 planned) — plan 12s, fill 12s, verify 1s",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "written_at": "2026-09-18T05:17:32.122Z"
+}
