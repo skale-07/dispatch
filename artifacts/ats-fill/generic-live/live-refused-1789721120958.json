@@ -1,0 +1,85 @@
+{
+  "ats": "generic",
+  "url": "https://careers-uwmcareers.icims.com/jobs/15881/2027-technology-summer-internship-program/job?in_iframe=1",
+  "requested_url": "https://careers-uwmcareers.icims.com/jobs/15881/2027-technology-summer-internship-program/job?in_iframe=1",
+  "mode": "refused",
+  "gate": {
+    "ok": false,
+    "failure_code": "FORM_NOT_REACHED",
+    "reason": "still on the job posting after trying Apply — no application form to fill",
+    "final_url": "https://careers-uwmcareers.icims.com/jobs/15881/2027-technology-summer-internship-program/job",
+    "page_class": "posting"
+  },
+  "plan_summary": null,
+  "plan_fields": null,
+  "form_snapshot_path": null,
+  "fill": null,
+  "verify": null,
+  "uploads": null,
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: posting (no fields, Apply CTA present)",
+    "posting page (no fields, Apply CTA present) but no Apply control found — not filling the posting; no visible apply-ish controls",
+    "navigation supervisor after Apply miss: stopped (6 steps)",
+    "parked: refused to fill a listing page's own search widgets"
+  ],
+  "navigation_supervisor": {
+    "run_id": "supervisor-a0f36411-c1e1-4d2c-9c74-49e95659ca57",
+    "outcome": "stopped",
+    "steps": [
+      {
+        "observation": "c3c59d8a4981b290",
+        "action": "click",
+        "reason": "one unambiguous Apply control",
+        "result": "clicked observed control; next observation checks progress",
+        "target": "control-33"
+      },
+      {
+        "observation": "4d47d7f1942c8fc4",
+        "action": "form_ready",
+        "reason": "iCIMS applicant identity fields (email, phone country code, number) are live in frame-1 for the correct UWM posting.",
+        "result": "refused: applicant form not independently observed",
+        "model": "claude-opus-5"
+      },
+      {
+        "observation": "4d47d7f1942c8fc4",
+        "action": "form_ready",
+        "reason": "The iCIMS application frame (frame-1) shows live applicant identity fields — Email, Phone Country Code, Number — on the correct UWM posting (job 15881, 2027 Technology Summer Internship Program). This is the applicant entry form, not a generic sign-in wall; navigation is complete.",
+        "result": "refused: applicant form not independently observed",
+        "model": "claude-opus-5"
+      },
+      {
+        "observation": "4d47d7f1942c8fc4",
+        "action": "open_frame",
+        "reason": "The applicant identity fields live in the embedded iCIMS frame; form_ready was refused because the top document reports zero fields. Open frame-1 in this tab so the form is independently observable.",
+        "result": "opened observed frame URL",
+        "model": "claude-opus-5",
+        "target": "frame-1"
+      },
+      {
+        "observation": "be03d5702be1125d",
+        "action": "form_ready",
+        "reason": "Frame opened in this tab now shows live applicant identity fields (Email, Phone Country Code, Number) on the correct UWM iCIMS posting 15881.",
+        "result": "refused: applicant form not independently observed",
+        "model": "claude-opus-5"
+      },
+      {
+        "observation": "5749808480f38299",
+        "action": "stop",
+        "reason": "Reached the correct UWM iCIMS posting (job 15881) and its 'Enter Your Information' applicant entry step, but form_ready has been refused three times (top document reports field_count 0; fields live only in the embedded frame) and the page is gated by an hCaptcha challenge showing 'Please try again'. No further navigation action can change this — blocked by captcha verification.",
+        "result": "model stopped",
+        "model": "claude-opus-5"
+      }
+    ],
+    "notes": [
+      "model calls: 5 of 6 steps"
+    ],
+    "evidence": [
+      "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-a0f36411-c1e1-4d2c-9c74-49e95659ca57\\observation.json",
+      "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-a0f36411-c1e1-4d2c-9c74-49e95659ca57\\page.png"
+    ]
+  },
+  "written_at": "2026-09-18T08:45:20.958Z"
+}
