@@ -60,22 +60,37 @@
 </style></head>
 <body><div class="wrap">
 <h1>Dispatch run timeline</h1>
-<p class="sub">Generated 2026-09-18T09:58:26.958Z · 40 navigation run(s) · read-only view of artifacts/</p>
-<div class="stats"><span class="stat"><b>26</b> resolved</span><span class="stat"><b>12</b> unknown</span><span class="stat"><b>2</b> duplicate_url</span></div>
+<p class="sub">Generated 2026-09-18T10:12:55.909Z · 40 navigation run(s) · read-only view of artifacts/</p>
+<div class="stats"><span class="stat"><b>27</b> resolved</span><span class="stat"><b>11</b> unknown</span><span class="stat"><b>2</b> duplicate_url</span></div>
 <section class="cycle">
   <h2>Latest cycle</h2>
   <dl>
-    <div><dt>Started</dt><dd>2026-09-18T09:57:45.551Z</dd></div>
+    <div><dt>Started</dt><dd>2026-09-18T09:59:14.960Z</dd></div>
     <div><dt>Outcome</dt><dd>completed</dd></div>
     <div><dt>Agent leg</dt><dd>available</dd></div>
     <div><dt>Default resume</dt><dd>ready (C:\dev\jobright-application-agent\private\candidate\resumes\general.pdf)</dd></div>
     <div><dt>Apps started</dt><dd>1</dd></div>
     <div><dt>Submits used</dt><dd>0</dd></div>
-    <div><dt>Stopped</dt><dd>queue_drained</dd></div>
+    <div><dt>Stopped</dt><dd>apps_cap</dd></div>
   </dl>
-  <h3>Session notes</h3><ul class="notes"><li>triage sweep: 0 confirmed, 0 refuted, 0 expired of 213 pending</li><li>triage 48efb5b8: abandon_duplicate (executed) — abandoned to FAILED_FINAL</li><li>artifact autopush: 7 file(s) pushed to master as 1a00b4109</li></ul>
+  <h3>Session notes</h3><ul class="notes"><li>triage sweep: 0 confirmed, 0 refuted, 0 expired of 214 pending</li><li>triage a9f425dc: park_for_operator (executed) — review item created: ae3ebbe9-aa75-4f56-b1ec-8307539d1a26</li><li>artifact autopush: 28 file(s) pushed to master as c2712bb79</li></ul>
 </section>
 <h2>Applications</h2>
+<details class="app ok">
+  <summary>
+    <span class="id">a9f425dc</span>
+    <span class="co">Netsmart</span>
+    <span class="badge">resolved</span>
+    <span class="chip">anchor_llm</span>
+    <span class="chip">workday</span>
+    
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no congruent apply href (12 external links)<span class="ev">ntst.wd1.myworkdayjobs.com, www.linkedin.com, x.com, www.crunchbase.com, www.glassdoor.com, www.ntst.com</span></li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>A_anchor_llm</b> — candidate promoted by adjudication<span class="ev">ntst.wd1.myworkdayjobs.com</span></li></ol>
+    <h4>Notes</h4><ul class="notes"><li>phase A: anchor reads as &quot;ntst&quot; (slug &quot;ntst&quot; shares nothing with company &quot;Netsmart&quot;) — not preferred, deferring to the Apply click</li><li>phase A: 9 external host(s) seen: ntst.wd1.myworkdayjobs.com, www.linkedin.com, x.com, www.crunchbase.com, www.glassdoor.com, www.ntst.com, www.bizjournals.com, www.businesswire.com, www.morningstar.com</li><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>anchor adjudication: promoted ntst.wd1.myworkdayjobs.com</li><li>anchor adjudication rationale (UNVERIFIED): Workday tenant 'ntst' is Netsmart's own ATS; URL matches the exact job title and req ID.</li><li>congruence: URL names &quot;ntst&quot;, not &quot;Netsmart&quot; (slug &quot;ntst&quot; shares nothing with company &quot;Netsmart&quot;) — recorded, not refused</li></ul>
+    
+  </div>
+</details>
 <details class="app bad">
   <summary>
     <span class="id">48efb5b8</span>
@@ -658,21 +673,6 @@
   <div class="body">
     <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — resolved (9 candidates, employer match)<span class="ev">fhlbc.wd1.myworkdayjobs.com</span></li></ol>
     <h4>Notes</h4><ul class="notes"><li>none</li></ul>
-    
-  </div>
-</details>
-<details class="app bad">
-  <summary>
-    <span class="id"></span>
-    <span class="co">—</span>
-    <span class="badge">wall: undefined</span>
-    
-    
-    
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li>none recorded</li></ol>
-    <h4>Notes</h4><ul class="notes"><li>model calls: 5 of 5 steps</li></ul>
     
   </div>
 </details>
