@@ -1,0 +1,85 @@
+{
+  "ats": "generic",
+  "url": "https://jobs.smartrecruiters.com/BoschGroup/744000150217878-ai-engineering-intern-october-2026-august-2027-",
+  "requested_url": "https://jobs.smartrecruiters.com/BoschGroup/744000150217878-ai-engineering-intern-october-2026-august-2027-",
+  "mode": "refused",
+  "gate": {
+    "ok": false,
+    "failure_code": "FORM_NOT_REACHED",
+    "reason": "still on the job posting after trying Apply — no application form to fill",
+    "final_url": "https://jobs.smartrecruiters.com/BoschGroup/744000150217878-ai-engineering-intern-october-2026-august-2027-",
+    "page_class": "posting"
+  },
+  "plan_summary": null,
+  "plan_fields": null,
+  "form_snapshot_path": null,
+  "fill": null,
+  "verify": null,
+  "uploads": null,
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: posting (no fields, Apply CTA present)",
+    "posting page (no fields, Apply CTA present) but no Apply control found — not filling the posting; visible apply-ish: section \"I'm interested\"",
+    "navigation supervisor after Apply miss: stopped (6 steps)",
+    "parked: refused to fill a listing page's own search widgets"
+  ],
+  "navigation_supervisor": {
+    "run_id": "supervisor-9e1a88cc-4f57-403f-bd97-06e313f7e31a",
+    "outcome": "stopped",
+    "steps": [
+      {
+        "observation": "c79ecd0b4fc00369",
+        "action": "click",
+        "reason": "Click 'I'm interested' apply CTA to open the SmartRecruiters application form.",
+        "result": "clicked observed control; next observation checks progress",
+        "model": "claude-opus-5",
+        "target": "control-1"
+      },
+      {
+        "observation": "fea8fe0ac5735ad3",
+        "action": "wait",
+        "reason": "Application form content (personal info, resume) is present but fields not yet detected; allow render.",
+        "result": "waited for rendering",
+        "model": "claude-opus-5"
+      },
+      {
+        "observation": "d82ef6271a015fb5",
+        "action": "form_ready",
+        "reason": "Bosch SmartRecruiters Easy Apply form for the correct role shows applicant identity fields (first/last name, email, city, phone).",
+        "result": "refused: applicant form not independently observed",
+        "model": "claude-opus-5"
+      },
+      {
+        "observation": "d82ef6271a015fb5",
+        "action": "open_frame",
+        "reason": "The applicant identity fields (first/last name, email, city, phone) are rendered inside frame-0 but weren't registered by the detector; opening the frame directly should expose them for verification.",
+        "result": "action failed: unknown or inadmissible frame",
+        "model": "claude-opus-5",
+        "target": "frame-0"
+      },
+      {
+        "observation": "d82ef6271a015fb5",
+        "action": "wait",
+        "reason": "Identity fields (first/last name, email, city, phone) are visibly rendered but the detector still reports field_count 0; allow the frame's form controls to register before re-asserting readiness.",
+        "result": "waited for rendering",
+        "model": "claude-opus-5"
+      },
+      {
+        "observation": "d82ef6271a015fb5",
+        "action": "stop",
+        "reason": "no progress: this page state was observed 4 times",
+        "result": "model stopped"
+      }
+    ],
+    "notes": [
+      "model calls: 5 of 6 steps"
+    ],
+    "evidence": [
+      "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-9e1a88cc-4f57-403f-bd97-06e313f7e31a\\observation.json",
+      "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-9e1a88cc-4f57-403f-bd97-06e313f7e31a\\page.png"
+    ]
+  },
+  "written_at": "2026-09-18T08:51:13.270Z"
+}
