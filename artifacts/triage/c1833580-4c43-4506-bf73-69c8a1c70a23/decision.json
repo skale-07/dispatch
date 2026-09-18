@@ -1,0 +1,158 @@
+{
+  "decision_id": "c1833580-4c43-4506-bf73-69c8a1c70a23",
+  "application_id": "5ac07516-ddf2-4edb-8cde-801fbfe0c99f",
+  "signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|jobs.keysight.com",
+  "forbidden_actions": [
+    "requeue_same"
+  ],
+  "bundle": {
+    "application_id": "5ac07516-ddf2-4edb-8cde-801fbfe0c99f",
+    "company": "Keysight Technologies",
+    "role": "Software Engineering Intern (AI Solutions)",
+    "state": "NATIVE_AUTOFILL_RUNNING",
+    "attempt": 2,
+    "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|jobs.keysight.com",
+    "end_host": "jobs.keysight.com",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-18T09:36:22.816Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-18T09:36:21.759Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-18T09:36:21.753Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-18T09:36:21.745Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 d5f6e2353444)",
+        "at": "2026-09-18T09:36:21.740Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-18T09:36:21.726Z"
+      },
+      {
+        "from": "FAILED_RETRYABLE",
+        "to": "QUEUED",
+        "reason": "retry 2/3",
+        "at": "2026-09-18T07:17:44.599Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "triage: demoting gate-parked NATIVE_AUTOFILL_RUNNING for requeue (NATIVE_AUTOFILL_RUNNING|-|unknown|jobs.keysight.com)",
+        "at": "2026-09-18T07:17:44.597Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-18T07:17:25.682Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-18T07:17:23.746Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-18T07:17:23.739Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-18T07:17:21.856Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 d5f6e2353444)",
+        "at": "2026-09-18T07:17:21.850Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-18T07:17:21.825Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-18T04:36:30.624Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "keysight",
+        "detail": "token \"keysight\" ~ slug \"keysight\" (from URL host)",
+        "expected_company": "Keysight Technologies",
+        "url": "https://jobs.keysight.com/jobs/54322?jr_id=6aac6c9f3d96632d741aaf2d"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (12 candidates, employer match)",
+          "evidence": "jobs.keysight.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [],
+    "prior_decisions": [
+      {
+        "action": "requeue_same",
+        "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|jobs.keysight.com",
+        "outcome_status": "REFUTED",
+        "created_at": "2026-09-18T07:17:44.595Z"
+      }
+    ],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"engage_agent_leg\", \"rationale\": \"Navigation resolved cleanly (employer match, no wall), materials verified, but the pipeline stalls at NATIVE_AUTOFILL_RUNNING on portal sign-in twice; plain requeue already refuted. No duplicate or permanent wall evidence. A bounded agent attempt on the login/fill step is the cheapest action that could change the outcome; no agent leg tried yet.\", \"confidence\": \"medium\"}",
+  "parsed_action": "engage_agent_leg",
+  "validation_note": null,
+  "precondition": {
+    "ok": false,
+    "reason": "no navigation wall in evidence — agent leg only helps nav-walled apps"
+  },
+  "mode": "act",
+  "executed": false,
+  "execution_detail": "precondition failed: no navigation wall in evidence — agent leg only helps nav-walled apps",
+  "rationale_unverified": "Navigation resolved cleanly (employer match, no wall), materials verified, but the pipeline stalls at NATIVE_AUTOFILL_RUNNING on portal sign-in twice; plain requeue already refuted. No duplicate or permanent wall evidence. A bounded agent attempt on the login/fill step is the cheapest action that could change the outcome; no agent leg tried yet."
+}
