@@ -1,0 +1,165 @@
+{
+  "decision_id": "cf571add-6199-4507-a3f4-2c78628ae773",
+  "application_id": "ddb3a3b4-c91f-42d1-9a3c-af55e4d1cdd7",
+  "signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|ericsson.eightfold.ai",
+  "forbidden_actions": [
+    "requeue_same",
+    "engage_agent_leg"
+  ],
+  "bundle": {
+    "application_id": "ddb3a3b4-c91f-42d1-9a3c-af55e4d1cdd7",
+    "company": "Ericsson",
+    "role": "AI & Data Science Intern",
+    "state": "NATIVE_AUTOFILL_RUNNING",
+    "attempt": 2,
+    "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|ericsson.eightfold.ai",
+    "end_host": "ericsson.eightfold.ai",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-18T08:07:29.982Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-18T08:07:25.908Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-18T08:07:25.895Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-18T08:07:25.886Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 d5f6e2353444)",
+        "at": "2026-09-18T08:07:25.877Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-18T08:07:25.860Z"
+      },
+      {
+        "from": "FAILED_RETRYABLE",
+        "to": "QUEUED",
+        "reason": "retry 2/3",
+        "at": "2026-09-18T07:22:59.951Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "triage: demoting gate-parked NATIVE_AUTOFILL_RUNNING for requeue (NATIVE_AUTOFILL_RUNNING|-|unknown|ericsson.eightfold.ai)",
+        "at": "2026-09-18T07:22:59.950Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-18T07:22:22.234Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-18T07:22:18.555Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-18T07:22:18.491Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-18T07:22:13.764Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 d5f6e2353444)",
+        "at": "2026-09-18T07:22:13.565Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-18T07:22:13.345Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-18T03:59:10.318Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "ericsson",
+        "detail": "token \"ericsson\" ~ slug \"ericsson\" (from URL tenant)",
+        "expected_company": "Ericsson",
+        "url": "https://ericsson.eightfold.ai/careers?pid=563121776618027&jr_id=6aac136c3e3ce93970c7b86f"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (12 candidates, employer match)",
+          "evidence": "ericsson.eightfold.ai"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [],
+    "prior_decisions": [
+      {
+        "action": "engage_agent_leg",
+        "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|ericsson.eightfold.ai",
+        "outcome_status": "PENDING",
+        "created_at": "2026-09-18T08:55:08.085Z"
+      },
+      {
+        "action": "requeue_same",
+        "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|ericsson.eightfold.ai",
+        "outcome_status": "REFUTED",
+        "created_at": "2026-09-18T07:22:59.948Z"
+      }
+    ],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": true
+  },
+  "raw_model_text": "{\"action\": \"park_for_operator\", \"rationale\": \"Stalls at portal sign-in on ericsson.eightfold.ai; requeue_same was refuted and agent leg already granted (pending). Navigation is congruent and materials verified, so regenerating or re-resolving URL would not change the outcome. No evidence of duplicate or repeated hard wall. Human decision on portal login is needed.\", \"confidence\": \"high\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: 67626159-3081-43c3-80d3-c0603d611a5c",
+  "rationale_unverified": "Stalls at portal sign-in on ericsson.eightfold.ai; requeue_same was refuted and agent leg already granted (pending). Navigation is congruent and materials verified, so regenerating or re-resolving URL would not change the outcome. No evidence of duplicate or repeated hard wall. Human decision on portal login is needed."
+}
