@@ -1,0 +1,72 @@
+{
+  "started_at": "2026-09-18T06:45:17.145Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\general.pdf)",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "a77b524c-58f0-4185-b7bf-fa63985fb86c",
+    "armed_until": "2026-09-18T08:45:17.185Z",
+    "seconds_remaining": 7200,
+    "max_submits": 1,
+    "submits_used": 0,
+    "max_apps": 1,
+    "apps_started": 0,
+    "discover_max": 1,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": {
+    "arm_run_id": "a77b524c-58f0-4185-b7bf-fa63985fb86c",
+    "apps_started": 1,
+    "submits_used": 0,
+    "stopped_reason": "apps_cap",
+    "discover_runs": 0,
+    "emails_generated": 0,
+    "drafts_saved": 0,
+    "essay_drafts_generated": 0,
+    "screener_predictions_generated": 0,
+    "notes": [
+      "triage sweep: 0 confirmed, 0 refuted, 0 expired of 211 pending",
+      "triage 22836e19: park_for_operator (executed) — review item created: 8ebdd449-cdfb-40c3-ad99-be2ce9db9e38",
+      "artifact autopush: 6 file(s) pushed to master as 9a8bee0f1"
+    ],
+    "per_app": [
+      {
+        "application_id": "22836e19-7a08-400a-a380-5cb14778155c",
+        "end_state": "FAILED_RETRYABLE",
+        "stopped": "gate",
+        "stop_reason": "submission not verified: FAILED_BEFORE_CLICK — Refusing to click submit: 1 required question(s) unanswered — Any offer of employment with Rocket Lab is contingent on a successful criminal background check, drug screen, and profes [combobox]",
+        "submitted": false,
+        "outreach": null
+      }
+    ],
+    "nav_audit": {
+      "checked": 638,
+      "repaired": 0,
+      "parked": 0
+    },
+    "triage": {
+      "decided": 1,
+      "executed": 1
+    },
+    "artifact_autopush": {
+      "pushed": true,
+      "commit": "9a8bee0f1",
+      "files_staged": 6
+    }
+  },
+  "outcome": "completed",
+  "notes": []
+}
