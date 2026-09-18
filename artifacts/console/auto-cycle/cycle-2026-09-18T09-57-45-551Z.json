@@ -1,0 +1,72 @@
+{
+  "started_at": "2026-09-18T09:57:45.551Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\general.pdf)",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "7a7008f5-57a9-44bb-b208-18b2ebc27a99",
+    "armed_until": "2026-09-18T11:57:45.608Z",
+    "seconds_remaining": 7200,
+    "max_submits": 1,
+    "submits_used": 0,
+    "max_apps": 1,
+    "apps_started": 0,
+    "discover_max": 1,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": {
+    "arm_run_id": "7a7008f5-57a9-44bb-b208-18b2ebc27a99",
+    "apps_started": 1,
+    "submits_used": 0,
+    "stopped_reason": "queue_drained",
+    "discover_runs": 0,
+    "emails_generated": 0,
+    "drafts_saved": 0,
+    "essay_drafts_generated": 0,
+    "screener_predictions_generated": 0,
+    "notes": [
+      "triage sweep: 0 confirmed, 0 refuted, 0 expired of 213 pending",
+      "triage 48efb5b8: abandon_duplicate (executed) — abandoned to FAILED_FINAL",
+      "artifact autopush: 7 file(s) pushed to master as 1a00b4109"
+    ],
+    "per_app": [
+      {
+        "application_id": "48efb5b8-01bc-445e-b4bd-fb7193d8c953",
+        "end_state": "FAILED_RETRYABLE",
+        "stopped": "review",
+        "stop_reason": "navigation refused: duplicate employer URL",
+        "submitted": false,
+        "outreach": null
+      }
+    ],
+    "nav_audit": {
+      "checked": 647,
+      "repaired": 0,
+      "parked": 0
+    },
+    "triage": {
+      "decided": 1,
+      "executed": 1
+    },
+    "artifact_autopush": {
+      "pushed": true,
+      "commit": "1a00b4109",
+      "files_staged": 7
+    }
+  },
+  "outcome": "completed",
+  "notes": []
+}
