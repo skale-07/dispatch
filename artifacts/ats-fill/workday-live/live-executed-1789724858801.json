@@ -1,0 +1,549 @@
+{
+  "ats": "workday",
+  "url": "https://smithnephew.wd5.myworkdayjobs.com/external/job/US---Pittsburgh-PA/Intern-AI-Center-of-Excellence-Data-Science_R92480-1",
+  "requested_url": "https://smithnephew.wd5.myworkdayjobs.com/external/job/US---Pittsburgh-PA/Intern-AI-Center-of-Excellence-Data-Science_R92480-1",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://smithnephew.wd5.myworkdayjobs.com/en-US/external/job/US---Pittsburgh%2C-PA/Intern-AI-Center-of-Excellence-Data-Science_R92480-1/apply/applyManually",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 16,
+    "skipped_count": 1,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "source--source",
+      "label": "How Did You Hear About Us?",
+      "type": "select",
+      "canonical_field": "how_heard",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "candidateIsPreviousWorker",
+      "label": "Are you a former employee or returning applicant?",
+      "type": "radio",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "employment row 7 — the profile holds one entry; not answered from the bank"
+    },
+    {
+      "field_id": "f_3",
+      "label": "Have you previously worked for this organization? If yes, please answer the questions below. If no, please continue to the next page.",
+      "type": "text",
+      "canonical_field": "screener:previously_applied_or_worked",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "name--legalName--firstName",
+      "label": "First Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "name--legalName--lastName",
+      "label": "Last Name",
+      "type": "text",
+      "canonical_field": "legal_name.last",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "address--addressLine1",
+      "label": "Address Line 1",
+      "type": "text",
+      "canonical_field": "address.line1",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "address--city",
+      "label": "City",
+      "type": "text",
+      "canonical_field": "address.city",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f_8",
+      "label": "Address",
+      "type": "text",
+      "canonical_field": "address.line1",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "address--postalCode",
+      "label": "Postal Code",
+      "type": "text",
+      "canonical_field": "address.postal_code",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f_10",
+      "label": "Phone",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phoneNumber--countryPhoneCode",
+      "label": "Country / Territory Phone Code",
+      "type": "select",
+      "canonical_field": "address.country",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phoneNumber--phoneNumber",
+      "label": "Phone Number",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phoneNumber--extension",
+      "label": "Phone Extension",
+      "type": "text",
+      "canonical_field": "screener:custom:phone_extension",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "rlvg5",
+      "label": "I consent to receive periodic automated text messages (including both transactional and marketing SMS and MMS) related to employment applications, prospective employment opportunities, employment- and job-related correspondence, and/or student admissions, student registration, student billing and scheduling related correspondence. I understand that these and related two-way text message exchanges in which I participate may originate from different numbers and agree that these exchanges may be retained, shared, and processed by the sender and/or its business partners. I accept the associated Terms and Conditions and understand that my consent is not required. Reply STOP to any text to opt-out of all messaging. Standard message and data rates may apply.",
+      "type": "checkbox",
+      "canonical_field": "screener:custom:sms_scheduling_consent",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "country--country",
+      "label": "Country / Territory",
+      "type": "select",
+      "canonical_field": "screener:custom:country_territory",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "address--countryRegion",
+      "label": "State",
+      "type": "select",
+      "canonical_field": "address.state",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phoneNumber--phoneType",
+      "label": "Phone Device Type",
+      "type": "select",
+      "canonical_field": "screener:custom:phone_device_type",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\workday-live\\form-snapshot-1789724760321.html",
+  "fill": {
+    "filled": [
+      "how_heard",
+      "screener:previously_applied_or_worked",
+      "legal_name.first",
+      "legal_name.last",
+      "address.line1",
+      "address.city",
+      "address.postal_code",
+      "address.country",
+      "phone",
+      "screener:custom:phone_extension",
+      "screener:custom:sms_scheduling_consent",
+      "screener:custom:country_territory",
+      "address.state",
+      "screener:custom:phone_device_type"
+    ],
+    "skipped": [
+      "f_8 (address.line1) — anchorless twin of an anchored canonical (#69)",
+      "f_10 (phone) — anchorless twin of an anchored canonical (#69)"
+    ],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "source--source",
+        "canonical_field": "how_heard",
+        "control_kind": "combobox",
+        "selected_option": "LinkedIn.com",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "filter \"LinkedIn\" + Enter committed \"LinkedIn.com\" (operator directive 2026-09-14)"
+        ]
+      },
+      {
+        "field_id": "f_3",
+        "canonical_field": "screener:previously_applied_or_worked",
+        "control_kind": "text",
+        "selected_option": "No"
+      },
+      {
+        "field_id": "name--legalName--firstName",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "name--legalName--lastName",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "address--addressLine1",
+        "canonical_field": "address.line1",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "address--city",
+        "canonical_field": "address.city",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "address--postalCode",
+        "canonical_field": "address.postal_code",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "phoneNumber--countryPhoneCode",
+        "canonical_field": "address.country",
+        "control_kind": "combobox",
+        "selected_option": "United States of America (+1)",
+        "match_via": "exact",
+        "notes": [
+          "already committed \"United States of America (+1)\""
+        ]
+      },
+      {
+        "field_id": "phoneNumber--phoneNumber",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "phoneNumber--extension",
+        "canonical_field": "screener:custom:phone_extension",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "rlvg5",
+        "canonical_field": "screener:custom:sms_scheduling_consent",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "country--country",
+        "canonical_field": "screener:custom:country_territory",
+        "control_kind": "combobox",
+        "selected_option": "United States of America",
+        "match_via": "exact",
+        "notes": [
+          "already committed \"United States of America\""
+        ]
+      },
+      {
+        "field_id": "address--countryRegion",
+        "canonical_field": "address.state",
+        "control_kind": "combobox",
+        "selected_option": "Maryland",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Maryland\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "phoneNumber--phoneType",
+        "canonical_field": "screener:custom:phone_device_type",
+        "control_kind": "combobox",
+        "selected_option": "Mobile",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "opened via JS click (mouse click swallowed)",
+          "picked \"Mobile\" (exact) from open list"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": false,
+    "fields": [
+      {
+        "canonical_field": "how_heard",
+        "expected": "LinkedIn",
+        "observed": {
+          "value": "LinkedIn.com",
+          "label": "LinkedIn.com"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:previously_applied_or_worked",
+        "expected": "No",
+        "observed": {
+          "value": "false",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.last",
+        "expected": "Kale",
+        "observed": "Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "address.line1",
+        "expected": "3510 N Charles St",
+        "observed": "3510 N Charles St",
+        "match": true
+      },
+      {
+        "canonical_field": "address.city",
+        "expected": "Baltimore",
+        "observed": "Baltimore",
+        "match": true
+      },
+      {
+        "canonical_field": "address.postal_code",
+        "expected": "21218",
+        "observed": "21218",
+        "match": true
+      },
+      {
+        "canonical_field": "address.country",
+        "expected": "United States",
+        "observed": {
+          "value": "United States of America (+1)",
+          "label": "United States of America (+1)"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:phone_extension",
+        "expected": "[REDACTED_PHONE]",
+        "observed": "[REDACTED_PHONE]",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:sms_scheduling_consent",
+        "expected": "Yes",
+        "observed": false,
+        "match": false
+      },
+      {
+        "canonical_field": "screener:custom:country_territory",
+        "expected": "United States of America",
+        "observed": {
+          "value": "United States of America",
+          "label": "United States of America"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "address.state",
+        "expected": "Maryland",
+        "observed": {
+          "value": "Maryland",
+          "label": "Maryland"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:phone_device_type",
+        "expected": "[REDACTED_PHONE]",
+        "observed": "[REDACTED]",
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 126181,
+      "verified": true,
+      "evidence": "input files: []; stillAttached=true; chip=true; resolved via primary"
+    }
+  ],
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: posting (no fields, Apply CTA present)",
+    "workday page kind at gate: posting",
+    "login wall on smithnephew.wd5.myworkdayjobs.com: no_form_found; fields[email=false password=false confirm=false]; submit=[Sign In]",
+    "portal auth: clicked \"Apply\" (attempt 1)",
+    "portal auth: clicked Apply Manually (attempt 2)",
+    "portal auth: account form rendered after Apply Manually",
+    "standing portal login used for smithnephew.wd5.myworkdayjobs.com",
+    "portal auth: flipped Create Account → Sign In (standing credentials)",
+    "portal auth sign_in: form cleared",
+    "workday apply route: manual (#275)",
+    "workday page kind after auth: wizard",
+    "section-expand: expanded 2 collapsed section(s)",
+    "section-expand: expanded \"skale072007@gmail.com\"",
+    "option harvest: \"State\" is a combobox but offered no readable options",
+    "option harvest: scraped real options for 2/13 control(s) before planning",
+    "workday header: an open menu overlays the page — closing before fill (#198)",
+    "workday header: menu closed via its own toggle button",
+    "timing: base page (17 planned) — plan 2s, fill 55s, verify 31s",
+    "page error scan: no visible validation errors on the page",
+    "verify-failed snapshot: verify-failed-snapshot-1789724388355.html",
+    "page-complete waiver not applied: 1 field(s) hold a different value than planned (screener:custom:sms_scheduling_consent)",
+    "resume on disk but this page has no file input — not an upload miss",
+    "wizard experience sections: opened employment row 1 of 5 (Add)",
+    "wizard experience sections: opened employment row 2 of 5 (Add Another)",
+    "wizard experience sections: opened employment row 3 of 5 (Add Another)",
+    "wizard experience sections: opened employment row 4 of 5 (Add Another)",
+    "wizard option harvest: 31 select-like controls, capped at 30",
+    "wizard fill error: skills--skills: combobox option not committed: opened via control click; filter yielded no/unmatched options; re-collected unfiltered (residue cleared); ambiguous match for \"Python\" (18 candidates): Python (Programming Language) | Python (Programming Language) | Python IDLE | Python IDLE | Python Software Development | …",
+    "wizard plan skips (6): \"To\"→employment row 1 — current position, no end date | \"I currently work here\"→employment row 2 — not the current position, box l | \"I currently work here\"→employment row 3 — not the current position, box l | \"I currently work here\"→employment row 4 — not the current position, box l | \"I currently work here\"→employment row 5 — not the current position, box l | \"Select files\"→File uploads handled via uploadResume/uploadCoverL",
+    "wizard retype: screener:custom:skill_tag re-pick not committed — ambiguous match for \"Python\" (18 candidates): Python (Programming Language) | Python (Programming Language) | Python IDLE | Python IDLE | Pyth",
+    "wizard option harvest: \"To help us identify and appropriately manage any actual, pot\" is a combobox but offered no readable options",
+    "wizard option harvest: scraped real options for 6/7 control(s) before planning",
+    "wizard option harvest: \"Are you legally eligible to work in the \"×3, \"Will you now or in the future require sp\"×3, \"Have you previously been considered for \"×3, \"Do you have a non-compete agreement with\"×3, \"Are any of your close relations* current\"×3, \"Do you or any of your close relations* h\"×3",
+    "wizard option harvest: \"Race/Ethnicity\" is a combobox but offered no readable options",
+    "wizard option harvest: scraped real options for 2/4 control(s) before planning",
+    "wizard option harvest: \"Gender\"×4, \"Veteran Status\"×5",
+    "wizard plan skips (3): \"Voluntary Disclosures\"→No answer-alias mapping | \"Voluntary Disclosures\"→No answer-alias mapping | \"Voluntary Disclosures\"→No answer-alias mapping",
+    "wizard experience sections: employment section has no \"Add\" control (rows 0 of 5)",
+    "wizard experience sections: employment section has no \"Add\" control (rows 0 of 5)",
+    "wizard experience sections: employment section has no \"Add\" control (rows 0 of 5)",
+    "wizard experience sections: employment section has no \"Add\" control (rows 0 of 5)",
+    "wizard: page 2 heading=\"Intern AI Center of Excellence Data Science | My Experience\" url…480-1/apply/applyManually shot=wizard-page-2-1789724390804.png",
+    "wizard: page 3 heading=\"Intern AI Center of Excellence Data Science | Application Qu\" url…480-1/apply/applyManually shot=wizard-page-3-1789724627642.png",
+    "wizard: page 4 heading=\"Intern AI Center of Excellence Data Science | Voluntary Disc\" url…480-1/apply/applyManually shot=wizard-page-4-1789724721191.png",
+    "wizard: page 5 heading=\"Intern AI Center of Excellence Data Science | Review | My In\" url…480-1/apply/applyManually shot=wizard-page-5-1789724763664.png",
+    "wizard page 5 (wizard): no fillable fields — stopping the walk",
+    "wizard: filled 3 additional page(s) — wizard:30/31, wizard:7/14, wizard:4/4",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [
+    {
+      "field_id": "country--country",
+      "label": "Country / Territory",
+      "answer_space": "closed",
+      "option_count": 250,
+      "options": [
+        "Select One",
+        "Afghanistan",
+        "Åland Islands",
+        "Albania",
+        "Algeria",
+        "American Samoa",
+        "Andorra",
+        "Angola",
+        "Anguilla",
+        "Antigua and Barbuda",
+        "Argentina",
+        "Armenia",
+        "Aruba",
+        "Australia",
+        "Austria",
+        "Azerbaijan",
+        "Bahamas",
+        "Bahrain",
+        "Bangladesh",
+        "Barbados",
+        "Belarus",
+        "Belgium",
+        "Belize",
+        "Benin",
+        "Bermuda"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "phoneNumber--phoneType",
+      "label": "Phone Device Type",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "Select One",
+        "Mobile",
+        "Telephone"
+      ],
+      "other_option": null
+    }
+  ],
+  "wizard_pages": [
+    {
+      "page": 2,
+      "url": "https://smithnephew.wd5.myworkdayjobs.com/en-US/external/job/US---Pittsburgh%2C-PA/Intern-AI-Center-of-Excellence-Data-Science_R92480-1/apply/applyManually",
+      "kind": "wizard",
+      "fillable": 31,
+      "filled": 30,
+      "verify_passed": false
+    },
+    {
+      "page": 3,
+      "url": "https://smithnephew.wd5.myworkdayjobs.com/en-US/external/job/US---Pittsburgh%2C-PA/Intern-AI-Center-of-Excellence-Data-Science_R92480-1/apply/applyManually",
+      "kind": "wizard",
+      "fillable": 14,
+      "filled": 7,
+      "verify_passed": true
+    },
+    {
+      "page": 4,
+      "url": "https://smithnephew.wd5.myworkdayjobs.com/en-US/external/job/US---Pittsburgh%2C-PA/Intern-AI-Center-of-Excellence-Data-Science_R92480-1/apply/applyManually",
+      "kind": "wizard",
+      "fillable": 4,
+      "filled": 4,
+      "verify_passed": true
+    }
+  ],
+  "operator_brief": {
+    "title": "Live fill — workday https://smithnephew.wd5.myworkdayjobs.com/external/job/US---Pittsburgh-PA/Intern-AI-Center-of-Excellence-Data-Science_R92480-1",
+    "summary": "1 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:screener:custom:sms_scheduling_consent",
+        "question": "I consent to receive periodic automated text messages (including both transactional and marketing SMS and MMS) related to employment applications, prospective employment opportunities, employment- and job-related correspondence, and/or student admissions, student registration, student billing and scheduling related correspondence. I understand that these and related two-way text message exchanges in which I participate may originate from different numbers and agree that these exchanges may be retained, shared, and processed by the sender and/or its business partners. I accept the associated Terms and Conditions and understand that my consent is not required. Reply STOP to any text to opt-out of all messaging. Standard message and data rates may apply.",
+        "field_id": "rlvg5",
+        "canonical_field": "screener:custom:sms_scheduling_consent",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Yes\"; page shows \"false\"",
+        "expected": "Yes",
+        "observed": false,
+        "how_to_answer": [
+          "DOM shows \"false\" but plan expected \"Yes\". Correct the value on the form or fix profile/aliases so the plan matches the real answer.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:sms_scheduling_consent)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:sms_scheduling_consent\" should match the on-form question text."
+        ]
+      }
+    ],
+    "ok_count": 13,
+    "fail_count": 1
+  },
+  "written_at": "2026-09-18T09:47:38.909Z"
+}
