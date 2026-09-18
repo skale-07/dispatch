@@ -1,0 +1,156 @@
+{
+  "decision_id": "1d397c6b-f5bd-4464-b14c-b121aeae7cc7",
+  "application_id": "59f97edb-0471-4421-8006-a4e615f1c285",
+  "signature": "FAILED_RETRYABLE|-|unknown|hp.wd5.myworkdayjobs.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "59f97edb-0471-4421-8006-a4e615f1c285",
+    "company": "HP",
+    "role": "Finance Intern",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 1,
+    "failure_signature": "FAILED_RETRYABLE|-|unknown|hp.wd5.myworkdayjobs.com",
+    "end_host": "hp.wd5.myworkdayjobs.com",
+    "recent_events": [
+      {
+        "from": "SUBMITTING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "required questions unanswered — click withheld",
+        "at": "2026-09-18T06:08:08.921Z"
+      },
+      {
+        "from": "READY_TO_SUBMIT",
+        "to": "SUBMITTING",
+        "reason": "human-approved submission started",
+        "at": "2026-09-18T06:08:00.389Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "READY_TO_SUBMIT",
+        "reason": "pipeline: fill rehearsal verified",
+        "at": "2026-09-18T06:07:58.011Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (workday live fill: 12 filled (held for submit))",
+        "at": "2026-09-18T06:07:58.010Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route inspect_only (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-18T06:04:41.607Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-18T06:04:40.811Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: workday URL validated",
+        "at": "2026-09-18T06:04:40.803Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-18T06:04:37.530Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 7141579276ac)",
+        "at": "2026-09-18T06:04:37.507Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-18T06:04:37.466Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-18T04:36:30.717Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-18T04:36:30.706Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-18T04:36:30.706Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-18T04:36:30.705Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "hp",
+        "detail": "token \"hp\" = slug",
+        "expected_company": "HP",
+        "url": "https://hp.wd5.myworkdayjobs.com/externalcareersite/job/Spring-Texas-United-States-of-America/Finance-Intern_UNI4241-1?jr_id=6a99f1a4040e5c3d07599cda"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (10 candidates, employer match)",
+          "evidence": "hp.wd5.myworkdayjobs.com"
+        }
+      ]
+    },
+    "submit": {
+      "outcome": "FAILED_BEFORE_CLICK",
+      "reason": "Refusing to click submit: 1 required question(s) unanswered — How Did You Hear About Us?* [combobox]",
+      "brief_items": []
+    },
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": true
+    },
+    "open_review_items": [
+      {
+        "kind": "MANUAL",
+        "title": "1 required question(s) unanswered — answer via screeners.json/essay workflow, then requeue"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\":\"park_for_operator\",\"rationale\":\"Submit withheld because a required Workday question ('How Did You Hear About Us?') has no stored answer. No requeue changes this until a human supplies the answer via screeners.json; a review item is already the indicated path.\",\"confidence\":\"high\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: f3e45f73-4c11-4861-8dc5-432d870d5af4",
+  "rationale_unverified": "Submit withheld because a required Workday question ('How Did You Hear About Us?') has no stored answer. No requeue changes this until a human supplies the answer via screeners.json; a review item is already the indicated path."
+}
