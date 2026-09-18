@@ -1,0 +1,119 @@
+{
+  "decision_id": "f134b871-6634-41b9-b18c-3aa9e3b4182a",
+  "application_id": "1dc93793-c738-4a9e-80a8-0f9708303617",
+  "signature": "NATIVE_AUTOFILL_RUNNING|-|login_wall|jobs.siemens.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "1dc93793-c738-4a9e-80a8-0f9708303617",
+    "company": "Siemens",
+    "role": "AI & Enterprise Technology Intern",
+    "state": "NATIVE_AUTOFILL_RUNNING",
+    "attempt": 1,
+    "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|login_wall|jobs.siemens.com",
+    "end_host": "jobs.siemens.com",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-18T05:32:40.701Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-18T05:32:35.661Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-18T05:32:35.643Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-18T05:32:29.925Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 d5f6e2353444)",
+        "at": "2026-09-18T05:32:29.920Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-18T05:32:29.890Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-18T05:09:34.016Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-18T05:09:34.003Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-18T05:09:34.002Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-18T05:09:34.002Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "siemens",
+        "detail": "token \"siemens\" ~ slug \"siemens\" (from URL host)",
+        "expected_company": "Siemens",
+        "url": "https://jobs.siemens.com/externaljobs/JobDetail/522682?source=jobright&sourceType=PREMIUM_POST_SITE&jr_id=6aacbed43dbb1f8967ceb6bb"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (11 candidates, employer match)",
+          "evidence": "jobs.siemens.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"requeue_same\", \"rationale\": \"First attempt, no prior failures on this host, navigation resolved cleanly with employer match and materials verified. Failure signature is a login_wall hit during native autofill with no recorded wall detail or repeated blocks — a single transient-friendly rerun is the cheapest action that could change the outcome.\", \"confidence\": \"medium\"}",
+  "parsed_action": "requeue_same",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "requeued at attempt 2",
+  "rationale_unverified": "First attempt, no prior failures on this host, navigation resolved cleanly with employer match and materials verified. Failure signature is a login_wall hit during native autofill with no recorded wall detail or repeated blocks — a single transient-friendly rerun is the cheapest action that could change the outcome."
+}
