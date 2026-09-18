@@ -1,0 +1,72 @@
+{
+  "started_at": "2026-09-18T06:15:29.481Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\general.pdf)",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "6520ca76-8c94-4f28-b040-0b191a63d9e0",
+    "armed_until": "2026-09-18T08:15:29.528Z",
+    "seconds_remaining": 7200,
+    "max_submits": 1,
+    "submits_used": 0,
+    "max_apps": 1,
+    "apps_started": 0,
+    "discover_max": 1,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": {
+    "arm_run_id": "6520ca76-8c94-4f28-b040-0b191a63d9e0",
+    "apps_started": 1,
+    "submits_used": 0,
+    "stopped_reason": "apps_cap",
+    "discover_runs": 0,
+    "emails_generated": 0,
+    "drafts_saved": 0,
+    "essay_drafts_generated": 0,
+    "screener_predictions_generated": 0,
+    "notes": [
+      "triage sweep: 0 confirmed, 0 refuted, 0 expired of 212 pending",
+      "triage 1cda17e3: requeue_reopen_navigation (executed) — URL cleared, → APPLICATION_OPENING",
+      "artifact autopush: 5 file(s) pushed to master as 799729765"
+    ],
+    "per_app": [
+      {
+        "application_id": "1cda17e3-5dd9-4486-a684-e23ac4458756",
+        "end_state": "NATIVE_AUTOFILL_RUNNING",
+        "stopped": "gate",
+        "stop_reason": "fill refused: stored URL is for \"tesla\", not Imagine (page does not name the company either)",
+        "submitted": false,
+        "outreach": null
+      }
+    ],
+    "nav_audit": {
+      "checked": 633,
+      "repaired": 0,
+      "parked": 0
+    },
+    "triage": {
+      "decided": 1,
+      "executed": 1
+    },
+    "artifact_autopush": {
+      "pushed": true,
+      "commit": "799729765",
+      "files_staged": 5
+    }
+  },
+  "outcome": "completed",
+  "notes": []
+}
