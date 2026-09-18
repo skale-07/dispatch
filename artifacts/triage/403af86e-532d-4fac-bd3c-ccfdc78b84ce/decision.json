@@ -1,0 +1,122 @@
+{
+  "decision_id": "403af86e-532d-4fac-bd3c-ccfdc78b84ce",
+  "application_id": "d39de902-91ce-422c-8efe-9c0825f904b8",
+  "signature": "NATIVE_AUTOFILL_RUNNING|-|login_wall|careers.ibm.com",
+  "forbidden_actions": [
+    "requeue_same",
+    "engage_agent_leg"
+  ],
+  "bundle": {
+    "application_id": "d39de902-91ce-422c-8efe-9c0825f904b8",
+    "company": "IBM",
+    "role": "Intern Application Developer 2027 - ServiceNow",
+    "state": "NATIVE_AUTOFILL_RUNNING",
+    "attempt": 1,
+    "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|login_wall|careers.ibm.com",
+    "end_host": "careers.ibm.com",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route ready_for_fill_later (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-18T07:39:03.463Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-18T07:39:02.676Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-18T07:39:02.667Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-18T07:38:59.567Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 7141579276ac)",
+        "at": "2026-09-18T07:38:59.555Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-18T07:38:59.507Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-18T03:59:09.883Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-18T03:59:09.789Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-18T03:59:09.768Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-18T03:59:09.759Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "ibm",
+        "detail": "token \"ibm\" ~ slug \"ibm\" (from URL host)",
+        "expected_company": "IBM",
+        "url": "https://careers.ibm.com/en_US/careers/JobDetail?jobId=132803&jr_id=6aac6ce795c707f49dff1560"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (9 candidates, employer match)",
+          "evidence": "careers.ibm.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\":\"park_for_operator\",\"rationale\":\"Login wall hit at careers.ibm.com during native autofill; retry and agent leg are forbidden, materials are verified fresh, and navigation congruence matched (so re-resolving is pointless). No duplicate evidence and only one host failure, so a permanent-wall abandon is premature — a human should decide.\",\"confidence\":\"medium\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: f27a1926-0e2d-4591-b8b9-217390f024ba",
+  "rationale_unverified": "Login wall hit at careers.ibm.com during native autofill; retry and agent leg are forbidden, materials are verified fresh, and navigation congruence matched (so re-resolving is pointless). No duplicate evidence and only one host failure, so a permanent-wall abandon is premature — a human should decide."
+}
