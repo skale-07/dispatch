@@ -1,0 +1,51 @@
+{
+  "run_id": "nav-c535d0a0-3445-41c3-8948-13a15a58c585",
+  "application_id": "a9f425dc-4307-43dc-afcd-fbbc692369fc",
+  "jobright_job_id": "6aacdc0f95c707f49dff252e",
+  "method": "anchor_llm",
+  "resolved_url": "https://ntst.wd1.myworkdayjobs.com/careers/job/Overland-Park-KS/Software-Engineer-Intern--Summer-2027-Internship-_R015667",
+  "resolved_ats": "workday",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no congruent apply href (12 external links)",
+      "evidence": "ntst.wd1.myworkdayjobs.com, www.linkedin.com, x.com, www.crunchbase.com, www.glassdoor.com, www.ntst.com"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "unresolved by deterministic phases"
+    },
+    {
+      "phase": "A_anchor_llm",
+      "outcome": "candidate promoted by adjudication",
+      "evidence": "ntst.wd1.myworkdayjobs.com"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "phase A: anchor reads as \"ntst\" (slug \"ntst\" shares nothing with company \"Netsmart\") — not preferred, deferring to the Apply click",
+    "phase A: 9 external host(s) seen: ntst.wd1.myworkdayjobs.com, www.linkedin.com, x.com, www.crunchbase.com, www.glassdoor.com, www.ntst.com, www.bizjournals.com, www.businesswire.com, www.morningstar.com",
+    "no standard Apply control found (exact and broad name tiers both empty)",
+    "anchor adjudication: promoted ntst.wd1.myworkdayjobs.com",
+    "anchor adjudication rationale (UNVERIFIED): Workday tenant 'ntst' is Netsmart's own ATS; URL matches the exact job title and req ID.",
+    "congruence: URL names \"ntst\", not \"Netsmart\" (slug \"ntst\" shares nothing with company \"Netsmart\") — recorded, not refused"
+  ],
+  "congruence": {
+    "verdict": "mismatch",
+    "slug": "ntst",
+    "detail": "slug \"ntst\" shares nothing with company \"Netsmart\"",
+    "expected_company": "Netsmart",
+    "url": "https://ntst.wd1.myworkdayjobs.com/careers/job/Overland-Park-KS/Software-Engineer-Intern--Summer-2027-Internship-_R015667?jr_id=6aacdc0f95c707f49dff252e"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-09-18T09:59:26.638Z"
+}

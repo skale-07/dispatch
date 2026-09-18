@@ -1,0 +1,174 @@
+{
+  "decision_id": "e659dce2-82e9-4cdb-ba9e-9b4135c1395b",
+  "application_id": "a9f425dc-4307-43dc-afcd-fbbc692369fc",
+  "signature": "AMBIGUOUS_FIELD|-|verify_mismatch|ntst.wd1.myworkdayjobs.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "a9f425dc-4307-43dc-afcd-fbbc692369fc",
+    "company": "Netsmart",
+    "role": "Software Engineer Intern (Summer 2027 Internship)",
+    "state": "AMBIGUOUS_FIELD",
+    "attempt": 1,
+    "failure_signature": "AMBIGUOUS_FIELD|-|verify_mismatch|ntst.wd1.myworkdayjobs.com",
+    "end_host": "ntst.wd1.myworkdayjobs.com",
+    "recent_events": [
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "AMBIGUOUS_FIELD",
+        "reason": "pipeline: read-back verification failed",
+        "at": "2026-09-18T10:12:07.204Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (workday live fill: 15 filled (held for submit))",
+        "at": "2026-09-18T10:12:07.202Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route inspect_only (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-18T09:59:27.265Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-18T09:59:26.676Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: workday URL validated",
+        "at": "2026-09-18T09:59:26.669Z"
+      },
+      {
+        "from": "FAILED_RETRYABLE",
+        "to": "APPLICATION_OPENING",
+        "reason": "nav audit: wrong-employer URL cleared (slug \"ntst\" shares nothing with company \"Netsmart\")",
+        "at": "2026-09-18T09:23:44.660Z"
+      },
+      {
+        "from": "READY_TO_SUBMIT",
+        "to": "FAILED_RETRYABLE",
+        "reason": "nav audit: wrong-employer URL cleared (slug \"ntst\" shares nothing with company \"Netsmart\")",
+        "at": "2026-09-18T09:23:44.658Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "READY_TO_SUBMIT",
+        "reason": "pipeline: fill rehearsal verified",
+        "at": "2026-09-18T09:22:17.961Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (workday live fill: 15 filled (held for submit))",
+        "at": "2026-09-18T09:22:17.960Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route inspect_only (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-18T09:13:20.070Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-18T09:13:19.407Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: workday URL validated",
+        "at": "2026-09-18T09:13:19.400Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-18T09:13:12.079Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 7141579276ac)",
+        "at": "2026-09-18T09:13:12.070Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-18T09:13:12.026Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_llm",
+      "notes": [
+        "phase A: anchor reads as \"ntst\" (slug \"ntst\" shares nothing with company \"Netsmart\") — not preferred, deferring to the Apply click",
+        "phase A: 9 external host(s) seen: ntst.wd1.myworkdayjobs.com, www.linkedin.com, x.com, www.crunchbase.com, www.glassdoor.com, www.ntst.com, www.bizjournals.com, www.businesswire.com, www.morningstar.com",
+        "no standard Apply control found (exact and broad name tiers both empty)",
+        "anchor adjudication: promoted ntst.wd1.myworkdayjobs.com",
+        "anchor adjudication rationale (UNVERIFIED): Workday tenant 'ntst' is Netsmart's own ATS; URL matches the exact job title and req ID.",
+        "congruence: URL names \"ntst\", not \"Netsmart\" (slug \"ntst\" shares nothing with company \"Netsmart\") — recorded, not refused"
+      ],
+      "congruence": {
+        "verdict": "mismatch",
+        "slug": "ntst",
+        "detail": "slug \"ntst\" shares nothing with company \"Netsmart\"",
+        "expected_company": "Netsmart",
+        "url": "https://ntst.wd1.myworkdayjobs.com/careers/job/Overland-Park-KS/Software-Engineer-Intern--Summer-2027-Internship-_R015667?jr_id=6aacdc0f95c707f49dff252e"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "no congruent apply href (12 external links)",
+          "evidence": "ntst.wd1.myworkdayjobs.com, www.linkedin.com, x.com, www.crunchbase.com, www.glassdoor.com, www.ntst.com"
+        },
+        {
+          "phase": "B_apply_click",
+          "outcome": "unresolved by deterministic phases"
+        },
+        {
+          "phase": "A_anchor_llm",
+          "outcome": "candidate promoted by adjudication",
+          "evidence": "ntst.wd1.myworkdayjobs.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": true
+    },
+    "open_review_items": [
+      {
+        "kind": "AMBIGUOUS_FIELD",
+        "title": "Fill verification failed"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"park_for_operator\", \"rationale\": \"Fill verification actually passed (verify_passed true, 15 fields filled); the blocker is a congruence loop — nav audit keeps clearing ntst.wd1 as wrong-employer even though evidence (www.ntst.com, exact title/req ID) suggests ntst is Netsmart's own Workday tenant. Requeuing would repeat the same clear-and-refill cycle; a human should confirm the tenant.\", \"confidence\": \"high\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: ae3ebbe9-aa75-4f56-b1ec-8307539d1a26",
+  "rationale_unverified": "Fill verification actually passed (verify_passed true, 15 fields filled); the blocker is a congruence loop — nav audit keeps clearing ntst.wd1 as wrong-employer even though evidence (www.ntst.com, exact title/req ID) suggests ntst is Netsmart's own Workday tenant. Requeuing would repeat the same clear-and-refill cycle; a human should confirm the tenant."
+}
