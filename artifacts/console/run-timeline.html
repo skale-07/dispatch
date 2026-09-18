@@ -60,22 +60,37 @@
 </style></head>
 <body><div class="wrap">
 <h1>Dispatch run timeline</h1>
-<p class="sub">Generated 2026-09-18T09:08:55.993Z · 40 navigation run(s) · read-only view of artifacts/</p>
-<div class="stats"><span class="stat"><b>26</b> resolved</span><span class="stat"><b>13</b> unknown</span><span class="stat"><b>1</b> duplicate_url</span></div>
+<p class="sub">Generated 2026-09-18T09:12:22.346Z · 40 navigation run(s) · read-only view of artifacts/</p>
+<div class="stats"><span class="stat"><b>27</b> resolved</span><span class="stat"><b>12</b> unknown</span><span class="stat"><b>1</b> duplicate_url</span></div>
 <section class="cycle">
   <h2>Latest cycle</h2>
   <dl>
-    <div><dt>Started</dt><dd>2026-09-18T09:08:20.876Z</dd></div>
+    <div><dt>Started</dt><dd>2026-09-18T09:11:18.680Z</dd></div>
     <div><dt>Outcome</dt><dd>completed</dd></div>
     <div><dt>Agent leg</dt><dd>available</dd></div>
     <div><dt>Default resume</dt><dd>ready (C:\dev\jobright-application-agent\private\candidate\resumes\general.pdf)</dd></div>
-    <div><dt>Apps started</dt><dd>0</dd></div>
+    <div><dt>Apps started</dt><dd>1</dd></div>
     <div><dt>Submits used</dt><dd>0</dd></div>
-    <div><dt>Stopped</dt><dd>queue_drained</dd></div>
+    <div><dt>Stopped</dt><dd>apps_cap</dd></div>
   </dl>
-  <h3>Session notes</h3><ul class="notes"><li>triage sweep: 0 confirmed, 0 refuted, 0 expired of 210 pending</li><li>artifact autopush: 1 file(s) pushed to master as 11acc64ab</li></ul>
+  <h3>Session notes</h3><ul class="notes"><li>nav audit: 2 wrong-employer URL(s) cleared for re-navigation, 0 parked for review</li><li>triage sweep: 0 confirmed, 0 refuted, 0 expired of 210 pending</li><li>triage 1233b945: requeue_same — precondition failed: state is AMBIGUOUS_FIELD, needs FAILED_RETRYABLE or a gate-parked mid-state</li><li>artifact autopush: 17 file(s) pushed to master as f50d8d1ae</li></ul>
 </section>
 <h2>Applications</h2>
+<details class="app ok">
+  <summary>
+    <span class="id">1233b945</span>
+    <span class="co">Tesla</span>
+    <span class="badge">resolved</span>
+    <span class="chip">anchor_href</span>
+    <span class="chip">generic</span>
+    
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — resolved (11 candidates, employer match)<span class="ev">www.tesla.com</span></li></ol>
+    <h4>Notes</h4><ul class="notes"><li>none</li></ul>
+    
+  </div>
+</details>
 <details class="app ok">
   <summary>
     <span class="id">38c80767</span>
@@ -658,21 +673,6 @@
   <div class="body">
     <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no congruent apply href (11 external links)<span class="ev">jobs.polymer.co, www.linkedin.com, www.crunchbase.com, www.daylit.com, www.businesswire.com, www.crowdfundinsider.com</span></li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>A_anchor_llm</b> — candidate promoted by adjudication<span class="ev">jobs.polymer.co</span></li></ol>
     <h4>Notes</h4><ul class="notes"><li>phase A: anchor reads as &quot;lendica&quot; (URL names &quot;lendica&quot; (path), which shares nothing with company &quot;Daylit&quot;) — not preferred, deferring to the Apply click</li><li>phase A: 6 external host(s) seen: jobs.polymer.co, www.linkedin.com, www.crunchbase.com, www.daylit.com, www.businesswire.com, www.crowdfundinsider.com</li><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>anchor adjudication: promoted jobs.polymer.co</li><li>anchor adjudication rationale (UNVERIFIED): Only actual ATS job posting link (Polymer board, job-specific ID); Daylit likely rebranded from Lendica. Others are homepage or news articles.</li><li>congruence: URL names &quot;lendica&quot;, not &quot;Daylit&quot; (URL names &quot;lendica&quot; (path), which shares nothing with company &quot;Daylit&quot;) — recorded, not refused</li></ul>
-    
-  </div>
-</details>
-<details class="app bad">
-  <summary>
-    <span class="id"></span>
-    <span class="co">—</span>
-    <span class="badge">wall: undefined</span>
-    
-    
-    
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li>none recorded</li></ol>
-    <h4>Notes</h4><ul class="notes"><li>model calls: 6 of 6 steps</li></ul>
     
   </div>
 </details>
