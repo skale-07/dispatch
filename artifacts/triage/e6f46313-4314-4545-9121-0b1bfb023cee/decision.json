@@ -1,0 +1,119 @@
+{
+  "decision_id": "e6f46313-4314-4545-9121-0b1bfb023cee",
+  "application_id": "469d07d2-1e66-4522-9326-4202df17302f",
+  "signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|jobs.smartrecruiters.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "469d07d2-1e66-4522-9326-4202df17302f",
+    "company": "Bosch",
+    "role": "AI Engineering Intern (October 2026 - August 2027)",
+    "state": "NATIVE_AUTOFILL_RUNNING",
+    "attempt": 1,
+    "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|jobs.smartrecruiters.com",
+    "end_host": "jobs.smartrecruiters.com",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route ready_for_fill_later (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-18T08:01:56.236Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-18T08:01:54.668Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-18T08:01:54.659Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-18T08:01:51.555Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 d5f6e2353444)",
+        "at": "2026-09-18T08:01:51.545Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-18T08:01:51.480Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-18T04:36:30.639Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-18T04:36:30.630Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-18T04:36:30.629Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-18T04:36:30.629Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "boschgroup",
+        "detail": "token \"bosch\" ~ slug \"boschgroup\" (from URL path)",
+        "expected_company": "Bosch",
+        "url": "https://jobs.smartrecruiters.com/BoschGroup/744000150217878-ai-engineering-intern-october-2026-august-2027-?jr_id=6aac6ba52e757fcb5c8b57bc"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (12 candidates, employer match)",
+          "evidence": "jobs.smartrecruiters.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"requeue_same\", \"rationale\": \"Run stalled in NATIVE_AUTOFILL_RUNNING on first attempt with no wall, no fill-gate failure, valid employer URL (congruence match) and verified resume. No evidence of stale materials or navigation issues — most likely a transient interruption, so the cheapest plausible fix is rerunning the same pipeline.\", \"confidence\": \"medium\"}",
+  "parsed_action": "requeue_same",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "requeued at attempt 2",
+  "rationale_unverified": "Run stalled in NATIVE_AUTOFILL_RUNNING on first attempt with no wall, no fill-gate failure, valid employer URL (congruence match) and verified resume. No evidence of stale materials or navigation issues — most likely a transient interruption, so the cheapest plausible fix is rerunning the same pipeline."
+}
