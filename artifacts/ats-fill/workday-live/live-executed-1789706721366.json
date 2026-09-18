@@ -1,0 +1,529 @@
+{
+  "ats": "workday",
+  "url": "https://inmar.wd1.myworkdayjobs.com/inmarcareers/job/Headquarters-Winston-Salem-NC/Data--Analytics---AI-Internships--Summer-2027_JY2627632",
+  "requested_url": "https://inmar.wd1.myworkdayjobs.com/inmarcareers/job/Headquarters-Winston-Salem-NC/Data--Analytics---AI-Internships--Summer-2027_JY2627632",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://inmar.wd1.myworkdayjobs.com/en-US/inmarcareers/job/Headquarters%2C-Winston-Salem%2C-NC/Data--Analytics---AI-Internships--Summer-2027_JY2627632/apply",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 13,
+    "skipped_count": 4,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "source--source",
+      "label": "How Did You Hear About Us?",
+      "type": "select",
+      "canonical_field": "how_heard",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f_1",
+      "label": "My Information",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "name--legalName--firstName",
+      "label": "First Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "name--legalName--lastName",
+      "label": "Last Name",
+      "type": "text",
+      "canonical_field": "legal_name.last",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "name--preferredCheck",
+      "label": "I have a preferred name",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "address--addressLine1",
+      "label": "Address Line 1",
+      "type": "text",
+      "canonical_field": "address.line1",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "address--city",
+      "label": "City",
+      "type": "text",
+      "canonical_field": "address.city",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f_7",
+      "label": "Address",
+      "type": "text",
+      "canonical_field": "address.line1",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "address--postalCode",
+      "label": "Postal Code",
+      "type": "text",
+      "canonical_field": "address.postal_code",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f_9",
+      "label": "Phone",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phoneNumber--countryPhoneCode",
+      "label": "Country Phone Code",
+      "type": "select",
+      "canonical_field": "address.country",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phoneNumber--phoneNumber",
+      "label": "Phone Number",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phoneNumber--extension",
+      "label": "Phone Extension",
+      "type": "text",
+      "canonical_field": "screener:custom:phone_extension",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "fjn55",
+      "label": "field_13",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "country--country",
+      "label": "Country",
+      "type": "select",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "address--countryRegion",
+      "label": "State",
+      "type": "select",
+      "canonical_field": "address.state",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phoneNumber--phoneType",
+      "label": "Phone Device Type",
+      "type": "select",
+      "canonical_field": "screener:custom:phone_device_type",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\workday-live\\form-snapshot-1789706710763.html",
+  "fill": {
+    "filled": [
+      "how_heard",
+      "legal_name.first",
+      "legal_name.last",
+      "address.line1",
+      "address.city",
+      "address.postal_code",
+      "address.country",
+      "phone",
+      "screener:custom:phone_extension",
+      "address.state",
+      "screener:custom:phone_device_type"
+    ],
+    "skipped": [
+      "f_7 (address.line1) — anchorless twin of an anchored canonical (#69)",
+      "f_9 (phone) — anchorless twin of an anchored canonical (#69)"
+    ],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "source--source",
+        "canonical_field": "how_heard",
+        "control_kind": "combobox",
+        "selected_option": "LinkedIn",
+        "match_via": "exact",
+        "notes": [
+          "already committed \"LinkedIn\""
+        ]
+      },
+      {
+        "field_id": "name--legalName--firstName",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text",
+        "notes": [
+          "already holds \"Shubham\" — verified in place, not retyped"
+        ]
+      },
+      {
+        "field_id": "name--legalName--lastName",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text",
+        "notes": [
+          "already holds \"Kale\" — verified in place, not retyped"
+        ]
+      },
+      {
+        "field_id": "address--addressLine1",
+        "canonical_field": "address.line1",
+        "control_kind": "text",
+        "notes": [
+          "already holds \"3510 N Charles St\" — verified in place, not retyped"
+        ]
+      },
+      {
+        "field_id": "address--city",
+        "canonical_field": "address.city",
+        "control_kind": "text",
+        "notes": [
+          "already holds \"Baltimore\" — verified in place, not retyped"
+        ]
+      },
+      {
+        "field_id": "address--postalCode",
+        "canonical_field": "address.postal_code",
+        "control_kind": "text",
+        "notes": [
+          "already holds \"21218\" — verified in place, not retyped"
+        ]
+      },
+      {
+        "field_id": "phoneNumber--countryPhoneCode",
+        "canonical_field": "address.country",
+        "control_kind": "combobox",
+        "selected_option": "United States of America (+1)",
+        "match_via": "exact",
+        "notes": [
+          "already committed \"United States of America (+1)\""
+        ]
+      },
+      {
+        "field_id": "phoneNumber--phoneNumber",
+        "canonical_field": "phone",
+        "control_kind": "text",
+        "notes": [
+          "already holds \"(480) 589-7636\" — verified in place, not retyped"
+        ]
+      },
+      {
+        "field_id": "phoneNumber--extension",
+        "canonical_field": "screener:custom:phone_extension",
+        "control_kind": "text",
+        "notes": [
+          "already holds \"N/A\" — verified in place, not retyped"
+        ]
+      },
+      {
+        "field_id": "address--countryRegion",
+        "canonical_field": "address.state",
+        "control_kind": "combobox",
+        "selected_option": "Maryland",
+        "match_via": "exact",
+        "notes": [
+          "already committed \"Maryland\""
+        ]
+      },
+      {
+        "field_id": "phoneNumber--phoneType",
+        "canonical_field": "screener:custom:phone_device_type",
+        "control_kind": "combobox",
+        "selected_option": "Mobile",
+        "match_via": "exact",
+        "notes": [
+          "already committed \"Mobile\""
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "how_heard",
+        "expected": "LinkedIn",
+        "observed": {
+          "value": "LinkedIn",
+          "label": "LinkedIn"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.last",
+        "expected": "Kale",
+        "observed": "Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "address.line1",
+        "expected": "3510 N Charles St",
+        "observed": "3510 N Charles St",
+        "match": true
+      },
+      {
+        "canonical_field": "address.city",
+        "expected": "Baltimore",
+        "observed": "Baltimore",
+        "match": true
+      },
+      {
+        "canonical_field": "address.postal_code",
+        "expected": "21218",
+        "observed": "21218",
+        "match": true
+      },
+      {
+        "canonical_field": "address.country",
+        "expected": "United States",
+        "observed": {
+          "value": "United States of America (+1)",
+          "label": "United States of America (+1)"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:phone_extension",
+        "expected": "[REDACTED_PHONE]",
+        "observed": "[REDACTED_PHONE]",
+        "match": true
+      },
+      {
+        "canonical_field": "address.state",
+        "expected": "Maryland",
+        "observed": {
+          "value": "Maryland",
+          "label": "Maryland"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:phone_device_type",
+        "expected": "[REDACTED_PHONE]",
+        "observed": "[REDACTED]",
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 126181,
+      "verified": true,
+      "evidence": "input files: []; stillAttached=true; chip=true; resolved via primary"
+    }
+  ],
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: posting (no fields, Apply CTA present)",
+    "workday page kind at gate: posting",
+    "login wall on inmar.wd1.myworkdayjobs.com: no_form_found; fields[email=false password=false confirm=false]; submit=[Sign In]",
+    "portal auth: clicked \"Apply\" (attempt 1)",
+    "portal auth: clicked Apply Manually (attempt 2)",
+    "portal auth: account form rendered after Apply Manually",
+    "standing portal login used for inmar.wd1.myworkdayjobs.com",
+    "portal auth: flipped Create Account → Sign In (standing credentials)",
+    "portal auth sign_in: credentials_rejected — \"eview Something went wrong Please refresh the page and then try again. Error Code: VPS|ef06bcb9-1ec9\"",
+    "portal auth: sign-in rejected and no create-account route is offered on this page",
+    "workday apply route: manual (#275)",
+    "workday page kind after auth: wizard",
+    "workday: page after auth is off the apply flow (wizard) — one re-reach from the posting URL",
+    "re-reach login wall on inmar.wd1.myworkdayjobs.com: no_form_found; fields[email=false password=false confirm=false]; submit=[Continue Application]",
+    "re-reach portal auth: clicked \"Continue Application\" (attempt 1)",
+    "re-reach portal auth: Apply / Apply Manually not found on attempt 2",
+    "re-reach standing portal login used for inmar.wd1.myworkdayjobs.com",
+    "re-reach portal auth: no sign-in form on this page",
+    "workday page kind after re-reach: wizard",
+    "section-expand: expanded 4 collapsed section(s)",
+    "section-expand: expanded \"English\"",
+    "section-expand: expanded \"skale072007@gmail.com\"",
+    "section-expand: expanded \"English\"",
+    "section-expand: expanded \"skale072007@gmail.com\"",
+    "option harvest: \"Phone Device Type\" is a combobox but offered no readable options",
+    "option harvest: scraped real options for 2/14 control(s) before planning",
+    "timing: base page (17 planned) — plan 0s, fill 1s, verify 1s",
+    "resume on disk but this page has no file input — not an upload miss",
+    "wizard experience sections: employment shows 5 row(s) for 5 structured entries — nothing to add",
+    "wizard experience sections: employment section has no \"Add Another\" control (rows 1 of 5)",
+    "wizard experience sections: employment section has no \"Add Another\" control (rows 1 of 5)",
+    "wizard experience sections: employment section has no \"Add Another\" control (rows 1 of 5)",
+    "wizard fill error: skills--skills: combobox option not committed: opened via control click; filter yielded no/unmatched options; re-collected unfiltered (residue cleared); ambiguous match for \"Python\" (18 candidates): Python (Programming Language) | Python (Programming Language) | Python IDLE | Python IDLE | Maya Python | …",
+    "wizard plan skips (20): \"Job Title\"→employment row 4 already holds \"Software Engineer, | \"Company\"→employment row 4 already holds \"Summer Atlantic Ca | \"Location\"→employment row 4 already holds \"Baltimore, Marylan | \"Job Title\"→employment row 5 already holds \"Lead Model Develop | \"Company\"→employment row 5 already holds \"Gates Foundation H | \"Location\"→employment row 5 already holds \"Baltimore, Marylan | \"I currently work here\"→employment row 2 — not the current position, box l | \"Job Title\"→employment row 6 already holds \"Software Engineeri",
+    "wizard retype: screener:custom:skill_tag re-pick not committed — ambiguous match for \"Python\" (18 candidates): Python (Programming Language) | Python (Programming Language) | Python IDLE | Python IDLE | Maya",
+    "wizard option harvest: \"Are you related to anyone currently employed with Inmar Inc.\" is a combobox but offered no readable options",
+    "wizard option harvest: scraped real options for 4/5 control(s) before planning",
+    "wizard option harvest: \"Are you a current Employee OR Contingent\"×3, \"Are you 18 years of age or older?\"×3, \"\"For U.S. Applicants Only - In accordanc\"×5, \"I allow Inmar to utilize AI functionalit\"×3",
+    "wizard plan skips (3): \"Are you 18 years of age or older?\"→No answer-alias mapping | \"Are you 18 years of age or older?\"→No answer-alias mapping | \"Are you 18 years of age or older?\"→No answer-alias mapping",
+    "wizard option harvest: \"Have you ever worked for Inmar Inc. or any of its subsidiari\" is a combobox but offered no readable options",
+    "wizard option harvest: \"Are you 18 years of age or older?\" is a combobox but offered no readable options",
+    "wizard option harvest: scraped real options for 4/6 control(s) before planning",
+    "wizard option harvest: \"Are you a current Employee OR Contingent\"×3, \"Are you related to anyone currently empl\"×3, \"\"For U.S. Applicants Only - In accordanc\"×5, \"I allow Inmar to utilize AI functionalit\"×3",
+    "wizard plan skips (4): \"Are you 18 years of age or older?\"→No answer-alias mapping | \"Are you 18 years of age or older?\"→No answer-alias mapping | \"What is your expected compensation/structure for this role?\"→Essay generation produced no answer | \"Are you 18 years of age or older?\"→No answer-alias mapping",
+    "wizard: page 2 heading=\"Data, Analytics &amp; AI Internships, Summer 2027 | My Exper\" url…mmer-2027_JY2627632/apply shot=wizard-page-2-1789706238602.png",
+    "wizard: page 3 heading=\"Data, Analytics &amp; AI Internships, Summer 2027 | Applicat\" url…mmer-2027_JY2627632/apply shot=wizard-page-3-1789706561889.png",
+    "wizard: page 4 never settled on a NEW page (heading still \"Data, Analytics &amp; AI Internships, Summer 2027 | Application Questions\") — planning on the current DOM",
+    "wizard: page 4 heading=\"Data, Analytics &amp; AI Internships, Summer 2027 | Applicat\" url…mmer-2027_JY2627632/apply shot=wizard-page-4-1789706657720.png",
+    "wizard: page 5 never settled on a NEW page (heading still \"Data, Analytics &amp; AI Internships, Summer 2027 | Application Questions\") — planning on the current DOM",
+    "wizard: page 5 heading=\"Data, Analytics &amp; AI Internships, Summer 2027 | Applicat\" url…mmer-2027_JY2627632/apply shot=wizard-page-5-1789706721216.png",
+    "wizard: page 5 did not advance 2x in a row (heading \"Data, Analytics &amp; AI Internships, Su\") — stopping the walk; the page is refusing Next, so its unanswered fields park for review (#278)",
+    "wizard: filled 3 additional page(s) — wizard:15/16, wizard:5/8, wizard:6/10",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [
+    {
+      "field_id": "country--country",
+      "label": "Country",
+      "answer_space": "closed",
+      "option_count": 250,
+      "options": [
+        "Select One",
+        "Afghanistan",
+        "Åland Islands",
+        "Albania",
+        "Algeria",
+        "American Samoa",
+        "Andorra",
+        "Angola",
+        "Anguilla",
+        "Antigua and Barbuda",
+        "Argentina",
+        "Armenia",
+        "Aruba",
+        "Australia",
+        "Austria",
+        "Azerbaijan",
+        "Bahamas",
+        "Bahrain",
+        "Bangladesh",
+        "Barbados",
+        "Belarus",
+        "Belgium",
+        "Belize",
+        "Benin",
+        "Bermuda"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "address--countryRegion",
+      "label": "State",
+      "answer_space": "closed",
+      "option_count": 61,
+      "options": [
+        "Select One",
+        "Alabama",
+        "Alaska",
+        "American Samoa",
+        "Arizona",
+        "Arkansas",
+        "Armed Forces Americas",
+        "Armed Forces Europe",
+        "Armed Forces Pacific",
+        "California",
+        "Colorado",
+        "Connecticut",
+        "Delaware",
+        "District of Columbia",
+        "Florida",
+        "Georgia",
+        "Guam",
+        "Hawaii",
+        "Idaho",
+        "Illinois",
+        "Indiana",
+        "Iowa",
+        "Kansas",
+        "Kentucky",
+        "Louisiana"
+      ],
+      "other_option": null
+    }
+  ],
+  "wizard_pages": [
+    {
+      "page": 2,
+      "url": "https://inmar.wd1.myworkdayjobs.com/en-US/inmarcareers/job/Headquarters%2C-Winston-Salem%2C-NC/Data--Analytics---AI-Internships--Summer-2027_JY2627632/apply",
+      "kind": "wizard",
+      "fillable": 16,
+      "filled": 15,
+      "verify_passed": false
+    },
+    {
+      "page": 3,
+      "url": "https://inmar.wd1.myworkdayjobs.com/en-US/inmarcareers/job/Headquarters%2C-Winston-Salem%2C-NC/Data--Analytics---AI-Internships--Summer-2027_JY2627632/apply",
+      "kind": "wizard",
+      "fillable": 8,
+      "filled": 5,
+      "verify_passed": true
+    },
+    {
+      "page": 4,
+      "url": "https://inmar.wd1.myworkdayjobs.com/en-US/inmarcareers/job/Headquarters%2C-Winston-Salem%2C-NC/Data--Analytics---AI-Internships--Summer-2027_JY2627632/apply",
+      "kind": "wizard",
+      "fillable": 10,
+      "filled": 6,
+      "verify_passed": true
+    }
+  ],
+  "operator_brief": {
+    "title": "Live fill — workday https://inmar.wd1.myworkdayjobs.com/inmarcareers/job/Headquarters-Winston-Salem-NC/Data--Analytics---AI-Internships--Summer-2027_JY2627632",
+    "summary": "No open field issues in this report.",
+    "items": [],
+    "ok_count": 11,
+    "fail_count": 0
+  },
+  "written_at": "2026-09-18T04:45:21.386Z"
+}
