@@ -1,0 +1,136 @@
+{
+  "decision_id": "c97642a9-1865-46ad-a607-a4c77eaabb5c",
+  "application_id": "1cda17e3-5dd9-4486-a684-e23ac4458756",
+  "signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|www.tesla.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "1cda17e3-5dd9-4486-a684-e23ac4458756",
+    "company": "Imagine",
+    "role": "Summer 2027 Software Development Intern",
+    "state": "NATIVE_AUTOFILL_RUNNING",
+    "attempt": 1,
+    "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|www.tesla.com",
+    "end_host": "www.tesla.com",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route ready_for_fill_later (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-18T06:15:41.429Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-18T06:15:40.801Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-18T06:15:40.793Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-18T06:15:32.741Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 7141579276ac)",
+        "at": "2026-09-18T06:15:32.734Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-18T06:15:32.704Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-18T04:36:30.669Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-18T04:36:30.660Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-18T04:36:30.659Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-18T04:36:30.658Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "apply_click_popup",
+      "notes": [
+        "phase A: 7 external host(s) seen: recruiting.paylocity.com, www.linkedin.com, x.com, www.crunchbase.com, www.theimaginegroup.com, www.irishexaminer.com, irishtechnews.ie",
+        "Apply control: autofill CTA (tier 0)",
+        "jobright interstitial: clicked \"Apply Without Customizing\"",
+        "popup captured on attempt 1",
+        "phase B: captured URL reads as \"tesla\" (URL names \"tesla\" (host), which shares nothing with company \"Imagine\") — kept, provenance is the Apply click",
+        "congruence: URL names \"tesla\", not \"Imagine\" (URL names \"tesla\" (host), which shares nothing with company \"Imagine\") — recorded, not refused"
+      ],
+      "congruence": {
+        "verdict": "mismatch",
+        "slug": "tesla",
+        "detail": "URL names \"tesla\" (host), which shares nothing with company \"Imagine\"",
+        "expected_company": "Imagine",
+        "url": "https://www.tesla.com/careers/search/job/283950?source=jobright&source=jobright&jr_id=6aaccf65636cddf7396f4f2c"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "no congruent apply href (12 external links)",
+          "evidence": "recruiting.paylocity.com, www.linkedin.com, x.com, www.crunchbase.com, www.theimaginegroup.com, www.irishexaminer.com"
+        },
+        {
+          "phase": "B_apply_click",
+          "outcome": "resolved via popup",
+          "evidence": "www.tesla.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [
+      {
+        "kind": "MANUAL",
+        "title": "Stored application URL belongs to \"tesla\", not Imagine"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\":\"requeue_reopen_navigation\",\"rationale\":\"Stored URL resolves to www.tesla.com, incongruent with company \\\"Imagine\\\"; the apply-click popup captured the wrong posting. Clearing the URL and re-resolving navigation is the cheapest action that could reach the correct employer form. A review item already exists for operator visibility.\",\"confidence\":\"medium\"}",
+  "parsed_action": "requeue_reopen_navigation",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "URL cleared, → APPLICATION_OPENING",
+  "rationale_unverified": "Stored URL resolves to www.tesla.com, incongruent with company \"Imagine\"; the apply-click popup captured the wrong posting. Clearing the URL and re-resolving navigation is the cheapest action that could reach the correct employer form. A review item already exists for operator visibility."
+}

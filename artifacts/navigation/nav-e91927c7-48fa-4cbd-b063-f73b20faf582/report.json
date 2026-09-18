@@ -1,0 +1,47 @@
+{
+  "run_id": "nav-e91927c7-48fa-4cbd-b063-f73b20faf582",
+  "application_id": "1cda17e3-5dd9-4486-a684-e23ac4458756",
+  "jobright_job_id": "6aabffbc3e3ce93970c7b137",
+  "method": "apply_click_popup",
+  "resolved_url": "https://www.tesla.com/careers/search/job/283950",
+  "resolved_ats": "generic",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no congruent apply href (12 external links)",
+      "evidence": "recruiting.paylocity.com, www.linkedin.com, x.com, www.crunchbase.com, www.theimaginegroup.com, www.irishexaminer.com"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "resolved via popup",
+      "evidence": "www.tesla.com"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "phase A: 7 external host(s) seen: recruiting.paylocity.com, www.linkedin.com, x.com, www.crunchbase.com, www.theimaginegroup.com, www.irishexaminer.com, irishtechnews.ie",
+    "Apply control: autofill CTA (tier 0)",
+    "jobright interstitial: clicked \"Apply Without Customizing\"",
+    "popup captured on attempt 1",
+    "phase B: captured URL reads as \"tesla\" (URL names \"tesla\" (host), which shares nothing with company \"Imagine\") — kept, provenance is the Apply click",
+    "congruence: URL names \"tesla\", not \"Imagine\" (URL names \"tesla\" (host), which shares nothing with company \"Imagine\") — recorded, not refused"
+  ],
+  "congruence": {
+    "verdict": "mismatch",
+    "slug": "tesla",
+    "detail": "URL names \"tesla\" (host), which shares nothing with company \"Imagine\"",
+    "expected_company": "Imagine",
+    "url": "https://www.tesla.com/careers/search/job/283950?source=jobright&source=jobright&jr_id=6aaccf65636cddf7396f4f2c"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-09-18T06:15:40.740Z"
+}
