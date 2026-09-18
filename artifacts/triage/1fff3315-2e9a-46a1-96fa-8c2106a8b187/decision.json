@@ -1,0 +1,119 @@
+{
+  "decision_id": "1fff3315-2e9a-46a1-96fa-8c2106a8b187",
+  "application_id": "ddb3a3b4-c91f-42d1-9a3c-af55e4d1cdd7",
+  "signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|ericsson.eightfold.ai",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "ddb3a3b4-c91f-42d1-9a3c-af55e4d1cdd7",
+    "company": "Ericsson",
+    "role": "AI & Data Science Intern",
+    "state": "NATIVE_AUTOFILL_RUNNING",
+    "attempt": 1,
+    "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|ericsson.eightfold.ai",
+    "end_host": "ericsson.eightfold.ai",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-18T07:22:22.234Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-18T07:22:18.555Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-18T07:22:18.491Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-18T07:22:13.764Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 d5f6e2353444)",
+        "at": "2026-09-18T07:22:13.565Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-18T07:22:13.345Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-18T03:59:10.318Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-18T03:59:10.300Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-18T03:59:10.299Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-18T03:59:10.296Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "ericsson",
+        "detail": "token \"ericsson\" ~ slug \"ericsson\" (from URL tenant)",
+        "expected_company": "Ericsson",
+        "url": "https://ericsson.eightfold.ai/careers?pid=563121776618027&jr_id=6aac136c3e3ce93970c7b86f"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (12 candidates, employer match)",
+          "evidence": "ericsson.eightfold.ai"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"requeue_same\", \"rationale\": \"Run stalled in NATIVE_AUTOFILL_RUNNING on attempt 1 with no wall, no fill-gate failure, navigation resolved and company congruence matched, materials verified. Looks like a transient interruption during the fill stage; cheapest plausible fix is rerunning the same pipeline.\", \"confidence\": \"medium\"}",
+  "parsed_action": "requeue_same",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "requeued at attempt 2",
+  "rationale_unverified": "Run stalled in NATIVE_AUTOFILL_RUNNING on attempt 1 with no wall, no fill-gate failure, navigation resolved and company congruence matched, materials verified. Looks like a transient interruption during the fill stage; cheapest plausible fix is rerunning the same pipeline."
+}
