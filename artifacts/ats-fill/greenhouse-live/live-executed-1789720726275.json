@@ -1,0 +1,956 @@
+{
+  "mode": "executed",
+  "ats": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/relaypro/jobs/8176774",
+  "plan": {
+    "answers": {
+      "legal_name.first": "Shubham",
+      "legal_name.last": "Kale",
+      "screener:custom:has_preferred_name": "No",
+      "email": "s***@gmail.com",
+      "address.country": "United States",
+      "phone": "***-***-7636",
+      "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+      "how_heard": "LinkedIn",
+      "address.line1": "3510 N Charles St",
+      "address.city": "Baltimore",
+      "address.postal_code": "21218",
+      "address.state": "Maryland",
+      "work_authorization": "[REDACTED_SPONSORSHIP]",
+      "requires_sponsorship": "[REDACTED_SPONSORSHIP]",
+      "screener:custom:opt_eligibility": "No",
+      "screener:custom:accepts_salary_range": "Yes",
+      "screener:start_availability": "Flexible — aligned to the posted term",
+      "screener:custom:onsite_40_hours_raleigh": "Yes",
+      "screener:custom:gpa": "3.7",
+      "screener:custom:expected_graduation_date": "Other"
+    },
+    "entries": [
+      {
+        "field_id": "first_name",
+        "label": "First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "fill",
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "last_name",
+        "label": "Last Name",
+        "type": "text",
+        "canonical_field": "legal_name.last",
+        "action": "fill",
+        "value": "Kale",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "preferred_name",
+        "label": "Preferred First Name",
+        "type": "text",
+        "canonical_field": "screener:custom:has_preferred_name",
+        "action": "fill",
+        "value": "No",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "email",
+        "label": "Email",
+        "type": "text",
+        "canonical_field": "email",
+        "action": "fill",
+        "value": "s***@gmail.com",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "country",
+        "label": "Country",
+        "type": "text",
+        "canonical_field": "address.country",
+        "action": "fill",
+        "value": "United States +1",
+        "reason": "Mapped from public profile; placed onto \"United States +1\""
+      },
+      {
+        "field_id": "phone",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "fill",
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "resume",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "skip_file",
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "cover_letter",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "skip_file",
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "question_68969721",
+        "label": "LinkedIn Profile",
+        "type": "text",
+        "canonical_field": "linkedin_url",
+        "action": "fill",
+        "value": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_68969722",
+        "label": "Website",
+        "type": "text",
+        "canonical_field": "personal_website",
+        "action": "skip_empty",
+        "value": null,
+        "reason": "Profile value empty for personal_website"
+      },
+      {
+        "field_id": "question_68969723",
+        "label": "How did you hear about this job?",
+        "type": "text",
+        "canonical_field": "how_heard",
+        "action": "fill",
+        "value": "LinkedIn",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_68969724",
+        "label": "Address",
+        "type": "text",
+        "canonical_field": "address.line1",
+        "action": "fill",
+        "value": "3510 N Charles St",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_68969725",
+        "label": "Address 2",
+        "type": "text",
+        "canonical_field": "address.line2",
+        "action": "skip_empty",
+        "value": null,
+        "reason": "Profile value empty for address.line2"
+      },
+      {
+        "field_id": "question_68969726",
+        "label": "City",
+        "type": "text",
+        "canonical_field": "address.city",
+        "action": "fill",
+        "value": "Baltimore",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_68969727",
+        "label": "Zip Code/Postal Code",
+        "type": "text",
+        "canonical_field": "address.postal_code",
+        "action": "fill",
+        "value": "21218",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_68969729",
+        "label": "State/Province",
+        "type": "text",
+        "canonical_field": "address.state",
+        "action": "fill",
+        "value": "Maryland",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_68969728",
+        "label": "Country",
+        "type": "text",
+        "canonical_field": "address.country",
+        "action": "fill",
+        "value": "United States",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_68969730",
+        "label": "Are you authorized to work lawfully in the United States for Relay?",
+        "type": "text",
+        "canonical_field": "work_authorization",
+        "action": "fill",
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_68969731",
+        "label": "Will you now or in the future require Relay to commence (\"sponsor\") an immigration case in order to employ you (for example, H-1B or other employment-based immigration case)?",
+        "type": "text",
+        "canonical_field": "requires_sponsorship",
+        "action": "fill",
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_68969732",
+        "label": "Are you currently in a period of Optional Practical Training (OPT)?",
+        "type": "text",
+        "canonical_field": "screener:custom:opt_eligibility",
+        "action": "fill",
+        "value": "No",
+        "reason": "Screener bank answer (llm_option)"
+      },
+      {
+        "field_id": "question_68969733",
+        "label": "What is your desired salary?",
+        "type": "text",
+        "canonical_field": "screener:custom:accepts_salary_range",
+        "action": "fill",
+        "value": "Yes",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "question_68969734",
+        "label": "When is your desired start date?",
+        "type": "text",
+        "canonical_field": "screener:start_availability",
+        "action": "fill",
+        "value": "Flexible — aligned to the posted term",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "question_68969735",
+        "label": "Are you able to work consistently for 40 hours per week onsite in our Raleigh, NC HQ for the duration of this internship (May-Aug 2027)?",
+        "type": "text",
+        "canonical_field": "screener:custom:onsite_40_hours_raleigh",
+        "action": "fill",
+        "value": "Yes",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_68969736",
+        "label": "What is your current cumulative GPA? (Note: A minimum GPA of 3.5 is required for consideration on a 4.0 scale).",
+        "type": "text",
+        "canonical_field": "screener:custom:gpa",
+        "action": "fill",
+        "value": "3.7",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "question_68969737[]",
+        "label": "What is your expected Month and Date of graduation from your undergrad or graduate degree?",
+        "type": "checkbox",
+        "canonical_field": "screener:custom:expected_graduation_date",
+        "action": "fill",
+        "value": "Other",
+        "reason": "Screener bank answer (llm_option)"
+      }
+    ],
+    "fillable_count": 21,
+    "skipped_count": 4,
+    "review_required_count": 0
+  },
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "schema diff: 23/24 declared question(s) matched onto 25 DOM field(s); 2 declared-only (1 required); 2 DOM-only",
+    "board API declared 24 question(s); matched complete option lists onto 5 field(s)",
+    "option harvest: scraped real options for 1/18 control(s) before planning",
+    "frozen after fill→verify→upload — no further field mutation; submit never called"
+  ],
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "final_url": "https://job-boards.greenhouse.io/relaypro/jobs/8176774",
+  "identity_verification": {
+    "requestedUrl": "https://job-boards.greenhouse.io/relaypro/jobs/8176774",
+    "finalUrl": "https://job-boards.greenhouse.io/relaypro/jobs/8176774",
+    "requestedJobId": "8176774",
+    "observedJobId": "8176774",
+    "company": "relaypro",
+    "role": "Job Application for Software Engineering Intern (AI/ML) - Summer 2027 at Relay",
+    "formDetected": true,
+    "fieldCount": 25,
+    "warnings": [],
+    "passed": true,
+    "failureCode": null,
+    "failureReason": null
+  },
+  "captcha_detection": {
+    "detected": false,
+    "confidence": "LOW",
+    "signals": [],
+    "dormantMarkers": [
+      "generic_captcha_word_only"
+    ]
+  },
+  "login_wall_detection": {
+    "detected": false,
+    "confidence": "LOW",
+    "signals": []
+  },
+  "failure_code": null,
+  "mutation_attempted": true,
+  "schema_diff": {
+    "board": "relaypro",
+    "job_id": "8176774",
+    "declared_count": 24,
+    "dom_count": 25,
+    "matched": 23,
+    "api_only": [
+      {
+        "label": "Resume/CV",
+        "required": true
+      },
+      {
+        "label": "Cover Letter",
+        "required": false
+      }
+    ],
+    "dom_only": [
+      "Attach",
+      "Attach"
+    ],
+    "option_mismatches": []
+  },
+  "harvested_options": [
+    {
+      "field_id": "country",
+      "label": "Country",
+      "answer_space": "closed",
+      "option_count": 244,
+      "options": [
+        "United States +1",
+        "Afghanistan +93",
+        "Åland Islands +358",
+        "Albania +355",
+        "Algeria +213",
+        "American Samoa +1",
+        "Andorra +376",
+        "Angola +244",
+        "Anguilla +1",
+        "Antigua & Barbuda +1",
+        "Argentina +54",
+        "Armenia +374",
+        "Aruba +297",
+        "Ascension Island +247",
+        "Australia +61",
+        "Austria +43",
+        "Azerbaijan +994",
+        "Bahamas +1",
+        "Bahrain +973",
+        "Bangladesh +880",
+        "Barbados +1",
+        "Belarus +375",
+        "Belgium +32",
+        "Belize +501",
+        "Benin +229"
+      ],
+      "other_option": null
+    }
+  ],
+  "approved_plan": {
+    "entries": [
+      {
+        "field_id": "first_name",
+        "label": "First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "FILL",
+        "approved": true,
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "last_name",
+        "label": "Last Name",
+        "type": "text",
+        "canonical_field": "legal_name.last",
+        "action": "FILL",
+        "approved": true,
+        "value": "Kale",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "preferred_name",
+        "label": "Preferred First Name",
+        "type": "text",
+        "canonical_field": "screener:custom:has_preferred_name",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "email",
+        "label": "Email",
+        "type": "text",
+        "canonical_field": "email",
+        "action": "FILL",
+        "approved": true,
+        "value": "s***@gmail.com",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "country",
+        "label": "Country",
+        "type": "text",
+        "canonical_field": "address.country",
+        "action": "FILL",
+        "approved": true,
+        "value": "United States +1",
+        "reason": "Mapped from public profile; placed onto \"United States +1\""
+      },
+      {
+        "field_id": "phone",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "FILL",
+        "approved": true,
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "resume",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "cover_letter",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "question_68969721",
+        "label": "LinkedIn Profile",
+        "type": "text",
+        "canonical_field": "linkedin_url",
+        "action": "FILL",
+        "approved": true,
+        "value": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_68969722",
+        "label": "Website",
+        "type": "text",
+        "canonical_field": "personal_website",
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "Profile value empty for personal_website"
+      },
+      {
+        "field_id": "question_68969723",
+        "label": "How did you hear about this job?",
+        "type": "text",
+        "canonical_field": "how_heard",
+        "action": "FILL",
+        "approved": true,
+        "value": "LinkedIn",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_68969724",
+        "label": "Address",
+        "type": "text",
+        "canonical_field": "address.line1",
+        "action": "FILL",
+        "approved": true,
+        "value": "3510 N Charles St",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_68969725",
+        "label": "Address 2",
+        "type": "text",
+        "canonical_field": "address.line2",
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "Profile value empty for address.line2"
+      },
+      {
+        "field_id": "question_68969726",
+        "label": "City",
+        "type": "text",
+        "canonical_field": "address.city",
+        "action": "FILL",
+        "approved": true,
+        "value": "Baltimore",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_68969727",
+        "label": "Zip Code/Postal Code",
+        "type": "text",
+        "canonical_field": "address.postal_code",
+        "action": "FILL",
+        "approved": true,
+        "value": "21218",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_68969729",
+        "label": "State/Province",
+        "type": "text",
+        "canonical_field": "address.state",
+        "action": "FILL",
+        "approved": true,
+        "value": "Maryland",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_68969728",
+        "label": "Country",
+        "type": "text",
+        "canonical_field": "address.country",
+        "action": "FILL",
+        "approved": true,
+        "value": "United States",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_68969730",
+        "label": "Are you authorized to work lawfully in the United States for Relay?",
+        "type": "text",
+        "canonical_field": "work_authorization",
+        "action": "FILL",
+        "approved": true,
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_68969731",
+        "label": "Will you now or in the future require Relay to commence (\"sponsor\") an immigration case in order to employ you (for example, H-1B or other employment-based immigration case)?",
+        "type": "text",
+        "canonical_field": "requires_sponsorship",
+        "action": "FILL",
+        "approved": true,
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_68969732",
+        "label": "Are you currently in a period of Optional Practical Training (OPT)?",
+        "type": "text",
+        "canonical_field": "screener:custom:opt_eligibility",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Screener bank answer (llm_option)"
+      },
+      {
+        "field_id": "question_68969733",
+        "label": "What is your desired salary?",
+        "type": "text",
+        "canonical_field": "screener:custom:accepts_salary_range",
+        "action": "FILL",
+        "approved": true,
+        "value": "Yes",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "question_68969734",
+        "label": "When is your desired start date?",
+        "type": "text",
+        "canonical_field": "screener:start_availability",
+        "action": "FILL",
+        "approved": true,
+        "value": "Flexible — aligned to the posted term",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "question_68969735",
+        "label": "Are you able to work consistently for 40 hours per week onsite in our Raleigh, NC HQ for the duration of this internship (May-Aug 2027)?",
+        "type": "text",
+        "canonical_field": "screener:custom:onsite_40_hours_raleigh",
+        "action": "FILL",
+        "approved": true,
+        "value": "Yes",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_68969736",
+        "label": "What is your current cumulative GPA? (Note: A minimum GPA of 3.5 is required for consideration on a 4.0 scale).",
+        "type": "text",
+        "canonical_field": "screener:custom:gpa",
+        "action": "FILL",
+        "approved": true,
+        "value": "3.7",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "question_68969737[]",
+        "label": "What is your expected Month and Date of graduation from your undergrad or graduate degree?",
+        "type": "checkbox",
+        "canonical_field": "screener:custom:expected_graduation_date",
+        "action": "FILL",
+        "approved": true,
+        "value": "Other",
+        "reason": "Screener bank answer (llm_option)"
+      }
+    ],
+    "answers": {
+      "legal_name.first": "Shubham",
+      "legal_name.last": "Kale",
+      "screener:custom:has_preferred_name": "No",
+      "email": "s***@gmail.com",
+      "address.country": "United States",
+      "phone": "***-***-7636",
+      "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+      "how_heard": "LinkedIn",
+      "address.line1": "3510 N Charles St",
+      "address.city": "Baltimore",
+      "address.postal_code": "21218",
+      "address.state": "Maryland",
+      "work_authorization": "[REDACTED_SPONSORSHIP]",
+      "requires_sponsorship": "[REDACTED_SPONSORSHIP]",
+      "screener:custom:opt_eligibility": "No",
+      "screener:custom:accepts_salary_range": "Yes",
+      "screener:start_availability": "Flexible — aligned to the posted term",
+      "screener:custom:onsite_40_hours_raleigh": "Yes",
+      "screener:custom:gpa": "3.7",
+      "screener:custom:expected_graduation_date": "Other"
+    },
+    "fillable_count": 21,
+    "skipped_count": 4,
+    "review_required_count": 0
+  },
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "legal_name.last",
+      "screener:custom:has_preferred_name",
+      "email",
+      "address.country",
+      "phone",
+      "linkedin_url",
+      "how_heard",
+      "address.line1",
+      "address.city",
+      "address.postal_code",
+      "address.state",
+      "address.country",
+      "work_authorization",
+      "requires_sponsorship",
+      "screener:custom:opt_eligibility",
+      "screener:custom:accepts_salary_range",
+      "screener:start_availability",
+      "screener:custom:onsite_40_hours_raleigh",
+      "screener:custom:gpa",
+      "screener:custom:expected_graduation_date"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "first_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "last_name",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "preferred_name",
+        "canonical_field": "screener:custom:has_preferred_name",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "country",
+        "canonical_field": "address.country",
+        "control_kind": "combobox",
+        "selected_option": "+1",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"United States +1\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "phone",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_68969721",
+        "canonical_field": "linkedin_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_68969723",
+        "canonical_field": "how_heard",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_68969724",
+        "canonical_field": "address.line1",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_68969726",
+        "canonical_field": "address.city",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_68969727",
+        "canonical_field": "address.postal_code",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_68969729",
+        "canonical_field": "address.state",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_68969728",
+        "canonical_field": "address.country",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_68969730",
+        "canonical_field": "work_authorization",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_68969731",
+        "canonical_field": "requires_sponsorship",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_68969732",
+        "canonical_field": "screener:custom:opt_eligibility",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_68969733",
+        "canonical_field": "screener:custom:accepts_salary_range",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_68969734",
+        "canonical_field": "screener:start_availability",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_68969735",
+        "canonical_field": "screener:custom:onsite_40_hours_raleigh",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_68969736",
+        "canonical_field": "screener:custom:gpa",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_68969737[]",
+        "canonical_field": "screener:custom:expected_graduation_date",
+        "control_kind": "checkbox_group",
+        "selected_option": "Other"
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.last",
+        "expected": "Kale",
+        "observed": "Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:has_preferred_name",
+        "expected": "No",
+        "observed": "No",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "address.country",
+        "expected": "United States +1",
+        "observed": {
+          "value": "+1",
+          "label": "+1"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "match": true
+      },
+      {
+        "canonical_field": "how_heard",
+        "expected": "LinkedIn",
+        "observed": "LinkedIn",
+        "match": true
+      },
+      {
+        "canonical_field": "address.line1",
+        "expected": "3510 N Charles St",
+        "observed": "3510 N Charles St",
+        "match": true
+      },
+      {
+        "canonical_field": "address.city",
+        "expected": "Baltimore",
+        "observed": "Baltimore",
+        "match": true
+      },
+      {
+        "canonical_field": "address.postal_code",
+        "expected": "21218",
+        "observed": "21218",
+        "match": true
+      },
+      {
+        "canonical_field": "address.state",
+        "expected": "Maryland",
+        "observed": "Maryland",
+        "match": true
+      },
+      {
+        "canonical_field": "address.country",
+        "expected": "United States",
+        "observed": "United States",
+        "match": true
+      },
+      {
+        "canonical_field": "work_authorization",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "requires_sponsorship",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:opt_eligibility",
+        "expected": "No",
+        "observed": {
+          "value": "No",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:accepts_salary_range",
+        "expected": "Yes",
+        "observed": "Yes",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:start_availability",
+        "expected": "Flexible — aligned to the posted term",
+        "observed": "Flexible — aligned to the posted term",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:onsite_40_hours_raleigh",
+        "expected": "Yes",
+        "observed": {
+          "value": "Yes",
+          "label": "Yes"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:gpa",
+        "expected": "3.7",
+        "observed": "3.7",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:expected_graduation_date",
+        "expected": "Other",
+        "observed": {
+          "value": "Other",
+          "label": "Other"
+        },
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 126181,
+      "verified": true,
+      "evidence": "input files: []; stillAttached=false; chip=true"
+    }
+  ],
+  "written_at": "2026-09-18T08:38:46.297Z"
+}
