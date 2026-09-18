@@ -60,12 +60,12 @@
 </style></head>
 <body><div class="wrap">
 <h1>Dispatch run timeline</h1>
-<p class="sub">Generated 2026-09-18T08:53:50.829Z · 40 navigation run(s) · read-only view of artifacts/</p>
+<p class="sub">Generated 2026-09-18T08:55:40.051Z · 40 navigation run(s) · read-only view of artifacts/</p>
 <div class="stats"><span class="stat"><b>26</b> resolved</span><span class="stat"><b>13</b> unknown</span><span class="stat"><b>1</b> duplicate_url</span></div>
 <section class="cycle">
   <h2>Latest cycle</h2>
   <dl>
-    <div><dt>Started</dt><dd>2026-09-18T08:52:24.624Z</dd></div>
+    <div><dt>Started</dt><dd>2026-09-18T08:54:31.692Z</dd></div>
     <div><dt>Outcome</dt><dd>completed</dd></div>
     <div><dt>Agent leg</dt><dd>available</dd></div>
     <div><dt>Default resume</dt><dd>ready (C:\dev\jobright-application-agent\private\candidate\resumes\general.pdf)</dd></div>
@@ -73,9 +73,24 @@
     <div><dt>Submits used</dt><dd>0</dd></div>
     <div><dt>Stopped</dt><dd>apps_cap</dd></div>
   </dl>
-  <h3>Session notes</h3><ul class="notes"><li>triage sweep: 0 confirmed, 1 refuted, 0 expired of 210 pending</li><li>triage ffba2892: requeue_same (executed) — requeued at attempt 2</li><li>artifact autopush: 8 file(s) pushed to master as 65433e7cf</li></ul>
+  <h3>Session notes</h3><ul class="notes"><li>triage sweep: 0 confirmed, 0 refuted, 0 expired of 210 pending</li><li>triage ddb3a3b4: engage_agent_leg — precondition failed: no navigation wall in evidence — agent leg only helps nav-walled apps</li><li>artifact autopush: 7 file(s) pushed to master as c9d0252e4</li></ul>
 </section>
 <h2>Applications</h2>
+<details class="app bad">
+  <summary>
+    <span class="id"></span>
+    <span class="co">—</span>
+    <span class="badge">wall: undefined</span>
+    
+    
+    
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li>none recorded</li></ol>
+    <h4>Notes</h4><ul class="notes"><li>page is confirmation</li><li>model calls: 0 of 0 steps</li></ul>
+    
+  </div>
+</details>
 <details class="app ok">
   <summary>
     <span class="id">ffba2892</span>
@@ -658,21 +673,6 @@
   <div class="body">
     <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no congruent apply href (9 external links)<span class="ev">careers-uwmcareers.icims.com, www.linkedin.com, x.com, www.crunchbase.com, www.newsfilecorp.com, www.prnewswire.com</span></li><li><b>B_apply_click</b> — unresolved by deterministic phases</li><li><b>A_anchor_llm</b> — candidate promoted by adjudication<span class="ev">careers-uwmcareers.icims.com</span></li></ol>
     <h4>Notes</h4><ul class="notes"><li>phase A: anchor reads as &quot;uwmcareers&quot; (URL names &quot;uwmcareers&quot; (tenant), which shares nothing with company &quot;United Wholesale Mortgage&quot;) — not preferred, deferring to the Apply click</li><li>phase A: 7 external host(s) seen: careers-uwmcareers.icims.com, www.linkedin.com, x.com, www.crunchbase.com, www.newsfilecorp.com, www.prnewswire.com, www.morningstar.com</li><li>no standard Apply control found (exact and broad name tiers both empty)</li><li>anchor adjudication: promoted careers-uwmcareers.icims.com</li><li>anchor adjudication rationale (UNVERIFIED): iCIMS ATS tenant 'uwmcareers' (UWM) with exact job title match; others are news/legal releases.</li><li>congruence: URL names &quot;uwmcareers&quot;, not &quot;United Wholesale Mortgage&quot; (URL names &quot;uwmcareers&quot; (tenant), which shares nothing with company &quot;United Wholesale Mortgage&quot;) — recorded, not refused</li></ul>
-    
-  </div>
-</details>
-<details class="app bad">
-  <summary>
-    <span class="id"></span>
-    <span class="co">—</span>
-    <span class="badge">wall: undefined</span>
-    
-    
-    
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li>none recorded</li></ol>
-    <h4>Notes</h4><ul class="notes"><li>model calls: 1 of 1 steps</li></ul>
     
   </div>
 </details>
