@@ -1,0 +1,138 @@
+{
+  "ats": "generic",
+  "url": "https://ibqbjb.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/Honeywell/job/157903",
+  "requested_url": "https://ibqbjb.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/Honeywell/job/157903",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://ibqbjb.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/Honeywell/job/157903/apply/email",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 1,
+    "skipped_count": 0,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "oda-work-summary-text-area|input",
+      "label": "Work Summary",
+      "type": "textarea",
+      "canonical_field": "essay:generated:oda-work-summary-text-area|input",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "oda-work-summary-text-area|input",
+      "label": "Work Summary",
+      "type": "textarea",
+      "canonical_field": "essay:generated:oda-work-summary-text-area|input",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    }
+  ],
+  "form_snapshot_path": null,
+  "fill": {
+    "filled": [
+      "email",
+      "application_consent:legal-disclaimer-checkbox"
+    ],
+    "skipped": [
+      "oda-work-summary-text-area|input — control is not visible (collapsed section or unopened editor)",
+      "oda-work-summary-text-area|input — control is not visible (collapsed section or unopened editor)"
+    ],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "oda-work-summary-text-area|input",
+        "canonical_field": "essay:generated:oda-work-summary-text-area|input",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled",
+          "resolved by id=oda-work-summary-text-area|input (planned textarea), 1 match(es): <textarea type=textarea> display=block visibility=hidden"
+        ]
+      },
+      {
+        "field_id": "oda-work-summary-text-area|input",
+        "canonical_field": "essay:generated:oda-work-summary-text-area|input",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled",
+          "resolved by id=oda-work-summary-text-area|input (planned textarea), 1 match(es): <textarea type=textarea> display=block visibility=hidden"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": false,
+    "fields": [
+      {
+        "canonical_field": "essay:generated:oda-work-summary-text-area|input",
+        "expected": "I'm an undergraduate at Johns Hopkins studying Applied Mathematics & Statistics and Economics, and most of my work has been building machine learning systems that have to hold up against real operational constraints. Right now I work on the ML core of an anomaly-detection and alert-prioritization system at Summer Atlantic Capital / SAC Nexus, where I own major parts of the data and ML infrastructure: the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence modeling over event streams using RNN and Transformer-style approaches, and a learning-to-rank layer for prioritizing alerts. The thing I keep coming back to there is that an anomaly system producing too many alerts creates a second problem instead of solving the first, so I also built a retrieval-augmented explanation layer to make outputs usable by human analysts. Before that, I was lead model developer on a Gates Foundation-funded Hopkins project, training XGBoost models on a national survey dataset of roughly 10 million records, using SHAP for feature selection and interpretation, and designing G-formula causal simulations. I also built an evaluation framework at Intelehealth comparing LLM outputs against a 4,169-case clinical standard using stratified sampling to surface systematic failure modes.",
+        "observed": "",
+        "match": false
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": null,
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: posting (Apply CTA present and none of the 2 field(s) ask who you are — page furniture, not an application)",
+    "popups dismissed: Accept All, close (aria-label)",
+    "landed on a posting (Apply CTA present and none of the 2 field(s) ask who you are — page furniture, not an application); clicking Apply via role=button accessible name is Apply",
+    "Apply landed on: form (1 fillable field(s))",
+    "revealed required control(s) after the fill (#224): \"Email Address\", \"I have read the Important Privacy Inform\" — second plan pass",
+    "revealed pass: filled 2, verify passed",
+    "timing: base page (1 planned) — plan 7s, fill 9s, verify 0s",
+    "page error scan: no visible validation errors on the page",
+    "verify-failed snapshot: verify-failed-snapshot-1789713713033.html",
+    "page-complete waiver (#240): the page requires nothing further and shows no error; 1 planned value(s) left empty — essay:generated:oda-work-summary-text-area|input (left empty)",
+    "resume on disk but this page has no file input — not an upload miss",
+    "timing: revealed page (1 planned) — plan 7s, fill 2s, verify 0s",
+    "resolved advance: \"Next\"",
+    "form-advance: verify failed on page 2 — not advancing further",
+    "form-advance: filled 1 additional page(s) — form:0/1",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "wizard_pages": [
+    {
+      "page": 2,
+      "url": "https://ibqbjb.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/Honeywell/job/157903/apply/section/1",
+      "kind": "form",
+      "fillable": 1,
+      "filled": 0,
+      "verify_passed": false
+    }
+  ],
+  "operator_brief": {
+    "title": "Live fill — generic https://ibqbjb.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/Honeywell/job/157903/apply/email",
+    "summary": "1 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:essay:generated:oda-work-summary-text-area|input",
+        "question": "Work Summary",
+        "field_id": "oda-work-summary-text-area|input",
+        "canonical_field": "essay:generated:oda-work-summary-text-area|input",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"I'm an undergraduate at Johns Hopkins studying Applied Mathematics & Statistics and Economics, and most of my work has been building machine learning systems that have to hold up against real operational constraints. Right now I work on the ML core of an anomaly-detection and alert-prioritization system at Summer Atlantic Capital / SAC Nexus, where I own major parts of the data and ML infrastructure: the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence modeling over event streams using RNN and Transformer-style approaches, and a learning-to-rank layer for prioritizing alerts. The thing I keep coming back to there is that an anomaly system producing too many alerts creates a second problem instead of solving the first, so I also built a retrieval-augmented explanation layer to make outputs usable by human analysts. Before that, I was lead model developer on a Gates Foundation-funded Hopkins project, training XGBoost models on a national survey dataset of roughly 10 million records, using SHAP for feature selection and interpretation, and designing G-formula causal simulations. I also built an evaluation framework at Intelehealth comparing LLM outputs against a 4,169-case clinical standard using stratified sampling to surface systematic failure modes.\"; page shows \"(empty)\"",
+        "expected": "I'm an undergraduate at Johns Hopkins studying Applied Mathematics & Statistics and Economics, and most of my work has been building machine learning systems that have to hold up against real operational constraints. Right now I work on the ML core of an anomaly-detection and alert-prioritization system at Summer Atlantic Capital / SAC Nexus, where I own major parts of the data and ML infrastructure: the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence modeling over event streams using RNN and Transformer-style approaches, and a learning-to-rank layer for prioritizing alerts. The thing I keep coming back to there is that an anomaly system producing too many alerts creates a second problem instead of solving the first, so I also built a retrieval-augmented explanation layer to make outputs usable by human analysts. Before that, I was lead model developer on a Gates Foundation-funded Hopkins project, training XGBoost models on a national survey dataset of roughly 10 million records, using SHAP for feature selection and interpretation, and designing G-formula causal simulations. I also built an evaluation framework at Intelehealth comparing LLM outputs against a 4,169-case clinical standard using stratified sampling to surface systematic failure modes.",
+        "observed": "",
+        "how_to_answer": [
+          "System expected \"I'm an undergraduate at Johns Hopkins studying Applied Mathematics & Statistics and Economics, and most of my work has been building machine learning systems that have to hold up against real operational constraints. Right now I work on the ML core of an anomaly-detection and alert-prioritization system at Summer Atlantic Capital / SAC Nexus, where I own major parts of the data and ML infrastructure: the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence modeling over event streams using RNN and Transformer-style approaches, and a learning-to-rank layer for prioritizing alerts. The thing I keep coming back to there is that an anomaly system producing too many alerts creates a second problem instead of solving the first, so I also built a retrieval-augmented explanation layer to make outputs usable by human analysts. Before that, I was lead model developer on a Gates Foundation-funded Hopkins project, training XGBoost models on a national survey dataset of roughly 10 million records, using SHAP for feature selection and interpretation, and designing G-formula causal simulations. I also built an evaluation framework at Intelehealth comparing LLM outputs against a 4,169-case clinical standard using stratified sampling to surface systematic failure modes.\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: essay:generated:oda-work-summary-text-area|input)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"essay:generated:oda-work-summary-text-area|input\" should match the on-form question text."
+        ]
+      }
+    ],
+    "ok_count": 0,
+    "fail_count": 1
+  },
+  "written_at": "2026-09-18T06:42:04.504Z"
+}

@@ -1,0 +1,51 @@
+{
+  "run_id": "nav-bde099ba-015a-4385-bca8-805b2e5a1c9e",
+  "application_id": "a0a058b0-ba10-42e3-9024-804c5d1f59cc",
+  "jobright_job_id": "6aac2c1d3dbb1f8967ce935c",
+  "method": "anchor_llm",
+  "resolved_url": "https://ibqbjb.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/Honeywell/job/157903",
+  "resolved_ats": "generic",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no congruent apply href (10 external links)",
+      "evidence": "ibqbjb.fa.ocs.oraclecloud.com, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, www.businesswire.com"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "unresolved by deterministic phases"
+    },
+    {
+      "phase": "A_anchor_llm",
+      "outcome": "candidate promoted by adjudication",
+      "evidence": "ibqbjb.fa.ocs.oraclecloud.com"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "phase A: anchor reads as \"ibqbjb\" (URL names \"ibqbjb\" (tenant), which shares nothing with company \"Honeywell Technologies\") — not preferred, deferring to the Apply click",
+    "phase A: 8 external host(s) seen: ibqbjb.fa.ocs.oraclecloud.com, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, www.businesswire.com, www.marketscreener.com, www.morningstar.com",
+    "no standard Apply control found (exact and broad name tiers both empty)",
+    "anchor adjudication: promoted ibqbjb.fa.ocs.oraclecloud.com",
+    "anchor adjudication rationale (UNVERIFIED): Oracle HCM careers site path contains /sites/Honeywell/job/ — employer's own ATS application page; others are news articles.",
+    "congruence: URL names \"ibqbjb\", not \"Honeywell Technologies\" (URL names \"ibqbjb\" (tenant), which shares nothing with company \"Honeywell Technologies\") — recorded, not refused"
+  ],
+  "congruence": {
+    "verdict": "mismatch",
+    "slug": "ibqbjb",
+    "detail": "URL names \"ibqbjb\" (tenant), which shares nothing with company \"Honeywell Technologies\"",
+    "expected_company": "Honeywell Technologies",
+    "url": "https://ibqbjb.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/Honeywell/job/157903?jr_id=6aac2c1d3dbb1f8967ce935c"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-09-18T06:41:23.148Z"
+}
