@@ -1,0 +1,48 @@
+{
+  "ats": "workday",
+  "url": "https://ngc.wd1.myworkdayjobs.com/northrop_grumman_external_site/job/United-States-California-San-Diego/XMLNAME-2027-Intern-Software-Engineer_R10250669",
+  "requested_url": "https://ngc.wd1.myworkdayjobs.com/northrop_grumman_external_site/job/United-States-California-San-Diego/XMLNAME-2027-Intern-Software-Engineer_R10250669",
+  "mode": "refused",
+  "gate": {
+    "ok": false,
+    "failure_code": "NAVIGATION_INCOMPLETE",
+    "reason": "page is confirmation; model calls: 1 of 1 steps",
+    "final_url": "https://jobs.northropgrumman.com/careers?start=0&pid=1340074341907&sort_by=timestamp",
+    "page_class": "confirmation"
+  },
+  "plan_summary": null,
+  "plan_fields": null,
+  "form_snapshot_path": null,
+  "fill": null,
+  "verify": null,
+  "uploads": null,
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "navigation supervisor: stopped (1 steps)"
+  ],
+  "navigation_supervisor": {
+    "run_id": "supervisor-ee1f35d6-2cc2-49d6-a09f-17851c9c8b7e",
+    "outcome": "stopped",
+    "steps": [
+      {
+        "observation": "f4f51a228b23fba6",
+        "action": "click",
+        "reason": "Posting URL 404s; go to Northrop Grumman careers site to locate the 2027 Intern Software Engineer posting.",
+        "result": "clicked observed control; next observation checks progress",
+        "model": "claude-opus-5",
+        "target": "control-2"
+      }
+    ],
+    "notes": [
+      "page is confirmation",
+      "model calls: 1 of 1 steps"
+    ],
+    "evidence": [
+      "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-ee1f35d6-2cc2-49d6-a09f-17851c9c8b7e\\observation.json",
+      "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-ee1f35d6-2cc2-49d6-a09f-17851c9c8b7e\\page.png"
+    ]
+  },
+  "written_at": "2026-09-18T07:04:25.169Z"
+}

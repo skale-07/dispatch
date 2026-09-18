@@ -1,0 +1,154 @@
+{
+  "decision_id": "8581a4b4-d869-4f0d-913a-9354fe27cf3d",
+  "application_id": "0cb720a0-19ef-4e28-bfe2-180f62050b98",
+  "signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|ngc.wd1.myworkdayjobs.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "0cb720a0-19ef-4e28-bfe2-180f62050b98",
+    "company": "Northrop Grumman",
+    "role": "2027 Intern Software Engineer",
+    "state": "NATIVE_AUTOFILL_RUNNING",
+    "attempt": 1,
+    "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|ngc.wd1.myworkdayjobs.com",
+    "end_host": "ngc.wd1.myworkdayjobs.com",
+    "recent_events": [
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "operator requeue (workday focus): re-fill, not re-verify",
+        "at": "2026-09-16T14:24:29.099Z"
+      },
+      {
+        "from": "AMBIGUOUS_FIELD",
+        "to": "FIELD_VERIFICATION",
+        "reason": "operator resolved ambiguous field (console)",
+        "at": "2026-09-16T14:24:29.095Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "AMBIGUOUS_FIELD",
+        "reason": "pipeline: read-back verification failed",
+        "at": "2026-09-16T08:13:44.114Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (workday live fill: 12 filled (held for submit))",
+        "at": "2026-09-16T08:13:44.087Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route inspect_only (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-16T08:01:55.732Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-16T08:01:55.028Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: workday URL validated",
+        "at": "2026-09-16T08:01:55.021Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-16T08:01:52.831Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 7141579276ac)",
+        "at": "2026-09-16T08:01:52.823Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-16T08:01:52.792Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-16T06:25:08.170Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-16T06:25:08.106Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-16T06:25:08.104Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-16T06:25:08.101Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "northropgrummanexternalsite",
+        "detail": "token \"northrop\" ~ slug \"northropgrummanexternalsite\" (from URL path)",
+        "expected_company": "Northrop Grumman",
+        "url": "https://ngc.wd1.myworkdayjobs.com/northrop_grumman_external_site/job/United-States-California-San-Diego/XMLNAME-2027-Intern-Software-Engineer_R10250669?jr_id=6aa8ae736d0edc2d91b06fd9"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (11 candidates, employer match)",
+          "evidence": "ngc.wd1.myworkdayjobs.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": true
+    },
+    "open_review_items": [],
+    "prior_decisions": [
+      {
+        "action": "park_for_operator",
+        "failure_signature": "AMBIGUOUS_FIELD|-|verify_mismatch|ngc.wd1.myworkdayjobs.com",
+        "outcome_status": "PENDING",
+        "created_at": "2026-09-16T08:13:51.017Z"
+      }
+    ],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"requeue_same\", \"rationale\": \"Operator resolved the ambiguous field and deliberately requeued to re-fill (not re-verify). Nav congruence matches, no wall, fill gate shows page_class=form with verify_passed and no failure code, materials verified. The run simply stalled mid-autofill on attempt 1, so rerunning the same pipeline is the cheapest plausible fix.\", \"confidence\": \"high\"}",
+  "parsed_action": "requeue_same",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "requeued at attempt 2",
+  "rationale_unverified": "Operator resolved the ambiguous field and deliberately requeued to re-fill (not re-verify). Nav congruence matches, no wall, fill gate shows page_class=form with verify_passed and no failure code, materials verified. The run simply stalled mid-autofill on attempt 1, so rerunning the same pipeline is the cheapest plausible fix."
+}
