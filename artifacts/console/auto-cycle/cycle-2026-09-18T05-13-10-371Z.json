@@ -1,0 +1,72 @@
+{
+  "started_at": "2026-09-18T05:13:10.371Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\general.pdf)",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "3126b17b-feb8-4568-9dd5-1ea538c5c36a",
+    "armed_until": "2026-09-18T07:13:10.416Z",
+    "seconds_remaining": 7200,
+    "max_submits": 1,
+    "submits_used": 0,
+    "max_apps": 1,
+    "apps_started": 0,
+    "discover_max": 1,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": {
+    "arm_run_id": "3126b17b-feb8-4568-9dd5-1ea538c5c36a",
+    "apps_started": 1,
+    "submits_used": 1,
+    "stopped_reason": "apps_cap",
+    "discover_runs": 0,
+    "emails_generated": 0,
+    "drafts_saved": 0,
+    "essay_drafts_generated": 0,
+    "screener_predictions_generated": 0,
+    "notes": [
+      "triage sweep: 0 confirmed, 0 refuted, 0 expired of 214 pending",
+      "gmail d1dde6ce-6920-45a7-acde-df2a1007d7e6: deferred to outreach:worker",
+      "artifact autopush: 7 file(s) pushed to master as 02dcd2b09"
+    ],
+    "per_app": [
+      {
+        "application_id": "d1dde6ce-6920-45a7-acde-df2a1007d7e6",
+        "end_state": "COMPLETED",
+        "stopped": "terminal",
+        "stop_reason": "state COMPLETED is not pipeline-advanceable",
+        "submitted": true,
+        "outreach": {
+          "email_status": null,
+          "draft_status": null,
+          "skip_reason": "deferred to outreach:worker"
+        }
+      }
+    ],
+    "nav_audit": {
+      "checked": 629,
+      "repaired": 0,
+      "parked": 0
+    },
+    "artifact_autopush": {
+      "pushed": true,
+      "commit": "02dcd2b09",
+      "files_staged": 7
+    }
+  },
+  "outcome": "completed",
+  "notes": []
+}
