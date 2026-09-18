@@ -1,0 +1,77 @@
+{
+  "started_at": "2026-09-18T07:18:49.771Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\general.pdf)",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "0b9d538b-c065-4df4-b84a-00706d609fbb",
+    "armed_until": "2026-09-18T09:18:49.812Z",
+    "seconds_remaining": 7200,
+    "max_submits": 1,
+    "submits_used": 0,
+    "max_apps": 1,
+    "apps_started": 0,
+    "discover_max": 1,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": {
+    "arm_run_id": "0b9d538b-c065-4df4-b84a-00706d609fbb",
+    "apps_started": 1,
+    "submits_used": 0,
+    "stopped_reason": "apps_cap",
+    "discover_runs": 0,
+    "emails_generated": 0,
+    "drafts_saved": 0,
+    "essay_drafts_generated": 0,
+    "screener_predictions_generated": 0,
+    "notes": [
+      "triage sweep: 0 confirmed, 0 refuted, 0 expired of 213 pending",
+      "prediction rejected \"Canadian Citizen/Permanent Resident\": no answer",
+      "prediction rejected \"Non-citizen allowed to work for ANY employer\": no answer",
+      "prediction rejected \"Public Trust\": no answer",
+      "prediction rejected \"Top Secret\": no answer",
+      "prediction rejected \"Top Secret/SCI (TS/SCI)\": no answer",
+      "triage 7edbc122: park_for_operator (executed) — review item created: 6d7eb240-69a1-4ee1-bc4b-10a3f6dfbfde",
+      "artifact autopush: 9 file(s) pushed to master as 2cf8d50d9"
+    ],
+    "per_app": [
+      {
+        "application_id": "7edbc122-912e-409e-982c-f3b288797f1f",
+        "end_state": "AMBIGUOUS_FIELD",
+        "stopped": "review",
+        "stop_reason": "verification failed",
+        "submitted": false,
+        "outreach": null
+      }
+    ],
+    "nav_audit": {
+      "checked": 639,
+      "repaired": 0,
+      "parked": 0
+    },
+    "triage": {
+      "decided": 1,
+      "executed": 1
+    },
+    "artifact_autopush": {
+      "pushed": true,
+      "commit": "2cf8d50d9",
+      "files_staged": 9
+    }
+  },
+  "outcome": "completed",
+  "notes": []
+}
