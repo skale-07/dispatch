@@ -1,0 +1,121 @@
+{
+  "decision_id": "1e939710-afbd-455a-895e-9ba9dd952de2",
+  "application_id": "48efb5b8-01bc-445e-b4bd-fb7193d8c953",
+  "signature": "FAILED_RETRYABLE|duplicate_url|duplicate_url|-",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "48efb5b8-01bc-445e-b4bd-fb7193d8c953",
+    "company": "Tower Research Capital",
+    "role": "Software Engineer Intern (Summer 2027)",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 1,
+    "failure_signature": "FAILED_RETRYABLE|duplicate_url|duplicate_url|-",
+    "end_host": null,
+    "recent_events": [
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "navigation: employer URL already held by another application",
+        "at": "2026-09-18T09:57:53.392Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-18T09:57:49.887Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 7141579276ac)",
+        "at": "2026-09-18T09:57:49.860Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-18T09:57:49.788Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-18T09:11:14.044Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-18T09:11:14.030Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-18T09:11:14.029Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-18T09:11:14.028Z"
+      }
+    ],
+    "nav": {
+      "wall": "duplicate_url",
+      "method": null,
+      "notes": [
+        "employer URL already held by 1 other application(s): 50e84872 (Tower Research Capital — Software Engineer Intern (Summer 2027), FAILED_RETRYABLE)"
+      ],
+      "congruence": {
+        "verdict": "match",
+        "slug": "towerresearchcapital",
+        "detail": "token \"tower\" ~ slug \"towerresearchcapital\"",
+        "expected_company": "Tower Research Capital",
+        "url": "https://job-boards.greenhouse.io/embed/job_app?for=towerresearchcapital&token=8212158&jr_id=6aac632f3d96632d741aac5a"
+      },
+      "duplicates": [
+        {
+          "application_id": "50e84872-b58e-450a-811f-b863c533bc17",
+          "state": "FAILED_RETRYABLE",
+          "company": "Tower Research Capital",
+          "role": "Software Engineer Intern (Summer 2027)"
+        }
+      ],
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (12 candidates, employer match)",
+          "evidence": "job-boards.greenhouse.io"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [
+      {
+        "kind": "MANUAL",
+        "title": "Duplicate posting — another application already targets this URL"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"abandon_duplicate\", \"rationale\": \"Evidence shows the same employer URL and identical company/role is already owned by application 50e84872; congruence matched, so this is a genuine duplicate posting rather than a navigation error. Abandoning this one leaves the original owner to proceed.\", \"confidence\": \"high\"}",
+  "parsed_action": "abandon_duplicate",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "abandoned to FAILED_FINAL",
+  "rationale_unverified": "Evidence shows the same employer URL and identical company/role is already owned by application 50e84872; congruence matched, so this is a genuine duplicate posting rather than a navigation error. Abandoning this one leaves the original owner to proceed."
+}
