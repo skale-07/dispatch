@@ -1,0 +1,72 @@
+{
+  "ats": "generic",
+  "url": "https://ventrilo.hiringthing.com/job/690576/software-engineer-intern",
+  "requested_url": "https://ventrilo.hiringthing.com/job/690576/software-engineer-intern",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://ventrilo.hiringthing.com/job/690576/software-engineer-intern",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 1,
+    "skipped_count": 0,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "user[email]",
+      "label": "Enter your email address",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    }
+  ],
+  "form_snapshot_path": null,
+  "fill": {
+    "filled": [
+      "email"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "user[email]",
+        "canonical_field": "email",
+        "control_kind": "text"
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": null,
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: form (1 fillable field(s))",
+    "timing: base page (1 planned) — plan 0s, fill 0s, verify 0s",
+    "resume on disk but this page has no file input — not an upload miss",
+    "form-advance: no Next/Continue advance control matched (account-setup tier: page marker did NOT match, 0 file input(s))",
+    "form-advance: no visible enabled CTA on the page (0 inventoried)",
+    "form-advance: no Next/Continue after page 1 — stopping",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "wizard_pages": [],
+  "written_at": "2026-09-18T06:33:45.623Z"
+}
