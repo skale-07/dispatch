@@ -1,0 +1,595 @@
+{
+  "ats": "generic",
+  "url": "https://careers.fisglobal.com/us/en/job/FIGLUSJR0309690EXTERNAL/intern-data-analytics-and-ai-fis-university-program",
+  "requested_url": "https://careers.fisglobal.com/us/en/job/FIGLUSJR0309690EXTERNAL/intern-data-analytics-and-ai-fis-university-program",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://careers.fisglobal.com/us/en/apply?jobSeqNo=FIGLUSJR0309690EXTERNAL&step=1&stepname=personalInformation",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 13,
+    "skipped_count": 2,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "country",
+      "label": "Country",
+      "type": "select",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cntryFields.firstName",
+      "label": "First Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "cntryFields.lastName",
+      "label": "Last Name",
+      "type": "text",
+      "canonical_field": "legal_name.last",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "cntryFields.preferredName",
+      "label": "I have a Preferred Name",
+      "type": "select",
+      "canonical_field": "screener:custom:has_preferred_name",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "cntryFields.addressLine1",
+      "label": "Address Line 1",
+      "type": "text",
+      "canonical_field": "address.line1",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "cntryFields.city",
+      "label": "City",
+      "type": "text",
+      "canonical_field": "address.city",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "cntryFields.region",
+      "label": "State",
+      "type": "select",
+      "canonical_field": "address.state",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "cntryFields.postalCode",
+      "label": "Postal Code",
+      "type": "text",
+      "canonical_field": "address.postal_code",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "email",
+      "label": "Email address",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "deviceType",
+      "label": "Device Type",
+      "type": "select",
+      "canonical_field": "screener:custom:phone_device_type",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "phoneWidget.countryPhoneCode",
+      "label": "Country Phone Code",
+      "type": "select",
+      "canonical_field": "screener:custom:phone_country_code",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "phoneWidget.phoneNumber",
+      "label": "Phone number",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "applicantSource",
+      "label": "How did you hear about us?",
+      "type": "select",
+      "canonical_field": "how_heard",
+      "action": "SKIP",
+      "reason": "Demographics deferred to sensitive-profile policy path"
+    },
+    {
+      "field_id": "emailAgreement",
+      "label": "* I consent to receiving email communication related to the above",
+      "type": "checkbox",
+      "canonical_field": "screener:consent_agreement",
+      "action": "FILL",
+      "reason": "Screener bank answer (llm_option)"
+    },
+    {
+      "field_id": "singleSmsOptIn",
+      "label": "I consent to receiving text communication related to the above. Text message and data rates may apply. I may opt out of receiving communications from FIS at any time by replying STOP.",
+      "type": "checkbox",
+      "canonical_field": "screener:consent_agreement:singleSmsOptIn",
+      "action": "FILL",
+      "reason": "Screener bank answer (llm_option)"
+    },
+    {
+      "field_id": "country",
+      "label": "Country",
+      "type": "select",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cntryFields.firstName",
+      "label": "First Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "cntryFields.lastName",
+      "label": "Last Name",
+      "type": "text",
+      "canonical_field": "legal_name.last",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "cntryFields.preferredName",
+      "label": "I have a Preferred Name",
+      "type": "select",
+      "canonical_field": "screener:custom:has_preferred_name",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "cntryFields.addressLine1",
+      "label": "Address Line 1",
+      "type": "text",
+      "canonical_field": "address.line1",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "cntryFields.city",
+      "label": "City",
+      "type": "text",
+      "canonical_field": "address.city",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "cntryFields.region",
+      "label": "State",
+      "type": "select",
+      "canonical_field": "address.state",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "cntryFields.postalCode",
+      "label": "Postal Code",
+      "type": "text",
+      "canonical_field": "address.postal_code",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "email",
+      "label": "Email address",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "deviceType",
+      "label": "Device Type",
+      "type": "select",
+      "canonical_field": "screener:custom:phone_device_type",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "phoneWidget.countryPhoneCode",
+      "label": "Country Phone Code",
+      "type": "select",
+      "canonical_field": "screener:custom:phone_country_code",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "phoneWidget.phoneNumber",
+      "label": "Phone number",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "applicantSource",
+      "label": "How did you hear about us?",
+      "type": "select",
+      "canonical_field": "how_heard",
+      "action": "SKIP",
+      "reason": "Demographics deferred to sensitive-profile policy path"
+    },
+    {
+      "field_id": "emailAgreement",
+      "label": "* I consent to receiving email communication related to the above",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "singleSmsOptIn",
+      "label": "I consent to receiving text communication related to the above. Text message and data rates may apply. I may opt out of receiving communications from FIS at any time by replying STOP.",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\generic-live\\form-snapshot-1789712893091.html",
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "legal_name.last",
+      "screener:custom:has_preferred_name",
+      "address.line1",
+      "address.city",
+      "address.state",
+      "address.postal_code",
+      "email",
+      "screener:custom:phone_device_type",
+      "screener:custom:phone_country_code",
+      "phone",
+      "screener:consent_agreement",
+      "screener:consent_agreement:singleSmsOptIn",
+      "legal_name.first",
+      "legal_name.last",
+      "screener:custom:has_preferred_name",
+      "address.line1",
+      "address.city",
+      "address.state",
+      "address.postal_code",
+      "email",
+      "screener:custom:phone_device_type",
+      "screener:custom:phone_country_code",
+      "phone"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "cntryFields.firstName",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "cntryFields.lastName",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "cntryFields.preferredName",
+        "canonical_field": "screener:custom:has_preferred_name",
+        "control_kind": "native_select",
+        "selected_option": "No",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "cntryFields.addressLine1",
+        "canonical_field": "address.line1",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "cntryFields.city",
+        "canonical_field": "address.city",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "cntryFields.region",
+        "canonical_field": "address.state",
+        "control_kind": "native_select",
+        "selected_option": "Maryland",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "cntryFields.postalCode",
+        "canonical_field": "address.postal_code",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "deviceType",
+        "canonical_field": "screener:custom:phone_device_type",
+        "control_kind": "native_select",
+        "selected_option": "Mobile",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "phoneWidget.countryPhoneCode",
+        "canonical_field": "screener:custom:phone_country_code",
+        "control_kind": "native_select",
+        "selected_option": "United States of America (+1)",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "phoneWidget.phoneNumber",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "emailAgreement",
+        "canonical_field": "screener:consent_agreement",
+        "control_kind": "checkbox_group",
+        "selected_option": "*I consent to receiving email communication related to the above"
+      },
+      {
+        "field_id": "singleSmsOptIn",
+        "canonical_field": "screener:consent_agreement:singleSmsOptIn",
+        "control_kind": "checkbox_group",
+        "selected_option": "I consent to receiving text communication related to the above. Text message and data rates may apply. I may opt out of receiving communications from FIS at any time by replying STOP."
+      },
+      {
+        "field_id": "cntryFields.firstName",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text",
+        "notes": [
+          "already holds \"Shubham\" — verified in place, not retyped"
+        ]
+      },
+      {
+        "field_id": "cntryFields.lastName",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text",
+        "notes": [
+          "already holds \"Kale\" — verified in place, not retyped"
+        ]
+      },
+      {
+        "field_id": "cntryFields.preferredName",
+        "canonical_field": "screener:custom:has_preferred_name",
+        "control_kind": "native_select",
+        "selected_option": "No",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "cntryFields.addressLine1",
+        "canonical_field": "address.line1",
+        "control_kind": "text",
+        "notes": [
+          "already holds \"3510 N Charles St\" — verified in place, not retyped"
+        ]
+      },
+      {
+        "field_id": "cntryFields.city",
+        "canonical_field": "address.city",
+        "control_kind": "text",
+        "notes": [
+          "already holds \"Baltimore\" — verified in place, not retyped"
+        ]
+      },
+      {
+        "field_id": "cntryFields.region",
+        "canonical_field": "address.state",
+        "control_kind": "native_select",
+        "selected_option": "Maryland",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "cntryFields.postalCode",
+        "canonical_field": "address.postal_code",
+        "control_kind": "text",
+        "notes": [
+          "already holds \"21218\" — verified in place, not retyped"
+        ]
+      },
+      {
+        "field_id": "email",
+        "canonical_field": "email",
+        "control_kind": "text",
+        "notes": [
+          "already holds \"skale072007@gmail.com\" — verified in place, not retyped"
+        ]
+      },
+      {
+        "field_id": "deviceType",
+        "canonical_field": "screener:custom:phone_device_type",
+        "control_kind": "native_select",
+        "selected_option": "Mobile",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "phoneWidget.countryPhoneCode",
+        "canonical_field": "screener:custom:phone_country_code",
+        "control_kind": "native_select",
+        "selected_option": "United States of America (+1)",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "phoneWidget.phoneNumber",
+        "canonical_field": "phone",
+        "control_kind": "text",
+        "notes": [
+          "already holds \"4805897636\" — verified in place, not retyped"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.last",
+        "expected": "Kale",
+        "observed": "Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:has_preferred_name",
+        "expected": "No",
+        "observed": {
+          "value": "No",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "address.line1",
+        "expected": "3510 N Charles St",
+        "observed": "3510 N Charles St",
+        "match": true
+      },
+      {
+        "canonical_field": "address.city",
+        "expected": "Baltimore",
+        "observed": "Baltimore",
+        "match": true
+      },
+      {
+        "canonical_field": "address.state",
+        "expected": "Maryland",
+        "observed": {
+          "value": "USA-MD",
+          "label": "Maryland"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "address.postal_code",
+        "expected": "21218",
+        "observed": "21218",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:phone_device_type",
+        "expected": "[REDACTED_PHONE]",
+        "observed": "[REDACTED]",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:phone_country_code",
+        "expected": "[REDACTED_PHONE]",
+        "observed": "[REDACTED]",
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 126181,
+      "verified": true,
+      "evidence": "input files: [{\"name\":\"resume-d5f6e235.pdf\",\"size\":126181}]; stillAttached=true; chip=false"
+    }
+  ],
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: posting (no fields, Apply CTA present)",
+    "landed on a posting (no fields, Apply CTA present); clicking Apply via role=button accessible name is Apply",
+    "Apply landed on: form (8 fillable field(s))",
+    "section-expand: expanded 2 collapsed section(s)",
+    "option harvest: scraped real options for 2/9 control(s) before planning",
+    "timing: base page (15 planned) — plan 4s, fill 5s, verify 1s",
+    "timing: revealed page (15 planned) — plan 0s, fill 1s, verify 1s",
+    "resolved advance: \"Next\"",
+    "section-expand: expanded 2 collapsed section(s)",
+    "resolved advance: \"Next\"",
+    "form-advance: no page change after click — one retry (sweep + scroll + re-click)",
+    "form-advance: page unchanged after Continue/Next on page 2 — stopping",
+    "form-advance: filled 1 additional page(s) — form:11/11",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [
+    {
+      "field_id": "emailAgreement",
+      "label": "* I consent to receiving email communication related to the above",
+      "answer_space": "closed",
+      "option_count": 2,
+      "options": [
+        "*I consent to receiving email communication related to the above",
+        "I consent to receiving text communication related to the above. Text message and data rates may apply. I may opt out of "
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "singleSmsOptIn",
+      "label": "I consent to receiving text communication related to the above. Text message and data rates may apply. I may opt out of receiving communications from FIS at any time by replying STOP.",
+      "answer_space": "closed",
+      "option_count": 2,
+      "options": [
+        "*I consent to receiving email communication related to the above",
+        "I consent to receiving text communication related to the above. Text message and data rates may apply. I may opt out of "
+      ],
+      "other_option": null
+    }
+  ],
+  "wizard_pages": [
+    {
+      "page": 2,
+      "url": "https://careers.fisglobal.com/us/en/apply?jobSeqNo=FIGLUSJR0309690EXTERNAL&step=1&stepname=personalInformation",
+      "kind": "form",
+      "fillable": 11,
+      "filled": 11,
+      "verify_passed": true
+    }
+  ],
+  "written_at": "2026-09-18T06:28:33.764Z"
+}
