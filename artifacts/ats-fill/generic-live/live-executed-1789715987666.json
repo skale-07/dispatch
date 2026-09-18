@@ -1,0 +1,821 @@
+{
+  "ats": "generic",
+  "url": "https://jobs.gem.com/expedition-technology/am9icG9zdDqZNim1uCj0tf_9bS28T_e3",
+  "requested_url": "https://jobs.gem.com/expedition-technology/am9icG9zdDqZNim1uCj0tf_9bS28T_e3",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://jobs.gem.com/expedition-technology/am9icG9zdDqZNim1uCj0tf_9bS28T_e3",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 18,
+    "skipped_count": 34,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "f_0",
+      "label": "First name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f_1",
+      "label": "Last name",
+      "type": "text",
+      "canonical_field": "legal_name.last",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f_2",
+      "label": "Email",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f_3",
+      "label": "LinkedIn URL",
+      "type": "text",
+      "canonical_field": "linkedin_url",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f_4",
+      "label": "Phone number",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f_5",
+      "label": "Location",
+      "type": "text",
+      "canonical_field": "address.city",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f_6",
+      "label": "Preferred Name",
+      "type": "text",
+      "canonical_field": "preferred_name",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "cXVlc29wdDopTA_D8eGvcfdnujxqZXXl",
+      "label": "Yes",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cXVlc29wdDq5ypCQivPb9f2AaocucQNe",
+      "label": "No",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "f_9",
+      "label": "What is your desired salary?",
+      "type": "text",
+      "canonical_field": "screener:custom:accepts_salary_range",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "cXVlc29wdDphRvOWjhcaOU987xT9sfPt",
+      "label": "U.S. Citizen/Permanent Resident",
+      "type": "radio",
+      "canonical_field": "screener:custom:predicted:cXVlc29wdDphRvOWjhcaOU987xT9sfPt",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): Candidate is a U.S. citizen authorized to work in the United States."
+    },
+    {
+      "field_id": "cXVlc29wdDrd_iw9oxcebAu2S8ymlHEj",
+      "label": "Canadian Citizen/Permanent Resident",
+      "type": "radio",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "cXVlc29wdDoGKJBhr1g1OELEYGhHXsFs",
+      "label": "Non-citizen allowed to work for ANY employer",
+      "type": "radio",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "cXVlc29wdDqvjOah2ZCtupnXj2p-gRKC",
+      "label": "Non-citizen allowed to work for CURRENT employer only",
+      "type": "radio",
+      "canonical_field": "current_company",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "cXVlc29wdDoJPsXL19ncP4Z0muRyHkW9",
+      "label": "Non-citizen seeking work authorization",
+      "type": "radio",
+      "canonical_field": "work_authorization",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f_15",
+      "label": "Github",
+      "type": "text",
+      "canonical_field": "github_url",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f_16",
+      "label": "Personal Website",
+      "type": "textarea",
+      "canonical_field": "personal_website",
+      "action": "SKIP",
+      "reason": "Essay generation produced no answer"
+    },
+    {
+      "field_id": "cXVlc29wdDpG-PzlJ-H7wWxK-7iheKQX",
+      "label": "None",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cXVlc29wdDqt8u2uOmJthxGlOa9QSpEa",
+      "label": "Public Trust",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cXVlc29wdDq3VBzQA7xipMlZg8tGNeXL",
+      "label": "Secret",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cXVlc29wdDr99V8ab5g5hFMc2LkDBQ-P",
+      "label": "Top Secret",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cXVlc29wdDrgw5I7nMHJ_DIwmokL2Jk7",
+      "label": "Top Secret/SCI",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cXVlc29wdDr3HtSIuBSr_3FaMfz9G1H3",
+      "label": "DOE Q",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cXVlc29wdDoYqRrGjFnDy9adl3ciGQH6",
+      "label": "DOE L",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cXVlc29wdDqssXKA-uM8MPaC904pX2EQ",
+      "label": "Other Government Agency",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cXVlc29wdDqh2BfkZ2wl5MO5-rrqNgn6",
+      "label": "US Citizen/Permanent Resident",
+      "type": "radio",
+      "canonical_field": "screener:custom:predicted:cXVlc29wdDqh2BfkZ2wl5MO5-rrqNgn6",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): Candidate is a U.S. citizen requiring no sponsorship."
+    },
+    {
+      "field_id": "cXVlc29wdDogxCWVaJM33z90w6NZ1TQa",
+      "label": "Canadian Citizen/Permanent Resident",
+      "type": "radio",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "cXVlc29wdDqBB-cnFUVcCCmfgdkkbsvl",
+      "label": "Non-citizen allowed to work for ANY employer",
+      "type": "radio",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "cXVlc29wdDo2U12epjiXb3fYc2O_3NJZ",
+      "label": "Non-citizen allowed to work for CURRENT employer only",
+      "type": "radio",
+      "canonical_field": "current_company",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "cXVlc29wdDrNXwtuHPn2RNS01JAU0BoP",
+      "label": "Non-citizen seeking work authorization",
+      "type": "radio",
+      "canonical_field": "work_authorization",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "cXVlc29wdDrl82Dqs_anjIVppwgt2Mkn",
+      "label": "Yes",
+      "type": "radio",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cXVlc29wdDpBxM_M_7WKeldS1ohb3iF9",
+      "label": "No",
+      "type": "radio",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "f_32",
+      "label": "Permanent address including city and state",
+      "type": "textarea",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Essay generation produced no answer"
+    },
+    {
+      "field_id": "f_33",
+      "label": "School address",
+      "type": "textarea",
+      "canonical_field": "address.line1",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f_34",
+      "label": "Please list month and year of intended graduation",
+      "type": "textarea",
+      "canonical_field": "essay:generated:f_34",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "cXVlc29wdDqN4qEoZbny-Tiz8kcsh8I9",
+      "label": "Yes",
+      "type": "radio",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cXVlc29wdDpdoSzvzl3QrWu8YaHaYy3v",
+      "label": "No",
+      "type": "radio",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cXVlc29wdDoeP80jpQF4elrQ9enI0y6h",
+      "label": "Unsure",
+      "type": "radio",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cXVlc29wdDq00nNrnJ_FddTDU0Q5k9Yt",
+      "label": "Yes",
+      "type": "radio",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cXVlc29wdDr8TO2DipmC41V_MhNgE1Dl",
+      "label": "No",
+      "type": "radio",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cXVlc29wdDoMvGVS6wCAv5YVT3WRSZL-",
+      "label": "Yes",
+      "type": "radio",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cXVlc29wdDoYo-IBR0rIXlnJHhVOVF4o",
+      "label": "No",
+      "type": "radio",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cXVlc29wdDpmfH8xFFpXfIHaHfloV4_-",
+      "label": "None",
+      "type": "radio",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cXVlc29wdDqoOn5Y6Q1vqCbuB53x0Z2E",
+      "label": "Public Trust",
+      "type": "radio",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "cXVlc29wdDpqzucfJZ7Iw9KyX985QjcV",
+      "label": "Secret",
+      "type": "radio",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cXVlc29wdDpOU9ZlmxoZgRVEJRvg2NtJ",
+      "label": "Top Secret",
+      "type": "radio",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "cXVlc29wdDr1Qf7IGmy6OKFeTwLPMTGx",
+      "label": "Top Secret/SCI (TS/SCI)",
+      "type": "radio",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "cXVlc29wdDqFzNO8v_jW6z3fpsyytcsy",
+      "label": "DOE Q",
+      "type": "radio",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "cXVlc29wdDoeAC7T0JwbmJI-R-7ztV1F",
+      "label": "DOE L",
+      "type": "radio",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "f_49",
+      "label": "GitHub",
+      "type": "textarea",
+      "canonical_field": "github_url",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f_50",
+      "label": "Website",
+      "type": "textarea",
+      "canonical_field": "personal_website",
+      "action": "SKIP",
+      "reason": "Essay generation produced no answer"
+    },
+    {
+      "field_id": "f_51",
+      "label": "Any special project you'd like to highlight?",
+      "type": "textarea",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Essay generation produced no answer"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\generic-live\\form-snapshot-1789715953485.html",
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "legal_name.last",
+      "email",
+      "linkedin_url",
+      "phone",
+      "address.city",
+      "preferred_name",
+      "screener:custom:accepts_salary_range",
+      "screener:custom:predicted:cXVlc29wdDphRvOWjhcaOU987xT9sfPt",
+      "github_url",
+      "screener:custom:predicted:cXVlc29wdDqh2BfkZ2wl5MO5-rrqNgn6",
+      "address.line1",
+      "essay:generated:f_34",
+      "github_url"
+    ],
+    "skipped": [],
+    "errors": [
+      "cXVlc29wdDqvjOah2ZCtupnXj2p-gRKC: No radio option for \"Summer Atlantic Capital\"",
+      "cXVlc29wdDoJPsXL19ncP4Z0muRyHkW9: No radio option for \"Yes\"",
+      "cXVlc29wdDo2U12epjiXb3fYc2O_3NJZ: No radio option for \"Summer Atlantic Capital\"",
+      "cXVlc29wdDrNXwtuHPn2RNS01JAU0BoP: No radio option for \"Yes\""
+    ],
+    "field_meta": [
+      {
+        "field_id": "f_0",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "f_1",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "f_2",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "f_3",
+        "canonical_field": "linkedin_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "f_4",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "f_5",
+        "canonical_field": "address.city",
+        "control_kind": "text",
+        "notes": [
+          "no clickable suggestion list within timeout — ArrowDown+Enter",
+          "keyboard ArrowDown+Enter",
+          "location committed (blur-stable): Baltimore, Maryland, USA"
+        ]
+      },
+      {
+        "field_id": "f_6",
+        "canonical_field": "preferred_name",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "f_9",
+        "canonical_field": "screener:custom:accepts_salary_range",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "cXVlc29wdDphRvOWjhcaOU987xT9sfPt",
+        "canonical_field": "screener:custom:predicted:cXVlc29wdDphRvOWjhcaOU987xT9sfPt",
+        "control_kind": "text",
+        "selected_option": "U.S. Citizen/Permanent Resident"
+      },
+      {
+        "field_id": "f_15",
+        "canonical_field": "github_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "cXVlc29wdDqh2BfkZ2wl5MO5-rrqNgn6",
+        "canonical_field": "screener:custom:predicted:cXVlc29wdDqh2BfkZ2wl5MO5-rrqNgn6",
+        "control_kind": "text",
+        "selected_option": "US Citizen/Permanent Resident"
+      },
+      {
+        "field_id": "f_33",
+        "canonical_field": "address.line1",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "f_34",
+        "canonical_field": "essay:generated:f_34",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "f_49",
+        "canonical_field": "github_url",
+        "control_kind": "text"
+      }
+    ]
+  },
+  "verify": {
+    "passed": false,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.last",
+        "expected": "Kale",
+        "observed": "Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "address.city",
+        "expected": "Baltimore, Maryland, USA",
+        "observed": "Baltimore, Maryland, USA",
+        "match": true
+      },
+      {
+        "canonical_field": "preferred_name",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:accepts_salary_range",
+        "expected": "Yes",
+        "observed": "Yes",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:cXVlc29wdDphRvOWjhcaOU987xT9sfPt",
+        "expected": "U.S. Citizen/Permanent Resident",
+        "observed": {
+          "value": "",
+          "label": "U.S. Citizen/Permanent Resident"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "current_company",
+        "expected": "Summer Atlantic Capital",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "match": false
+      },
+      {
+        "canonical_field": "work_authorization",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": false
+      },
+      {
+        "canonical_field": "github_url",
+        "expected": "https://github.com/skale-07",
+        "observed": "https://github.com/skale-07",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:cXVlc29wdDqh2BfkZ2wl5MO5-rrqNgn6",
+        "expected": "US Citizen/Permanent Resident",
+        "observed": {
+          "value": "",
+          "label": "US Citizen/Permanent Resident"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "current_company",
+        "expected": "Summer Atlantic Capital",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "match": false
+      },
+      {
+        "canonical_field": "work_authorization",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": false
+      },
+      {
+        "canonical_field": "address.line1",
+        "expected": "3510 N Charles St",
+        "observed": "3510 N Charles St",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:f_34",
+        "expected": "May 2029.",
+        "observed": "May 2029.",
+        "match": true
+      },
+      {
+        "canonical_field": "github_url",
+        "expected": "https://github.com/skale-07",
+        "observed": "https://github.com/skale-07",
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 115393,
+      "verified": true,
+      "evidence": "input files: [{\"name\":\"resume-71415792.pdf\",\"size\":115393}]; stillAttached=true; chip=true"
+    }
+  ],
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: form (52 fillable field(s))",
+    "timing: base page (52 planned) — plan 14s, fill 27s, verify 3s",
+    "page error scan: no visible validation errors on the page",
+    "verify-failed snapshot: verify-failed-snapshot-1789715982775.html",
+    "page-complete waiver not applied: 4 fill error(s) may have written a value: cXVlc29wdDqvjOah2ZCtupnXj2p-gRKC: No radio option for \"Summer Atlantic Capital\"",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "operator_brief": {
+    "title": "Live fill — generic https://jobs.gem.com/expedition-technology/am9icG9zdDqZNim1uCj0tf_9bS28T_e3",
+    "summary": "8 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:current_company",
+        "question": "Non-citizen allowed to work for CURRENT employer only",
+        "field_id": "cXVlc29wdDo2U12epjiXb3fYc2O_3NJZ",
+        "canonical_field": "current_company",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Summer Atlantic Capital\"; page shows \"(empty)\"",
+        "expected": "Summer Atlantic Capital",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "how_to_answer": [
+          "System expected \"Summer Atlantic Capital\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → current_company",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"current_company\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:work_authorization",
+        "question": "Non-citizen seeking work authorization",
+        "field_id": "cXVlc29wdDrNXwtuHPn2RNS01JAU0BoP",
+        "canonical_field": "work_authorization",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Yes\"; page shows \"(empty)\"",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "how_to_answer": [
+          "System expected \"Yes\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → work_authorization",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"work_authorization\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:current_company",
+        "question": "Non-citizen allowed to work for CURRENT employer only",
+        "field_id": "cXVlc29wdDo2U12epjiXb3fYc2O_3NJZ",
+        "canonical_field": "current_company",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Summer Atlantic Capital\"; page shows \"(empty)\"",
+        "expected": "Summer Atlantic Capital",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "how_to_answer": [
+          "System expected \"Summer Atlantic Capital\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → current_company",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"current_company\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:work_authorization",
+        "question": "Non-citizen seeking work authorization",
+        "field_id": "cXVlc29wdDrNXwtuHPn2RNS01JAU0BoP",
+        "canonical_field": "work_authorization",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Yes\"; page shows \"(empty)\"",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "how_to_answer": [
+          "System expected \"Yes\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → work_authorization",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"work_authorization\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "fill_error:cXVlc29wdDqvjOah2ZCtupnXj2p-gRKC: No radio option for \"Summer Atlantic Capital\"",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "cXVlc29wdDqvjOah2ZCtupnXj2p-gRKC: No radio option for \"Summer Atlantic Capital\"",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:cXVlc29wdDoJPsXL19ncP4Z0muRyHkW9: No radio option for \"Yes\"",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "cXVlc29wdDoJPsXL19ncP4Z0muRyHkW9: No radio option for \"Yes\"",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:cXVlc29wdDo2U12epjiXb3fYc2O_3NJZ: No radio option for \"Summer Atlantic Capital\"",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "cXVlc29wdDo2U12epjiXb3fYc2O_3NJZ: No radio option for \"Summer Atlantic Capital\"",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      },
+      {
+        "id": "fill_error:cXVlc29wdDrNXwtuHPn2RNS01JAU0BoP: No radio option for \"Yes\"",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "cXVlc29wdDrNXwtuHPn2RNS01JAU0BoP: No radio option for \"Yes\"",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      }
+    ],
+    "ok_count": 14,
+    "fail_count": 8
+  },
+  "written_at": "2026-09-18T07:19:47.699Z"
+}

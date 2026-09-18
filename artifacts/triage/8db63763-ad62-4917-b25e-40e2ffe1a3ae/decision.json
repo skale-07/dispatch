@@ -1,0 +1,160 @@
+{
+  "decision_id": "8db63763-ad62-4917-b25e-40e2ffe1a3ae",
+  "application_id": "7edbc122-912e-409e-982c-f3b288797f1f",
+  "signature": "AMBIGUOUS_FIELD|-|verify_mismatch|jobs.gem.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "7edbc122-912e-409e-982c-f3b288797f1f",
+    "company": "Expedition Technology",
+    "role": "Summer 2027 Internship in Software Engineering - R146",
+    "state": "AMBIGUOUS_FIELD",
+    "attempt": 1,
+    "failure_signature": "AMBIGUOUS_FIELD|-|verify_mismatch|jobs.gem.com",
+    "end_host": "jobs.gem.com",
+    "recent_events": [
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "AMBIGUOUS_FIELD",
+        "reason": "pipeline: read-back verification failed",
+        "at": "2026-09-18T07:19:47.789Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (generic live fill: 14 filled (held for submit))",
+        "at": "2026-09-18T07:19:47.726Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route ready_for_fill_later (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-18T07:18:56.345Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-18T07:18:54.171Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-18T07:18:54.162Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-18T07:18:52.222Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 7141579276ac)",
+        "at": "2026-09-18T07:18:52.215Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-18T07:18:52.189Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-18T03:59:10.401Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-18T03:59:10.389Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-18T03:59:10.388Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-18T03:59:10.386Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "expeditiontechnology",
+        "detail": "token \"expedition\" ~ slug \"expeditiontechnology\" (from URL path)",
+        "expected_company": "Expedition Technology",
+        "url": "https://jobs.gem.com/expedition-technology/am9icG9zdDqZNim1uCj0tf_9bS28T_e3?jr_id=6aac2cf73d96632d741a9988"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (9 candidates, employer match)",
+          "evidence": "jobs.gem.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": false
+    },
+    "open_review_items": [
+      {
+        "kind": "MANUAL",
+        "title": "Answer needed: \"Canadian Citizen/Permanent Resident\""
+      },
+      {
+        "kind": "MANUAL",
+        "title": "Answer needed: \"Non-citizen allowed to work for ANY employer\""
+      },
+      {
+        "kind": "MANUAL",
+        "title": "Answer needed: \"Public Trust\""
+      },
+      {
+        "kind": "MANUAL",
+        "title": "Answer needed: \"Top Secret\""
+      },
+      {
+        "kind": "MANUAL",
+        "title": "Answer needed: \"Top Secret/SCI (TS/SCI)\""
+      },
+      {
+        "kind": "AMBIGUOUS_FIELD",
+        "title": "Fill verification failed"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"park_for_operator\", \"rationale\": \"Fill read-back verification failed and five clearance/citizenship questions already require human answers. No transient or navigation/materials defect is indicated (nav match, resume verified, no wall), so a rerun would repeat the same mismatch. A human must supply the answers and confirm the fill.\", \"confidence\": \"high\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: 6d7eb240-69a1-4ee1-bc4b-10a3f6dfbfde",
+  "rationale_unverified": "Fill read-back verification failed and five clearance/citizenship questions already require human answers. No transient or navigation/materials defect is indicated (nav match, resume verified, no wall), so a rerun would repeat the same mismatch. A human must supply the answers and confirm the fill."
+}
