@@ -1,0 +1,69 @@
+{
+  "started_at": "2026-09-18T10:51:26.564Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\general.pdf)",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "446c3470-a9c1-46bf-8382-be2ab74f8294",
+    "armed_until": "2026-09-18T12:51:26.644Z",
+    "seconds_remaining": 7200,
+    "max_submits": 1,
+    "submits_used": 0,
+    "max_apps": 1,
+    "apps_started": 0,
+    "discover_max": 1,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": {
+    "arm_run_id": "446c3470-a9c1-46bf-8382-be2ab74f8294",
+    "apps_started": 1,
+    "submits_used": 0,
+    "stopped_reason": "apps_cap",
+    "discover_runs": 0,
+    "emails_generated": 0,
+    "drafts_saved": 0,
+    "essay_drafts_generated": 0,
+    "screener_predictions_generated": 0,
+    "notes": [
+      "nav audit: 2 wrong-employer URL(s) cleared for re-navigation, 0 parked for review",
+      "triage sweep: 0 confirmed, 0 refuted, 0 expired of 213 pending",
+      "deadline 6471fd88-4769-4f0b-b5c7-52830d424299: 555s > 300s budget — stopped in READY_TO_SUBMIT (diagnose, do not grind)",
+      "artifact autopush: 27 file(s) pushed to master as 08e8e1c3f"
+    ],
+    "per_app": [
+      {
+        "application_id": "6471fd88-4769-4f0b-b5c7-52830d424299",
+        "end_state": "READY_TO_SUBMIT",
+        "stopped": "skipped",
+        "stop_reason": "deadline: 555s elapsed of 300s budget — stopped at step boundary in READY_TO_SUBMIT",
+        "submitted": false,
+        "outreach": null
+      }
+    ],
+    "nav_audit": {
+      "checked": 651,
+      "repaired": 2,
+      "parked": 0
+    },
+    "artifact_autopush": {
+      "pushed": true,
+      "commit": "08e8e1c3f",
+      "files_staged": 27
+    }
+  },
+  "outcome": "completed",
+  "notes": []
+}
