@@ -1,0 +1,158 @@
+{
+  "decision_id": "f39ae2f4-2552-48f0-a7d1-9545350240b7",
+  "application_id": "50e84872-b58e-450a-811f-b863c533bc17",
+  "signature": "FAILED_RETRYABLE|-|unknown|boards.greenhouse.io",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "50e84872-b58e-450a-811f-b863c533bc17",
+    "company": "Tower Research Capital",
+    "role": "Software Engineer Intern (Summer 2027)",
+    "state": "FAILED_RETRYABLE",
+    "attempt": 1,
+    "failure_signature": "FAILED_RETRYABLE|-|unknown|boards.greenhouse.io",
+    "end_host": "boards.greenhouse.io",
+    "recent_events": [
+      {
+        "from": "SUBMITTING",
+        "to": "FAILED_RETRYABLE",
+        "reason": "required questions unanswered — click withheld",
+        "at": "2026-09-18T06:44:05.083Z"
+      },
+      {
+        "from": "READY_TO_SUBMIT",
+        "to": "SUBMITTING",
+        "reason": "human-approved submission started",
+        "at": "2026-09-18T06:44:03.195Z"
+      },
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "READY_TO_SUBMIT",
+        "reason": "pipeline: fill rehearsal verified",
+        "at": "2026-09-18T06:43:59.559Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (live fill: 26 filled (held for submit))",
+        "at": "2026-09-18T06:43:59.521Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route ready_for_fill_later (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-18T06:43:18.834Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-18T06:43:17.902Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: greenhouse URL validated",
+        "at": "2026-09-18T06:43:17.892Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-18T06:43:15.491Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 7141579276ac)",
+        "at": "2026-09-18T06:43:15.481Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-18T06:43:15.449Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-18T03:59:10.095Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-18T03:59:09.933Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-18T03:59:09.922Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-18T03:59:09.918Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [
+        "phase A: token-only greenhouse embed anchor resolved to board \"towerresearchcapital\" (job 8212158) via one read-only GET"
+      ],
+      "congruence": {
+        "verdict": "match",
+        "slug": "towerresearchcapital",
+        "detail": "token \"tower\" ~ slug \"towerresearchcapital\"",
+        "expected_company": "Tower Research Capital",
+        "url": "https://boards.greenhouse.io/embed/job_app?for=towerresearchcapital&token=8212158"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (12 candidates, employer match)",
+          "evidence": "boards.greenhouse.io"
+        }
+      ]
+    },
+    "submit": {
+      "outcome": "FAILED_BEFORE_CLICK",
+      "reason": "Refusing to click submit: 1 required question(s) unanswered — Were you referred to this role by a current Tower Research Capital employee? If so, please provide their name.* [text]",
+      "brief_items": []
+    },
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": null,
+      "verify_passed": true
+    },
+    "open_review_items": [
+      {
+        "kind": "MANUAL",
+        "title": "1 required question(s) unanswered — answer via screeners.json/essay workflow, then requeue"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"park_for_operator\", \"rationale\": \"Submit was withheld because a required referral question is unanswered; a review item already exists needing a human-supplied answer. No requeue would change the outcome until the screener content is provided.\", \"confidence\": \"high\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: 5c3e2af3-a36a-4056-8ade-2c5ea9e65a57",
+  "rationale_unverified": "Submit was withheld because a required referral question is unanswered; a review item already exists needing a human-supplied answer. No requeue would change the outcome until the screener content is provided."
+}
