@@ -1,0 +1,155 @@
+{
+  "decision_id": "770faee7-49fd-4a65-9080-ca5547911a2e",
+  "application_id": "7a0a43be-f1be-4a5f-a516-370fcab6ffa6",
+  "signature": "AMBIGUOUS_FIELD|-|verify_mismatch|recruiting.paylocity.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "7a0a43be-f1be-4a5f-a516-370fcab6ffa6",
+    "company": "Tris Pharma",
+    "role": "AI Intern",
+    "state": "AMBIGUOUS_FIELD",
+    "attempt": 1,
+    "failure_signature": "AMBIGUOUS_FIELD|-|verify_mismatch|recruiting.paylocity.com",
+    "end_host": "recruiting.paylocity.com",
+    "recent_events": [
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "AMBIGUOUS_FIELD",
+        "reason": "pipeline: read-back verification failed",
+        "at": "2026-09-18T06:14:14.299Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (generic live fill: 12 filled (held for submit))",
+        "at": "2026-09-18T06:14:14.296Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-18T06:13:20.680Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-18T06:13:19.123Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-18T06:13:19.083Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-18T06:13:10.520Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 d5f6e2353444)",
+        "at": "2026-09-18T06:13:10.512Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-18T06:13:10.475Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-18T04:36:30.700Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-18T04:36:30.691Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-18T04:36:30.690Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-18T04:36:30.689Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_llm",
+      "notes": [
+        "phase A: 5 external host(s) seen: recruiting.paylocity.com, www.linkedin.com, www.crunchbase.com, www.biospace.com, www.yicaiglobal.com",
+        "no standard Apply control found (exact and broad name tiers both empty)",
+        "anchor adjudication: promoted recruiting.paylocity.com",
+        "anchor adjudication rationale (UNVERIFIED): Paylocity ATS job detail page is the employer's own application link; others are news articles.",
+        "employer congruence unverifiable (no employer name decodable from URL (host and path are generic)) — recorded"
+      ],
+      "congruence": {
+        "verdict": "unknown",
+        "slug": null,
+        "detail": "no employer name decodable from URL (host and path are generic)",
+        "expected_company": "Tris Pharma",
+        "url": "https://recruiting.paylocity.com/Recruiting/Jobs/Details/4513172?jr_id=6aabf9b13dbb1f8967ce815f"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "no congruent apply href (9 external links)",
+          "evidence": "recruiting.paylocity.com, www.linkedin.com, www.crunchbase.com, www.biospace.com, www.yicaiglobal.com"
+        },
+        {
+          "phase": "B_apply_click",
+          "outcome": "unresolved by deterministic phases"
+        },
+        {
+          "phase": "A_anchor_llm",
+          "outcome": "candidate promoted by adjudication",
+          "evidence": "recruiting.paylocity.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": false
+    },
+    "open_review_items": [
+      {
+        "kind": "AMBIGUOUS_FIELD",
+        "title": "Fill verification failed"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\":\"requeue_same\",\"rationale\":\"First attempt; read-back verification failed after 12 fields filled on a loaded Paylocity form with no wall and no login block. Fill/verify mismatches are often transient (async field re-render). Cheapest plausible fix is one identical rerun; nothing suggests stale materials or bad URL.\",\"confidence\":\"medium\"}",
+  "parsed_action": "requeue_same",
+  "validation_note": null,
+  "precondition": {
+    "ok": false,
+    "reason": "state is AMBIGUOUS_FIELD, needs FAILED_RETRYABLE or a gate-parked mid-state"
+  },
+  "mode": "act",
+  "executed": false,
+  "execution_detail": "precondition failed: state is AMBIGUOUS_FIELD, needs FAILED_RETRYABLE or a gate-parked mid-state",
+  "rationale_unverified": "First attempt; read-back verification failed after 12 fields filled on a loaded Paylocity form with no wall and no login block. Fill/verify mismatches are often transient (async field re-render). Cheapest plausible fix is one identical rerun; nothing suggests stale materials or bad URL."
+}

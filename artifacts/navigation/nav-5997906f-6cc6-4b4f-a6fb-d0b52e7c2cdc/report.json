@@ -1,0 +1,50 @@
+{
+  "run_id": "nav-5997906f-6cc6-4b4f-a6fb-d0b52e7c2cdc",
+  "application_id": "7a0a43be-f1be-4a5f-a516-370fcab6ffa6",
+  "jobright_job_id": "6aabf9b13dbb1f8967ce815f",
+  "method": "anchor_llm",
+  "resolved_url": "https://recruiting.paylocity.com/Recruiting/Jobs/Details/4513172",
+  "resolved_ats": "generic",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no congruent apply href (9 external links)",
+      "evidence": "recruiting.paylocity.com, www.linkedin.com, www.crunchbase.com, www.biospace.com, www.yicaiglobal.com"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "unresolved by deterministic phases"
+    },
+    {
+      "phase": "A_anchor_llm",
+      "outcome": "candidate promoted by adjudication",
+      "evidence": "recruiting.paylocity.com"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "phase A: 5 external host(s) seen: recruiting.paylocity.com, www.linkedin.com, www.crunchbase.com, www.biospace.com, www.yicaiglobal.com",
+    "no standard Apply control found (exact and broad name tiers both empty)",
+    "anchor adjudication: promoted recruiting.paylocity.com",
+    "anchor adjudication rationale (UNVERIFIED): Paylocity ATS job detail page is the employer's own application link; others are news articles.",
+    "employer congruence unverifiable (no employer name decodable from URL (host and path are generic)) — recorded"
+  ],
+  "congruence": {
+    "verdict": "unknown",
+    "slug": null,
+    "detail": "no employer name decodable from URL (host and path are generic)",
+    "expected_company": "Tris Pharma",
+    "url": "https://recruiting.paylocity.com/Recruiting/Jobs/Details/4513172?jr_id=6aabf9b13dbb1f8967ce815f"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-09-18T06:13:18.956Z"
+}
