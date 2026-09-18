@@ -1,0 +1,73 @@
+{
+  "started_at": "2026-09-18T10:36:33.116Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\general.pdf)",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "40c9273c-f3a3-42a4-a42d-a78a3a05536b",
+    "armed_until": "2026-09-18T12:36:33.163Z",
+    "seconds_remaining": 7200,
+    "max_submits": 1,
+    "submits_used": 0,
+    "max_apps": 1,
+    "apps_started": 0,
+    "discover_max": 1,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": {
+    "arm_run_id": "40c9273c-f3a3-42a4-a42d-a78a3a05536b",
+    "apps_started": 1,
+    "submits_used": 0,
+    "stopped_reason": "apps_cap",
+    "discover_runs": 0,
+    "emails_generated": 0,
+    "drafts_saved": 0,
+    "essay_drafts_generated": 0,
+    "screener_predictions_generated": 0,
+    "notes": [
+      "nav audit: 2 wrong-employer URL(s) cleared for re-navigation, 0 parked for review",
+      "triage sweep: 0 confirmed, 0 refuted, 0 expired of 214 pending",
+      "triage f5ed6d6e: park_for_operator (executed) — review item created: 1b7c75f2-875c-4f6c-ae08-23068680994f",
+      "artifact autopush: 30 file(s) pushed to master as 9480650a6"
+    ],
+    "per_app": [
+      {
+        "application_id": "f5ed6d6e-8f45-44e9-8be7-f8247496331e",
+        "end_state": "AMBIGUOUS_FIELD",
+        "stopped": "review",
+        "stop_reason": "verification failed",
+        "submitted": false,
+        "outreach": null
+      }
+    ],
+    "nav_audit": {
+      "checked": 651,
+      "repaired": 2,
+      "parked": 0
+    },
+    "triage": {
+      "decided": 1,
+      "executed": 1
+    },
+    "artifact_autopush": {
+      "pushed": true,
+      "commit": "9480650a6",
+      "files_staged": 30
+    }
+  },
+  "outcome": "completed",
+  "notes": []
+}
