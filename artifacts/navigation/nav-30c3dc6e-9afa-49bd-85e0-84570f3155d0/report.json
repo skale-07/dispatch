@@ -1,0 +1,50 @@
+{
+  "run_id": "nav-30c3dc6e-9afa-49bd-85e0-84570f3155d0",
+  "application_id": "816d08b1-5b5f-4cc6-a0af-ac38d3a1bbaa",
+  "jobright_job_id": "6a79df04a26ccc369f83b25e",
+  "method": "anchor_llm",
+  "resolved_url": "https://egup.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/job/20278933",
+  "resolved_ats": "generic",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no congruent apply href (13 external links)",
+      "evidence": "egup.fa.us2.oraclecloud.com, www.linkedin.com, x.com, www.crunchbase.com, www.glassdoor.com, www.vertiv.com"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "unresolved by deterministic phases"
+    },
+    {
+      "phase": "A_anchor_llm",
+      "outcome": "candidate promoted by adjudication",
+      "evidence": "egup.fa.us2.oraclecloud.com"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "phase A: 9 external host(s) seen: egup.fa.us2.oraclecloud.com, www.linkedin.com, x.com, www.crunchbase.com, www.glassdoor.com, www.vertiv.com, techtrendske.co.ke, www.fool.com, www.prnewswire.com",
+    "no standard Apply control found (exact and broad name tiers both empty)",
+    "anchor adjudication: promoted egup.fa.us2.oraclecloud.com",
+    "anchor adjudication rationale (UNVERIFIED): Oracle HCM candidate experience job req link is the ATS application page; the other links are homepage or news.",
+    "employer congruence unverifiable (URL carries no employer name specific enough to verify against \"Vertiv\") — recorded"
+  ],
+  "congruence": {
+    "verdict": "unknown",
+    "slug": "egup",
+    "detail": "URL carries no employer name specific enough to verify against \"Vertiv\"",
+    "expected_company": "Vertiv",
+    "url": "https://egup.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/job/20278933?jr_id=6a79df04a26ccc369f83b25e"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-09-23T19:33:57.083Z"
+}

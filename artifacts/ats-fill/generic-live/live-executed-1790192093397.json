@@ -1,0 +1,222 @@
+{
+  "ats": "generic",
+  "url": "https://egup.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/job/20278933",
+  "requested_url": "https://egup.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/job/20278933",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://egup.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/job/20278933/apply/email",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 2,
+    "skipped_count": 0,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "oda-work-summary-text-area|input",
+      "label": "Work Summary",
+      "type": "textarea",
+      "canonical_field": "essay:generated:oda-work-summary-text-area|input",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "primary-email-0",
+      "label": "Email Address",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "oda-work-summary-text-area|input",
+      "label": "Work Summary",
+      "type": "textarea",
+      "canonical_field": "essay:generated:oda-work-summary-text-area|input",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "pin-code-1",
+      "label": "Enter verification code digit 1 of six.",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "pin-code-2",
+      "label": "Enter verification code digit 2 of six.",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "pin-code-3",
+      "label": "Enter verification code digit 3 of six.",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "pin-code-4",
+      "label": "Enter verification code digit 4 of six.",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "pin-code-5",
+      "label": "Enter verification code digit 5 of six.",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    },
+    {
+      "field_id": "pin-code-6",
+      "label": "Enter verification code digit 6 of six.",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\generic-live\\form-snapshot-1790192093345.html",
+  "fill": {
+    "filled": [
+      "email"
+    ],
+    "skipped": [
+      "oda-work-summary-text-area|input — control is not visible (collapsed section or unopened editor)",
+      "oda-work-summary-text-area|input — control is not visible (collapsed section or unopened editor)"
+    ],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "oda-work-summary-text-area|input",
+        "canonical_field": "essay:generated:oda-work-summary-text-area|input",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled",
+          "resolved by id=oda-work-summary-text-area|input (planned textarea), 1 match(es): <textarea type=textarea> display=block visibility=hidden"
+        ]
+      },
+      {
+        "field_id": "primary-email-0",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "oda-work-summary-text-area|input",
+        "canonical_field": "essay:generated:oda-work-summary-text-area|input",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled",
+          "resolved by id=oda-work-summary-text-area|input (planned textarea), 1 match(es): <textarea type=textarea> display=block visibility=hidden"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": false,
+    "fields": [
+      {
+        "canonical_field": "essay:generated:oda-work-summary-text-area|input",
+        "expected": "I'm an undergraduate at Johns Hopkins studying Applied Mathematics & Statistics and Economics, class of 2029, and most of my work has been building products and machine-learning systems end to end. Right now I work on the machine-learning core of an anomaly-detection and alert-prioritization system at Summer Atlantic Capital / SAC Nexus, where I own the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, and a retrieval-augmented explanation layer. A lot of that work is less about model accuracy than operational usefulness, since a detector that fires constantly just creates a second problem for analysts. I also co-founded Open Health Intelligence and led the technical work on ClarityAtlas, an iOS health app built with Swift, SwiftUI, and Supabase that estimates sleep passively from phone motion and interaction signals; we shipped it into a live Hopkins pilot with 30+ users and were selected for the Pava Spark Accelerator and NSF I-Corps. Earlier, I founded SnapSort, an AI photo-sorting product I built on Flask and AWS and grew past 300 users while owning pricing, positioning, and go-to-market.",
+        "observed": "",
+        "match": false
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": null,
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: posting (Apply CTA present and none of the 1 field(s) ask who you are — page furniture, not an application)",
+    "posting page (Apply CTA present and none of the 1 field(s) ask who you are — page furniture, not an application) but no Apply control found — not filling the posting; no visible apply-ish controls",
+    "navigation supervisor after Apply miss: form_ready (2 steps)",
+    "timing: base page (2 planned) — plan 9s, fill 2s, verify 0s",
+    "page error scan: no visible validation errors on the page",
+    "verify-failed snapshot: verify-failed-snapshot-1790192073577.html",
+    "page-complete waiver (#240): the page requires nothing further and shows no error; 1 planned value(s) left empty — essay:generated:oda-work-summary-text-area|input (left empty)",
+    "resume on disk but this page has no file input — not an upload miss",
+    "timing: revealed page (7 planned) — plan 16s, fill 2s, verify 0s",
+    "resolved advance: \"Next\"",
+    "form-advance: verify failed on page 2 — not advancing further",
+    "form-advance: filled 1 additional page(s) — form:0/1",
+    "submit not attempted — live fill never submits"
+  ],
+  "navigation_supervisor": {
+    "run_id": "supervisor-d32b794e-46e5-4fac-82bb-b007d32bda61",
+    "outcome": "form_ready",
+    "steps": [
+      {
+        "observation": "b54dbe3dc1efafaf",
+        "action": "wait",
+        "reason": "Page still loading (spinner); wait for job content and Apply control to render.",
+        "result": "waited for rendering",
+        "model": "claude-opus-5"
+      },
+      {
+        "observation": "c61403fad39387e4",
+        "action": "click",
+        "reason": "one unambiguous Apply control",
+        "result": "clicked observed control; next observation checks progress",
+        "target": "control-0"
+      }
+    ],
+    "notes": [
+      "model calls: 1 of 2 steps"
+    ],
+    "evidence": [
+      "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-d32b794e-46e5-4fac-82bb-b007d32bda61\\observation.json",
+      "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-d32b794e-46e5-4fac-82bb-b007d32bda61\\page.png"
+    ]
+  },
+  "harvested_options": [],
+  "wizard_pages": [
+    {
+      "page": 2,
+      "url": "https://egup.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/job/20278933/apply/email",
+      "kind": "form",
+      "fillable": 1,
+      "filled": 0,
+      "verify_passed": false
+    }
+  ],
+  "operator_brief": {
+    "title": "Live fill — generic https://egup.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/job/20278933/apply/email",
+    "summary": "1 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:essay:generated:oda-work-summary-text-area|input",
+        "question": "Work Summary",
+        "field_id": "oda-work-summary-text-area|input",
+        "canonical_field": "essay:generated:oda-work-summary-text-area|input",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"I'm an undergraduate at Johns Hopkins studying Applied Mathematics & Statistics and Economics, class of 2029, and most of my work has been building products and machine-learning systems end to end. Right now I work on the machine-learning core of an anomaly-detection and alert-prioritization system at Summer Atlantic Capital / SAC Nexus, where I own the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, and a retrieval-augmented explanation layer. A lot of that work is less about model accuracy than operational usefulness, since a detector that fires constantly just creates a second problem for analysts. I also co-founded Open Health Intelligence and led the technical work on ClarityAtlas, an iOS health app built with Swift, SwiftUI, and Supabase that estimates sleep passively from phone motion and interaction signals; we shipped it into a live Hopkins pilot with 30+ users and were selected for the Pava Spark Accelerator and NSF I-Corps. Earlier, I founded SnapSort, an AI photo-sorting product I built on Flask and AWS and grew past 300 users while owning pricing, positioning, and go-to-market.\"; page shows \"(empty)\"",
+        "expected": "I'm an undergraduate at Johns Hopkins studying Applied Mathematics & Statistics and Economics, class of 2029, and most of my work has been building products and machine-learning systems end to end. Right now I work on the machine-learning core of an anomaly-detection and alert-prioritization system at Summer Atlantic Capital / SAC Nexus, where I own the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, and a retrieval-augmented explanation layer. A lot of that work is less about model accuracy than operational usefulness, since a detector that fires constantly just creates a second problem for analysts. I also co-founded Open Health Intelligence and led the technical work on ClarityAtlas, an iOS health app built with Swift, SwiftUI, and Supabase that estimates sleep passively from phone motion and interaction signals; we shipped it into a live Hopkins pilot with 30+ users and were selected for the Pava Spark Accelerator and NSF I-Corps. Earlier, I founded SnapSort, an AI photo-sorting product I built on Flask and AWS and grew past 300 users while owning pricing, positioning, and go-to-market.",
+        "observed": "",
+        "how_to_answer": [
+          "System expected \"I'm an undergraduate at Johns Hopkins studying Applied Mathematics & Statistics and Economics, class of 2029, and most of my work has been building products and machine-learning systems end to end. Right now I work on the machine-learning core of an anomaly-detection and alert-prioritization system at Summer Atlantic Capital / SAC Nexus, where I own the event-ingestion pipeline, a versioned FastAPI detection service, temporal sequence models over event streams, and a retrieval-augmented explanation layer. A lot of that work is less about model accuracy than operational usefulness, since a detector that fires constantly just creates a second problem for analysts. I also co-founded Open Health Intelligence and led the technical work on ClarityAtlas, an iOS health app built with Swift, SwiftUI, and Supabase that estimates sleep passively from phone motion and interaction signals; we shipped it into a live Hopkins pilot with 30+ users and were selected for the Pava Spark Accelerator and NSF I-Corps. Earlier, I founded SnapSort, an AI photo-sorting product I built on Flask and AWS and grew past 300 users while owning pricing, positioning, and go-to-market.\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: essay:generated:oda-work-summary-text-area|input)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"essay:generated:oda-work-summary-text-area|input\" should match the on-form question text."
+        ]
+      }
+    ],
+    "ok_count": 0,
+    "fail_count": 1
+  },
+  "written_at": "2026-09-23T19:34:53.406Z"
+}

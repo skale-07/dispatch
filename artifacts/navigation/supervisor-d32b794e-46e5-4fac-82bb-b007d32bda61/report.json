@@ -1,0 +1,27 @@
+{
+  "run_id": "[REDACTED]",
+  "outcome": "form_ready",
+  "steps": [
+    {
+      "observation": "b54dbe3dc1efafaf",
+      "action": "wait",
+      "reason": "Page still loading (spinner); wait for job content and Apply control to render.",
+      "result": "waited for rendering",
+      "model": "claude-opus-5"
+    },
+    {
+      "observation": "c61403fad39387e4",
+      "action": "click",
+      "reason": "one unambiguous Apply control",
+      "result": "clicked observed control; next observation checks progress",
+      "target": "control-0"
+    }
+  ],
+  "notes": [
+    "model calls: 1 of 2 steps"
+  ],
+  "evidence": [
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-d32b794e-46e5-4fac-82bb-b007d32bda61\\observation.json",
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-d32b794e-46e5-4fac-82bb-b007d32bda61\\page.png"
+  ]
+}
