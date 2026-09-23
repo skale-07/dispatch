@@ -1,0 +1,384 @@
+{
+  "ats": "generic",
+  "url": "https://jobs.jobvite.com/src-inc/job/o8lHAfwu",
+  "requested_url": "https://jobs.jobvite.com/src-inc/job/o8lHAfwu",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://jobs.jobvite.com/src-inc/job/o8lHAfwu/apply",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 11,
+    "skipped_count": 3,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "jv-field-yrKSYfwL",
+      "label": "First Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "jv-field-yd6VYfwW",
+      "label": "Middle Name",
+      "type": "text",
+      "canonical_field": "legal_name.middle",
+      "action": "SKIP",
+      "reason": "Profile value empty for legal_name.middle"
+    },
+    {
+      "field_id": "jv-field-ytKSYfwN",
+      "label": "Last Name",
+      "type": "text",
+      "canonical_field": "legal_name.last",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "jv-field-y8mTYfw5",
+      "label": "Address",
+      "type": "text",
+      "canonical_field": "address.line1",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "jv-field-y9mTYfw6",
+      "label": "Address 2",
+      "type": "text",
+      "canonical_field": "address.line2",
+      "action": "SKIP",
+      "reason": "Profile value empty for address.line2"
+    },
+    {
+      "field_id": "jv-field-yamTYfw7",
+      "label": "City",
+      "type": "text",
+      "canonical_field": "address.city",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "jv-field-ybmTYfw8",
+      "label": "State",
+      "type": "select",
+      "canonical_field": "address.state",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "jv-field-ycmTYfw9",
+      "label": "Zip Code",
+      "type": "text",
+      "canonical_field": "address.postal_code",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "jv-field-yEo92fwX",
+      "label": "Cell Phone",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "jv-field-yifk2fwD",
+      "label": "Sms Consent",
+      "type": "select",
+      "canonical_field": "screener:custom:predicted:jv-field-yifk2fwD",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): Candidate consistently opts into recruiter communication and consent agreements."
+    },
+    {
+      "field_id": "jv-field-ysk5ZfwA",
+      "label": "Citizenship Status",
+      "type": "select",
+      "canonical_field": "screener:custom:citizenship_status",
+      "action": "FILL",
+      "reason": "Screener bank answer (llm_option)"
+    },
+    {
+      "field_id": "jv-field-ysKSYfwM",
+      "label": "Email",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "jv-field-yC9VYfwo",
+      "label": "Applicant Source",
+      "type": "select",
+      "canonical_field": "screener:how_heard",
+      "action": "FILL",
+      "reason": "Screener bank answer (llm_option)"
+    },
+    {
+      "field_id": "file-input-1",
+      "label": "File",
+      "type": "file",
+      "canonical_field": "linkedin_url",
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "jv-field-f0",
+      "label": "Citizenship Status",
+      "type": "select",
+      "canonical_field": "screener:custom:citizenship_status",
+      "action": "FILL",
+      "reason": "Screener bank answer (llm_option)"
+    },
+    {
+      "field_id": "jv-field-f1",
+      "label": "What salary are you seeking for this position?",
+      "type": "text",
+      "canonical_field": "screener:custom:predicted:jv-field-f1",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): No figure stated in the posting, so a flexible answer aligned with the posted range is given, consistent with prior compensation answers."
+    },
+    {
+      "field_id": "jv-field-f2",
+      "label": "What is your overall G.P.A.?",
+      "type": "select",
+      "canonical_field": "screener:custom:predicted:jv-field-f2",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): Profile facts list a 3.7 GPA, which appears exactly in the option list."
+    },
+    {
+      "field_id": "jv-field-f3",
+      "label": "What is your expected graduation date?",
+      "type": "text",
+      "canonical_field": "graduation_year",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "jv-field-f4",
+      "label": "Are you a former employee of SRC or SRCTec?",
+      "type": "select",
+      "canonical_field": "screener:previously_applied_or_worked",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    },
+    {
+      "field_id": "jv-field-f11",
+      "label": "Choose One",
+      "type": "select",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Demographics deferred to sensitive-profile policy path"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\generic-live\\form-snapshot-1790191471045.html",
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "legal_name.last",
+      "address.line1",
+      "address.city",
+      "address.state",
+      "address.postal_code",
+      "phone",
+      "screener:custom:predicted:jv-field-yifk2fwD",
+      "screener:custom:citizenship_status",
+      "email",
+      "screener:how_heard",
+      "screener:custom:citizenship_status",
+      "screener:custom:predicted:jv-field-f1",
+      "screener:custom:predicted:jv-field-f2",
+      "graduation_year",
+      "screener:previously_applied_or_worked"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "jv-field-yrKSYfwL",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "jv-field-ytKSYfwN",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "jv-field-y8mTYfw5",
+        "canonical_field": "address.line1",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "jv-field-yamTYfw7",
+        "canonical_field": "address.city",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "jv-field-ybmTYfw8",
+        "canonical_field": "address.state",
+        "control_kind": "native_select",
+        "selected_option": "Maryland",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "jv-field-ycmTYfw9",
+        "canonical_field": "address.postal_code",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "jv-field-yEo92fwX",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "jv-field-yifk2fwD",
+        "canonical_field": "screener:custom:predicted:jv-field-yifk2fwD",
+        "control_kind": "native_select",
+        "selected_option": "Yes",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "jv-field-ysk5ZfwA",
+        "canonical_field": "screener:custom:citizenship_status",
+        "control_kind": "native_select",
+        "selected_option": "U.S. Citizen",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "jv-field-ysKSYfwM",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "jv-field-yC9VYfwo",
+        "canonical_field": "screener:how_heard",
+        "control_kind": "native_select",
+        "selected_option": "Social Media",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "jv-field-f0",
+        "canonical_field": "screener:custom:citizenship_status",
+        "control_kind": "native_select",
+        "selected_option": "U.S. Citizen",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "jv-field-f1",
+        "canonical_field": "screener:custom:predicted:jv-field-f1",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "jv-field-f2",
+        "canonical_field": "screener:custom:predicted:jv-field-f2",
+        "control_kind": "native_select",
+        "selected_option": "3.7",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "jv-field-f3",
+        "canonical_field": "graduation_year",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "jv-field-f4",
+        "canonical_field": "screener:previously_applied_or_worked",
+        "control_kind": "native_select",
+        "selected_option": "No",
+        "match_via": "exact"
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "screener:custom:citizenship_status",
+        "expected": "U.S. Citizen",
+        "observed": {
+          "value": "string:U.S. Citizen",
+          "label": "U.S. Citizen"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:jv-field-f1",
+        "expected": "Flexible — aligned with the posted range for this role",
+        "observed": "Flexible — aligned with the posted range for this role",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:jv-field-f2",
+        "expected": "3.7",
+        "observed": {
+          "value": "string:3.7",
+          "label": "3.7"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "graduation_year",
+        "expected": "May 2029",
+        "observed": "May 2029",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:previously_applied_or_worked",
+        "expected": "No",
+        "observed": {
+          "value": "string:No",
+          "label": "No"
+        },
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 126181,
+      "verified": true,
+      "evidence": "input files: [{\"name\":\"resume-d5f6e235.pdf\",\"size\":126181}]; stillAttached=true; chip=true"
+    }
+  ],
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: posting (no fields, Apply CTA present)",
+    "landed on a posting (no fields, Apply CTA present); clicking Apply via role=link accessible name is Apply",
+    "Apply landed on: form (13 fillable field(s))",
+    "section-expand: expanded 2 collapsed section(s)",
+    "section-expand: expanded \"SELECT\"",
+    "section-expand: expanded \"ADD COVER LETTER\"",
+    "timing: base page (14 planned) — plan 7s, fill 3s, verify 0s",
+    "timing: revealed page (6 planned) — plan 10s, fill 1s, verify 0s",
+    "resolved advance: \"Next\"",
+    "form-advance: visible submit after page 2 — leaving it for the gated submit path",
+    "form-advance: filled 1 additional page(s) — form:5/5",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "wizard_pages": [
+    {
+      "page": 2,
+      "url": "https://jobs.jobvite.com/src-inc/job/o8lHAfwu/apply",
+      "kind": "form",
+      "fillable": 5,
+      "filled": 5,
+      "verify_passed": true
+    }
+  ],
+  "written_at": "2026-09-23T19:24:31.145Z"
+}
