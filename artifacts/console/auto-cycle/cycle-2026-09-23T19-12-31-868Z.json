@@ -1,0 +1,72 @@
+{
+  "started_at": "2026-09-23T19:12:31.868Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\general.pdf)",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "ec183cae-6637-420c-9564-5da70c8406b7",
+    "armed_until": "2026-09-23T21:12:31.958Z",
+    "seconds_remaining": 7200,
+    "max_submits": 1,
+    "submits_used": 0,
+    "max_apps": 1,
+    "apps_started": 0,
+    "discover_max": 1,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": {
+    "arm_run_id": "ec183cae-6637-420c-9564-5da70c8406b7",
+    "apps_started": 1,
+    "submits_used": 0,
+    "stopped_reason": "apps_cap",
+    "discover_runs": 0,
+    "emails_generated": 0,
+    "drafts_saved": 0,
+    "essay_drafts_generated": 0,
+    "screener_predictions_generated": 0,
+    "notes": [
+      "triage sweep: 0 confirmed, 0 refuted, 0 expired of 41 pending",
+      "triage 32ebd9a5: requeue_reopen_navigation (executed) — URL cleared, → APPLICATION_OPENING",
+      "artifact autopush: .git/index.lock held by a live git (192s old) — skipping this push"
+    ],
+    "per_app": [
+      {
+        "application_id": "32ebd9a5-23de-4b69-94b6-5aae7be7cfa0",
+        "end_state": "NATIVE_AUTOFILL_RUNNING",
+        "stopped": "gate",
+        "stop_reason": "fill refused: stored URL is for \"microsoft\", not West Bend Insurance Company (page does not name the company either)",
+        "submitted": false,
+        "outreach": null
+      }
+    ],
+    "nav_audit": {
+      "checked": 669,
+      "repaired": 0,
+      "parked": 0
+    },
+    "triage": {
+      "decided": 1,
+      "executed": 1
+    },
+    "artifact_autopush": {
+      "pushed": false,
+      "commit": null,
+      "files_staged": 0
+    }
+  },
+  "outcome": "completed",
+  "notes": []
+}

@@ -1,0 +1,48 @@
+{
+  "run_id": "nav-35f77529-ca53-49d7-b4d6-1fa22a3d5c5d",
+  "application_id": "32ebd9a5-23de-4b69-94b6-5aae7be7cfa0",
+  "jobright_job_id": "6ab3f27164816213f2d9622e",
+  "method": "apply_click_popup",
+  "resolved_url": "https://apply.careers.microsoft.com/careers/job/1970393557004819/",
+  "resolved_ats": "generic",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no congruent apply href (7 external links)",
+      "evidence": "careers-thesilverlining.icims.com, www.linkedin.com, x.com, www.crunchbase.com, www.glassdoor.com"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "resolved via popup",
+      "evidence": "apply.careers.microsoft.com"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "phase A: anchor reads as \"thesilverlining\" (URL names \"thesilverlining\" (tenant), which shares nothing with company \"West Bend Insurance Company\") — not preferred, deferring to the Apply click",
+    "phase A: 5 external host(s) seen: careers-thesilverlining.icims.com, www.linkedin.com, x.com, www.crunchbase.com, www.glassdoor.com",
+    "Apply control: autofill CTA (tier 0)",
+    "jobright interstitial: clicked \"Apply Without Customizing\"",
+    "popup captured on attempt 1",
+    "phase B: captured URL reads as \"microsoft\" (URL names \"microsoft\" (host), which shares nothing with company \"West Bend Insurance Company\") — kept, provenance is the Apply click",
+    "congruence: URL names \"microsoft\", not \"West Bend Insurance Company\" (URL names \"microsoft\" (host), which shares nothing with company \"West Bend Insurance Company\") — recorded, not refused"
+  ],
+  "congruence": {
+    "verdict": "mismatch",
+    "slug": "microsoft",
+    "detail": "URL names \"microsoft\" (host), which shares nothing with company \"West Bend Insurance Company\"",
+    "expected_company": "West Bend Insurance Company",
+    "url": "https://apply.careers.microsoft.com/careers/job/1970393557004819/?jr_id=6ab4169264816213f2d972f7"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-09-23T19:12:48.049Z"
+}

@@ -1,0 +1,124 @@
+{
+  "decision_id": "73ac6c3c-2b02-40ba-ab66-d61bfd248f9d",
+  "application_id": "c8b0f711-9a7f-46f4-b003-8e2f6f1807dc",
+  "signature": "CAPTCHA_REQUIRED|-|captcha|ats.rippling.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "c8b0f711-9a7f-46f4-b003-8e2f6f1807dc",
+    "company": "Rippling",
+    "role": "Data Science Intern - Summer 2027",
+    "state": "CAPTCHA_REQUIRED",
+    "attempt": 1,
+    "failure_signature": "CAPTCHA_REQUIRED|-|captcha|ats.rippling.com",
+    "end_host": "ats.rippling.com",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "CAPTCHA_REQUIRED",
+        "reason": "pipeline: blocking CAPTCHA on employer form",
+        "at": "2026-09-23T19:11:58.623Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-23T19:11:53.235Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-23T19:11:53.222Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-23T19:11:44.028Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 d5f6e2353444)",
+        "at": "2026-09-23T19:11:43.984Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-23T19:11:43.870Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-23T18:25:21.273Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-23T18:25:21.257Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-23T18:25:21.255Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-23T18:25:21.253Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "rippling",
+        "detail": "token \"rippling\" ~ slug \"rippling\" (from URL path)",
+        "expected_company": "Rippling",
+        "url": "https://ats.rippling.com/rippling/jobs/f255bf03-9173-4c0a-8a18-7cc43c27ded8?jr_id=6ab29b0778c69ff506c3f2d0"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (11 candidates, employer match)",
+          "evidence": "ats.rippling.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [
+      {
+        "kind": "CAPTCHA_REQUIRED",
+        "title": "Blocking CAPTCHA on employer form"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\":\"park_for_operator\",\"rationale\":\"First attempt blocked by a CAPTCHA on the employer form; navigation and materials are fine, so a requeue or re-resolve wouldn't change anything, and one block isn't a repeated permanent wall. A human should clear the CAPTCHA (review item already open).\",\"confidence\":\"medium\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: 0af48e24-9d90-4414-a90d-fe45bc53cf1c",
+  "rationale_unverified": "First attempt blocked by a CAPTCHA on the employer form; navigation and materials are fine, so a requeue or re-resolve wouldn't change anything, and one block isn't a repeated permanent wall. A human should clear the CAPTCHA (review item already open)."
+}

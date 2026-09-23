@@ -1,0 +1,124 @@
+{
+  "decision_id": "543ee575-defd-48d0-bfcb-f2dfe306818e",
+  "application_id": "1028c0b9-032e-4754-a642-1df0a7e57fa9",
+  "signature": "CAPTCHA_REQUIRED|-|captcha|ats.rippling.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "1028c0b9-032e-4754-a642-1df0a7e57fa9",
+    "company": "Rippling",
+    "role": "Software Engineer Intern - Backend Focused - Summer 2027",
+    "state": "CAPTCHA_REQUIRED",
+    "attempt": 1,
+    "failure_signature": "CAPTCHA_REQUIRED|-|captcha|ats.rippling.com",
+    "end_host": "ats.rippling.com",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "CAPTCHA_REQUIRED",
+        "reason": "pipeline: blocking CAPTCHA on employer form",
+        "at": "2026-09-23T19:09:26.838Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-23T19:09:24.512Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-23T19:09:24.508Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-23T19:09:22.513Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 7141579276ac)",
+        "at": "2026-09-23T19:09:22.506Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-23T19:09:22.399Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-23T18:25:21.952Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-23T18:25:21.859Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-23T18:25:21.857Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-23T18:25:21.855Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "rippling",
+        "detail": "token \"rippling\" ~ slug \"rippling\" (from URL path)",
+        "expected_company": "Rippling",
+        "url": "https://ats.rippling.com/rippling/jobs/a07e4e46-3721-4934-b57b-0d58412e22ba?jr_id=6ab29ace8254c44790e55e91"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (11 candidates, employer match)",
+          "evidence": "ats.rippling.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [
+      {
+        "kind": "CAPTCHA_REQUIRED",
+        "title": "Blocking CAPTCHA on employer form"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\":\"park_for_operator\",\"rationale\":\"First-attempt blocking CAPTCHA on ats.rippling.com; navigation resolved correctly and materials are fresh, so requeues wouldn't change the outcome. Only one block so far, so it's not a proven permanent wall; an agent leg can't solve a CAPTCHA. A human should clear it. A review item is already open.\",\"confidence\":\"medium\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: ddee50e9-86ed-4eba-a59e-79fcfc0da10e",
+  "rationale_unverified": "First-attempt blocking CAPTCHA on ats.rippling.com; navigation resolved correctly and materials are fresh, so requeues wouldn't change the outcome. Only one block so far, so it's not a proven permanent wall; an agent leg can't solve a CAPTCHA. A human should clear it. A review item is already open."
+}
