@@ -1,0 +1,124 @@
+{
+  "decision_id": "e9519c85-90cd-4d79-be64-bf7d5f5938a1",
+  "application_id": "2bc75040-afaf-48b0-8220-e60e409e30e1",
+  "signature": "CAPTCHA_REQUIRED|-|captcha|ats.rippling.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "2bc75040-afaf-48b0-8220-e60e409e30e1",
+    "company": "Rippling",
+    "role": "Full Stack Software Engineer Intern - Summer 2027",
+    "state": "CAPTCHA_REQUIRED",
+    "attempt": 1,
+    "failure_signature": "CAPTCHA_REQUIRED|-|captcha|ats.rippling.com",
+    "end_host": "ats.rippling.com",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "CAPTCHA_REQUIRED",
+        "reason": "pipeline: blocking CAPTCHA on employer form",
+        "at": "2026-09-23T20:22:05.674Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-23T20:22:04.244Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-23T20:22:04.238Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-23T20:22:02.064Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 7141579276ac)",
+        "at": "2026-09-23T20:22:02.059Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-23T20:22:02.037Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-23T18:25:21.304Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-23T18:25:21.286Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-23T18:25:21.285Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-23T18:25:21.283Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "rippling",
+        "detail": "token \"rippling\" ~ slug \"rippling\" (from URL path)",
+        "expected_company": "Rippling",
+        "url": "https://ats.rippling.com/rippling/jobs/f64b6158-9534-4bab-9457-45556166b262?jr_id=6ab29ade8254c44790e55e99"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (11 candidates, employer match)",
+          "evidence": "ats.rippling.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [
+      {
+        "kind": "CAPTCHA_REQUIRED",
+        "title": "Blocking CAPTCHA on employer form"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"park_for_operator\", \"rationale\": \"First attempt hit a blocking CAPTCHA on the employer form; navigation and materials are fine, so requeues won't change the outcome, and one block isn't enough to declare a permanent wall. A review item is already open — a human should solve the CAPTCHA or decide.\", \"confidence\": \"medium\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: 337166ba-6b35-46f3-b151-3db0b87f32f5",
+  "rationale_unverified": "First attempt hit a blocking CAPTCHA on the employer form; navigation and materials are fine, so requeues won't change the outcome, and one block isn't enough to declare a permanent wall. A review item is already open — a human should solve the CAPTCHA or decide."
+}
