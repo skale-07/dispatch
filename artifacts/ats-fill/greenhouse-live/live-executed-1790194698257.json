@@ -1,0 +1,1349 @@
+{
+  "mode": "executed",
+  "ats": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/astranis/jobs/4704598006",
+  "plan": {
+    "answers": {
+      "legal_name.first": "Shubham",
+      "legal_name.last": "Kale",
+      "email": "s***@gmail.com",
+      "address.country": "United States",
+      "phone": "***-***-7636",
+      "address.city": "Baltimore",
+      "major": "Applied Mathematics and Statistics",
+      "start_month": "August",
+      "start_year": "2025",
+      "graduation_month": "May",
+      "graduation_year": "2029",
+      "screener:custom:export_control_us_person_status": "I am a U.S. Citizen.",
+      "screener:custom:application_season": "Summer 2027",
+      "screener:start_availability": "Flexible — aligned to the posted term",
+      "screener:custom:internship_end_date": "August 2026",
+      "screener:custom:onsite_55_hours_commitment": "Yes",
+      "screener:how_heard": "LinkedIn",
+      "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+      "screener:consent_agreement": "Yes",
+      "gender": "Male",
+      "hispanic_latino": "No",
+      "veteran_status": "I am not a veteran"
+    },
+    "entries": [
+      {
+        "field_id": "first_name",
+        "label": "First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "fill",
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "last_name",
+        "label": "Last Name",
+        "type": "text",
+        "canonical_field": "legal_name.last",
+        "action": "fill",
+        "value": "Kale",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "email",
+        "label": "Email",
+        "type": "text",
+        "canonical_field": "email",
+        "action": "fill",
+        "value": "s***@gmail.com",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "country",
+        "label": "Country",
+        "type": "text",
+        "canonical_field": "address.country",
+        "action": "fill",
+        "value": "United States +1",
+        "reason": "Mapped from public profile; placed onto \"United States +1\""
+      },
+      {
+        "field_id": "iti-0__search-input",
+        "label": "Search",
+        "type": "unknown",
+        "canonical_field": null,
+        "action": "skip_unmapped",
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "phone",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "fill",
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "candidate-location",
+        "label": "Location (City)",
+        "type": "text",
+        "canonical_field": "address.city",
+        "action": "fill",
+        "value": "Baltimore",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "resume",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "skip_file",
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "school--0",
+        "label": "School",
+        "type": "text",
+        "canonical_field": "history:education[0].school",
+        "action": "fill",
+        "value": "Johns Hopkins University",
+        "reason": "Structured education entry 1 (Johns Hopkins University) — school"
+      },
+      {
+        "field_id": "degree--0",
+        "label": "Degree",
+        "type": "text",
+        "canonical_field": "history:education[0].degree",
+        "action": "fill",
+        "value": "Bachelor's Degree",
+        "reason": "Structured education entry 1 (Johns Hopkins University) — degree; placed onto \"Bachelor's Degree\""
+      },
+      {
+        "field_id": "discipline--0",
+        "label": "Discipline",
+        "type": "text",
+        "canonical_field": "major",
+        "action": "fill",
+        "value": "Mathematics",
+        "reason": "Mapped from public profile; placed onto \"Mathematics\""
+      },
+      {
+        "field_id": "start-month--0",
+        "label": "Start date month",
+        "type": "text",
+        "canonical_field": "start_month",
+        "action": "fill",
+        "value": "August",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "start-year--0",
+        "label": "Start date year",
+        "type": "text",
+        "canonical_field": "start_year",
+        "action": "fill",
+        "value": "2025",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "end-month--0",
+        "label": "End date month",
+        "type": "text",
+        "canonical_field": "graduation_month",
+        "action": "fill",
+        "value": "May",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "end-year--0",
+        "label": "End date year",
+        "type": "text",
+        "canonical_field": "graduation_year",
+        "action": "fill",
+        "value": "2029",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_8622920006",
+        "label": "Astranis complies with U.S. Government space technology export regulations, therefore will you state which of the following applies to you:",
+        "type": "text",
+        "canonical_field": "screener:custom:export_control_us_person_status",
+        "action": "fill",
+        "value": "I am a U.S. Citizen.",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_8622921006",
+        "label": "What is the most impressive thing you have ever accomplished?",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_8622921006",
+        "action": "fill",
+        "value": "Co-founding Open Health Intelligence and shipping ClarityAtlas into a live pilot at Johns Hopkins with 30+ users. I built the iOS product end to end in Swift and SwiftUI with Supabase on the backend, and the hardest piece was estimating sleep without a wearable, using HealthKit and Core Motion signals like step count, gait speed, and movement patterns as proxies. What made it feel like more than a class project was everything around the code. We recruited real users, refined the product thesis repeatedly, got into the Pava Spark Accelerator and NSF I-Corps, and received a non-binding investment indication of roughly $75,000 for about 7-8% equity, which we chose not to pursue immediately because we wanted the right long-term partners. We also pitched President Ron Daniels, which started when my cofounders and I spotted him during Lighting of the Quads, walked to Garland Hall, and knocked on locked doors until someone let us make the case. That turned into a formal meeting months later with Data Science and AI Institute leadership. The lesson was that building the thing is only part of making it real.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_8622922006",
+        "label": "Please describe the most impressive and complex project you have worked on. This can be from previous internships, school projects, or personal projects you took part in. Tell us what the project was, the technologies you used, challenges you faced, what specific role you played in this project, and what made this project complex or special.",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_8622922006",
+        "action": "fill",
+        "value": "The most complex system I have built is the machine-learning core of an anomaly-detection and alert-prioritization platform at Summer Atlantic Capital / SAC Nexus. I own major parts of the data and ML infrastructure: the repository and CI scaffold, the event-ingestion pipeline, a versioned FastAPI microservice, and the public detection API. On the modeling side I do temporal sequence modeling over event streams with RNN and Transformer-style approaches, anomaly scoring, and a learning-to-rank layer that decides which alerts a human should see first. I also built an LLM explanation layer using retrieval-augmented generation so that a score turns into something an analyst can act on. The hard part was not raw detection accuracy. An anomaly system that fires constantly creates a second problem instead of solving the first, so ranking, explanation quality, and known failure modes mattered more than a marginal metric gain. That pushed me toward treating evaluation as a first-class engineering problem, which also came out of earlier work at Intelehealth where I built an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case standard using stratified sampling to surface systematic failures.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_8622923006",
+        "label": "Please confirm the season you are applying for.",
+        "type": "text",
+        "canonical_field": "screener:custom:application_season",
+        "action": "fill",
+        "value": "Summer 2027",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_8622924006",
+        "label": "When are you able to join Astranis as an intern? (12 week minimum)",
+        "type": "text",
+        "canonical_field": "screener:start_availability",
+        "action": "fill",
+        "value": "Flexible — aligned to the posted term",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "question_8622925006",
+        "label": "When do you plan on ending your internship?",
+        "type": "text",
+        "canonical_field": "screener:custom:internship_end_date",
+        "action": "fill",
+        "value": "August 2026",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "question_8622926006",
+        "label": "At Astranis, we value in-person collaboration and a strong work ethic. Are you comfortable with working onsite at our San Francisco HQ 5 days a week?",
+        "type": "text",
+        "canonical_field": "screener:custom:onsite_55_hours_commitment",
+        "action": "fill",
+        "value": "Yes",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_8622927006",
+        "label": "How did you hear about Astranis?",
+        "type": "text",
+        "canonical_field": "screener:how_heard",
+        "action": "fill",
+        "value": "LinkedIn",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "question_8622928006",
+        "label": "LinkedIn Profile",
+        "type": "text",
+        "canonical_field": "linkedin_url",
+        "action": "fill",
+        "value": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_8652804006",
+        "label": "By selecting YES, I consent to receive recruiting SMS messages from Astranis at the phone number provided on my job application.",
+        "type": "text",
+        "canonical_field": "screener:consent_agreement",
+        "action": "fill",
+        "value": "Yes",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "gender",
+        "label": "Gender",
+        "type": "text",
+        "canonical_field": "gender",
+        "action": "fill",
+        "value": "Male",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "hispanic_ethnicity",
+        "label": "Are you Hispanic/Latino?",
+        "type": "text",
+        "canonical_field": "hispanic_latino",
+        "action": "fill",
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "veteran_status",
+        "label": "Veteran Status",
+        "type": "text",
+        "canonical_field": "veteran_status",
+        "action": "fill",
+        "value": "I am not a veteran",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      }
+    ],
+    "fillable_count": 26,
+    "skipped_count": 2,
+    "review_required_count": 0
+  },
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "schema diff: 14/15 declared question(s) matched onto 28 DOM field(s); 1 declared-only (1 required); 14 DOM-only",
+    "board API declared 15 question(s); matched complete option lists onto 4 field(s)",
+    "option harvest: \"Location (City)\" is a combobox but offered no readable options",
+    "option harvest: scraped real options for 9/20 control(s) before planning",
+    "frozen after fill→verify→upload — no further field mutation; submit never called"
+  ],
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "final_url": "https://job-boards.greenhouse.io/astranis/jobs/4704598006",
+  "identity_verification": {
+    "requestedUrl": "https://job-boards.greenhouse.io/astranis/jobs/4704598006",
+    "finalUrl": "https://job-boards.greenhouse.io/astranis/jobs/4704598006",
+    "requestedJobId": "4704598006",
+    "observedJobId": "4704598006",
+    "company": "astranis",
+    "role": "Job Application for Flight Software Intern (Summer 2027) at Astranis",
+    "formDetected": true,
+    "fieldCount": 28,
+    "warnings": [],
+    "passed": true,
+    "failureCode": null,
+    "failureReason": null
+  },
+  "captcha_detection": {
+    "detected": false,
+    "confidence": "LOW",
+    "signals": [],
+    "dormantMarkers": []
+  },
+  "login_wall_detection": {
+    "detected": false,
+    "confidence": "LOW",
+    "signals": []
+  },
+  "failure_code": null,
+  "mutation_attempted": true,
+  "schema_diff": {
+    "board": "astranis",
+    "job_id": "4704598006",
+    "declared_count": 15,
+    "dom_count": 28,
+    "matched": 14,
+    "api_only": [
+      {
+        "label": "Resume/CV",
+        "required": true
+      }
+    ],
+    "dom_only": [
+      "Country",
+      "Search",
+      "Location (City)",
+      "Attach",
+      "School",
+      "Degree",
+      "Discipline",
+      "Start date month",
+      "Start date year",
+      "End date month",
+      "End date year",
+      "Gender",
+      "Are you Hispanic/Latino?",
+      "Veteran Status"
+    ],
+    "option_mismatches": []
+  },
+  "harvested_options": [
+    {
+      "field_id": "country",
+      "label": "Country",
+      "answer_space": "closed",
+      "option_count": 244,
+      "options": [
+        "United States +1",
+        "Afghanistan +93",
+        "Åland Islands +358",
+        "Albania +355",
+        "Algeria +213",
+        "American Samoa +1",
+        "Andorra +376",
+        "Angola +244",
+        "Anguilla +1",
+        "Antigua & Barbuda +1",
+        "Argentina +54",
+        "Armenia +374",
+        "Aruba +297",
+        "Ascension Island +247",
+        "Australia +61",
+        "Austria +43",
+        "Azerbaijan +994",
+        "Bahamas +1",
+        "Bahrain +973",
+        "Bangladesh +880",
+        "Barbados +1",
+        "Belarus +375",
+        "Belgium +32",
+        "Belize +501",
+        "Benin +229"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "school--0",
+      "label": "School",
+      "answer_space": "closed",
+      "option_count": 100,
+      "options": [
+        "Aalborg University",
+        "Aalto University",
+        "Aarhus University",
+        "Abertay University",
+        "Aberystwyth University",
+        "Abilene Christian University",
+        "Abo Akademi University",
+        "Abraham Baldwin Agricultural College",
+        "Abu Dhabi University",
+        "Academy of Art University",
+        "Acadia University",
+        "Acharya Nagarjuna University",
+        "Acupuncture and Integrative Medicine College - Berkeley",
+        "Adams State University",
+        "Adelphi University",
+        "Adrian College",
+        "Adventist University of Health Sciences",
+        "Agnes Scott College",
+        "AIB College of Business",
+        "Ain Shams University",
+        "Airlangga University",
+        "Ajou University",
+        "Alabama A&M University",
+        "Alabama State University",
+        "Alaska Pacific University"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "degree--0",
+      "label": "Degree",
+      "answer_space": "closed",
+      "option_count": 10,
+      "options": [
+        "Associate's Degree",
+        "Bachelor's Degree",
+        "Doctor of Medicine (M.D.)",
+        "Doctor of Philosophy (Ph.D.)",
+        "Engineer's Degree",
+        "High School",
+        "Juris Doctor (J.D.)",
+        "Master of Business Administration (M.B.A.)",
+        "Master's Degree",
+        "Other"
+      ],
+      "other_option": "Other"
+    },
+    {
+      "field_id": "discipline--0",
+      "label": "Discipline",
+      "answer_space": "closed",
+      "option_count": 80,
+      "options": [
+        "Accounting",
+        "Aerospace Engineering",
+        "African Studies",
+        "Agriculture",
+        "Anthropology",
+        "Applied Health Services",
+        "Architecture",
+        "Art",
+        "Artificial Intelligence",
+        "Asian Studies",
+        "Biology",
+        "Business",
+        "Business Administration",
+        "Chemical Engineering",
+        "Chemistry",
+        "Classical Languages",
+        "Communications",
+        "Communications & Film",
+        "Computer Science",
+        "Computer Vision",
+        "Dentistry",
+        "Developing Nations",
+        "Discipline Unknown",
+        "Earth Sciences",
+        "Economics"
+      ],
+      "other_option": "Other"
+    },
+    {
+      "field_id": "start-month--0",
+      "label": "Start date month",
+      "answer_space": "closed",
+      "option_count": 12,
+      "options": [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "end-month--0",
+      "label": "End date month",
+      "answer_space": "closed",
+      "option_count": 12,
+      "options": [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "gender",
+      "label": "Gender",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "Male",
+        "Female",
+        "Decline To Self Identify"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "hispanic_ethnicity",
+      "label": "Are you Hispanic/Latino?",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "Yes",
+        "No",
+        "Decline To Self Identify"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "veteran_status",
+      "label": "Veteran Status",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "I am not a protected veteran",
+        "I identify as one or more of the classifications of a protected veteran",
+        "I don't wish to answer"
+      ],
+      "other_option": null
+    }
+  ],
+  "approved_plan": {
+    "entries": [
+      {
+        "field_id": "first_name",
+        "label": "First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "FILL",
+        "approved": true,
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "last_name",
+        "label": "Last Name",
+        "type": "text",
+        "canonical_field": "legal_name.last",
+        "action": "FILL",
+        "approved": true,
+        "value": "Kale",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "email",
+        "label": "Email",
+        "type": "text",
+        "canonical_field": "email",
+        "action": "FILL",
+        "approved": true,
+        "value": "s***@gmail.com",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "country",
+        "label": "Country",
+        "type": "text",
+        "canonical_field": "address.country",
+        "action": "FILL",
+        "approved": true,
+        "value": "United States +1",
+        "reason": "Mapped from public profile; placed onto \"United States +1\""
+      },
+      {
+        "field_id": "iti-0__search-input",
+        "label": "Search",
+        "type": "unknown",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "No answer-alias mapping"
+      },
+      {
+        "field_id": "phone",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "FILL",
+        "approved": true,
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "candidate-location",
+        "label": "Location (City)",
+        "type": "text",
+        "canonical_field": "address.city",
+        "action": "FILL",
+        "approved": true,
+        "value": "Baltimore",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "resume",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "school--0",
+        "label": "School",
+        "type": "text",
+        "canonical_field": "history:education[0].school",
+        "action": "FILL",
+        "approved": true,
+        "value": "Johns Hopkins University",
+        "reason": "Structured education entry 1 (Johns Hopkins University) — school"
+      },
+      {
+        "field_id": "degree--0",
+        "label": "Degree",
+        "type": "text",
+        "canonical_field": "history:education[0].degree",
+        "action": "FILL",
+        "approved": true,
+        "value": "Bachelor's Degree",
+        "reason": "Structured education entry 1 (Johns Hopkins University) — degree; placed onto \"Bachelor's Degree\""
+      },
+      {
+        "field_id": "discipline--0",
+        "label": "Discipline",
+        "type": "text",
+        "canonical_field": "major",
+        "action": "FILL",
+        "approved": true,
+        "value": "Mathematics",
+        "reason": "Mapped from public profile; placed onto \"Mathematics\""
+      },
+      {
+        "field_id": "start-month--0",
+        "label": "Start date month",
+        "type": "text",
+        "canonical_field": "start_month",
+        "action": "FILL",
+        "approved": true,
+        "value": "August",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "start-year--0",
+        "label": "Start date year",
+        "type": "text",
+        "canonical_field": "start_year",
+        "action": "FILL",
+        "approved": true,
+        "value": "2025",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "end-month--0",
+        "label": "End date month",
+        "type": "text",
+        "canonical_field": "graduation_month",
+        "action": "FILL",
+        "approved": true,
+        "value": "May",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "end-year--0",
+        "label": "End date year",
+        "type": "text",
+        "canonical_field": "graduation_year",
+        "action": "FILL",
+        "approved": true,
+        "value": "2029",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_8622920006",
+        "label": "Astranis complies with U.S. Government space technology export regulations, therefore will you state which of the following applies to you:",
+        "type": "text",
+        "canonical_field": "screener:custom:export_control_us_person_status",
+        "action": "FILL",
+        "approved": true,
+        "value": "I am a U.S. Citizen.",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_8622921006",
+        "label": "What is the most impressive thing you have ever accomplished?",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_8622921006",
+        "action": "FILL",
+        "approved": true,
+        "value": "Co-founding Open Health Intelligence and shipping ClarityAtlas into a live pilot at Johns Hopkins with 30+ users. I built the iOS product end to end in Swift and SwiftUI with Supabase on the backend, and the hardest piece was estimating sleep without a wearable, using HealthKit and Core Motion signals like step count, gait speed, and movement patterns as proxies. What made it feel like more than a class project was everything around the code. We recruited real users, refined the product thesis repeatedly, got into the Pava Spark Accelerator and NSF I-Corps, and received a non-binding investment indication of roughly $75,000 for about 7-8% equity, which we chose not to pursue immediately because we wanted the right long-term partners. We also pitched President Ron Daniels, which started when my cofounders and I spotted him during Lighting of the Quads, walked to Garland Hall, and knocked on locked doors until someone let us make the case. That turned into a formal meeting months later with Data Science and AI Institute leadership. The lesson was that building the thing is only part of making it real.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_8622922006",
+        "label": "Please describe the most impressive and complex project you have worked on. This can be from previous internships, school projects, or personal projects you took part in. Tell us what the project was, the technologies you used, challenges you faced, what specific role you played in this project, and what made this project complex or special.",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_8622922006",
+        "action": "FILL",
+        "approved": true,
+        "value": "The most complex system I have built is the machine-learning core of an anomaly-detection and alert-prioritization platform at Summer Atlantic Capital / SAC Nexus. I own major parts of the data and ML infrastructure: the repository and CI scaffold, the event-ingestion pipeline, a versioned FastAPI microservice, and the public detection API. On the modeling side I do temporal sequence modeling over event streams with RNN and Transformer-style approaches, anomaly scoring, and a learning-to-rank layer that decides which alerts a human should see first. I also built an LLM explanation layer using retrieval-augmented generation so that a score turns into something an analyst can act on. The hard part was not raw detection accuracy. An anomaly system that fires constantly creates a second problem instead of solving the first, so ranking, explanation quality, and known failure modes mattered more than a marginal metric gain. That pushed me toward treating evaluation as a first-class engineering problem, which also came out of earlier work at Intelehealth where I built an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case standard using stratified sampling to surface systematic failures.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_8622923006",
+        "label": "Please confirm the season you are applying for.",
+        "type": "text",
+        "canonical_field": "screener:custom:application_season",
+        "action": "FILL",
+        "approved": true,
+        "value": "Summer 2027",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_8622924006",
+        "label": "When are you able to join Astranis as an intern? (12 week minimum)",
+        "type": "text",
+        "canonical_field": "screener:start_availability",
+        "action": "FILL",
+        "approved": true,
+        "value": "Flexible — aligned to the posted term",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "question_8622925006",
+        "label": "When do you plan on ending your internship?",
+        "type": "text",
+        "canonical_field": "screener:custom:internship_end_date",
+        "action": "FILL",
+        "approved": true,
+        "value": "August 2026",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "question_8622926006",
+        "label": "At Astranis, we value in-person collaboration and a strong work ethic. Are you comfortable with working onsite at our San Francisco HQ 5 days a week?",
+        "type": "text",
+        "canonical_field": "screener:custom:onsite_55_hours_commitment",
+        "action": "FILL",
+        "approved": true,
+        "value": "Yes",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "question_8622927006",
+        "label": "How did you hear about Astranis?",
+        "type": "text",
+        "canonical_field": "screener:how_heard",
+        "action": "FILL",
+        "approved": true,
+        "value": "LinkedIn",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "question_8622928006",
+        "label": "LinkedIn Profile",
+        "type": "text",
+        "canonical_field": "linkedin_url",
+        "action": "FILL",
+        "approved": true,
+        "value": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_8652804006",
+        "label": "By selecting YES, I consent to receive recruiting SMS messages from Astranis at the phone number provided on my job application.",
+        "type": "text",
+        "canonical_field": "screener:consent_agreement",
+        "action": "FILL",
+        "approved": true,
+        "value": "Yes",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "gender",
+        "label": "Gender",
+        "type": "text",
+        "canonical_field": "gender",
+        "action": "FILL",
+        "approved": true,
+        "value": "Male",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "hispanic_ethnicity",
+        "label": "Are you Hispanic/Latino?",
+        "type": "text",
+        "canonical_field": "hispanic_latino",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "veteran_status",
+        "label": "Veteran Status",
+        "type": "text",
+        "canonical_field": "veteran_status",
+        "action": "FILL",
+        "approved": true,
+        "value": "I am not a veteran",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      }
+    ],
+    "answers": {
+      "legal_name.first": "Shubham",
+      "legal_name.last": "Kale",
+      "email": "s***@gmail.com",
+      "address.country": "United States +1",
+      "phone": "***-***-7636",
+      "address.city": "Baltimore",
+      "history:education[0].school": "Johns Hopkins University",
+      "history:education[0].degree": "Bachelor's Degree",
+      "major": "Mathematics",
+      "start_month": "August",
+      "start_year": "2025",
+      "graduation_month": "May",
+      "graduation_year": "2029",
+      "screener:custom:export_control_us_person_status": "I am a U.S. Citizen.",
+      "essay:generated:question_8622921006": "Co-founding Open Health Intelligence and shipping ClarityAtlas into a live pilot at Johns Hopkins with 30+ users. I built the iOS product end to end in Swift and SwiftUI with Supabase on the backend, and the hardest piece was estimating sleep without a wearable, using HealthKit and Core Motion signals like step count, gait speed, and movement patterns as proxies. What made it feel like more than a class project was everything around the code. We recruited real users, refined the product thesis repeatedly, got into the Pava Spark Accelerator and NSF I-Corps, and received a non-binding investment indication of roughly $75,000 for about 7-8% equity, which we chose not to pursue immediately because we wanted the right long-term partners. We also pitched President Ron Daniels, which started when my cofounders and I spotted him during Lighting of the Quads, walked to Garland Hall, and knocked on locked doors until someone let us make the case. That turned into a formal meeting months later with Data Science and AI Institute leadership. The lesson was that building the thing is only part of making it real.",
+      "essay:generated:question_8622922006": "The most complex system I have built is the machine-learning core of an anomaly-detection and alert-prioritization platform at Summer Atlantic Capital / SAC Nexus. I own major parts of the data and ML infrastructure: the repository and CI scaffold, the event-ingestion pipeline, a versioned FastAPI microservice, and the public detection API. On the modeling side I do temporal sequence modeling over event streams with RNN and Transformer-style approaches, anomaly scoring, and a learning-to-rank layer that decides which alerts a human should see first. I also built an LLM explanation layer using retrieval-augmented generation so that a score turns into something an analyst can act on. The hard part was not raw detection accuracy. An anomaly system that fires constantly creates a second problem instead of solving the first, so ranking, explanation quality, and known failure modes mattered more than a marginal metric gain. That pushed me toward treating evaluation as a first-class engineering problem, which also came out of earlier work at Intelehealth where I built an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case standard using stratified sampling to surface systematic failures.",
+      "screener:custom:application_season": "Summer 2027",
+      "screener:start_availability": "Flexible — aligned to the posted term",
+      "screener:custom:internship_end_date": "August 2026",
+      "screener:custom:onsite_55_hours_commitment": "Yes",
+      "screener:how_heard": "LinkedIn",
+      "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+      "screener:consent_agreement": "Yes",
+      "gender": "Male",
+      "hispanic_latino": "No",
+      "veteran_status": "I am not a veteran"
+    },
+    "fillable_count": 26,
+    "skipped_count": 2,
+    "review_required_count": 0
+  },
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "legal_name.last",
+      "email",
+      "address.country",
+      "phone",
+      "address.city",
+      "history:education[0].school",
+      "history:education[0].degree",
+      "major",
+      "start_month",
+      "start_year",
+      "graduation_month",
+      "graduation_year",
+      "screener:custom:export_control_us_person_status",
+      "essay:generated:question_8622921006",
+      "essay:generated:question_8622922006",
+      "screener:custom:application_season",
+      "screener:start_availability",
+      "screener:custom:internship_end_date",
+      "screener:custom:onsite_55_hours_commitment",
+      "screener:how_heard",
+      "linkedin_url",
+      "screener:consent_agreement",
+      "gender",
+      "hispanic_latino",
+      "veteran_status"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "first_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "last_name",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "country",
+        "canonical_field": "address.country",
+        "control_kind": "combobox",
+        "selected_option": "+1",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"United States +1\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "phone",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "candidate-location",
+        "canonical_field": "address.city",
+        "control_kind": "combobox",
+        "selected_option": "Baltimore, Maryland, United States",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "filter \"Baltimore\" → 10 option(s); match",
+          "picked \"Baltimore, Maryland, United States\" (exact)"
+        ],
+        "options_sample": [
+          "Baltimore, Maryland, United States",
+          "Baltimore, Maryland, United States",
+          "New Baltimore, Michigan, United States",
+          "New Baltimore, Virginia, United States",
+          "Baltimore Highlands, Maryland, United States",
+          "South Baltimore, Maryland, United States",
+          "North Baltimore, Ohio, United States",
+          "Town of New Baltimore, New York, United States",
+          "Baltimore, Ohio, United States",
+          "New Baltimore, Ohio, United States"
+        ]
+      },
+      {
+        "field_id": "school--0",
+        "canonical_field": "history:education[0].school",
+        "control_kind": "combobox",
+        "selected_option": "Johns Hopkins University",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "filter \"Johns Hopkins University\" then picked \"Johns Hopkins University\" (exact)"
+        ]
+      },
+      {
+        "field_id": "degree--0",
+        "canonical_field": "history:education[0].degree",
+        "control_kind": "combobox",
+        "selected_option": "Bachelor's Degree",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Bachelor's Degree\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "discipline--0",
+        "canonical_field": "major",
+        "control_kind": "combobox",
+        "selected_option": "Mathematics",
+        "match_via": "synonym",
+        "notes": [
+          "opened via control click",
+          "picked \"Mathematics\" (synonym) from open list"
+        ]
+      },
+      {
+        "field_id": "start-month--0",
+        "canonical_field": "start_month",
+        "control_kind": "combobox",
+        "selected_option": "August",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"August\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "start-year--0",
+        "canonical_field": "start_year",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "end-month--0",
+        "canonical_field": "graduation_month",
+        "control_kind": "combobox",
+        "selected_option": "May",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"May\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "end-year--0",
+        "canonical_field": "graduation_year",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_8622920006",
+        "canonical_field": "screener:custom:export_control_us_person_status",
+        "control_kind": "combobox",
+        "selected_option": "I am a U.S. Citizen.",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"I am a U.S. Citizen.\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_8622921006",
+        "canonical_field": "essay:generated:question_8622921006",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_8622922006",
+        "canonical_field": "essay:generated:question_8622922006",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_8622923006",
+        "canonical_field": "screener:custom:application_season",
+        "control_kind": "combobox",
+        "selected_option": "Summer 2027",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Summer 2027\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_8622924006",
+        "canonical_field": "screener:start_availability",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_8622925006",
+        "canonical_field": "screener:custom:internship_end_date",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_8622926006",
+        "canonical_field": "screener:custom:onsite_55_hours_commitment",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_8622927006",
+        "canonical_field": "screener:how_heard",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_8622928006",
+        "canonical_field": "linkedin_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_8652804006",
+        "canonical_field": "screener:consent_agreement",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "gender",
+        "canonical_field": "gender",
+        "control_kind": "combobox",
+        "selected_option": "Male",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Male\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "hispanic_ethnicity",
+        "canonical_field": "hispanic_latino",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "veteran_status",
+        "canonical_field": "veteran_status",
+        "control_kind": "combobox",
+        "selected_option": "I am not a protected veteran",
+        "match_via": "synonym",
+        "notes": [
+          "opened via control click",
+          "picked \"I am not a protected veteran\" (synonym) from open list"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.last",
+        "expected": "Kale",
+        "observed": "Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "address.country",
+        "expected": "United States +1",
+        "observed": {
+          "value": "+1",
+          "label": "+1"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "address.city",
+        "expected": "Baltimore",
+        "observed": {
+          "value": "Baltimore, Maryland, United States",
+          "label": "Baltimore, Maryland, United States"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "history:education[0].school",
+        "expected": "Johns Hopkins University",
+        "observed": {
+          "value": "Johns Hopkins University",
+          "label": "Johns Hopkins University"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "history:education[0].degree",
+        "expected": "Bachelor's Degree",
+        "observed": {
+          "value": "Bachelor's Degree",
+          "label": "Bachelor's Degree"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "major",
+        "expected": "Mathematics",
+        "observed": {
+          "value": "Mathematics",
+          "label": "Mathematics"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "start_month",
+        "expected": "August",
+        "observed": {
+          "value": "August",
+          "label": "August"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "start_year",
+        "expected": "2025",
+        "observed": "2025",
+        "match": true
+      },
+      {
+        "canonical_field": "graduation_month",
+        "expected": "May",
+        "observed": {
+          "value": "May",
+          "label": "May"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "graduation_year",
+        "expected": "2029",
+        "observed": "2029",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:export_control_us_person_status",
+        "expected": "I am a U.S. Citizen.",
+        "observed": {
+          "value": "I am a U.S. Citizen.",
+          "label": "I am a U.S. Citizen."
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:question_8622921006",
+        "expected": "Co-founding Open Health Intelligence and shipping ClarityAtlas into a live pilot at Johns Hopkins with 30+ users. I built the iOS product end to end in Swift and SwiftUI with Supabase on the backend, and the hardest piece was estimating sleep without a wearable, using HealthKit and Core Motion signals like step count, gait speed, and movement patterns as proxies. What made it feel like more than a class project was everything around the code. We recruited real users, refined the product thesis repeatedly, got into the Pava Spark Accelerator and NSF I-Corps, and received a non-binding investment indication of roughly $75,000 for about 7-8% equity, which we chose not to pursue immediately because we wanted the right long-term partners. We also pitched President Ron Daniels, which started when my cofounders and I spotted him during Lighting of the Quads, walked to Garland Hall, and knocked on locked doors until someone let us make the case. That turned into a formal meeting months later with Data Science and AI Institute leadership. The lesson was that building the thing is only part of making it real.",
+        "observed": "Co-founding Open Health Intelligence and shipping ClarityAtlas into a live pilot at Johns Hopkins with 30+ users. I built the iOS product end to end in Swift and SwiftUI with Supabase on the backend, and the hardest piece was estimating sleep without a wearable, using HealthKit and Core Motion signals like step count, gait speed, and movement patterns as proxies. What made it feel like more than a class project was everything around the code. We recruited real users, refined the product thesis repeatedly, got into the Pava Spark Accelerator and NSF I-Corps, and received a non-binding investment indication of roughly $75,000 for about 7-8% equity, which we chose not to pursue immediately because we wanted the right long-term partners. We also pitched President Ron Daniels, which started when my cofounders and I spotted him during Lighting of the Quads, walked to Garland Hall, and knocked on locked doors until someone let us make the case. That turned into a formal meeting months later with Data Science and AI Institute leadership. The lesson was that building the thing is only part of making it real.",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:question_8622922006",
+        "expected": "The most complex system I have built is the machine-learning core of an anomaly-detection and alert-prioritization platform at Summer Atlantic Capital / SAC Nexus. I own major parts of the data and ML infrastructure: the repository and CI scaffold, the event-ingestion pipeline, a versioned FastAPI microservice, and the public detection API. On the modeling side I do temporal sequence modeling over event streams with RNN and Transformer-style approaches, anomaly scoring, and a learning-to-rank layer that decides which alerts a human should see first. I also built an LLM explanation layer using retrieval-augmented generation so that a score turns into something an analyst can act on. The hard part was not raw detection accuracy. An anomaly system that fires constantly creates a second problem instead of solving the first, so ranking, explanation quality, and known failure modes mattered more than a marginal metric gain. That pushed me toward treating evaluation as a first-class engineering problem, which also came out of earlier work at Intelehealth where I built an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case standard using stratified sampling to surface systematic failures.",
+        "observed": "The most complex system I have built is the machine-learning core of an anomaly-detection and alert-prioritization platform at Summer Atlantic Capital / SAC Nexus. I own major parts of the data and ML infrastructure: the repository and CI scaffold, the event-ingestion pipeline, a versioned FastAPI microservice, and the public detection API. On the modeling side I do temporal sequence modeling over event streams with RNN and Transformer-style approaches, anomaly scoring, and a learning-to-rank layer that decides which alerts a human should see first. I also built an LLM explanation layer using retrieval-augmented generation so that a score turns into something an analyst can act on. The hard part was not raw detection accuracy. An anomaly system that fires constantly creates a second problem instead of solving the first, so ranking, explanation quality, and known failure modes mattered more than a marginal metric gain. That pushed me toward treating evaluation as a first-class engineering problem, which also came out of earlier work at Intelehealth where I built an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case standard using stratified sampling to surface systematic failures.",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:application_season",
+        "expected": "Summer 2027",
+        "observed": {
+          "value": "Summer 2027",
+          "label": "Summer 2027"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:start_availability",
+        "expected": "Flexible — aligned to the posted term",
+        "observed": "Flexible — aligned to the posted term",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:internship_end_date",
+        "expected": "August 2026",
+        "observed": "August 2026",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:onsite_55_hours_commitment",
+        "expected": "Yes",
+        "observed": {
+          "value": "Yes",
+          "label": "Yes"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:how_heard",
+        "expected": "LinkedIn",
+        "observed": "LinkedIn",
+        "match": true
+      },
+      {
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:consent_agreement",
+        "expected": "Yes",
+        "observed": {
+          "value": "Yes",
+          "label": "Yes"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "gender",
+        "expected": "Male",
+        "observed": {
+          "value": "Male",
+          "label": "Male"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "hispanic_latino",
+        "expected": "No",
+        "observed": {
+          "value": "No",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "veteran_status",
+        "expected": "I am not a veteran",
+        "observed": {
+          "value": "I am not a protected veteran",
+          "label": "I am not a protected veteran"
+        },
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 115393,
+      "verified": true,
+      "evidence": "input files: []; stillAttached=false; chip=true"
+    }
+  ],
+  "written_at": "2026-09-23T20:18:18.405Z"
+}
