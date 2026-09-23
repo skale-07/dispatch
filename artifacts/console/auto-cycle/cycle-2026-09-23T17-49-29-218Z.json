@@ -1,0 +1,68 @@
+{
+  "started_at": "2026-09-23T17:49:29.218Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\general.pdf)",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "d6afd4ce-86af-4518-a3ba-c332507a39f9",
+    "armed_until": "2026-09-23T19:49:29.271Z",
+    "seconds_remaining": 7200,
+    "max_submits": 1,
+    "submits_used": 0,
+    "max_apps": 1,
+    "apps_started": 0,
+    "discover_max": 1,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": {
+    "arm_run_id": "d6afd4ce-86af-4518-a3ba-c332507a39f9",
+    "apps_started": 1,
+    "submits_used": 0,
+    "stopped_reason": "apps_cap",
+    "discover_runs": 0,
+    "emails_generated": 0,
+    "drafts_saved": 0,
+    "essay_drafts_generated": 0,
+    "screener_predictions_generated": 0,
+    "notes": [
+      "triage sweep: 0 confirmed, 0 refuted, 173 expired of 211 pending",
+      "deadline 6471fd88-4769-4f0b-b5c7-52830d424299: 643s > 300s budget — stopped in READY_TO_SUBMIT (diagnose, do not grind)",
+      "artifact autopush: 44 file(s) pushed to master as a28ec880a"
+    ],
+    "per_app": [
+      {
+        "application_id": "6471fd88-4769-4f0b-b5c7-52830d424299",
+        "end_state": "READY_TO_SUBMIT",
+        "stopped": "skipped",
+        "stop_reason": "deadline: 643s elapsed of 300s budget — stopped at step boundary in READY_TO_SUBMIT",
+        "submitted": false,
+        "outreach": null
+      }
+    ],
+    "nav_audit": {
+      "checked": 661,
+      "repaired": 0,
+      "parked": 0
+    },
+    "artifact_autopush": {
+      "pushed": true,
+      "commit": "a28ec880a",
+      "files_staged": 44
+    }
+  },
+  "outcome": "completed",
+  "notes": []
+}
