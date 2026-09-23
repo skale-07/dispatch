@@ -60,23 +60,67 @@
 </style></head>
 <body><div class="wrap">
 <h1>Dispatch run timeline</h1>
-<p class="sub">Generated 2026-09-23T18:38:23.483Z · 40 navigation run(s) · read-only view of artifacts/</p>
+<p class="sub">Generated 2026-09-23T19:03:29.457Z · 40 navigation run(s) · read-only view of artifacts/</p>
 <div class="stats"><span class="stat"><b>27</b> resolved</span><span class="stat"><b>11</b> unknown</span><span class="stat"><b>2</b> duplicate_url</span></div>
 <section class="cycle">
   <h2>Latest cycle</h2>
   <dl>
-    <div><dt>Started</dt><dd>2026-09-23T18:35:19.385Z</dd></div>
+    <div><dt>Started</dt><dd>2026-09-23T19:01:22.531Z</dd></div>
     <div><dt>Outcome</dt><dd>completed</dd></div>
     <div><dt>Agent leg</dt><dd>available</dd></div>
     <div><dt>Default resume</dt><dd>ready (C:\dev\jobright-application-agent\private\candidate\resumes\general.pdf)</dd></div>
     <div><dt>Apps started</dt><dd>1</dd></div>
-    <div><dt>Submits used</dt><dd>0</dd></div>
+    <div><dt>Submits used</dt><dd>1</dd></div>
     <div><dt>Stopped</dt><dd>apps_cap</dd></div>
   </dl>
-  <h3>Session notes</h3><ul class="notes"><li>triage sweep: 0 confirmed, 0 refuted, 0 expired of 38 pending</li><li>triage 5f065bb9: park_for_operator (executed) — review item created: 56044058-916b-4399-87c4-b7ebcaef29c7</li><li>artifact autopush failed (session unaffected): Command failed: git commit -m art: automation session 467976d6 (autopush) -- artifacts
-warning: in the working copy of 'artifacts/llm/calls-2026-09-23.jsonl', LF will be replaced by CRLF the next time</li></ul>
+  <h3>Session notes</h3><ul class="notes"><li>nav audit: 1 wrong-employer URL(s) cleared for re-navigation, 0 parked for review</li><li>triage sweep: 0 confirmed, 0 refuted, 0 expired of 39 pending</li><li>preflight: CDP attach failed — debug Chrome restarted and attach-verified before the first app (1/3)</li><li>gmail 82f87194-c7d9-4e35-b55f-cef2e42f41c8: deferred to outreach:worker</li><li>artifact autopush: removed a stale .git/index.lock (25 min old, nothing writing it)</li><li>artifact autopush: 33 file(s) pushed to master as 59b4525c4</li></ul>
 </section>
 <h2>Applications</h2>
+<details class="app bad">
+  <summary>
+    <span class="id">4396ec8d</span>
+    <span class="co">Hudson River Trading</span>
+    <span class="badge">wall: duplicate_url</span>
+    
+    
+    
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no congruent apply href (10 external links)<span class="ev">job-boards.greenhouse.io, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, www.hudsonrivertrading.com</span></li><li><b>B_apply_click</b> — resolved via popup<span class="ev">apply.careers.microsoft.com</span></li></ol>
+    <h4>Notes</h4><ul class="notes"><li>phase A: anchor reads as &quot;wehrtyou&quot; (slug &quot;wehrtyou&quot; shares nothing with company &quot;Hudson River Trading&quot;) — not preferred, deferring to the Apply click</li><li>phase A: 9 external host(s) seen: job-boards.greenhouse.io, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, www.hudsonrivertrading.com, www.vcaonline.com, www.fool.com, www.alleywatch.com</li><li>Apply control: autofill CTA (tier 0)</li><li>jobright interstitial: clicked &quot;Apply Without Customizing&quot;</li><li>popup settled off about:blank after the interstitial</li><li>popup captured on attempt 1</li><li>phase B: captured URL reads as &quot;microsoft&quot; (URL names &quot;microsoft&quot; (host), which shares nothing with company &quot;Hudson River Trading&quot;) — kept, provenance is the Apply click</li><li>congruence: URL names &quot;microsoft&quot;, not &quot;Hudson River Trading&quot; (URL names &quot;microsoft&quot; (host), which shares nothing with company &quot;Hudson River Trading&quot;) — recorded, not refused</li><li>employer URL already held by 1 other application(s): f5e0eb23 (Unknown company (manual enqueue) — Unknown role (manual enqueue), NATIVE_AUTOFILL_RUNNING)</li><li>dup adjudication: unsure</li></ul>
+    
+  </div>
+</details>
+<details class="app bad">
+  <summary>
+    <span class="id"></span>
+    <span class="co">—</span>
+    <span class="badge">wall: undefined</span>
+    
+    
+    
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li>none recorded</li></ol>
+    <h4>Notes</h4><ul class="notes"><li>page is confirmation</li><li>model calls: 0 of 0 steps</li></ul>
+    
+  </div>
+</details>
+<details class="app ok">
+  <summary>
+    <span class="id">f5e0eb23</span>
+    <span class="co">Unknown company (manual enqueue)</span>
+    <span class="badge">resolved</span>
+    <span class="chip">apply_click_popup</span>
+    <span class="chip">generic</span>
+    
+  </summary>
+  <div class="body">
+    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — no congruent apply href (11 external links)<span class="ev">www.google.com, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, www.bgr.com</span></li><li><b>B_apply_click</b> — resolved via popup<span class="ev">apply.careers.microsoft.com</span></li></ol>
+    <h4>Notes</h4><ul class="notes"><li>phase A: 6 external host(s) seen: www.google.com, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, www.bgr.com</li><li>Apply control: autofill CTA (tier 0)</li><li>jobright interstitial: clicked &quot;Apply Without Customizing&quot;</li><li>popup settled off about:blank after the interstitial</li><li>popup captured on attempt 1</li><li>employer congruence unverifiable (company name is a placeholder — identity not checkable) — recorded</li></ul>
+    
+  </div>
+</details>
 <details class="app ok">
   <summary>
     <span class="id">6471fd88</span>
@@ -629,51 +673,6 @@ warning: in the working copy of 'artifacts/llm/calls-2026-09-23.jsonl', LF will 
   <div class="body">
     <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — resolved (11 candidates, employer match)<span class="ev">genpact.wd108.myworkdayjobs.com</span></li></ol>
     <h4>Notes</h4><ul class="notes"><li>none</li></ul>
-    
-  </div>
-</details>
-<details class="app ok">
-  <summary>
-    <span class="id">1dc93793</span>
-    <span class="co">Siemens</span>
-    <span class="badge">resolved</span>
-    <span class="chip">anchor_href</span>
-    <span class="chip">generic</span>
-    
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — resolved (11 candidates, employer match)<span class="ev">jobs.siemens.com</span></li></ol>
-    <h4>Notes</h4><ul class="notes"><li>none</li></ul>
-    
-  </div>
-</details>
-<details class="app bad">
-  <summary>
-    <span class="id">9a38f971</span>
-    <span class="co">Gecko Robotics</span>
-    <span class="badge">wall: duplicate_url</span>
-    
-    
-    
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li><b>open</b> — job page loaded</li><li><b>A_anchor_hrefs</b> — resolved (12 candidates, employer match)<span class="ev">jobs.ashbyhq.com</span></li></ol>
-    <h4>Notes</h4><ul class="notes"><li>employer URL already held by 1 other application(s): 4d667a60 (Gecko Robotics — AI/Machine Learning Engineering Intern, QUEUED)</li></ul>
-    
-  </div>
-</details>
-<details class="app bad">
-  <summary>
-    <span class="id"></span>
-    <span class="co">—</span>
-    <span class="badge">wall: undefined</span>
-    
-    
-    
-  </summary>
-  <div class="body">
-    <h4>Phases</h4><ol class="phases"><li>none recorded</li></ol>
-    <h4>Notes</h4><ul class="notes"><li>model calls: 3 of 3 steps</li></ul>
     
   </div>
 </details>
