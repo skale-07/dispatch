@@ -1,0 +1,952 @@
+{
+  "mode": "executed",
+  "ats": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/astranis/jobs/4705214006",
+  "plan": {
+    "answers": {
+      "legal_name.first": "Shubham",
+      "legal_name.last": "Kale",
+      "screener:custom:has_preferred_name": "No",
+      "email": "s***@gmail.com",
+      "address.country": "United States",
+      "phone": "***-***-7636",
+      "address.city": "Baltimore",
+      "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+      "screener:custom:predicted:question_8627780006": "I am a U.S. Citizen.",
+      "screener:custom:predicted:question_8627782006": "Summer 2027",
+      "screener:start_availability": "Flexible — aligned to the posted term",
+      "screener:custom:predicted:question_8627784006": "August 2026",
+      "screener:custom:predicted:question_8627785006": "Yes",
+      "screener:how_heard": "LinkedIn",
+      "screener:consent_agreement": "Yes",
+      "gender": "Male",
+      "hispanic_latino": "No",
+      "veteran_status": "I am not a veteran"
+    },
+    "entries": [
+      {
+        "field_id": "first_name",
+        "label": "First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "fill",
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "last_name",
+        "label": "Last Name",
+        "type": "text",
+        "canonical_field": "legal_name.last",
+        "action": "fill",
+        "value": "Kale",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "preferred_name",
+        "label": "Preferred First Name",
+        "type": "text",
+        "canonical_field": "screener:custom:has_preferred_name",
+        "action": "fill",
+        "value": "No",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "email",
+        "label": "Email",
+        "type": "text",
+        "canonical_field": "email",
+        "action": "fill",
+        "value": "s***@gmail.com",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "country",
+        "label": "Country",
+        "type": "text",
+        "canonical_field": "address.country",
+        "action": "fill",
+        "value": "United States +1",
+        "reason": "Mapped from public profile; placed onto \"United States +1\""
+      },
+      {
+        "field_id": "phone",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "fill",
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "candidate-location",
+        "label": "Location (City)",
+        "type": "text",
+        "canonical_field": "address.city",
+        "action": "fill",
+        "value": "Baltimore",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "resume",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "skip_file",
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "cover_letter",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "skip_file",
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "question_8627778006",
+        "label": "LinkedIn Profile",
+        "type": "text",
+        "canonical_field": "linkedin_url",
+        "action": "fill",
+        "value": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_8627779006",
+        "label": "Website",
+        "type": "text",
+        "canonical_field": "personal_website",
+        "action": "skip_empty",
+        "value": null,
+        "reason": "Profile value empty for personal_website"
+      },
+      {
+        "field_id": "question_8627780006",
+        "label": "Astranis complies with U.S. Government space technology export regulations, therefore will you state which of the following applies to you:",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_8627780006",
+        "action": "fill",
+        "value": "I am a U.S. Citizen.",
+        "reason": "Predicted from operator context (llm_predict): Profile states the candidate is a U.S. citizen."
+      },
+      {
+        "field_id": "question_8627781006",
+        "label": "What is the most impressive thing you have ever accomplished?",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_8627781006",
+        "action": "fill",
+        "value": "I co-founded Open Health Intelligence and built ClarityAtlas, an iOS health product, end to end in Swift and SwiftUI with a Supabase backend. The hardest technical piece was estimating sleep without a wearable. I built a passive sleep-estimation system from phone-interaction and motion signals, pulling HealthKit and Core Motion inputs like step count, gait speed, and movement patterns, and I built backend services for behavioral comparison, including a Sleep Twins matcher using standardized features and weighted distance. We shipped it into a live pilot at Johns Hopkins with 30+ users, and the project was selected for the Pava Spark Accelerator and NSF I-Corps. We also got a non-binding investment indication of roughly $75,000 for about 7 to 8 percent, which we chose not to pursue because we wanted the right long-term partners first. The part I am proudest of is not the code. During Lighting of the Quads, my cofounders and I realized President Daniels was nearby, went to Garland Hall, saw him through locked doors, and knocked until we got to pitch him. That turned into a formal meeting months later. Building the thing was maybe half the work.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_8627782006",
+        "label": "Please confirm the season you are applying for.",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_8627782006",
+        "action": "fill",
+        "value": "Summer 2027",
+        "reason": "Predicted from operator context (llm_predict): Only option available, and candidate (class of 2029) is applying for a summer internship term."
+      },
+      {
+        "field_id": "question_8627783006",
+        "label": "When are you able to join Astranis as an intern? (12 week minimum)",
+        "type": "text",
+        "canonical_field": "screener:start_availability",
+        "action": "fill",
+        "value": "Flexible — aligned to the posted term",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "question_8627784006",
+        "label": "When do you plan on ending your internship?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_8627784006",
+        "action": "fill",
+        "value": "August 2026",
+        "reason": "Predicted from operator context (llm_predict): Saved answers indicate a Summer 2026 internship term, which typically ends in August."
+      },
+      {
+        "field_id": "question_8627785006",
+        "label": "At Astranis, we value in-person collaboration and a strong work ethic. Are you comfortable with working onsite at our San Francisco HQ 5 days a week and commit to 55 hours per week?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_8627785006",
+        "action": "fill",
+        "value": "Yes",
+        "reason": "Predicted from operator context (llm_predict): Candidate prefers on-site work, is willing to relocate, and previously confirmed full-time onsite internship commitment."
+      },
+      {
+        "field_id": "question_8627786006",
+        "label": "How did you hear about Astranis?",
+        "type": "text",
+        "canonical_field": "screener:how_heard",
+        "action": "fill",
+        "value": "LinkedIn",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "question_8652853006",
+        "label": "By selecting YES, I consent to receive recruiting SMS messages from Astranis at the phone number provided on my job application.",
+        "type": "text",
+        "canonical_field": "screener:consent_agreement",
+        "action": "fill",
+        "value": "Yes",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "gender",
+        "label": "Gender",
+        "type": "text",
+        "canonical_field": "gender",
+        "action": "fill",
+        "value": "Male",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "hispanic_ethnicity",
+        "label": "Are you Hispanic/Latino?",
+        "type": "text",
+        "canonical_field": "hispanic_latino",
+        "action": "fill",
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "veteran_status",
+        "label": "Veteran Status",
+        "type": "text",
+        "canonical_field": "veteran_status",
+        "action": "fill",
+        "value": "I am not a veteran",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      }
+    ],
+    "fillable_count": 19,
+    "skipped_count": 3,
+    "review_required_count": 0
+  },
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "schema diff: 15/17 declared question(s) matched onto 22 DOM field(s); 2 declared-only (0 required); 7 DOM-only",
+    "board API declared 17 question(s); matched complete option lists onto 4 field(s)",
+    "option harvest: \"Location (City)\" is a combobox but offered no readable options",
+    "option harvest: scraped real options for 4/15 control(s) before planning",
+    "frozen after fill→verify→upload — no further field mutation; submit never called"
+  ],
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "final_url": "https://job-boards.greenhouse.io/astranis/jobs/4705214006",
+  "identity_verification": {
+    "requestedUrl": "https://job-boards.greenhouse.io/astranis/jobs/4705214006",
+    "finalUrl": "https://job-boards.greenhouse.io/astranis/jobs/4705214006",
+    "requestedJobId": "4705214006",
+    "observedJobId": "4705214006",
+    "company": "astranis",
+    "role": "Job Application for Software Engineer Backend Intern (Summer 2027) at Astranis",
+    "formDetected": true,
+    "fieldCount": 22,
+    "warnings": [],
+    "passed": true,
+    "failureCode": null,
+    "failureReason": null
+  },
+  "captcha_detection": {
+    "detected": false,
+    "confidence": "LOW",
+    "signals": [],
+    "dormantMarkers": [
+      "generic_captcha_word_only"
+    ]
+  },
+  "login_wall_detection": {
+    "detected": false,
+    "confidence": "LOW",
+    "signals": []
+  },
+  "failure_code": null,
+  "mutation_attempted": true,
+  "schema_diff": {
+    "board": "astranis",
+    "job_id": "4705214006",
+    "declared_count": 17,
+    "dom_count": 22,
+    "matched": 15,
+    "api_only": [
+      {
+        "label": "Resume/CV",
+        "required": false
+      },
+      {
+        "label": "Cover Letter",
+        "required": false
+      }
+    ],
+    "dom_only": [
+      "Country",
+      "Location (City)",
+      "Attach",
+      "Attach",
+      "Gender",
+      "Are you Hispanic/Latino?",
+      "Veteran Status"
+    ],
+    "option_mismatches": []
+  },
+  "harvested_options": [
+    {
+      "field_id": "country",
+      "label": "Country",
+      "answer_space": "closed",
+      "option_count": 244,
+      "options": [
+        "United States +1",
+        "Afghanistan +93",
+        "Åland Islands +358",
+        "Albania +355",
+        "Algeria +213",
+        "American Samoa +1",
+        "Andorra +376",
+        "Angola +244",
+        "Anguilla +1",
+        "Antigua & Barbuda +1",
+        "Argentina +54",
+        "Armenia +374",
+        "Aruba +297",
+        "Ascension Island +247",
+        "Australia +61",
+        "Austria +43",
+        "Azerbaijan +994",
+        "Bahamas +1",
+        "Bahrain +973",
+        "Bangladesh +880",
+        "Barbados +1",
+        "Belarus +375",
+        "Belgium +32",
+        "Belize +501",
+        "Benin +229"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "gender",
+      "label": "Gender",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "Male",
+        "Female",
+        "Decline To Self Identify"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "hispanic_ethnicity",
+      "label": "Are you Hispanic/Latino?",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "Yes",
+        "No",
+        "Decline To Self Identify"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "veteran_status",
+      "label": "Veteran Status",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "I am not a protected veteran",
+        "I identify as one or more of the classifications of a protected veteran",
+        "I don't wish to answer"
+      ],
+      "other_option": null
+    }
+  ],
+  "approved_plan": {
+    "entries": [
+      {
+        "field_id": "first_name",
+        "label": "First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "FILL",
+        "approved": true,
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "last_name",
+        "label": "Last Name",
+        "type": "text",
+        "canonical_field": "legal_name.last",
+        "action": "FILL",
+        "approved": true,
+        "value": "Kale",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "preferred_name",
+        "label": "Preferred First Name",
+        "type": "text",
+        "canonical_field": "screener:custom:has_preferred_name",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "email",
+        "label": "Email",
+        "type": "text",
+        "canonical_field": "email",
+        "action": "FILL",
+        "approved": true,
+        "value": "s***@gmail.com",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "country",
+        "label": "Country",
+        "type": "text",
+        "canonical_field": "address.country",
+        "action": "FILL",
+        "approved": true,
+        "value": "United States +1",
+        "reason": "Mapped from public profile; placed onto \"United States +1\""
+      },
+      {
+        "field_id": "phone",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "FILL",
+        "approved": true,
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "candidate-location",
+        "label": "Location (City)",
+        "type": "text",
+        "canonical_field": "address.city",
+        "action": "FILL",
+        "approved": true,
+        "value": "Baltimore",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "resume",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "cover_letter",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "question_8627778006",
+        "label": "LinkedIn Profile",
+        "type": "text",
+        "canonical_field": "linkedin_url",
+        "action": "FILL",
+        "approved": true,
+        "value": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_8627779006",
+        "label": "Website",
+        "type": "text",
+        "canonical_field": "personal_website",
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "Profile value empty for personal_website"
+      },
+      {
+        "field_id": "question_8627780006",
+        "label": "Astranis complies with U.S. Government space technology export regulations, therefore will you state which of the following applies to you:",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_8627780006",
+        "action": "FILL",
+        "approved": true,
+        "value": "I am a U.S. Citizen.",
+        "reason": "Predicted from operator context (llm_predict): Profile states the candidate is a U.S. citizen."
+      },
+      {
+        "field_id": "question_8627781006",
+        "label": "What is the most impressive thing you have ever accomplished?",
+        "type": "textarea",
+        "canonical_field": "essay:generated:question_8627781006",
+        "action": "FILL",
+        "approved": true,
+        "value": "I co-founded Open Health Intelligence and built ClarityAtlas, an iOS health product, end to end in Swift and SwiftUI with a Supabase backend. The hardest technical piece was estimating sleep without a wearable. I built a passive sleep-estimation system from phone-interaction and motion signals, pulling HealthKit and Core Motion inputs like step count, gait speed, and movement patterns, and I built backend services for behavioral comparison, including a Sleep Twins matcher using standardized features and weighted distance. We shipped it into a live pilot at Johns Hopkins with 30+ users, and the project was selected for the Pava Spark Accelerator and NSF I-Corps. We also got a non-binding investment indication of roughly $75,000 for about 7 to 8 percent, which we chose not to pursue because we wanted the right long-term partners first. The part I am proudest of is not the code. During Lighting of the Quads, my cofounders and I realized President Daniels was nearby, went to Garland Hall, saw him through locked doors, and knocked until we got to pitch him. That turned into a formal meeting months later. Building the thing was maybe half the work.",
+        "reason": "Essay generated from the operator's about-me context"
+      },
+      {
+        "field_id": "question_8627782006",
+        "label": "Please confirm the season you are applying for.",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_8627782006",
+        "action": "FILL",
+        "approved": true,
+        "value": "Summer 2027",
+        "reason": "Predicted from operator context (llm_predict): Only option available, and candidate (class of 2029) is applying for a summer internship term."
+      },
+      {
+        "field_id": "question_8627783006",
+        "label": "When are you able to join Astranis as an intern? (12 week minimum)",
+        "type": "text",
+        "canonical_field": "screener:start_availability",
+        "action": "FILL",
+        "approved": true,
+        "value": "Flexible — aligned to the posted term",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "question_8627784006",
+        "label": "When do you plan on ending your internship?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_8627784006",
+        "action": "FILL",
+        "approved": true,
+        "value": "August 2026",
+        "reason": "Predicted from operator context (llm_predict): Saved answers indicate a Summer 2026 internship term, which typically ends in August."
+      },
+      {
+        "field_id": "question_8627785006",
+        "label": "At Astranis, we value in-person collaboration and a strong work ethic. Are you comfortable with working onsite at our San Francisco HQ 5 days a week and commit to 55 hours per week?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_8627785006",
+        "action": "FILL",
+        "approved": true,
+        "value": "Yes",
+        "reason": "Predicted from operator context (llm_predict): Candidate prefers on-site work, is willing to relocate, and previously confirmed full-time onsite internship commitment."
+      },
+      {
+        "field_id": "question_8627786006",
+        "label": "How did you hear about Astranis?",
+        "type": "text",
+        "canonical_field": "screener:how_heard",
+        "action": "FILL",
+        "approved": true,
+        "value": "LinkedIn",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "question_8652853006",
+        "label": "By selecting YES, I consent to receive recruiting SMS messages from Astranis at the phone number provided on my job application.",
+        "type": "text",
+        "canonical_field": "screener:consent_agreement",
+        "action": "FILL",
+        "approved": true,
+        "value": "Yes",
+        "reason": "Screener bank answer (exact_option)"
+      },
+      {
+        "field_id": "gender",
+        "label": "Gender",
+        "type": "text",
+        "canonical_field": "gender",
+        "action": "FILL",
+        "approved": true,
+        "value": "Male",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "hispanic_ethnicity",
+        "label": "Are you Hispanic/Latino?",
+        "type": "text",
+        "canonical_field": "hispanic_latino",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      },
+      {
+        "field_id": "veteran_status",
+        "label": "Veteran Status",
+        "type": "text",
+        "canonical_field": "veteran_status",
+        "action": "FILL",
+        "approved": true,
+        "value": "I am not a veteran",
+        "reason": "Mapped from sensitive profile (operator-supplied)"
+      }
+    ],
+    "answers": {
+      "legal_name.first": "Shubham",
+      "legal_name.last": "Kale",
+      "screener:custom:has_preferred_name": "No",
+      "email": "s***@gmail.com",
+      "address.country": "United States +1",
+      "phone": "***-***-7636",
+      "address.city": "Baltimore",
+      "linkedin_url": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+      "screener:custom:predicted:question_8627780006": "I am a U.S. Citizen.",
+      "essay:generated:question_8627781006": "I co-founded Open Health Intelligence and built ClarityAtlas, an iOS health product, end to end in Swift and SwiftUI with a Supabase backend. The hardest technical piece was estimating sleep without a wearable. I built a passive sleep-estimation system from phone-interaction and motion signals, pulling HealthKit and Core Motion inputs like step count, gait speed, and movement patterns, and I built backend services for behavioral comparison, including a Sleep Twins matcher using standardized features and weighted distance. We shipped it into a live pilot at Johns Hopkins with 30+ users, and the project was selected for the Pava Spark Accelerator and NSF I-Corps. We also got a non-binding investment indication of roughly $75,000 for about 7 to 8 percent, which we chose not to pursue because we wanted the right long-term partners first. The part I am proudest of is not the code. During Lighting of the Quads, my cofounders and I realized President Daniels was nearby, went to Garland Hall, saw him through locked doors, and knocked until we got to pitch him. That turned into a formal meeting months later. Building the thing was maybe half the work.",
+      "screener:custom:predicted:question_8627782006": "Summer 2027",
+      "screener:start_availability": "Flexible — aligned to the posted term",
+      "screener:custom:predicted:question_8627784006": "August 2026",
+      "screener:custom:predicted:question_8627785006": "Yes",
+      "screener:how_heard": "LinkedIn",
+      "screener:consent_agreement": "Yes",
+      "gender": "Male",
+      "hispanic_latino": "No",
+      "veteran_status": "I am not a veteran"
+    },
+    "fillable_count": 19,
+    "skipped_count": 3,
+    "review_required_count": 0
+  },
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "legal_name.last",
+      "screener:custom:has_preferred_name",
+      "email",
+      "address.country",
+      "phone",
+      "address.city",
+      "linkedin_url",
+      "screener:custom:predicted:question_8627780006",
+      "essay:generated:question_8627781006",
+      "screener:custom:predicted:question_8627782006",
+      "screener:start_availability",
+      "screener:custom:predicted:question_8627784006",
+      "screener:custom:predicted:question_8627785006",
+      "screener:how_heard",
+      "screener:consent_agreement",
+      "gender",
+      "hispanic_latino",
+      "veteran_status"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "first_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "last_name",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "preferred_name",
+        "canonical_field": "screener:custom:has_preferred_name",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "country",
+        "canonical_field": "address.country",
+        "control_kind": "combobox",
+        "selected_option": "+1",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"United States +1\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "phone",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "candidate-location",
+        "canonical_field": "address.city",
+        "control_kind": "combobox",
+        "selected_option": "Baltimore, Maryland, United States",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "filter \"Baltimore\" then picked \"Baltimore, Maryland, United States\" (exact)"
+        ]
+      },
+      {
+        "field_id": "question_8627778006",
+        "canonical_field": "linkedin_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_8627780006",
+        "canonical_field": "screener:custom:predicted:question_8627780006",
+        "control_kind": "combobox",
+        "selected_option": "I am a U.S. Citizen.",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"I am a U.S. Citizen.\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_8627781006",
+        "canonical_field": "essay:generated:question_8627781006",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_8627782006",
+        "canonical_field": "screener:custom:predicted:question_8627782006",
+        "control_kind": "combobox",
+        "selected_option": "Summer 2027",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Summer 2027\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_8627783006",
+        "canonical_field": "screener:start_availability",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_8627784006",
+        "canonical_field": "screener:custom:predicted:question_8627784006",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_8627785006",
+        "canonical_field": "screener:custom:predicted:question_8627785006",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_8627786006",
+        "canonical_field": "screener:how_heard",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_8652853006",
+        "canonical_field": "screener:consent_agreement",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "gender",
+        "canonical_field": "gender",
+        "control_kind": "combobox",
+        "selected_option": "Male",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Male\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "hispanic_ethnicity",
+        "canonical_field": "hispanic_latino",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "veteran_status",
+        "canonical_field": "veteran_status",
+        "control_kind": "combobox",
+        "selected_option": "I am not a protected veteran",
+        "match_via": "synonym",
+        "notes": [
+          "opened via control click",
+          "picked \"I am not a protected veteran\" (synonym) from open list"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.last",
+        "expected": "Kale",
+        "observed": "Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:has_preferred_name",
+        "expected": "No",
+        "observed": "No",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "address.country",
+        "expected": "United States +1",
+        "observed": {
+          "value": "+1",
+          "label": "+1"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "address.city",
+        "expected": "Baltimore",
+        "observed": {
+          "value": "Baltimore, Maryland, United States",
+          "label": "Baltimore, Maryland, United States"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_8627780006",
+        "expected": "I am a U.S. Citizen.",
+        "observed": {
+          "value": "I am a U.S. Citizen.",
+          "label": "I am a U.S. Citizen."
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:question_8627781006",
+        "expected": "I co-founded Open Health Intelligence and built ClarityAtlas, an iOS health product, end to end in Swift and SwiftUI with a Supabase backend. The hardest technical piece was estimating sleep without a wearable. I built a passive sleep-estimation system from phone-interaction and motion signals, pulling HealthKit and Core Motion inputs like step count, gait speed, and movement patterns, and I built backend services for behavioral comparison, including a Sleep Twins matcher using standardized features and weighted distance. We shipped it into a live pilot at Johns Hopkins with 30+ users, and the project was selected for the Pava Spark Accelerator and NSF I-Corps. We also got a non-binding investment indication of roughly $75,000 for about 7 to 8 percent, which we chose not to pursue because we wanted the right long-term partners first. The part I am proudest of is not the code. During Lighting of the Quads, my cofounders and I realized President Daniels was nearby, went to Garland Hall, saw him through locked doors, and knocked until we got to pitch him. That turned into a formal meeting months later. Building the thing was maybe half the work.",
+        "observed": "I co-founded Open Health Intelligence and built ClarityAtlas, an iOS health product, end to end in Swift and SwiftUI with a Supabase backend. The hardest technical piece was estimating sleep without a wearable. I built a passive sleep-estimation system from phone-interaction and motion signals, pulling HealthKit and Core Motion inputs like step count, gait speed, and movement patterns, and I built backend services for behavioral comparison, including a Sleep Twins matcher using standardized features and weighted distance. We shipped it into a live pilot at Johns Hopkins with 30+ users, and the project was selected for the Pava Spark Accelerator and NSF I-Corps. We also got a non-binding investment indication of roughly $75,000 for about 7 to 8 percent, which we chose not to pursue because we wanted the right long-term partners first. The part I am proudest of is not the code. During Lighting of the Quads, my cofounders and I realized President Daniels was nearby, went to Garland Hall, saw him through locked doors, and knocked until we got to pitch him. That turned into a formal meeting months later. Building the thing was maybe half the work.",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_8627782006",
+        "expected": "Summer 2027",
+        "observed": {
+          "value": "Summer 2027",
+          "label": "Summer 2027"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:start_availability",
+        "expected": "Flexible — aligned to the posted term",
+        "observed": "Flexible — aligned to the posted term",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_8627784006",
+        "expected": "August 2026",
+        "observed": "August 2026",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_8627785006",
+        "expected": "Yes",
+        "observed": {
+          "value": "Yes",
+          "label": "Yes"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:how_heard",
+        "expected": "LinkedIn",
+        "observed": "LinkedIn",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:consent_agreement",
+        "expected": "Yes",
+        "observed": {
+          "value": "Yes",
+          "label": "Yes"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "gender",
+        "expected": "Male",
+        "observed": {
+          "value": "Male",
+          "label": "Male"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "hispanic_latino",
+        "expected": "No",
+        "observed": {
+          "value": "No",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "veteran_status",
+        "expected": "I am not a veteran",
+        "observed": {
+          "value": "I am not a protected veteran",
+          "label": "I am not a protected veteran"
+        },
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 115393,
+      "verified": true,
+      "evidence": "input files: []; stillAttached=false; chip=true"
+    }
+  ],
+  "written_at": "2026-09-23T19:05:23.905Z"
+}
