@@ -1,0 +1,184 @@
+{
+  "ats": "generic",
+  "url": "https://careers.mastercard.com/us/en/job/MASRUSR287624EXTERNALENUS/product-management-intern-summer-2027-united-states",
+  "requested_url": "https://careers.mastercard.com/us/en/job/MASRUSR287624EXTERNALENUS/product-management-intern-summer-2027-united-states",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://careers.mastercard.com/us/en/apply?jobSeqNo=MASRUSR287624EXTERNALENUS&step=1&stepname=personalInformation",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 2,
+    "skipped_count": 0,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "typehead",
+      "label": "Search job title",
+      "type": "text",
+      "canonical_field": "screener:custom:predicted:typehead",
+      "action": "FILL",
+      "reason": "Predicted from operator context (llm_predict): Matches prior learned answers for job title/keyword search fields."
+    },
+    {
+      "field_id": "gllocationInput",
+      "label": "Location",
+      "type": "text",
+      "canonical_field": "address.city",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    }
+  ],
+  "form_snapshot_path": null,
+  "fill": {
+    "filled": [],
+    "skipped": [
+      "typehead — control is not visible (collapsed section or unopened editor)",
+      "gllocationInput — control is not visible (collapsed section or unopened editor)"
+    ],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "typehead",
+        "canonical_field": "screener:custom:predicted:typehead",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled",
+          "resolved by id=typehead (planned text), 1 match(es): <input type=text> display=table-cell visibility=visible"
+        ]
+      },
+      {
+        "field_id": "gllocationInput",
+        "canonical_field": "address.city",
+        "control_kind": "text",
+        "notes": [
+          "hidden control — skipped fast, not filled",
+          "resolved by id=gllocationInput (planned text), 1 match(es): <input type=text> display=table-cell visibility=visible"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": false,
+    "fields": [
+      {
+        "canonical_field": "screener:custom:predicted:typehead",
+        "expected": "Software Engineer Intern",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "match": false
+      },
+      {
+        "canonical_field": "address.city",
+        "expected": "Baltimore, Maryland, USA",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "match": false
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 115393,
+      "verified": true,
+      "evidence": "input files: [{\"name\":\"resume-71415792.pdf\",\"size\":115393}]; stillAttached=true; chip=false"
+    }
+  ],
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: posting (Apply CTA present and none of the 3 field(s) ask who you are — page furniture, not an application)",
+    "landed on a posting (Apply CTA present and none of the 3 field(s) ask who you are — page furniture, not an application); clicking Apply via role=button \"Apply Now\"",
+    "Apply landed on: posting (Apply CTA present and none of the 4 field(s) ask who you are — page furniture, not an application)",
+    "landed on a posting (Apply CTA present and none of the 4 field(s) ask who you are — page furniture, not an application); clicking Apply via role=button \"Apply Now\"",
+    "Apply landed on: posting (no fields, Apply CTA present)",
+    "still on a posting after 2 Apply click(s) — giving up rather than filling the listing page",
+    "navigation supervisor after Apply miss: form_ready (0 steps)",
+    "section-expand: expanded 4 collapsed section(s)",
+    "section-expand: expanded \"WHY MASTERCARD\"",
+    "section-expand: skipped \"BROWSE JOBS\" (action-named)",
+    "section-expand: expanded \"GETTING HIRED\"",
+    "section-expand: expanded \"TALENT COMMUNITIES\"",
+    "option harvest: \"Search job title\" could not be opened (locator.click: Element is not visible\nCall log:\n\u001b[2m  - waiting for locator('[id)",
+    "option harvest: \"Location\" could not be opened (locator.click: Element is not visible\nCall log:\n\u001b[2m  - waiting for locator('[id)",
+    "timing: base page (2 planned) — plan 3s, fill 3s, verify 0s",
+    "page error scan: no visible validation errors on the page",
+    "verify-failed snapshot: verify-failed-snapshot-1790194855504.html",
+    "page-complete waiver not applied: page requires 7 unanswered question(s): \"First Name*\"; \"Last Name*\"; \"Email address*\"; \"Phone Device Type*\"",
+    "resume parse changed 2 planned field(s) after upload (screener:custom:predicted:typehead, address.city) — re-committing once (#262c)",
+    "submit not attempted — live fill never submits"
+  ],
+  "navigation_supervisor": {
+    "run_id": "supervisor-f43ad0d9-81c6-4bff-bfd2-726e5e230409",
+    "outcome": "form_ready",
+    "steps": [],
+    "notes": [
+      "model calls: 0 of 0 steps"
+    ],
+    "evidence": [
+      "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-f43ad0d9-81c6-4bff-bfd2-726e5e230409\\observation.json",
+      "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-f43ad0d9-81c6-4bff-bfd2-726e5e230409\\page.png"
+    ]
+  },
+  "harvested_options": [],
+  "operator_brief": {
+    "title": "Live fill — generic https://careers.mastercard.com/us/en/apply?jobSeqNo=MASRUSR287624EXTERNALENUS&step=1&stepname=personalInformation",
+    "summary": "2 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "verify:screener:custom:predicted:typehead",
+        "question": "Search job title",
+        "field_id": "typehead",
+        "canonical_field": "screener:custom:predicted:typehead",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Software Engineer Intern\"; page shows \"(empty)\"",
+        "expected": "Software Engineer Intern",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "how_to_answer": [
+          "System expected \"Software Engineer Intern\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json (key: screener:custom:predicted:typehead)",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"screener:custom:predicted:typehead\" should match the on-form question text."
+        ]
+      },
+      {
+        "id": "verify:address.city",
+        "question": "Location",
+        "field_id": "gllocationInput",
+        "canonical_field": "address.city",
+        "kind": "verify_mismatch",
+        "problem": "Expected \"Baltimore, Maryland, USA\"; page shows \"(empty)\"",
+        "expected": "Baltimore, Maryland, USA",
+        "observed": {
+          "value": "",
+          "label": ""
+        },
+        "how_to_answer": [
+          "Type the intended value on the form (planned: Baltimore, Maryland, USA). If a places/autocomplete list appears, select a matching suggestion; plain city text is enough when no list opens.",
+          "System expected \"Baltimore, Maryland, USA\" but the page is empty after fill. Fix fill path, control type, or map; or enter the value manually and re-verify.",
+          "Profile source: private/candidate/public-profile.json → address.city",
+          "Alias check: private/candidate/answer-aliases.json phrases for \"address.city\" should match the on-form question text."
+        ]
+      }
+    ],
+    "ok_count": 0,
+    "fail_count": 2
+  },
+  "written_at": "2026-09-23T20:21:01.401Z"
+}

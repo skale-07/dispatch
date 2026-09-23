@@ -1,0 +1,140 @@
+{
+  "decision_id": "e72ab040-638b-4743-8be9-6143dbba470e",
+  "application_id": "d96a2929-8c98-4969-8155-0bb26852ddad",
+  "signature": "AMBIGUOUS_FIELD|-|verify_mismatch|careers.mastercard.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "d96a2929-8c98-4969-8155-0bb26852ddad",
+    "company": "Mastercard",
+    "role": "Product Management Intern, Summer 2027 - United States",
+    "state": "AMBIGUOUS_FIELD",
+    "attempt": 1,
+    "failure_signature": "AMBIGUOUS_FIELD|-|verify_mismatch|careers.mastercard.com",
+    "end_host": "careers.mastercard.com",
+    "recent_events": [
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "AMBIGUOUS_FIELD",
+        "reason": "pipeline: read-back verification failed",
+        "at": "2026-09-23T20:21:01.420Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (generic live fill: 0 filled (held for submit))",
+        "at": "2026-09-23T20:21:01.419Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: needs_login — fill owns portal sign-in",
+        "at": "2026-09-23T20:19:25.490Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-23T20:19:23.494Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: generic URL validated",
+        "at": "2026-09-23T20:19:23.489Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-23T20:19:21.993Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 7141579276ac)",
+        "at": "2026-09-23T20:19:21.987Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-23T20:19:21.962Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-23T20:15:08.714Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-23T20:15:08.705Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-23T20:15:08.704Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-23T20:15:08.702Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "mastercard",
+        "detail": "token \"mastercard\" ~ slug \"mastercard\" (from URL host)",
+        "expected_company": "Mastercard",
+        "url": "https://careers.mastercard.com/us/en/job/MASRUSR287624EXTERNALENUS/product-management-intern-summer-2027-united-states?jr_id=6ab17b6cd43eb922ca0bf2d5"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (10 candidates, employer match)",
+          "evidence": "careers.mastercard.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": false
+    },
+    "open_review_items": [
+      {
+        "kind": "AMBIGUOUS_FIELD",
+        "title": "Fill verification failed"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"park_for_operator\", \"rationale\": \"Navigation resolved cleanly and materials are verified; the failure is read-back verification after a fill that placed 0 fields behind a portal sign-in requirement. No transient signal, no stale URL, no duplicate, and navigation tiers were not exhausted, so an agent leg isn't warranted. A human should decide on the login-gated form.\", \"confidence\": \"medium\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: 2fb61f49-75f1-48ef-b8ee-522b729c5d37",
+  "rationale_unverified": "Navigation resolved cleanly and materials are verified; the failure is read-back verification after a fill that placed 0 fields behind a portal sign-in requirement. No transient signal, no stale URL, no duplicate, and navigation tiers were not exhausted, so an agent leg isn't warranted. A human should decide on the login-gated form."
+}
