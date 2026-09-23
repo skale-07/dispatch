@@ -1,0 +1,245 @@
+{
+  "ats": "ashby",
+  "url": "https://jobs.ashbyhq.com/quadric/6a6802ae-2a72-4cbf-b770-a4d1d8168275/application",
+  "requested_url": "https://jobs.ashbyhq.com/quadric/6a6802ae-2a72-4cbf-b770-a4d1d8168275/application",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://jobs.ashbyhq.com/quadric/6a6802ae-2a72-4cbf-b770-a4d1d8168275/application",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 8,
+    "skipped_count": 3,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "f_0",
+      "label": "Application",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "_systemfield_name",
+      "label": "Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Single full-name field: composed legal_name.first + legal_name.last (both safe factual canonicals)"
+    },
+    {
+      "field_id": "81c80314-94ce-4904-bd9b-78675a25591d",
+      "label": "Preferred Name",
+      "type": "text",
+      "canonical_field": "preferred_name",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "_systemfield_email",
+      "label": "Email",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "_systemfield_resume",
+      "label": "Resume",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "becf72fd-6b53-4033-8d56-c2b46a0c3a71",
+      "label": "LinkedIn Profile",
+      "type": "text",
+      "canonical_field": "linkedin_url",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "4cbbd65f-4e8e-4ba3-bc1a-482b1ea4d78f",
+      "label": "Website or Github profile:",
+      "type": "text",
+      "canonical_field": "personal_website",
+      "action": "SKIP",
+      "reason": "Profile value empty for personal_website"
+    },
+    {
+      "field_id": "c4ff3506-a9bc-4255-9b10-721cafd7b989",
+      "label": "Phone Number",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "aeeab3b5-b2dd-443c-b709-dd4e97b0bf6b",
+      "label": "Are you authorized to work in the country stated in the Job Description?",
+      "type": "text",
+      "canonical_field": "work_authorization",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "0965bdf1-fe89-45d3-a980-7928c22bb717",
+      "label": "Do you now or in the future require visa sponsorship for employment?",
+      "type": "text",
+      "canonical_field": "requires_sponsorship",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "62bf24e8-735a-4b33-b6a4-f8795f375d60",
+      "label": "Are you currently based in San Francisco Bay Area, or ready to relocate",
+      "type": "select",
+      "canonical_field": "screener:willing_to_relocate",
+      "action": "FILL",
+      "reason": "Screener bank answer (llm_option)"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\ashby-live\\form-snapshot-1790191823895.html",
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "preferred_name",
+      "email",
+      "linkedin_url",
+      "phone",
+      "work_authorization",
+      "requires_sponsorship",
+      "screener:willing_to_relocate"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "_systemfield_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "81c80314-94ce-4904-bd9b-78675a25591d",
+        "canonical_field": "preferred_name",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "_systemfield_email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "becf72fd-6b53-4033-8d56-c2b46a0c3a71",
+        "canonical_field": "linkedin_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "c4ff3506-a9bc-4255-9b10-721cafd7b989",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "aeeab3b5-b2dd-443c-b709-dd4e97b0bf6b",
+        "canonical_field": "work_authorization",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "0965bdf1-fe89-45d3-a980-7928c22bb717",
+        "canonical_field": "requires_sponsorship",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "62bf24e8-735a-4b33-b6a4-f8795f375d60",
+        "canonical_field": "screener:willing_to_relocate",
+        "control_kind": "native_radio_group",
+        "selected_option": "Yes- I'm in San Francisco Bay Area and willing to work on hybrid basis 3-days per week from Burlingame, CA HQ",
+        "match_via": "exact",
+        "notes": [
+          "picked \"Yes- I'm in San Francisco Bay Area and willing to work on hybrid basis 3-days per week from Burlingame, CA HQ\" (exact)"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham Kale",
+        "observed": "Shubham Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "preferred_name",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "work_authorization",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "requires_sponsorship",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:willing_to_relocate",
+        "expected": "Yes- I'm in San Francisco Bay Area and willing to work on hybrid basis 3-days per week from Burlingame, CA HQ",
+        "observed": "Yes- I'm in San Francisco Bay Area and willing to work on hybrid basis 3-days per week from Burlingame, CA HQ",
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 126181,
+      "verified": true,
+      "evidence": "input files: [{\"name\":\"resume-d5f6e235.pdf\",\"size\":126181}]; stillAttached=true; chip=true; resolved via primary"
+    }
+  ],
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: form (11 fillable field(s))",
+    "timing: base page (11 planned) — plan 4s, fill 3s, verify 0s",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "written_at": "2026-09-23T19:30:32.145Z"
+}
