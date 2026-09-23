@@ -1,0 +1,119 @@
+{
+  "decision_id": "cdcc7fc5-0dfc-49a5-80e5-9ef984ad168b",
+  "application_id": "39012663-686a-47be-b2fb-691fdeba9502",
+  "signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|unitytech.wd1.myworkdayjobs.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "39012663-686a-47be-b2fb-691fdeba9502",
+    "company": "Unity",
+    "role": "Machine Learning Engineer-Internship",
+    "state": "NATIVE_AUTOFILL_RUNNING",
+    "attempt": 1,
+    "failure_signature": "NATIVE_AUTOFILL_RUNNING|-|unknown|unitytech.wd1.myworkdayjobs.com",
+    "end_host": "unitytech.wd1.myworkdayjobs.com",
+    "recent_events": [
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route inspect_only (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-23T19:20:47.663Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-23T19:20:46.799Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: workday URL validated",
+        "at": "2026-09-23T19:20:46.794Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-23T19:20:44.734Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 d5f6e2353444)",
+        "at": "2026-09-23T19:20:44.727Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-23T19:20:44.707Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "eligible",
+        "at": "2026-09-23T17:49:25.637Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "phase55_discovery",
+        "at": "2026-09-23T17:49:25.533Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "phase55_discovery_dedupe_pass",
+        "at": "2026-09-23T17:49:25.532Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-23T17:49:25.531Z"
+      }
+    ],
+    "nav": {
+      "wall": "none",
+      "method": "anchor_href",
+      "notes": [],
+      "congruence": {
+        "verdict": "match",
+        "slug": "unitytech",
+        "detail": "token \"unity\" ~ slug \"unitytech\"",
+        "expected_company": "Unity",
+        "url": "https://unitytech.wd1.myworkdayjobs.com/Unity/job/Mountain-View-CA-USA/XMLNAME--Req-6087--Software-Developer_JOBREQ-2615965?jr_id=6ab40055ef911c35dffa2962"
+      },
+      "duplicates": null,
+      "login_wall": null,
+      "phase_trace": [
+        {
+          "phase": "open",
+          "outcome": "job page loaded"
+        },
+        {
+          "phase": "A_anchor_hrefs",
+          "outcome": "resolved (11 candidates, employer match)",
+          "evidence": "unitytech.wd1.myworkdayjobs.com"
+        }
+      ]
+    },
+    "submit": null,
+    "fill_gate": null,
+    "open_review_items": [],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\": \"requeue_reopen_navigation\", \"rationale\": \"Run stalled in NATIVE_AUTOFILL_RUNNING with no wall or error, but the stored URL points to \\\"Req 6087 Software Developer\\\" while the target role is \\\"Machine Learning Engineer-Internship\\\". Congruence only validated the company slug (unitytech), not the posting. Clear the stale URL and re-resolve navigation to the correct req before refilling.\", \"confidence\": \"medium\"}",
+  "parsed_action": "requeue_reopen_navigation",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "URL cleared, → APPLICATION_OPENING",
+  "rationale_unverified": "Run stalled in NATIVE_AUTOFILL_RUNNING with no wall or error, but the stored URL points to \"Req 6087 Software Developer\" while the target role is \"Machine Learning Engineer-Internship\". Congruence only validated the company slug (unitytech), not the posting. Clear the stale URL and re-resolve navigation to the correct req before refilling."
+}
