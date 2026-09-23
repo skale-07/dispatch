@@ -1,0 +1,700 @@
+{
+  "mode": "executed",
+  "ats": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/vikingglobalinvestors/jobs/6202755004",
+  "plan": {
+    "answers": {
+      "legal_name.first": "Shubham",
+      "legal_name.last": "Kale",
+      "email": "s***@gmail.com",
+      "address.country": "United States",
+      "phone": "***-***-7636",
+      "work_authorization": "[REDACTED_SPONSORSHIP]",
+      "requires_sponsorship": "[REDACTED_SPONSORSHIP]",
+      "screener:custom:undergrad_gpa": "3.7 out of 4.0",
+      "screener:custom:predicted:question_20063642004": "No",
+      "screener:custom:predicted:question_20063644004": "Johns Hopkins University",
+      "screener:custom:predicted:question_20063875004": "No",
+      "screener:custom:degree_pursuing": "Bachelor of Science",
+      "screener:willing_to_relocate": "I confirm",
+      "screener:custom:predicted:question_20063877004[]": "independent research project"
+    },
+    "entries": [
+      {
+        "field_id": "first_name",
+        "label": "First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "fill",
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "last_name",
+        "label": "Last Name",
+        "type": "text",
+        "canonical_field": "legal_name.last",
+        "action": "fill",
+        "value": "Kale",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "email",
+        "label": "Email",
+        "type": "text",
+        "canonical_field": "email",
+        "action": "fill",
+        "value": "s***@gmail.com",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "country",
+        "label": "Country",
+        "type": "text",
+        "canonical_field": "address.country",
+        "action": "fill",
+        "value": "United States +1",
+        "reason": "Mapped from public profile; placed onto \"United States +1\""
+      },
+      {
+        "field_id": "phone",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "fill",
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "resume",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "skip_file",
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "question_20063639004",
+        "label": "Are you legally authorized to work in the US?",
+        "type": "text",
+        "canonical_field": "work_authorization",
+        "action": "fill",
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_20063640004",
+        "label": "Will you now or in the future require sponsorship to work in the US?",
+        "type": "text",
+        "canonical_field": "requires_sponsorship",
+        "action": "fill",
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_20063641004",
+        "label": "Undergraduate GPA",
+        "type": "text",
+        "canonical_field": "screener:custom:undergrad_gpa",
+        "action": "fill",
+        "value": "3.7 out of 4.0",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "question_20063642004",
+        "label": "Do you expect to graduate between October 2027 and June 2028?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_20063642004",
+        "action": "fill",
+        "value": "No",
+        "reason": "Predicted from operator context (llm_predict): Expected graduation is May 2029, outside that window."
+      },
+      {
+        "field_id": "question_20063644004",
+        "label": "Name of school where you are currently enrolled.",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_20063644004",
+        "action": "fill",
+        "value": "Johns Hopkins University",
+        "reason": "Predicted from operator context (llm_predict): Profile lists Johns Hopkins University as the candidate's school."
+      },
+      {
+        "field_id": "question_20063875004",
+        "label": "Are you currently enrolled in a Master’s or PhD program in Data Science, Economics, Finance, Statistics, Operations Research, or related quantitative fields?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_20063875004",
+        "action": "fill",
+        "value": "No",
+        "reason": "Predicted from operator context (llm_predict): Candidate is an undergraduate pursuing a Bachelor of Science."
+      },
+      {
+        "field_id": "question_20063645004",
+        "label": "Specify the degree and area of study you are currently pursuing.",
+        "type": "text",
+        "canonical_field": "screener:custom:degree_pursuing",
+        "action": "fill",
+        "value": "Bachelor of Science",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "question_20063876004",
+        "label": "This internshipis based in New York, NY and requires in-person presence. Please confirm your understanding of this requirement.",
+        "type": "text",
+        "canonical_field": "screener:willing_to_relocate",
+        "action": "fill",
+        "value": "I confirm",
+        "reason": "Screener bank answer (llm_option)"
+      },
+      {
+        "field_id": "question_20063877004[]",
+        "label": "Which of the following have you had exposure to through coursework, research, or prior experience? (Select all that apply)",
+        "type": "checkbox",
+        "canonical_field": "screener:custom:predicted:question_20063877004[]",
+        "action": "fill",
+        "value": "independent research project",
+        "reason": "Predicted from operator context (llm_predict): Candidate conducted independent Valley Fever research, though also has large-dataset statistical analysis and agentic AI project experience."
+      },
+      {
+        "field_id": "question_20063878004",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "skip_file",
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      }
+    ],
+    "fillable_count": 14,
+    "skipped_count": 2,
+    "review_required_count": 0
+  },
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "schema diff: 13/15 declared question(s) matched onto 16 DOM field(s); 2 declared-only (2 required); 3 DOM-only",
+    "board API declared 15 question(s); matched complete option lists onto 6 field(s)",
+    "option harvest: scraped real options for 1/8 control(s) before planning",
+    "frozen after fill→verify→upload — no further field mutation; submit never called"
+  ],
+  "validation_level": "LIVE_MUTATION_CONFIRMED",
+  "final_url": "https://job-boards.greenhouse.io/vikingglobalinvestors/jobs/6202755004",
+  "identity_verification": {
+    "requestedUrl": "https://job-boards.greenhouse.io/vikingglobalinvestors/jobs/6202755004",
+    "finalUrl": "https://job-boards.greenhouse.io/vikingglobalinvestors/jobs/6202755004",
+    "requestedJobId": "6202755004",
+    "observedJobId": "6202755004",
+    "company": "vikingglobalinvestors",
+    "role": "Job Application for Data Science Intern at Viking Global Investors",
+    "formDetected": true,
+    "fieldCount": 16,
+    "warnings": [],
+    "passed": true,
+    "failureCode": null,
+    "failureReason": null
+  },
+  "captcha_detection": {
+    "detected": false,
+    "confidence": "LOW",
+    "signals": [],
+    "dormantMarkers": [
+      "recaptcha_api_script_loaded",
+      "generic_captcha_word_only"
+    ]
+  },
+  "login_wall_detection": {
+    "detected": false,
+    "confidence": "LOW",
+    "signals": []
+  },
+  "failure_code": null,
+  "mutation_attempted": true,
+  "schema_diff": {
+    "board": "vikingglobalinvestors",
+    "job_id": "6202755004",
+    "declared_count": 15,
+    "dom_count": 16,
+    "matched": 13,
+    "api_only": [
+      {
+        "label": "Resume/CV",
+        "required": true
+      },
+      {
+        "label": "This role requires a brief research supplement describing a relevant project you recently completed. Please upload your resume and brief research supplement — as a single PDF. Merge both documents into one file, with your resume first and the supplement second.",
+        "required": true
+      }
+    ],
+    "dom_only": [
+      "Country",
+      "Attach",
+      "Attach"
+    ],
+    "option_mismatches": []
+  },
+  "harvested_options": [
+    {
+      "field_id": "country",
+      "label": "Country",
+      "answer_space": "closed",
+      "option_count": 244,
+      "options": [
+        "United States +1",
+        "Afghanistan +93",
+        "Åland Islands +358",
+        "Albania +355",
+        "Algeria +213",
+        "American Samoa +1",
+        "Andorra +376",
+        "Angola +244",
+        "Anguilla +1",
+        "Antigua & Barbuda +1",
+        "Argentina +54",
+        "Armenia +374",
+        "Aruba +297",
+        "Ascension Island +247",
+        "Australia +61",
+        "Austria +43",
+        "Azerbaijan +994",
+        "Bahamas +1",
+        "Bahrain +973",
+        "Bangladesh +880",
+        "Barbados +1",
+        "Belarus +375",
+        "Belgium +32",
+        "Belize +501",
+        "Benin +229"
+      ],
+      "other_option": null
+    }
+  ],
+  "approved_plan": {
+    "entries": [
+      {
+        "field_id": "first_name",
+        "label": "First Name",
+        "type": "text",
+        "canonical_field": "legal_name.first",
+        "action": "FILL",
+        "approved": true,
+        "value": "Shubham",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "last_name",
+        "label": "Last Name",
+        "type": "text",
+        "canonical_field": "legal_name.last",
+        "action": "FILL",
+        "approved": true,
+        "value": "Kale",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "email",
+        "label": "Email",
+        "type": "text",
+        "canonical_field": "email",
+        "action": "FILL",
+        "approved": true,
+        "value": "s***@gmail.com",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "country",
+        "label": "Country",
+        "type": "text",
+        "canonical_field": "address.country",
+        "action": "FILL",
+        "approved": true,
+        "value": "United States +1",
+        "reason": "Mapped from public profile; placed onto \"United States +1\""
+      },
+      {
+        "field_id": "phone",
+        "label": "Phone",
+        "type": "text",
+        "canonical_field": "phone",
+        "action": "FILL",
+        "approved": true,
+        "value": "***-***-7636",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "resume",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      },
+      {
+        "field_id": "question_20063639004",
+        "label": "Are you legally authorized to work in the US?",
+        "type": "text",
+        "canonical_field": "work_authorization",
+        "action": "FILL",
+        "approved": true,
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_20063640004",
+        "label": "Will you now or in the future require sponsorship to work in the US?",
+        "type": "text",
+        "canonical_field": "requires_sponsorship",
+        "action": "FILL",
+        "approved": true,
+        "value": "[REDACTED_SPONSORSHIP]",
+        "reason": "Mapped from public profile"
+      },
+      {
+        "field_id": "question_20063641004",
+        "label": "Undergraduate GPA",
+        "type": "text",
+        "canonical_field": "screener:custom:undergrad_gpa",
+        "action": "FILL",
+        "approved": true,
+        "value": "3.7 out of 4.0",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "question_20063642004",
+        "label": "Do you expect to graduate between October 2027 and June 2028?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_20063642004",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Predicted from operator context (llm_predict): Expected graduation is May 2029, outside that window."
+      },
+      {
+        "field_id": "question_20063644004",
+        "label": "Name of school where you are currently enrolled.",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_20063644004",
+        "action": "FILL",
+        "approved": true,
+        "value": "Johns Hopkins University",
+        "reason": "Predicted from operator context (llm_predict): Profile lists Johns Hopkins University as the candidate's school."
+      },
+      {
+        "field_id": "question_20063875004",
+        "label": "Are you currently enrolled in a Master’s or PhD program in Data Science, Economics, Finance, Statistics, Operations Research, or related quantitative fields?",
+        "type": "text",
+        "canonical_field": "screener:custom:predicted:question_20063875004",
+        "action": "FILL",
+        "approved": true,
+        "value": "No",
+        "reason": "Predicted from operator context (llm_predict): Candidate is an undergraduate pursuing a Bachelor of Science."
+      },
+      {
+        "field_id": "question_20063645004",
+        "label": "Specify the degree and area of study you are currently pursuing.",
+        "type": "text",
+        "canonical_field": "screener:custom:degree_pursuing",
+        "action": "FILL",
+        "approved": true,
+        "value": "Bachelor of Science",
+        "reason": "Screener bank answer (free_text)"
+      },
+      {
+        "field_id": "question_20063876004",
+        "label": "This internshipis based in New York, NY and requires in-person presence. Please confirm your understanding of this requirement.",
+        "type": "text",
+        "canonical_field": "screener:willing_to_relocate",
+        "action": "FILL",
+        "approved": true,
+        "value": "I confirm",
+        "reason": "Screener bank answer (llm_option)"
+      },
+      {
+        "field_id": "question_20063877004[]",
+        "label": "Which of the following have you had exposure to through coursework, research, or prior experience? (Select all that apply)",
+        "type": "checkbox",
+        "canonical_field": "screener:custom:predicted:question_20063877004[]",
+        "action": "FILL",
+        "approved": true,
+        "value": "independent research project",
+        "reason": "Predicted from operator context (llm_predict): Candidate conducted independent Valley Fever research, though also has large-dataset statistical analysis and agentic AI project experience."
+      },
+      {
+        "field_id": "question_20063878004",
+        "label": "Attach",
+        "type": "file",
+        "canonical_field": null,
+        "action": "SKIP",
+        "approved": false,
+        "value": null,
+        "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+      }
+    ],
+    "answers": {
+      "legal_name.first": "Shubham",
+      "legal_name.last": "Kale",
+      "email": "s***@gmail.com",
+      "address.country": "United States +1",
+      "phone": "***-***-7636",
+      "work_authorization": "[REDACTED_SPONSORSHIP]",
+      "requires_sponsorship": "[REDACTED_SPONSORSHIP]",
+      "screener:custom:undergrad_gpa": "3.7 out of 4.0",
+      "screener:custom:predicted:question_20063642004": "No",
+      "screener:custom:predicted:question_20063644004": "Johns Hopkins University",
+      "screener:custom:predicted:question_20063875004": "No",
+      "screener:custom:degree_pursuing": "Bachelor of Science",
+      "screener:willing_to_relocate": "I confirm",
+      "screener:custom:predicted:question_20063877004[]": "independent research project"
+    },
+    "fillable_count": 14,
+    "skipped_count": 2,
+    "review_required_count": 0
+  },
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "legal_name.last",
+      "email",
+      "address.country",
+      "phone",
+      "work_authorization",
+      "requires_sponsorship",
+      "screener:custom:undergrad_gpa",
+      "screener:custom:predicted:question_20063642004",
+      "screener:custom:predicted:question_20063644004",
+      "screener:custom:predicted:question_20063875004",
+      "screener:custom:degree_pursuing",
+      "screener:willing_to_relocate",
+      "screener:custom:predicted:question_20063877004[]"
+    ],
+    "skipped": [],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "first_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "last_name",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "country",
+        "canonical_field": "address.country",
+        "control_kind": "combobox",
+        "selected_option": "+1",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"United States +1\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "phone",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_20063639004",
+        "canonical_field": "work_authorization",
+        "control_kind": "combobox",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"Yes\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_20063640004",
+        "canonical_field": "requires_sponsorship",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_20063641004",
+        "canonical_field": "screener:custom:undergrad_gpa",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_20063642004",
+        "canonical_field": "screener:custom:predicted:question_20063642004",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_20063644004",
+        "canonical_field": "screener:custom:predicted:question_20063644004",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_20063875004",
+        "canonical_field": "screener:custom:predicted:question_20063875004",
+        "control_kind": "combobox",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"No\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_20063645004",
+        "canonical_field": "screener:custom:degree_pursuing",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "question_20063876004",
+        "canonical_field": "screener:willing_to_relocate",
+        "control_kind": "combobox",
+        "selected_option": "I confirm",
+        "match_via": "exact",
+        "notes": [
+          "opened via control click",
+          "picked \"I confirm\" (exact) from open list"
+        ]
+      },
+      {
+        "field_id": "question_20063877004[]",
+        "canonical_field": "screener:custom:predicted:question_20063877004[]",
+        "control_kind": "checkbox_group",
+        "selected_option": "independent research project"
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.last",
+        "expected": "Kale",
+        "observed": "Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "address.country",
+        "expected": "United States +1",
+        "observed": {
+          "value": "+1",
+          "label": "+1"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "work_authorization",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "requires_sponsorship",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:undergrad_gpa",
+        "expected": "3.7 out of 4.0",
+        "observed": "3.7 out of 4.0",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_20063642004",
+        "expected": "No",
+        "observed": {
+          "value": "No",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_20063644004",
+        "expected": "Johns Hopkins University",
+        "observed": "Johns Hopkins University",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_20063875004",
+        "expected": "No",
+        "observed": {
+          "value": "No",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:degree_pursuing",
+        "expected": "Bachelor of Science",
+        "observed": "Bachelor of Science",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:willing_to_relocate",
+        "expected": "I confirm",
+        "observed": {
+          "value": "I confirm",
+          "label": "I confirm"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:predicted:question_20063877004[]",
+        "expected": "independent research project",
+        "observed": {
+          "value": "independent research project",
+          "label": "independent research project"
+        },
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 126181,
+      "verified": true,
+      "evidence": "input files: []; stillAttached=false; chip=true"
+    }
+  ],
+  "written_at": "2026-09-23T18:31:22.598Z"
+}
