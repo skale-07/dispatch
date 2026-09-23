@@ -1,0 +1,116 @@
+{
+  "decision_id": "692eef92-cc0c-4f24-aa03-f94544feedcc",
+  "application_id": "5f065bb9-cfe7-459d-a004-f463ea1085dd",
+  "signature": "AMBIGUOUS_FIELD|-|verify_mismatch|jobs.ashbyhq.com",
+  "forbidden_actions": [],
+  "bundle": {
+    "application_id": "5f065bb9-cfe7-459d-a004-f463ea1085dd",
+    "company": "Grow Therapy",
+    "role": "Software Engineering Intern (Summer 2027)",
+    "state": "AMBIGUOUS_FIELD",
+    "attempt": 1,
+    "failure_signature": "AMBIGUOUS_FIELD|-|verify_mismatch|jobs.ashbyhq.com",
+    "end_host": "jobs.ashbyhq.com",
+    "recent_events": [
+      {
+        "from": "FIELD_VERIFICATION",
+        "to": "AMBIGUOUS_FIELD",
+        "reason": "pipeline: read-back verification failed",
+        "at": "2026-09-23T18:36:12.736Z"
+      },
+      {
+        "from": "NATIVE_AUTOFILL_RUNNING",
+        "to": "FIELD_VERIFICATION",
+        "reason": "pipeline: fill executed (ashby live fill: 18 filled (held for submit))",
+        "at": "2026-09-23T18:36:12.733Z"
+      },
+      {
+        "from": "APPLICATION_INSPECTION",
+        "to": "NATIVE_AUTOFILL_RUNNING",
+        "reason": "pipeline: inspection route ready_for_fill_later (NATIVE_ONLY: JOBRIGHT_AUTOFILL_ENABLED is off — native fill)",
+        "at": "2026-09-23T18:35:30.944Z"
+      },
+      {
+        "from": "ATS_DETECTION",
+        "to": "APPLICATION_INSPECTION",
+        "reason": "pipeline: inspect employer form",
+        "at": "2026-09-23T18:35:27.375Z"
+      },
+      {
+        "from": "APPLICATION_OPENING",
+        "to": "ATS_DETECTION",
+        "reason": "pipeline: ashby URL validated",
+        "at": "2026-09-23T18:35:27.370Z"
+      },
+      {
+        "from": "RESUME_DOWNLOADED",
+        "to": "APPLICATION_OPENING",
+        "reason": "pipeline: open employer application",
+        "at": "2026-09-23T18:35:27.359Z"
+      },
+      {
+        "from": "MATERIALS_GENERATING",
+        "to": "RESUME_DOWNLOADED",
+        "reason": "pipeline: verified resume present (sha256 7141579276ac)",
+        "at": "2026-09-23T18:35:27.355Z"
+      },
+      {
+        "from": "QUEUED",
+        "to": "MATERIALS_GENERATING",
+        "reason": "pipeline: materials stage",
+        "at": "2026-09-23T18:35:27.332Z"
+      },
+      {
+        "from": "ELIGIBILITY_CHECK",
+        "to": "QUEUED",
+        "reason": "ats board discovery: ready for materials/pipeline",
+        "at": "2026-09-23T17:47:32.198Z"
+      },
+      {
+        "from": "DUPLICATE_CHECK",
+        "to": "ELIGIBILITY_CHECK",
+        "reason": "ats board discovery: operator-listed board, title filter passed",
+        "at": "2026-09-23T17:47:32.197Z"
+      },
+      {
+        "from": "DISCOVERED",
+        "to": "DUPLICATE_CHECK",
+        "reason": "ats board discovery: dedupe pass",
+        "at": "2026-09-23T17:47:32.195Z"
+      },
+      {
+        "from": null,
+        "to": "DISCOVERED",
+        "reason": "created",
+        "at": "2026-09-23T17:47:32.192Z"
+      }
+    ],
+    "nav": null,
+    "submit": null,
+    "fill_gate": {
+      "failure_code": null,
+      "page_class": "form",
+      "verify_passed": false
+    },
+    "open_review_items": [
+      {
+        "kind": "AMBIGUOUS_FIELD",
+        "title": "Fill verification failed"
+      }
+    ],
+    "prior_decisions": [],
+    "failed_host_attempts": 0,
+    "prior_agent_leg_decision": false
+  },
+  "raw_model_text": "{\"action\":\"park_for_operator\",\"rationale\":\"Read-back verification failed on a live Ashby form with 18 fields filled and held for submit; a review item is already open. Nothing indicates a transient error, stale materials, or bad URL, so a rerun would repeat the same mismatch. A human should inspect the ambiguous field values.\",\"confidence\":\"high\"}",
+  "parsed_action": "park_for_operator",
+  "validation_note": null,
+  "precondition": {
+    "ok": true,
+    "reason": ""
+  },
+  "mode": "act",
+  "executed": true,
+  "execution_detail": "review item created: 56044058-916b-4399-87c4-b7ebcaef29c7",
+  "rationale_unverified": "Read-back verification failed on a live Ashby form with 18 fields filled and held for submit; a review item is already open. Nothing indicates a transient error, stale materials, or bad URL, so a rerun would repeat the same mismatch. A human should inspect the ambiguous field values."
+}

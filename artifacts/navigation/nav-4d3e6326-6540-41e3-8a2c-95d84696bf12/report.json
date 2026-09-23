@@ -1,0 +1,47 @@
+{
+  "run_id": "nav-4d3e6326-6540-41e3-8a2c-95d84696bf12",
+  "application_id": "f5e0eb23-8c75-476a-bfb9-2f62aef17d58",
+  "jobright_job_id": "6ab2916b78c69ff506c3ef51",
+  "method": "apply_click_popup",
+  "resolved_url": "https://apply.careers.microsoft.com/careers/job/1970393557004819/",
+  "resolved_ats": "generic",
+  "wall": "none",
+  "phase_trace": [
+    {
+      "phase": "open",
+      "outcome": "job page loaded"
+    },
+    {
+      "phase": "A_anchor_hrefs",
+      "outcome": "no congruent apply href (11 external links)",
+      "evidence": "www.google.com, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, www.bgr.com"
+    },
+    {
+      "phase": "B_apply_click",
+      "outcome": "resolved via popup",
+      "evidence": "apply.careers.microsoft.com"
+    }
+  ],
+  "agent": null,
+  "gmail": null,
+  "need": null,
+  "session": "cdp",
+  "notes": [
+    "phase A: 6 external host(s) seen: www.google.com, x.com, www.linkedin.com, www.crunchbase.com, www.glassdoor.com, www.bgr.com",
+    "Apply control: autofill CTA (tier 0)",
+    "jobright interstitial: clicked \"Apply Without Customizing\"",
+    "popup settled off about:blank after the interstitial",
+    "popup captured on attempt 1",
+    "employer congruence unverifiable (company name is a placeholder — identity not checkable) — recorded"
+  ],
+  "congruence": {
+    "verdict": "unknown",
+    "slug": "microsoft",
+    "detail": "company name is a placeholder — identity not checkable",
+    "expected_company": "Unknown company (manual enqueue)",
+    "url": "https://apply.careers.microsoft.com/careers/job/1970393557004819/?jr_id=6ab4169264816213f2d972f7"
+  },
+  "duplicates": null,
+  "login_wall": null,
+  "written_at": "2026-09-23T18:39:20.483Z"
+}

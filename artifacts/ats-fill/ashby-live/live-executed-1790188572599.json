@@ -1,0 +1,541 @@
+{
+  "ats": "ashby",
+  "url": "https://jobs.ashbyhq.com/grow-therapy/92bfe88a-4c23-48c8-8f7b-4959ab6cd8d8/application",
+  "requested_url": "https://jobs.ashbyhq.com/grow-therapy/92bfe88a-4c23-48c8-8f7b-4959ab6cd8d8/application",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://jobs.ashbyhq.com/grow-therapy/92bfe88a-4c23-48c8-8f7b-4959ab6cd8d8/application",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 19,
+    "skipped_count": 4,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "f_0",
+      "label": "Application",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "_systemfield_name",
+      "label": "Full Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Single full-name field: composed legal_name.first + legal_name.last (both safe factual canonicals)"
+    },
+    {
+      "field_id": "5fe942c5-7d18-4021-a75e-9e92ddc60d5f",
+      "label": "Preferred First Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "_systemfield_email",
+      "label": "Personal Email",
+      "type": "text",
+      "canonical_field": "email",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "da367dac-4c68-4744-9194-50da766c4ccf",
+      "label": "Phone Number",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "_systemfield_resume",
+      "label": "Resume",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "_systemfield_education_history-degree",
+      "label": "Degree",
+      "type": "text",
+      "canonical_field": "degree",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "_systemfield_education_history-major",
+      "label": "Field of Study",
+      "type": "text",
+      "canonical_field": "major",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "_systemfield_education_history-isCurrent",
+      "label": "Still Student?",
+      "type": "checkbox",
+      "canonical_field": "screener:custom:still_student",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "0092e52c-7f01-42f8-b11f-23a7aad40793",
+      "label": "Cover Letter",
+      "type": "file",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "File uploads handled via uploadResume/uploadCoverLetter"
+    },
+    {
+      "field_id": "17c20780-602a-4959-a6e3-bd6534a7edf8",
+      "label": "LinkedIn Profile",
+      "type": "text",
+      "canonical_field": "linkedin_url",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "e4910c9e-60de-4571-afa0-7c8313cb30b9",
+      "label": "Why are you interested in working at Grow Therapy?",
+      "type": "textarea",
+      "canonical_field": "essay:generated:e4910c9e-60de-4571-afa0-7c8313cb30b9",
+      "action": "FILL",
+      "reason": "Essay generated from the operator's about-me context"
+    },
+    {
+      "field_id": "9c712eff-f4d0-45e9-8982-093de20f2072",
+      "label": "How did you first learn about Grow Therapy?",
+      "type": "select",
+      "canonical_field": "screener:custom:opt_how_did_you_learn_about_us",
+      "action": "FILL",
+      "reason": "Screener bank answer (llm_option)"
+    },
+    {
+      "field_id": "_systemfield_eeoc_gender",
+      "label": "Gender",
+      "type": "select",
+      "canonical_field": "gender",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "_systemfield_eeoc_race",
+      "label": "Race",
+      "type": "select",
+      "canonical_field": "race_ethnicity",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "_systemfield_eeoc_veteran_status",
+      "label": "Veteran Status",
+      "type": "select",
+      "canonical_field": "veteran_status",
+      "action": "FILL",
+      "reason": "Mapped from sensitive profile (operator-supplied)"
+    },
+    {
+      "field_id": "_systemfield_education_history-school",
+      "label": "School",
+      "type": "text",
+      "canonical_field": "school",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "7107b210-7d2b-4f95-8e33-ff118dd55211",
+      "label": "Are you authorized to work lawfully in the United States?",
+      "type": "select",
+      "canonical_field": "work_authorization",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "1dafe856-52d4-4bd0-855a-9ff94b0c7b59",
+      "label": "Will you now or in the future require sponsorship for an immigration-related employment benefit (e.g. H-1B visa status)?",
+      "type": "select",
+      "canonical_field": "requires_sponsorship",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "_systemfield_education_history-startDate-month",
+      "label": "Start Date Month",
+      "type": "select",
+      "canonical_field": "start_month",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "_systemfield_education_history-startDate-year",
+      "label": "Start Date Year",
+      "type": "select",
+      "canonical_field": "start_year",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "_systemfield_education_history-endDate-month",
+      "label": "End Date Month",
+      "type": "select",
+      "canonical_field": "graduation_month",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "_systemfield_education_history-endDate-year",
+      "label": "End Date Year",
+      "type": "select",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "Predict produced no usable answer"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\ashby-live\\form-snapshot-1790188552556.html",
+  "fill": {
+    "filled": [
+      "legal_name.first",
+      "legal_name.first",
+      "email",
+      "phone",
+      "degree",
+      "major",
+      "screener:custom:still_student",
+      "linkedin_url",
+      "essay:generated:e4910c9e-60de-4571-afa0-7c8313cb30b9",
+      "start_month",
+      "start_year",
+      "screener:custom:opt_how_did_you_learn_about_us",
+      "gender",
+      "race_ethnicity",
+      "veteran_status",
+      "work_authorization",
+      "requires_sponsorship",
+      "school"
+    ],
+    "skipped": [],
+    "errors": [
+      "_systemfield_education_history-endDate-month: locator.selectOption: Timeout 2000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-field-path=\"_systemfield_education_history\"]').first().locator('[id=\"_systemfield_education_history-endDate\"]').first().locator('select').first()\u001b[22m\n\u001b[2m    - locator resolved to <select disabled class=\"_select_14jlb_39 ashby-application-form-input-dropdown-select\">…</select>\u001b[22m\n\u001b[2m  - attempting select option action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying select option action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying select option action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    4 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying select option action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n"
+    ],
+    "field_meta": [
+      {
+        "field_id": "_systemfield_name",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "5fe942c5-7d18-4021-a75e-9e92ddc60d5f",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "_systemfield_email",
+        "canonical_field": "email",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "da367dac-4c68-4744-9194-50da766c4ccf",
+        "canonical_field": "phone",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "_systemfield_education_history-degree",
+        "canonical_field": "degree",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "_systemfield_education_history-major",
+        "canonical_field": "major",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "_systemfield_education_history-isCurrent",
+        "canonical_field": "screener:custom:still_student",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "17c20780-602a-4959-a6e3-bd6534a7edf8",
+        "canonical_field": "linkedin_url",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "e4910c9e-60de-4571-afa0-7c8313cb30b9",
+        "canonical_field": "essay:generated:e4910c9e-60de-4571-afa0-7c8313cb30b9",
+        "control_kind": "text"
+      },
+      {
+        "field_id": "_systemfield_education_history-startDate-month",
+        "canonical_field": "start_month",
+        "control_kind": "native_select",
+        "selected_option": "August",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "_systemfield_education_history-startDate-year",
+        "canonical_field": "start_year",
+        "control_kind": "native_select",
+        "selected_option": "2025",
+        "match_via": "exact"
+      },
+      {
+        "field_id": "9c712eff-f4d0-45e9-8982-093de20f2072",
+        "canonical_field": "screener:custom:opt_how_did_you_learn_about_us",
+        "control_kind": "native_radio_group",
+        "selected_option": "Job board (Indeed, Glassdoor, BuiltIn, etc.)",
+        "match_via": "exact",
+        "notes": [
+          "picked \"Job board (Indeed, Glassdoor, BuiltIn, etc.)\" (exact)"
+        ]
+      },
+      {
+        "field_id": "_systemfield_eeoc_gender",
+        "canonical_field": "gender",
+        "control_kind": "native_radio_group",
+        "selected_option": "Male",
+        "match_via": "exact",
+        "notes": [
+          "picked \"Male\" (exact)"
+        ]
+      },
+      {
+        "field_id": "_systemfield_eeoc_race",
+        "canonical_field": "race_ethnicity",
+        "control_kind": "native_radio_group",
+        "selected_option": "Asian (Not Hispanic or Latino)",
+        "match_via": "unique_substring",
+        "notes": [
+          "picked \"Asian (Not Hispanic or Latino)\" (unique_substring)"
+        ]
+      },
+      {
+        "field_id": "_systemfield_eeoc_veteran_status",
+        "canonical_field": "veteran_status",
+        "control_kind": "native_radio_group",
+        "selected_option": "I am not a protected veteran",
+        "match_via": "synonym",
+        "notes": [
+          "picked \"I am not a protected veteran\" (synonym)"
+        ]
+      },
+      {
+        "field_id": "7107b210-7d2b-4f95-8e33-ff118dd55211",
+        "canonical_field": "work_authorization",
+        "control_kind": "native_yesno_group",
+        "selected_option": "Yes",
+        "match_via": "exact",
+        "notes": [
+          "picked \"Yes\" (exact)"
+        ]
+      },
+      {
+        "field_id": "1dafe856-52d4-4bd0-855a-9ff94b0c7b59",
+        "canonical_field": "requires_sponsorship",
+        "control_kind": "native_yesno_group",
+        "selected_option": "No",
+        "match_via": "exact",
+        "notes": [
+          "picked \"No\" (exact)"
+        ]
+      },
+      {
+        "field_id": "_systemfield_education_history-school",
+        "canonical_field": "school",
+        "control_kind": "combobox",
+        "selected_option": "Johns Hopkins University",
+        "match_via": "unique_substring",
+        "notes": [
+          "listbox opened after typing",
+          "exact option name not found; substring fallback",
+          "picked \"Johns Hopkins UniversityUnited Statesjhu.edu\" (unique_substring)"
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": false,
+    "fields": [
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham Kale",
+        "observed": "Shubham Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "email",
+        "expected": "s***@gmail.com",
+        "observed": "s***@gmail.com",
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "degree",
+        "expected": "Bachelor of Science",
+        "observed": "Bachelor of Science",
+        "match": true
+      },
+      {
+        "canonical_field": "major",
+        "expected": "Applied Mathematics and Statistics",
+        "observed": "Applied Mathematics and Statistics",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:still_student",
+        "expected": "Yes",
+        "observed": true,
+        "match": true
+      },
+      {
+        "canonical_field": "linkedin_url",
+        "expected": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "observed": "https://www.linkedin.com/in/shubham-kale-8ab044288/",
+        "match": true
+      },
+      {
+        "canonical_field": "essay:generated:e4910c9e-60de-4571-afa0-7c8313cb30b9",
+        "expected": "Most of my technical work has been in computational health, and the thing that keeps pulling me back is that healthcare systems fail in ways that only show up when real people use them. At Intelehealth I worked on AI and data systems for rural telemedicine, including a resource-availability scoring pipeline across 32 villages and an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case standard. That work convinced me that generating an answer is the cheap part and deciding whether it should be trusted is the hard part. I also co-founded Open Health Intelligence, where I built ClarityAtlas end to end in Swift and SwiftUI with a passive sleep-estimation system using HealthKit and Core Motion signals, and shipped it into a live Hopkins pilot with 30+ users. Recruiting those users taught me more about product than the modeling did. Grow Therapy is interesting to me because 15 million sessions is an operating system for care delivery, not a demo, so the engineering problems are matching, scheduling, reliability, and trust under real constraints. I want to own a real piece of that kind of system rather than isolated tickets.",
+        "observed": "Most of my technical work has been in computational health, and the thing that keeps pulling me back is that healthcare systems fail in ways that only show up when real people use them. At Intelehealth I worked on AI and data systems for rural telemedicine, including a resource-availability scoring pipeline across 32 villages and an evaluation framework comparing LLM-generated clinical outputs against a 4,169-case standard. That work convinced me that generating an answer is the cheap part and deciding whether it should be trusted is the hard part. I also co-founded Open Health Intelligence, where I built ClarityAtlas end to end in Swift and SwiftUI with a passive sleep-estimation system using HealthKit and Core Motion signals, and shipped it into a live Hopkins pilot with 30+ users. Recruiting those users taught me more about product than the modeling did. Grow Therapy is interesting to me because 15 million sessions is an operating system for care delivery, not a demo, so the engineering problems are matching, scheduling, reliability, and trust under real constraints. I want to own a real piece of that kind of system rather than isolated tickets.",
+        "match": true
+      },
+      {
+        "canonical_field": "start_month",
+        "expected": "August",
+        "observed": {
+          "value": "8",
+          "label": "August"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "start_year",
+        "expected": "2025",
+        "observed": {
+          "value": "2025",
+          "label": "2025"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "graduation_month",
+        "expected": "May",
+        "observed": {
+          "value": "",
+          "label": "Month..."
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:opt_how_did_you_learn_about_us",
+        "expected": "Job board (Indeed, Glassdoor, BuiltIn, etc.)",
+        "observed": "Job board (Indeed, Glassdoor, BuiltIn, etc.)",
+        "match": true
+      },
+      {
+        "canonical_field": "gender",
+        "expected": "Male",
+        "observed": "Male",
+        "match": true
+      },
+      {
+        "canonical_field": "race_ethnicity",
+        "expected": "South Asian",
+        "observed": "Asian (Not Hispanic or Latino)",
+        "match": true
+      },
+      {
+        "canonical_field": "veteran_status",
+        "expected": "I am not a veteran",
+        "observed": "I am not a protected veteran",
+        "match": true
+      },
+      {
+        "canonical_field": "work_authorization",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "requires_sponsorship",
+        "expected": "[REDACTED_SPONSORSHIP]",
+        "observed": "[REDACTED_SPONSORSHIP]",
+        "match": true
+      },
+      {
+        "canonical_field": "school",
+        "expected": "Johns Hopkins University",
+        "observed": "Johns Hopkins University",
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": [
+      "verify graduation_month: control is readonly/disabled — page-owned value accepted in place"
+    ]
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 115393,
+      "verified": true,
+      "evidence": "input files: [{\"name\":\"resume-71415792.pdf\",\"size\":115393}]; stillAttached=true; chip=true; resolved via primary"
+    }
+  ],
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "page class at gate: form (23 fillable field(s))",
+    "timing: base page (23 planned) — plan 19s, fill 13s, verify 3s",
+    "page error scan: no visible validation errors on the page",
+    "verify-failed snapshot: verify-failed-snapshot-1790188568226.html",
+    "page-complete waiver not applied: 1 fill error(s) may have written a value: _systemfield_education_history-endDate-month: locator.selectOption: Timeout 2000ms exceede",
+    "submit not attempted — live fill never submits"
+  ],
+  "harvested_options": [],
+  "operator_brief": {
+    "title": "Live fill — ashby https://jobs.ashbyhq.com/grow-therapy/92bfe88a-4c23-48c8-8f7b-4959ab6cd8d8/application",
+    "summary": "1 item(s) need attention (verify failed — submit click blocked)",
+    "items": [
+      {
+        "id": "fill_error:_systemfield_education_history-endDate-month: locator.selectOption: Timeout 2000",
+        "question": "(fill error — see problem)",
+        "field_id": null,
+        "canonical_field": null,
+        "kind": "fill_error",
+        "problem": "_systemfield_education_history-endDate-month: locator.selectOption: Timeout 2000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-field-path=\"_systemfield_education_history\"]').first().locator('[id=\"_systemfield_education_history-endDate\"]').first().locator('select').first()\u001b[22m\n\u001b[2m    - locator resolved to <select disabled class=\"_select_14jlb_39 ashby-application-form-input-dropdown-select\">…</select>\u001b[22m\n\u001b[2m  - attempting select option action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying select option action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying select option action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    4 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying select option action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n",
+        "expected": null,
+        "observed": null,
+        "how_to_answer": [
+          "Inspect the form control this error names; fix selector/control kind or answer that field manually.",
+          "Re-run fill after fixing profile/aliases if the wrong value caused the error."
+        ]
+      }
+    ],
+    "ok_count": 19,
+    "fail_count": 1
+  },
+  "written_at": "2026-09-23T18:36:12.664Z"
+}
