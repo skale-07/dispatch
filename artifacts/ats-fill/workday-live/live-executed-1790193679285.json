@@ -1,0 +1,599 @@
+{
+  "ats": "workday",
+  "url": "https://stryker.wd1.myworkdayjobs.com/strykercareers/job/Fort-Wayne-Indiana/Data-Engineering-Intern_R572901",
+  "requested_url": "https://stryker.wd1.myworkdayjobs.com/strykercareers/job/Fort-Wayne-Indiana/Data-Engineering-Intern_R572901",
+  "mode": "executed",
+  "gate": {
+    "ok": true,
+    "failure_code": null,
+    "reason": null,
+    "final_url": "https://stryker.wd1.myworkdayjobs.com/en-US/strykercareers/job/Fort-Wayne%2C-Indiana/Data-Engineering-Intern_R572901/apply",
+    "page_class": "form"
+  },
+  "plan_summary": {
+    "fillable_count": 13,
+    "skipped_count": 6,
+    "review_required_count": 0
+  },
+  "plan_fields": [
+    {
+      "field_id": "f_0",
+      "label": "My Information",
+      "type": "text",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "candidateIsPreviousWorker",
+      "label": "Are you a former employee or returning applicant?",
+      "type": "radio",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "employment row 9 — the profile holds one entry; not answered from the bank"
+    },
+    {
+      "field_id": "f_3",
+      "label": "Have you worked for Stryker before?",
+      "type": "text",
+      "canonical_field": "screener:previously_applied_or_worked",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "name--legalName--firstName",
+      "label": "First Name",
+      "type": "text",
+      "canonical_field": "legal_name.first",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "name--legalName--lastName",
+      "label": "Last Name",
+      "type": "text",
+      "canonical_field": "legal_name.last",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "name--preferredCheck",
+      "label": "I have a preferred name",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "address--addressLine1",
+      "label": "Address Line 1",
+      "type": "text",
+      "canonical_field": "address.line1",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "address--city",
+      "label": "City",
+      "type": "text",
+      "canonical_field": "address.city",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f_9",
+      "label": "Address",
+      "type": "text",
+      "canonical_field": "address.line1",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "address--postalCode",
+      "label": "Postal Code",
+      "type": "text",
+      "canonical_field": "address.postal_code",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "f_11",
+      "label": "Phone",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phoneNumber--countryPhoneCode",
+      "label": "Country Phone Code",
+      "type": "select",
+      "canonical_field": "address.country",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phoneNumber--phoneNumber",
+      "label": "Phone Number",
+      "type": "text",
+      "canonical_field": "phone",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phoneNumber--extension",
+      "label": "Phone Extension",
+      "type": "text",
+      "canonical_field": "screener:custom:phone_extension",
+      "action": "FILL",
+      "reason": "Screener bank answer (free_text)"
+    },
+    {
+      "field_id": "xxple",
+      "label": "field_15",
+      "type": "checkbox",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "source--source",
+      "label": "How Did You Hear About Us?",
+      "type": "select",
+      "canonical_field": "how_heard",
+      "action": "SKIP",
+      "reason": "Demographics deferred to sensitive-profile policy path"
+    },
+    {
+      "field_id": "country--country",
+      "label": "Country",
+      "type": "select",
+      "canonical_field": null,
+      "action": "SKIP",
+      "reason": "No answer-alias mapping"
+    },
+    {
+      "field_id": "address--countryRegion",
+      "label": "State",
+      "type": "select",
+      "canonical_field": "address.state",
+      "action": "FILL",
+      "reason": "Mapped from public profile"
+    },
+    {
+      "field_id": "phoneNumber--phoneType",
+      "label": "Phone Device Type",
+      "type": "select",
+      "canonical_field": "screener:custom:phone_device_type",
+      "action": "FILL",
+      "reason": "Screener bank answer (exact_option)"
+    }
+  ],
+  "form_snapshot_path": "C:\\dev\\jobright-application-agent\\artifacts\\ats-fill\\workday-live\\form-snapshot-1790193635754.html",
+  "fill": {
+    "filled": [
+      "screener:previously_applied_or_worked",
+      "legal_name.first",
+      "legal_name.last",
+      "address.line1",
+      "address.city",
+      "address.postal_code",
+      "address.country",
+      "phone",
+      "screener:custom:phone_extension",
+      "address.state",
+      "screener:custom:phone_device_type"
+    ],
+    "skipped": [
+      "f_9 (address.line1) — anchorless twin of an anchored canonical (#69)",
+      "f_11 (phone) — anchorless twin of an anchored canonical (#69)"
+    ],
+    "errors": [],
+    "field_meta": [
+      {
+        "field_id": "f_3",
+        "canonical_field": "screener:previously_applied_or_worked",
+        "control_kind": "text",
+        "selected_option": "No"
+      },
+      {
+        "field_id": "name--legalName--firstName",
+        "canonical_field": "legal_name.first",
+        "control_kind": "text",
+        "notes": [
+          "already holds \"Shubham\" — verified in place, not retyped"
+        ]
+      },
+      {
+        "field_id": "name--legalName--lastName",
+        "canonical_field": "legal_name.last",
+        "control_kind": "text",
+        "notes": [
+          "already holds \"Kale\" — verified in place, not retyped"
+        ]
+      },
+      {
+        "field_id": "address--addressLine1",
+        "canonical_field": "address.line1",
+        "control_kind": "text",
+        "notes": [
+          "already holds \"3510 N Charles St\" — verified in place, not retyped"
+        ]
+      },
+      {
+        "field_id": "address--city",
+        "canonical_field": "address.city",
+        "control_kind": "text",
+        "notes": [
+          "already holds \"Baltimore\" — verified in place, not retyped"
+        ]
+      },
+      {
+        "field_id": "address--postalCode",
+        "canonical_field": "address.postal_code",
+        "control_kind": "text",
+        "notes": [
+          "already holds \"21218\" — verified in place, not retyped"
+        ]
+      },
+      {
+        "field_id": "phoneNumber--countryPhoneCode",
+        "canonical_field": "address.country",
+        "control_kind": "combobox",
+        "selected_option": "United States of America (+1)",
+        "match_via": "exact",
+        "notes": [
+          "already committed \"United States of America (+1)\""
+        ]
+      },
+      {
+        "field_id": "phoneNumber--phoneNumber",
+        "canonical_field": "phone",
+        "control_kind": "text",
+        "notes": [
+          "already holds \"(480) 589-7636\" — verified in place, not retyped"
+        ]
+      },
+      {
+        "field_id": "phoneNumber--extension",
+        "canonical_field": "screener:custom:phone_extension",
+        "control_kind": "text",
+        "notes": [
+          "already holds \"N/A\" — verified in place, not retyped"
+        ]
+      },
+      {
+        "field_id": "address--countryRegion",
+        "canonical_field": "address.state",
+        "control_kind": "combobox",
+        "selected_option": "Maryland",
+        "match_via": "exact",
+        "notes": [
+          "already committed \"Maryland\""
+        ]
+      },
+      {
+        "field_id": "phoneNumber--phoneType",
+        "canonical_field": "screener:custom:phone_device_type",
+        "control_kind": "combobox",
+        "selected_option": "Mobile",
+        "match_via": "exact",
+        "notes": [
+          "already committed \"Mobile\""
+        ]
+      }
+    ]
+  },
+  "verify": {
+    "passed": true,
+    "fields": [
+      {
+        "canonical_field": "screener:previously_applied_or_worked",
+        "expected": "No",
+        "observed": {
+          "value": "false",
+          "label": "No"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.first",
+        "expected": "Shubham",
+        "observed": "Shubham",
+        "match": true
+      },
+      {
+        "canonical_field": "legal_name.last",
+        "expected": "Kale",
+        "observed": "Kale",
+        "match": true
+      },
+      {
+        "canonical_field": "address.line1",
+        "expected": "3510 N Charles St",
+        "observed": "3510 N Charles St",
+        "match": true
+      },
+      {
+        "canonical_field": "address.city",
+        "expected": "Baltimore",
+        "observed": "Baltimore",
+        "match": true
+      },
+      {
+        "canonical_field": "address.postal_code",
+        "expected": "21218",
+        "observed": "21218",
+        "match": true
+      },
+      {
+        "canonical_field": "address.country",
+        "expected": "United States",
+        "observed": {
+          "value": "United States of America (+1)",
+          "label": "United States of America (+1)"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "phone",
+        "expected": "***-***-7636",
+        "observed": "***-***-7636",
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:phone_extension",
+        "expected": "[REDACTED_PHONE]",
+        "observed": "[REDACTED_PHONE]",
+        "match": true
+      },
+      {
+        "canonical_field": "address.state",
+        "expected": "Maryland",
+        "observed": {
+          "value": "Maryland",
+          "label": "Maryland"
+        },
+        "match": true
+      },
+      {
+        "canonical_field": "screener:custom:phone_device_type",
+        "expected": "[REDACTED_PHONE]",
+        "observed": "[REDACTED]",
+        "match": true
+      }
+    ],
+    "uploads": [],
+    "warnings": []
+  },
+  "uploads": [
+    {
+      "field": "resume",
+      "path": "[REDACTED_PATH]",
+      "filename": "[REDACTED_PATH]",
+      "size_bytes": 126181,
+      "verified": true,
+      "evidence": "input files: []; stillAttached=true; chip=true; resolved via primary"
+    }
+  ],
+  "validation_level": "UNVERIFIED",
+  "submit_attempted": false,
+  "notes": [
+    "session: handoff (caller-owned page, not closed here)",
+    "navigation supervisor: form_ready (2 steps)",
+    "page class at gate: form (19 fillable field(s))",
+    "workday page kind at gate: wizard",
+    "login wall on stryker.wd1.myworkdayjobs.com: no_form_found; fields[email=false password=false confirm=false]; submit=[Save and Continue]",
+    "portal auth: Apply / Apply Manually not found on attempt 1",
+    "standing portal login used for stryker.wd1.myworkdayjobs.com",
+    "portal auth: no sign-in form on this page",
+    "workday apply route: manual (#275)",
+    "workday page kind after auth: wizard",
+    "section-expand: expanded 4 collapsed section(s)",
+    "section-expand: expanded \"English\"",
+    "section-expand: expanded \"skale072007@gmail.com\"",
+    "section-expand: expanded \"English\"",
+    "section-expand: expanded \"skale072007@gmail.com\"",
+    "option harvest: scraped real options for 4/14 control(s) before planning",
+    "timing: base page (19 planned) — plan 3s, fill 2s, verify 1s",
+    "resume on disk but this page has no file input — not an upload miss",
+    "wizard experience sections: employment shows 5 row(s) for 5 structured entries — nothing to add",
+    "wizard experience sections: employment section has no \"Add Another\" control (rows 1 of 5)",
+    "wizard experience sections: employment section has no \"Add Another\" control (rows 1 of 5)",
+    "wizard experience sections: employment section has no \"Add Another\" control (rows 1 of 5)",
+    "wizard plan skips (20): \"Job Title\"→employment row 5 already holds \"Software Engineer, | \"Company\"→employment row 5 already holds \"Summer Atlantic Ca | \"Location\"→employment row 5 already holds \"Baltimore, Marylan | \"Job Title\"→employment row 6 already holds \"Lead Model Develop | \"Company\"→employment row 6 already holds \"Gates Foundation H | \"Location\"→employment row 6 already holds \"Baltimore, Marylan | \"I currently work here\"→employment row 2 — not the current position, box l | \"Job Title\"→employment row 7 already holds \"Software Engineeri",
+    "wizard option harvest: scraped real options for 10/10 control(s) before planning",
+    "wizard option harvest: \"Are you legally authorized to work in th\"×3, \"Will you now or in the future require sp\"×3, \"Do you currently hold a Visa (including \"×3, \"Are you 18 years or older? If you are un\"×3, \"Are any of your immediate family members\"×3, \"Are you bound by any confidentiality, no\"×3",
+    "wizard plan skips (4): \"Are you 18 years or older? If you are under 18, hire is subj\"→No answer-alias mapping | \"Are you 18 years or older? If you are under 18, hire is subj\"→No answer-alias mapping | \"Are you 18 years or older? If you are under 18, hire is subj\"→No answer-alias mapping | \"Are you 18 years or older? If you are under 18, hire is subj\"→No answer-alias mapping",
+    "wizard option harvest: scraped real options for 10/10 control(s) before planning",
+    "wizard option harvest: \"Are you legally authorized to work in th\"×3, \"Will you now or in the future require sp\"×3, \"Do you currently hold a Visa (including \"×3, \"Are you 18 years or older? If you are un\"×3, \"Are any of your immediate family members\"×3, \"Are you bound by any confidentiality, no\"×3",
+    "wizard plan skips (4): \"Are you 18 years or older? If you are under 18, hire is subj\"→No answer-alias mapping | \"Are you 18 years or older? If you are under 18, hire is subj\"→No answer-alias mapping | \"field_5\"→No answer-alias mapping | \"Are you 18 years or older? If you are under 18, hire is subj\"→No answer-alias mapping",
+    "wizard: page 2 heading=\"Summer 2027 Internship - Data Engineering - Indiana | My Exp\" url…ring-Intern_R572901/apply shot=wizard-page-2-1790193127199.png",
+    "wizard: page 3 heading=\"Summer 2027 Internship - Data Engineering - Indiana | Applic\" url…ring-Intern_R572901/apply shot=wizard-page-3-1790193412992.png",
+    "wizard: page 4 never settled on a NEW page (heading still \"Summer 2027 Internship - Data Engineering - Indiana | Application Questions 1 of 2\") — planning on the current DOM",
+    "wizard: page 4 heading=\"Summer 2027 Internship - Data Engineering - Indiana | Applic\" url…ring-Intern_R572901/apply shot=wizard-page-4-1790193548165.png",
+    "wizard: page 5 never settled on a NEW page (heading still \"Summer 2027 Internship - Data Engineering - Indiana | Application Questions 1 of 2\") — planning on the current DOM",
+    "wizard: page 5 heading=\"Summer 2027 Internship - Data Engineering - Indiana | Applic\" url…ring-Intern_R572901/apply shot=wizard-page-5-1790193649272.png",
+    "wizard: page 5 did not advance 2x in a row (heading \"Summer 2027 Internship - Data Engineerin\") — stopping the walk; the page is refusing Next, so its unanswered fields park for review (#278)",
+    "wizard: filled 3 additional page(s) — wizard:16/16, wizard:10/17, wizard:10/17",
+    "submit not attempted — live fill never submits"
+  ],
+  "navigation_supervisor": {
+    "run_id": "supervisor-71c018bd-7316-4abd-b19a-f19bd070403d",
+    "outcome": "form_ready",
+    "steps": [
+      {
+        "observation": "7e2fb4d29b864aa4",
+        "action": "click",
+        "reason": "Signed in already; continue the application to reach the form.",
+        "result": "clicked observed control; next observation checks progress",
+        "model": "claude-opus-5",
+        "target": "control-8"
+      },
+      {
+        "observation": "6996f386b58886a9",
+        "action": "wait",
+        "reason": "Application wizard 'My Information' step is loading; wait for fields to render.",
+        "result": "waited for rendering",
+        "model": "claude-opus-5"
+      }
+    ],
+    "notes": [
+      "screenshot unavailable",
+      "model calls: 2 of 2 steps"
+    ],
+    "evidence": [
+      "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-71c018bd-7316-4abd-b19a-f19bd070403d\\observation.json"
+    ]
+  },
+  "harvested_options": [
+    {
+      "field_id": "source--source",
+      "label": "How Did You Hear About Us?",
+      "answer_space": "closed",
+      "option_count": 57,
+      "options": [
+        "Select One",
+        "104.com",
+        "Ascending Athletes",
+        "Boss",
+        "Cadremploi",
+        "Campus/University Event",
+        "Company Career Site",
+        "Contacted by Stryker Recruiter",
+        "Direct Employers",
+        "Disability:IN",
+        "Diversity Recruiting Event",
+        "Divine 9 (D9)",
+        "Draft",
+        "Educafro",
+        "Facebook",
+        "Glassdoor",
+        "Gritty",
+        "Handshake",
+        "HBCU20x20",
+        "Incluyeme",
+        "Indeed",
+        "Instagram",
+        "Internet Search (Google, Yahoo, Bing and etc.)",
+        "Internships.com",
+        "Irish Jobs"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "country--country",
+      "label": "Country",
+      "answer_space": "closed",
+      "option_count": 250,
+      "options": [
+        "Select One",
+        "Afghanistan",
+        "Åland Islands",
+        "Albania",
+        "Algeria",
+        "American Samoa",
+        "Andorra",
+        "Angola",
+        "Anguilla",
+        "Antigua and Barbuda",
+        "Argentina",
+        "Armenia",
+        "Aruba",
+        "Australia",
+        "Austria",
+        "Azerbaijan",
+        "Bahamas",
+        "Bahrain",
+        "Bangladesh",
+        "Barbados",
+        "Belarus",
+        "Belgium",
+        "Belize",
+        "Benin",
+        "Bermuda"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "address--countryRegion",
+      "label": "State",
+      "answer_space": "closed",
+      "option_count": 61,
+      "options": [
+        "Select One",
+        "Alabama",
+        "Alaska",
+        "American Samoa",
+        "Arizona",
+        "Arkansas",
+        "Armed Forces Americas",
+        "Armed Forces Europe",
+        "Armed Forces Pacific",
+        "California",
+        "Colorado",
+        "Connecticut",
+        "Delaware",
+        "District of Columbia",
+        "Florida",
+        "Georgia",
+        "Guam",
+        "Hawaii",
+        "Idaho",
+        "Illinois",
+        "Indiana",
+        "Iowa",
+        "Kansas",
+        "Kentucky",
+        "Louisiana"
+      ],
+      "other_option": null
+    },
+    {
+      "field_id": "phoneNumber--phoneType",
+      "label": "Phone Device Type",
+      "answer_space": "closed",
+      "option_count": 3,
+      "options": [
+        "Select One",
+        "Mobile",
+        "Telephone"
+      ],
+      "other_option": null
+    }
+  ],
+  "wizard_pages": [
+    {
+      "page": 2,
+      "url": "https://stryker.wd1.myworkdayjobs.com/en-US/strykercareers/job/Fort-Wayne%2C-Indiana/Data-Engineering-Intern_R572901/apply",
+      "kind": "wizard",
+      "fillable": 16,
+      "filled": 16,
+      "verify_passed": true
+    },
+    {
+      "page": 3,
+      "url": "https://stryker.wd1.myworkdayjobs.com/en-US/strykercareers/job/Fort-Wayne%2C-Indiana/Data-Engineering-Intern_R572901/apply",
+      "kind": "wizard",
+      "fillable": 17,
+      "filled": 10,
+      "verify_passed": true
+    },
+    {
+      "page": 4,
+      "url": "https://stryker.wd1.myworkdayjobs.com/en-US/strykercareers/job/Fort-Wayne%2C-Indiana/Data-Engineering-Intern_R572901/apply",
+      "kind": "wizard",
+      "fillable": 17,
+      "filled": 10,
+      "verify_passed": true
+    }
+  ],
+  "operator_brief": {
+    "title": "Live fill — workday https://stryker.wd1.myworkdayjobs.com/en-US/strykercareers/job/Fort-Wayne%2C-Indiana/Data-Engineering-Intern_R572901/apply",
+    "summary": "No open field issues in this report.",
+    "items": [],
+    "ok_count": 11,
+    "fail_count": 0
+  },
+  "written_at": "2026-09-23T20:01:19.300Z"
+}

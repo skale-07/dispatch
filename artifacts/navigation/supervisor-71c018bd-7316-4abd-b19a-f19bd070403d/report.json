@@ -1,0 +1,28 @@
+{
+  "run_id": "[REDACTED]",
+  "outcome": "form_ready",
+  "steps": [
+    {
+      "observation": "7e2fb4d29b864aa4",
+      "action": "click",
+      "reason": "Signed in already; continue the application to reach the form.",
+      "result": "clicked observed control; next observation checks progress",
+      "model": "claude-opus-5",
+      "target": "control-8"
+    },
+    {
+      "observation": "6996f386b58886a9",
+      "action": "wait",
+      "reason": "Application wizard 'My Information' step is loading; wait for fields to render.",
+      "result": "waited for rendering",
+      "model": "claude-opus-5"
+    }
+  ],
+  "notes": [
+    "screenshot unavailable",
+    "model calls: 2 of 2 steps"
+  ],
+  "evidence": [
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-71c018bd-7316-4abd-b19a-f19bd070403d\\observation.json"
+  ]
+}
