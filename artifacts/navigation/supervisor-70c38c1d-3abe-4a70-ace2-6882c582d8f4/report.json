@@ -1,0 +1,28 @@
+{
+  "run_id": "[REDACTED]",
+  "outcome": "form_ready",
+  "steps": [
+    {
+      "observation": "719454f5c1108808",
+      "action": "click",
+      "reason": "Continue Application resumes the signed-in Workday application for this exact posting.",
+      "result": "clicked observed control; next observation checks progress",
+      "model": "claude-opus-5",
+      "target": "control-8"
+    },
+    {
+      "observation": "6996f386b58886a9",
+      "action": "wait",
+      "reason": "Wizard My Information step is loading (fields not yet rendered); wait for form to appear.",
+      "result": "waited for rendering",
+      "model": "claude-opus-5"
+    }
+  ],
+  "notes": [
+    "screenshot unavailable",
+    "model calls: 2 of 2 steps"
+  ],
+  "evidence": [
+    "C:\\dev\\jobright-application-agent\\artifacts\\navigation\\supervisor-70c38c1d-3abe-4a70-ace2-6882c582d8f4\\observation.json"
+  ]
+}
