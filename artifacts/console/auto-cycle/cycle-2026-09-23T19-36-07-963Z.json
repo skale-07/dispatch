@@ -1,0 +1,78 @@
+{
+  "started_at": "2026-09-23T19:36:07.963Z",
+  "updated": {
+    "pulled": false,
+    "head": null,
+    "installed": false,
+    "notes": [
+      "update skipped (--no-update)"
+    ]
+  },
+  "preflight": {
+    "ok": true,
+    "notes": [],
+    "default_resume": "ready (C:\\dev\\jobright-application-agent\\private\\candidate\\resumes\\general.pdf)",
+    "agent_leg": "available"
+  },
+  "arm": {
+    "armed": true,
+    "arm_run_id": "dddc0a65-6c12-4ad8-9551-eb90726772cf",
+    "armed_until": "2026-09-23T21:36:07.987Z",
+    "seconds_remaining": 7200,
+    "max_submits": 1,
+    "submits_used": 0,
+    "max_apps": 1,
+    "apps_started": 0,
+    "discover_max": 1,
+    "rediscover_every": 5,
+    "last_error_code": null
+  },
+  "session": {
+    "arm_run_id": "dddc0a65-6c12-4ad8-9551-eb90726772cf",
+    "apps_started": 1,
+    "submits_used": 0,
+    "stopped_reason": "apps_cap",
+    "discover_runs": 0,
+    "emails_generated": 0,
+    "drafts_saved": 0,
+    "essay_drafts_generated": 0,
+    "screener_predictions_generated": 0,
+    "notes": [
+      "triage sweep: 0 confirmed, 0 refuted, 0 expired of 46 pending",
+      "prediction rejected \"Enter verification code digit 1 of six.\": no answer",
+      "prediction rejected \"Enter verification code digit 2 of six.\": no answer",
+      "prediction rejected \"Enter verification code digit 3 of six.\": no answer",
+      "prediction rejected \"Enter verification code digit 4 of six.\": no answer",
+      "prediction rejected \"Enter verification code digit 5 of six.\": no answer",
+      "prediction rejected \"Enter verification code digit 6 of six.\": no answer",
+      "triage 18f47188: requeue_same — precondition failed: state is AMBIGUOUS_FIELD, needs FAILED_RETRYABLE or a gate-parked mid-state",
+      "artifact autopush: 8 file(s) pushed to master as 9c7204df5"
+    ],
+    "per_app": [
+      {
+        "application_id": "18f47188-21a8-4db2-b31c-478d7cf35728",
+        "end_state": "AMBIGUOUS_FIELD",
+        "stopped": "review",
+        "stop_reason": "verification failed",
+        "submitted": false,
+        "outreach": null
+      }
+    ],
+    "nav_audit": {
+      "checked": 677,
+      "repaired": 0,
+      "parked": 0
+    },
+    "triage": {
+      "decided": 1,
+      "executed": 0
+    },
+    "artifact_autopush": {
+      "pushed": true,
+      "commit": "9c7204df5",
+      "files_staged": 8
+    }
+  },
+  "outcome": "completed",
+  "notes": []
+}
